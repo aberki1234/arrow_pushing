@@ -1,0 +1,35 @@
+{
+  "description": "Misconception arrow patterns (docs/schema-design.md section 5.2) matched against learner arrows, without symmetry. A pattern matches when every one of its ';'-separated arrow patterns is matched by some learner arrow. atomRoleToMapNumbers gives the roles that '@name' selectors refer to. invalidPatterns must be refused with the given error code.",
+  "atomRoleToMapNumbers": {"nucleophile": [1], "electrophile": [2], "leavingGroup": [3]},
+  "matchCases": [
+    {"caseName": "exact arrow", "arrowPattern": "lp O1 -> σ O1-C2", "learnerArrows": ["lp O1 -> σ O1-C2"], "expectedMatch": true},
+    {"caseName": "bare atom destination: a new bond to that atom", "arrowPattern": "lp O1 -> Br3", "learnerArrows": ["lp O1 -> σ O1-Br3"], "expectedMatch": true},
+    {"caseName": "bare atom destination: a pi bond to that atom", "arrowPattern": "lp O1 -> C2", "learnerArrows": ["lp O1 -> π O1-C2"], "expectedMatch": true},
+    {"caseName": "bare atom destination: electrons onto that atom", "arrowPattern": "π C5-O6 -> C5", "learnerArrows": ["π C5-O6 -> lp C5"], "expectedMatch": true},
+    {"caseName": "bare atom destination does not count the source's own atom", "arrowPattern": "lp O1 -> O1", "learnerArrows": ["lp O1 -> σ O1-C2"], "expectedMatch": false},
+    {"caseName": "other destination atom", "arrowPattern": "lp O1 -> Br3", "learnerArrows": ["lp O1 -> σ O1-C2"], "expectedMatch": false},
+    {"caseName": "bond atoms in either order", "arrowPattern": "σ Br3-C2 -> lp C2", "learnerArrows": ["σ C2-Br3 -> lp C2"], "expectedMatch": true},
+    {"caseName": "element wildcard", "arrowPattern": "lp O* -> C2", "learnerArrows": ["lp O1 -> σ O1-C2"], "expectedMatch": true},
+    {"caseName": "element wildcard of another element", "arrowPattern": "lp N* -> C2", "learnerArrows": ["lp O1 -> σ O1-C2"], "expectedMatch": false},
+    {"caseName": "roles", "arrowPattern": "lp @nucleophile -> @leavingGroup", "learnerArrows": ["lp O1 -> σ O1-Br3"], "expectedMatch": true},
+    {"caseName": "role that does not fit", "arrowPattern": "lp @nucleophile -> @leavingGroup", "learnerArrows": ["lp O1 -> σ O1-C2"], "expectedMatch": false},
+    {"caseName": "any locus as source", "arrowPattern": "* -> Br3", "learnerArrows": ["lp O1 -> σ O1-Br3"], "expectedMatch": true},
+    {"caseName": "bond kind covers sigma and pi", "arrowPattern": "bond C2-Br3 -> *", "learnerArrows": ["σ C2-Br3 -> lp Br3"], "expectedMatch": true},
+    {"caseName": "kind wildcard with one atom means a lone pair or unpaired electron there", "arrowPattern": "* O1 -> *", "learnerArrows": ["lp O1 -> σ O1-C2"], "expectedMatch": true},
+    {"caseName": "pair-arrow pattern does not match a fish-hook", "arrowPattern": "lp O1 -> C2", "learnerArrows": ["lp O1 ~> σ O1-C2"], "expectedMatch": false},
+    {"caseName": "either-type pattern matches a fish-hook", "arrowPattern": "lp O1 *> C2", "learnerArrows": ["lp O1 ~> σ O1-C2"], "expectedMatch": true},
+    {"caseName": "fish-hook pattern", "arrowPattern": "rad Br1 ~> C3", "learnerArrows": ["rad Br1 ~> σ Br1-C3"], "expectedMatch": true},
+    {"caseName": "two arrow patterns, both present among more arrows", "arrowPattern": "lp O1 -> C2; σ C2-Br3 -> Br3", "learnerArrows": ["σ C2-Br3 -> lp Br3", "lp O1 -> σ O1-C2", "lp O1 -> σ O1-Na4"], "expectedMatch": true},
+    {"caseName": "two arrow patterns, one missing", "arrowPattern": "lp O1 -> C2; σ C2-Br3 -> Br3", "learnerArrows": ["lp O1 -> σ O1-C2"], "expectedMatch": false},
+    {"caseName": "lone-pair pattern does not match a bond source", "arrowPattern": "lp C2 -> *", "learnerArrows": ["σ C2-Br3 -> lp Br3"], "expectedMatch": false}
+  ],
+  "invalidPatterns": [
+    {"caseName": "empty", "arrowPattern": "", "expectedErrorCode": "malformed-arrow-pattern"},
+    {"caseName": "no operator", "arrowPattern": "lp O1 σ O1-C2", "expectedErrorCode": "malformed-arrow-pattern"},
+    {"caseName": "unknown locus kind", "arrowPattern": "pair O1 -> C2", "expectedErrorCode": "malformed-arrow-pattern"},
+    {"caseName": "lone pair with two atoms", "arrowPattern": "lp O1-C2 -> *", "expectedErrorCode": "malformed-arrow-pattern"},
+    {"caseName": "bad atom selector", "arrowPattern": "lp o1 -> C2", "expectedErrorCode": "malformed-arrow-pattern"},
+    {"caseName": "empty arrow pattern after a semicolon", "arrowPattern": "lp O1 -> C2;", "expectedErrorCode": "malformed-arrow-pattern"},
+    {"caseName": "role not defined in the reaction", "arrowPattern": "lp @base -> C2", "expectedErrorCode": "unknown-atom-role"}
+  ]
+}

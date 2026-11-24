@@ -261,8 +261,10 @@ Input: the current state `S`, the steps leaving it, and the learner's arrow set 
    bond orders − H, so electrons and charge are conserved by construction. The rules, in the order checked, are
    listed in `python/state_graphs/arrow_application.py`; an even nonbonding count is read as lone pairs, an odd one
    as one unpaired electron (triplet carbenes are out of scope).
-3. **No redundant arrows**: removing any one arrow must change `R`. Otherwise the generic rule `redundant-arrow` fires.
-   This stops a correct answer padded with a pair of arrows that cancel out.
+3. **No redundant arrows**: no group of the learner's arrows may together move no electrons (an arrow and its reverse,
+   or a longer cycle). Removing such a group leaves `R` unchanged, so a correct answer padded with it is not accepted;
+   the generic rule `redundant-arrow` names the group. (Corrected 2026-11-24 in build item 4: the first wording,
+   "removing any one arrow must change `R`", cannot catch a cancelling pair, since removing either one alone changes `R`.)
 4. **Compare `R` with each leaving step's to-state `T`.** `R` matches `T` when some skeleton symmetry `g` of `S` gives
    `g(R)` resonance-equivalent to `T`:
    * the same atoms and elements, the same σ-bonded pairs, the same H count per atom;
@@ -293,10 +295,24 @@ arrows that give the right formula but move the wrong atoms also fail.
 
 ## 5. Feedback
 
-### 5.1 Order (Q3: an authored misconception beats a generic rule)
+### 5.1 Order (Q3: an authored misconception beats a generic rule; partial progress before generic rules, decided 2026-11-24)
 
-The validator returns an **attempt assessment**: `correct` (with the step key), `misconception:<id>`,
-`rule:<generic rule id>`, `partial:<arrows still missing>` or `wrong`. Checks, first match wins:
+The validator returns an **attempt assessment** (`assessmentKind`): `correct` (step key, route preference,
+`isDifferentDrawing`), `misconception` (id, tag, severity, message), `genericRule` (rule id, message),
+`partialProgress` (see §5.3) or `wrong`. Built in build item 4: `python/attempt_assessment/`,
+`src/attemptAssessment/`, shared cases in `fixtures/assessment/`. **Decided 2026-11-24 (user):** partial progress comes
+**before** the generic chemistry rules, because a correct but incomplete concerted step nearly always breaks one (the
+first SN2 arrow alone gives carbon 10 electrons). The new order replaces the list below it. Checks, first match wins:
+
+1. correct: the arrow type fits the step kind, the arrows apply, none are redundant, and the result matches (§4);
+2. meaningless arrows: `atom-not-in-state`, `destination-not-adjacent-to-source`, `no-electrons-at-source`;
+3. **authored misconceptions**, in list order, up to symmetry;
+4. **partial progress** (§5.3), carrying any rule the incomplete arrows break;
+5. generic rules, in this order: `wrong-arrow-type`, `redundant-arrow`, `reversed-flow` (a learner arrow whose source
+   and destination atoms are those of a known arrow, swapped), then the other arrow-application rules;
+6. `wrong`.
+
+The original list, kept for the record:
 
 1. a match with a step leaving the state (§4): correct is correct;
 2. arrows that mean nothing (`no-electrons-at-source`, an arrow to itself);
@@ -334,6 +350,12 @@ atomSelector        := O1 | O* (any O) | @nucleophile (a role from atomRoleToMap
   fire because an earlier, wider one always matches first.
 
 ### 5.3 Partial progress
+
+**Both parts are shown (user, 2026-11-24):** the assessment carries the progress *and* any generic rule the incomplete
+arrows break: `arrowsStillMissing` (null if not part of a known set), `authoredMessage` (null if none),
+`brokenRuleId` and `brokenRuleMessage` (null if none; an arrow-application rule, or `minor-resonance-form`). The screen
+shows "Right so far — 1 more arrow, **but** carbon would have 10 electrons". It is partial progress when the arrows
+match an authored message, are a strict part of a known arrow set, or give a minor resonance form of a to-state.
 
 * **Automatic**: every learner arrow (up to skeleton symmetry) belongs to the canonical arrows or to one of the
   partial arrow sets of some leaving step. The learner sees "Right so far — N more arrows", with N counted for the
@@ -437,7 +459,8 @@ identical results on all of them.
 2. **Done 2026-11-24.** Arrow notation parser and printer (TS + Python); see §2.
 3. **Done 2026-11-24.** Mapped-graph model and applying arrows (§4 point 2). Every step of the four examples
    reproduces its to-state in both languages. TypeScript reads SMILES with its own strict parser (SPEC §5).
-4. Skeleton symmetry, resonance equivalence and the attempt-assessment pipeline (§4–5).
+4. **Done 2026-11-24.** Skeleton symmetry, resonance equivalence, misconception patterns and the attempt-assessment
+   pipeline (§4–5); 32 shared attempt cases on the four examples pass in both languages.
 5. Python linter CLI (states reproduce, graph rules, coordinate seeding, unreachable-misconception warnings).
 6. Catalogue build and daily calendar.
 7. Then the UI (learner screen first), the editor and the backend.

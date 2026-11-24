@@ -61,7 +61,11 @@ Diels–Alder needs a concerted multi-arrow step (3 arrows) — the model must s
   - **Fish-hooks need full bookkeeping:** H-abstraction is 3 fish-hooks; the 2-arrow shorthand is not accepted (it shows
     as partial progress).
 - **Feedback layers** (precedence decided 2026-11-24: when an authored misconception matches, it **beats** a generic rule;
-  only "meaningless arrow" errors such as an empty source come first): (1) **generic rules in code**: octet violation, charge imbalance, reversed flow (sink→source),
+  only "meaningless arrow" errors such as an empty source come first. **Also decided 2026-11-24 (build item 4):**
+  partial progress comes **before** the generic chemistry rules, and shows **both** parts: the progress ("right so
+  far, N more" or the authored message) **plus** any rule the incomplete arrows break ("… but carbon would have 10
+  electrons"). Full order: correct → meaningless arrows → misconceptions → partial progress → generic rules → wrong;
+  `docs/schema-design.md` §5.1): (1) **generic rules in code**: octet violation, charge imbalance, reversed flow (sink→source),
   source with no electrons, sink that cannot accept electrons, wrong arrow type (pair vs fish-hook);
   (2) **declarative per-state misconception entries** in content, each with a `severity`:
   `wrong` | `plausible` (valid but not the favoured pathway); (3) **tiered hint ladder** (conceptual → narrowing → reveal

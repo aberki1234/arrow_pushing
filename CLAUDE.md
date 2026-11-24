@@ -14,11 +14,14 @@ Do not change agreed decisions without asking; update `docs/SPEC.md` and `docs/s
 
 - `schema/reaction.schema.json` — JSON Schema of one reaction file (shape only).
 - `fixtures/` — shared by pytest and Vitest: `reactions/` (example reactions), `schema_cases/` (invalid edits),
-  `notation/` (curved-arrow notation cases), `state_graphs/` (SMILES reading and arrow application cases).
+  `notation/` (curved-arrow notation cases), `state_graphs/` (SMILES reading and arrow application cases),
+  `assessment/` (symmetry, resonance, misconception-pattern and attempt cases).
 - `python/` — Python packages (layers in `pyproject.toml`, lowest first): `arrow_notation/` (parse/print curved
-  arrows), `state_graphs/` (state graph, SMILES reading with RDKit, applying arrows), `reaction_files/` (schema
-  validation, RDKit atom checks).
+  arrows), `state_graphs/` (state graph, SMILES reading with RDKit, applying arrows), `attempt_assessment/`
+  (symmetry, resonance, misconception patterns, assessing an attempt), `reaction_files/` (schema validation, RDKit
+  atom checks).
 - `src/` — TypeScript: `arrowNotation/`, `stateGraphs/` (strict mapped-SMILES parser, applying arrows),
+  `attemptAssessment/` (the validator's decision),
   `reactionFiles/` (Ajv), `testSupport/` (fixture reading for tests). Tests sit beside the code as `*.test.ts`.
 - `tests/` — pytest tests, mirroring `python/` and `tools/`.
 - `tools/` — `check_limits.py`, `check_layers.py`.

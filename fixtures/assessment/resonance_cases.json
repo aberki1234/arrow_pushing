@@ -1,0 +1,15 @@
+{
+  "description": "Comparing a result state with a target state (no symmetry applied). identical: the same drawing. resonanceForm: same sigma skeleton (atoms, elements, hydrogen counts, sigma-bonded pairs), same charge and unpaired electrons per molecule, and no more charged atoms than the target. minorResonanceForm: all of that except more charged atoms (a charge-separated form). different: anything else.",
+  "cases": [
+    {"caseName": "the same drawing", "resultSmiles": "[CH2:3]=[CH:5][O-:6]", "targetSmiles": "[CH2:3]=[CH:5][O-:6]", "expectedComparison": "identical"},
+    {"caseName": "enolate drawn as a carbanion", "resultSmiles": "[CH2-:3][CH:5]=[O:6]", "targetSmiles": "[CH2:3]=[CH:5][O-:6]", "expectedComparison": "resonanceForm"},
+    {"caseName": "the other Kekulé benzene", "resultSmiles": "[CH:1]1[CH:2]=[CH:3][CH:4]=[CH:5][CH:6]=1", "targetSmiles": "[CH:1]1=[CH:2][CH:3]=[CH:4][CH:5]=[CH:6]1", "expectedComparison": "resonanceForm"},
+    {"caseName": "carboxylate with the charge on the other oxygen", "resultSmiles": "[CH3:1][C:2]([O-:3])=[O:4]", "targetSmiles": "[CH3:1][C:2](=[O:3])[O-:4]", "expectedComparison": "resonanceForm"},
+    {"caseName": "allyl radical with the radical at the other end", "resultSmiles": "[CH2:1][CH:2]=[CH2:3]", "targetSmiles": "[CH2:1]=[CH:2][CH2:3]", "expectedComparison": "resonanceForm"},
+    {"caseName": "charge-separated carbonyl", "resultSmiles": "[CH2+:1][O-:2]", "targetSmiles": "[CH2:1]=[O:2]", "expectedComparison": "minorResonanceForm"},
+    {"caseName": "charge moved from one molecule to another", "resultSmiles": "[CH3+:1].[CH3-:2]", "targetSmiles": "[CH3-:1].[CH3+:2]", "expectedComparison": "different"},
+    {"caseName": "different connectivity", "resultSmiles": "[OH:1][CH3:2].[Br-:3]", "targetSmiles": "[OH-:1].[CH3:2][Br:3]", "expectedComparison": "different"},
+    {"caseName": "a hydrogen moved", "resultSmiles": "[CH3:1][OH:2]", "targetSmiles": "[CH2-:1][OH2+:2]", "expectedComparison": "different"},
+    {"caseName": "a different element at one map number", "resultSmiles": "[CH3:1][Cl:2]", "targetSmiles": "[CH3:1][Br:2]", "expectedComparison": "different"}
+  ]
+}

@@ -256,7 +256,7 @@
     <ol>
       <li><b>Each arrow is legal</b> on the current state: the source holds the electrons, the destination is well formed, and the arrow type fits some step leaving the state.</li>
       <li><b>Apply</b> the arrows and check the bookkeeping: octet/duet (H ≤ 2 e⁻, period 2 ≤ 8, period ≥ 3 up to 12). <span class="tag ok">built</span> All arrows of a step move their electrons at once. Electrons are counted, and formal charge is worked out from them, so electrons and charge can't be created or lost by mistake. An even number of nonbonding electrons is read as lone pairs, an odd number as one unpaired electron (triplet carbenes are out of scope).</li>
-      <li><b>No redundant arrows:</b> removing any one arrow must change the result. Otherwise <code>redundant-arrow</code> fires. This stops a correct answer padded with two arrows that cancel out.</li>
+      <li><b>No redundant arrows:</b> no group of arrows may together move no electrons, such as an arrow and its exact reverse. Removing such a group would leave the result unchanged, so a correct answer padded with one is not accepted, and <code>redundant-arrow</code> names the group. <span class="muted">(Corrected while building: the first wording, “removing any one arrow must change the result”, can't catch a cancelling pair, because removing just one of the two does change the result.)</span></li>
       <li><b>Compare</b> the result with each leaving step's to-state. They match when, after some skeleton symmetry:
         <ul>
           <li>the σ skeleton is the same (atoms, elements, σ-bonded pairs, H per atom);</li>
@@ -271,14 +271,14 @@
     <p>A right product reached by nonsense arrows fails at point 1, 2 or 3. Point 4 compares the whole mapped skeleton, so arrows that move the wrong atoms also fail.</p>
 
     <h2 id="feedback">5 · Feedback</h2>
-    <h3>Order <span class="tag ok">decided Q3</span></h3>
-    <p>The validator returns an <b>attempt assessment</b>: correct (with the step taken), a misconception, a generic rule, partial progress, or wrong. First match wins:</p>
+    <h3>Order <span class="tag ok">decided Q3</span> <span class="tag ok">built</span></h3>
+    <p>The validator returns an <b>attempt assessment</b>: correct (with the step taken), a misconception, a generic rule, partial progress, or wrong. <b>Decided 2026-11-24:</b> partial progress comes <i>before</i> the generic chemistry rules, because a correct but incomplete concerted step nearly always breaks one. For example, the first SN2 arrow alone gives carbon 10 electrons. First match wins:</p>
     <ol>
-      <li>a match with a step leaving the state: correct is correct;</li>
-      <li>arrows that mean nothing (empty source, an arrow to itself);</li>
+      <li>correct: the arrow type fits the step, the arrows apply, none are redundant, and the result matches;</li>
+      <li>arrows that mean nothing (no such atom, no electrons there, or a destination not next to the source);</li>
       <li><b>authored misconceptions</b>, in list order;</li>
-      <li>generic chemistry rules (octet, reversed flow, arrow type, charge, redundant arrow);</li>
-      <li>partial progress, including <code>minor-resonance-form</code>;</li>
+      <li><b>partial progress</b>, together with any rule the incomplete arrows break (below);</li>
+      <li>generic rules, in this order: wrong arrow type, redundant arrows, reversed flow (an arrow drawn the other way round from a correct one), then the other arrow rules (octet, odd electrons in a bond…);</li>
       <li>wrong, with a generic “not this pathway” message.</li>
     </ol>
 
@@ -300,6 +300,7 @@ atomSelector        := O1 | O* (any O) | @nucleophile (a role) | *</code></pre>
     </ul>
 
     <h3>Partial progress</h3>
+    <p><b>Both parts are shown (decided 2026-11-24).</b> The assessment carries the progress <i>and</i> any rule the incomplete arrows break, so the screen can say: “Right so far — 1 more arrow, <b>but</b> carbon would have 10 electrons.” It counts as partial progress when the arrows match an authored message, are part of a known arrow set, or give a charge-separated resonance form of the expected structure.</p>
     <ul>
       <li><b>Automatic:</b> every learner arrow belongs to the canonical arrows or to a partial arrow set of some leaving step. The learner sees “Right so far — N more arrows”.</li>
       <li><b>Why <code>partialArrowSets</code> exists:</b> acceptance needs no list, but “right so far” compares with <i>known</i> complete sets. A learner half-way through a different valid set would otherwise be told “wrong” too early. The linter checks each listed set reproduces the step's to-state.</li>
@@ -365,7 +366,7 @@ reviews(id pk, reaction_id, reaction_version → reaction_versions, reviewer_use
       <li><span class="tag ok">done</span> JSON Schema file plus the four example reactions (SN2, aldol, radical bromination, Wittig), validated in both languages against the same set of invalid cases. A Python check also confirms each example's atoms are consistent: readable SMILES, every atom mapped, a map number keeps its element in every state, and coordinates exist for exactly the mapped atoms. The examples' coordinates are RDKit starting layouts, not yet tidied.</li>
       <li><span class="tag ok">done</span> Arrow notation parser and printer (TS + Python), checked against the same shared cases (§2)</li>
       <li><span class="tag ok">done</span> Mapped-graph model and applying arrows. Every step of the four example reactions reproduces its next state, in both languages. The browser reads SMILES with its own strict parser, checked against RDKit.</li>
-      <li>Skeleton symmetry, resonance equivalence and the attempt-assessment pipeline</li>
+      <li><span class="tag ok">done</span> Symmetry, resonance, misconception patterns and the attempt assessment: 32 shared attempt cases on the four example reactions pass in both languages.</li>
       <li>Python linter CLI, including the graph rules</li>
       <li>Catalogue build and daily calendar</li>
       <li>Then the UI (learner screen first), the editor and the backend</li>
