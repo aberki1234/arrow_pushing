@@ -1,0 +1,353 @@
+{
+  "formatVersion": 1,
+  "reactionSlug": "aldol-addition-base",
+  "reactionVersion": 1,
+  "previousReactionVersion": null,
+  "title": "Aldol addition (base-catalysed)",
+  "subtitle": "Two acetaldehyde molecules give 3-hydroxybutanal",
+  "reactionClasses": [
+    "carbonyl"
+  ],
+  "difficultyTier": 2,
+  "conditionsLabel": "NaOH (cat.) · H₂O · 0 °C",
+  "dailyPuzzleEligible": true,
+  "atomRoleToMapNumbers": {
+    "base": [
+      1
+    ],
+    "alphaCarbon": [
+      3
+    ],
+    "enolateOxygen": [
+      6
+    ],
+    "electrophilicCarbon": [
+      9
+    ]
+  },
+  "spectatorMapNumbers": [],
+  "startStateId": "reactants",
+  "stateIdToState": {
+    "reactants": {
+      "mappedSmiles": "[H:2][O-:1].[H:4][CH2:3][CH:5]=[O:6]",
+      "mapNumberToCoordinates": {
+        "1": [
+          0.7,
+          -1.56
+        ],
+        "2": [
+          -0.3,
+          -1.56
+        ],
+        "3": [
+          0.63,
+          0.69
+        ],
+        "4": [
+          1.5,
+          0.19
+        ],
+        "5": [
+          -0.23,
+          0.19
+        ],
+        "6": [
+          -1.1,
+          0.69
+        ]
+      },
+      "caption": "hydroxide + acetaldehyde",
+      "learnerPrompt": "Form the enolate.",
+      "hintTiers": [
+        "Hydroxide is a base here, not a nucleophile at carbon. Which H is acidic, and why?",
+        "The α-H is acidic because the carbanion left behind is conjugated with C=O. Three arrows: a relay through the π system.",
+        "HO⁻ lone pair → H; Cα–H bond → C–C (becomes C=C); C=O π → O."
+      ],
+      "misconceptions": [
+        {
+          "misconceptionId": "hydroxide-adds-to-carbonyl",
+          "misconceptionTag": "unproductive-addition",
+          "severity": "plausible",
+          "arrowPattern": "lp O1 -> C5",
+          "feedbackMessage": "Hydroxide can add to the carbonyl carbon (hydrate formation), but that is reversible and a dead end here. The aldol needs a nucleophilic α-carbon."
+        },
+        {
+          "misconceptionId": "pi-electrons-to-carbonyl-carbon",
+          "misconceptionTag": "pi-to-own-atom",
+          "severity": "wrong",
+          "arrowPattern": "π C5-O6 -> C5",
+          "feedbackMessage": "The π electrons cannot move onto the carbon that already shares them; they go to the electronegative oxygen."
+        }
+      ]
+    },
+    "enolate": {
+      "mappedSmiles": "[H:2][O:1][H:4].[CH2:3]=[CH:5][O-:6]",
+      "mapNumberToCoordinates": {
+        "1": [
+          0.0,
+          1.69
+        ],
+        "2": [
+          -0.87,
+          1.19
+        ],
+        "3": [
+          0.87,
+          -0.4
+        ],
+        "4": [
+          0.87,
+          1.18
+        ],
+        "5": [
+          0.0,
+          -0.9
+        ],
+        "6": [
+          -0.87,
+          -0.4
+        ]
+      },
+      "caption": "enolate + water"
+    },
+    "enolate-and-aldehyde": {
+      "mappedSmiles": "[H:2][O:1][H:4].[CH2:3]=[CH:5][O-:6].[CH3:8][CH:9]=[O:10]",
+      "mapNumberToCoordinates": {
+        "1": [
+          0.0,
+          0.64
+        ],
+        "2": [
+          -0.87,
+          0.15
+        ],
+        "3": [
+          0.87,
+          2.56
+        ],
+        "4": [
+          0.87,
+          0.14
+        ],
+        "5": [
+          0.0,
+          2.06
+        ],
+        "6": [
+          -0.87,
+          2.56
+        ],
+        "8": [
+          0.87,
+          -2.44
+        ],
+        "9": [
+          0.0,
+          -2.94
+        ],
+        "10": [
+          -0.87,
+          -2.44
+        ]
+      },
+      "caption": "enolate + a second acetaldehyde",
+      "learnerPrompt": "The enolate attacks the second acetaldehyde.",
+      "hintTiers": [
+        "Which end of the enolate is the productive nucleophile, and which carbon of the second molecule is electrophilic?",
+        "The O⁻ lone pair pushes in to re-form C=O, the C=C π bond attacks the carbonyl carbon, and that C=O π pair moves onto oxygen. Three arrows.",
+        "O⁻ lone pair → C–O; C=C π → new C–C bond; C′=O′ π → O′."
+      ],
+      "misconceptions": [
+        {
+          "misconceptionId": "oxygen-attack",
+          "misconceptionTag": "ambident-wrong-end",
+          "severity": "plausible",
+          "arrowPattern": "lp O6 -> C9",
+          "feedbackMessage": "O-attack is possible but reversible. The aldol needs the new C–C bond: which atom of the enolate is the productive nucleophile?"
+        },
+        {
+          "misconceptionId": "attack-on-carbonyl-oxygen",
+          "misconceptionTag": "attack-electron-rich-atom",
+          "severity": "wrong",
+          "arrowPattern": "π C3-C5 -> O10",
+          "feedbackMessage": "The carbonyl oxygen is electron-rich. The electrophilic site is the carbonyl carbon."
+        },
+        {
+          "misconceptionId": "attack-on-methyl",
+          "misconceptionTag": "attack-non-electrophile",
+          "severity": "wrong",
+          "arrowPattern": "π C3-C5 -> C8",
+          "feedbackMessage": "A methyl carbon is not electrophilic. Which carbon is attached to an electronegative oxygen?"
+        }
+      ],
+      "partialProgressMessages": [
+        {
+          "learnerArrows": [
+            "π C3-C5 -> σ C3-C9",
+            "π C9-O10 -> lp O10"
+          ],
+          "feedbackMessage": "Right bonds, but this leaves C⁺ next to O⁻ on the enolate side. Push the O⁻ lone pair in too, to re-form C=O."
+        }
+      ]
+    },
+    "alkoxide": {
+      "mappedSmiles": "[H:2][O:1][H:4].[O:6]=[CH:5][CH2:3][CH:9]([CH3:8])[O-:10]",
+      "mapNumberToCoordinates": {
+        "1": [
+          0.0,
+          2.79
+        ],
+        "2": [
+          -0.87,
+          2.29
+        ],
+        "3": [
+          -0.14,
+          -0.05
+        ],
+        "4": [
+          0.87,
+          2.28
+        ],
+        "5": [
+          -1.01,
+          -0.55
+        ],
+        "6": [
+          -1.88,
+          -0.04
+        ],
+        "8": [
+          1.59,
+          -0.05
+        ],
+        "9": [
+          0.72,
+          -0.55
+        ],
+        "10": [
+          0.72,
+          -1.55
+        ]
+      },
+      "caption": "alkoxide + water",
+      "learnerPrompt": "Protonate the alkoxide using water.",
+      "hintTiers": [
+        "An alkoxide is a strong base. What proton source is around?",
+        "Water gives up H⁺: the alkoxide takes it, and the O–H electrons stay on the water oxygen.",
+        "Lone pair on O⁻ → H of water; O–H bond → O of water. Either H works."
+      ],
+      "misconceptions": [
+        {
+          "misconceptionId": "attack-water-oxygen",
+          "misconceptionTag": "attack-electron-rich-atom",
+          "severity": "wrong",
+          "arrowPattern": "lp O10 -> O1",
+          "feedbackMessage": "Both oxygens are electron-rich; an O–O bond gains nothing. Target the δ+ hydrogen of water."
+        }
+      ]
+    },
+    "aldol-product": {
+      "mappedSmiles": "[H:2][O-:1].[O:6]=[CH:5][CH2:3][CH:9]([CH3:8])[O:10][H:4]",
+      "mapNumberToCoordinates": {
+        "1": [
+          -0.13,
+          -0.87
+        ],
+        "2": [
+          -1.13,
+          -0.87
+        ],
+        "3": [
+          -0.12,
+          0.56
+        ],
+        "4": [
+          2.48,
+          0.06
+        ],
+        "5": [
+          -0.99,
+          0.06
+        ],
+        "6": [
+          -1.86,
+          0.56
+        ],
+        "8": [
+          0.74,
+          -0.94
+        ],
+        "9": [
+          0.74,
+          0.06
+        ],
+        "10": [
+          1.61,
+          0.56
+        ]
+      },
+      "caption": "3-hydroxybutanal + hydroxide"
+    }
+  },
+  "steps": [
+    {
+      "stepKey": "enolate-formation",
+      "fromStateId": "reactants",
+      "toStateId": "enolate",
+      "stepKind": "polar",
+      "routePreference": "preferred",
+      "canonicalArrows": [
+        "lp O1 -> σ O1-H4",
+        "σ C3-H4 -> π C3-C5",
+        "π C5-O6 -> lp O6"
+      ],
+      "explanationAfterStep": "The enolate is resonance-stabilised: the negative charge is shared between the α-carbon and oxygen."
+    },
+    {
+      "stepKey": "second-aldehyde-arrives",
+      "fromStateId": "enolate",
+      "toStateId": "enolate-and-aldehyde",
+      "stepKind": "change",
+      "routePreference": "preferred",
+      "addedSpecies": "[CH3:8][CH:9]=[O:10]",
+      "caption": "A second acetaldehyde molecule approaches."
+    },
+    {
+      "stepKey": "carbon-carbon-bond-formation",
+      "fromStateId": "enolate-and-aldehyde",
+      "toStateId": "alkoxide",
+      "stepKind": "polar",
+      "routePreference": "preferred",
+      "canonicalArrows": [
+        "lp O6 -> π C5-O6",
+        "π C3-C5 -> σ C3-C9",
+        "π C9-O10 -> lp O10"
+      ],
+      "explanationAfterStep": "Carbon–carbon bond formation: the key step of the aldol reaction. The product is an alkoxide."
+    },
+    {
+      "stepKey": "protonation",
+      "fromStateId": "alkoxide",
+      "toStateId": "aldol-product",
+      "stepKind": "polar",
+      "routePreference": "preferred",
+      "canonicalArrows": [
+        "lp O10 -> σ O10-H4",
+        "σ O1-H4 -> lp O1"
+      ],
+      "explanationAfterStep": "Hydroxide is regenerated, so the base is catalytic."
+    }
+  ],
+  "mechanismSummary": "Base removes an α-proton to give an enolate, the enolate adds to a second aldehyde, and water protonates the alkoxide. Heating would continue to the enone (aldol condensation).",
+  "references": [
+    "Clayden, Greeves and Warren, Organic Chemistry, 2nd edition (Oxford University Press)"
+  ],
+  "authors": [
+    {
+      "name": "mech_training example content",
+      "url": null
+    }
+  ],
+  "licence": "CC-BY-SA-4.0"
+}

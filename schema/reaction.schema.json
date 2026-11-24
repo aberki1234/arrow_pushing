@@ -1,0 +1,194 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:mech-training:schema:reaction:1",
+  "title": "Reaction file",
+  "description": "One published or draft version of one reaction: its mechanism graph (states joined by steps) and everything the learner sees. Shape only: graph rules and chemistry are checked by the linter. Terms: docs/schema-design.md section 0.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "formatVersion", "reactionSlug", "reactionVersion", "previousReactionVersion", "title",
+    "reactionClasses", "difficultyTier", "conditionsLabel", "dailyPuzzleEligible",
+    "atomRoleToMapNumbers", "spectatorMapNumbers", "startStateId", "stateIdToState", "steps",
+    "mechanismSummary", "references", "authors", "licence"
+  ],
+  "properties": {
+    "formatVersion": { "const": 1, "description": "Version of this file format, not of the reaction." },
+    "reactionSlug": { "$ref": "#/$defs/slug" },
+    "reactionVersion": { "type": "integer", "minimum": 1 },
+    "previousReactionVersion": {
+      "description": "The version this one was edited from; null for version 1.",
+      "oneOf": [{ "type": "integer", "minimum": 1 }, { "type": "null" }]
+    },
+    "title": { "$ref": "#/$defs/nonEmptyText" },
+    "subtitle": { "$ref": "#/$defs/nonEmptyText" },
+    "reactionClasses": {
+      "type": "array", "minItems": 1, "uniqueItems": true,
+      "items": { "enum": ["substitution", "elimination", "carbonyl", "pericyclic", "rearrangement", "radical"] }
+    },
+    "difficultyTier": { "type": "integer", "minimum": 1, "maximum": 3 },
+    "conditionsLabel": { "type": "string", "description": "Text over the reaction arrow; context only, not drawable species." },
+    "dailyPuzzleEligible": { "type": "boolean" },
+    "atomRoleToMapNumbers": {
+      "description": "Named atom sets that misconception patterns can refer to as @roleName.",
+      "type": "object",
+      "propertyNames": { "pattern": "^[a-z][A-Za-z0-9]*$" },
+      "additionalProperties": { "$ref": "#/$defs/mapNumberList" }
+    },
+    "spectatorMapNumbers": {
+      "description": "Atoms drawn faded and never validated (counterions such as Na+).",
+      "type": "array", "uniqueItems": true, "items": { "$ref": "#/$defs/mapNumber" }
+    },
+    "startStateId": { "$ref": "#/$defs/slug" },
+    "stateIdToState": {
+      "type": "object", "minProperties": 2,
+      "propertyNames": { "$ref": "#/$defs/slug" },
+      "additionalProperties": { "$ref": "#/$defs/state" }
+    },
+    "steps": { "type": "array", "minItems": 1, "items": { "$ref": "#/$defs/step" } },
+    "mechanismSummary": { "$ref": "#/$defs/nonEmptyText" },
+    "references": { "type": "array", "items": { "$ref": "#/$defs/nonEmptyText" } },
+    "authors": {
+      "type": "array", "minItems": 1,
+      "items": {
+        "type": "object", "additionalProperties": false, "required": ["name", "url"],
+        "properties": {
+          "name": { "$ref": "#/$defs/nonEmptyText" },
+          "url": { "oneOf": [{ "type": "string", "pattern": "^https?://" }, { "type": "null" }] }
+        }
+      }
+    },
+    "licence": { "const": "CC-BY-SA-4.0" },
+    "publishedAt": {
+      "description": "Set by the server at publish (UTC); absent in drafts.",
+      "type": "string", "pattern": "^[0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9]{2}:[0-9]{2}:[0-9]{2}(\\.[0-9]+)?Z$"
+    }
+  },
+  "$defs": {
+    "slug": { "type": "string", "pattern": "^[a-z0-9]+(-[a-z0-9]+)*$" },
+    "nonEmptyText": { "type": "string", "minLength": 1 },
+    "mapNumber": { "type": "integer", "minimum": 1 },
+    "mapNumberList": { "type": "array", "minItems": 1, "uniqueItems": true, "items": { "$ref": "#/$defs/mapNumber" } },
+    "pairArrow": {
+      "description": "A two-electron arrow: '<source locus> -> <destination locus>', e.g. 'lp O1 -> σ O1-C2'. A locus is 'lp X', 'rad X', 'σ X-Y' or 'π X-Y' (sigma/pi also accepted), where X is element + map number.",
+      "type": "string",
+      "pattern": "^(?:(?:lp|rad) [A-Z][a-z]?[1-9][0-9]*|(?:σ|sigma|π|pi) [A-Z][a-z]?[1-9][0-9]*-[A-Z][a-z]?[1-9][0-9]*) -> (?:(?:lp|rad) [A-Z][a-z]?[1-9][0-9]*|(?:σ|sigma|π|pi) [A-Z][a-z]?[1-9][0-9]*-[A-Z][a-z]?[1-9][0-9]*)$"
+    },
+    "fishHookArrow": {
+      "description": "A one-electron arrow: '<source locus> ~> <destination locus>', e.g. 'rad Br1 ~> σ Br1-H2'.",
+      "type": "string",
+      "pattern": "^(?:(?:lp|rad) [A-Z][a-z]?[1-9][0-9]*|(?:σ|sigma|π|pi) [A-Z][a-z]?[1-9][0-9]*-[A-Z][a-z]?[1-9][0-9]*) ~> (?:(?:lp|rad) [A-Z][a-z]?[1-9][0-9]*|(?:σ|sigma|π|pi) [A-Z][a-z]?[1-9][0-9]*-[A-Z][a-z]?[1-9][0-9]*)$"
+    },
+    "anyArrow": { "anyOf": [{ "$ref": "#/$defs/pairArrow" }, { "$ref": "#/$defs/fishHookArrow" }] },
+    "coordinates": { "type": "array", "minItems": 2, "maxItems": 2, "items": { "type": "number" } },
+    "state": {
+      "type": "object", "additionalProperties": false,
+      "required": ["mappedSmiles", "mapNumberToCoordinates"],
+      "properties": {
+        "mappedSmiles": { "$ref": "#/$defs/nonEmptyText", "description": "Fully atom-mapped Kekulé SMILES of the whole drawn mixture." },
+        "mapNumberToCoordinates": {
+          "description": "2D position of each mapped atom, RDKit units (C–C about 1.5), y up.",
+          "type": "object", "minProperties": 1,
+          "propertyNames": { "pattern": "^[1-9][0-9]*$" },
+          "additionalProperties": { "$ref": "#/$defs/coordinates" }
+        },
+        "mapNumberToLonePairAnglesDegrees": {
+          "type": "object",
+          "propertyNames": { "pattern": "^[1-9][0-9]*$" },
+          "additionalProperties": { "type": "array", "items": { "type": "number" } }
+        },
+        "bondToWedgeStyle": {
+          "description": "Key '<map number>-<map number>', wide end at the second atom. Display only.",
+          "type": "object",
+          "propertyNames": { "pattern": "^[1-9][0-9]*-[1-9][0-9]*$" },
+          "additionalProperties": { "enum": ["wedge", "dash"] }
+        },
+        "annotations": {
+          "type": "array",
+          "items": {
+            "type": "object", "additionalProperties": false, "required": ["text", "nearMapNumber"],
+            "properties": { "text": { "$ref": "#/$defs/nonEmptyText" }, "nearMapNumber": { "$ref": "#/$defs/mapNumber" } }
+          }
+        },
+        "caption": { "type": "string" },
+        "learnerPrompt": { "$ref": "#/$defs/nonEmptyText" },
+        "hintTiers": {
+          "description": "Position 0 conceptual, 1 narrowing, 2 reveal (the reveal also shows the preferred step's arrows).",
+          "type": "array", "minItems": 1, "maxItems": 3, "items": { "$ref": "#/$defs/nonEmptyText" }
+        },
+        "misconceptions": { "type": "array", "items": { "$ref": "#/$defs/misconception" } },
+        "partialProgressMessages": {
+          "type": "array",
+          "items": {
+            "type": "object", "additionalProperties": false, "required": ["learnerArrows", "feedbackMessage"],
+            "properties": {
+              "learnerArrows": { "type": "array", "minItems": 1, "items": { "$ref": "#/$defs/anyArrow" } },
+              "feedbackMessage": { "$ref": "#/$defs/nonEmptyText" }
+            }
+          }
+        }
+      }
+    },
+    "misconception": {
+      "type": "object", "additionalProperties": false,
+      "required": ["misconceptionId", "severity", "arrowPattern", "feedbackMessage"],
+      "properties": {
+        "misconceptionId": { "$ref": "#/$defs/slug" },
+        "misconceptionTag": { "$ref": "#/$defs/slug" },
+        "severity": { "enum": ["wrong", "plausible"] },
+        "arrowPattern": { "$ref": "#/$defs/nonEmptyText", "description": "Arrow-pattern grammar: docs/schema-design.md section 5.2." },
+        "feedbackMessage": { "$ref": "#/$defs/nonEmptyText" }
+      }
+    },
+    "step": {
+      "type": "object", "additionalProperties": false,
+      "required": ["stepKey", "fromStateId", "toStateId", "stepKind", "routePreference"],
+      "properties": {
+        "stepKey": { "$ref": "#/$defs/slug" },
+        "fromStateId": { "$ref": "#/$defs/slug" },
+        "toStateId": { "$ref": "#/$defs/slug" },
+        "stepKind": { "enum": ["polar", "radical", "change"] },
+        "routePreference": { "enum": ["preferred", "accepted"] },
+        "canonicalArrows": { "type": "array", "minItems": 1, "items": { "$ref": "#/$defs/anyArrow" } },
+        "partialArrowSets": { "type": "array", "items": { "type": "array", "minItems": 1, "items": { "$ref": "#/$defs/anyArrow" } } },
+        "explanationAfterStep": { "$ref": "#/$defs/nonEmptyText" },
+        "addedSpecies": { "$ref": "#/$defs/nonEmptyText", "description": "Mapped SMILES of molecules that arrive, with new map numbers." },
+        "removedFragmentMapNumbers": { "$ref": "#/$defs/mapNumberList" },
+        "caption": { "type": "string" }
+      },
+      "allOf": [
+        {
+          "description": "A change step has no arrows and adds or removes something; an arrow step has arrows and changes nothing else.",
+          "if": { "required": ["stepKind"], "properties": { "stepKind": { "const": "change" } } },
+          "then": {
+            "properties": { "canonicalArrows": false, "partialArrowSets": false },
+            "anyOf": [{ "required": ["addedSpecies"] }, { "required": ["removedFragmentMapNumbers"] }]
+          },
+          "else": {
+            "required": ["canonicalArrows"],
+            "properties": { "addedSpecies": false, "removedFragmentMapNumbers": false }
+          }
+        },
+        {
+          "description": "Every arrow of a polar step is a pair arrow (->).",
+          "if": { "required": ["stepKind"], "properties": { "stepKind": { "const": "polar" } } },
+          "then": {
+            "properties": {
+              "canonicalArrows": { "items": { "$ref": "#/$defs/pairArrow" } },
+              "partialArrowSets": { "items": { "items": { "$ref": "#/$defs/pairArrow" } } }
+            }
+          }
+        },
+        {
+          "description": "Every arrow of a radical step is a fish-hook (~>).",
+          "if": { "required": ["stepKind"], "properties": { "stepKind": { "const": "radical" } } },
+          "then": {
+            "properties": {
+              "canonicalArrows": { "items": { "$ref": "#/$defs/fishHookArrow" } },
+              "partialArrowSets": { "items": { "items": { "$ref": "#/$defs/fishHookArrow" } } }
+            }
+          }
+        }
+      ]
+    }
+  }
+}

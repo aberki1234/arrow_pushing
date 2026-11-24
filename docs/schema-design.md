@@ -411,7 +411,14 @@ identical results on all of them.
 
 ## 10. Proposed build order (each strictly TDD)
 
-1. JSON Schema file (`schema/reaction.schema.json`) plus the four example reactions, validated in both languages.
+1. **Done 2026-11-24.** JSON Schema file (`schema/reaction.schema.json`) plus the four example reactions
+   (`fixtures/reactions/`), validated in both languages (`python/reaction_files/schema_violations.py`,
+   `src/reactionFiles/schemaViolations.ts`) against shared invalid cases (`fixtures/schema_cases/`). Also
+   `python/reaction_files/state_atom_consistency.py` (RDKit): SMILES readable, fully mapped, map numbers keep their
+   element across states, coordinates exactly for the mapped atoms. Notes: `reactionClasses` is the mockups'
+   list (substitution, elimination, carbonyl, pericyclic, rearrangement, radical); `learnerPrompt`/`hintTiers` are
+   optional in the schema and will be required by the linter on states with arrow steps leaving them;
+   coordinates in the examples are RDKit seeds, not tidied.
 2. Arrow notation parser and printer (TS + Python).
 3. Mapped-graph model and applying arrows.
 4. Skeleton symmetry, resonance equivalence and the attempt-assessment pipeline (§4–5).

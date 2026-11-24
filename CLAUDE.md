@@ -8,6 +8,16 @@ Do not change agreed decisions without asking; update `docs/SPEC.md` and `docs/s
   reaction file format, Postgres schema, arrow notation and how answers are assessed (mostly agreed). Keep each pair in sync.
 - Documents meant for the user to read are written as **HTML** (a `.md` copy for the assistant may sit beside them).
 - Real build follows the user's global strict-TDD protocol and global "Code conventions" (naming, lint, complexity).
+  Build order and progress: `docs/schema-design.md` §10.
+
+## Layout
+
+- `schema/reaction.schema.json` — JSON Schema of one reaction file (shape only).
+- `fixtures/` — shared by pytest and Vitest: `reactions/` (example reactions), `schema_cases/` (invalid edits).
+- `python/` — Python packages (layers in `pyproject.toml`): `reaction_files/` (schema validation, RDKit atom checks).
+- `src/` — TypeScript: `reactionFiles/` (schema validation with Ajv). Tests sit beside the code as `*.test.ts`.
+- `tests/` — pytest tests, mirroring `python/` and `tools/`.
+- `tools/` — `check_limits.py`, `check_layers.py`.
 
 ## Code conventions specific to this project
 

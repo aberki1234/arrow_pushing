@@ -1,4 +1,5 @@
-# Conda environment for the Python side: linter CLI, shared-fixture tests, and the lint/complexity checks.
+# Conda environment for both sides: Python (linter CLI, shared-fixture tests, lint/complexity checks)
+# and Node.js for the TypeScript tools, so `make check` and the pre-push hook use the same versions.
 # Create with: conda env create -f environment.yml
 name: mech_training
 channels:
@@ -9,3 +10,5 @@ dependencies:
   - pytest
   - ruff
   - mypy
+  - jsonschema
+  - nodejs=24

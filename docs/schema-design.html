@@ -354,7 +354,7 @@ reviews(id pk, reaction_id, reaction_version → reaction_versions, reviewer_use
 
     <h2 id="order">10 · Proposed build order (each strictly TDD)</h2>
     <ol>
-      <li>JSON Schema file plus the four example reactions, validated in both languages</li>
+      <li><span class="tag ok">done</span> JSON Schema file plus the four example reactions (SN2, aldol, radical bromination, Wittig), validated in both languages against the same set of invalid cases. A Python check also confirms each example's atoms are consistent: readable SMILES, every atom mapped, a map number keeps its element in every state, and coordinates exist for exactly the mapped atoms. The examples' coordinates are RDKit starting layouts, not yet tidied.</li>
       <li>Arrow notation parser and printer (TS + Python)</li>
       <li>Mapped-graph model and applying arrows</li>
       <li>Skeleton symmetry, resonance equivalence and the attempt-assessment pipeline</li>

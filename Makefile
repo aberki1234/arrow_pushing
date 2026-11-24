@@ -1,16 +1,33 @@
-# Run inside the project environment: conda activate mech_training (see environment.yml).
+# Run inside the project environment: conda activate mech_training (see environment.yml),
+# or: conda run -n mech_training make check
+#
+# The conda environment provides Python and Node.js. A shell profile (nvm) may put another Node.js
+# earlier on PATH, so the active conda environment's bin folder is put first.
+ifdef CONDA_PREFIX
+export PATH := $(CONDA_PREFIX)/bin:$(PATH)
+endif
 
 .PHONY: lint
-lint:
+lint: lint-python lint-typescript
+
+.PHONY: lint-python
+lint-python:
 	ruff check .
-	mypy tools tests
+	mypy tools tests python
 	python tools/check_limits.py
 	python tools/check_layers.py
+
+.PHONY: lint-typescript
+lint-typescript:
+	npx eslint .
+	npx tsc --noEmit
+	npx depcruise src
 
 .PHONY: test
 test:
 	python -m pytest -q
+	npx vitest run
 
-# What to run before reporting work done (and, once this is a git repo, the pre-push hook).
+# What to run before reporting work done, and what the pre-push hook runs.
 .PHONY: check
 check: lint test

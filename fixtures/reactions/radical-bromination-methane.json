@@ -1,0 +1,175 @@
+{
+  "formatVersion": 1,
+  "reactionSlug": "radical-bromination-methane",
+  "reactionVersion": 1,
+  "previousReactionVersion": null,
+  "title": "Radical bromination — propagation",
+  "subtitle": "Br• abstracts a hydrogen from methane; the methyl radical takes Br from Br₂",
+  "reactionClasses": [
+    "radical"
+  ],
+  "difficultyTier": 2,
+  "conditionsLabel": "Br₂ · hν",
+  "dailyPuzzleEligible": true,
+  "atomRoleToMapNumbers": {},
+  "spectatorMapNumbers": [],
+  "startStateId": "reactants",
+  "stateIdToState": {
+    "reactants": {
+      "mappedSmiles": "[Br:1].[H:2][CH3:3].[Br:4][Br:5]",
+      "mapNumberToCoordinates": {
+        "1": [
+          -0.12,
+          2.0
+        ],
+        "2": [
+          -0.62,
+          -2.0
+        ],
+        "3": [
+          0.38,
+          -2.0
+        ],
+        "4": [
+          -0.62,
+          0.0
+        ],
+        "5": [
+          0.38,
+          0.0
+        ]
+      },
+      "caption": "bromine radical + methane + Br₂",
+      "learnerPrompt": "Use fish-hook arrows: each moves one electron.",
+      "hintTiers": [
+        "Radical steps move single electrons. Which bond does Br• attack?",
+        "Br• forms a bond to H while the C–H bond breaks evenly: one electron to each partner. Count the electrons: three fish-hooks.",
+        "Br• electron → Br–H; one C–H electron → Br–H; the other C–H electron → C."
+      ],
+      "misconceptions": [
+        {
+          "misconceptionId": "bromine-bonds-to-carbon",
+          "misconceptionTag": "hypervalent-product",
+          "severity": "wrong",
+          "arrowPattern": "rad Br1 ~> C3",
+          "feedbackMessage": "Bonding Br to carbon would need a fifth bond on C. Br• abstracts a hydrogen, which can have only one bond."
+        }
+      ],
+      "partialProgressMessages": [
+        {
+          "learnerArrows": [
+            "rad Br1 ~> σ Br1-H2",
+            "σ C3-H2 ~> rad C3"
+          ],
+          "feedbackMessage": "One fish-hook per electron: the new H–Br bond needs two electrons, one from Br• and one from the C–H bond."
+        }
+      ]
+    },
+    "methyl-radical": {
+      "mappedSmiles": "[Br:1][H:2].[CH3:3].[Br:4][Br:5]",
+      "mapNumberToCoordinates": {
+        "1": [
+          -0.38,
+          0.5
+        ],
+        "2": [
+          0.62,
+          0.5
+        ],
+        "3": [
+          0.12,
+          2.5
+        ],
+        "4": [
+          -0.38,
+          -1.5
+        ],
+        "5": [
+          0.62,
+          -1.5
+        ]
+      },
+      "caption": "HBr + methyl radical + Br₂",
+      "learnerPrompt": "The methyl radical reacts with Br₂.",
+      "hintTiers": [
+        "The methyl radical needs an electron partner. Which weak bond is nearby?",
+        "CH₃• forms a C–Br bond while the Br–Br bond breaks evenly. Three fish-hooks.",
+        "C• electron → C–Br; one Br–Br electron → C–Br; the other → Br."
+      ],
+      "misconceptions": [
+        {
+          "misconceptionId": "methyl-takes-hydrogen-back",
+          "misconceptionTag": "reverse-step",
+          "severity": "plausible",
+          "arrowPattern": "rad C3 ~> H2",
+          "feedbackMessage": "That reverses the previous step. Br₂ has a much weaker bond than H–Br, so the chain continues with Br₂."
+        }
+      ]
+    },
+    "products": {
+      "mappedSmiles": "[Br:1][H:2].[CH3:3][Br:4].[Br:5]",
+      "mapNumberToCoordinates": {
+        "1": [
+          -0.38,
+          0.5
+        ],
+        "2": [
+          0.62,
+          0.5
+        ],
+        "3": [
+          -0.38,
+          -1.5
+        ],
+        "4": [
+          0.62,
+          -1.5
+        ],
+        "5": [
+          0.12,
+          2.5
+        ]
+      },
+      "caption": "HBr + bromomethane + Br•"
+    }
+  },
+  "steps": [
+    {
+      "stepKey": "hydrogen-abstraction",
+      "fromStateId": "reactants",
+      "toStateId": "methyl-radical",
+      "stepKind": "radical",
+      "routePreference": "preferred",
+      "canonicalArrows": [
+        "rad Br1 ~> σ Br1-H2",
+        "σ C3-H2 ~> σ Br1-H2",
+        "σ C3-H2 ~> rad C3"
+      ],
+      "explanationAfterStep": "Homolytic cleavage: each fish-hook moves one electron."
+    },
+    {
+      "stepKey": "bromine-transfer",
+      "fromStateId": "methyl-radical",
+      "toStateId": "products",
+      "stepKind": "radical",
+      "routePreference": "preferred",
+      "canonicalArrows": [
+        "rad C3 ~> σ C3-Br4",
+        "σ Br4-Br5 ~> σ C3-Br4",
+        "σ Br4-Br5 ~> rad Br5"
+      ],
+      "explanationAfterStep": "The Br• formed here carries the chain on."
+    }
+  ],
+  "mechanismSummary": "Two propagation steps. Each consumes one radical and makes another, so a single initiation event brominates many molecules.",
+  "references": [
+    "Clayden, Greeves and Warren, Organic Chemistry, 2nd edition (Oxford University Press)"
+  ],
+  "authors": [
+    {
+      "name": "mech_training example content",
+      "url": null
+    }
+  ],
+  "licence": "CC-BY-SA-4.0"
+}

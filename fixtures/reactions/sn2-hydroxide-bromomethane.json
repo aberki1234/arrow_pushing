@@ -1,0 +1,149 @@
+{
+  "formatVersion": 1,
+  "reactionSlug": "sn2-hydroxide-bromomethane",
+  "reactionVersion": 1,
+  "previousReactionVersion": null,
+  "title": "SN2 substitution",
+  "subtitle": "Hydroxide displaces bromide from bromomethane",
+  "reactionClasses": [
+    "substitution"
+  ],
+  "difficultyTier": 1,
+  "conditionsLabel": "NaOH · EtOH/H₂O · 25 °C",
+  "dailyPuzzleEligible": true,
+  "atomRoleToMapNumbers": {
+    "nucleophile": [
+      1
+    ],
+    "electrophile": [
+      2
+    ],
+    "leavingGroup": [
+      3
+    ]
+  },
+  "spectatorMapNumbers": [
+    4
+  ],
+  "startStateId": "reactants",
+  "stateIdToState": {
+    "reactants": {
+      "mappedSmiles": "[OH-:1].[CH3:2][Br:3].[Na+:4]",
+      "mapNumberToCoordinates": {
+        "1": [
+          -0.75,
+          -0.5
+        ],
+        "2": [
+          -0.25,
+          0.5
+        ],
+        "3": [
+          0.75,
+          0.5
+        ],
+        "4": [
+          0.25,
+          -0.5
+        ]
+      },
+      "caption": "hydroxide + bromomethane",
+      "annotations": [
+        {
+          "text": "nucleophile",
+          "nearMapNumber": 1
+        }
+      ],
+      "learnerPrompt": "Draw the arrows for the single, concerted step.",
+      "hintTiers": [
+        "Which species is the nucleophile, and which atom is electron-poor?",
+        "The nucleophile attacks the δ+ carbon while the C–Br bond breaks, at the same time. How many arrows is that?",
+        "Arrow 1: lone pair on O → carbon. Arrow 2: C–Br bond → Br."
+      ],
+      "misconceptions": [
+        {
+          "misconceptionId": "attack-on-bromine",
+          "misconceptionTag": "attack-leaving-group",
+          "severity": "wrong",
+          "arrowPattern": "lp O1 -> Br3",
+          "feedbackMessage": "Both HO⁻ and Br carry negative character, so they repel. A nucleophile attacks the electron-poor (δ+) atom."
+        },
+        {
+          "misconceptionId": "bromide-attacks-carbon",
+          "misconceptionTag": "leaving-group-as-nucleophile",
+          "severity": "wrong",
+          "arrowPattern": "lp Br3 -> C2",
+          "feedbackMessage": "Bromine is the leaving group: it leaves with the electrons rather than attacking the carbon it is leaving."
+        },
+        {
+          "misconceptionId": "bond-electrons-to-carbon",
+          "misconceptionTag": "electrons-toward-less-electronegative-atom",
+          "severity": "wrong",
+          "arrowPattern": "σ C2-Br3 -> lp C2",
+          "feedbackMessage": "The C–Br pair goes to the more electronegative atom, which can stabilise it: bromine."
+        }
+      ],
+      "partialProgressMessages": [
+        {
+          "learnerArrows": [
+            "lp O1 -> σ O1-C2"
+          ],
+          "feedbackMessage": "Octet check: carbon would now have 10 electrons. What has to leave as the nucleophile arrives?"
+        },
+        {
+          "learnerArrows": [
+            "σ C2-Br3 -> lp Br3"
+          ],
+          "feedbackMessage": "Bromide leaves with its pair. But SN2 is concerted: what pushes electrons in on the other side at the same time?"
+        }
+      ]
+    },
+    "products": {
+      "mappedSmiles": "[OH:1][CH3:2].[Br-:3].[Na+:4]",
+      "mapNumberToCoordinates": {
+        "1": [
+          -0.25,
+          0.5
+        ],
+        "2": [
+          0.75,
+          0.5
+        ],
+        "3": [
+          0.25,
+          -0.5
+        ],
+        "4": [
+          -0.75,
+          -0.5
+        ]
+      },
+      "caption": "methanol + bromide"
+    }
+  },
+  "steps": [
+    {
+      "stepKey": "substitution",
+      "fromStateId": "reactants",
+      "toStateId": "products",
+      "stepKind": "polar",
+      "routePreference": "preferred",
+      "canonicalArrows": [
+        "lp O1 -> σ O1-C2",
+        "σ C2-Br3 -> lp Br3"
+      ],
+      "explanationAfterStep": "Backside attack and loss of the leaving group happen in one concerted step, so the rate depends on both species."
+    }
+  ],
+  "mechanismSummary": "SN2: one concerted step. The nucleophile attacks from the side opposite the leaving group, so a stereocentre would be inverted (Walden inversion).",
+  "references": [
+    "Clayden, Greeves and Warren, Organic Chemistry, 2nd edition (Oxford University Press)"
+  ],
+  "authors": [
+    {
+      "name": "mech_training example content",
+      "url": null
+    }
+  ],
+  "licence": "CC-BY-SA-4.0"
+}
