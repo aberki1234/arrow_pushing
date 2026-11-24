@@ -519,7 +519,9 @@ identical results on all of them.
    element across states, coordinates exactly for the mapped atoms. Notes: `reactionClasses` is the mockups'
    list (substitution, elimination, carbonyl, pericyclic, rearrangement, radical); `learnerPrompt`/`hintTiers` are
    optional in the schema and will be required by the linter on states with arrow steps leaving them;
-   coordinates in the examples are RDKit seeds, not tidied.
+   coordinates in the examples were tidied by hand on 2026-11-25 (laid out along the reaction,
+   reacting atoms facing each other, atoms kept in place between states where possible, no two atoms closer
+   than about 1.3 units; the three phenyls round P are the tightest).
 2. **Done 2026-11-24.** Arrow notation parser and printer (TS + Python); see §2.
 3. **Done 2026-11-24.** Mapped-graph model and applying arrows (§4 point 2). Every step of the four examples
    reproduces its to-state in both languages. TypeScript reads SMILES with its own strict parser (SPEC §5).

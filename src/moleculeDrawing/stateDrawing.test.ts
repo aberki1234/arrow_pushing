@@ -7,6 +7,7 @@ import { reactionScale } from "./drawingLayout.js";
 import { distanceBetween } from "./planeGeometry.js";
 import {
   ELECTRON_DOT_DISTANCE,
+  HYDROGEN_ROW_OFFSET,
   LABEL_CHARACTER_WIDTH,
   type StateDisplayFields,
   type StateDrawing,
@@ -60,10 +61,13 @@ test("every atom is drawn with its label; spectators are flagged", () => {
 });
 
 test("atoms sit at their coordinates times the scale, y flipped", () => {
+  const coordinates = exampleState(SN2, "reactants").displayFields.mapNumberToCoordinates;
   const drawing = drawExample(SN2, "reactants", 40);
-  // Coordinates: O1 (-0.75, -0.5), C2 (-0.25, 0.5).
-  expect(drawnAtomOf(drawing, 1).point).toEqual({ x: -30, y: 20 });
-  expect(drawnAtomOf(drawing, 2).point).toEqual({ x: -10, y: -20 });
+  for (const atom of drawing.atoms) {
+    const [across = 0, upward = 0] = coordinates[String(atom.mapNumber)] ?? [];
+    expect(atom.point.x).toBeCloseTo(across * 40);
+    expect(atom.point.y).toBeCloseTo(-upward * 40);
+  }
 });
 
 test("one bond with a bond target; spectators get no targets", () => {
@@ -133,6 +137,34 @@ test("the view box also holds each label's text, hydrogens and charge included",
   // "CH₂⁻": four characters right of the atom's centre, less half the element's width.
   const labelRightEdge = carbanion.point.x + 3.5 * LABEL_CHARACTER_WIDTH;
   expect(drawing.viewBox.minX + drawing.viewBox.width).toBeGreaterThan(labelRightEdge);
+});
+
+test("where the hydrogens and the charge are written", () => {
+  const sn2 = drawExample(SN2, "reactants");
+  const methyl = drawnAtomOf(sn2, 2);
+  expect(methyl.hydrogenTextAnchor).toBe("end");
+  expect(methyl.hydrogenTextPoint?.x).toBeLessThan(methyl.point.x);
+  const hydroxide = drawnAtomOf(sn2, 1);
+  expect(hydroxide.chargePoint?.y).toBeLessThan(hydroxide.point.y);
+  expect(hydroxide.chargePoint?.x).toBeGreaterThan(hydroxide.hydrogenTextPoint?.x ?? Infinity);
+  expect(drawnAtomOf(sn2, 3).hydrogenTextPoint).toBeNull();
+  expect(drawnAtomOf(sn2, 3).chargePoint).toBeNull();
+  // The aldehyde CH, both bonds pointing down: its H is written above, centred.
+  const aldehyde = drawnAtomOf(drawExample("aldol-addition-base", "reactants"), 5);
+  expect(aldehyde.labelText.hydrogenSide).toBe("above");
+  expect(aldehyde.hydrogenTextAnchor).toBe("middle");
+  expect(aldehyde.hydrogenTextPoint).toEqual({
+    x: aldehyde.point.x,
+    y: aldehyde.point.y - HYDROGEN_ROW_OFFSET,
+  });
+});
+
+test("an annotation sits straight above or below its atom, clear of the electron dots", () => {
+  const drawing = drawExample(SN2, "reactants");
+  const [annotation] = drawing.annotations;
+  const oxygen = drawnAtomOf(drawing, 1).point;
+  expect(annotation?.point.x).toBeCloseTo(oxygen.x);
+  expect(Math.abs((annotation?.point.y ?? 0) - oxygen.y)).toBeGreaterThanOrEqual(30);
 });
 
 test("caption and annotations are drawn; the view box holds every atom", () => {

@@ -17,7 +17,7 @@ import {
   lonePairCount,
   unpairedElectronCount,
 } from "../stateGraphs/stateGraph.js";
-import { type AtomLabelText, atomLabelText } from "./atomLabels.js";
+import { type AtomLabelText, type HydrogenSide, atomLabelText } from "./atomLabels.js";
 import { type BondLines, type WedgeStyle, bondLines } from "./bondLines.js";
 import {
   type MapNumberToCoordinates,
@@ -25,7 +25,7 @@ import {
   screenPoints,
   viewBoxAround,
 } from "./drawingLayout.js";
-import { type ElectronDotKind, placeElectronDots, widestGapAngle } from "./electronDotPlacement.js";
+import { type ElectronDotKind, placeElectronDots } from "./electronDotPlacement.js";
 import { type Point, angleFrom, pointAtAngle } from "./planeGeometry.js";
 
 export const ATOM_TARGET_RADIUS = 16;
@@ -42,6 +42,16 @@ export const ANNOTATION_DISTANCE = 34;
 export const LABEL_CHARACTER_WIDTH = 11;
 /** The charge is written at the label's upper right: electron dots keep out of that way. */
 export const CHARGE_DIRECTION = -Math.PI / 4;
+/** How far above or below the element hydrogens written there sit (centre to centre). */
+export const HYDROGEN_ROW_OFFSET = 18;
+/** How far above the element's centre the charge is written. */
+export const CHARGE_RISE = 9;
+const HYDROGEN_SIDE_TO_ANGLE: Readonly<Record<HydrogenSide, number>> = {
+  right: 0,
+  left: Math.PI,
+  below: Math.PI / 2,
+  above: -Math.PI / 2,
+};
 
 /** What the drawing needs from a state record of the reaction file. */
 export interface StateDisplayFields {
@@ -57,6 +67,11 @@ export interface DrawnAtom {
   readonly element: string;
   readonly point: Point;
   readonly labelText: AtomLabelText;
+  /** Where the implicit-hydrogen text is written and how it is anchored; null without any. */
+  readonly hydrogenTextPoint: Point | null;
+  readonly hydrogenTextAnchor: "start" | "middle" | "end";
+  /** The charge's left end, at the label's upper right; null for a neutral atom. */
+  readonly chargePoint: Point | null;
   readonly isSpectator: boolean;
 }
 
@@ -129,7 +144,7 @@ function surroundingsOf(
   );
   const occupiedAngles = [...bondAngles];
   if (labelText !== null && labelText.hydrogenText !== "") {
-    occupiedAngles.push(labelText.hydrogenSide === "right" ? 0 : Math.PI);
+    occupiedAngles.push(HYDROGEN_SIDE_TO_ANGLE[labelText.hydrogenSide]);
   }
   if (labelText !== null && labelText.chargeText !== "") {
     occupiedAngles.push(CHARGE_DIRECTION);
@@ -185,6 +200,50 @@ function drawnElectronDots(
         : [center];
     return { dotKind, mapNumber: atom.mapNumber, angle, center, dotPoints };
   });
+}
+
+/** Where an atom's hydrogen text and charge are written around its element. */
+function labelTextPlacement(
+  point: Point,
+  labelText: AtomLabelText,
+): Pick<DrawnAtom, "hydrogenTextPoint" | "hydrogenTextAnchor" | "chargePoint"> {
+  const { element, hydrogenText, hydrogenSide, chargeText } = labelText;
+  const halfElement = (element.length * LABEL_CHARACTER_WIDTH) / 2;
+  const hydrogenSideToPlacement = {
+    right: { point: { x: point.x + halfElement, y: point.y }, anchor: "start" },
+    left: { point: { x: point.x - halfElement, y: point.y }, anchor: "end" },
+    above: { point: { x: point.x, y: point.y - HYDROGEN_ROW_OFFSET }, anchor: "middle" },
+    below: { point: { x: point.x, y: point.y + HYDROGEN_ROW_OFFSET }, anchor: "middle" },
+  } as const;
+  const placement = hydrogenSideToPlacement[hydrogenSide];
+  const hasHydrogens = hydrogenText !== "";
+  const rightEdge =
+    point.x +
+    halfElement +
+    (hasHydrogens && hydrogenSide === "right" ? hydrogenText.length * LABEL_CHARACTER_WIDTH : 0);
+  return {
+    hydrogenTextPoint: hasHydrogens ? placement.point : null,
+    hydrogenTextAnchor: placement.anchor,
+    chargePoint: chargeText === "" ? null : { x: rightEdge + 1, y: point.y - CHARGE_RISE },
+  };
+}
+
+/**
+ * Straight below or above the atom (whichever is further from bonds and dots): a horizontal text
+ * label there does not run into the neighbours beside it.
+ */
+function annotationPoint(point: Point, takenAngles: readonly number[]): Point {
+  const clearance = (direction: number): number =>
+    takenAngles.reduce(
+      (smallest, angle) =>
+        Math.min(
+          smallest,
+          Math.abs(Math.atan2(Math.sin(angle - direction), Math.cos(angle - direction))),
+        ),
+      Math.PI,
+    );
+  const direction = clearance(Math.PI / 2) >= clearance(-Math.PI / 2) ? Math.PI / 2 : -Math.PI / 2;
+  return pointAtAngle(point, direction, ANNOTATION_DISTANCE);
 }
 
 interface DrawnParts {
@@ -270,15 +329,13 @@ function drawnPartsOf(
       element: atom.element,
       point,
       labelText,
+      ...labelTextPlacement(point, labelText),
       isSpectator: spectators.has(atom.mapNumber),
     });
     for (const annotation of displayFields.annotations ?? []) {
       if (annotation.nearMapNumber === atom.mapNumber) {
-        const freeAngle = widestGapAngle([...occupiedAngles, ...dots.map((dot) => dot.angle)]);
-        annotations.push({
-          text: annotation.text,
-          point: pointAtAngle(point, freeAngle, ANNOTATION_DISTANCE),
-        });
+        const taken = [...occupiedAngles, ...dots.map((dot) => dot.angle)];
+        annotations.push({ text: annotation.text, point: annotationPoint(point, taken) });
       }
     }
   }
@@ -359,7 +416,7 @@ function pickTargetsOf(graph: StateGraph, parts: DrawnParts): PickTarget[] {
   ];
 }
 
-/** The left and right ends of an atom's label text, at the atom's height. */
+/** The outer ends of an atom's label text: left and right, and its hydrogen row if any. */
 function labelEnds(atom: DrawnAtom): Point[] {
   const { element, hydrogenText, hydrogenSide, chargeText } = atom.labelText;
   const halfElement = (element.length * LABEL_CHARACTER_WIDTH) / 2;
@@ -370,10 +427,15 @@ function labelEnds(atom: DrawnAtom): Point[] {
     halfElement +
     (hydrogenSide === "right" ? hydrogenWidth : 0) +
     chargeText.length * LABEL_CHARACTER_WIDTH;
-  return [
+  const ends = [
     { x: left, y: atom.point.y },
     { x: right, y: atom.point.y },
   ];
+  if (hydrogenText !== "" && (hydrogenSide === "above" || hydrogenSide === "below")) {
+    const rowOffset = hydrogenSide === "above" ? -HYDROGEN_ROW_OFFSET : HYDROGEN_ROW_OFFSET;
+    ends.push({ x: atom.point.x, y: atom.point.y + rowOffset });
+  }
+  return ends;
 }
 
 function centroidOf(atoms: readonly DrawnAtom[]): Point {

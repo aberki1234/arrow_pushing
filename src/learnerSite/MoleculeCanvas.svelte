@@ -4,7 +4,6 @@
   // with Tab and Enter. The "which atom forms the bond?" menu opens beside the tapped atom.
   import type { DrawnCurvedArrow } from "../moleculeDrawing/curvedArrowGeometry.js";
   import {
-    LABEL_CHARACTER_WIDTH,
     type PickTarget,
     type StateDrawing,
     drawnAtomOf,
@@ -31,9 +30,7 @@
     onCancelChoice: () => void;
   } = $props();
 
-  // Label layout, in pixels at the 19 px label font.
-  const CHARACTER_WIDTH = LABEL_CHARACTER_WIDTH;
-  const CHARGE_RISE = 9;
+  // Drawing sizes, in pixels.
   const DOT_RADIUS = 2.3;
   const CHOICE_OPTION_WIDTH = 150;
   const CHOICE_OPTION_HEIGHT = 28;
@@ -60,10 +57,6 @@
       : `translate(${String(choiceOrigin.x + CHOICE_OFFSET)} ` +
           `${String(choiceOrigin.y - CHOICE_OFFSET)})`,
   );
-
-  function elementHalfWidth(element: string): number {
-    return (element.length * CHARACTER_WIDTH) / 2;
-  }
 
   function activate(event: KeyboardEvent, action: () => void): void {
     if (event.key === "Enter" || event.key === " ") {
@@ -154,28 +147,22 @@
     {/each}
 
     {#each drawing.atoms as atom (atom.mapNumber)}
-      {@const halfWidth = elementHalfWidth(atom.labelText.element)}
-      {@const hydrogenWidth = atom.labelText.hydrogenText.length * CHARACTER_WIDTH}
-      {@const rightEdge =
-        atom.point.x + halfWidth + (atom.labelText.hydrogenSide === "right" ? hydrogenWidth : 0)}
       <g class:faded={atom.isSpectator}>
         <text class="at elem" x={atom.point.x} y={atom.point.y} text-anchor="middle">
           {atom.labelText.element}
         </text>
-        {#if atom.labelText.hydrogenText !== ""}
+        {#if atom.hydrogenTextPoint !== null}
           <text
             class="at h"
-            x={atom.labelText.hydrogenSide === "right"
-              ? atom.point.x + halfWidth
-              : atom.point.x - halfWidth}
-            y={atom.point.y}
-            text-anchor={atom.labelText.hydrogenSide === "right" ? "start" : "end"}
+            x={atom.hydrogenTextPoint.x}
+            y={atom.hydrogenTextPoint.y}
+            text-anchor={atom.hydrogenTextAnchor}
           >
             {atom.labelText.hydrogenText}
           </text>
         {/if}
-        {#if atom.labelText.chargeText !== ""}
-          <text class="at chg" x={rightEdge + 1} y={atom.point.y - CHARGE_RISE} text-anchor="start">
+        {#if atom.chargePoint !== null}
+          <text class="at chg" x={atom.chargePoint.x} y={atom.chargePoint.y} text-anchor="start">
             {atom.labelText.chargeText}
           </text>
         {/if}
