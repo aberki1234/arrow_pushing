@@ -8,7 +8,7 @@ export PATH := $(CONDA_PREFIX)/bin:$(PATH)
 endif
 
 .PHONY: lint
-lint: lint-python lint-typescript
+lint: lint-python lint-typescript lint-reactions
 
 .PHONY: lint-python
 lint-python:
@@ -16,6 +16,11 @@ lint-python:
 	mypy tools tests python
 	python tools/check_limits.py
 	python tools/check_layers.py
+
+# The reaction linter (python/reaction_linting) on the example reactions: they must stay clean.
+.PHONY: lint-reactions
+lint-reactions:
+	PYTHONPATH=python python -m reaction_linting lint fixtures/reactions/*.json
 
 # The TypeScript/JavaScript files Prettier formats (fixtures, docs and mockups keep their own layout).
 PRETTIER_FILES = "**/*.ts" "**/*.js" "**/*.cjs"

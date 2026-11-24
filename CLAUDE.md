@@ -15,11 +15,11 @@ Do not change agreed decisions without asking; update `docs/SPEC.md` and `docs/s
 - `schema/reaction.schema.json` — JSON Schema of one reaction file (shape only).
 - `fixtures/` — shared by pytest and Vitest: `reactions/` (example reactions), `schema_cases/` (invalid edits),
   `notation/` (curved-arrow notation cases), `state_graphs/` (SMILES reading and arrow application cases),
-  `assessment/` (symmetry, resonance, misconception-pattern and attempt cases).
+  `assessment/` (symmetry, resonance, misconception-pattern and attempt cases), `lint_cases/` (edits that break lint rules).
 - `python/` — Python packages (layers in `pyproject.toml`, lowest first): `arrow_notation/` (parse/print curved
   arrows), `state_graphs/` (state graph, SMILES reading with RDKit, applying arrows), `attempt_assessment/`
   (symmetry, resonance, misconception patterns, assessing an attempt), `reaction_files/` (schema validation, RDKit
-  atom checks).
+  atom checks), `reaction_linting/` (the linter CLI: `PYTHONPATH=python python -m reaction_linting lint|seed-coordinates`).
 - `src/` — TypeScript: `arrowNotation/`, `stateGraphs/` (strict mapped-SMILES parser, applying arrows),
   `attemptAssessment/` (the validator's decision),
   `reactionFiles/` (Ajv), `testSupport/` (fixture reading for tests). Tests sit beside the code as `*.test.ts`.
@@ -40,6 +40,6 @@ Do not change agreed decisions without asking; update `docs/SPEC.md` and `docs/s
 - **Environment**: `conda activate mech_training` (from `environment.yml`), or prefix with `conda run -n mech_training`.
 - **Formatting**: `make format` runs Prettier (100 characters) on the TS/JS code; `make lint` only checks it.
   Fixtures, docs and mockups keep their hand-written layout.
-- **Checks**: `make lint` (ruff, mypy, `tools/check_limits.py`, `tools/check_layers.py`), `make test`, `make check`.
+- **Checks**: `make lint` (ruff, mypy, `tools/check_limits.py`, `tools/check_layers.py`, the reaction linter on the examples), `make test`, `make check`.
   Python import layers are listed lowest first in `pyproject.toml` `[tool.layers]`; add each new package there.
   The TypeScript side (`make lint-typescript`): Prettier check, ESLint with the same limits, `tsc`, dependency-cruiser.

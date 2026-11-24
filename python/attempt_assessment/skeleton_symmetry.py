@@ -23,7 +23,7 @@ MAXIMUM_SKELETON_SYMMETRIES, a safety cap rather than a chemistry number, only t
 returned, so answers are then compared without symmetry.
 """
 from dataclasses import dataclass, replace
-from typing import Dict, List, Set, Tuple
+from typing import Dict, List, Optional, Set, Tuple
 
 from arrow_notation.curved_arrow_notation import AtomLabel, CurvedArrow, ElectronLocus
 from state_graphs.state_graph import StateGraph, bond_key
@@ -79,11 +79,11 @@ def _extend(search: _SymmetrySearch, placed: Dict[int, int], used_images: Set[in
     return True
 
 
-def skeleton_symmetries(graph: StateGraph,
-                        maximum_symmetries: int = MAXIMUM_SKELETON_SYMMETRIES
-                        ) -> List[Dict[int, int]]:
-    """Every skeleton symmetry of `graph` as {old map number: new map number}, the identity first.
-    If there are more than `maximum_symmetries`, only the identity."""
+def skeleton_symmetries_within_cap(graph: StateGraph,
+                                   maximum_symmetries: int = MAXIMUM_SKELETON_SYMMETRIES
+                                   ) -> Optional[List[Dict[int, int]]]:
+    """Every skeleton symmetry of `graph`, the identity first; None if there are more than
+    `maximum_symmetries` (the linter warns about such a state)."""
     map_numbers = sorted(graph.map_number_to_atom)
     map_number_to_neighbours: Dict[int, Set[int]] = {
         map_number: set() for map_number in map_numbers}
@@ -96,8 +96,17 @@ def skeleton_symmetries(graph: StateGraph,
     search = _SymmetrySearch(map_numbers, map_number_to_neighbours, map_number_to_signature,
                              maximum_symmetries, [])
     within_cap = _extend(search, {}, set())
-    identity = {map_number: map_number for map_number in map_numbers}
-    return search.symmetries_found if within_cap else [identity]
+    return search.symmetries_found if within_cap else None
+
+
+def skeleton_symmetries(graph: StateGraph,
+                        maximum_symmetries: int = MAXIMUM_SKELETON_SYMMETRIES
+                        ) -> List[Dict[int, int]]:
+    """Every skeleton symmetry of `graph` as {old map number: new map number}, the identity first.
+    If there are more than `maximum_symmetries`, only the identity."""
+    symmetries = skeleton_symmetries_within_cap(graph, maximum_symmetries)
+    identity = {map_number: map_number for map_number in graph.map_number_to_atom}
+    return symmetries if symmetries is not None else [identity]
 
 
 def relabel_state_graph(graph: StateGraph, map_number_to_new_map_number: Dict[int, int]

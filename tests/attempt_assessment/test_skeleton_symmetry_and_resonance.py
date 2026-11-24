@@ -15,6 +15,7 @@ from attempt_assessment.skeleton_symmetry import (
     relabel_curved_arrow,
     relabel_state_graph,
     skeleton_symmetries,
+    skeleton_symmetries_within_cap,
 )
 from state_graphs.mapped_smiles_reading import state_graph_from_mapped_smiles
 from state_graphs.state_graph import state_graph_to_json
@@ -43,6 +44,19 @@ def test_above_the_cap_only_the_identity_is_returned() -> None:
     graph = state_graph_from_mapped_smiles("[CH:1]1=[CH:2][CH:3]=[CH:4][CH:5]=[CH:6]1")
     assert skeleton_symmetries(graph, maximum_symmetries=5) == [
         {map_number: map_number for map_number in range(1, 7)}]
+
+
+def test_within_cap_lists_every_symmetry() -> None:
+    """Benzene drawn as one Kekulé form: its σ skeleton is a 6-ring, so 12 symmetries (the
+    dihedral group of the hexagon: 6 rotations x 2 reflections)."""
+    graph = state_graph_from_mapped_smiles("[CH:1]1=[CH:2][CH:3]=[CH:4][CH:5]=[CH:6]1")
+    symmetries = skeleton_symmetries_within_cap(graph, maximum_symmetries=12)
+    assert symmetries is not None and len(symmetries) == 12
+
+
+def test_within_cap_is_none_above_the_cap() -> None:
+    graph = state_graph_from_mapped_smiles("[CH:1]1=[CH:2][CH:3]=[CH:4][CH:5]=[CH:6]1")
+    assert skeleton_symmetries_within_cap(graph, maximum_symmetries=11) is None
 
 
 def test_relabel_state_graph_moves_electrons_and_bonds_with_the_atoms() -> None:

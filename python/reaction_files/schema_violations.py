@@ -38,7 +38,7 @@ def load_reaction_schema() -> Dict[str, Any]:
     return reaction_schema
 
 
-def _json_pointer(path_parts: Iterable[Union[str, int]]) -> str:
+def json_pointer(path_parts: Iterable[Union[str, int]]) -> str:
     """("steps", 0, "routePreference") -> "/steps/0/routePreference" (RFC 6901: "~" is written
     "~0" and "/" is written "~1" inside a key)."""
     escaped_parts = [str(part).replace("~", "~0").replace("/", "~1") for part in path_parts]
@@ -57,7 +57,7 @@ def schema_violations(reaction_document: Mapping[str, Any]) -> List[SchemaViolat
     """Every schema violation in the document, sorted by instance path; empty if it is valid."""
     validator = Draft202012Validator(load_reaction_schema())
     distinct_violations = {
-        SchemaViolation(instance_path=_json_pointer(error.absolute_path), message=error.message)
+        SchemaViolation(instance_path=json_pointer(error.absolute_path), message=error.message)
         for error in _with_nested_errors(validator.iter_errors(reaction_document))}
     return sorted(distinct_violations,
                   key=lambda violation: (violation.instance_path, violation.message))

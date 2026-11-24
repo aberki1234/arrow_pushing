@@ -91,6 +91,7 @@ Diels–Alder needs a concerted multi-arrow step (3 arrows) — the model must s
   arrows, route preference, optional partial arrow sets, explanation), mechanism summary, version, author, licence.
 - **Dev tooling:** a Python CLI linter checks that arrows applied to each state reproduce the next one and seeds
   coordinates from RDKit. **The JS validator and Python linter share the same test fixtures** (cannot drift apart).
+  Built (item 5, 2026-11-24): `python/reaction_linting/`, rules and ids in `docs/schema-design.md` §3.5.
 - **Visual editor from the start** (needed for community content):
   1. author draws/pastes start state (embedded sketcher — e.g. Ketcher, Apache-2.0 — for **initial structures only**; it has no curved arrows);
   2. author draws arrows with our own SVG layer; editor **applies them to generate the next state** (no hand-drawing every intermediate);

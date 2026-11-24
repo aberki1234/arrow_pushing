@@ -73,6 +73,8 @@
       <tr><td><b>attempt assessment</b></td><td>The validator's answer to one check of the learner's arrows. Not the same as a step outcome or a review decision.</td></tr>
       <tr><td><b>step outcome</b></td><td>What progress records for a step: first try, after retry, after hint, or missed.</td></tr>
       <tr><td><b>misconception</b></td><td>An authored arrow pattern on a state, with a feedback message.</td></tr>
+      <tr><td><b>lint finding</b></td><td>One broken lint rule at one place in a reaction file: rule id, lint level, JSON pointer, message.</td></tr>
+      <tr><td><b>lint level</b></td><td><code>error</code> (blocks submission, ✕ in the editor) or <code>warning</code> (advice, ⚠). Not a misconception's severity.</td></tr>
       <tr><td><b>generic rule</b></td><td>A check built into the code (octet, reversed flow …) with a fixed id.</td></tr>
       <tr><td><b>change step</b></td><td>A step with no arrows that adds or removes molecules (a reagent arrives, a work-up).</td></tr>
       <tr><td><b>spectator</b></td><td>An atom drawn faded and never validated (Na⁺, MgBr⁺).</td></tr>
@@ -211,6 +213,28 @@
       <li>Each step's canonical arrows and partial arrow sets reproduce its to-state.</li>
       <li>No misconception matches an arrow set that would be accepted.</li>
     </ol>
+    <h3>The linter <span class="tag ok">built</span></h3>
+    <p><code>python/reaction_linting/</code>. Run <code>PYTHONPATH=python python -m reaction_linting lint FILE… [--json]</code> (exit status 1 on any error), or <code>… seed-coordinates FILE…</code> to give every state whose coordinates don't match its atoms an RDKit layout (the file is rewritten). <code>make lint</code> lints the four examples. Rules, in the order checked; a ⛔ group stops the lint, because the later checks could not run:</p>
+    <table>
+      <tr><th>Rule id</th><th>Level</th><th>What it checks</th></tr>
+      <tr><td><code>file-not-readable</code> ⛔</td><td>error</td><td>not JSON (command line only)</td></tr>
+      <tr><td><code>schema-violation</code> ⛔</td><td>error</td><td>the JSON Schema</td></tr>
+      <tr><td><code>state-atoms-inconsistent</code>, <code>mapped-smiles-not-supported</code> ⛔</td><td>error</td><td>atom checks from build item 1, then the strict SMILES subset</td></tr>
+      <tr><td><code>step-state-id-unknown</code> ⛔</td><td>error</td><td>rule 1 (the ids)</td></tr>
+      <tr><td><code>duplicate-step-key</code></td><td>error</td><td>step keys are unique (progress records use them)</td></tr>
+      <tr><td><code>state-unreachable</code>, <code>mechanism-has-cycle</code>, <code>not-exactly-one-product-state</code></td><td>error</td><td>rules 1–3</td></tr>
+      <tr><td><code>several-preferred-steps-leave-state</code>, <code>preferred-route-does-not-reach-product</code></td><td>error</td><td>rule 4</td></tr>
+      <tr><td><code>change-step-not-alone</code></td><td>error</td><td>a change step is the only step leaving its state</td></tr>
+      <tr><td><code>learner-prompt-missing</code>, <code>hint-tiers-missing</code></td><td>error</td><td>on states where arrows are drawn (at least 1 hint)</td></tr>
+      <tr><td><code>fewer-than-three-hint-tiers</code></td><td>warning</td><td>the full conceptual / narrowing / reveal ladder</td></tr>
+      <tr><td><code>duplicate-misconception-id</code>, <code>misconception-pattern-invalid</code></td><td>error</td><td>ids are unique; patterns follow the grammar and use known roles</td></tr>
+      <tr><td><code>step-does-not-reproduce-to-state</code></td><td>error</td><td>rule 6. <b>The canonical arrows must give the to-state exactly as drawn</b>: a resonance form of it is an error, because the learner moves on to the drawing. A partial arrow set only has to be accepted, as the validator would accept it (identical or a resonance form, up to symmetry). A change step must give its to-state exactly.</td></tr>
+      <tr><td><code>leaving-steps-reach-equivalent-states</code></td><td>error</td><td>rule 5</td></tr>
+      <tr><td><code>misconception-hides-correct-answer</code></td><td>error</td><td>rule 7, against the accepted canonical arrows and partial arrow sets, up to symmetry (not every accepted arrow set can be listed)</td></tr>
+      <tr><td><code>misconception-never-fires</code></td><td>warning</td><td>an earlier, wider entry on the same state always matches first. The test never warns wrongly but can miss a case.</td></tr>
+      <tr><td><code>too-many-skeleton-symmetries</code></td><td>warning</td><td>above the symmetry cap (§4) on a state where arrows are drawn</td></tr>
+    </table>
+    <p>Arrow sets are checked by the validator itself, with the step being checked as the only one leaving its state, so the linter accepts exactly what the browser accepts.</p>
 
     <h3>Example: Wittig with two accepted routes</h3>
     <figure class="card" style="margin:12px 0">
@@ -357,7 +381,7 @@ reviews(id pk, reaction_id, reaction_version → reaction_versions, reviewer_use
       <li><code>apply/</code> — state + arrows → expected state or generic rule id</li>
       <li><code>resonance/</code> — pairs of states → equivalent or not (enolate forms, both Kekulé benzenes, carboxylate, allyl radical, a charge-separated carbonyl, two molecules swapping a charge)</li>
       <li><code>assess/</code> — reaction + state + learner arrows → expected attempt assessment</li>
-      <li><code>graph/</code> — graphs breaking the rules → expected lint error</li>
+      <li><code>lint_cases/</code> — edits of the example reactions that break the graph and content rules → expected lint rule ids (Python only)</li>
       <li><code>reactions/</code> — SN2, aldol, radical bromination and the Wittig, end to end</li>
     </ul>
 
@@ -367,7 +391,7 @@ reviews(id pk, reaction_id, reaction_version → reaction_versions, reviewer_use
       <li><span class="tag ok">done</span> Arrow notation parser and printer (TS + Python), checked against the same shared cases (§2)</li>
       <li><span class="tag ok">done</span> Mapped-graph model and applying arrows. Every step of the four example reactions reproduces its next state, in both languages. The browser reads SMILES with its own strict parser, checked against RDKit.</li>
       <li><span class="tag ok">done</span> Symmetry, resonance, misconception patterns and the attempt assessment: 32 shared attempt cases on the four example reactions pass in both languages.</li>
-      <li>Python linter CLI, including the graph rules</li>
+      <li><span class="tag ok">done</span> Python linter CLI: steps reproduce, graph rules, learner text, misconception rules (including ones that can never fire), the symmetry cap, and coordinate seeding. The four examples lint clean, and 26 shared edit cases break each rule.</li>
       <li>Catalogue build and daily calendar</li>
       <li>Then the UI (learner screen first), the editor and the backend</li>
     </ol>
