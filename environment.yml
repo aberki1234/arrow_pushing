@@ -1,0 +1,11 @@
+# Conda environment for the Python side: linter CLI, shared-fixture tests, and the lint/complexity checks.
+# Create with: conda env create -f environment.yml
+name: mech_training
+channels:
+  - conda-forge
+dependencies:
+  - python=3.12
+  - rdkit
+  - pytest
+  - ruff
+  - mypy

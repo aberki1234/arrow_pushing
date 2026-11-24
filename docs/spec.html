@@ -1,0 +1,144 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>ArrowPush — agreed spec</title>
+<style>
+  :root { --bg:#f7f5f0; --surface:#fff; --ink:#1d2433; --muted:#5d667a; --line:#e2ded3; --accent:#5b4bdb; --soft:#ece9ff; --warn:#fff0c7; --warnink:#7a4f00; }
+  @media (prefers-color-scheme: dark) { :root { --bg:#12141c; --surface:#1b1e2a; --ink:#eceef6; --muted:#a0a8bd; --line:#2e3345; --accent:#8c80ff; --soft:#2a2755; --warn:#3a2f10; --warnink:#f1b73e; } }
+  * { box-sizing: border-box; }
+  body { margin:0; background:var(--bg); color:var(--ink); font:16px/1.6 ui-rounded,"Segoe UI",system-ui,sans-serif; }
+  .layout { max-width:1060px; margin:0 auto; padding:24px 16px 80px; display:grid; grid-template-columns:210px minmax(0,1fr); gap:32px; }
+  @media (max-width:820px){ .layout{grid-template-columns:1fr} nav.toc{position:static!important} }
+  nav.toc { position:sticky; top:16px; align-self:start; font-size:.9rem; }
+  nav.toc a { display:block; padding:5px 10px; border-radius:8px; color:var(--muted); text-decoration:none; font-weight:600; }
+  nav.toc a:hover { background:var(--soft); color:var(--accent); }
+  h1 { font-size:2rem; margin:0 0 4px; } h2 { font-size:1.35rem; margin:40px 0 10px; padding-top:8px; border-top:1px solid var(--line); } h3 { font-size:1.02rem; margin:20px 0 6px; }
+  p, li { margin:0 0 .6em; } ul { padding-left:20px; margin:0 0 1em; } .muted { color:var(--muted); }
+  .note { background:var(--warn); color:var(--warnink); border-radius:12px; padding:10px 14px; font-size:.92rem; margin:14px 0; }
+  .card { background:var(--surface); border:1px solid var(--line); border-radius:14px; padding:14px 18px; margin:12px 0; }
+  code { background:var(--soft); border-radius:6px; padding:1px 6px; font-size:.9em; }
+  .tag { display:inline-block; font-size:.72rem; font-weight:800; padding:2px 9px; border-radius:99px; background:var(--soft); color:var(--accent); vertical-align:2px; letter-spacing:.03em; }
+  table { width:100%; border-collapse:collapse; font-size:.92rem; } th,td { text-align:left; padding:8px; border-bottom:1px solid var(--line); vertical-align:top; } th { color:var(--muted); font-size:.75rem; text-transform:uppercase; letter-spacing:.05em; }
+  a { color:var(--accent); }
+</style>
+</head>
+<body>
+<div class="layout">
+  <nav class="toc" aria-label="Sections">
+    <a href="#product">1 · Product</a><a href="#content">2 · Content scope</a><a href="#interaction">3 · Interaction</a><a href="#validation">4 · Validation &amp; feedback</a>
+    <a href="#architecture">5 · Architecture</a><a href="#community">6 · Community &amp; moderation</a><a href="#mockups">7 · Mockups</a><a href="#process">8 · Process</a><a href="#open">9 · Still open</a>
+  </nav>
+  <main>
+    <h1>ArrowPush — agreed spec <span class="tag">v0.1</span></h1>
+    <p class="muted">Agreed in the design grilling on 2026-11-24. “ArrowPush” is just a placeholder name used in the mockups.</p>
+    <div class="note">This page is the human copy. The same content for the assistant lives in <code>docs/SPEC.md</code>. Anything marked “agreed” should only change after you say so, and both files get updated together.</div>
+
+    <h2 id="product">1 · Product</h2>
+    <p>A website for practising and learning <b>named-reaction mechanisms by drawing curved arrows</b>. The system checks the arrows and guides the learner. It is in the spirit of nrochemistry’s quiz and chemdle, but with arrow-pushing input. synkit’s review server is a conceptual reference only: it lets reviewers <i>choose</i> from candidate moves, whereas this product validates <i>drawn</i> arrows.</p>
+    <ul>
+      <li><b>Audience:</b> undergrad to grad students; every reaction has a difficulty tier (●○○ to ●●●).</li>
+      <li><b>Core loop:</b> see a state → draw the arrows for <b>one elementary step</b> → get validation → see the resulting intermediate → continue. “Draw the whole mechanism at once” is deferred.</li>
+    </ul>
+    <div class="card"><h3>Daily puzzle</h3>
+      <ul><li>One reaction a day; its name is hidden until you finish. Seeded by date, so no server is needed.</li>
+        <li><b>3 attempts per step</b>; a wrong check costs 1 point, and so does each hint.</li>
+        <li>Share grid: 🟩 first try · 🟨 retry or hint · 🟥 missed. Tiles also carry ✓ ~ ✕ so colour is never the only signal.</li></ul></div>
+    <div class="card"><h3>Practice</h3><ul><li>Untimed, unlimited attempts, free hints. Filter by type, difficulty and status; search by name.</li></ul></div>
+
+    <h2 id="content">2 · Content scope (v1)</h2>
+    <p>About 15 <b>polar</b> named reactions: SN1, SN2, E1, E2, aldol, Claisen, Grignard addition, Wittig, Diels–Alder, pinacol, Beckmann, Fischer esterification, Michael addition, Friedel–Crafts acylation.</p>
+    <p><b>Plus a few radical entries</b>: radical bromination (initiation, propagation, termination) and Barton–McCombie. Diels–Alder needs a concerted multi-arrow step, so the model supports that from day one.</p>
+
+    <h2 id="interaction">3 · Interaction</h2>
+    <ul>
+      <li><b>Click or tap a source, then a target.</b> A source is a lone pair, a bond (σ or π) or an unpaired electron. A target is an atom or a bond. The app draws the curved arrow; there are no freehand strokes.</li>
+      <li>Works with touch, mouse and keyboard (Tab to an element, Enter to pick, Esc to cancel). Touch is first-class, with large hit targets.</li>
+      <li><b>Arrow types are in the data model from the start:</b> full arrow = electron pair (2 e⁻); half-headed <b>fish-hook</b> = 1 e⁻. A step is a list of typed arrows.</li>
+      <li>Accessibility: colour-blind-safe palette, shape plus colour in the share grid, light and dark themes, reduced-motion respected.</li>
+    </ul>
+
+    <h2 id="validation">4 · Validation &amp; feedback</h2>
+    <div class="card"><h3>How strict</h3>
+      <p>The arrows must be <b>valid pushing</b> (a real source with electrons, a sink that can accept them, balanced bookkeeping) <b>and</b> the result must match the target state of a step leaving the current state (up to symmetry and resonance). A correct product reached with nonsense arrows does <b>not</b> pass.</p>
+      <p><b>Decided 2026-11-24</b> (schema pass, details in <a href="schema-design.html">schema-design.html</a>):</p>
+      <ul>
+        <li><b>Acceptance is by result, checked in the browser.</b> Legal, non-redundant arrows whose result matches a target state are correct, so nothing is listed for acceptance. <b>Equivalent atoms</b> (either water H, any α-H) and <b>resonance forms</b> (including the other Kekulé ring) are both handled by comparing σ skeletons. That is one quick pass, with no list of resonance forms and nothing precomputed. A result with more charged atoms than the target counts as partial progress. The next step continues from the curated drawing.</li>
+        <li><b>A mechanism is a graph of states</b> (revised 2026-11-24, replacing “no branching in v1”). Each step goes from one state to another and is <code>preferred</code> (the textbook route, used for hints and the reveal) or <code>accepted</code> (also correct). Correct routes may branch and <b>must rejoin</b> at a single product. The graph has no loops, and there is exactly one all-preferred route. Example: the Wittig, concerted [2+2] or stepwise via the betaine. A valid route the reaction doesn’t accept (e.g. O-attack) is a <code>plausible</code> misconception.</li>
+        <li><b><code>partialArrowSets</code></b> (optional, per step) lists other complete arrow sets for that step, <b>only</b> so that “right so far” is recognised for them. It replaces the earlier “alternatives”.</li>
+        <li><b>Fish-hooks need full bookkeeping:</b> H-abstraction takes 3 fish-hooks. The 2-arrow shorthand is not accepted and shows as partial progress.</li>
+      </ul></div>
+    <div class="card"><h3>Feedback layers</h3>
+      <p><b>Precedence (decided 2026-11-24):</b> when an authored misconception matches, it <b>beats</b> a generic rule. Only “meaningless arrow” errors, such as an empty source, come first.</p>
+      <ol style="padding-left:20px;margin:0">
+        <li><b>Generic rules in code:</b> octet violation, charge imbalance, reversed flow, empty source, sink that can’t accept electrons, wrong arrow type (pair vs fish-hook).</li>
+        <li><b>Per-state misconception entries</b> written in the content, each with a severity: <code>wrong</code> or <code>plausible</code> (valid but not the favoured pathway).</li>
+        <li><b>Tiered hints:</b> conceptual → narrowing → reveal (ghost arrows). Partial-progress messages (“right so far, N more arrows”) are also supported.</li></ol></div>
+    <h3>Chemistry conventions (v1)</h3>
+    <ul>
+      <li>Hydrogens that take part in a step are drawn explicitly in that step; the rest stay implicit.</li>
+      <li>Stereo (wedge and dash) is <b>stored and displayed, not validated</b>. The validator checks connectivity, formal charges and lone-pair/radical counts. SN2 inversion is an explanatory note. Stereo validation (CIP) is a v2 feature.</li>
+      <li>Reagents and conditions are labels over the reaction arrow, not drawable species.</li>
+      <li>Counterions (Na⁺, MgBr⁺) are drawn faded and not validated as participants.</li>
+    </ul>
+
+    <h2 id="architecture">5 · Architecture</h2>
+    <table><thead><tr><th>Area</th><th>Decision</th></tr></thead><tbody>
+      <tr><td>Validator</td><td>Runs <b>in the browser</b>: RDKit.js (WASM) plus our own arrow-application layer, as a separate module so a Python/synkit validator stays possible later.</td></tr>
+      <tr><td>Learner site</td><td><b>Static</b>, hosted on a CDN. Progress in <code>localStorage</code> with export/import. <b>No learner accounts in v1.</b></td></tr>
+      <tr><td>Rendering</td><td>Our own SVG layer with <b>precomputed 2D coordinates per state</b> (seeded from RDKit, hand-adjusted, stored in content). Avoids layout jumping between steps.</td></tr>
+      <tr><td>Content</td><td><b>One JSON file per reaction version</b> (<a href="schema-design.html">schema-design.html</a>): metadata; a graph of states (atom-mapped SMILES, coordinates, learner prompt, 3 hint tiers, misconceptions) joined by steps (canonical arrows, route preference, optional partial arrow sets, explanation); mechanism summary; version, author, licence.</td></tr>
+      <tr><td>Dev tooling</td><td>Python CLI linter: arrows applied to each state must reproduce the next; seeds coordinates. The JS validator and Python linter <b>share test fixtures</b> so they can’t drift.</td></tr>
+      <tr><td>Editor</td><td><b>Visual editor from the start.</b> Embedded sketcher (e.g. Ketcher) for <i>initial structures only</i>; our own SVG layer for arrows, lone pairs and charges. Applying arrows generates the next state; layout is tidied by dragging; hints, misconceptions, route preference and partial arrow sets are form fields; “Play as learner” runs the real learner code; a live lint panel (✕ blocks submission, ⚠ is advice).</td></tr>
+      <tr><td>Stack</td><td><b>TypeScript + Svelte</b> frontend; <b>FastAPI + Postgres</b> (reaction as a JSONB document, version table, status column) for the editor and submissions only; learner site built from published JSON on a static host such as Cloudflare Pages.</td></tr>
+    </tbody></table>
+
+    <h2 id="community">6 · Community content &amp; moderation</h2>
+    <ul>
+      <li>Contributors sign in with OAuth (e.g. GitHub or Google). Learners don’t need accounts.</li>
+      <li>Submission is gated on the linter passing.</li>
+      <li>Status flow: <b>draft → submitted → changes requested | published</b>. Only you (later, named reviewers) publish.</li>
+      <li><b>Published versions are immutable</b>; an edit creates a new version, and old versions stay reachable because learner progress points at a version.</li>
+      <li>Review = a play-through plus a diff against the previous version.</li>
+      <li><b>Licence: CC BY-SA 4.0</b>, with the contributor’s name on the reaction page, agreed at submission.</li>
+    </ul>
+
+    <h2 id="mockups">7 · Mockups <span class="tag">done</span></h2>
+    <p>Open <code>mockups/index.html</code> in a browser (plain HTML/CSS/JS, no build). Pages:</p>
+    <table><thead><tr><th>Page</th><th>What it shows</th></tr></thead><tbody>
+      <tr><td><a href="../mockups/index.html">index</a></td><td>Home: today’s puzzle, continue, mastery, browse by type, contribute</td></tr>
+      <tr><td><a href="../mockups/daily.html">daily</a></td><td>Daily puzzle: before / in progress / finished (share grid)</td></tr>
+      <tr><td><a href="../mockups/practice.html">practice</a></td><td>16 reaction cards with working filters and search</td></tr>
+      <tr><td><a href="../mockups/step.html?r=aldol&amp;mode=daily">step</a></td><td><b>Clickable arrow drawing</b>: SN2, 3-step aldol, radical fish-hook step. Bottom bar forces each UI state (idle, source selected, partial, plausible, wrong, generic rule, hints, correct, out of attempts). Try <a href="../mockups/step.html?r=radical">radical</a> and <a href="../mockups/step.html?r=sn2">SN2</a>.</td></tr>
+      <tr><td><a href="../mockups/complete.html">complete</a></td><td>Mechanism summary with per-step result and attribution/licence</td></tr>
+      <tr><td><a href="../mockups/progress.html">progress</a></td><td>Streak, history, mastery by type, recurring misconceptions, library, export/import</td></tr>
+      <tr><td><a href="../mockups/editor.html">editor</a></td><td>Timeline, canvas with tools, lint/hints/alternatives/misconceptions/submit tabs</td></tr>
+    </tbody></table>
+    <p class="muted">Validation in the mockups is hard-coded in <code>mockups/scenes.js</code>, which previews the shape of the future content. Checked in headless Chromium with no console errors.</p>
+
+    <h2 id="process">8 · Process</h2>
+    <ul><li>Your global protocol is <b>strict TDD</b>: plan (stubs and test cases) → stubs and tests (pytest for Python, Vitest or Jest for TS) → red run → minimal implementation → refactor, and no “done” until 0 failures. It applies to the <b>real build</b> (validator, schema, linter), not the throwaway sketches.</li>
+      <li><b>Naming standard</b> (2026-11-24): every name must be unambiguous to someone new to that part of the code. The reference level is <code>eyring.py</code> in <code>aberki1234/eyring-uncertainty</code> and RetrosynthWeb's <code>transform_proposals</code>. The rules are in the project <code>CLAUDE.md</code>, and terms are fixed in <a href="schema-design.html#terms">schema-design §0</a>.</li>
+      <li><b>Lint and complexity checks</b> (2026-11-24), the same as RetrosynthWeb's:
+        <ul>
+          <li>ruff, with type annotations required, at most 6 arguments, at most 40 statements and complexity at most 12;</li>
+          <li>mypy;</li>
+          <li>functions of at most 50 lines, files of at most 500 lines, and dataclasses of at most 6 fields;</li>
+          <li>import layers with no cycles.</li>
+        </ul>
+        Run them with <code>make lint</code>, <code>make test</code> or <code>make check</code>. The TypeScript side gets ESLint with the same limits when it is set up.</li>
+      <li>Documents meant for you to read are written as <b>HTML</b>.</li></ul>
+
+    <h2 id="open">9 · Still open</h2>
+    <ul>
+      <li>The <b>JSON schema</b>, <b>Postgres schema</b> and misconception pattern syntax are in <a href="schema-design.html">schema-design.html</a> and “mostly fine” per you. The decisions in §4 are settled; details may still be refined.</li>
+      <li>Final product name, branding and domain.</li>
+      <li>Hosting specifics, OAuth providers, reviewer roles beyond you.</li>
+      <li>Scoring and mastery formulas beyond the daily rules (the numbers in the mockups are illustrative).</li>
+      <li>Which reactions beyond the list above, and the order of authoring the first content set.</li>
+      <li><b>Deferred:</b> whole-mechanism mode, stereo validation, learner accounts/leaderboards/sync, visual-editor polish, synkit-assisted drafting.</li>
+    </ul>
+  </main>
+</div>
+</body>
+</html>

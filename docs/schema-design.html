@@ -1,0 +1,376 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>ArrowPush — schema design</title>
+<style>
+  :root { --bg:#f7f5f0; --surface:#fff; --ink:#1d2433; --muted:#5d667a; --line:#e2ded3; --accent:#5b4bdb; --soft:#ece9ff; --warn:#fff0c7; --warnink:#7a4f00; --good:#e3f4ea; --goodink:#1f6b40; }
+  @media (prefers-color-scheme: dark) { :root { --bg:#12141c; --surface:#1b1e2a; --ink:#eceef6; --muted:#a0a8bd; --line:#2e3345; --accent:#8c80ff; --soft:#2a2755; --warn:#3a2f10; --warnink:#f1b73e; --good:#173226; --goodink:#7fd6a2; } }
+  * { box-sizing: border-box; }
+  body { margin:0; background:var(--bg); color:var(--ink); font:16px/1.6 ui-rounded,"Segoe UI",system-ui,sans-serif; }
+  .layout { max-width:1100px; margin:0 auto; padding:24px 16px 80px; display:grid; grid-template-columns:210px minmax(0,1fr); gap:32px; }
+  @media (max-width:820px){ .layout{grid-template-columns:1fr} nav.toc{position:static!important} }
+  nav.toc { position:sticky; top:16px; align-self:start; font-size:.9rem; }
+  nav.toc a { display:block; padding:5px 10px; border-radius:8px; color:var(--muted); text-decoration:none; font-weight:600; }
+  nav.toc a:hover { background:var(--soft); color:var(--accent); }
+  h1 { font-size:2rem; margin:0 0 4px; } h2 { font-size:1.35rem; margin:40px 0 10px; padding-top:8px; border-top:1px solid var(--line); } h3 { font-size:1.02rem; margin:20px 0 6px; }
+  p, li { margin:0 0 .6em; } ul, ol { padding-left:20px; margin:0 0 1em; } .muted { color:var(--muted); }
+  .note { background:var(--warn); color:var(--warnink); border-radius:12px; padding:10px 14px; font-size:.92rem; margin:14px 0; }
+  .decided { background:var(--good); color:var(--goodink); border-radius:12px; padding:10px 14px; font-size:.92rem; margin:14px 0; }
+  .decided ul { margin:6px 0 0; }
+  .card { background:var(--surface); border:1px solid var(--line); border-radius:14px; padding:14px 18px; margin:12px 0; }
+  code { background:var(--soft); border-radius:6px; padding:1px 6px; font-size:.9em; }
+  pre { background:var(--surface); border:1px solid var(--line); border-radius:12px; padding:12px 14px; overflow-x:auto; font-size:.84rem; line-height:1.5; }
+  pre code { background:none; padding:0; }
+  .tag { display:inline-block; font-size:.72rem; font-weight:800; padding:2px 9px; border-radius:99px; background:var(--soft); color:var(--accent); vertical-align:2px; letter-spacing:.03em; }
+  .tag.ok { background:var(--good); color:var(--goodink); }
+  table { width:100%; border-collapse:collapse; font-size:.92rem; } th,td { text-align:left; padding:8px; border-bottom:1px solid var(--line); vertical-align:top; } th { color:var(--muted); font-size:.75rem; text-transform:uppercase; letter-spacing:.05em; }
+  .tw { overflow-x:auto; }
+  a { color:var(--accent); }
+</style>
+</head>
+<body>
+<div class="layout">
+  <nav class="toc" aria-label="Sections">
+    <a href="#terms">0 · Terms</a><a href="#ids">1 · Ids &amp; versions</a><a href="#notation">2 · Arrow notation</a><a href="#document">3 · Reaction file</a>
+    <a href="#correct">4 · What is correct</a><a href="#feedback">5 · Feedback</a><a href="#catalogue">6 · Catalogue &amp; daily</a><a href="#progress">7 · Learner progress</a>
+    <a href="#postgres">8 · Postgres</a><a href="#fixtures">9 · Shared fixtures</a><a href="#order">10 · Build order</a><a href="#fixes">11 · Mockup fixes</a>
+  </nav>
+  <main>
+    <h1>Schema design <span class="tag ok">mostly agreed</span></h1>
+    <p class="muted">Schema design pass, 2026-11-24. It covers the reaction file format, the Postgres tables, the arrow notation, and how answers are checked and given feedback.</p>
+    <div class="note">The assistant's copy is <code>docs/schema-design.md</code>; the two are kept in sync. The summary decisions are also in <a href="spec.html#validation">the spec, §4</a>.</div>
+    <div class="decided"><b>Decided 2026-11-24</b>
+      <ul>
+        <li><b>Q1</b> A resonance form of the expected state is accepted automatically. It is <b>checked in the browser</b> on the σ skeleton (§4), so nothing about resonance is stored in the file.</li>
+        <li><b>Q2 (revised)</b> A mechanism is a <b>graph of states</b>. Correct routes may branch and must rejoin at the product.</li>
+        <li><b>Q3</b> An authored misconception beats a generic rule.</li>
+        <li><b>Q4</b> Fish-hooks need full bookkeeping (3 arrows for H-abstraction).</li>
+        <li><b>Acceptance is by result.</b> Any legal, non-redundant set of arrows whose result matches the target state (up to symmetry and resonance) is correct. The old “alternatives” list is gone. In its place, <code>partialArrowSets</code> (optional) lists other complete arrow sets <b>only so partial progress is recognised</b>.</li>
+        <li><b>Naming:</b> every name must be unambiguous to someone new to that part of the code. All keys below follow this, and §0 fixes each term to one meaning.</li>
+      </ul></div>
+
+    <h2 id="terms">0 · Terms</h2>
+    <p>Each term means exactly one thing in the docs, the JSON and the code.</p>
+    <div class="tw"><table><thead><tr><th>Term</th><th>Meaning</th></tr></thead><tbody>
+      <tr><td><b>map number</b></td><td>The atom-map number of an atom in a mapped SMILES. Unique within a reaction; an atom keeps it in every state.</td></tr>
+      <tr><td><b>atom label</b></td><td>Element + map number, e.g. <code>O1</code>. The element is checked against the state.</td></tr>
+      <tr><td><b>state</b></td><td>One drawn mixture of molecules: a mapped SMILES, how it is drawn, and what the learner is told there.</td></tr>
+      <tr><td><b>step</b></td><td>One elementary move from one state to another. In graph terms a step is an edge, but the docs and code always say “step”.</td></tr>
+      <tr><td><b>mechanism graph</b></td><td>All states of a reaction and the steps between them.</td></tr>
+      <tr><td><b>route</b></td><td>A path of steps from the start state to the product state.</td></tr>
+      <tr><td><b>route preference</b></td><td>Per step: <code>preferred</code> (textbook route) or <code>accepted</code> (also correct). Not to be confused with a version's <b>submission status</b> (draft, submitted …).</td></tr>
+      <tr><td><b>locus</b></td><td>Where electrons sit: a lone pair (<code>lp</code>), an unpaired electron (<code>rad</code>), a σ bond or a π bond.</td></tr>
+      <tr><td><b>source / destination locus</b></td><td>Where an arrow's electrons come from / end up.</td></tr>
+      <tr><td><b>arrow</b></td><td>One curved arrow, source locus → destination locus. <code>-&gt;</code> moves a pair, <code>~&gt;</code> (fish-hook) one electron.</td></tr>
+      <tr><td><b>arrow set</b></td><td>The arrows drawn for one step, unordered.</td></tr>
+      <tr><td><b>canonical arrows</b></td><td>The step's arrow set used for the hint reveal and as the reference answer.</td></tr>
+      <tr><td><b>partial arrow sets</b></td><td>Other complete arrow sets for the same step, listed only so partial progress is recognised (§5). Not needed for acceptance.</td></tr>
+      <tr><td><b>σ skeleton</b></td><td>What π and lone-pair arrows cannot change: atoms, elements, which atoms are σ-bonded, H count per atom.</td></tr>
+      <tr><td><b>resonance-equivalent</b></td><td>Same σ skeleton, same charge per molecule, same unpaired-electron count per molecule.</td></tr>
+      <tr><td><b>skeleton symmetry</b></td><td>A reordering of a state's atoms that maps its σ skeleton onto itself. Covers equivalent atoms (the three α-H) and resonance-equivalent ones (both carboxylate O).</td></tr>
+      <tr><td><b>attempt assessment</b></td><td>The validator's answer to one check of the learner's arrows. Not the same as a step outcome or a review decision.</td></tr>
+      <tr><td><b>step outcome</b></td><td>What progress records for a step: first try, after retry, after hint, or missed.</td></tr>
+      <tr><td><b>misconception</b></td><td>An authored arrow pattern on a state, with a feedback message.</td></tr>
+      <tr><td><b>generic rule</b></td><td>A check built into the code (octet, reversed flow …) with a fixed id.</td></tr>
+      <tr><td><b>change step</b></td><td>A step with no arrows that adds or removes molecules (a reagent arrives, a work-up).</td></tr>
+      <tr><td><b>spectator</b></td><td>An atom drawn faded and never validated (Na⁺, MgBr⁺).</td></tr>
+      <tr><td><b>reaction slug / version / version ref</b></td><td><code>aldol-addition-base</code> / <code>3</code> / <code>aldol-addition-base@3</code>.</td></tr>
+      <tr><td><b>format version</b></td><td>The version of the file format itself, separate from a reaction version.</td></tr>
+    </tbody></table></div>
+    <p class="muted">Abbreviations: lp = lone pair; rad = radical (unpaired electron); SMILES = simplified molecular-input line-entry system; e⁻ = electron.</p>
+
+    <h2 id="ids">1 · Identifiers and versioning</h2>
+    <div class="tw"><table><thead><tr><th>Thing</th><th>Form</th><th>Rule</th></tr></thead><tbody>
+      <tr><td>Reaction slug</td><td><code>aldol-addition-base</code></td><td>Chosen at first submit. <b>Never changes</b> after the first publish; the title can.</td></tr>
+      <tr><td>Reaction version</td><td>1, 2, 3 … per slug</td><td>A new draft gets the next number. A published version never changes.</td></tr>
+      <tr><td>Version ref</td><td><code>aldol-addition-base@3</code></td><td>What learner progress, share links and the daily calendar store.</td></tr>
+      <tr><td>Content hash</td><td>sha256 of canonical JSON</td><td>In the catalogue and in the static file name, for cache-busting; lets progress detect a changed file.</td></tr>
+      <tr><td>Format version</td><td><code>"formatVersion": 1</code></td><td>Bumped by a format migration.</td></tr>
+      <tr><td>State id</td><td><code>s0</code>, <code>betaine</code></td><td>Unique within the reaction.</td></tr>
+      <tr><td>Step key</td><td><code>enolate</code></td><td>Unique within the reaction; kept <b>across</b> versions when the step means the same thing, so statistics carry over.</td></tr>
+      <tr><td>Misconception id</td><td>slug + optional <code>misconceptionTag</code></td><td>The tag comes from a controlled list (<code>attack-leaving-group</code> …). The progress page groups by tag.</td></tr>
+      <tr><td>Generic rule id</td><td><code>no-electrons-at-source</code>, <code>destination-full</code>, <code>reversed-flow</code>, <code>octet-exceeded</code>, <code>charge-not-conserved</code>, <code>wrong-arrow-type</code>, <code>redundant-arrow</code>, <code>minor-resonance-form</code></td><td>Fixed in code. Also counted on the progress page.</td></tr>
+    </tbody></table></div>
+
+    <h2 id="notation">2 · Atoms, loci and the arrow notation</h2>
+    <p>A state's <code>mappedSmiles</code> is one dot-separated, <b>fully atom-mapped, Kekulé</b> SMILES. Arrows act on drawn π bonds, so there are no aromatic lower-case atoms. A hydrogen is an explicit mapped atom <code>[H:n]</code> <b>only if it takes part in some step</b> (or the author wants it drawn); the rest are implicit. Lone pairs follow from valence and charge. Radicals are bracket atoms with a missing H, e.g. <code>[CH3:4]</code>.</p>
+    <div class="tw"><table><thead><tr><th>Locus</th><th>Meaning</th></tr></thead><tbody>
+      <tr><td><code>lp O1</code></td><td>A lone pair on O1. Pairs on one atom are equivalent, so they have no index.</td></tr>
+      <tr><td><code>rad C3</code></td><td>The unpaired electron on C3.</td></tr>
+      <tr><td><code>σ C2-Br3</code></td><td>A σ bond (either atom order; <code>sigma</code> also works).</td></tr>
+      <tr><td><code>π C5-O6</code></td><td>A π bond: the second or third bond of a multiple bond.</td></tr>
+    </tbody></table></div>
+    <p>An <b>arrow</b> is <code>&lt;source locus&gt; -&gt; &lt;destination locus&gt;</code> for a pair, or <code>~&gt;</code> for a fish-hook. The notation is borrowed from synkit. The destination is where the electrons <b>end up</b>:</p>
+    <ul>
+      <li><code>lp X</code> — a lone pair on X (a bond breaks toward X)</li>
+      <li><code>σ X-Y</code> — a new bond between atoms that were not bonded</li>
+      <li><code>π X-Y</code> — an existing X–Y bond gains one order</li>
+      <li><code>rad X</code> — fish-hook only: the electron becomes unpaired on X</li>
+    </ul>
+    <div class="card"><b>Examples</b><br>
+      SN2: <code>lp O1 -&gt; σ O1-C2</code>, <code>σ C2-Br3 -&gt; lp Br3</code><br>
+      H-abstraction: <code>rad Br1 ~&gt; σ Br1-H2</code>, <code>σ C3-H2 ~&gt; σ Br1-H2</code>, <code>σ C3-H2 ~&gt; rad C3</code></div>
+
+    <h3>From a learner's tap to a destination locus</h3>
+    <p>One pure function, <code>tapToDestinationLocus(state, sourceLocus, tappedAtomOrBond, arrowType)</code>, shared by the learner screen and the editor, turns the tap into a destination locus. So content and validation only ever see one form.</p>
+    <div class="tw"><table><thead><tr><th>Source locus</th><th>Tapped</th><th>Destination locus</th></tr></thead><tbody>
+      <tr><td>lp/rad on X</td><td>atom X itself</td><td>none (refused)</td></tr>
+      <tr><td>lp/rad on X</td><td>atom Y, not bonded to X</td><td><code>σ X-Y</code></td></tr>
+      <tr><td>lp/rad on X</td><td>atom Y bonded to X, or bond X–Y</td><td><code>π X-Y</code></td></tr>
+      <tr><td>bond A–B</td><td>atom A or B</td><td><code>lp A</code> / <code>lp B</code> (or <code>rad</code> for a fish-hook)</td></tr>
+      <tr><td>bond A–B</td><td>bond B–C</td><td><code>π B-C</code></td></tr>
+      <tr><td>bond A–B</td><td>atom Y, neither A nor B</td><td><b>Ambiguous</b> if both A and B could bond to Y (alkene + H–Br, the Markovnikov case). The screen asks “which atom forms the bond?”.</td></tr>
+    </tbody></table></div>
+    <p><b>Step kind</b> (<code>stepKind</code>): <code>polar</code>, <code>radical</code> or <code>change</code> (no arrows). The rule <code>wrong-arrow-type</code> fires when the learner's arrow type fits <b>no</b> step leaving the current state.</p>
+
+    <h2 id="document">3 · Reaction file (one JSON file per reaction version)</h2>
+    <p>JSON keys are camelCase. A key holding a mapping is named <code>keyToValue</code>, e.g. <code>stateIdToState</code>.</p>
+    <h3>Top level</h3>
+<pre><code>{
+  "formatVersion": 1,
+  "reactionSlug": "sn2-hydroxide-bromomethane",
+  "reactionVersion": 2,
+  "previousReactionVersion": 1,          // null for version 1
+  "title": "SN2 substitution",
+  "subtitle": "Hydroxide displaces bromide from bromomethane",
+  "reactionClasses": ["substitution"],
+  "difficultyTier": 1,                   // 1..3
+  "conditionsLabel": "NaOH · EtOH/H₂O · 25 °C",
+  "dailyPuzzleEligible": true,
+  "atomRoleToMapNumbers": { "nucleophile": [1], "electrophile": [2], "leavingGroup": [3] },
+  "spectatorMapNumbers": [4],
+  "startStateId": "s0",
+  "stateIdToState": { "s0": { … }, "s1": { … } },
+  "steps": [ … ],                        // order carries no meaning
+  "mechanismSummary": "Backside attack …",
+  "references": ["Clayden, Organic Chemistry, ch. 15"],
+  "authors": [{ "name": "…", "url": null }],
+  "licence": "CC-BY-SA-4.0",
+  "publishedAt": "2026-12-01T10:00:00Z"
+}</code></pre>
+
+    <h3>State</h3>
+<pre><code>{
+  "mappedSmiles": "[OH-:1].[CH3:2][Br:3].[Na+:4]",
+  "mapNumberToCoordinates": { "1": [-3.0, 0.0], "2": [0.0, 0.0], "3": [1.9, 0.0], "4": [-4.5, 0.8] },
+  "mapNumberToLonePairAnglesDegrees": { "1": [90, 210, 330] },   // optional
+  "bondToWedgeStyle": { "2-5": "wedge" },     // display only
+  "annotations": [{ "text": "nucleophile", "nearMapNumber": 1 }],
+  "caption": "hydroxide + bromomethane",
+
+  // shown BEFORE the learner chooses a route, so it belongs to the state
+  "learnerPrompt": "Draw the arrows for the next step.",
+  "hintTiers": ["conceptual …", "narrowing …", "reveal …"],
+  "misconceptions": [ … ],
+  "partialProgressMessages": [ … ]      // optional
+}</code></pre>
+    <ul>
+      <li>Coordinates are in RDKit units (C–C ≈ 1.5), y up. Only mapped atoms have coordinates; implicit H are drawn as labels such as <code>CH₃</code>.</li>
+      <li>Hints steer toward the <b>preferred</b> step; hint tier 3 shows its canonical arrows as ghost arrows. A learner on an accepted branch reaches that branch's own state, with its own hints.</li>
+    </ul>
+
+    <h3>Step</h3>
+<pre><code>{
+  "stepKey": "substitution",
+  "fromStateId": "s0",
+  "toStateId": "s1",
+  "stepKind": "polar",
+  "routePreference": "preferred",        // preferred | accepted
+  "canonicalArrows": ["lp O1 -> σ O1-C2", "σ C2-Br3 -> lp Br3"],
+  "partialArrowSets": [],                // optional, see §5
+  "explanationAfterStep": "Backside attack and leaving-group departure happen in one concerted step …"
+}</code></pre>
+    <ul>
+      <li><b>A branch</b> is another step leaving the same state toward a <i>different</i> state. Different arrows reaching the <i>same</i> state need no listing: acceptance is by result (§4).</li>
+      <li><b>Route preference:</b> <code>preferred</code> is the textbook route (hints and the reveal use it). <code>accepted</code> is also correct. A valid route the reaction does not accept is a <code>plausible</code> misconception and counts as a wrong attempt.</li>
+    </ul>
+
+    <h3>Change steps</h3>
+<pre><code>{ "stepKey": "workup", "fromStateId": "s3", "toStateId": "s4", "stepKind": "change", "routePreference": "preferred",
+  "addedSpecies": "[OH3+:20].[OH2:21]",       // new map numbers only
+  "removedFragmentMapNumbers": [7, 8],         // removes each whole molecule containing one
+  "caption": "Aqueous acid work-up" }</code></pre>
+    <p>The learner sees the event and continues. A change step must be the only step leaving its state.</p>
+
+    <h3>Graph rules (checked by the linter)</h3>
+    <ol>
+      <li>Every state is reachable from the start, and every step's states exist.</li>
+      <li><b>No loops.</b> A reversible dead end is a <code>plausible</code> misconception, not a step.</li>
+      <li><b>Exactly one product state</b>; every route ends there, so <b>branches must rejoin</b>. Branches ending in different products are out of scope for v1.</li>
+      <li><b>Exactly one route made only of preferred steps.</b></li>
+      <li>Two steps leaving one state must not reach resonance-equivalent states.</li>
+      <li>Each step's canonical arrows and partial arrow sets reproduce its to-state.</li>
+      <li>No misconception matches an arrow set that would be accepted.</li>
+    </ol>
+
+    <h3>Example: Wittig with two accepted routes</h3>
+    <figure class="card" style="margin:12px 0">
+      <svg viewBox="0 0 640 200" width="100%" role="img" aria-label="Wittig mechanism graph: the start state goes to the oxaphosphetane either directly by a preferred concerted [2+2] step, or through the betaine by two accepted steps; the oxaphosphetane then goes to the product by a preferred step.">
+        <defs><marker id="ah" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0,0 L10,5 L0,10 z" fill="var(--muted)"/></marker></defs>
+        <g font-size="13" font-family="inherit" fill="var(--ink)" text-anchor="middle">
+          <rect x="10" y="50" width="110" height="40" rx="10" fill="var(--surface)" stroke="var(--line)"/><text x="65" y="75">ylide + C=O</text>
+          <rect x="250" y="130" width="110" height="40" rx="10" fill="var(--surface)" stroke="var(--line)"/><text x="305" y="155">betaine</text>
+          <rect x="370" y="50" width="130" height="40" rx="10" fill="var(--surface)" stroke="var(--line)"/><text x="435" y="75">oxaphosphetane</text>
+          <rect x="545" y="50" width="85" height="40" rx="10" fill="var(--surface)" stroke="var(--line)"/><text x="587" y="75">product</text>
+        </g>
+        <g stroke-width="2" fill="none" marker-end="url(#ah)">
+          <path d="M120,70 L368,70" stroke="var(--accent)"/>
+          <path d="M100,90 Q130,150 248,150" stroke="var(--muted)" stroke-dasharray="6 4"/>
+          <path d="M360,150 Q420,150 430,93" stroke="var(--muted)" stroke-dasharray="6 4"/>
+          <path d="M500,70 L543,70" stroke="var(--accent)"/>
+        </g>
+        <g font-size="12" font-family="inherit" text-anchor="middle">
+          <text x="244" y="60" fill="var(--accent)" font-weight="700">cycloaddition · preferred</text>
+          <text x="150" y="160" fill="var(--muted)">C–C attack · accepted</text>
+          <text x="455" y="160" fill="var(--muted)">ring closure · accepted</text>
+          <text x="522" y="40" fill="var(--accent)" font-weight="700">retro-[2+2]</text>
+        </g>
+      </svg>
+    </figure>
+    <p class="muted">Map numbers: P1 (ylide P⁺), C2 (ylide C⁻), C3 (carbonyl C), O4.</p>
+<pre><code>"startStateId": "s0",
+"stateIdToState": { "s0": {…}, "betaine": {…}, "oxaphosphetane": {…}, "product": {…} },
+"steps": [
+  { "stepKey": "cycloaddition", "fromStateId": "s0", "toStateId": "oxaphosphetane", "stepKind": "polar",
+    "routePreference": "preferred", "canonicalArrows": ["lp C2 -> σ C2-C3", "π C3-O4 -> σ O4-P1"],
+    "explanationAfterStep": "Under Li-free conditions, current evidence favours a direct [2+2] cycloaddition." },
+  { "stepKey": "betaine-formation", "fromStateId": "s0", "toStateId": "betaine", "stepKind": "polar",
+    "routePreference": "accepted", "canonicalArrows": ["lp C2 -> σ C2-C3", "π C3-O4 -> lp O4"],
+    "explanationAfterStep": "The stepwise betaine route is the classic textbook picture." },
+  { "stepKey": "ring-closure", "fromStateId": "betaine", "toStateId": "oxaphosphetane", "stepKind": "polar",
+    "routePreference": "accepted", "canonicalArrows": ["lp O4 -> σ O4-P1"] },
+  { "stepKey": "retro-2+2", "fromStateId": "oxaphosphetane", "toStateId": "product", "stepKind": "polar",
+    "routePreference": "preferred", "canonicalArrows": ["σ P1-C2 -> π C2-C3", "σ C3-O4 -> π O4-P1"] }
+]</code></pre>
+
+    <h2 id="correct">4 · What counts as correct <span class="tag ok">checked in the browser</span></h2>
+    <ol>
+      <li><b>Each arrow is legal</b> on the current state: the source holds the electrons, the destination is well formed, and the arrow type fits some step leaving the state.</li>
+      <li><b>Apply</b> the arrows and check the bookkeeping: octet/duet (H ≤ 2 e⁻, period 2 ≤ 8, period ≥ 3 up to 12), electrons and total charge conserved.</li>
+      <li><b>No redundant arrows:</b> removing any one arrow must change the result. Otherwise <code>redundant-arrow</code> fires. This stops a correct answer padded with two arrows that cancel out.</li>
+      <li><b>Compare</b> the result with each leaving step's to-state. They match when, after some skeleton symmetry:
+        <ul>
+          <li>the σ skeleton is the same (atoms, elements, σ-bonded pairs, H per atom);</li>
+          <li>each molecule has the same charge and the same number of unpaired electrons;</li>
+          <li>the result has <b>no more charged atoms</b> than the to-state.</li>
+        </ul>
+        If only the last point fails, the result is a minor, charge-separated resonance form. The learner gets partial progress, <code>minor-resonance-form</code>: “right bonds, but this leaves C⁺ next to O⁻: push the O lone pair in too”.</li>
+      <li>On a match, the learner moves to that step's to-state as the author drew it. If their drawing was a different resonance form, they see “valid resonance form — the next step uses this drawing”.</li>
+    </ol>
+    <div class="card"><b>Why this is cheap.</b> π and lone-pair arrows cannot change the σ skeleton. Conversely, take two drawings with the same skeleton, charge and unpaired electrons per molecule, which both pass the octet check. The electrons that differ flow along existing bonds, so the difference breaks down into paths of π/lone-pair arrows. No path can pass through an sp³ atom, which has no π bond or spare room in either drawing. So the test is one pass over atoms and bonds, in microseconds, with no RDKit and no list of resonance forms. Listing forms instead grows exponentially in the worst case (fused aromatics).</div>
+    <p><b>Skeleton symmetry</b> is found by listing the reorderings of the current state's atoms that keep its σ skeleton (elements and H counts included). The molecules here are small: a tert-butyl group with every H drawn is about 1,300 reorderings. Above a safety cap of 10,000, the linter warns and the browser compares without symmetry.</p>
+    <p>A right product reached by nonsense arrows fails at point 1, 2 or 3. Point 4 compares the whole mapped skeleton, so arrows that move the wrong atoms also fail.</p>
+
+    <h2 id="feedback">5 · Feedback</h2>
+    <h3>Order <span class="tag ok">decided Q3</span></h3>
+    <p>The validator returns an <b>attempt assessment</b>: correct (with the step taken), a misconception, a generic rule, partial progress, or wrong. First match wins:</p>
+    <ol>
+      <li>a match with a step leaving the state: correct is correct;</li>
+      <li>arrows that mean nothing (empty source, an arrow to itself);</li>
+      <li><b>authored misconceptions</b>, in list order;</li>
+      <li>generic chemistry rules (octet, reversed flow, arrow type, charge, redundant arrow);</li>
+      <li>partial progress, including <code>minor-resonance-form</code>;</li>
+      <li>wrong, with a generic “not this pathway” message.</li>
+    </ol>
+
+    <h3>Misconceptions (on a state)</h3>
+<pre><code>{ "misconceptionId": "attack-on-br", "misconceptionTag": "attack-leaving-group", "severity": "wrong",
+  "arrowPattern": "lp O1 -> Br3",
+  "feedbackMessage": "Both HO⁻ and Br carry negative character …" }</code></pre>
+<pre><code>arrowPattern        := singleArrowPattern ( ";" singleArrowPattern )*    all must be among the learner's arrows
+singleArrowPattern  := sourcePattern ( "->" | "~>" | "*>" ) destinationPattern     *> = either arrow type
+sourcePattern       := locusKind atomSelector | locusKind atomSelector "-" atomSelector | "*"
+destinationPattern  := a locus pattern, or a bare atomSelector = "electrons end on, or bond to, this atom"
+locusKind           := lp | rad | σ | π | bond | *                   bond = σ or π
+atomSelector        := O1 | O* (any O) | @nucleophile (a role) | *</code></pre>
+    <ul>
+      <li>Patterns <b>refer to chemistry</b>, e.g. <code>lp @nucleophile -&gt; @leavingGroup</code> or <code>π C5-O6 -&gt; C5</code>.</li>
+      <li>Patterns use the <b>same skeleton symmetry</b> as the answer, so an entry for H4 also fires for H5 and H6.</li>
+      <li><code>severity</code>: <code>wrong</code> or <code>plausible</code> (valid pushing, but not a route this reaction accepts). In daily mode both cost an attempt; the wording differs.</li>
+      <li>Matching means “contains”, so extra correct arrows don't hide a misconception. The linter warns when an entry can never fire.</li>
+    </ul>
+
+    <h3>Partial progress</h3>
+    <ul>
+      <li><b>Automatic:</b> every learner arrow belongs to the canonical arrows or to a partial arrow set of some leaving step. The learner sees “Right so far — N more arrows”.</li>
+      <li><b>Why <code>partialArrowSets</code> exists:</b> acceptance needs no list, but “right so far” compares with <i>known</i> complete sets. A learner half-way through a different valid set would otherwise be told “wrong” too early. The linter checks each listed set reproduces the step's to-state.</li>
+      <li><b>Authored messages</b> (<code>partialProgressMessages</code> on the state): <code>{ "learnerArrows": ["lp O1 -&gt; σ O1-C2"], "feedbackMessage": "Octet check: …" }</code>. This replaces the automatic text when the learner's set matches exactly.</li>
+    </ul>
+
+    <h2 id="catalogue">6 · Catalogue and daily puzzle</h2>
+<pre><code>{ "formatVersion": 1, "builtAt": "2026-12-01T…",
+  "reactions": [{ "reactionSlug": "…", "latestReactionVersion": 2,
+                  "reactionVersionToContentHash": { "1": "a1b2c3d4…", "2": "e5f6a7b8…" },
+                  "title": "…", "reactionClasses": ["…"], "difficultyTier": 1, "dailyPuzzleEligible": true }],
+  "dateToDailyReactionVersionRef": { "2026-12-01": "sn2-hydroxide-bromomethane@2", … } }</code></pre>
+    <p>The <b>daily calendar is a list that only grows</b>. The build fills 60 days ahead with a date-seeded shuffle and never rewrites a past date. “Date mod number of reactions” would reshuffle days whenever a reaction is added.</p>
+
+    <h2 id="progress">7 · Learner progress (<code>localStorage</code>)</h2>
+<pre><code>{ "formatVersion": 1,
+  "runs": [{ "reactionVersionRef": "aldol-addition-base@3", "mode": "practice", "startedAt": "2026-12-01T…",
+             "stepResults": [{ "stepKey": "enolate",
+                               "stepOutcome": "firstTry",   // firstTry | afterRetry | afterHint | missed
+                               "attemptCount": 2, "hintsUsed": 1,
+                               "feedbackIdsShown": ["misconception:aldol-addition-base/oh-adds-carbonyl",
+                                                    "rule:octet-exceeded"] }] }],
+  "dateToDailyResult": { "2026-12-01": { "reactionVersionRef": "…@2", "shareGrid": "🟩🟨🟩", "score": 4 } },
+  "settings": { "theme": "auto" } }</code></pre>
+    <ul>
+      <li>A run's step results are the steps the learner actually took, so a run records its route.</li>
+      <li>The daily share grid has <b>one tile per step taken</b>. A preferred or accepted step on the first try both give 🟩.</li>
+      <li>Mastery and misconception history are grouped by slug, step key and tag, so a new version doesn't reset them.</li>
+    </ul>
+
+    <h2 id="postgres">8 · Postgres (editor and submissions only)</h2>
+<pre><code>users(id uuid pk, display_name, oauth_provider, oauth_subject,
+      site_role in ('contributor','reviewer','owner'), created_at,
+      unique(oauth_provider, oauth_subject))
+
+reactions(id uuid pk, reaction_slug unique, owner_user_id → users, created_at)
+
+reaction_versions(reaction_id → reactions, reaction_version int, pk(reaction_id, reaction_version),
+      submission_status in ('draft','submitted','changes_requested','published'),
+      reaction_document jsonb, format_version int, content_hash,
+      author_user_id → users, licence_agreed_at, latest_lint_report jsonb,
+      created_at, updated_at, submitted_at, published_at)
+  -- at most one unpublished version per reaction
+  -- a trigger refuses UPDATE/DELETE of a published row
+
+reviews(id pk, reaction_id, reaction_version → reaction_versions, reviewer_user_id → users,
+        review_decision in ('publish','changes_requested'), comment, created_at)</code></pre>
+    <p>The whole document, mechanism graph included, lives in <code>reaction_document</code>.</p>
+
+    <h2 id="fixtures">9 · Shared fixtures (JS ↔ Python)</h2>
+    <p>A <code>fixtures/</code> folder read by both Vitest and pytest. The browser validator and the Python linter must agree on all of them.</p>
+    <ul>
+      <li><code>notation/</code> — arrow strings → parsed loci, plus error cases</li>
+      <li><code>apply/</code> — state + arrows → expected state or generic rule id</li>
+      <li><code>resonance/</code> — pairs of states → equivalent or not (enolate forms, both Kekulé benzenes, carboxylate, allyl radical, a charge-separated carbonyl, two molecules swapping a charge)</li>
+      <li><code>assess/</code> — reaction + state + learner arrows → expected attempt assessment</li>
+      <li><code>graph/</code> — graphs breaking the rules → expected lint error</li>
+      <li><code>reactions/</code> — SN2, aldol, radical bromination and the Wittig, end to end</li>
+    </ul>
+
+    <h2 id="order">10 · Proposed build order (each strictly TDD)</h2>
+    <ol>
+      <li>JSON Schema file plus the four example reactions, validated in both languages</li>
+      <li>Arrow notation parser and printer (TS + Python)</li>
+      <li>Mapped-graph model and applying arrows</li>
+      <li>Skeleton symmetry, resonance equivalence and the attempt-assessment pipeline</li>
+      <li>Python linter CLI, including the graph rules</li>
+      <li>Catalogue build and daily calendar</li>
+      <li>Then the UI (learner screen first), the editor and the backend</li>
+    </ol>
+
+    <h2 id="fixes">11 · Corrections to the mockup content</h2>
+    <ul>
+      <li><span class="tag ok">Q4</span> <b>Radical H-abstraction needs 3 fish-hooks</b>, not 2. The 2-arrow attempt is partial progress (“1 more”).</li>
+      <li><b>Aldol step 2 needs 3 arrows</b>, not 2. With the enolate drawn C=C–O⁻, attacking from the C=C π bond alone leaves C⁺ next to O⁻. That attempt now gets <code>minor-resonance-form</code>. The full answer: O⁻ lone pair → π O–C, π C=C → σ C–C′, π C′=O′ → lone pair on O′.</li>
+      <li>The aldol's second acetaldehyde appears only from state 1 in the mockup. It either arrives through a change step or is present from the start.</li>
+      <li>The editor's timeline becomes a graph: it needs “add branch from this state” and a way to show a fork.</li>
+    </ul>
+  </main>
+</div>
+</body>
+</html>

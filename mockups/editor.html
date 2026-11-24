@@ -1,0 +1,126 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Editor — ArrowPush mockup</title>
+<link rel="stylesheet" href="style.css">
+<style>
+  .ed { display: grid; grid-template-columns: 220px minmax(0, 1fr) 340px; gap: 14px; align-items: start; }
+  @media (max-width: 1000px) { .ed { grid-template-columns: 1fr; } }
+  .tl { list-style: none; margin: 0; padding: 0; display: grid; gap: 8px; }
+  .tl li { border: 1px solid var(--line); border-radius: 12px; padding: 8px 10px; background: var(--surface); cursor: pointer; font-size: .88rem; }
+  .tl li.on { border-color: var(--accent); background: var(--accent-soft); }
+  .tl li small { display: block; color: var(--muted); }
+  .tool { display: flex; gap: 6px; flex-wrap: wrap; margin-bottom: 8px; }
+  .lint li { list-style: none; margin: 4px 0; font-size: .88rem; } .lint { padding: 0; margin: 0; }
+  .ok { color: var(--good); } .wn { color: var(--warn); } .er { color: var(--bad); }
+  .sketcher { border: 2px dashed var(--line); border-radius: 12px; padding: 14px; text-align: center; color: var(--muted); background: var(--surface-2); }
+  .mc { border: 1px solid var(--line); border-radius: 10px; padding: 8px 10px; margin-bottom: 8px; font-size: .88rem; }
+  .flow { display: flex; gap: 6px; flex-wrap: wrap; align-items: center; font-size: .82rem; }
+  .flow span { padding: 3px 10px; border-radius: 99px; background: var(--surface-2); color: var(--muted); font-weight: 700; } .flow span.on { background: var(--accent); color: var(--accent-ink); }
+  .tabs button { padding: 8px 9px; font-size: .84rem; }
+</style>
+</head>
+<body>
+<div id="nav"></div>
+<div class="wrap" style="max-width:1280px">
+  <div class="row spread mt">
+    <div><h1 style="margin:0">Aldol addition <span class="pill">draft v4</span></h1><div class="muted small">Signed in as contributor · you retain credit; published under CC BY-SA 4.0</div></div>
+    <div class="flow" aria-label="Submission status"><span class="on">Draft</span>→<span>Submitted</span>→<span>Changes requested</span>/<span>Published</span></div>
+  </div>
+
+  <div class="ed mt">
+    <aside class="card flat">
+      <h3>Timeline</h3>
+      <ul class="tl" id="tl">
+        <li><b>State 0</b><small>acetaldehyde + HO⁻</small></li>
+        <li class="on"><b>Step 1</b><small>enolate formation · 3 arrows</small></li>
+        <li><b>State 1</b><small>enolate + H₂O (auto)</small></li>
+        <li><b>Step 2</b><small>C–C bond formation · 2 arrows</small></li>
+        <li><b>State 2</b><small>alkoxide (auto)</small></li>
+        <li><b>Step 3</b><small>protonation · 2 arrows</small></li>
+        <li><b>State 3</b><small>3-hydroxybutanal (auto)</small></li>
+      </ul>
+      <div class="row mt"><button class="btn sm">＋ Add step</button><button class="btn sm">Reorder</button></div>
+    </aside>
+
+    <main>
+      <section class="card">
+        <div class="row spread"><b>Step 1 · Enolate formation</b>
+          <div class="row"><button class="btn sm">↶</button><button class="btn sm">↷</button><a class="btn sm good" href="step.html?r=aldol&s=0" style="text-decoration:none">▶ Play as learner</a></div></div>
+        <div class="tool" role="toolbar" aria-label="Drawing tools">
+          <button class="chip" aria-pressed="true">⟶ pair arrow</button><button class="chip" aria-pressed="false">⇀ fish-hook</button><button class="chip" aria-pressed="false">± charge</button><button class="chip" aria-pressed="false">•  lone pair / radical</button><button class="chip" aria-pressed="false">⌫ erase</button><button class="chip" aria-pressed="false">✥ move atoms</button>
+        </div>
+        <svg id="svg" class="mol" viewBox="0 0 640 330" style="border:1px solid var(--line);border-radius:12px;background:var(--surface)">
+          <defs><marker id="mFull" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="5.5" markerHeight="5.5" orient="auto"><path d="M0,1 L9,5 L0,9 z" fill="context-stroke"/></marker></defs>
+          <g id="mol"></g><g id="arr"></g>
+        </svg>
+        <div class="row mt spread"><div class="small muted">Arrows applied live → <b>next state is generated</b> by the same validator the learner screen uses. Drag atoms to tidy the layout; coordinates are stored per state.</div>
+          <button class="btn sm">View generated state 1 →</button></div>
+
+        <div class="grid g2 mt">
+          <div><div class="small muted"><b>Start state</b> (state 0 only)</div>
+            <div class="sketcher">Embedded sketcher (e.g. Ketcher) — initial structures only<br><span class="small">or paste SMILES:</span>
+              <input type="text" value="[OH-].[CH3:1][CH:2]=[O:3]" aria-label="SMILES" style="margin-top:6px;font-family:ui-monospace,monospace"></div></div>
+          <div><div class="small muted"><b>Generated next state</b> (atom-mapped)</div>
+            <div class="sketcher" style="text-align:left;font-family:ui-monospace,monospace;font-size:.82rem;color:var(--ink)">[CH2:1]=[CH:2][O-:3].[OH2]<br><span class="muted">charges ✓ octets ✓ electron count ✓</span></div></div>
+        </div>
+      </section>
+    </main>
+
+    <aside class="card flat">
+      <div class="tabs" role="tablist" data-tabs data-for="#side">
+        <button data-tab="lint" aria-selected="true">Checks</button><button data-tab="hints" aria-selected="false">Hints</button><button data-tab="alt" aria-selected="false">Alternatives</button><button data-tab="mis" aria-selected="false">Misconceptions</button><button data-tab="sub" aria-selected="false">Submit</button>
+      </div>
+      <div id="side">
+        <div data-panel="lint"><ul class="lint">
+          <li class="ok">✓ Arrows applied to state 0 reproduce state 1</li><li class="ok">✓ Every arrow has a valid source and sink</li><li class="ok">✓ Electron bookkeeping balances (2 e⁻ per pair arrow)</li>
+          <li class="wn">⚠ Step 3 has only 1 hint (minimum: 3 tiers)</li><li class="wn">⚠ No misconception entry for “attack at carbonyl C” in step 1</li>
+          <li class="er">✕ Step 2: coordinates missing for 1 atom (O′)</li></ul>
+          <p class="small muted">Submission is blocked while any ✕ remains. ⚠ are advice. The same linter runs on the server when you submit.</p></div>
+
+        <div data-panel="hints" class="hidden">
+          <label class="f">Tier 1 — conceptual</label><textarea rows="2">Hydroxide is a base here, not a nucleophile at carbon. Which H is acidic, and why?</textarea>
+          <label class="f">Tier 2 — narrowing</label><textarea rows="2">The α-H is acidic because the carbanion is conjugated with C=O. Three arrows.</textarea>
+          <label class="f">Tier 3 — reveal (shown as ghost arrows)</label><textarea rows="2">HO⁻ lone pair → H; Cα–H → Cα–C; C=O π → O.</textarea>
+          <label class="f">Explanation after solving</label><textarea rows="2">The enolate is resonance-stabilised.</textarea></div>
+
+        <div data-panel="alt" class="hidden">
+          <p class="small muted">Other arrow sets accepted as correct (e.g. equivalent protons, resonance forms). Auto-detected where the validator finds the same state; add manually otherwise.</p>
+          <div class="mc"><b>Canonical</b><br>lp(O) → H · σ(Cα–H) → σ(Cα–C) · π(C=O) → O</div>
+          <div class="mc"><span class="pill good">auto-detected</span> none found for this step</div>
+          <button class="btn sm">＋ Add accepted alternative</button></div>
+
+        <div data-panel="mis" class="hidden">
+          <p class="small muted">Generic rules (octet, charge, reversed flow, wrong arrow type) are built in. Add reaction-specific traps here.</p>
+          <div class="mc"><b>If</b> lp(O) → C(carbonyl)<br><span class="pill warn">plausible, not favoured</span><br>“Hydroxide can add to the carbonyl carbon (hydrate), but it’s reversible and unproductive here…”</div>
+          <div class="mc"><b>If</b> π(C=O) → C(carbonyl)<br><span class="pill rad">wrong</span><br>“The π electrons cannot move onto the carbon that shares them…”</div>
+          <button class="btn sm">＋ Add misconception (click source → target on canvas)</button></div>
+
+        <div data-panel="sub" class="hidden">
+          <label class="f">Title</label><input type="text" value="Aldol addition (base-catalysed)">
+          <label class="f">Type / difficulty</label><div class="row"><select><option>Carbonyl</option></select><select><option>●●○</option></select></div>
+          <label class="f">References</label><input type="text" value="Clayden, Organic Chemistry, ch. 26">
+          <label class="row small" style="margin-top:12px;font-weight:600"><input type="checkbox" checked style="width:auto"> I agree to publish under CC BY-SA 4.0 with my name as attribution.</label>
+          <div class="row mt"><button class="btn">Save draft</button><button class="btn primary" disabled>Submit for review</button></div>
+          <p class="small muted mt">Blocked: 1 failing check. Reviewer sees a play-through plus a diff against v3. Published versions are immutable.</p></div>
+      </div>
+    </aside>
+  </div>
+</div>
+<script src="common.js"></script><script src="scenes.js"></script>
+<script>
+  // reuse step-1 aldol scene as the editor canvas, with its correct arrows drawn
+  var s = SCENES.aldol.steps[0], NS = 'http://www.w3.org/2000/svg';
+  document.getElementById('mol').innerHTML = s.before();
+  function el(id) { return s.els.find(function (e) { return e.id === id; }); }
+  s.correct[0].forEach(function (k) {
+    var a = k.split('>'), S = el(a[0]), T = el(a[1]), x1 = T.tx != null ? T.tx : T.x, y1 = T.ty != null ? T.ty : T.y, dx = x1 - S.x, dy = y1 - S.y, L = Math.hypot(dx, dy) || 1;
+    var nx = -dy / L, ny = dx / L, hx = S.nx || 0, hy = S.ny != null ? S.ny : -1; if (nx * hx + ny * hy < 0) { nx = -nx; ny = -ny; }
+    var b = Math.max(18, Math.min(62, L * .32)), p = document.createElementNS(NS, 'path');
+    p.setAttribute('d', 'M' + S.x + ',' + S.y + ' Q' + ((S.x + x1) / 2 + nx * b * 2) + ',' + ((S.y + y1) / 2 + ny * b * 2) + ' ' + x1 + ',' + y1);
+    p.setAttribute('class', 'arrow'); p.setAttribute('marker-end', 'url(#mFull)'); document.getElementById('arr').appendChild(p);
+  });
+</script>
+</body>
+</html>

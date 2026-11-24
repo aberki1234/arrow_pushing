@@ -1,0 +1,56 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Summary — ArrowPush mockup</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<div id="nav"></div>
+<div class="wrap" style="max-width:820px">
+  <section class="card hero center mt2">
+    <span class="pill good" id="badge">Mechanism complete</span>
+    <h1 id="title" style="margin-top:8px"></h1>
+    <div class="muted" id="sub"></div>
+    <div class="row mt" style="justify-content:center" id="tiles"></div>
+    <p class="small muted mt" id="score"></p>
+  </section>
+
+  <h2 class="mt2">Step by step</h2>
+  <div class="grid" id="steps"></div>
+
+  <div class="grid g2 mt2">
+    <section class="card flat"><h3>Watch out for</h3>
+      <ul class="small" style="padding-left:18px;margin:0">
+        <li><b>Bond electrons can’t flow onto the atom that already shares them</b> — they go to the more electronegative partner.</li>
+        <li>An atom reaching 10 electrons means a bond must break at the same moment.</li></ul>
+      <p class="small muted mt">From your misconception history; see <a href="progress.html">Progress</a>.</p></section>
+    <section class="card flat"><h3>Related reactions</h3>
+      <div class="row"><a class="chip" href="practice.html" style="text-decoration:none">Claisen condensation</a><a class="chip" href="practice.html" style="text-decoration:none">Michael addition</a><a class="chip" href="practice.html" style="text-decoration:none">Aldol condensation (E1cB)</a></div>
+      <p class="small muted mt">Same pattern: enolate as C-nucleophile → carbonyl carbon.</p></section>
+  </div>
+
+  <div class="row mt2" style="justify-content:center">
+    <a class="btn primary" href="practice.html">Next reaction</a><button class="btn">↺ Replay</button><a class="btn" href="daily.html">Share result</a>
+  </div>
+  <p class="small muted center mt2" id="attr"></p>
+</div>
+<script src="common.js"></script><script src="scenes.js"></script>
+<script>
+  var q = new URLSearchParams(location.search), key = SCENES[q.get('r')] ? q.get('r') : 'aldol', sc = SCENES[key];
+  var res = (q.get('res') || 'gyg').split(''); while (res.length < sc.steps.length) res.push('g');
+  document.getElementById('title').textContent = sc.title; document.getElementById('sub').textContent = sc.sub + ' · ' + sc.cond;
+  var G = { g: '✓', y: '~', r: '✕' }, W = { g: 'First try', y: 'Needed a hint or retry', r: 'Missed — answer revealed' };
+  document.getElementById('tiles').innerHTML = res.slice(0, sc.steps.length).map(function (r) { return '<span class="tile ' + r + '">' + G[r] + '</span>'; }).join('');
+  var pts = res.slice(0, sc.steps.length).reduce(function (a, r) { return a + (r === 'g' ? 3 : r === 'y' ? 2 : 0); }, 0);
+  document.getElementById('score').textContent = (q.get('mode') === 'daily' ? 'Daily · ' : 'Practice · ') + pts + ' / ' + sc.steps.length * 3 + ' points · mastery 66% → 83%';
+  document.getElementById('steps').innerHTML = sc.steps.map(function (s, i) {
+    return '<div class="card flat"><div class="row spread"><b>Step ' + (i + 1) + '. ' + s.prompt + '</b><span class="pill ' + (res[i] === 'g' ? 'good' : res[i] === 'y' ? 'warn' : 'rad') + '">' + W[res[i]] + '</span></div>' +
+      '<svg class="mol" viewBox="0 0 640 330" style="max-height:200px;margin-top:8px">' + s.before() + '</svg><p class="small muted" style="margin:6px 0 0">Arrows: ' +
+      s.correct[0].map(function (k) { var a = k.split('>'); var f = function (id) { var e = s.els.find(function (x) { return x.id === id; }); return e.label; }; return f(a[0]) + ' ' + (s.arrowType === 'half' ? '⇀' : '⟶') + ' ' + f(a[1]); }).join(' · ') + '</p>' +
+      '<p class="small" style="margin:6px 0 0">' + s.note + '</p></div>';
+  }).join('');
+  document.getElementById('attr').innerHTML = 'Mechanism by <b>M. Contributor</b> · reviewed · v3 · <a href="https://creativecommons.org/licenses/by-sa/4.0/">CC BY-SA 4.0</a> · <a href="#">Report a problem</a>';
+</script>
+</body>
+</html>

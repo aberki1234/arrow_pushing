@@ -1,0 +1,55 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Progress — ArrowPush mockup</title>
+<link rel="stylesheet" href="style.css">
+<style>.stat b { font-size: 1.8rem; display: block; } .cal { display: grid; grid-template-columns: repeat(14, 1fr); gap: 4px; max-width: 460px; }
+.cal i { aspect-ratio: 1; border-radius: 5px; background: var(--surface-2); } .cal i.g { background: var(--good); } .cal i.y { background: #d89a00; } .cal i.r { background: var(--bad); }</style>
+</head>
+<body>
+<div id="nav"></div>
+<div class="wrap">
+  <h1 class="mt">Your progress</h1>
+  <p class="muted small">Stored in this browser only (localStorage). No account needed.</p>
+  <div class="grid g3">
+    <div class="card stat"><span class="muted small">Daily streak</span><b>🔥 5</b><span class="small muted">best: 12</span></div>
+    <div class="card stat"><span class="muted small">First-try arrows</span><b>78%</b><span class="small muted">+6% vs last week</span></div>
+    <div class="card stat"><span class="muted small">Mastered</span><b>6 / 17</b><span class="small muted">reactions</span></div>
+  </div>
+
+  <div class="grid g2 mt">
+    <section class="card"><h3>Daily history</h3>
+      <div class="cal" id="cal" aria-label="Last 28 daily puzzles, green first try, amber retry, red missed"></div>
+      <p class="small muted mt">Last 28 days. <span class="tile g" style="width:18px;height:18px;font-size:.6rem">✓</span> <span class="tile y" style="width:18px;height:18px;font-size:.6rem">~</span> <span class="tile r" style="width:18px;height:18px;font-size:.6rem">✕</span></p></section>
+    <section class="card"><h3>Mastery by type</h3>
+      <div class="grid" style="gap:10px" id="byType"></div></section>
+  </div>
+
+  <section class="card mt"><h3>Your recurring misconceptions</h3>
+    <p class="muted small">The step-specific feedback you triggered most. Tap one to practise it.</p>
+    <table class="t"><thead><tr><th>Pattern</th><th>Times</th><th>Where</th><th></th></tr></thead><tbody>
+      <tr><td>Pushing electrons toward the atom they already share (reversed flow)</td><td>4</td><td>SN2, Aldol</td><td><a class="btn sm" href="step.html?r=sn2">Drill</a></td></tr>
+      <tr><td>Forgetting the leaving-group arrow (octet violation)</td><td>3</td><td>SN2, Wittig</td><td><a class="btn sm" href="step.html?r=sn2">Drill</a></td></tr>
+      <tr><td>Using a full arrow for single-electron movement</td><td>2</td><td>Radical bromination</td><td><a class="btn sm" href="step.html?r=radical">Drill</a></td></tr>
+    </tbody></table></section>
+
+  <section class="card mt"><div class="row spread"><h3 style="margin:0">Reaction library</h3><span class="small muted">sorted by weakest first</span></div>
+    <table class="t mt"><thead><tr><th>Reaction</th><th>Type</th><th>Best</th><th>Mastery</th><th>Version</th></tr></thead><tbody id="lib"></tbody></table></section>
+
+  <section class="card flat mt row spread"><div><b>Back up or move your progress</b><div class="small muted">Everything lives in this browser. Export a file and import it elsewhere.</div></div>
+    <div class="row"><button class="btn">⬇ Export</button><button class="btn">⬆ Import</button><button class="btn" style="color:var(--bad)">Reset</button></div></section>
+  <p class="small muted mt">Version note: if a reaction is revised, progress on the older published version is kept and shown as “v2 → v3 updated”.</p>
+</div>
+<script src="common.js"></script>
+<script>
+  var c = 'ggyggrggggyg gggyggggrggg'.replace(/ /g, '').split(''), h = '';
+  while (c.length < 28) c.unshift('');
+  c.forEach(function (x) { h += '<i class="' + x + '"></i>'; }); document.getElementById('cal').innerHTML = h;
+  var T = [['Substitution', 72], ['Carbonyl', 41], ['Elimination', 20], ['Rearrangement', 0], ['Radical', 100]];
+  document.getElementById('byType').innerHTML = T.map(function (t) { return '<div><div class="row spread small"><span>' + t[0] + '</span><span class="muted">' + t[1] + '%</span></div><div class="bar"><i style="width:' + t[1] + '%"></i></div></div>'; }).join('');
+  var L = [['Aldol addition', 'Carbonyl', '🟩🟨🟩', 66, 'v3'], ['SN1', 'Substitution', '🟨🟩', 60, 'v1'], ['Fischer esterification', 'Carbonyl', '🟥🟨', 33, 'v2'], ['SN2', 'Substitution', '🟩', 100, 'v2'], ['Radical bromination', 'Radical', '🟩', 100, 'v1']];
+  document.getElementById('lib').innerHTML = L.map(function (r) { return '<tr><td><b>' + r[0] + '</b></td><td>' + r[1] + '</td><td>' + r[2] + '</td><td><div class="bar" style="width:100px"><i style="width:' + r[3] + '%"></i></div></td><td class="muted">' + r[4] + '</td></tr>'; }).join('');
+</script>
+</body>
+</html>

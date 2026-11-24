@@ -1,0 +1,55 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Practice — ArrowPush mockup</title>
+<link rel="stylesheet" href="style.css">
+<style>.rx { display: flex; flex-direction: column; gap: 6px; text-decoration: none; color: inherit; } .rx:hover { border-color: var(--accent); }
+.thumb { height: 64px; background: var(--surface-2); border-radius: 10px; display: grid; place-items: center; font-size: .95rem; color: var(--muted); font-weight: 700; }</style>
+</head>
+<body>
+<div id="nav"></div>
+<div class="wrap">
+  <h1 class="mt">Practice</h1>
+  <p class="muted">Untimed, unlimited attempts, free hints. Pick a reaction.</p>
+  <section class="card flat" aria-label="Filters">
+    <div class="row"><b class="small muted" style="width:90px">Type</b><span class="row" id="fType"></span></div>
+    <div class="row mt"><b class="small muted" style="width:90px">Difficulty</b><span class="row" id="fDiff"></span></div>
+    <div class="row mt"><b class="small muted" style="width:90px">Status</b><span class="row" id="fStat"></span><span class="spacer"></span><input type="text" id="search" placeholder="Search reactions…" style="width:220px" aria-label="Search reactions"></div>
+  </section>
+  <div class="small muted mt" id="count"></div>
+  <div class="grid g3 mt" id="list"></div>
+</div>
+<script src="common.js"></script>
+<script>
+var R = [
+ ['SN2','Substitution',1,100,'sn2',3,1], ['SN1','Substitution',2,60,null,3,0], ['E2','Elimination',2,0,null,1,0], ['E1','Elimination',2,0,null,3,0],
+ ['Aldol addition','Carbonyl',2,66,'aldol',3,0], ['Claisen condensation','Carbonyl',3,0,null,4,0], ['Grignard addition','Carbonyl',1,100,null,2,0], ['Wittig reaction','Carbonyl',3,0,null,4,0],
+ ['Fischer esterification','Carbonyl',2,33,null,6,0], ['Michael addition','Carbonyl',3,0,null,3,0], ['Friedel–Crafts acylation','Substitution',3,0,null,4,0],
+ ['Pinacol rearrangement','Rearrangement',3,0,null,4,0], ['Beckmann rearrangement','Rearrangement',3,0,null,5,0], ['Diels–Alder','Pericyclic',2,0,null,1,0],
+ ['Radical bromination','Radical',2,100,'radical',3,0], ['Barton–McCombie','Radical',3,0,null,4,0]];
+var f = { type: 'All', diff: 'All', stat: 'All', q: '' };
+function chips(id, vals, key) {
+  var h = document.getElementById(id); h.innerHTML = '';
+  vals.forEach(function (v) { var b = document.createElement('button'); b.className = 'chip'; b.textContent = v; b.setAttribute('aria-pressed', f[key] === v);
+    b.onclick = function () { f[key] = v; chips(id, vals, key); draw(); }; h.appendChild(b); });
+}
+function draw() {
+  var out = R.filter(function (r) { return (f.type === 'All' || r[1] === f.type) && (f.diff === 'All' || ('●'.repeat(r[2])) === f.diff) &&
+    (f.stat === 'All' || (f.stat === 'Mastered' ? r[3] === 100 : f.stat === 'In progress' ? r[3] > 0 && r[3] < 100 : r[3] === 0)) && r[0].toLowerCase().indexOf(f.q) > -1; });
+  document.getElementById('count').textContent = out.length + ' reactions';
+  document.getElementById('list').innerHTML = out.map(function (r) {
+    var href = r[4] ? 'step.html?r=' + r[4] : '#';
+    return '<a class="card rx" href="' + href + '"' + (r[4] ? '' : ' title="Not mocked up yet" style="opacity:.8"') + '><div class="thumb">' + (r[1] === 'Radical' ? '⇀ fish-hook arrows' : r[1]) + '</div>' +
+      '<div class="row spread"><b>' + r[0] + '</b><div class="ring" style="--p:' + r[3] + '"><span>' + r[3] + '</span></div></div>' +
+      '<div class="small muted">' + r[1] + ' · ' + r[5] + ' step' + (r[5] > 1 ? 's' : '') + ' · <span class="dots">' + '●'.repeat(r[2]) + '○'.repeat(3 - r[2]) + '</span></div>' +
+      '<div>' + (r[1] === 'Radical' ? '<span class="pill rad">radical</span> ' : '') + (r[3] === 100 ? '<span class="pill good">mastered</span>' : r[3] ? '<span class="pill warn">in progress</span>' : '<span class="pill">new</span>') + (r[4] ? '' : ' <span class="pill">content TBD</span>') + '</div></a>';
+  }).join('');
+}
+chips('fType', ['All', 'Substitution', 'Elimination', 'Carbonyl', 'Rearrangement', 'Pericyclic', 'Radical'], 'type');
+chips('fDiff', ['All', '●', '●●', '●●●'], 'diff'); chips('fStat', ['All', 'New', 'In progress', 'Mastered'], 'stat');
+document.getElementById('search').oninput = function (e) { f.q = e.target.value.toLowerCase(); draw(); };
+draw();
+</script>
+</body>
+</html>

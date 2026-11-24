@@ -1,0 +1,67 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Home — ArrowPush mockup</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<div id="nav"></div>
+<div class="wrap">
+  <section class="card hero mt2">
+    <div class="row spread" style="align-items:flex-start">
+      <div style="max-width:560px">
+        <span class="pill new">Mechanisms, one arrow at a time</span>
+        <h1 style="margin-top:10px">Push the electrons. Get told why.</h1>
+        <p class="muted">Draw curved arrows on real mechanisms of named reactions. We check the arrows, not just the product — and nudge you toward the right idea when you slip.</p>
+        <div class="row">
+          <a class="btn primary" href="daily.html">▶ Today’s puzzle</a>
+          <a class="btn" href="practice.html">Practice mode</a>
+        </div>
+      </div>
+      <svg viewBox="0 0 260 150" style="width:260px;max-width:100%" aria-hidden="true">
+        <g class="at" font-size="22"><text x="38" y="102" text-anchor="middle" class="at">HO</text><text x="196" y="102" text-anchor="middle" class="at">Br</text></g>
+        <line class="bond" x1="96" y1="96" x2="168" y2="96"/><text x="132" y="122" text-anchor="middle" class="lbl">C</text>
+        <path class="arrow" d="M58,82 Q96,30 126,84" marker-end="url(#m)" style="stroke:var(--arrow)"/>
+        <path class="arrow" d="M140,86 Q172,34 188,80" marker-end="url(#m)" style="stroke:var(--arrow)"/>
+        <defs><marker id="m" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="5.5" markerHeight="5.5" orient="auto"><path d="M0,1 L9,5 L0,9 z" fill="context-stroke"/></marker></defs>
+      </svg>
+    </div>
+  </section>
+
+  <div class="grid g3 mt">
+    <a class="card" href="daily.html" style="text-decoration:none;color:inherit">
+      <div class="row spread"><b>Daily puzzle #142</b><span class="pill warn">🔥 5-day streak</span></div>
+      <p class="muted small" style="margin-top:6px">Mystery reaction · 4 steps · ●●○</p>
+      <div class="row"><span class="tile e">1</span><span class="tile e">2</span><span class="tile e">3</span><span class="tile e">4</span></div>
+      <p class="small muted" style="margin:10px 0 0">Not started · next puzzle in 14 h</p>
+    </a>
+    <a class="card" href="step.html?r=aldol&s=1" style="text-decoration:none;color:inherit">
+      <b>Continue practising</b>
+      <p class="muted small" style="margin-top:6px">Aldol addition · step 2 of 3</p>
+      <div class="bar"><i style="width:33%"></i></div>
+      <p class="small muted" style="margin:10px 0 0">Last time: attack at the enolate oxygen — plausible, but not the productive path.</p>
+    </a>
+    <a class="card" href="progress.html" style="text-decoration:none;color:inherit">
+      <b>Your mastery</b>
+      <p class="muted small" style="margin-top:6px">6 of 17 reactions mastered</p>
+      <div class="row"><div class="ring" style="--p:78"><span>78%</span></div><span class="small muted">first-try arrow accuracy this week</span></div>
+      <p class="small muted" style="margin:10px 0 0">Watch: you often reverse electron-flow direction (4×).</p>
+    </a>
+  </div>
+
+  <h2 class="mt2">Browse by mechanism type</h2>
+  <div class="row">
+    <a class="chip" href="practice.html" style="text-decoration:none">Substitution · 3</a><a class="chip" href="practice.html" style="text-decoration:none">Elimination · 2</a>
+    <a class="chip" href="practice.html" style="text-decoration:none">Carbonyl · 6</a><a class="chip" href="practice.html" style="text-decoration:none">Rearrangement · 2</a>
+    <a class="chip" href="practice.html" style="text-decoration:none">Pericyclic · 1</a><a class="chip" href="practice.html" style="text-decoration:none">Radical · 2 <span class="pill rad">fish-hooks</span></a>
+  </div>
+
+  <section class="card flat mt2 row spread">
+    <div><b>Know a mechanism that’s missing?</b><div class="muted small">Draw it in the editor and submit it for review. Published under CC BY-SA 4.0 with your name on it.</div></div>
+    <a class="btn" href="editor.html">Open the editor →</a>
+  </section>
+</div>
+<script src="common.js"></script>
+</body>
+</html>

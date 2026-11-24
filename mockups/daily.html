@@ -1,0 +1,68 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Daily puzzle — ArrowPush mockup</title>
+<link rel="stylesheet" href="style.css">
+<style>.how li { margin: 6px 0; } .share { font-size: 1.6rem; letter-spacing: 3px; line-height: 1.5; background: var(--surface-2); border-radius: 12px; padding: 12px 16px; display: inline-block; }</style>
+</head>
+<body>
+<div id="nav"></div>
+<div class="wrap" style="max-width:760px">
+  <div class="row spread mt"><h1>Daily puzzle #142</h1>
+    <div class="seg row" data-tabs data-for="#views" role="tablist" style="gap:4px">
+      <button class="chip" data-tab="before" aria-selected="true" aria-pressed="true" onclick="pr(this)">Before</button>
+      <button class="chip" data-tab="mid" aria-selected="false" aria-pressed="false" onclick="pr(this)">In progress</button>
+      <button class="chip" data-tab="done" aria-selected="false" aria-pressed="false" onclick="pr(this)">Finished</button>
+    </div>
+  </div>
+  <p class="muted small">Mockup: switch between the three states of the page.</p>
+  <div id="views">
+    <!-- BEFORE -->
+    <div data-panel="before">
+      <section class="card">
+        <div class="row spread"><span class="pill">Difficulty ●●○</span><span class="pill warn">🔥 Streak 5</span></div>
+        <h2 class="mt">Mystery named reaction</h2>
+        <p class="muted">Work out the mechanism from the reactants and conditions. The name is revealed at the end.</p>
+        <svg viewBox="0 0 640 150" class="mol" role="img" aria-label="Reactants: an aldehyde and a ketone enolate precursor; conditions NaOH, H2O; product a beta-hydroxy carbonyl">
+          <text x="110" y="85" text-anchor="middle" class="at" font-size="22">CH₃CHO</text><text x="190" y="85" text-anchor="middle" class="at">+</text><text x="270" y="85" text-anchor="middle" class="at">CH₃CHO</text>
+          <line x1="340" y1="80" x2="470" y2="80" stroke="var(--mol)" stroke-width="2.4" marker-end="url(#a)"/><text x="405" y="62" text-anchor="middle" class="cond">NaOH (cat.)</text><text x="405" y="102" text-anchor="middle" class="cond">H₂O, 0 °C</text>
+          <text x="560" y="85" text-anchor="middle" class="at">?</text>
+          <defs><marker id="a" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto"><path d="M0,1 L9,5 L0,9z" fill="var(--mol)"/></marker></defs>
+        </svg>
+        <div class="row"><span class="tile e">1</span><span class="tile e">2</span><span class="tile e">3</span><span class="small muted">3 steps</span></div>
+        <div class="row mt"><a class="btn primary" href="step.html?r=aldol&mode=daily">Start</a></div>
+      </section>
+      <section class="card flat mt how"><h3>How it works</h3>
+        <ul><li>Each step: draw the arrows for <b>one</b> elementary step.</li><li><b>3 attempts</b> per step. A wrong check costs a point, and so does each hint.</li>
+        <li>Tiles: <span class="tile g" style="width:22px;height:22px;font-size:.7rem">✓</span> first try · <span class="tile y" style="width:22px;height:22px;font-size:.7rem">~</span> retry/hint · <span class="tile r" style="width:22px;height:22px;font-size:.7rem">✕</span> missed. Shapes as well as colours.</li></ul>
+      </section>
+    </div>
+    <!-- IN PROGRESS -->
+    <div data-panel="mid" class="hidden">
+      <section class="card">
+        <div class="row spread"><b>Aldol addition</b><span class="pill">hidden until finished</span></div>
+        <div class="row mt"><span class="tile g">✓</span><span class="tile e" style="border:2px solid var(--accent)">2</span><span class="tile e">3</span></div>
+        <p class="muted small mt">Step 2 of 3 · attempts left: <span class="dots">●●○</span> · 1 hint used</p>
+        <a class="btn primary" href="step.html?r=aldol&s=1&mode=daily&res=g">Continue</a>
+      </section>
+    </div>
+    <!-- DONE -->
+    <div data-panel="done" class="hidden">
+      <section class="card center">
+        <span class="pill good">Solved</span>
+        <h2 style="margin-top:8px">It was the aldol addition 🎉</h2>
+        <p class="muted">Puzzle #142 · 7 / 9 points</p>
+        <div class="row" style="justify-content:center"><span class="tile g">✓</span><span class="tile y">~</span><span class="tile g">✓</span></div>
+        <p class="mt small muted">Share (copied as text):</p>
+        <div class="share" aria-label="Share grid">ArrowPush #142<br>🟩🟨🟩 &nbsp;7/9</div>
+        <div class="row mt" style="justify-content:center"><button class="btn primary">Copy result</button><a class="btn" href="complete.html?r=aldol&mode=daily&res=gyg">Mechanism summary</a></div>
+        <p class="small muted mt">Next puzzle in 14 h 22 m · streak 6 🔥</p>
+      </section>
+    </div>
+  </div>
+</div>
+<script src="common.js"></script>
+<script>function pr(b){ b.parentElement.querySelectorAll('.chip').forEach(function(x){ x.setAttribute('aria-pressed', x===b); }); }</script>
+</body>
+</html>
