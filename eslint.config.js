@@ -5,6 +5,7 @@
 // the list, turns off the layout rules that would disagree with it.
 import eslint from "@eslint/js";
 import eslintConfigPrettier from "eslint-config-prettier";
+import sveltePlugin from "eslint-plugin-svelte";
 import globals from "globals";
 import tseslint from "typescript-eslint";
 
@@ -52,6 +53,27 @@ export default tseslint.config(
       ],
     },
   },
+  // Svelte components: the same limits and naming, with TypeScript in <script lang="ts">.
+  ...sveltePlugin.configs.recommended,
+  {
+    files: ["**/*.svelte"],
+    extends: [...tseslint.configs.strictTypeChecked],
+    languageOptions: {
+      globals: globals.browser,
+      parserOptions: {
+        projectService: true,
+        tsconfigRootDir: import.meta.dirname,
+        extraFileExtensions: [".svelte"],
+        parser: tseslint.parser,
+      },
+    },
+    rules: {
+      ...sizeAndComplexityRules,
+      // Inline event handlers in the markup are expressions; functions in <script> need types.
+      "@typescript-eslint/explicit-function-return-type": ["error", { allowExpressions: true }],
+    },
+  },
   eslintConfigPrettier,
+  ...sveltePlugin.configs.prettier,
   { rules: lineLengthRule },
 );

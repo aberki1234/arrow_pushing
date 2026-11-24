@@ -34,6 +34,18 @@ Diels–Alder needs a concerted multi-arrow step (3 arrows) — the model must s
 - **Input = click/tap source, then click/tap target.** Source: lone pair, bond (σ/π) or unpaired electron.
   Target: atom or bond. The app draws the curved arrow. Not freehand strokes. Works with touch, mouse, keyboard
   (Tab to element, Enter to pick, Esc to cancel). Touch is first-class (large hit targets).
+  Decided 2026-11-25 (item 7a): **one pick target per bond**; picked as a source it gives its **π electrons first**,
+  then σ once this arrow set has used the π electrons (so a bond broken completely is two arrows from it). Every
+  lone pair is its own target. When a bond's electrons could form a new bond from either of its atoms, a small
+  **"which atom forms the bond?"** menu opens by the tapped atom.
+- **Drawing (decided 2026-11-25):** every heavy atom is **labelled** with its implicit H and charge (CH₃, OH⁻) in v1;
+  skeletal display may come later as a setting. **Every lone pair is drawn**, spread evenly through the free space
+  round the atom (showing only the relevant ones would give the answer away). One **scale per reaction** (56 px per
+  bond, from the start state), so bonds keep their length between steps.
+- **Step screen (practice, item 7a):** after a correct check the arrows stay and the step's explanation shows; **Next
+  step** moves on with a short cross-fade (none under reduced motion). A change step is an **event card** with
+  Continue (no tile, no score). Hints are free; the **third hint shows the canonical arrows as ghost arrows**, which
+  the learner draws over and checks (no separate reveal). Outcome per step: first try / after retry / after hint.
 - **Arrow types in the data model from the start:** full arrow = electron **pair** (2 e⁻); half-headed **fish-hook** = 1 e⁻.
   A step is a list of typed arrows (so concerted steps work).
 - **Accessibility:** touch first-class, keyboard operable, colour-blind-safe palette, shape+colour in share grid, light/dark theme,
@@ -85,6 +97,12 @@ Diels–Alder needs a concerted multi-arrow step (3 arrows) — the model must s
   the same graph with real RDKit and shared fixtures require identical graphs. RDKit.js stays an option for later editor needs. Learner site is **static** (CDN-hostable).
 - **Rendering:** structures drawn in our own **SVG layer** using **precomputed 2D coordinates per state** (seed from RDKit,
   hand-adjust; stored in content). RDKit is for chemistry, not layout. Avoids layout reshuffles between steps.
+- **Learner site (decided 2026-11-25):** **Svelte 5 + Vite, no SvelteKit**: a static single-page app with hash routes
+  (`#/`, `#/play/<slug>@<version>`), reading `catalogue.json` and the hashed reaction files. All decisions live in
+  pure TypeScript (`src/moleculeDrawing/`, `src/stepSession/`, `src/siteData/`), tested first; Svelte components
+  (`src/learnerSite/`) stay thin, with a few component tests. `make site` builds it into `build/site/`; `make dev`
+  serves it. Item 7 is split: **7a** step screen in practice mode (built 2026-11-25), **7b** daily mode, completion
+  page and `localStorage` progress, **7c** home, practice list and progress page.
 - **Learner progress:** `localStorage` only, with export/import; **no learner accounts in v1**.
 - **Content format:** **one JSON file per reaction version** (schema: `docs/schema-design.md`). Per reaction: metadata, a graph of
   states (atom-mapped SMILES + coordinates, learner prompt, 3 hint tiers, misconceptions) joined by steps (canonical

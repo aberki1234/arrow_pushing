@@ -3,8 +3,11 @@
  * casts: a malformed fixture fails with a message naming the problem.
  */
 import { readdirSync, readFileSync } from "node:fs";
+import { dirname, join } from "node:path";
+import { fileURLToPath } from "node:url";
 
-const fixturesFolder = new URL("../../fixtures/", import.meta.url);
+// A plain path, not a URL: under jsdom (component tests) the global URL is not one node:fs takes.
+const fixturesFolder = join(dirname(fileURLToPath(import.meta.url)), "..", "..", "fixtures");
 
 export function isRecord(value: unknown): value is Record<string, unknown> {
   return typeof value === "object" && value !== null && !Array.isArray(value);
@@ -12,7 +15,7 @@ export function isRecord(value: unknown): value is Record<string, unknown> {
 
 /** The parsed JSON of a file under fixtures/, e.g. "notation/curved_arrows.json". */
 export function readFixtureJson(relativePath: string): unknown {
-  return JSON.parse(readFileSync(new URL(relativePath, fixturesFolder), "utf-8"));
+  return JSON.parse(readFileSync(join(fixturesFolder, relativePath), "utf-8"));
 }
 
 /** The objects in the array held under `key` of a fixture file's top-level object. */
@@ -43,7 +46,7 @@ export function textListField(entry: Record<string, unknown>, key: string): stri
 
 /** Every example reaction under fixtures/reactions, as [file name, parsed document], by name. */
 export function exampleReactionDocuments(): [string, Record<string, unknown>][] {
-  return readdirSync(new URL("reactions/", fixturesFolder))
+  return readdirSync(join(fixturesFolder, "reactions"))
     .filter((name) => name.endsWith(".json"))
     .sort()
     .map((name) => {

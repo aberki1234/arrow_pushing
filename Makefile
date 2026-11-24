@@ -30,14 +30,28 @@ catalogue:
 	PYTHONPATH=python python -m catalogue_building build fixtures/reactions/*.json \
 		--out build/site --start-new-calendar
 
-# The TypeScript/JavaScript files Prettier formats (fixtures, docs and mockups keep their own layout).
-PRETTIER_FILES = "**/*.ts" "**/*.js" "**/*.cjs"
+# The learner site (src/learnerSite, Vite): the app built into build/app/, then merged with a
+# fresh catalogue in build/site/ (open it with a static server, e.g. npx vite preview).
+.PHONY: site
+site: catalogue
+	npx vite build
+	cp -r build/app/. build/site/
+
+# The development server, reading the catalogue from build/site/ (run make catalogue first).
+.PHONY: dev
+dev:
+	npx vite
+
+# The files Prettier formats: TypeScript/JavaScript, Svelte and the site's CSS (fixtures, docs and
+# mockups keep their own layout).
+PRETTIER_FILES = "**/*.ts" "**/*.js" "**/*.cjs" "**/*.svelte" "src/**/*.css"
 
 .PHONY: lint-typescript
 lint-typescript:
 	npx prettier --check $(PRETTIER_FILES)
 	npx eslint .
 	npx tsc --noEmit
+	npx svelte-check --tsconfig tsconfig.json --fail-on-warnings --threshold warning
 	npx depcruise src
 
 .PHONY: test

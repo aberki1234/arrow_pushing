@@ -117,6 +117,11 @@ the editor, returns the destination locus:
 | bond A–B | bond B–C | `π B-C` |
 | bond A–B | atom Y, neither A nor B | **ambiguous** if both A and B could bond to Y (alkene + H–Br, Markovnikov). The screen asks "which atom forms the bond?". If only one of A or B is next to Y, that one is used. |
 
+Built in item 7a (`src/stepSession/arrowPicking.ts`, with `tapToSourceLocus`). "Next to Y" is read as **bonded to
+Y**: exactly one of A, B bonded to Y gives `π` to that one with no menu; neither (a new σ bond) or both asks. A
+tapped lone pair or unpaired electron counts as its atom. A bond picked as a source gives `π` while the arrows drawn
+so far leave π electrons in it, then `σ` (decided 2026-11-25); an atom is not a source.
+
 So content and validation only ever see destination loci.
 
 **Step kind** (`stepKind`): `polar` (all `->`) | `radical` (all `~>`) | `change` (no arrows, §3.4). The generic rule
@@ -527,7 +532,14 @@ identical results on all of them.
    catalogue` into `build/site/`), `schema/catalogue.schema.json`, and the browser reader `src/catalogue/`
    (Ajv check, daily ref for a local date, file path for a ref). 10 shared calendar cases and the shared reading
    cases pass.
-7. Then the UI (learner screen first), the editor and the backend.
+7. The learner UI, split in three (decided 2026-11-25; Svelte 5 + Vite, SPEC §5):
+   * **7a. Done 2026-11-25.** The step screen in practice mode: `src/moleculeDrawing/` (layout, labels, electron
+     dots, bonds, pick targets, curved-arrow geometry), `src/stepSession/` (taps to arrows, the session, feedback
+     text), `src/siteData/` (loading), `src/learnerSite/` (Svelte; `make site`, `make dev`). All four examples
+     play end to end in the browser (checked in headless Chromium).
+   * 7b. Daily mode (3 attempts, points, missed steps, share grid), completion page, `localStorage` progress.
+   * 7c. Home, practice list with filters and search, progress page.
+8. Then the editor and the backend.
 
 ## 11. Corrections to the mockup content
 

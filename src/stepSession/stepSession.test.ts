@@ -1,0 +1,225 @@
+/** Tests for stepSession.ts: whole runs through the example reactions in practice mode. */
+import { describe, expect, test } from "vitest";
+import { formatCurvedArrow, formatElectronLocus } from "../arrowNotation/curvedArrowNotation.js";
+import { exampleSessionReaction } from "../testSupport/exampleSessions.js";
+import type { TappedPlace } from "./arrowPicking.js";
+import {
+  NO_ARROWS_MESSAGE,
+  type StepSession,
+  cancelPick,
+  checkArrows,
+  chooseDestination,
+  clearArrows,
+  continueToNextState,
+  ghostArrows,
+  removeArrow,
+  setArrowType,
+  showNextHint,
+  shownHintTexts,
+  startStepSession,
+  tapPlace,
+  undoArrow,
+} from "./stepSession.js";
+
+const atom = (mapNumber: number): TappedPlace => ({ placeKind: "atom", mapNumber });
+const lonePair = (mapNumber: number): TappedPlace => ({ placeKind: "lonePair", mapNumber });
+const bond = (first: number, second: number): TappedPlace => ({
+  placeKind: "bond",
+  mapNumbers: [first, second],
+});
+const unpaired = (mapNumber: number): TappedPlace => ({ placeKind: "unpairedElectron", mapNumber });
+
+/** Tap each pair of places as source then destination. */
+function draw(session: StepSession, ...taps: TappedPlace[]): StepSession {
+  return taps.reduce(tapPlace, session);
+}
+
+function drawnTexts(session: StepSession): string[] {
+  return session.drawnArrows.map(formatCurvedArrow);
+}
+
+function sn2Session(): StepSession {
+  return startStepSession(exampleSessionReaction("sn2-hydroxide-bromomethane"));
+}
+
+/** The two SN2 arrows: lp O1 -> σ O1-C2, σ C2-Br3 -> lp Br3. */
+function drawSn2(session: StepSession): StepSession {
+  return draw(session, lonePair(1), atom(2), bond(2, 3), atom(3));
+}
+
+describe("starting", () => {
+  test("a session starts drawing at the start state with pair arrows", () => {
+    const session = sn2Session();
+    expect(session.phase).toBe("drawing");
+    expect(session.currentStateId).toBe("reactants");
+    expect(session.arrowType).toBe("pair");
+    expect(session.drawnArrows).toEqual([]);
+    expect(session.stepResults).toEqual([]);
+  });
+
+  test("a radical reaction starts with fish-hooks", () => {
+    const session = startStepSession(exampleSessionReaction("radical-bromination-methane"));
+    expect(session.arrowType).toBe("fishHook");
+  });
+});
+
+describe("drawing", () => {
+  test("a source then a destination makes an arrow", () => {
+    const picked = tapPlace(sn2Session(), lonePair(1));
+    expect(picked.pendingSource && formatElectronLocus(picked.pendingSource)).toBe("lp O1");
+    const drawn = tapPlace(picked, atom(2));
+    expect(drawn.pendingSource).toBeNull();
+    expect(drawnTexts(drawn)).toEqual(["lp O1 -> σ O1-C2"]);
+  });
+
+  test("a refused tap leaves a message and keeps the pick", () => {
+    const refused = tapPlace(sn2Session(), atom(2));
+    expect(refused.pickMessage).toMatch(/lone pair|bond/);
+    expect(refused.pendingSource).toBeNull();
+    const picked = tapPlace(sn2Session(), lonePair(1));
+    const toItself = tapPlace(picked, atom(1));
+    expect(toItself.pickMessage).not.toBeNull();
+    expect(toItself.pendingSource).toEqual(picked.pendingSource);
+    expect(tapPlace(toItself, atom(2)).pickMessage).toBeNull();
+  });
+});
+
+describe("drawing: choices and editing", () => {
+  test("an ambiguous destination waits for a choice", () => {
+    let session = startStepSession(exampleSessionReaction("aldol-addition-base"));
+    session = continueToNextState(
+      checkArrows(draw(session, lonePair(1), atom(4), bond(3, 4), atom(5), bond(5, 6), atom(6))),
+    );
+    session = continueToNextState(session); // the second aldehyde arrives
+    const waiting = draw(session, bond(3, 5), atom(9));
+    expect(waiting.pendingDestinationOptions?.map(formatElectronLocus)).toEqual([
+      "σ C3-C9",
+      "σ C5-C9",
+    ]);
+    expect(drawnTexts(chooseDestination(waiting, 0))).toEqual(["π C3-C5 -> σ C3-C9"]);
+    const cancelled = cancelPick(waiting);
+    expect(cancelled.pendingDestinationOptions).toBeNull();
+    expect(cancelled.pendingSource).toBeNull();
+  });
+
+  test("undo, remove and clear", () => {
+    const drawn = drawSn2(sn2Session());
+    expect(drawnTexts(undoArrow(drawn))).toEqual(["lp O1 -> σ O1-C2"]);
+    expect(drawnTexts(removeArrow(drawn, 0))).toEqual(["σ C2-Br3 -> lp Br3"]);
+    expect(clearArrows(drawn).drawnArrows).toEqual([]);
+  });
+
+  test("changing the arrow type drops a picked source", () => {
+    const picked = tapPlace(sn2Session(), lonePair(1));
+    const switched = setArrowType(picked, "fishHook");
+    expect(switched.arrowType).toBe("fishHook");
+    expect(switched.pendingSource).toBeNull();
+  });
+
+  test("Esc drops a picked source", () => {
+    expect(cancelPick(tapPlace(sn2Session(), lonePair(1))).pendingSource).toBeNull();
+  });
+});
+
+describe("checking", () => {
+  test("correct on the first try, then the run completes", () => {
+    const checked = checkArrows(drawSn2(sn2Session()));
+    expect(checked.phase).toBe("stepCorrect");
+    expect(checked.lastAssessment?.assessmentKind).toBe("correct");
+    expect(checked.currentStep?.stepKey).toBe("substitution");
+    expect(checked.stepResults).toEqual([
+      { stepKey: "substitution", stepOutcome: "firstTry", attemptCount: 1, hintsUsed: 0 },
+    ]);
+    expect(tapPlace(checked, lonePair(1))).toBe(checked);
+    const finished = continueToNextState(checked);
+    expect(finished.phase).toBe("complete");
+    expect(finished.currentStateId).toBe("products");
+  });
+
+  test("a wrong check counts, keeps the arrows, and makes the outcome afterRetry", () => {
+    const wrong = checkArrows(draw(sn2Session(), lonePair(1), atom(3)));
+    expect(wrong.phase).toBe("drawing");
+    expect(wrong.wrongCheckCount).toBe(1);
+    expect(wrong.lastAssessment?.assessmentKind).not.toBe("correct");
+    expect(drawnTexts(wrong)).toEqual(["lp O1 -> σ O1-Br3"]);
+    const corrected = checkArrows(drawSn2(clearArrows(wrong)));
+    expect(corrected.stepResults[0]).toMatchObject({ stepOutcome: "afterRetry", attemptCount: 2 });
+  });
+
+  test("checking with no arrows is not an attempt", () => {
+    const unchanged = checkArrows(sn2Session());
+    expect(unchanged.wrongCheckCount).toBe(0);
+    expect(unchanged.lastAssessment).toBeNull();
+    expect(unchanged.pickMessage).toBe(NO_ARROWS_MESSAGE);
+  });
+
+  test("a new pick clears the last assessment's message but not the assessment", () => {
+    const wrong = checkArrows(draw(sn2Session(), lonePair(1), atom(3)));
+    expect(tapPlace(wrong, lonePair(1)).lastAssessment).toEqual(wrong.lastAssessment);
+  });
+});
+
+describe("hints", () => {
+  test("three tiers; the third shows the canonical arrows as ghosts", () => {
+    let session = sn2Session();
+    expect(ghostArrows(session)).toEqual([]);
+    session = showNextHint(showNextHint(session));
+    expect(shownHintTexts(session)).toHaveLength(2);
+    expect(ghostArrows(session)).toEqual([]);
+    session = showNextHint(session);
+    expect(shownHintTexts(session)).toHaveLength(3);
+    expect(ghostArrows(session).map(formatCurvedArrow)).toEqual([
+      "lp O1 -> σ O1-C2",
+      "σ C2-Br3 -> lp Br3",
+    ]);
+    expect(showNextHint(session).hintsShown).toBe(3);
+  });
+
+  test("any hint makes the outcome afterHint", () => {
+    const checked = checkArrows(drawSn2(showNextHint(sn2Session())));
+    expect(checked.stepResults[0]).toMatchObject({ stepOutcome: "afterHint", hintsUsed: 1 });
+  });
+});
+
+describe("routes", () => {
+  test("a change step is shown as an event between arrow steps", () => {
+    let session = startStepSession(exampleSessionReaction("aldol-addition-base"));
+    session = checkArrows(
+      draw(session, lonePair(1), atom(4), bond(3, 4), atom(5), bond(5, 6), atom(6)),
+    );
+    expect(session.phase).toBe("stepCorrect");
+    session = continueToNextState(session);
+    expect(session.phase).toBe("changeEvent");
+    expect(session.currentStep?.stepKey).toBe("second-aldehyde-arrives");
+    session = continueToNextState(session);
+    expect(session.phase).toBe("drawing");
+    expect(session.currentStateId).toBe("enolate-and-aldehyde");
+    expect(session.hintsShown).toBe(0);
+    expect(session.stepResults).toHaveLength(1);
+  });
+
+  test("an accepted branch is followed (Wittig via the betaine)", () => {
+    let session = startStepSession(exampleSessionReaction("wittig-methylenation-cyclohexanone"));
+    session = checkArrows(draw(session, lonePair(2), atom(3), bond(3, 4), atom(4)));
+    expect(session.currentStep?.stepKey).toBe("betaine-formation");
+    session = continueToNextState(session);
+    expect(session.currentStateId).toBe("betaine");
+  });
+
+  test("radical steps are drawn with fish-hooks", () => {
+    let session = startStepSession(exampleSessionReaction("radical-bromination-methane"));
+    session = draw(session, unpaired(1), atom(2), bond(2, 3), atom(1));
+    // Neither H2 nor C3 is bonded to Br1: the learner says which atom forms the bond.
+    expect(session.pendingDestinationOptions?.map(formatElectronLocus)).toEqual([
+      "σ Br1-H2",
+      "σ Br1-C3",
+    ]);
+    session = draw(chooseDestination(session, 0), bond(2, 3), atom(3));
+    expect(drawnTexts(session)).toEqual([
+      "rad Br1 ~> σ Br1-H2",
+      "σ H2-C3 ~> σ Br1-H2",
+      "σ H2-C3 ~> rad C3",
+    ]);
+    expect(checkArrows(session).lastAssessment?.assessmentKind).toBe("correct");
+  });
+});

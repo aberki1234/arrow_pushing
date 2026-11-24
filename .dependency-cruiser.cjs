@@ -1,8 +1,44 @@
 // Import rules for the TypeScript code under src/ (the counterpart of tools/check_layers.py).
-// Layers will be added here as folders under src/ appear, lowest first, like [tool.layers] in pyproject.toml.
+// Folders under src/, lowest layer first, like [tool.layers] in pyproject.toml: a folder may import
+// only folders listed before it. Add each new folder here. testSupport/ is for tests only.
+const layersLowestFirst = [
+  "arrowNotation",
+  "stateGraphs",
+  "attemptAssessment",
+  "reactionFiles",
+  "catalogue",
+  "moleculeDrawing",
+  "stepSession",
+  "siteData",
+  "learnerSite",
+];
+
+const layerRules = layersLowestFirst.slice(0, -1).map((layer, position) => ({
+  name: `layer-${layer}`,
+  severity: "error",
+  comment: `${layer} may import only the layers listed before it.`,
+  from: { path: `^src/${layer}/` },
+  to: { path: `^src/(${layersLowestFirst.slice(position + 1).join("|")})/` },
+}));
+
 /** @type {import('dependency-cruiser').IConfiguration} */
 module.exports = {
   forbidden: [
+    ...layerRules,
+    {
+      name: "unknown-layer",
+      severity: "error",
+      comment: "Every folder under src/ must be listed in layersLowestFirst (or be testSupport).",
+      from: { path: "^src/", pathNot: `^src/(${layersLowestFirst.join("|")}|testSupport)/` },
+      to: {},
+    },
+    {
+      name: "test-support-only-in-tests",
+      severity: "error",
+      comment: "testSupport/ reads fixture files with node:fs; shipped code must not import it.",
+      from: { path: "^src", pathNot: ["\\.test\\.ts$", "^src/testSupport/"] },
+      to: { path: "^src/testSupport/" },
+    },
     {
       name: "no-import-cycles",
       severity: "error",

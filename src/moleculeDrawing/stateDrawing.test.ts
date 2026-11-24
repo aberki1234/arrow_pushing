@@ -1,0 +1,168 @@
+/** Tests for stateDrawing.ts on states of the example reactions (fixtures/reactions). */
+import { expect, test } from "vitest";
+import { stateGraphFromMappedSmiles } from "../stateGraphs/mappedSmilesReading.js";
+import { exampleReactionDocuments, isRecord } from "../testSupport/fixtureFiles.js";
+import { plainLabel } from "./atomLabels.js";
+import { reactionScale } from "./drawingLayout.js";
+import { distanceBetween } from "./planeGeometry.js";
+import {
+  ELECTRON_DOT_DISTANCE,
+  LABEL_CHARACTER_WIDTH,
+  type StateDisplayFields,
+  type StateDrawing,
+  drawState,
+  drawnAtomOf,
+} from "./stateDrawing.js";
+
+interface ExampleState {
+  readonly mappedSmiles: string;
+  readonly displayFields: StateDisplayFields;
+  readonly spectatorMapNumbers: readonly number[];
+}
+
+function exampleState(reactionSlug: string, stateId: string): ExampleState {
+  const found = exampleReactionDocuments().find(([name]) => name === `${reactionSlug}.json`);
+  const document = found?.[1];
+  const states = document?.["stateIdToState"];
+  const state = isRecord(states) ? states[stateId] : undefined;
+  if (document === undefined || !isRecord(state) || typeof state["mappedSmiles"] !== "string") {
+    throw new Error(`no state ${stateId} in ${reactionSlug}`);
+  }
+  const spectators = document["spectatorMapNumbers"];
+  return {
+    mappedSmiles: state["mappedSmiles"],
+    displayFields: state as unknown as StateDisplayFields,
+    spectatorMapNumbers: Array.isArray(spectators) ? (spectators as number[]) : [],
+  };
+}
+
+function drawExample(reactionSlug: string, stateId: string, scale = 40): StateDrawing {
+  const state = exampleState(reactionSlug, stateId);
+  const graph = stateGraphFromMappedSmiles(state.mappedSmiles);
+  return drawState(graph, state.displayFields, scale, state.spectatorMapNumbers);
+}
+
+function targetIdsOfKind(drawing: StateDrawing, targetKind: string): string[] {
+  return drawing.pickTargets
+    .filter((target) => target.targetKind === targetKind)
+    .map((target) => target.pickTargetId);
+}
+
+const SN2 = "sn2-hydroxide-bromomethane";
+
+test("every atom is drawn with its label; spectators are flagged", () => {
+  const drawing = drawExample(SN2, "reactants");
+  expect(drawing.atoms.map((atom) => atom.mapNumber)).toEqual([1, 2, 3, 4]);
+  expect(plainLabel(drawnAtomOf(drawing, 1).labelText)).toBe("OH−");
+  expect(plainLabel(drawnAtomOf(drawing, 3).labelText)).toBe("Br");
+  expect(drawnAtomOf(drawing, 4).isSpectator).toBe(true);
+  expect(drawnAtomOf(drawing, 2).isSpectator).toBe(false);
+});
+
+test("atoms sit at their coordinates times the scale, y flipped", () => {
+  const drawing = drawExample(SN2, "reactants", 40);
+  // Coordinates: O1 (-0.75, -0.5), C2 (-0.25, 0.5).
+  expect(drawnAtomOf(drawing, 1).point).toEqual({ x: -30, y: 20 });
+  expect(drawnAtomOf(drawing, 2).point).toEqual({ x: -10, y: -20 });
+});
+
+test("one bond with a bond target; spectators get no targets", () => {
+  const drawing = drawExample(SN2, "reactants");
+  expect(drawing.bonds.map((bond) => bond.mapNumbers)).toEqual([[2, 3]]);
+  expect(targetIdsOfKind(drawing, "bond")).toEqual(["bond:2-3"]);
+  expect(targetIdsOfKind(drawing, "atom")).toEqual(["atom:1", "atom:2", "atom:3"]);
+  const bondTarget = drawing.pickTargets.find((target) => target.pickTargetId === "bond:2-3");
+  expect(bondTarget?.accessibleName).toBe("bond C2–Br3");
+  expect(bondTarget?.mapNumbers).toEqual([2, 3]);
+});
+
+test("every lone pair is drawn and is its own target", () => {
+  const drawing = drawExample(SN2, "reactants");
+  // HO⁻: three lone pairs; Br (one bond): three; CH₃: none.
+  expect(targetIdsOfKind(drawing, "lonePair")).toEqual([
+    "lonePair:1:0",
+    "lonePair:1:1",
+    "lonePair:1:2",
+    "lonePair:3:0",
+    "lonePair:3:1",
+    "lonePair:3:2",
+  ]);
+  const lonePair = drawing.electronDots.find((dot) => dot.mapNumber === 1);
+  expect(lonePair?.dotPoints).toHaveLength(2);
+  expect(
+    distanceBetween(lonePair?.center ?? { x: 0, y: 0 }, drawnAtomOf(drawing, 1).point),
+  ).toBeCloseTo(ELECTRON_DOT_DISTANCE);
+  const target = drawing.pickTargets.find((candidate) => candidate.pickTargetId === "lonePair:1:0");
+  expect(target?.accessibleName).toBe("lone pair on O1");
+});
+
+test("an unpaired electron is one dot and its own target", () => {
+  const drawing = drawExample("radical-bromination-methane", "reactants");
+  expect(targetIdsOfKind(drawing, "unpairedElectron")).toEqual(["unpairedElectron:1"]);
+  const radicalDot = drawing.electronDots.find((dot) => dot.dotKind === "unpairedElectron");
+  expect(radicalDot?.dotPoints).toHaveLength(1);
+  expect(drawing.electronDots.filter((dot) => dot.mapNumber === 1)).toHaveLength(4);
+});
+
+test("a carbanion's lone pair is drawn", () => {
+  const drawing = drawExample("wittig-methylenation-cyclohexanone", "reactants");
+  expect(targetIdsOfKind(drawing, "lonePair").filter((id) => id.startsWith("lonePair:2:"))).toEqual(
+    ["lonePair:2:0"],
+  );
+});
+
+test("targets stack atoms first, then bonds, then electron dots (on top)", () => {
+  const kinds = drawExample(SN2, "reactants").pickTargets.map((target) => target.targetKind);
+  expect(kinds.lastIndexOf("atom")).toBeLessThan(kinds.indexOf("bond"));
+  expect(kinds.lastIndexOf("bond")).toBeLessThan(kinds.indexOf("lonePair"));
+});
+
+test("no electron dot sits where the charge is written (upper right of the label)", () => {
+  const drawing = drawExample("aldol-addition-base", "enolate");
+  const chargeDirection = -Math.PI / 4;
+  const oxygenDots = drawing.electronDots.filter((dot) => dot.mapNumber === 6);
+  expect(oxygenDots).toHaveLength(3);
+  for (const dot of oxygenDots) {
+    expect(Math.cos(dot.angle - chargeDirection)).toBeLessThan(Math.cos(Math.PI / 6));
+  }
+});
+
+test("the view box also holds each label's text, hydrogens and charge included", () => {
+  const drawing = drawExample("wittig-methylenation-cyclohexanone", "reactants");
+  const carbanion = drawnAtomOf(drawing, 2);
+  // "CH₂⁻": four characters right of the atom's centre, less half the element's width.
+  const labelRightEdge = carbanion.point.x + 3.5 * LABEL_CHARACTER_WIDTH;
+  expect(drawing.viewBox.minX + drawing.viewBox.width).toBeGreaterThan(labelRightEdge);
+});
+
+test("caption and annotations are drawn; the view box holds every atom", () => {
+  const drawing = drawExample(SN2, "reactants");
+  expect(drawing.caption).toBe("hydroxide + bromomethane");
+  expect(drawing.annotations.map((annotation) => annotation.text)).toEqual(["nucleophile"]);
+  const box = drawing.viewBox;
+  for (const atom of drawing.atoms) {
+    expect(atom.point.x).toBeGreaterThan(box.minX);
+    expect(atom.point.x).toBeLessThan(box.minX + box.width);
+    expect(atom.point.y).toBeGreaterThan(box.minY);
+    expect(atom.point.y).toBeLessThan(box.minY + box.height);
+  }
+});
+
+test("every state of every example can be drawn at the reaction's scale", () => {
+  for (const [name, document] of exampleReactionDocuments()) {
+    const states = document["stateIdToState"];
+    const startId = document["startStateId"];
+    if (!isRecord(states) || typeof startId !== "string") {
+      throw new Error(`${name}: no states`);
+    }
+    const start = exampleState(name.replace(".json", ""), startId);
+    const scale = reactionScale(
+      stateGraphFromMappedSmiles(start.mappedSmiles),
+      start.displayFields.mapNumberToCoordinates,
+    );
+    for (const stateId of Object.keys(states)) {
+      const drawing = drawExample(name.replace(".json", ""), stateId, scale);
+      expect(drawing.atoms.length).toBeGreaterThan(0);
+    }
+  }
+});

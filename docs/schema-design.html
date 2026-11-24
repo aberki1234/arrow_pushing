@@ -132,6 +132,7 @@
       <tr><td>bond A–B</td><td>bond B–C</td><td><code>π B-C</code></td></tr>
       <tr><td>bond A–B</td><td>atom Y, neither A nor B</td><td><b>Ambiguous</b> if both A and B could bond to Y (alkene + H–Br, the Markovnikov case). The screen asks “which atom forms the bond?”.</td></tr>
     </tbody></table></div>
+    <p><span class="tag ok">built</span> in item 7a. If exactly one of A and B is <b>bonded</b> to Y, the electrons go to that bond (π) with no menu; otherwise the menu asks. A bond picked as a source gives its π electrons first, then σ once the arrows drawn have used them.</p>
     <p><b>Step kind</b> (<code>stepKind</code>): <code>polar</code>, <code>radical</code> or <code>change</code> (no arrows). The rule <code>wrong-arrow-type</code> fires when the learner's arrow type fits <b>no</b> step leaving the current state.</p>
 
     <h2 id="document">3 · Reaction file (one JSON file per reaction version)</h2>
@@ -403,7 +404,14 @@ reviews(id pk, reaction_id, reaction_version → reaction_versions, reviewer_use
       <li><span class="tag ok">done</span> Symmetry, resonance, misconception patterns and the attempt assessment: 32 shared attempt cases on the four example reactions pass in both languages.</li>
       <li><span class="tag ok">done</span> Python linter CLI: steps reproduce, graph rules, learner text, misconception rules (including ones that can never fire), the symmetry cap, and coordinate seeding. The four examples lint clean, and 26 shared edit cases break each rule.</li>
       <li><span class="tag ok">done</span> Catalogue build and daily calendar: <code>python -m catalogue_building build</code> (<code>make catalogue</code> builds the examples into <code>build/site/</code>), the catalogue schema, and the browser reader for today's puzzle and each version's file. 10 shared calendar cases and the shared reading cases pass.</li>
-      <li>Then the UI (learner screen first), the editor and the backend</li>
+      <li>The learner UI, in three parts (Svelte 5 + Vite):
+        <ul>
+          <li><span class="tag ok">done</span> 7a: the step screen in practice mode. Molecules are drawn from the stored coordinates with every lone pair shown; taps become arrows; checks, hints and ghost arrows, change events and branches all work. The four examples play end to end in the browser.</li>
+          <li>7b: daily mode, completion page and saved progress.</li>
+          <li>7c: home, practice list and progress page.</li>
+        </ul>
+      </li>
+      <li>Then the editor and the backend</li>
     </ol>
 
     <h2 id="fixes">11 · Corrections to the mockup content</h2>

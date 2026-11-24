@@ -173,8 +173,9 @@
           "if": { "required": ["stepKind"], "properties": { "stepKind": { "const": "polar" } } },
           "then": {
             "properties": {
-              "canonicalArrows": { "items": { "$ref": "#/$defs/pairArrow" } },
-              "partialArrowSets": { "items": { "items": { "$ref": "#/$defs/pairArrow" } } }
+              "canonicalArrows": { "type": "array", "items": { "$ref": "#/$defs/pairArrow" } },
+              "partialArrowSets": { "type": "array",
+                "items": { "type": "array", "items": { "$ref": "#/$defs/pairArrow" } } }
             }
           }
         },
@@ -183,8 +184,9 @@
           "if": { "required": ["stepKind"], "properties": { "stepKind": { "const": "radical" } } },
           "then": {
             "properties": {
-              "canonicalArrows": { "items": { "$ref": "#/$defs/fishHookArrow" } },
-              "partialArrowSets": { "items": { "items": { "$ref": "#/$defs/fishHookArrow" } } }
+              "canonicalArrows": { "type": "array", "items": { "$ref": "#/$defs/fishHookArrow" } },
+              "partialArrowSets": { "type": "array",
+                "items": { "type": "array", "items": { "$ref": "#/$defs/fishHookArrow" } } }
             }
           }
         }
