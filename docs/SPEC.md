@@ -92,6 +92,10 @@ Diels–Alder needs a concerted multi-arrow step (3 arrows) — the model must s
 - **Dev tooling:** a Python CLI linter checks that arrows applied to each state reproduce the next one and seeds
   coordinates from RDKit. **The JS validator and Python linter share the same test fixtures** (cannot drift apart).
   Built (item 5, 2026-11-24): `python/reaction_linting/`, rules and ids in `docs/schema-design.md` §3.5.
+- **Catalogue build** (item 6, built 2026-11-25): `python/catalogue_building/` turns published reaction files into
+  `catalogue.json` (with the daily calendar) and content-hashed reaction files; the browser reads it with
+  `src/catalogue/`. The calendar is frozen and append-only, filled in whole cycles 60 days ahead, and the daily
+  puzzle follows the **learner's local date**. Rules: `docs/schema-design.md` §6.
 - **Visual editor from the start** (needed for community content):
   1. author draws/pastes start state (embedded sketcher — e.g. Ketcher, Apache-2.0 — for **initial structures only**; it has no curved arrows);
   2. author draws arrows with our own SVG layer; editor **applies them to generate the next state** (no hand-drawing every intermediate);

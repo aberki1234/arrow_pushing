@@ -22,6 +22,14 @@ lint-python:
 lint-reactions:
 	PYTHONPATH=python python -m reaction_linting lint fixtures/reactions/*.json
 
+# Build the learner site's catalogue (python/catalogue_building) from the example reactions into
+# build/site/, a fresh calendar each time; the real build passes --previous-catalogue instead.
+.PHONY: catalogue
+catalogue:
+	rm -rf build/site
+	PYTHONPATH=python python -m catalogue_building build fixtures/reactions/*.json \
+		--out build/site --start-new-calendar
+
 # The TypeScript/JavaScript files Prettier formats (fixtures, docs and mockups keep their own layout).
 PRETTIER_FILES = "**/*.ts" "**/*.js" "**/*.cjs"
 

@@ -44,14 +44,19 @@ function byPathThenMessage(first: SchemaViolation, second: SchemaViolation): num
   );
 }
 
+/** Ajv's errors as schema violations, sorted by instance path, without repeats. */
+export function schemaViolationsFromErrors(errors: readonly ErrorObject[]): SchemaViolation[] {
+  const violations = errors.map(errorToViolation);
+  const pathAndMessageToViolation = new Map(
+    violations.map((violation) => [`${violation.instancePath}\n${violation.message}`, violation]),
+  );
+  return [...pathAndMessageToViolation.values()].sort(byPathThenMessage);
+}
+
 /** Every schema violation in the document, sorted by instance path; empty if it is valid. */
 export function schemaViolations(reactionDocument: unknown): SchemaViolation[] {
   if (validateReaction(reactionDocument)) {
     return [];
   }
-  const violations = (validateReaction.errors ?? []).map(errorToViolation);
-  const pathAndMessageToViolation = new Map(
-    violations.map((violation) => [`${violation.instancePath}\n${violation.message}`, violation]),
-  );
-  return [...pathAndMessageToViolation.values()].sort(byPathThenMessage);
+  return schemaViolationsFromErrors(validateReaction.errors ?? []);
 }

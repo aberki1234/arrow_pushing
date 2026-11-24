@@ -12,17 +12,21 @@ Do not change agreed decisions without asking; update `docs/SPEC.md` and `docs/s
 
 ## Layout
 
-- `schema/reaction.schema.json` — JSON Schema of one reaction file (shape only).
+- `schema/reaction.schema.json` — JSON Schema of one reaction file (shape only); `schema/catalogue.schema.json` — the
+  learner site's `catalogue.json`.
 - `fixtures/` — shared by pytest and Vitest: `reactions/` (example reactions), `schema_cases/` (invalid edits),
   `notation/` (curved-arrow notation cases), `state_graphs/` (SMILES reading and arrow application cases),
-  `assessment/` (symmetry, resonance, misconception-pattern and attempt cases), `lint_cases/` (edits that break lint rules).
+  `assessment/` (symmetry, resonance, misconception-pattern and attempt cases), `lint_cases/` (edits that break lint rules),
+  `catalogue/` (daily calendar cases, catalogue reading cases).
 - `python/` — Python packages (layers in `pyproject.toml`, lowest first): `arrow_notation/` (parse/print curved
   arrows), `state_graphs/` (state graph, SMILES reading with RDKit, applying arrows), `attempt_assessment/`
   (symmetry, resonance, misconception patterns, assessing an attempt), `reaction_files/` (schema validation, RDKit
-  atom checks), `reaction_linting/` (the linter CLI: `PYTHONPATH=python python -m reaction_linting lint|seed-coordinates`).
+  atom checks), `reaction_linting/` (the linter CLI: `PYTHONPATH=python python -m reaction_linting lint|seed-coordinates`),
+  `catalogue_building/` (the static catalogue and daily calendar: `python -m catalogue_building build`; `make catalogue`).
 - `src/` — TypeScript: `arrowNotation/`, `stateGraphs/` (strict mapped-SMILES parser, applying arrows),
   `attemptAssessment/` (the validator's decision),
-  `reactionFiles/` (Ajv), `testSupport/` (fixture reading for tests). Tests sit beside the code as `*.test.ts`.
+  `reactionFiles/` (Ajv), `catalogue/` (reading `catalogue.json`: today's daily ref, a version's file path),
+  `testSupport/` (fixture reading for tests). Tests sit beside the code as `*.test.ts`.
 - `tests/` — pytest tests, mirroring `python/` and `tools/`.
 - `tools/` — `check_limits.py`, `check_layers.py`.
 

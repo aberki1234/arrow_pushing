@@ -88,7 +88,7 @@
       <tr><td>Reaction slug</td><td><code>aldol-addition-base</code></td><td>Chosen at first submit. <b>Never changes</b> after the first publish; the title can.</td></tr>
       <tr><td>Reaction version</td><td>1, 2, 3 … per slug</td><td>A new draft gets the next number. A published version never changes.</td></tr>
       <tr><td>Version ref</td><td><code>aldol-addition-base@3</code></td><td>What learner progress, share links and the daily calendar store.</td></tr>
-      <tr><td>Content hash</td><td>sha256 of canonical JSON</td><td>In the catalogue and in the static file name, for cache-busting; lets progress detect a changed file.</td></tr>
+      <tr><td>Content hash</td><td>sha256 of canonical JSON</td><td>In the catalogue (all 64 hex) and in the static file name (first 8), for cache-busting; lets progress detect a changed file.</td></tr>
       <tr><td>Format version</td><td><code>"formatVersion": 1</code></td><td>Bumped by a format migration.</td></tr>
       <tr><td>State id</td><td><code>s0</code>, <code>betaine</code></td><td>Unique within the reaction.</td></tr>
       <tr><td>Step key</td><td><code>enolate</code></td><td>Unique within the reaction; kept <b>across</b> versions when the step means the same thing, so statistics carry over.</td></tr>
@@ -332,12 +332,21 @@ atomSelector        := O1 | O* (any O) | @nucleophile (a role) | *</code></pre>
     </ul>
 
     <h2 id="catalogue">6 · Catalogue and daily puzzle</h2>
-<pre><code>{ "formatVersion": 1, "builtAt": "2026-12-01T…",
-  "reactions": [{ "reactionSlug": "…", "latestReactionVersion": 2,
-                  "reactionVersionToContentHash": { "1": "a1b2c3d4…", "2": "e5f6a7b8…" },
-                  "title": "…", "reactionClasses": ["…"], "difficultyTier": 1, "dailyPuzzleEligible": true }],
+<pre><code>{ "formatVersion": 1, "builtAt": "2026-12-01T10:00:00Z",
+  "reactions": [{ "reactionSlug": "…", "latestReactionVersion": 2,      // sorted by slug
+                  "reactionVersionToContentHash": { "1": "&lt;64 hex&gt;", "2": "&lt;64 hex&gt;" },
+                  "title": "…", "subtitle": "…",                        // null if absent
+                  "reactionClasses": ["…"], "difficultyTier": 1, "dailyPuzzleEligible": true }],
   "dateToDailyReactionVersionRef": { "2026-12-01": "sn2-hydroxide-bromomethane@2", … } }</code></pre>
-    <p>The <b>daily calendar is a list that only grows</b>. The build fills 60 days ahead with a date-seeded shuffle and never rewrites a past date. “Date mod number of reactions” would reshuffle days whenever a reaction is added.</p>
+    <p>The <b>daily calendar is a list that only grows</b>. “Date mod number of reactions” would reshuffle days whenever a reaction is added. <span class="tag ok">built</span> 2026-11-25 as <code>python -m catalogue_building build</code>; the browser reads it with <code>src/catalogue/</code>. Decided 2026-11-25:</p>
+    <ul>
+      <li><b>Files in, files out.</b> The build reads published reaction files (later exported from Postgres) and writes into a new or empty folder: <code>catalogue.json</code> plus <code>r/&lt;slug&gt;/&lt;version&gt;.&lt;first 8 hex&gt;.json</code> per published version. Each reaction file holds exactly its canonical JSON, so the content hash (full 64 hex in the catalogue) is the sha256 of the file served.</li>
+      <li><b>The calendar's memory is the previous <code>catalogue.json</code>.</b> Without one the build refuses unless told to start a new calendar, which begins on the build date.</li>
+      <li><b>Frozen, append only.</b> Every date already in the calendar is kept, past or future, and its version is never upgraded. New dates follow the last one with no gap.</li>
+      <li><b>Whole cycles</b> are appended until the calendar reaches 60 days past the build date. A cycle shows each eligible reaction once, in an order set by hashing the cycle's start date with each slug. If the reaction that ended the calendar would come first, the first two swap, so no reaction plays two days running (unless only one is eligible). Appended dates use each reaction's latest version; a reaction is eligible when its latest version is.</li>
+      <li><b>The learner's local date</b> picks the puzzle. A date outside the calendar has none. Anyone reading the network traffic can see the daily reaction's name in the catalogue; accepted for v1.</li>
+      <li><b>The build refuses</b>, writing nothing, on: a schema failure or lint error in any input (warnings are only printed); a version given twice or versions not numbered 1…n; a previously published version missing or changed; a calendar date naming a version not given; a non-empty output folder.</li>
+    </ul>
 
     <h2 id="progress">7 · Learner progress (<code>localStorage</code>)</h2>
 <pre><code>{ "formatVersion": 1,
@@ -383,6 +392,7 @@ reviews(id pk, reaction_id, reaction_version → reaction_versions, reviewer_use
       <li><code>assess/</code> — reaction + state + learner arrows → expected attempt assessment</li>
       <li><code>lint_cases/</code> — edits of the example reactions that break the graph and content rules → expected lint rule ids (Python only)</li>
       <li><code>reactions/</code> — SN2, aldol, radical bromination and the Wittig, end to end</li>
+      <li><code>catalogue/</code> — daily calendar cases worked out by hand (Python only), and an example catalogue with invalid edits, daily lookups and file paths (both languages)</li>
     </ul>
 
     <h2 id="order">10 · Proposed build order (each strictly TDD)</h2>
@@ -392,7 +402,7 @@ reviews(id pk, reaction_id, reaction_version → reaction_versions, reviewer_use
       <li><span class="tag ok">done</span> Mapped-graph model and applying arrows. Every step of the four example reactions reproduces its next state, in both languages. The browser reads SMILES with its own strict parser, checked against RDKit.</li>
       <li><span class="tag ok">done</span> Symmetry, resonance, misconception patterns and the attempt assessment: 32 shared attempt cases on the four example reactions pass in both languages.</li>
       <li><span class="tag ok">done</span> Python linter CLI: steps reproduce, graph rules, learner text, misconception rules (including ones that can never fire), the symmetry cap, and coordinate seeding. The four examples lint clean, and 26 shared edit cases break each rule.</li>
-      <li>Catalogue build and daily calendar</li>
+      <li><span class="tag ok">done</span> Catalogue build and daily calendar: <code>python -m catalogue_building build</code> (<code>make catalogue</code> builds the examples into <code>build/site/</code>), the catalogue schema, and the browser reader for today's puzzle and each version's file. 10 shared calendar cases and the shared reading cases pass.</li>
       <li>Then the UI (learner screen first), the editor and the backend</li>
     </ol>
 

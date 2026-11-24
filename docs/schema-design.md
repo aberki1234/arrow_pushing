@@ -60,7 +60,7 @@ system; e⁻ = electron.
 | Reaction slug | `aldol-addition-base` (`^[a-z0-9]+(-[a-z0-9]+)*$`) | chosen at first submit, **never changes** after first publish (the title can) |
 | Reaction version | integer 1, 2, 3 … per slug | a new draft gets `max+1`; a published version's document never changes |
 | Reaction version ref | `aldol-addition-base@3` | what learner progress, share links and the daily calendar store |
-| Content hash | `sha256` of canonical JSON (sorted keys, no whitespace) | in the catalogue; static file name `r/<slug>/<version>.<first 8 hex of hash>.json` for cache-busting; lets progress detect a changed file |
+| Content hash | `sha256` of canonical JSON (sorted keys, no whitespace, UTF-8, non-ASCII as is) | full 64 hex in the catalogue; static file name `r/<slug>/<version>.<first 8 hex of hash>.json` for cache-busting; lets progress detect a changed file |
 | Format version | `"formatVersion": 1` | bumped by a format migration |
 | State id | short slug, e.g. `s0`, `betaine` | unique within the reaction |
 | Step key | short slug, e.g. `enolate` | unique within the reaction; kept **across** reaction versions where the step means the same thing, so statistics aggregate by `reactionSlug/stepKey` |
@@ -399,19 +399,43 @@ match an authored message, are a strict part of a known arrow set, or give a min
 
 ## 6. Catalogue and daily puzzle (static files)
 
-`catalogue.json`, built from the published versions:
+`catalogue.json`, built from the published versions (shape: `schema/catalogue.schema.json`):
 
 ```jsonc
-{ "formatVersion": 1, "builtAt": "2026-12-01T…",
-  "reactions": [{ "reactionSlug": "…", "latestReactionVersion": 2,
-                  "reactionVersionToContentHash": { "1": "a1b2c3d4…", "2": "e5f6a7b8…" },
-                  "title": "…", "reactionClasses": ["…"], "difficultyTier": 1, "dailyPuzzleEligible": true }],
+{ "formatVersion": 1, "builtAt": "2026-12-01T10:00:00Z",
+  "reactions": [{ "reactionSlug": "…", "latestReactionVersion": 2,      // sorted by slug
+                  "reactionVersionToContentHash": { "1": "<64 hex>", "2": "<64 hex>" },
+                  "title": "…", "subtitle": "…",                        // subtitle null if absent
+                  "reactionClasses": ["…"], "difficultyTier": 1, "dailyPuzzleEligible": true }],
   "dateToDailyReactionVersionRef": { "2026-12-01": "sn2-hydroxide-bromomethane@2", … } }
 ```
 
 The **daily calendar is a list in the build that only grows**. It is not `hash(date) mod N`, which would reshuffle past
-and future days whenever a reaction is added. The build fills about 60 days ahead (`DAILY_CALENDAR_DAYS_AHEAD = 60`)
-with a date-seeded shuffle of eligible reactions and never rewrites a past date.
+and future days whenever a reaction is added. Built (item 6, 2026-11-25) as `python/catalogue_building/`
+(`python -m catalogue_building build FILE... --out DIR (--previous-catalogue FILE | --start-new-calendar)`); the
+browser reads it with `src/catalogue/`. Decided 2026-11-25:
+
+* **Files in, files out.** The build reads published reaction files (later exported from Postgres) and writes into a
+  new or empty folder: `catalogue.json` plus `r/<slug>/<version>.<first 8 hex>.json` for every published version. A
+  reaction file holds exactly its **canonical JSON** (sorted keys, no whitespace, UTF-8, non-ASCII as is), so the
+  content hash (full 64 hex in the catalogue) is the sha256 of the served file. Only Python computes hashes.
+* **The calendar's memory is the previous `catalogue.json`** (`--previous-catalogue`). Without one the build refuses
+  unless `--start-new-calendar` is given; a new calendar starts on the build date (UTC unless `--build-date`).
+* **Frozen, append only.** Every date already in the calendar is kept, past or future, and a ref there is never
+  upgraded to a newer version. Dates are appended after the last one, with no gap.
+* **Whole cycles.** The build appends whole cycles until the last date is at least build date + 60
+  (`DAILY_CALENDAR_DAYS_AHEAD`), so each build starts a fresh cycle and no cycle boundary is stored. A cycle shows
+  each eligible reaction once, ordered by the sha256 hex digest of `"<cycle start date>:<slug>"`; if the reaction
+  that ended the calendar would come first, the first two swap (no repeat on consecutive days, unless only one
+  reaction is eligible). Appended dates use each slug's latest version; a slug is eligible when its **latest**
+  version is `dailyPuzzleEligible`. No eligible reaction with dates to fill is an error.
+* **The learner's local date** picks the daily puzzle (each learner's own midnight); a date outside the calendar
+  has no puzzle (`null`). The slug in the catalogue reveals the daily reaction's name to anyone reading the network
+  traffic; accepted for v1.
+* **The build refuses** (error codes in `python/catalogue_building/catalogue_build_errors.py`, nothing written) on:
+  a schema failure or lint error in any input (warnings are printed); a slug/version given twice or versions not
+  1..n; a version in the previous catalogue missing from the inputs; a published version whose content hash changed;
+  a calendar ref to a version not given; a non-empty output folder.
 
 ## 7. Learner progress (`localStorage`, key `arrowpush.progress`)
 
@@ -476,6 +500,10 @@ identical results on all of them.
 * `lint_cases/reaction_edits.json`: edits of the example reactions breaking the rules of §3.5 → expected lint rule ids
   (Python only: the linter is not run in the browser).
 * `reactions/*.json`: SN2, aldol, radical bromination and the Wittig, end to end.
+* `catalogue/daily_calendar_cases.json`: previous calendar + eligible refs + build date → expected calendar, worked
+  out by hand with `sha256sum` (Python only: the browser does not build the calendar).
+* `catalogue/catalogue_reading_cases.json`: an example catalogue, invalid edits (same violation paths in both
+  languages), the daily ref per local date and the file path per ref.
 
 ## 10. Proposed build order (each strictly TDD)
 
@@ -495,7 +523,10 @@ identical results on all of them.
 5. **Done 2026-11-24.** Python linter CLI (`python/reaction_linting/`, §3.5): states reproduce, graph rules,
    learner text, misconception rules including never-firing warnings, the symmetry cap, coordinate seeding. The four
    examples lint clean (`make lint`); 26 shared edit cases break each rule.
-6. Catalogue build and daily calendar.
+6. **Done 2026-11-25.** Catalogue build and daily calendar (§6): `python/catalogue_building/` (CLI, `make
+   catalogue` into `build/site/`), `schema/catalogue.schema.json`, and the browser reader `src/catalogue/`
+   (Ajv check, daily ref for a local date, file path for a ref). 10 shared calendar cases and the shared reading
+   cases pass.
 7. Then the UI (learner screen first), the editor and the backend.
 
 ## 11. Corrections to the mockup content

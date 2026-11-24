@@ -1,0 +1,67 @@
+{
+  "description": "Daily calendar cases (docs/schema-design.md section 6). Every date already in the previous calendar is kept as it is; whole cycles are appended after its last date (or from the build date for a new calendar) until the last date is at least buildDate + daysAhead. A cycle shows every eligible reaction once, ordered by the sha256 hex digest of '<cycle start date>:<slug>'; if that would put the reaction that ended the calendar first, the first two are swapped. Expected orders were worked out by hand with sha256sum, not by the code under test. expectedErrorCode instead of an expected calendar: the build must refuse.",
+  "cases": [
+    {"caseName": "a new calendar starts on the build date and appends two whole cycles",
+     "previousDateToDailyReactionVersionRef": {},
+     "eligibleReactionVersionRefs": ["aldol@1", "sn2@2", "wittig@1"],
+     "buildDate": "2026-12-01", "daysAhead": 4,
+     "expectedDateToDailyReactionVersionRef": {
+       "2026-12-01": "wittig@1", "2026-12-02": "aldol@1", "2026-12-03": "sn2@2",
+       "2026-12-04": "aldol@1", "2026-12-05": "sn2@2", "2026-12-06": "wittig@1"}},
+    {"caseName": "a cycle that would start with the reaction that ended the calendar swaps its first two",
+     "previousDateToDailyReactionVersionRef": {"2026-12-08": "aldol@1", "2026-12-09": "wittig@1"},
+     "eligibleReactionVersionRefs": ["aldol@1", "sn2@1", "wittig@1"],
+     "buildDate": "2026-12-08", "daysAhead": 3,
+     "expectedDateToDailyReactionVersionRef": {
+       "2026-12-08": "aldol@1", "2026-12-09": "wittig@1",
+       "2026-12-10": "sn2@1", "2026-12-11": "wittig@1", "2026-12-12": "aldol@1"}},
+    {"caseName": "the swap also applies with two eligible reactions",
+     "previousDateToDailyReactionVersionRef": {"2026-12-15": "aldol@1"},
+     "eligibleReactionVersionRefs": ["aldol@1", "sn2@1"],
+     "buildDate": "2026-12-15", "daysAhead": 1,
+     "expectedDateToDailyReactionVersionRef": {
+       "2026-12-15": "aldol@1", "2026-12-16": "sn2@1", "2026-12-17": "aldol@1"}},
+    {"caseName": "frozen dates keep an older version; appended dates use the latest",
+     "previousDateToDailyReactionVersionRef": {"2026-12-01": "sn2@1", "2026-12-02": "aldol@1", "2026-12-03": "wittig@1"},
+     "eligibleReactionVersionRefs": ["aldol@1", "sn2@2", "wittig@1"],
+     "buildDate": "2026-12-02", "daysAhead": 2,
+     "expectedDateToDailyReactionVersionRef": {
+       "2026-12-01": "sn2@1", "2026-12-02": "aldol@1", "2026-12-03": "wittig@1",
+       "2026-12-04": "aldol@1", "2026-12-05": "sn2@2", "2026-12-06": "wittig@1"}},
+    {"caseName": "a reaction no longer eligible stays on its frozen dates and is not appended",
+     "previousDateToDailyReactionVersionRef": {"2026-12-13": "wittig@1"},
+     "eligibleReactionVersionRefs": ["aldol@1", "sn2@1"],
+     "buildDate": "2026-12-13", "daysAhead": 2,
+     "expectedDateToDailyReactionVersionRef": {
+       "2026-12-13": "wittig@1", "2026-12-14": "aldol@1", "2026-12-15": "sn2@1"}},
+    {"caseName": "a calendar already reaching far enough is unchanged",
+     "previousDateToDailyReactionVersionRef": {"2026-12-01": "sn2@1", "2026-12-02": "aldol@1", "2026-12-03": "wittig@1"},
+     "eligibleReactionVersionRefs": ["aldol@1", "sn2@1", "wittig@1", "diels-alder@1"],
+     "buildDate": "2026-12-01", "daysAhead": 2,
+     "expectedDateToDailyReactionVersionRef": {
+       "2026-12-01": "sn2@1", "2026-12-02": "aldol@1", "2026-12-03": "wittig@1"}},
+    {"caseName": "one eligible reaction repeats every day (no swap is possible)",
+     "previousDateToDailyReactionVersionRef": {},
+     "eligibleReactionVersionRefs": ["sn2@1"],
+     "buildDate": "2026-12-01", "daysAhead": 2,
+     "expectedDateToDailyReactionVersionRef": {
+       "2026-12-01": "sn2@1", "2026-12-02": "sn2@1", "2026-12-03": "sn2@1"}},
+    {"caseName": "a calendar that ended in the past continues the day after its last date, with no gap",
+     "previousDateToDailyReactionVersionRef": {"2026-11-20": "aldol@1"},
+     "eligibleReactionVersionRefs": ["aldol@1", "sn2@1", "wittig@1"],
+     "buildDate": "2026-11-23", "daysAhead": 0,
+     "expectedDateToDailyReactionVersionRef": {
+       "2026-11-20": "aldol@1",
+       "2026-11-21": "wittig@1", "2026-11-22": "sn2@1", "2026-11-23": "aldol@1"}},
+    {"caseName": "no eligible reaction and nothing to fill is fine",
+     "previousDateToDailyReactionVersionRef": {"2026-12-01": "sn2@1", "2026-12-02": "sn2@1"},
+     "eligibleReactionVersionRefs": [],
+     "buildDate": "2026-12-01", "daysAhead": 1,
+     "expectedDateToDailyReactionVersionRef": {"2026-12-01": "sn2@1", "2026-12-02": "sn2@1"}},
+    {"caseName": "no eligible reaction with dates to fill is refused",
+     "previousDateToDailyReactionVersionRef": {},
+     "eligibleReactionVersionRefs": [],
+     "buildDate": "2026-12-01", "daysAhead": 1,
+     "expectedErrorCode": "no-eligible-reactions"}
+  ]
+}
