@@ -12,7 +12,9 @@
 import { Ajv2020, type ErrorObject } from "ajv/dist/2020.js";
 import reactionSchemaJson from "../../schema/reaction.schema.json";
 
-/** `instancePath` is a JSON pointer such as "/steps/0/routePreference"; "" is the whole document. */
+/**
+ * `instancePath` is a JSON pointer such as "/steps/0/routePreference"; "" is the whole document.
+ */
 export interface SchemaViolation {
   readonly instancePath: string;
   readonly message: string;

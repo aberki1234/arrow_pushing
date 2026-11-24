@@ -1,0 +1,6 @@
+# Prettier formats the TypeScript/JavaScript code only (the Makefile passes it *.ts, *.js and *.cjs).
+# The throwaway mockups keep their own hand-written style.
+mockups/
+node_modules/
+dist/
+build/

@@ -1,7 +1,10 @@
 // Lint and complexity rules for TypeScript, matching the Python limits in pyproject.toml
 // (see "Code conventions" in ~/.claude/CLAUDE.md): complexity 12, 6 parameters, 40 statements,
-// 50 lines per function, 500 lines per file, no single-letter names except loop indices.
+// 50 lines per function, 500 lines per file, 100 characters per line, no single-letter names
+// except loop indices. Layout is Prettier's job (make format); eslint-config-prettier, last in
+// the list, turns off the layout rules that would disagree with it.
 import eslint from "@eslint/js";
+import eslintConfigPrettier from "eslint-config-prettier";
 import globals from "globals";
 import tseslint from "typescript-eslint";
 
@@ -12,6 +15,12 @@ const sizeAndComplexityRules = {
   "max-lines-per-function": ["error", { max: 50 }],
   "max-lines": ["error", { max: 500 }],
   "id-length": ["error", { min: 2, exceptions: ["i", "j", "k"], properties: "never" }],
+};
+
+// Prettier wraps code at 100 characters but cannot split a long string or comment; this rule
+// catches those. It must come after eslintConfigPrettier, which would otherwise switch it off.
+const lineLengthRule = {
+  "max-len": ["error", { code: 100, ignoreUrls: true, ignoreRegExpLiterals: true }],
 };
 
 export default tseslint.config(
@@ -43,4 +52,6 @@ export default tseslint.config(
       ],
     },
   },
+  eslintConfigPrettier,
+  { rules: lineLengthRule },
 );

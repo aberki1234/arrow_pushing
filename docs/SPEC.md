@@ -128,7 +128,8 @@ Chromium: no console errors. Emoji (💡) may render as tofu in headless only.
 - **Lint and complexity checks** (user, 2026-11-24), the same as RetrosynthWeb's: ruff (incl. annotations, max 6
   arguments, max 40 statements, McCabe complexity ≤ 12), mypy strict-ish, `tools/check_limits.py` (function ≤ 50 lines,
   file ≤ 500 lines, dataclass ≤ 6 fields), `tools/check_layers.py` (import layers, no cycles); `make lint`, `make test`,
-  `make check`. ESLint and `tsc --strict` carry the same limits on the TS side, set up when the TS project is created.
+  `make check`. The TS side has the same limits in ESLint (plus `tsc --strict`, dependency-cruiser), and Prettier
+  formats TS/JS at 100 characters (`make format`; checked in `make lint`).
 - Documents meant for the user to read are written as **HTML**.
 - Treat user details as private; don't send them to external services.
 

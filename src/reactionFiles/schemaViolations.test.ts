@@ -89,11 +89,15 @@ function toInvalidEditCase(entry: JsonValue): InvalidEditCase {
   if (isJsonPath(pathToDelete) && pathToSet === undefined && newValue === undefined) {
     return { ...commonFields, pathToDelete };
   }
-  throw new Error(`edit case "${commonFields.caseName}" needs either pathToSet with newValue, or pathToDelete`);
+  throw new Error(
+    `edit case "${commonFields.caseName}" needs either pathToSet with newValue, or pathToDelete`,
+  );
 }
 
 function loadInvalidEditCases(): InvalidEditCase[] {
-  const fileContents = parseJson(readFileSync(new URL("schema_cases/invalid_edits.json", fixturesFolder), "utf-8"));
+  const fileContents = parseJson(
+    readFileSync(new URL("schema_cases/invalid_edits.json", fixturesFolder), "utf-8"),
+  );
   const cases = isJsonObject(fileContents) ? fileContents.cases : undefined;
   if (!Array.isArray(cases)) {
     throw new Error('invalid_edits.json must hold a "cases" array');
@@ -103,7 +107,9 @@ function loadInvalidEditCases(): InvalidEditCase[] {
 
 const fixturesFolder = new URL("../../fixtures/", import.meta.url);
 const reactionsFolder = new URL("reactions/", fixturesFolder);
-const exampleReactionFiles = readdirSync(reactionsFolder).filter((name) => name.endsWith(".json")).sort();
+const exampleReactionFiles = readdirSync(reactionsFolder)
+  .filter((name) => name.endsWith(".json"))
+  .sort();
 const invalidEditCases = loadInvalidEditCases();
 
 function loadExampleReaction(fileName: string): JsonObject {
@@ -123,13 +129,19 @@ function childAt(container: JsonValue, keyOrPosition: string | number): JsonValu
         ? container[keyOrPosition]
         : undefined;
   if (child === undefined) {
-    throw new Error(`nothing at ${JSON.stringify(keyOrPosition)} in ${JSON.stringify(container).slice(0, 80)}`);
+    throw new Error(
+      `nothing at ${JSON.stringify(keyOrPosition)} in ${JSON.stringify(container).slice(0, 80)}`,
+    );
   }
   return child;
 }
 
 /** Set (`newValue` given) or delete (`newValue` undefined) one key or position of `container`. */
-function changeChild(container: JsonValue, keyOrPosition: string | number, newValue: JsonValue | undefined): void {
+function changeChild(
+  container: JsonValue,
+  keyOrPosition: string | number,
+  newValue: JsonValue | undefined,
+): void {
   if (Array.isArray(container) && typeof keyOrPosition === "number") {
     // splice removes the position and shifts later items down, as Python's `del items[i]` does.
     if (newValue === undefined) {
@@ -144,7 +156,9 @@ function changeChild(container: JsonValue, keyOrPosition: string | number, newVa
       container[keyOrPosition] = newValue;
     }
   } else {
-    throw new Error(`cannot change ${JSON.stringify(keyOrPosition)} in ${JSON.stringify(container).slice(0, 80)}`);
+    throw new Error(
+      `cannot change ${JSON.stringify(keyOrPosition)} in ${JSON.stringify(container).slice(0, 80)}`,
+    );
   }
 }
 
@@ -179,11 +193,16 @@ test.each(exampleReactionFiles)("example reaction %s has no schema violations", 
   expect(schemaViolations(loadExampleReaction(fileName))).toEqual([]);
 });
 
-test.each(invalidEditCases)("invalid edit is reported at the expected path: $caseName", (editCase) => {
-  const editedDocument = applyEdit(loadExampleReaction(editCase.baseReactionFile), editCase);
-  const reportedPaths = schemaViolations(editedDocument).map((violation) => violation.instancePath);
-  expect(reportedPaths).toContain(editCase.expectedViolationPath);
-});
+test.each(invalidEditCases)(
+  "invalid edit is reported at the expected path: $caseName",
+  (editCase) => {
+    const editedDocument = applyEdit(loadExampleReaction(editCase.baseReactionFile), editCase);
+    const reportedPaths = schemaViolations(editedDocument).map(
+      (violation) => violation.instancePath,
+    );
+    expect(reportedPaths).toContain(editCase.expectedViolationPath);
+  },
+);
 
 test("applying an edit leaves the original document unchanged", () => {
   const original = loadExampleReaction("sn2-hydroxide-bromomethane.json");

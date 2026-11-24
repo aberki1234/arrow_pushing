@@ -17,8 +17,12 @@ lint-python:
 	python tools/check_limits.py
 	python tools/check_layers.py
 
+# The TypeScript/JavaScript files Prettier formats (fixtures, docs and mockups keep their own layout).
+PRETTIER_FILES = "**/*.ts" "**/*.js" "**/*.cjs"
+
 .PHONY: lint-typescript
 lint-typescript:
+	npx prettier --check $(PRETTIER_FILES)
 	npx eslint .
 	npx tsc --noEmit
 	npx depcruise src
@@ -27,6 +31,11 @@ lint-typescript:
 test:
 	python -m pytest -q
 	npx vitest run
+
+# Rewrite the TypeScript/JavaScript files in Prettier's layout (lint only checks it).
+.PHONY: format
+format:
+	npx prettier --write $(PRETTIER_FILES)
 
 # What to run before reporting work done, and what the pre-push hook runs.
 .PHONY: check

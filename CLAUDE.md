@@ -33,6 +33,8 @@ Do not change agreed decisions without asking; update `docs/SPEC.md` and `docs/s
 - **Git**: branch `main`; `.githooks/pre-push` runs `make check` in the `mech_training` env (enable per clone with
   `git config core.hooksPath .githooks`; already set here).
 - **Environment**: `conda activate mech_training` (from `environment.yml`), or prefix with `conda run -n mech_training`.
+- **Formatting**: `make format` runs Prettier (100 characters) on the TS/JS code; `make lint` only checks it.
+  Fixtures, docs and mockups keep their hand-written layout.
 - **Checks**: `make lint` (ruff, mypy, `tools/check_limits.py`, `tools/check_layers.py`), `make test`, `make check`.
   Python import layers are listed lowest first in `pyproject.toml` `[tool.layers]`; add each new package there.
-  The TypeScript ESLint setup with the same limits is created together with the TS project.
+  The TypeScript side (`make lint-typescript`): Prettier check, ESLint with the same limits, `tsc`, dependency-cruiser.
