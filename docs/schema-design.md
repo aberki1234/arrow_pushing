@@ -36,6 +36,7 @@ Each term below means exactly one thing in the docs, the JSON and the code.
 | **canonical arrows** | The step's arrow set used for the hint reveal and as the reference answer. |
 | **partial arrow sets** | Other complete arrow sets for the same step, listed only so that partial progress is recognised (§5.3). They are not needed for acceptance. |
 | **σ skeleton** | What π/lone-pair arrows cannot change: atoms, elements, which pairs are σ-bonded, H count per atom. |
+| **state graph** | A state read into atoms and bonds (`StateGraph`). Each atom stores its element, implicit hydrogen count and **nonbonding electron count** (lone-pair electrons plus any unpaired one); each bond its order. Formal charge, lone pairs and unpaired electrons are derived, never stored. |
 | **resonance-equivalent** | Two states with the same σ skeleton, the same charge per molecule and the same unpaired-electron count per molecule. |
 | **skeleton symmetry** | A permutation of a state's atoms that maps its σ skeleton onto itself (an automorphism). It covers both equivalent atoms and resonance-equivalent atoms (both carboxylate O). |
 | **attempt assessment** | The validator's answer to one check of the learner's arrows (§5.1). Not to be confused with a step outcome or a review decision. |
@@ -62,7 +63,7 @@ system; e⁻ = electron.
 | State id | short slug, e.g. `s0`, `betaine` | unique within the reaction |
 | Step key | short slug, e.g. `enolate` | unique within the reaction; kept **across** reaction versions where the step means the same thing, so statistics aggregate by `reactionSlug/stepKey` |
 | Misconception id | slug unique within the reaction, plus optional `misconceptionTag` from a controlled list (`attack-leaving-group`, `pi-to-own-atom`, …) | the progress page groups by tag |
-| Generic rule id | fixed in code: `no-electrons-at-source`, `destination-full`, `reversed-flow`, `octet-exceeded`, `charge-not-conserved`, `wrong-arrow-type`, `redundant-arrow`, `minor-resonance-form` | also counted on the progress page |
+| Generic rule id | fixed in code. Applying arrows (build item 3, §4 point 2): `atom-not-in-state`, `destination-not-adjacent-to-source`, `no-electrons-at-source`, `destination-bond-already-exists`, `destination-bond-missing`, `fish-hook-to-lone-pair`, `odd-electrons-in-bond`, `bond-order-above-three`, `octet-exceeded`. Assessing an attempt (build item 4): `wrong-arrow-type`, `redundant-arrow`, `minor-resonance-form`, `reversed-flow` | also counted on the progress page. Charge is conserved by construction (§4), so it has no rule |
 
 ## 2. Atoms, loci and the arrow notation
 
@@ -255,7 +256,11 @@ Input: the current state `S`, the steps leaving it, and the learner's arrow set 
 1. **Each arrow is legal** on `S`: the source locus exists and holds the electrons, the destination locus is well
    formed, and the arrow type fits some step leaving `S`.
 2. **Apply** `A` to `S`, giving the result `R`, and check the bookkeeping: octet/duet (H ≤ 2 e⁻, period 2 ≤ 8,
-   period ≥ 3 up to 12), electrons conserved, total charge conserved.
+   period ≥ 3 up to 12). **Built (item 3):** `python/state_graphs/`, `src/stateGraphs/`. All arrows of a step move
+   their electrons at once. Electrons are counted, and formal charge is derived as valence electrons − nonbonding −
+   bond orders − H, so electrons and charge are conserved by construction. The rules, in the order checked, are
+   listed in `python/state_graphs/arrow_application.py`; an even nonbonding count is read as lone pairs, an odd one
+   as one unpaired electron (triplet carbenes are out of scope).
 3. **No redundant arrows**: removing any one arrow must change `R`. Otherwise the generic rule `redundant-arrow` fires.
    This stops a correct answer padded with a pair of arrows that cancel out.
 4. **Compare `R` with each leaving step's to-state `T`.** `R` matches `T` when some skeleton symmetry `g` of `S` gives
@@ -430,7 +435,8 @@ identical results on all of them.
    optional in the schema and will be required by the linter on states with arrow steps leaving them;
    coordinates in the examples are RDKit seeds, not tidied.
 2. **Done 2026-11-24.** Arrow notation parser and printer (TS + Python); see §2.
-3. Mapped-graph model and applying arrows.
+3. **Done 2026-11-24.** Mapped-graph model and applying arrows (§4 point 2). Every step of the four examples
+   reproduces its to-state in both languages. TypeScript reads SMILES with its own strict parser (SPEC §5).
 4. Skeleton symmetry, resonance equivalence and the attempt-assessment pipeline (§4–5).
 5. Python linter CLI (states reproduce, graph rules, coordinate seeding, unreachable-misconception warnings).
 6. Catalogue build and daily calendar.

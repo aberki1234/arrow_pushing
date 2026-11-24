@@ -67,6 +67,7 @@
       <tr><td><b>canonical arrows</b></td><td>The step's arrow set used for the hint reveal and as the reference answer.</td></tr>
       <tr><td><b>partial arrow sets</b></td><td>Other complete arrow sets for the same step, listed only so partial progress is recognised (§5). Not needed for acceptance.</td></tr>
       <tr><td><b>σ skeleton</b></td><td>What π and lone-pair arrows cannot change: atoms, elements, which atoms are σ-bonded, H count per atom.</td></tr>
+      <tr><td><b>state graph</b></td><td>A state read into atoms and bonds. Each atom stores its element, its implicit hydrogens and its <b>nonbonding electrons</b> (lone-pair electrons plus any unpaired one); each bond stores its order. Formal charge, lone pairs and unpaired electrons are worked out from these, never stored.</td></tr>
       <tr><td><b>resonance-equivalent</b></td><td>Same σ skeleton, same charge per molecule, same unpaired-electron count per molecule.</td></tr>
       <tr><td><b>skeleton symmetry</b></td><td>A reordering of a state's atoms that maps its σ skeleton onto itself. Covers equivalent atoms (the three α-H) and resonance-equivalent ones (both carboxylate O).</td></tr>
       <tr><td><b>attempt assessment</b></td><td>The validator's answer to one check of the learner's arrows. Not the same as a step outcome or a review decision.</td></tr>
@@ -90,7 +91,7 @@
       <tr><td>State id</td><td><code>s0</code>, <code>betaine</code></td><td>Unique within the reaction.</td></tr>
       <tr><td>Step key</td><td><code>enolate</code></td><td>Unique within the reaction; kept <b>across</b> versions when the step means the same thing, so statistics carry over.</td></tr>
       <tr><td>Misconception id</td><td>slug + optional <code>misconceptionTag</code></td><td>The tag comes from a controlled list (<code>attack-leaving-group</code> …). The progress page groups by tag.</td></tr>
-      <tr><td>Generic rule id</td><td><code>no-electrons-at-source</code>, <code>destination-full</code>, <code>reversed-flow</code>, <code>octet-exceeded</code>, <code>charge-not-conserved</code>, <code>wrong-arrow-type</code>, <code>redundant-arrow</code>, <code>minor-resonance-form</code></td><td>Fixed in code. Also counted on the progress page.</td></tr>
+      <tr><td>Generic rule id</td><td>Applying arrows: <code>atom-not-in-state</code>, <code>destination-not-adjacent-to-source</code>, <code>no-electrons-at-source</code>, <code>destination-bond-already-exists</code>, <code>destination-bond-missing</code>, <code>fish-hook-to-lone-pair</code>, <code>odd-electrons-in-bond</code>, <code>bond-order-above-three</code>, <code>octet-exceeded</code>. Assessing an attempt: <code>wrong-arrow-type</code>, <code>redundant-arrow</code>, <code>minor-resonance-form</code>, <code>reversed-flow</code></td><td>Fixed in code. Also counted on the progress page. Charge can't go wrong (see §4), so it has no rule.</td></tr>
     </tbody></table></div>
 
     <h2 id="notation">2 · Atoms, loci and the arrow notation</h2>
@@ -254,7 +255,7 @@
     <h2 id="correct">4 · What counts as correct <span class="tag ok">checked in the browser</span></h2>
     <ol>
       <li><b>Each arrow is legal</b> on the current state: the source holds the electrons, the destination is well formed, and the arrow type fits some step leaving the state.</li>
-      <li><b>Apply</b> the arrows and check the bookkeeping: octet/duet (H ≤ 2 e⁻, period 2 ≤ 8, period ≥ 3 up to 12), electrons and total charge conserved.</li>
+      <li><b>Apply</b> the arrows and check the bookkeeping: octet/duet (H ≤ 2 e⁻, period 2 ≤ 8, period ≥ 3 up to 12). <span class="tag ok">built</span> All arrows of a step move their electrons at once. Electrons are counted, and formal charge is worked out from them, so electrons and charge can't be created or lost by mistake. An even number of nonbonding electrons is read as lone pairs, an odd number as one unpaired electron (triplet carbenes are out of scope).</li>
       <li><b>No redundant arrows:</b> removing any one arrow must change the result. Otherwise <code>redundant-arrow</code> fires. This stops a correct answer padded with two arrows that cancel out.</li>
       <li><b>Compare</b> the result with each leaving step's to-state. They match when, after some skeleton symmetry:
         <ul>
@@ -363,7 +364,7 @@ reviews(id pk, reaction_id, reaction_version → reaction_versions, reviewer_use
     <ol>
       <li><span class="tag ok">done</span> JSON Schema file plus the four example reactions (SN2, aldol, radical bromination, Wittig), validated in both languages against the same set of invalid cases. A Python check also confirms each example's atoms are consistent: readable SMILES, every atom mapped, a map number keeps its element in every state, and coordinates exist for exactly the mapped atoms. The examples' coordinates are RDKit starting layouts, not yet tidied.</li>
       <li><span class="tag ok">done</span> Arrow notation parser and printer (TS + Python), checked against the same shared cases (§2)</li>
-      <li>Mapped-graph model and applying arrows</li>
+      <li><span class="tag ok">done</span> Mapped-graph model and applying arrows. Every step of the four example reactions reproduces its next state, in both languages. The browser reads SMILES with its own strict parser, checked against RDKit.</li>
       <li>Skeleton symmetry, resonance equivalence and the attempt-assessment pipeline</li>
       <li>Python linter CLI, including the graph rules</li>
       <li>Catalogue build and daily calendar</li>

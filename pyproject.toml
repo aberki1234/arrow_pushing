@@ -59,7 +59,7 @@ excluded_path_fragments = []
 # Python packages under source_root, lowest layer first. A package may import only packages listed before it,
 # never a top-level script of source_root. Checked by tools/check_layers.py. Add each new package here.
 source_root = "python"
-layers_lowest_first = ["arrow_notation", "reaction_files"]
+layers_lowest_first = ["arrow_notation", "state_graphs", "reaction_files"]
 
 [tool.pytest.ini_options]
 pythonpath = ["tools", "python"]

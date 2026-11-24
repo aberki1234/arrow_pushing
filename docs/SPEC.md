@@ -75,8 +75,10 @@ Diels–Alder needs a concerted multi-arrow step (3 arrows) — the model must s
 
 ## 5. Architecture
 
-- **Validator runs in the browser**: RDKit.js (WASM) + our own arrow-application layer, in a **separate module**
-  (so a Python/synkit-backed validator remains possible later). Learner site is **static** (CDN-hostable).
+- **Validator runs in the browser**: our own arrow-application layer, in a **separate module** (so a Python/synkit-backed
+  validator remains possible later). **Decided 2026-11-24 (build item 3):** the browser reads state SMILES with our own
+  **strict mapped-SMILES parser** (every atom bracketed and mapped, Kekulé, no aromatic atoms), not RDKit.js; Python builds
+  the same graph with real RDKit and shared fixtures require identical graphs. RDKit.js stays an option for later editor needs. Learner site is **static** (CDN-hostable).
 - **Rendering:** structures drawn in our own **SVG layer** using **precomputed 2D coordinates per state** (seed from RDKit,
   hand-adjust; stored in content). RDKit is for chemistry, not layout. Avoids layout reshuffles between steps.
 - **Learner progress:** `localStorage` only, with export/import; **no learner accounts in v1**.

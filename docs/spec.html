@@ -84,7 +84,7 @@
 
     <h2 id="architecture">5 · Architecture</h2>
     <table><thead><tr><th>Area</th><th>Decision</th></tr></thead><tbody>
-      <tr><td>Validator</td><td>Runs <b>in the browser</b>: RDKit.js (WASM) plus our own arrow-application layer, as a separate module so a Python/synkit validator stays possible later.</td></tr>
+      <tr><td>Validator</td><td>Runs <b>in the browser</b>: our own arrow-application layer, as a separate module so a Python/synkit validator stays possible later. <b>Decided 2026-11-24:</b> the browser reads state SMILES with our own <b>strict mapped-SMILES parser</b> (every atom bracketed and mapped, Kekulé, no aromatic atoms) instead of loading RDKit.js. Python builds the same graph with real RDKit, and shared test cases require the two to agree. RDKit.js remains an option for later editor needs.</td></tr>
       <tr><td>Learner site</td><td><b>Static</b>, hosted on a CDN. Progress in <code>localStorage</code> with export/import. <b>No learner accounts in v1.</b></td></tr>
       <tr><td>Rendering</td><td>Our own SVG layer with <b>precomputed 2D coordinates per state</b> (seeded from RDKit, hand-adjusted, stored in content). Avoids layout jumping between steps.</td></tr>
       <tr><td>Content</td><td><b>One JSON file per reaction version</b> (<a href="schema-design.html">schema-design.html</a>): metadata; a graph of states (atom-mapped SMILES, coordinates, learner prompt, 3 hint tiers, misconceptions) joined by steps (canonical arrows, route preference, optional partial arrow sets, explanation); mechanism summary; version, author, licence.</td></tr>
