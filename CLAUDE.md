@@ -13,9 +13,11 @@ Do not change agreed decisions without asking; update `docs/SPEC.md` and `docs/s
 ## Layout
 
 - `schema/reaction.schema.json` — JSON Schema of one reaction file (shape only).
-- `fixtures/` — shared by pytest and Vitest: `reactions/` (example reactions), `schema_cases/` (invalid edits).
-- `python/` — Python packages (layers in `pyproject.toml`): `reaction_files/` (schema validation, RDKit atom checks).
-- `src/` — TypeScript: `reactionFiles/` (schema validation with Ajv). Tests sit beside the code as `*.test.ts`.
+- `fixtures/` — shared by pytest and Vitest: `reactions/` (example reactions), `schema_cases/` (invalid edits),
+  `notation/` (curved-arrow notation cases).
+- `python/` — Python packages (layers in `pyproject.toml`, lowest first): `arrow_notation/` (parse/print curved
+  arrows), `reaction_files/` (schema validation, RDKit atom checks).
+- `src/` — TypeScript: `arrowNotation/`, `reactionFiles/` (Ajv). Tests sit beside the code as `*.test.ts`.
 - `tests/` — pytest tests, mirroring `python/` and `tools/`.
 - `tools/` — `check_limits.py`, `check_layers.py`.
 

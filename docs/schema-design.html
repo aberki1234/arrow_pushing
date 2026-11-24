@@ -62,7 +62,7 @@
       <tr><td><b>route preference</b></td><td>Per step: <code>preferred</code> (textbook route) or <code>accepted</code> (also correct). Not to be confused with a version's <b>submission status</b> (draft, submitted …).</td></tr>
       <tr><td><b>locus</b></td><td>Where electrons sit: a lone pair (<code>lp</code>), an unpaired electron (<code>rad</code>), a σ bond or a π bond.</td></tr>
       <tr><td><b>source / destination locus</b></td><td>Where an arrow's electrons come from / end up.</td></tr>
-      <tr><td><b>arrow</b></td><td>One curved arrow, source locus → destination locus. <code>-&gt;</code> moves a pair, <code>~&gt;</code> (fish-hook) one electron.</td></tr>
+      <tr><td><b>arrow</b></td><td>One curved arrow, source locus → destination locus. <code>-&gt;</code> moves a pair, <code>~&gt;</code> (fish-hook) one electron. In code it's a <code>CurvedArrow</code> (never just “arrow”, which in TypeScript means an arrow function), with <code>electronsMoved</code> 2 or 1; a locus is an <code>ElectronLocus</code>.</td></tr>
       <tr><td><b>arrow set</b></td><td>The arrows drawn for one step, unordered.</td></tr>
       <tr><td><b>canonical arrows</b></td><td>The step's arrow set used for the hint reveal and as the reference answer.</td></tr>
       <tr><td><b>partial arrow sets</b></td><td>Other complete arrow sets for the same step, listed only so partial progress is recognised (§5). Not needed for acceptance.</td></tr>
@@ -111,6 +111,13 @@
     <div class="card"><b>Examples</b><br>
       SN2: <code>lp O1 -&gt; σ O1-C2</code>, <code>σ C2-Br3 -&gt; lp Br3</code><br>
       H-abstraction: <code>rad Br1 ~&gt; σ Br1-H2</code>, <code>σ C3-H2 ~&gt; σ Br1-H2</code>, <code>σ C3-H2 ~&gt; rad C3</code></div>
+
+    <h3>Parser and printer <span class="tag ok">built</span></h3>
+    <ul>
+      <li><b>Printed form:</b> σ/π symbols (<code>sigma</code>/<code>pi</code> are accepted when reading), bond atoms in ascending map-number order (<code>σ C3-H2</code> prints as <code>σ H2-C3</code>), single spaces. Two ways of writing the same arrow become the same arrow.</li>
+      <li><b>Errors</b>, checked in this order: malformed arrow, malformed locus, malformed atom label, one map number with two elements, a bond from an atom to itself, an arrow to itself, an unpaired electron in a pair arrow. The first three are pure syntax, and a test keeps the schema's arrow pattern in step with them. Checks that need the molecule (does O1 have a lone pair?) come with applying arrows.</li>
+      <li>Misconception <i>patterns</i> (wildcards, roles) are a separate grammar, built with the feedback pipeline.</li>
+    </ul>
 
     <h3>From a learner's tap to a destination locus</h3>
     <p>One pure function, <code>tapToDestinationLocus(state, sourceLocus, tappedAtomOrBond, arrowType)</code>, shared by the learner screen and the editor, turns the tap into a destination locus. So content and validation only ever see one form.</p>
@@ -355,7 +362,7 @@ reviews(id pk, reaction_id, reaction_version → reaction_versions, reviewer_use
     <h2 id="order">10 · Proposed build order (each strictly TDD)</h2>
     <ol>
       <li><span class="tag ok">done</span> JSON Schema file plus the four example reactions (SN2, aldol, radical bromination, Wittig), validated in both languages against the same set of invalid cases. A Python check also confirms each example's atoms are consistent: readable SMILES, every atom mapped, a map number keeps its element in every state, and coordinates exist for exactly the mapped atoms. The examples' coordinates are RDKit starting layouts, not yet tidied.</li>
-      <li>Arrow notation parser and printer (TS + Python)</li>
+      <li><span class="tag ok">done</span> Arrow notation parser and printer (TS + Python), checked against the same shared cases (§2)</li>
       <li>Mapped-graph model and applying arrows</li>
       <li>Skeleton symmetry, resonance equivalence and the attempt-assessment pipeline</li>
       <li>Python linter CLI, including the graph rules</li>

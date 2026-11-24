@@ -31,7 +31,7 @@ Each term below means exactly one thing in the docs, the JSON and the code.
 | **route preference** | Per step: `preferred` (the textbook route) or `accepted` (also correct). Not to be confused with a reaction version's **submission status** (draft, submitted, …). |
 | **locus** | Where electrons sit: a lone pair (`lp`), an unpaired electron (`rad`), a σ bond or a π bond. |
 | **source locus / destination locus** | Where an arrow's electrons come from / end up. |
-| **arrow** | One curved arrow: source locus → destination locus. `->` moves a pair (2 e⁻), `~>` (fish-hook) one electron. |
+| **arrow** | One curved arrow: source locus → destination locus. `->` moves a pair (2 e⁻), `~>` (fish-hook) one electron. In code: `CurvedArrow` (never bare "arrow", which in TypeScript means an arrow function), with `electronsMoved` 2 or 1; a locus is an `ElectronLocus`. |
 | **arrow set** | The arrows drawn for one step, unordered. |
 | **canonical arrows** | The step's arrow set used for the hint reveal and as the reference answer. |
 | **partial arrow sets** | Other complete arrow sets for the same step, listed only so that partial progress is recognised (§5.3). They are not needed for acceptance. |
@@ -90,6 +90,16 @@ follow from valence and charge. Radicals are bracket atoms with missing H (`[CH3
 
 Examples: SN2 is `lp O1 -> σ O1-C2`, `σ C2-Br3 -> lp Br3`. H-abstraction is `rad Br1 ~> σ Br1-H2`,
 `σ C3-H2 ~> σ Br1-H2`, `σ C3-H2 ~> rad C3`.
+
+**Parser and printer** (build item 2: `python/arrow_notation/curved_arrow_notation.py`,
+`src/arrowNotation/curvedArrowNotation.ts`, shared cases in `fixtures/notation/curved_arrows.json`):
+* **Printed form**: `σ`/`π` symbols (`sigma`/`pi` accepted on input), bond atoms in ascending map-number order
+  (`σ C3-H2` prints as `σ H2-C3`), single spaces. Equal arrows parse to equal structures.
+* **Error codes**, checked in this order: `malformed-arrow`, `malformed-locus`, `malformed-atom-label`,
+  `conflicting-atom-labels` (one map number, two elements), `bond-to-same-atom`, `arrow-to-itself`,
+  `unpaired-electron-in-pair-arrow`. The first three are syntax, and the schema's arrow regex refuses exactly
+  those (a test keeps them in step). Checks that need the molecule belong to applying arrows (build item 3).
+* Misconception *patterns* (wildcards, roles, §5.2) are a separate grammar, parsed in build item 4.
 
 **From a learner's tap to a destination locus.** The learner taps a source locus, then an atom or a bond. One pure
 function, `tapToDestinationLocus(state, sourceLocus, tappedAtomOrBond, arrowType)`, used by both the learner screen and
@@ -419,7 +429,7 @@ identical results on all of them.
    list (substitution, elimination, carbonyl, pericyclic, rearrangement, radical); `learnerPrompt`/`hintTiers` are
    optional in the schema and will be required by the linter on states with arrow steps leaving them;
    coordinates in the examples are RDKit seeds, not tidied.
-2. Arrow notation parser and printer (TS + Python).
+2. **Done 2026-11-24.** Arrow notation parser and printer (TS + Python); see §2.
 3. Mapped-graph model and applying arrows.
 4. Skeleton symmetry, resonance equivalence and the attempt-assessment pipeline (§4–5).
 5. Python linter CLI (states reproduce, graph rules, coordinate seeding, unreachable-misconception warnings).
