@@ -316,7 +316,7 @@ then a halobenzene (deactivating but ortho/para). The track ends with a checkpoi
        details** (authors, references, caption); **Advanced** (step keys, state ids, partial arrow sets and partial
        progress messages, spectators, annotations, the mapped SMILES); the licence tick; **Publish** for the owner
        (**Submit for review** for a contributor, 8e).
-  - **Hosting: one domain** (name still open). The learner site at `<domain>` on Cloudflare Pages; Create at
+  - **Hosting: one domain**, **`arrowpushing.com`** (bought by the owner 2026-11-26; set up in 8d part 3). The learner site at `<domain>` on Cloudflare Pages; Create at
     **`create.<domain>`, served by the Render server** with its API, so the editor and API share an origin (no
     CORS, the sign-in cookie unchanged). RDKit.js and the editor stay off the learner host. Until the domain is
     bought, Create stays at the `onrender.com` address. The Create pages reuse the learner site's header and styles
