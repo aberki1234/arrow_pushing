@@ -599,7 +599,13 @@ RDKit (RDKit.js) on every valid SMILES case and every example state (`src/chemis
    * **8a** Editor core (`editor.html`; logic `src/reactionEditing/`, app `src/reactionEditor/`, file plugin
      `src/editorFileServer/`). Part 1 done 2026-11-25: `stateGraphs/mappedSmilesWriting.ts` (round trip on every
      fixture and example state), `chemistryToolkit` `readStructure` and the browser wasm location,
-     `reactionEditing/startState.ts` (pasted SMILES → state) and `reactionDraft.ts` (new draft, add state/step). paste SMILES, draw arrows → generated state, drag,
+     `reactionEditing/startState.ts` (pasted SMILES → state) and `reactionDraft.ts` (new draft, add state/step).
+     Part 2 done 2026-11-25, all in `src/reactionEditing/`: `stepGeneration.ts` (drawn arrows → step; replaying the
+     SN2, radical and Wittig examples gives their states, joins and route preferences; a new step is preferred only
+     on the preferred route), `changeSteps.ts` + `atomPlacement.ts` (the aldol replays through its change step),
+     `explicitHydrogens.ts` (show H; the examples still lint clean), `stateRegeneration.ts` (edit a state's mapped
+     SMILES, regenerate after it; edited SN2, Wittig and aldol still lint clean), `stepDeletion.ts`,
+     `editHistory.ts`, `mechanismOutline.ts`, `atomDragging.ts`, `learnerPreview.ts`. paste SMILES, draw arrows → generated state, drag,
      show H, change steps, branches and automatic joins, regenerate, undo/redo, mechanism panel, Play as learner,
      saving to `content/reactions/`.
    * **8b** Form fields, misconceptions and partial arrow sets by drawing, live lint panel.

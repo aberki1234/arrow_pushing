@@ -2,12 +2,9 @@
 import { copyFileSync, mkdtempSync, readFileSync, writeFileSync } from "node:fs";
 import { tmpdir } from "node:os";
 import { join } from "node:path";
-import { beforeEach, expect, it, vi } from "vitest";
+import { beforeEach, expect, it } from "vitest";
 import { exampleReactionPaths, exampleReactionPath } from "../testSupport/fixtureFiles.js";
 import { runReactionLinting } from "./commandLine.js";
-
-// These tests lint whole example reactions (about 2 s alone): allow for a busy parallel run.
-vi.setConfig({ testTimeout: 30_000 });
 
 const SN2_REACTION_PATH = exampleReactionPath("sn2-hydroxide-bromomethane.json");
 

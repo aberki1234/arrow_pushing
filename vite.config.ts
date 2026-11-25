@@ -18,5 +18,7 @@ export default defineConfig({
   build: { outDir: fromProjectRoot("build/app/"), emptyOutDir: true },
   // configFile: false: the plugin's defaults suffice (no svelte.config.js).
   plugins: [svelte({ configFile: false }), svelteTesting()],
-  test: { root: fromProjectRoot("."), include: ["src/**/*.test.ts"] },
+  // Many tests lint or replay whole example reactions (about 2 s each alone); with every test file
+  // running in parallel, 5 s is not always enough, so tests get 30 s.
+  test: { root: fromProjectRoot("."), include: ["src/**/*.test.ts"], testTimeout: 30_000 },
 });

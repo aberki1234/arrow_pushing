@@ -2,7 +2,7 @@
 import { createHash } from "node:crypto";
 import { existsSync, mkdirSync, readdirSync, readFileSync, writeFileSync } from "node:fs";
 import { join, relative } from "node:path";
-import { beforeEach, expect, it, vi } from "vitest";
+import { beforeEach, expect, it } from "vitest";
 import { exampleReactionPath, exampleReactionPaths } from "../testSupport/fixtureFiles.js";
 import {
   copyExampleReaction,
@@ -13,9 +13,6 @@ import {
 import { catalogueSchemaViolationPaths } from "./catalogueAssembly.js";
 import { runCatalogueBuilding } from "./commandLine.js";
 import { canonicalJsonBytes } from "./staticFileNaming.js";
-
-// These tests lint whole example reactions (about 2 s alone): allow for a busy parallel run.
-vi.setConfig({ testTimeout: 30_000 });
 
 const FIXED_TIMES = ["--build-date", "2026-12-01", "--built-at", "2026-12-01T10:00:00Z"];
 const SN2_SLUG = "sn2-hydroxide-bromomethane";
