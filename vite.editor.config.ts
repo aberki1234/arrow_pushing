@@ -1,6 +1,8 @@
-// Vite serves the reaction editor (src/reactionEditor) in development only: `make editor`. It is
-// never built for the learner host. The plugin below passes /editor-api/reactions requests to
-// the reaction-file handler (src/editorFileServer), which reads and writes content/reactions/.
+// The reaction editor (src/reactionEditor). `make editor`: Vite's development server, where the
+// plugin below passes /editor-api/reactions requests to the reaction-file handler
+// (src/editorFileServer), which reads and writes content/reactions/. `make editor-build`: the
+// editor built into build/editor/, which the backend serves (it then saves to the database). It
+// is never part of the learner site.
 import type { IncomingMessage } from "node:http";
 import { fileURLToPath } from "node:url";
 import { svelte } from "@sveltejs/vite-plugin-svelte";
@@ -49,6 +51,9 @@ function reactionFilesPlugin(): Plugin {
 export default defineConfig({
   root: fromProjectRoot("src/reactionEditor/"),
   server: { port: EDITOR_PORT },
+  build: { outDir: fromProjectRoot("build/editor/"), emptyOutDir: true },
+  // The lint worker is a module worker (main.ts starts it with type "module").
+  worker: { format: "es" },
   // RDKit.js is a CommonJS (Emscripten) module: Vite pre-bundles it into an ES module, and
   // main.ts passes the URL of its .wasm file, so it need not be found beside the script.
   plugins: [svelte({ configFile: false }), reactionFilesPlugin()],

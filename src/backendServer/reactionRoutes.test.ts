@@ -99,6 +99,7 @@ describe("signing in is required", () => {
   it("answers 401 to every reaction route without a session", async () => {
     for (const [method, path] of [
       ["GET", "/api/reactions"],
+      ["GET", `/api/reactions/${SN2_SLUG}`],
       ["GET", `/api/reactions/${SN2_SLUG}/versions/1`],
       ["PUT", `/api/reactions/${SN2_SLUG}/draft`],
       ["POST", `/api/reactions/${SN2_SLUG}/next-version`],
@@ -123,6 +124,8 @@ describe("a reaction's way from draft to published", () => {
     ]);
     const stored = await apiRequest("GET", `/api/reactions/${SN2_SLUG}/versions/1`);
     expect(stored.body).toMatchObject({ reactionDocument: sn2Document(), contentHash: null });
+    const newest = await apiRequest("GET", `/api/reactions/${SN2_SLUG}`);
+    expect(newest.body).toEqual(stored.body);
     expect(await publishSn2()).toEqual({
       status: 200,
       body: {
@@ -162,6 +165,7 @@ describe("refusals of the request", () => {
   it("answers 404 for an unknown version and a version that is not a number", async () => {
     await saveSn2();
     expect((await apiRequest("GET", `/api/reactions/${SN2_SLUG}/versions/2`)).status).toBe(404);
+    expect((await apiRequest("GET", "/api/reactions/no-such")).status).toBe(404);
     expect((await apiRequest("GET", `/api/reactions/${SN2_SLUG}/versions/latest`)).status).toBe(
       404,
     );

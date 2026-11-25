@@ -228,6 +228,10 @@ Diels–Alder needs a concerted multi-arrow step (3 arrows) — the model must s
     versions**: on every save it sets the stored document's `reactionVersion` and `previousReactionVersion` to
     the row's, whatever the editor sent. Saving a reaction whose versions are all published is refused ("use
     Edit"); only the reaction's owner saves or edits it; the owner or a reviewer publishes.
+  - **Defaults chosen with 8c part 3 (2026-11-25):** the first deploy is run by hand with "start a new
+    calendar"; every later deploy must fetch the live `catalogue.json`, so a failed fetch never resets the
+    calendar. The weekly dump leaves out session, account and verification rows (sign-in tokens); the read-only
+    role needs BYPASSRLS. Publish in the editor saves the draft first.
   - **Addresses:** the hosts' own (`*.onrender.com`, `*.pages.dev`) until the name and domain are chosen, before the
     site is announced to learners (a new domain resets learners' saved progress; Export / Import carries it).
 

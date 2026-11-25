@@ -1,7 +1,12 @@
 /**
- * The reaction editor's entry point (Vite, `make editor`): mounts the editor into #app, with
- * RDKit.js loaded from the URL Vite serves its WebAssembly file at, the development server's
- * reaction-file requests (editorFileServer), and live lint in a Web Worker (lintWorker.ts).
+ * The reaction editor's entry point: mounts the editor into #app, with RDKit.js loaded from the URL
+ * Vite serves its WebAssembly file at and live lint in a Web Worker (lintWorker.ts).
+ *
+ * Where reactions are kept
+ *   `make editor` (Vite's development server): content/reactions/, through the development
+ *   server's reaction-file requests (editorFileServer).
+ *   The built editor (`make editor-build`, served by the backend): the server's database, with
+ *   sign-in, Publish and Edit (serverReactionStore.ts).
  */
 import { mount } from "svelte";
 import rdkitWasmUrl from "@rdkit/rdkit/RDKit_minimal.wasm?url";
@@ -10,17 +15,20 @@ import "../learnerSite/site.css";
 import "./editor.css";
 import EditorApp from "./EditorApp.svelte";
 import { httpReactionFileStore } from "./reactionFileStore.js";
+import { serverReactionStore } from "./serverReactionStore.js";
 import { browserWorkerPort, workerLinter } from "./workerLinter.js";
 
 const appElement = document.getElementById("app");
 if (appElement === null) {
   throw new Error("index.html has no #app element");
 }
+const serverStore = import.meta.env.DEV ? undefined : serverReactionStore();
 mount(EditorApp, {
   target: appElement,
   props: {
     toolkitLoading: loadChemistryToolkit({ wasmLocation: rdkitWasmUrl }),
-    fileStore: httpReactionFileStore(),
+    fileStore: serverStore ?? httpReactionFileStore(),
+    publishing: serverStore,
     lintDraft: workerLinter(
       browserWorkerPort(
         new Worker(new URL("./lintWorker.ts", import.meta.url), { type: "module" }),

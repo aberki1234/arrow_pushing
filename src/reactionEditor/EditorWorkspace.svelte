@@ -48,6 +48,7 @@
   import LintPanel from "./LintPanel.svelte";
   import MechanismPanel from "./MechanismPanel.svelte";
   import MisconceptionList from "./MisconceptionList.svelte";
+  import PublishControls from "./PublishControls.svelte";
   import ReactionPanel from "./ReactionPanel.svelte";
   import StatePanel from "./StatePanel.svelte";
   import StateTextFields from "./StateTextFields.svelte";
@@ -62,6 +63,7 @@
     onSave,
     onDownload,
     onPlay,
+    onPublish,
   }: {
     session: EditorSession;
     update: (next: EditorSession) => void;
@@ -70,6 +72,8 @@
     onSave: () => void;
     onDownload: () => void;
     onPlay: (stateId: string) => void;
+    /** On the server only: save, then publish. */
+    onPublish?: ((licenceAgreed: boolean) => void) | undefined;
   } = $props();
 
   const LINT_DELAY_MILLISECONDS = 300;
@@ -252,6 +256,9 @@
     >
       Play as learner
     </button>
+    {#if onPublish !== undefined}
+      <PublishControls {onPublish} />
+    {/if}
   </div>
 </div>
 {#if !readiness.ready}

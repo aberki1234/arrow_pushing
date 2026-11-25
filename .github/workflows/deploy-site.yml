@@ -1,0 +1,88 @@
+# Deploy the learner site after a Publish (docs/SPEC.md §5, backend, "Publishing").
+#
+# The backend starts this with a repository_dispatch event "reaction-published"
+# (src/backendServer/deployDispatch.ts); it can also be run by hand.
+#   1. Fetch every published version from the backend's export and commit them to
+#      content/published/ (the repository's backup).
+#   2. Build the catalogue from content/published/, continuing the live site's daily calendar
+#      (its catalogue.json as --previous-catalogue). Only the first deploy, run by hand with
+#      start_new_calendar, starts a new calendar: a failed fetch never resets it.
+#   3. Build the learner app beside it and deploy build/site/ to Cloudflare Pages.
+#
+# Repository variables: BACKEND_URL (e.g. https://arrowpush.onrender.com), SITE_URL (e.g.
+# https://arrowpush.pages.dev), CLOUDFLARE_PAGES_PROJECT. Secrets: CLOUDFLARE_API_TOKEN (Pages:
+# Edit), CLOUDFLARE_ACCOUNT_ID.
+name: Deploy the learner site
+
+on:
+  repository_dispatch:
+    types: [reaction-published]
+  workflow_dispatch:
+    inputs:
+      start_new_calendar:
+        description: "First deploy only: start a new daily calendar (no live catalogue yet)"
+        type: boolean
+        default: false
+
+# One deploy at a time; a Publish during a deploy waits for it, and its export includes both.
+concurrency:
+  group: deploy-site
+  cancel-in-progress: false
+
+permissions:
+  contents: write
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
+          cache: npm
+      - run: npm ci
+
+      - name: Back up the published versions
+        env:
+          BACKEND_URL: ${{ vars.BACKEND_URL }}
+        run: >
+          npx tsx src/catalogueBuilding/backupFromShell.ts
+          --from "$BACKEND_URL/api/published-versions" --out content/published
+
+      - name: Commit the backup
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add content/published
+          if ! git diff --cached --quiet; then
+            git commit -m "Backup of published reactions"
+            git pull --rebase
+            git push
+          fi
+
+      - name: Fetch the live catalogue (the daily calendar continues from it)
+        env:
+          SITE_URL: ${{ vars.SITE_URL }}
+          START_NEW_CALENDAR: ${{ inputs.start_new_calendar }}
+        run: |
+          if [ "$START_NEW_CALENDAR" = "true" ]; then
+            echo "CALENDAR_OPTION=--start-new-calendar" >> "$GITHUB_ENV"
+          else
+            curl --fail --silent --show-error "$SITE_URL/catalogue.json" -o previous-catalogue.json
+            echo "CALENDAR_OPTION=--previous-catalogue previous-catalogue.json" >> "$GITHUB_ENV"
+          fi
+
+      - name: Build the site
+        run: |
+          npx tsx src/catalogueBuilding/runFromShell.ts build content/published/*/*.json \
+            --out build/site $CALENDAR_OPTION
+          npx vite build
+          cp -r build/app/. build/site/
+
+      - name: Deploy to Cloudflare Pages
+        uses: cloudflare/wrangler-action@v3
+        with:
+          apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+          command: pages deploy build/site --project-name=${{ vars.CLOUDFLARE_PAGES_PROJECT }}

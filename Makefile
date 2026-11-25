@@ -65,6 +65,11 @@ dev:
 editor:
 	npx vite --config vite.editor.config.ts
 
+# The editor built for the backend server, into build/editor/ (it saves to the server's database).
+.PHONY: editor-build
+editor-build:
+	npx vite build --config vite.editor.config.ts
+
 # The backend server (src/backendServer): sign-in, the reaction API and the built editor. Settings
 # come from environment variables (src/backendServer/serverSettings.ts); it applies migrations first.
 .PHONY: server

@@ -1,22 +1,32 @@
 <script lang="ts">
-  // Before a draft is open: the drafts in content/reactions/, a new reaction from SMILES, or a
-  // reaction file from this computer.
+  // Before a draft is open: the saved reactions (content/reactions/, or the server's after signing
+  // in), a new reaction from SMILES, or a reaction file from this computer.
   import type { ListedReactionFile } from "./reactionFileStore.js";
 
   const {
     files,
+    storagePlace,
     message,
     toolkitReady,
+    signInNeeded = false,
     onOpen,
     onCreate,
     onOpenLocal,
+    onSignIn,
+    onEdit,
   }: {
     files: readonly ListedReactionFile[] | null;
+    storagePlace: string;
     message: string;
     toolkitReady: boolean;
+    /** On the server, before signing in: the list waits for it. */
+    signInNeeded?: boolean;
     onOpen: (fileName: string) => void;
     onCreate: (reactionSlug: string, title: string, pastedSmiles: string) => void;
     onOpenLocal: (file: File) => void;
+    onSignIn?: (() => void) | undefined;
+    /** On the server: "Edit" a published reaction, its next version as a draft. */
+    onEdit?: ((fileName: string) => void) | undefined;
   } = $props();
 
   let reactionSlug = $state("");
@@ -30,8 +40,11 @@
 {/if}
 <div class="grid g2 mt">
   <section class="card" aria-label="Drafts">
-    <h3>Drafts in content/reactions/</h3>
-    {#if files === null}
+    <h3>Reactions on {storagePlace}</h3>
+    {#if signInNeeded}
+      <p class="small muted">Only the owner's GitHub account may sign in.</p>
+      <button class="btn primary sm" onclick={onSignIn}>Sign in with GitHub</button>
+    {:else if files === null}
       <p class="small muted">
         The file server is not running: start the editor with make editor, or open a file below.
       </p>
@@ -50,6 +63,21 @@
               {file.title ?? file.fileName}
             </button>
             <span class="small muted">{file.fileName}</span>
+            {#if file.newestSubmissionStatus !== undefined}
+              <span class="pill">
+                {file.newestSubmissionStatus} v{String(file.newestReactionVersion)}
+              </span>
+            {/if}
+            {#if onEdit !== undefined && file.newestSubmissionStatus === "published"}
+              <button
+                class="btn sm"
+                onclick={() => {
+                  onEdit(file.fileName);
+                }}
+              >
+                Edit as version {String((file.newestReactionVersion ?? 0) + 1)}
+              </button>
+            {/if}
           </li>
         {/each}
       </ul>

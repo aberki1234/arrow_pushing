@@ -29,8 +29,9 @@
 .message.bad {
   color: var(--bad);
 }
+/* Text fields fill their column; checkboxes keep their own size beside their label. */
 textarea,
-input:not([type="file"]) {
+input:not([type="file"], [type="checkbox"]) {
   width: 100%;
   box-sizing: border-box;
   font: inherit;

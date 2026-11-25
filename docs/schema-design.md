@@ -661,6 +661,14 @@ RDKit (RDKit.js) on every valid SMILES case and every example state (`src/chemis
      (`serve | migrate | import`; `make server`), `ownerAccount.ts`; `reactionDatabase/postgresConnection.ts`
      (node-postgres, untested until the Docker Postgres run). Tests sign in through a fake GitHub
      (`testSupport/serverTesting.ts`).
+     Part 3 done 2026-11-25: the built editor (`make editor-build` → `build/editor/`, served by the backend) keeps
+     reactions on the server (`reactionEditor/serverReactionStore.ts`, `GET /api/reactions/:slug` = the newest
+     version): Sign in with GitHub, each reaction's status, "Edit as version n+1", and Publish (saves first, the
+     licence tick, the outcome message) (`PublishControls.svelte`); `make editor` keeps content/reactions/.
+     `catalogueBuilding/publishedBackup.ts` + `backupFromShell.ts` (export → `content/published/<slug>/<n>.json`,
+     hashes checked); `.github/workflows/deploy-site.yml` (backup commit, build with the live catalogue,
+     Cloudflare Pages), `.github/workflows/database-upkeep.yml` (daily query, weekly `pg_dump`), `render.yaml`.
+     Checked in headless Chromium against the server on PGlite (sign-in, open, lint, Publish, Edit offered).
    * **8d** Contributors: sign-up, submit → review (play-through + diff) → changes requested | published.
 9. Problem sets: reaction sets that teach one concept (Zaitsev's rule, kinetic versus thermodynamic enolates).
    To be scoped after item 8 (SPEC §9).

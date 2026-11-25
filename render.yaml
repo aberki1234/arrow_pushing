@@ -1,0 +1,36 @@
+# The backend on Render (docs/SPEC.md §5, backend, "Server"): one Node web service that applies
+# the migrations, then serves sign-in, the reaction API and the built editor.
+# Variables marked sync: false are entered in Render's dashboard (src/backendServer/
+# serverSettings.ts describes each); Render generates BETTER_AUTH_SECRET.
+services:
+  - type: web
+    name: arrowpush-editor
+    runtime: node
+    plan: starter
+    # Choose the region nearest the Supabase project when creating the service.
+    # --include=dev: the build (Vite) and the start (tsx) use development packages.
+    buildCommand: npm ci --include=dev && npx vite build --config vite.editor.config.ts
+    startCommand: npx tsx src/backendServer/runFromShell.ts serve
+    healthCheckPath: /
+    autoDeploy: true
+    envVars:
+      - key: NODE_VERSION
+        value: "24"
+      - key: EDITOR_FILES_FOLDER
+        value: build/editor
+      - key: BETTER_AUTH_SECRET
+        generateValue: true
+      - key: DATABASE_URL
+        sync: false
+      - key: PUBLIC_BASE_URL
+        sync: false
+      - key: GITHUB_CLIENT_ID
+        sync: false
+      - key: GITHUB_CLIENT_SECRET
+        sync: false
+      - key: ALLOWED_GITHUB_USER_IDS
+        sync: false
+      - key: DEPLOY_REPOSITORY
+        sync: false
+      - key: DEPLOY_DISPATCH_TOKEN
+        sync: false

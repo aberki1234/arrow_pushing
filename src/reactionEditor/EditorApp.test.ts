@@ -2,15 +2,17 @@
 /**
  * A few component tests for the editor page (the decisions are tested in editorSession.ts and
  * src/reactionEditing; these check the wiring): create a draft from SMILES, draw a step with the
- * keyboard alone, undo it, save it, and play it as a learner. Layout is checked by eye in a
- * browser, not here.
+ * keyboard alone, undo it, save it, and play it as a learner; on the server, sign in, Edit and
+ * Publish. Layout is checked by eye in a browser, not here.
  */
 import { fireEvent, render, screen, waitFor } from "@testing-library/svelte";
 import { beforeAll, expect, test } from "vitest";
 import { loadChemistryToolkit } from "../chemistryToolkit/chemistryToolkit.js";
 import EditorApp from "./EditorApp.svelte";
 import { lintRequestAnswerer } from "../reactionEditing/lintRequests.js";
+import { exampleReaction } from "../testSupport/reactionEdits.js";
 import type { ReactionFileStore } from "./reactionFileStore.js";
+import type { PublishOutcome, ServerReactionStore } from "./serverReactionStore.js";
 import type { DraftLinter } from "./workerLinter.js";
 
 beforeAll(() => {
@@ -28,6 +30,7 @@ function memoryFileStore(): ReactionFileStore & { saved: Map<string, unknown> } 
   const saved = new Map<string, unknown>();
   return {
     saved,
+    storagePlace: "content/reactions/",
     list: () => Promise.resolve([]),
     read: (fileName) => Promise.resolve(saved.get(fileName) as Record<string, unknown>),
     save: (fileName, document): Promise<void> => {
@@ -42,8 +45,14 @@ const answerLint = lintRequestAnswerer(loadChemistryToolkit());
 const lintDraft: DraftLinter = async (document) =>
   (await answerLint({ requestId: 1, document })).lintFindings;
 
-async function createSn2Draft(fileStore: ReactionFileStore): Promise<void> {
-  render(EditorApp, { props: { toolkitLoading: loadChemistryToolkit(), fileStore, lintDraft } });
+/** Create the SN2 draft from the start panel, rendering the editor first unless `rendered`. */
+async function createSn2Draft(
+  fileStore: ReactionFileStore,
+  options: { rendered?: boolean } = {},
+): Promise<void> {
+  if (options.rendered !== true) {
+    render(EditorApp, { props: { toolkitLoading: loadChemistryToolkit(), fileStore, lintDraft } });
+  }
   const create = await screen.findByRole("button", { name: "Create" });
   await fireEvent.input(screen.getByLabelText(/Slug/), { target: { value: "sn2-test" } });
   await fireEvent.input(screen.getByLabelText("Title"), { target: { value: "SN2 test" } });
@@ -141,4 +150,112 @@ test("a learner prompt typed in the State tab is saved, and can be undone", asyn
   expect(screen.getByLabelText<HTMLInputElement>("Learner prompt").value).toBe("Push the arrows.");
   await fireEvent.click(screen.getByRole("button", { name: "Undo" }));
   expect(screen.getByLabelText<HTMLInputElement>("Learner prompt").value).toBe("");
+});
+
+/**
+ * The built editor's store, in memory: a server where the owner may or may not be signed in.
+ * `calls` records the order of saves and publishes.
+ */
+function memoryServerStore(signedIn: boolean): ServerReactionStore & {
+  saved: Map<string, unknown>;
+  calls: string[];
+} {
+  const saved = new Map<string, unknown>();
+  const calls: string[] = [];
+  return {
+    saved,
+    calls,
+    storagePlace: "the server",
+    list: () =>
+      Promise.resolve([
+        {
+          fileName: "aldol.json",
+          reactionSlug: "aldol",
+          title: "Aldol addition",
+          newestReactionVersion: 1,
+          newestSubmissionStatus: "published",
+        },
+      ]),
+    read: (fileName) => Promise.resolve(saved.get(fileName) as Record<string, unknown>),
+    save: (fileName, document): Promise<void> => {
+      calls.push(`save ${fileName}`);
+      saved.set(fileName, document);
+      return Promise.resolve();
+    },
+    signedInName: () => Promise.resolve(signedIn ? "Owner Name" : null),
+    signInAddress: () => Promise.resolve("https://github.com/login/oauth/authorize?state=x"),
+    publish: (reactionSlug, licenceAgreed): Promise<PublishOutcome> => {
+      calls.push(`publish ${reactionSlug} ${String(licenceAgreed)}`);
+      return Promise.resolve({
+        outcome: "published",
+        reactionVersion: 1,
+        lintWarningCount: 0,
+        deployStart: "started",
+      });
+    },
+    startNextVersion: (reactionSlug): Promise<number> => {
+      calls.push(`next-version ${reactionSlug}`);
+      saved.set(`${reactionSlug}.json`, { ...exampleReaction("aldol-addition-base.json") });
+      return Promise.resolve(2);
+    },
+  };
+}
+
+test("on the server, not signed in: Sign in with GitHub goes to GitHub's address", async () => {
+  const visitedAddresses: string[] = [];
+  render(EditorApp, {
+    props: {
+      toolkitLoading: loadChemistryToolkit(),
+      fileStore: memoryServerStore(false),
+      publishing: memoryServerStore(false),
+      lintDraft,
+      goToAddress: (address: string) => visitedAddresses.push(address),
+    },
+  });
+  await fireEvent.click(await screen.findByRole("button", { name: "Sign in with GitHub" }));
+  await waitFor(() => {
+    expect(visitedAddresses).toEqual(["https://github.com/login/oauth/authorize?state=x"]);
+  });
+});
+
+test("on the server: the list shows each status, and Edit opens the next version", async () => {
+  const serverStore = memoryServerStore(true);
+  render(EditorApp, {
+    props: {
+      toolkitLoading: loadChemistryToolkit(),
+      fileStore: serverStore,
+      publishing: serverStore,
+      lintDraft,
+    },
+  });
+  expect(await screen.findByText("published v1")).toBeTruthy();
+  await fireEvent.click(screen.getByRole("button", { name: "Edit as version 2" }));
+  await screen.findByRole("heading", {
+    name: String(exampleReaction("aldol-addition-base.json").title),
+  });
+  expect(serverStore.calls).toEqual(["next-version aldol"]);
+});
+
+test("on the server: Publish saves first, sends the licence tick, shows the outcome", async () => {
+  const serverStore = memoryServerStore(true);
+  render(EditorApp, {
+    props: {
+      toolkitLoading: loadChemistryToolkit(),
+      fileStore: serverStore,
+      publishing: serverStore,
+      lintDraft,
+    },
+  });
+  await createSn2Draft(serverStore, { rendered: true });
+  await fireEvent.click(screen.getByRole("checkbox", { name: /CC BY-SA 4\.0/ }));
+  await fireEvent.click(screen.getByRole("button", { name: "Publish" }));
+  await waitFor(() => {
+    expect(screen.getByRole("status").textContent).toContain("Published version 1.");
+  });
+  expect(serverStore.calls).toEqual(["save sn2-test.json", "publish sn2-test true"]);
+});
+
+test("in file mode there is no Publish", async () => {
+  await createSn2Draft(memoryFileStore());
+  expect(screen.queryByRole("button", { name: "Publish" })).toBeNull();
 });

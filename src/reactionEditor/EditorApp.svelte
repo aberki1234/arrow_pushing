@@ -10,6 +10,11 @@
   import { currentDraft, type EditorSession, openDraft } from "./editorSession.js";
   import EditorWorkspace from "./EditorWorkspace.svelte";
   import type { ListedReactionFile, ReactionFileStore } from "./reactionFileStore.js";
+  import {
+    publishOutcomeMessage,
+    type ReactionPublishing,
+    slugOfFileName,
+  } from "./serverReactionStore.js";
   import StartPanel from "./StartPanel.svelte";
   import type { DraftLinter } from "./workerLinter.js";
 
@@ -17,11 +22,19 @@
     toolkitLoading,
     fileStore,
     lintDraft,
+    publishing,
+    goToAddress = (address: string): void => {
+      window.location.assign(address);
+    },
   }: {
     toolkitLoading: Promise<ChemistryToolkit>;
     fileStore: ReactionFileStore;
     /** Live lint (a worker in the browser: workerLinter.ts). */
     lintDraft: DraftLinter;
+    /** The built editor on the server: signing in, Publish and Edit. Absent with make editor. */
+    publishing?: ReactionPublishing | undefined;
+    /** Send the browser to another address (GitHub's sign-in page). */
+    goToAddress?: (address: string) => void;
   } = $props();
 
   let toolkit = $state.raw<ChemistryToolkit | null>(null);
@@ -30,11 +43,9 @@
   let session = $state.raw<EditorSession | null>(null);
   let preview = $state.raw<StepSession | null>(null);
   let startMessage = $state("");
+  let signInNeeded = $state(false);
 
-  onMount(() => {
-    void toolkitLoading.then((loaded) => {
-      toolkit = loaded;
-    });
+  function listFiles(): void {
     fileStore.list().then(
       (listed) => {
         files = listed;
@@ -43,6 +54,22 @@
         files = null;
       },
     );
+  }
+
+  onMount(() => {
+    void toolkitLoading.then((loaded) => {
+      toolkit = loaded;
+    });
+    if (publishing === undefined) {
+      listFiles();
+      return;
+    }
+    void publishing.signedInName().then((signedInName) => {
+      signInNeeded = signedInName === null;
+      if (!signInNeeded) {
+        listFiles();
+      }
+    });
   });
 
   function reasonOf(error: unknown): string {
@@ -88,13 +115,47 @@
       () => {
         session = {
           ...current,
-          message: { tone: "good", text: `Saved content/reactions/${current.fileName}.` },
+          message: {
+            tone: "good",
+            text: `Saved ${current.fileName} on ${fileStore.storagePlace}.`,
+          },
         };
       },
       (error: unknown) => {
         session = { ...current, message: { tone: "bad", text: `Not saved: ${reasonOf(error)}` } };
       },
     );
+  }
+
+  function signIn(): void {
+    publishing?.signInAddress().then(goToAddress, (error: unknown) => {
+      startMessage = reasonOf(error);
+    });
+  }
+
+  function editNextVersion(fileName: string): void {
+    publishing?.startNextVersion(slugOfFileName(fileName)).then(
+      () => {
+        open(fileName);
+      },
+      (error: unknown) => {
+        startMessage = reasonOf(error);
+      },
+    );
+  }
+
+  /** Save first, so that what is published is what is on screen. */
+  async function saveAndPublish(current: EditorSession, licenceAgreed: boolean): Promise<void> {
+    if (publishing === undefined) {
+      return;
+    }
+    try {
+      await fileStore.save(current.fileName, currentDraft(current));
+      const outcome = await publishing.publish(slugOfFileName(current.fileName), licenceAgreed);
+      session = { ...current, message: publishOutcomeMessage(outcome) };
+    } catch (error) {
+      session = { ...current, message: { tone: "bad", text: `Not published: ${reasonOf(error)}` } };
+    }
   }
 
   function updatePreview(next: StepSession): void {
@@ -125,11 +186,15 @@
   {#if session === null}
     <StartPanel
       {files}
+      storagePlace={fileStore.storagePlace}
       message={startMessage}
       toolkitReady={toolkit !== null}
+      {signInNeeded}
       onOpen={open}
       onCreate={create}
       onOpenLocal={openLocal}
+      onSignIn={signIn}
+      onEdit={publishing === undefined ? undefined : editNextVersion}
     />
   {:else if preview !== null}
     <div class="row spread mt">
@@ -163,6 +228,11 @@
         download(current);
       }}
       onPlay={play}
+      onPublish={publishing === undefined
+        ? undefined
+        : (licenceAgreed: boolean) => {
+            void saveAndPublish(current, licenceAgreed);
+          }}
     />
   {/if}
 </main>

@@ -4,6 +4,7 @@
  *
  * Routes (bodies and answers are JSON)
  *   GET  /api/reactions                               the reaction listings (reactionVersions.ts)
+ *   GET  /api/reactions/:slug                         the newest version (as one stored version)
  *   GET  /api/reactions/:slug/versions/:version       one stored version
  *   PUT  /api/reactions/:slug/draft                   body: the reaction document; its
  *                                                     reactionSlug must be :slug (400)
@@ -19,6 +20,7 @@ import { publishedVersionsForExport } from "../reactionDatabase/publishedExport.
 import { publishDraft } from "../reactionDatabase/publishing.js";
 import { ReactionDatabaseError } from "../reactionDatabase/reactionDatabaseErrors.js";
 import {
+  findReaction,
   listReactions,
   readReactionVersion,
   saveDraft,
@@ -55,6 +57,17 @@ function versionNumberFrom(versionText: string): number {
 /** Listing, reading, saving a draft and "Edit" (version n+1). */
 function addVersionRoutes(routes: Hono<ServerEnvironment>, database: ReactionDatabase): void {
   routes.get("/reactions", async (context) => context.json(await listReactions(database)));
+
+  routes.get("/reactions/:slug", async (context) => {
+    const reactionSlug = context.req.param("slug");
+    const reaction = await findReaction(database, reactionSlug);
+    if (reaction === undefined) {
+      throw new ReactionDatabaseError("reaction-not-found", `no reaction "${reactionSlug}"`);
+    }
+    return context.json(
+      await readReactionVersion(database, reactionSlug, reaction.newestReactionVersion),
+    );
+  });
 
   routes.get("/reactions/:slug/versions/:version", async (context) => {
     const reactionVersion = versionNumberFrom(context.req.param("version"));
