@@ -21,6 +21,8 @@ is a conceptual reference only: it chose "correct by choosing, not by drawing"; 
     share grid per step: 🟩 first try / 🟨 retry or hint / 🟥 missed; tiles also carry glyphs (✓ ~ ✕), not colour alone.
     Seeded by date (no server needed).
   - **Practice:** untimed, unlimited attempts, free hints; filter by type/difficulty/status; search.
+  - **Learn (decided 2026-11-25, item 9):** guided **tracks** of **problem sets**, each teaching one concept
+    (§5 "Learn"). Practice is the library, organised by reaction; Learn is the path, organised by concept.
 
 ## 2. Content scope v1
 
@@ -28,6 +30,12 @@ is a conceptual reference only: it chose "correct by choosing, not by drawing"; 
 pinacol, Beckmann, Fischer esterification, Michael addition, Friedel–Crafts acylation.
 **Plus a few radical entries** (radical bromination: initiation/propagation/termination; Barton–McCombie).
 Diels–Alder needs a concerted multi-arrow step (3 arrows) — the model must support it from day one.
+
+**First Learn track (decided 2026-11-25): "Aromatic chemistry"**, which adds SEAr (electrophilic aromatic
+substitution) reactions to the list above. Problem set **"The arenium ion"**: bromination of benzene (FeBr₃),
+nitration, sulfonation, Friedel–Crafts alkylation (with its carbocation rearrangement trap), Friedel–Crafts acylation.
+Problem set **"Directing effects"**: nitration of anisole (ortho/para) against nitrobenzene (meta) as a contrast pair,
+then a halobenzene (deactivating but ortho/para). The track ends with a checkpoint.
 
 ## 3. Interaction
 
@@ -136,6 +144,41 @@ Diels–Alder needs a concerted multi-arrow step (3 arrows) — the model must s
   filters by type, difficulty and status (new / practised / mastered) and searches titles; filters live in the hash.
   The **home** page has today's puzzle, continue practising, mastery in brief and browse by type. The finished view
   adds "Watch out for", up to 3 related reactions (a shared class) and the mastery change.
+- **Learn: tracks and problem sets (decided 2026-11-25, item 9; terms in `docs/schema-design.md` §0, format §6.1):**
+  - **Structure:** a **track** (e.g. Aromatic chemistry) holds ordered **problem sets**; a problem set holds ordered
+    **set items**. A problem set is an **authored, ordered** list of reactions with a stated learning goal, not a class
+    filter: it may cross reaction classes, and one reaction may sit in several problem sets. A set item names a
+    **reaction slug** (always the latest published version) and a one-line "why this one" note. Each problem set
+    opens with a **concept card**: a small Markdown subset (paragraphs, bold/italic, lists; Unicode sub/superscripts)
+    and optional SVG figures. Worked-example items (a reaction played back with its arrows shown) are a later,
+    cheap addition; single-question drills are not planned.
+  - **Nothing is locked:** a suggested order only. **Next up** = the first set item, in track order, that is not done.
+  - **Done / mastered:** a set item is **done** once its reaction has a finished run in any mode (practice, daily,
+    from Learn or Practice); **mastered** is the existing 100% rule. A problem set shows done / total and its
+    mastery. Difficulty tier is shown but does not set the order; problem-set membership does not affect daily
+    eligibility.
+  - **Checkpoint:** each track ends with a checkpoint problem set (`checkpoint: true`) mixing reactions from its
+    earlier problem sets, shuffled once per attempt, **names hidden** until finished. It is a third run mode,
+    **`checkpoint`**, scored by the **daily rules** (3 attempts per step, −1 per wrong check or hint, missed steps).
+    A checkpoint item is done only by a run in that checkpoint (runs record an optional `problemSetSlug`); its runs
+    count towards mastery like any other.
+  - **Authoring:** one hand-written JSON file per track, `content/tracks/<trackSlug>.json` (shape
+    `schema/track.schema.json`), in git; the reaction linter checks it and the catalogue build compiles it into
+    `catalogue.json`. A set item whose reaction is not published gives a lint **warning** and is left out of the
+    build; a problem set with no published item is hidden. A push changing `content/tracks/` also rebuilds the
+    site. Tracks move into Postgres with an editor screen only when contributors author problem sets.
+  - **Pages:** header order Home · Daily · **Learn** · Practice · Progress. `#/learn`: one card per track (title,
+    one-line goal, done / total bar, **Continue** to Next up). `#/learn/<track>`: its problem sets as a vertical
+    numbered path (title, concept in a line, done count, mastery ring; Next up highlighted).
+    `#/learn/<track>/<set>`: the concept card (collapsible after the first visit), then the numbered set items
+    (title, difficulty tier, "why this one", done / mastered mark) and a **Start / Next up** button.
+  - **Playing from a problem set** (`#/learn/<track>/<set>/<reaction>`): the step screen shows a breadcrumb
+    ("Aromatic chemistry › The arenium ion · 2 of 5"); the finished view replaces the related reactions with
+    **Next in set: …** and a link back, or **Problem set complete** with a link to the next problem set. The same
+    reaction opened from Practice behaves as before.
+  - **Home** gains a **Continue learning** card (last problem set touched and its Next up), beside today's puzzle
+    and above continue practising. **Progress** gains a **Tracks** section (each track's done / total and mastery,
+    problem set by problem set). The only new stored field is the last problem set touched.
 - **Content format:** **one JSON file per reaction version** (schema: `docs/schema-design.md`). Per reaction: metadata, a graph of
   states (atom-mapped SMILES + coordinates, learner prompt, 3 hint tiers, misconceptions) joined by steps (canonical
   arrows, route preference, optional partial arrow sets, explanation), mechanism summary, version, author, licence.
@@ -283,8 +326,7 @@ Chromium: no console errors. Emoji (💡) may render as tofu in headless only.
 - Contributors and reviewers (item 8d): OAuth providers beyond GitHub (e.g. Google for students), reviewer roles
   beyond the owner, the review screen.
 - Which exact reactions beyond the list above; authoring order of the first content set.
-- **Problem sets (to scope after item 8, added 2026-11-25):** sets of reactions that teach one chemistry concept
-  (e.g. Zaitsev's rule, kinetic versus thermodynamic enolates), so learners can practise that concept. Not yet
-  scoped: format, how sets are authored and shown, and how they relate to the catalogue are all open.
+- Tracks after "Aromatic chemistry" (e.g. Zaitsev versus Hofmann, kinetic versus thermodynamic enolates) and their
+  problem sets. (Problem sets themselves were scoped on 2026-11-25: §1, §2, §5 "Learn".)
 - Deferred features: whole-mechanism mode, stereo validation, learner accounts/leaderboards/sync, visual editor polish (v2),
   synkit-assisted drafting of mechanisms.

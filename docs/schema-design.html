@@ -81,6 +81,14 @@
       <tr><td><b>abbreviated group</b></td><td>Bystander atoms drawn as one short label (Ph, OMe) wherever they hang off the rest by one bond. Never tapped; validation still uses every atom.</td></tr>
       <tr><td><b>reaction slug / version / version ref</b></td><td><code>aldol-addition-base</code> / <code>3</code> / <code>aldol-addition-base@3</code>.</td></tr>
       <tr><td><b>format version</b></td><td>The version of the file format itself, separate from a reaction version.</td></tr>
+      <tr><td><b>track</b></td><td>A top-level Learn path (e.g. Aromatic chemistry): an ordered list of problem sets, one file in <code>content/tracks/</code>.</td></tr>
+      <tr><td><b>problem set</b></td><td>An authored, ordered list of set items teaching one concept, with a concept card. Always written in full, never just “set” (which would clash with <b>arrow set</b>). Not a reaction-class filter.</td></tr>
+      <tr><td><b>set item</b></td><td>One entry of a problem set: a reaction (always its latest version) and a “why this one” note.</td></tr>
+      <tr><td><b>concept card</b></td><td>The short text (small Markdown subset, optional SVG figures) that opens a problem set.</td></tr>
+      <tr><td><b>Next up</b></td><td>The first set item, in track order, that isn't done.</td></tr>
+      <tr><td><b>done (set item)</b></td><td>Its reaction has a finished run in any mode; in a checkpoint, a finished run in that checkpoint. Not the same as <b>mastered</b> (most recent run at 100%).</td></tr>
+      <tr><td><b>checkpoint</b></td><td>The problem set that ends a track: earlier reactions shuffled, names hidden, scored by the daily rules.</td></tr>
+      <tr><td><b>run mode</b></td><td>How a run is played and scored: practice, daily or checkpoint.</td></tr>
     </tbody></table></div>
     <p class="muted">Abbreviations: lp = lone pair; rad = radical (unpaired electron); SMILES = simplified molecular-input line-entry system; e⁻ = electron.</p>
 
@@ -355,6 +363,25 @@ atomSelector        := O1 | O* (any O) | @nucleophile (a role) | *</code></pre>
       <li><b>The build refuses</b>, writing nothing, on: a schema failure or lint error in any input (warnings are only printed); a version given twice or versions not numbered 1…n; a previously published version missing or changed; a calendar date naming a version not given; a non-empty output folder.</li>
     </ul>
 
+    <h3 id="tracks">6.1 · Tracks and problem sets <span class="tag ok">decided 2026-11-25</span></h3>
+    <p>One hand-written file per track, <code>content/tracks/&lt;trackSlug&gt;.json</code> (shape: <code>schema/track.schema.json</code>), kept in git:</p>
+<pre><code>{ "formatVersion": 1, "trackSlug": "aromatic-chemistry", "title": "Aromatic chemistry",
+  "goal": "How arenes react with electrophiles, and where.",
+  "problemSets": [                                         // in the suggested order
+    { "problemSetSlug": "arenium-ion", "title": "The arenium ion",
+      "conceptInOneLine": "An electrophile adds, the arenium ion loses H⁺, aromaticity returns.",
+      "conceptCard": "Paragraphs in a small **Markdown** subset…",
+      "conceptFigurePaths": ["figures/arenium-ion.svg"],            // optional
+      "checkpoint": false,
+      "setItems": [ { "reactionSlug": "bromination-benzene", "whyThisOne": "The simplest SEAr: Br⁺ from FeBr₃." }, … ] },
+    { "problemSetSlug": "aromatic-checkpoint", "title": "Checkpoint", …, "checkpoint": true, "setItems": [ … ] } ] }</code></pre>
+    <ul>
+      <li>Items are ordered by hand; the difficulty tier is shown but doesn't order them. A reaction may appear in several problem sets, at most once in each. Membership doesn't affect the daily puzzle.</li>
+      <li><b>Lint</b>: the schema; slugs unique in the track; an item whose reaction isn't published is a <b>warning</b>. A checkpoint comes last and uses only reactions from the track's earlier problem sets.</li>
+      <li><b>Catalogue build</b>: tracks are compiled into <code>catalogue.json</code> (figures copied beside it). Unpublished items are left out and an empty problem set is hidden. A push changing <code>content/tracks/</code> also rebuilds the site.</li>
+      <li>Tracks move into Postgres, with an editor screen, only once contributors write problem sets.</li>
+    </ul>
+
     <h2 id="progress">7 · Learner progress (<code>localStorage</code>)</h2>
 <pre><code>{ "formatVersion": 1,
   "runs": [{ "reactionVersionRef": "aldol-addition-base@3", "mode": "practice", "startedAt": "2026-12-01T…",
@@ -373,6 +400,7 @@ atomSelector        := O1 | O* (any O) | @nucleophile (a role) | *</code></pre>
       <li>The daily share grid has <b>one tile per step taken</b>. A preferred or accepted step on the first try both give 🟩.</li>
       <li>Mastery and misconception history are grouped by slug, step key and tag, so a new version doesn't reset them.</li>
       <li><span class="tag ok">built</span> in item 7c. <b>Mastery</b> = the score of the most recent run of a reaction (100% = mastered). Recurring mistakes are counted from the feedback shown, grouped by misconception tag. <b>Import</b> merges a file into what's in the browser and never overwrites a day already played.</li>
+      <li><b>Item 9</b> (decided 2026-11-25): a run's mode can also be <code>checkpoint</code> (daily scoring, names hidden), and a run can record its <code>problemSetSlug</code>. Done and mastered for set items are worked out from the runs; the only new saved field is <code>lastProblemSetRef</code>, the last problem set touched, for Home's Continue learning card.</li>
     </ul>
 
     <h2 id="postgres">8 · Postgres (editor and submissions only)</h2>
@@ -434,10 +462,16 @@ verifications(id uuid pk, identifier, value, expires_at, …)   -- the OAuth sta
           <li><b>8a</b> Editor core (<span class="tag ok">done</span>; run <code>make editor</code>: writing states back to SMILES, pasted SMILES → state, new drafts; drawn arrows → steps with automatic joins, change steps, show H, editing a state and regenerating after it, deleting steps, undo/redo, the mechanism panel’s rows, dragging atoms, Play as learner — each checked by replaying or editing the example reactions): paste SMILES, draw arrows to generate states, drag, show H, change steps, branches and automatic joins, regenerate, undo/redo, mechanism panel, Play as learner, saving to <code>content/reactions/</code>.</li>
           <li><span class="tag ok">done</span> <b>8b</b> Form fields (tabs for the reaction, the state and the step), misconceptions, partial progress messages and partial arrow sets added by drawing them, wedges, and live lint in a Web Worker: a click on a finding goes to its place.</li>
           <li><b>8c</b> Backend for you (decided 2026-11-25, <a href="spec.html#architecture">spec §5</a>): Hono + Kysely on Render, Supabase Postgres, GitHub sign-in, the editor saving through it, Publish (server lint, licence) and a GitHub Actions workflow that backs up, rebuilds and deploys the site to Cloudflare Pages. In four parts: the database layer, the server (sign-in, the API), the editor and workflows, then setting up the accounts (only you can). <span class="tag ok">part 1 done</span> the database layer in <code>src/reactionDatabase/</code>: the tables of §8 with their rules (one unpublished version, published versions immutable), saving drafts, Edit → the next version, Publish (server lint, licence, content hash), the export of published versions and the import of the examples, all tested on PGlite. <span class="tag ok">part 2 done</span> the server in <code>src/backendServer/</code>: GitHub sign-in through Better Auth (your GitHub id only, 30-day sessions), the editor's API (list, read, save a draft, Edit, Publish, which starts the deploy workflow), the public export of published versions, the built editor's files, settings from environment variables, and <code>make server</code>. <span class="tag ok">part 3 done</span> the editor built for the server: Sign in with GitHub, each reaction's status, “Edit as version n+1”, and Publish with the licence tick; the deploy workflow (backup into <code>content/published/</code>, build with the live calendar, Cloudflare Pages), the database upkeep workflow (daily query, weekly dump) and <code>render.yaml</code>. <code>make editor</code> still works on the files in <code>content/reactions/</code>. <span class="tag ok">part 4 done</span> the accounts set up by you (Supabase, Render, the GitHub sign-in app, Cloudflare Pages, the repository’s Actions settings); the examples imported, the first deploy, the upkeep workflow and an Edit → Publish → deploy all worked. <b>Item 8c is complete.</b> To set it up again: create both database roles before the server first starts, give the server’s role the right to create schemas (<code>GRANT CREATE ON DATABASE postgres</code>), and end both connection strings with the Supabase certificate setting (see <code>render.yaml</code>).</li>
-          <li><b>8d</b> Contributors: sign-up, submit → review (play-through and diff) → changes requested or published.</li>
+          <li><b>8d</b> Contributors: sign-up, submit → review (play-through and diff) → changes requested or published. Built after item 9.</li>
         </ul>
       </li>
-      <li>Problem sets: reaction sets that teach one concept (Zaitsev’s rule, kinetic versus thermodynamic enolates). To be scoped after item 8 (<a href="spec.html#open">spec §9</a>).</li>
+      <li>Learn: tracks and problem sets (scoped 2026-11-25, <a href="spec.html#architecture">spec §5</a>, <a href="#tracks">§6.1</a>), built before 8d, in three parts:
+        <ul>
+          <li><b>9a</b> The track file: its schema, fixtures, lint checks, compiling into <code>catalogue.json</code>, and the site rebuilding on a push to <code>content/tracks/</code>.</li>
+          <li><b>9b</b> The Learn, track and problem set pages, Next up, the breadcrumb and Next in set, Home's Continue learning card and Progress's Tracks section.</li>
+          <li><b>9c</b> Checkpoints: the checkpoint run mode (daily scoring, names hidden, shuffled once per attempt).</li>
+        </ul>
+        Alongside: authoring the “Aromatic chemistry” reactions in the editor.</li>
     </ol>
 
     <h2 id="fixes">11 · Corrections to the mockup content</h2>

@@ -50,6 +50,14 @@ Each term below means exactly one thing in the docs, the JSON and the code.
 | **abbreviated group** | Bystander atoms drawn as one short label (Ph, OMe) at their attachment atom wherever they hang off the rest by one bond. Never tapped; validation still uses every atom. |
 | **reaction slug / reaction version / reaction version ref** | `aldol-addition-base` / `3` / `aldol-addition-base@3`. |
 | **format version** | The version of the file format itself, separate from a reaction version. |
+| **track** | A top-level Learn path (e.g. Aromatic chemistry): an ordered list of problem sets, one file `content/tracks/<trackSlug>.json` (§6.1). |
+| **problem set** | An authored, ordered list of set items teaching one concept, with a concept card. Always written in full: never bare "set", which would clash with **arrow set**. Not a reaction class filter. |
+| **set item** | One entry of a problem set: a reaction slug (always its latest published version) and a "why this one" note. |
+| **concept card** | The short text (small Markdown subset, optional SVG figures) that opens a problem set. |
+| **Next up** | The first set item, in track order, that is not done. |
+| **done (set item)** | Its reaction has a finished run in any mode; in a checkpoint, a finished run in that checkpoint. Not the same as **mastered** (most recent run at 100%). |
+| **checkpoint** | A problem set marked `checkpoint: true` that ends a track: earlier reactions shuffled, names hidden, played in the `checkpoint` run mode with the daily rules. |
+| **run mode** | How a run is played and scored: `practice`, `daily` or `checkpoint` (§7). |
 
 Abbreviations: `lp` = lone pair; `rad` = radical (unpaired electron); SMILES = simplified molecular-input line-entry
 system; e⁻ = electron.
@@ -458,6 +466,33 @@ browser reads it with `src/catalogue/`. Decided 2026-11-25:
   1..n; a version in the previous catalogue missing from the inputs; a published version whose content hash changed;
   a calendar ref to a version not given; a non-empty output folder.
 
+### 6.1 Tracks and problem sets (decided 2026-11-25, item 9; SPEC §5 "Learn")
+
+One hand-written file per track, `content/tracks/<trackSlug>.json` (shape: `schema/track.schema.json`), in git:
+
+```jsonc
+{ "formatVersion": 1, "trackSlug": "aromatic-chemistry", "title": "Aromatic chemistry",
+  "goal": "How arenes react with electrophiles, and where.",
+  "problemSets": [                                         // in the suggested order
+    { "problemSetSlug": "arenium-ion", "title": "The arenium ion",
+      "conceptInOneLine": "An electrophile adds, the arenium ion loses H⁺, aromaticity returns.",
+      "conceptCard": "Paragraphs in a small **Markdown** subset…",   // paragraphs, bold/italic, lists
+      "conceptFigurePaths": ["figures/arenium-ion.svg"],            // optional, beside the track file
+      "checkpoint": false,
+      "setItems": [ { "reactionSlug": "bromination-benzene", "whyThisOne": "The simplest SEAr: Br⁺ from FeBr₃." }, … ] },
+    { "problemSetSlug": "aromatic-checkpoint", "title": "Checkpoint", …, "checkpoint": true, "setItems": [ … ] } ] }
+```
+
+* Set items are ordered by hand; the difficulty tier is shown but does not order them. A reaction may appear in
+  several problem sets, at most once in each. Problem-set membership does not affect `dailyPuzzleEligible`.
+* **Lint** (with the reaction linter): schema; slugs unique within the track; a set item whose reaction is not
+  published is a **warning**. A checkpoint is the last problem set and lists only reactions from earlier problem
+  sets of the track.
+* **Catalogue build:** the tracks are compiled into `catalogue.json` (a `tracks` list of the same shape, concept
+  figures copied beside it); set items with no published reaction are left out, and a problem set left empty is
+  hidden. A push changing `content/tracks/` also runs the site build.
+* Tracks move into Postgres, with an editor screen, only once contributors author problem sets.
+
 ## 7. Learner progress (`localStorage`, key `arrowpush.progress`)
 
 ```jsonc
@@ -501,6 +536,10 @@ current state the wrong checks, hints and feedback shown; not the arrows being d
 * Mastery and the misconception history are computed from `runs`, grouped by slug, step key and tag, so a new
   reaction version does not reset them. Export/import is this JSON. Import merges runs, deduplicated by
   `reactionVersionRef + startedAt`.
+* **Item 9 (decided 2026-11-25):** a run's `mode` gains **`checkpoint`** (daily scoring rules, names hidden), and a
+  run gains an optional **`problemSetSlug`** (set for checkpoint runs). Done and mastered for set items are derived
+  from `runs`, nothing new stored, except **`lastProblemSetRef`** (`"<trackSlug>/<problemSetSlug>"`, the last
+  problem set touched, for Home's Continue learning card).
 
 ## 8. Postgres (editor and submissions only)
 
@@ -681,8 +720,15 @@ RDKit (RDKit.js) on every valid SMILES case and every example state (`src/chemis
      `?sslmode=verify-full&sslrootcert=deploy/supabase-root-ca.crt` (Node does not trust Supabase's root CA);
      whichever role first runs the migrations owns the tables.
    * **8d** Contributors: sign-up, submit → review (play-through + diff) → changes requested | published.
-9. Problem sets: reaction sets that teach one concept (Zaitsev's rule, kinetic versus thermodynamic enolates).
-   To be scoped after item 8 (SPEC §9).
+     Built after item 9 (decided 2026-11-25).
+9. Learn: tracks and problem sets (scoped 2026-11-25, SPEC §5 "Learn", §6.1 here), before 8d. In three parts:
+   * **9a** The track file: `schema/track.schema.json`, fixtures, the lint checks, compiling into `catalogue.json`
+     (catalogue schema and reader), and the site build running on a push to `content/tracks/`.
+   * **9b** The Learn, track and problem set pages, Next up, the breadcrumb and Next in set, the Home Continue
+     learning card and the Progress Tracks section, `lastProblemSetRef`.
+   * **9c** Checkpoints: the `checkpoint` run mode (daily scoring, names hidden, shuffled once per attempt),
+     `problemSetSlug` on runs.
+   Alongside: authoring the "Aromatic chemistry" reactions in the editor (SPEC §2).
 
 ## 11. Corrections to the mockup content
 
