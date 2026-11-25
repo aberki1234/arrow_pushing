@@ -596,7 +596,10 @@ RDKit (RDKit.js) on every valid SMILES case and every example state (`src/chemis
      schema validator's and strict reader's own wording differs). Content hashes changed once, since canonical
      JSON now writes numbers as JavaScript does (nothing was published yet). The Python paths named in items 1–6
      above are now the `src/` folders of the same names in camelCase.
-   * **8a** Editor core (`editor.html`, `src/reactionEditor/`): paste SMILES, draw arrows → generated state, drag,
+   * **8a** Editor core (`editor.html`; logic `src/reactionEditing/`, app `src/reactionEditor/`, file plugin
+     `src/editorFileServer/`). Part 1 done 2026-11-25: `stateGraphs/mappedSmilesWriting.ts` (round trip on every
+     fixture and example state), `chemistryToolkit` `readStructure` and the browser wasm location,
+     `reactionEditing/startState.ts` (pasted SMILES → state) and `reactionDraft.ts` (new draft, add state/step). paste SMILES, draw arrows → generated state, drag,
      show H, change steps, branches and automatic joins, regenerate, undo/redo, mechanism panel, Play as learner,
      saving to `content/reactions/`.
    * **8b** Form fields, misconceptions and partial arrow sets by drawing, live lint panel.

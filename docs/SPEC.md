@@ -157,12 +157,16 @@ Diels–Alder needs a concerted multi-arrow step (3 arrows) — the model must s
   The editor reuses the validator's arrow-application code.
   **Decided 2026-11-25 (item 8 grilling).** Item 8 is split: **8.0** the TypeScript port (above), **8a** editor
   core, **8b** form fields and live lint, **8c** backend.
-  - The editor is a **second Vite entry page** (`editor.html`, `src/reactionEditor/`, `make editor`), never
-    deployed to the learner host. "Play as learner" runs the unsaved document in the real step screen (practice
+  - The editor is a **second Vite entry page** (`editor.html`, `make editor`), never deployed to the learner host:
+    its decisions in plain TypeScript in `src/reactionEditing/`, the thin Svelte app in `src/reactionEditor/`, the
+    dev-server file plugin in `src/editorFileServer/` (agreed 2026-11-25 with the 8a plan). "Play as learner" runs the unsaved document in the real step screen (practice
     mode), from the start or the selected state, once every step reproduces its to-state.
   - Until 8c, authored reactions live in **`content/reactions/`** (the test examples stay in `fixtures/reactions/`);
     the catalogue build reads from there. A Vite dev-server plugin lists, opens and saves files there; Download /
-    Open file also work without it. Git is the version history.
+    Open file also work without it. Git is the version history. A draft is `content/reactions/<slug>.json`, with
+    `reactionVersion` inside; versions arrive with 8c. Generated names are `state-N` and `step-N` (renamed in 8b).
+  - A drawn step is kept only if the **validator accepts its arrows** for that step (so redundant arrows are refused
+    too): 8a cannot make a step that lint rule 6 rejects.
   - **Start state:** paste any SMILES RDKit.js reads (aromatic, charges, radicals); it is kekulized and heavy
     atoms are numbered 1…n in SMILES order; hydrogens stay implicit. **Ketcher is deferred** (later in item 8 or v2).
   - **Generated states keep every atom's coordinates** from the from-state; atoms added by a change step get

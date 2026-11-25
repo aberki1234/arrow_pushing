@@ -12,6 +12,7 @@ const layersLowestFirst = [
   "catalogueBuilding",
   "moleculeDrawing",
   "stepSession",
+  "reactionEditing",
   "learnerProgress",
   "dailyPuzzle",
   "learnerStatistics",

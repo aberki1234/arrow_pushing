@@ -55,11 +55,17 @@ export interface ChemistryToolkit {
    * sanitise, so a Kekulé ring keeps its bonds and no hydrogens are added.
    */
   readWrittenStructure(smiles: string): WrittenStructure | undefined;
+  /**
+   * Atoms and bonds after RDKit's usual reading, for SMILES as people write it: written hydrogens
+   * become implicit counts and aromatic rings are given one Kekulé form.
+   */
+  readStructure(smiles: string): WrittenStructure | undefined;
 }
 
 // Explicit hydrogens are drawn atoms, so RDKit must not fold them into their neighbours.
 const KEEP_EXPLICIT_HYDROGENS = JSON.stringify({ removeHs: false });
 const AS_WRITTEN = JSON.stringify({ removeHs: false, sanitize: false });
+const RDKIT_DEFAULTS = JSON.stringify({});
 const MOLBLOCK_HEADER_LINES = 3;
 // Fields of an atom line split at white space: x, y, z, symbol, then the number fields.
 const SYMBOL_FIELD = 3;
@@ -175,14 +181,24 @@ function toolkitOn(rdkit: RDKitModule): ChemistryToolkit {
         molecule.set_new_coords();
         return molblockAtoms(molecule.get_molblock());
       }),
+    readStructure: (smiles) => withMolecule(rdkit, smiles, writtenStructure, RDKIT_DEFAULTS),
     readWrittenStructure: (smiles) => withMolecule(rdkit, smiles, writtenStructure, AS_WRITTEN),
   };
 }
 
 let loadedToolkit: Promise<ChemistryToolkit> | undefined;
 
-/** RDKit.js, loaded once (it is several megabytes of WebAssembly). */
-export function loadChemistryToolkit(): Promise<ChemistryToolkit> {
-  loadedToolkit ??= initRDKitModule().then(toolkitOn);
+/**
+ * RDKit.js, loaded once (it is several megabytes of WebAssembly). In a browser, `wasmLocation` is
+ * the URL the page serves RDKit_minimal.wasm at; in Node it is found next to the script. Options
+ * after the first call are ignored.
+ */
+export function loadChemistryToolkit(
+  options: { readonly wasmLocation?: string } = {},
+): Promise<ChemistryToolkit> {
+  const { wasmLocation } = options;
+  loadedToolkit ??= initRDKitModule(
+    wasmLocation === undefined ? undefined : { locateFile: (): string => wasmLocation },
+  ).then(toolkitOn);
   return loadedToolkit;
 }

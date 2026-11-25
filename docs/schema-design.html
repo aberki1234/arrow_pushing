@@ -424,7 +424,7 @@ reviews(id pk, reaction_id, reaction_version → reaction_versions, reviewer_use
       <li>The editor and the backend, split in four (decided 2026-11-25, <a href="spec.html#architecture">spec §5</a>):
         <ul>
           <li><span class="tag ok">done</span> <b>8.0</b> One implementation in TypeScript: the linter and catalogue build become Node command-line tools, with RDKit.js for reading ordinary SMILES, coordinates and atom checks; the Python code and pytest are deleted. Before deleting, both linters gave the same findings on every lint case. Content hashes changed once (numbers are now written as JavaScript writes them; nothing was published yet). The Python paths in the items above now live in the <code>src/</code> folders of the same names.</li>
-          <li><b>8a</b> Editor core: paste SMILES, draw arrows to generate states, drag, show H, change steps, branches and automatic joins, regenerate, undo/redo, mechanism panel, Play as learner, saving to <code>content/reactions/</code>.</li>
+          <li><b>8a</b> Editor core (part 1 <span class="tag ok">done</span>: writing states back to SMILES, pasted SMILES → state, new drafts): paste SMILES, draw arrows to generate states, drag, show H, change steps, branches and automatic joins, regenerate, undo/redo, mechanism panel, Play as learner, saving to <code>content/reactions/</code>.</li>
           <li><b>8b</b> Form fields, misconceptions and partial arrow sets by drawing, live lint panel.</li>
           <li><b>8c</b> Backend (TypeScript on Node + Postgres, §8); details settled when it starts.</li>
         </ul>

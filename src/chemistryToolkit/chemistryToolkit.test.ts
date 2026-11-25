@@ -99,3 +99,33 @@ describe("readWrittenStructure", () => {
     expect(toolkit.readWrittenStructure("[CH3:1](")).toBeUndefined();
   });
 });
+
+describe("readStructure", () => {
+  it("kekulizes an aromatic ring and gives implicit hydrogen counts", () => {
+    const phenol = toolkit.readStructure("Oc1ccccc1");
+    expect(phenol?.atoms.map((atom) => [atom.element, atom.hydrogenCount])).toEqual([
+      ["O", 1], ["C", 0], ["C", 1], ["C", 1], ["C", 1], ["C", 1], ["C", 1],
+    ]); // prettier-ignore
+    const ringBondOrders = phenol?.bonds.slice(1).map((bond) => bond.bondOrder) ?? [];
+    expect([...ringBondOrders].sort()).toEqual([1, 1, 1, 2, 2, 2]);
+  });
+
+  it("keeps charges and folds written hydrogens into their atoms", () => {
+    expect(toolkit.readStructure("[H]OC([H])([H])[H].[Na+].[OH-]")?.atoms).toEqual([
+      { element: "O", mapNumber: 0, hydrogenCount: 1, formalCharge: 0 },
+      { element: "C", mapNumber: 0, hydrogenCount: 3, formalCharge: 0 },
+      { element: "Na", mapNumber: 0, hydrogenCount: 0, formalCharge: 1 },
+      { element: "O", mapNumber: 0, hydrogenCount: 1, formalCharge: -1 },
+    ]);
+  });
+
+  it("keeps a radical's hydrogen count", () => {
+    expect(toolkit.readStructure("[CH3].[Br]")?.atoms.map((atom) => atom.hydrogenCount)).toEqual([
+      3, 0,
+    ]);
+  });
+
+  it("gives undefined for SMILES it cannot read", () => {
+    expect(toolkit.readStructure("C1CC(")).toBeUndefined();
+  });
+});
