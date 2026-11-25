@@ -15,6 +15,10 @@
  *                                      inputs
  *   no-eligible-reactions              the calendar needs new dates but no reaction is eligible
  *   output-folder-not-empty            the output folder already holds files
+ *   track-file-not-readable            a file in the tracks folder is not JSON
+ *   track-file-has-lint-errors         a track file fails the schema or has a track lint error
+ *                                      (docs/schema-design.md §6.1)
+ *   track-slug-duplicated              two track files share a trackSlug
  */
 
 /** `errorCode` is one of the codes above; the message says where and why, for people. */

@@ -2,7 +2,7 @@
 import { createHash } from "node:crypto";
 import { existsSync, mkdirSync, readdirSync, readFileSync, writeFileSync } from "node:fs";
 import { join, relative } from "node:path";
-import { beforeEach, expect, it } from "vitest";
+import { beforeEach, describe, expect, it } from "vitest";
 import { exampleReactionPath, exampleReactionPaths } from "../testSupport/fixtureFiles.js";
 import {
   copyExampleReaction,
@@ -10,6 +10,7 @@ import {
   newTemporaryFolder,
   readJsonFile,
 } from "../testSupport/reactionCopies.js";
+import { exampleTracksFolder } from "../testSupport/trackEdits.js";
 import { catalogueSchemaViolationPaths } from "./catalogueAssembly.js";
 import { runCatalogueBuilding } from "./commandLine.js";
 import { canonicalJsonBytes } from "./staticFileNaming.js";
@@ -231,4 +232,52 @@ it("the build date and time default to now in UTC", async () => {
   const catalogue = readJsonFile(join(outputFolder, "catalogue.json"));
   expect(catalogue.builtAt).toMatch(/^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}Z$/);
   expect(Object.keys(calendarOf(catalogue))[0]).toBe(new Date().toISOString().slice(0, 10));
+});
+
+describe("tracks", () => {
+  it("--tracks-folder compiles the tracks and copies their figures", async () => {
+    const outputFolder = join(folder, "site");
+    const exitStatus = await build(
+      exampleReactionPaths(),
+      outputFolder,
+      "--start-new-calendar",
+      "--tracks-folder",
+      exampleTracksFolder(),
+      ...FIXED_TIMES,
+    );
+    expect(exitStatus).toBe(0);
+    expect(printedLines).toEqual([]);
+    const catalogue = readJsonFile(join(outputFolder, "catalogue.json"));
+    expect(catalogueSchemaViolationPaths(catalogue)).toEqual([]);
+    const tracks = catalogue.tracks as { trackSlug: string }[];
+    expect(tracks.map((track) => track.trackSlug)).toEqual(["first-mechanisms"]);
+    expect(filesUnder(join(outputFolder, "t"))).toEqual([
+      join("first-mechanisms", "figures", "curved-arrow.svg"),
+    ]);
+    expect(
+      readFileSync(join(outputFolder, "t", "first-mechanisms", "figures", "curved-arrow.svg")),
+    ).toEqual(readFileSync(join(exampleTracksFolder(), "figures", "curved-arrow.svg")));
+  });
+
+  it("without --tracks-folder the catalogue has no tracks", async () => {
+    const catalogue = readJsonFile(join(await firstSite(), "catalogue.json"));
+    expect(catalogue.tracks).toEqual([]);
+  });
+
+  it("a track with a lint error refuses the build and writes nothing", async () => {
+    const tracksFolder = join(folder, "tracks");
+    mkdirSync(tracksFolder);
+    writeFileSync(join(tracksFolder, "broken.json"), JSON.stringify({ formatVersion: 1 }));
+    const outputFolder = join(folder, "site");
+    const lastLine = await refusedBuild(outputFolder, [
+      "build",
+      ...exampleReactionPaths(),
+      "--out",
+      outputFolder,
+      "--start-new-calendar",
+      "--tracks-folder",
+      tracksFolder,
+    ]);
+    expect(lastLine).toMatch(/^error track-file-has-lint-errors: .*broken\.json/);
+  });
 });

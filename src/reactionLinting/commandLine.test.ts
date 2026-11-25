@@ -1,9 +1,10 @@
 /** Tests for commandLine.ts: exit statuses, the text and JSON reports, and rewriting files. */
-import { copyFileSync, mkdtempSync, readFileSync, writeFileSync } from "node:fs";
+import { copyFileSync, mkdirSync, mkdtempSync, readFileSync, writeFileSync } from "node:fs";
 import { tmpdir } from "node:os";
-import { join } from "node:path";
+import { dirname, join } from "node:path";
 import { beforeEach, expect, it } from "vitest";
 import { exampleReactionPaths, exampleReactionPath } from "../testSupport/fixtureFiles.js";
+import { exampleTracksFolder } from "../testSupport/trackEdits.js";
 import { runReactionLinting } from "./commandLine.js";
 
 const SN2_REACTION_PATH = exampleReactionPath("sn2-hydroxide-bromomethane.json");
@@ -102,10 +103,71 @@ it("seed-coordinates rewrites only a file that changed", async () => {
   expect(await run(["lint", reactionPath])).toBe(0);
 });
 
-it.each([[[]], [["lint"]], [["tidy", "x.json"]], [["lint", "--loud", "x.json"]]])(
-  "a malformed command %j exits 2 with the usage",
-  async (argumentTexts) => {
-    expect(await run(argumentTexts)).toBe(2);
-    expect(printedLines.join("\n")).toContain("usage:");
-  },
-);
+it.each([
+  [[]],
+  [["lint"]],
+  [["tidy", "x.json"]],
+  [["lint", "--loud", "x.json"]],
+  [["lint-tracks", "track.json"]],
+  [["lint-tracks", "--published-folder", "published"]],
+])("a malformed command %j exits 2 with the usage", async (argumentTexts) => {
+  expect(await run(argumentTexts)).toBe(2);
+  expect(printedLines.join("\n")).toContain("usage:");
+});
+
+// lint-tracks
+// The four example reactions are the published reactions; their folder holds <slug>.json files,
+// the backup folder content/published holds <slug>/<n>.json: both are read by reactionSlug.
+const EXAMPLE_TRACK_PATH = join(exampleTracksFolder(), "first-mechanisms.json");
+const PUBLISHED_FOLDER = dirname(SN2_REACTION_PATH);
+
+function trackCopy(changedKeys: Record<string, unknown>): string {
+  const document = JSON.parse(readFileSync(EXAMPLE_TRACK_PATH, "utf-8")) as Record<string, unknown>;
+  mkdirSync(join(folder, "figures"));
+  copyFileSync(
+    join(exampleTracksFolder(), "figures", "curved-arrow.svg"),
+    join(folder, "figures", "curved-arrow.svg"),
+  );
+  const trackPath = join(folder, "first-mechanisms.json");
+  writeFileSync(trackPath, JSON.stringify({ ...document, ...changedKeys }), "utf-8");
+  return trackPath;
+}
+
+it("lint-tracks: the example track and reactions exit 0 and print nothing", async () => {
+  expect(
+    await run(["lint-tracks", EXAMPLE_TRACK_PATH, "--published-folder", PUBLISHED_FOLDER]),
+  ).toBe(0);
+  expect(printedLines).toEqual([]);
+});
+
+it("lint-tracks: an unpublished reaction is a printed warning and still exits 0", async () => {
+  const emptyPublishedFolder = mkdtempSync(join(tmpdir(), "published-"));
+  expect(
+    await run(["lint-tracks", EXAMPLE_TRACK_PATH, "--published-folder", emptyPublishedFolder]),
+  ).toBe(0);
+  expect(printedLines[0]).toBe(
+    `${EXAMPLE_TRACK_PATH}: warning set-item-not-published at ` +
+      "/problemSets/0/setItems/0/reactionSlug: sn2-hydroxide-bromomethane is not published; " +
+      "the catalogue build leaves this set item out",
+  );
+});
+
+it("lint-tracks: an error exits 1", async () => {
+  const trackPath = trackCopy({ goal: "" });
+  expect(await run(["lint-tracks", trackPath, "--published-folder", PUBLISHED_FOLDER])).toBe(1);
+  expect(printedLines.join("\n")).toContain("error schema-violation at /goal");
+});
+
+it("lint-tracks: a missing figure is an error", async () => {
+  const trackPath = join(folder, "first-mechanisms.json");
+  copyFileSync(EXAMPLE_TRACK_PATH, trackPath);
+  expect(await run(["lint-tracks", trackPath, "--published-folder", PUBLISHED_FOLDER])).toBe(1);
+  expect(printedLines.join("\n")).toContain("error concept-figure-missing");
+});
+
+it("lint-tracks: a file that is not JSON exits 1", async () => {
+  const trackPath = join(folder, "broken.json");
+  writeFileSync(trackPath, "{ not json", "utf-8");
+  expect(await run(["lint-tracks", trackPath, "--published-folder", PUBLISHED_FOLDER])).toBe(1);
+  expect(printedLines.join("\n")).toContain("error file-not-readable");
+});

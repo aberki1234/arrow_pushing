@@ -18,6 +18,7 @@ import {
   schemaViolationsFromErrors,
   type SchemaViolation,
 } from "../reactionFiles/schemaViolations.js";
+import { type ProblemSet, trackSchema } from "../trackFiles/trackSchemaViolations.js";
 
 export interface CatalogueEntry {
   readonly reactionSlug: string;
@@ -30,10 +31,20 @@ export interface CatalogueEntry {
   readonly dailyPuzzleEligible: boolean;
 }
 
+/** A track as the catalogue holds it: only published set items, no empty problem set. */
+export interface CatalogueTrack {
+  readonly trackSlug: string;
+  readonly title: string;
+  readonly goal: string;
+  readonly problemSets: readonly ProblemSet[];
+}
+
 export interface Catalogue {
   readonly formatVersion: 1;
   readonly builtAt: string;
   readonly reactions: readonly CatalogueEntry[];
+  /** Absent in catalogues built before item 9. */
+  readonly tracks?: readonly CatalogueTrack[];
   readonly dateToDailyReactionVersionRef: Readonly<Record<string, string>>;
 }
 
@@ -41,8 +52,11 @@ const CONTENT_HASH_CHARACTERS_IN_FILE_NAME = 8;
 // The slug pattern of docs/schema-design.md section 1, then "@" and a version from 1.
 const reactionVersionRefPattern = /^([a-z0-9]+(?:-[a-z0-9]+)*)@([1-9][0-9]*)$/;
 
-// allErrors: report every violation, not only the first.
-const validateCatalogue = new Ajv2020({ allErrors: true }).compile(catalogueSchemaJson);
+// allErrors: report every violation, not only the first. The track schema is added so that the
+// catalogue's tracks can refer to its problem set.
+const validateCatalogue = new Ajv2020({ allErrors: true })
+  .addSchema(trackSchema)
+  .compile(catalogueSchemaJson);
 
 /** Every schema violation in the document, sorted by instance path; empty if it is valid. */
 export function catalogueSchemaViolations(catalogueDocument: unknown): SchemaViolation[] {
@@ -99,4 +113,18 @@ export function reactionFilePath(catalogue: Catalogue, reactionVersionRef: strin
   }
   const shortHash = contentHash.slice(0, CONTENT_HASH_CHARACTERS_IN_FILE_NAME);
   return `r/${reactionSlug}/${versionText}.${shortHash}.json`;
+}
+
+/** The catalogue's tracks, sorted by slug; none for a catalogue built before item 9. */
+export function catalogueTracks(catalogue: Catalogue): readonly CatalogueTrack[] {
+  return catalogue.tracks ?? [];
+}
+
+/**
+ * Where a concept figure is served, relative to the site root:
+ * ("aromatic-chemistry", "figures/arenium-ion.svg")
+ *   -> "t/aromatic-chemistry/figures/arenium-ion.svg".
+ */
+export function conceptFigureFilePath(trackSlug: string, conceptFigurePath: string): string {
+  return `t/${trackSlug}/${conceptFigurePath}`;
 }

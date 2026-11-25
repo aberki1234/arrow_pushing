@@ -1,5 +1,5 @@
 {
-  "description": "Reading a catalogue (schema/catalogue.schema.json) in the learner site. The catalogue below is valid in both languages. dateCases: the reaction version ref of the daily puzzle on a learner's local date, or null outside the calendar. filePathCases: the static file of a reaction version ref, r/<slug>/<version>.<first 8 hex of its content hash>.json, or null for a ref the catalogue does not hold. invalidEdits: a value set at pathToSet (keys and positions from the root) that both schema validators must report at expectedViolationPath.",
+  "description": "Reading a catalogue (schema/catalogue.schema.json) in the learner site. The catalogue below is valid; its tracks use the problem set of schema/track.schema.json. dateCases: the reaction version ref of the daily puzzle on a learner's local date, or null outside the calendar. filePathCases: the static file of a reaction version ref, r/<slug>/<version>.<first 8 hex of its content hash>.json, or null for a ref the catalogue does not hold. invalidEdits: a value set at pathToSet (keys and positions from the root) that both schema validators must report at expectedViolationPath.",
   "catalogue": {
     "formatVersion": 1,
     "builtAt": "2026-12-01T10:00:00Z",
@@ -13,6 +13,15 @@
                                         "2": "bbbbbbbb22222222222222222222222222222222222222222222222222222222"},
        "title": "SN2 substitution", "subtitle": "Hydroxide displaces bromide from bromomethane",
        "reactionClasses": ["substitution"], "difficultyTier": 1, "dailyPuzzleEligible": true}
+    ],
+    "tracks": [
+      {"trackSlug": "first-mechanisms", "title": "First mechanisms", "goal": "Polar steps first.",
+       "problemSets": [
+         {"problemSetSlug": "polar-steps", "title": "Polar steps", "conceptInOneLine": "Pairs of electrons move.",
+          "conceptCard": "Each curved arrow moves **one pair**.", "conceptFigurePaths": ["figures/curved-arrow.svg"],
+          "checkpoint": false,
+          "setItems": [{"reactionSlug": "sn2-hydroxide-bromomethane", "whyThisOne": "One concerted step."},
+                       {"reactionSlug": "aldol-addition-base", "whyThisOne": "Two steps."}]}]}
     ],
     "dateToDailyReactionVersionRef": {
       "2026-12-01": "sn2-hydroxide-bromomethane@1",
@@ -38,6 +47,9 @@
     {"caseName": "a short content hash", "pathToSet": ["reactions", 0, "reactionVersionToContentHash", "1"], "newValue": "01234567", "expectedViolationPath": "/reactions/0/reactionVersionToContentHash/1"},
     {"caseName": "a calendar value that is not a ref", "pathToSet": ["dateToDailyReactionVersionRef", "2026-12-01"], "newValue": "sn2-hydroxide-bromomethane", "expectedViolationPath": "/dateToDailyReactionVersionRef/2026-12-01"},
     {"caseName": "a subtitle that is neither text nor null", "pathToSet": ["reactions", 1, "subtitle"], "newValue": 3, "expectedViolationPath": "/reactions/1/subtitle"},
+    {"caseName": "a set item with no reaction slug", "pathToSet": ["tracks", 0, "problemSets", 0, "setItems", 0], "newValue": {"whyThisOne": "No slug."}, "expectedViolationPath": "/tracks/0/problemSets/0/setItems/0"},
+    {"caseName": "a concept figure that is not an SVG in figures/", "pathToSet": ["tracks", 0, "problemSets", 0, "conceptFigurePaths", 0], "newValue": "../secret.png", "expectedViolationPath": "/tracks/0/problemSets/0/conceptFigurePaths/0"},
+    {"caseName": "a catalogue track with a format version", "pathToSet": ["tracks", 0, "formatVersion"], "newValue": 1, "expectedViolationPath": "/tracks/0"},
     {"caseName": "difficulty out of range", "pathToSet": ["reactions", 1, "difficultyTier"], "newValue": 4, "expectedViolationPath": "/reactions/1/difficultyTier"}
   ]
 }

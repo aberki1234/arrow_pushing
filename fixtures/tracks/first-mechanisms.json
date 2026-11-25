@@ -1,0 +1,41 @@
+{
+  "formatVersion": 1,
+  "trackSlug": "first-mechanisms",
+  "title": "First mechanisms",
+  "goal": "Polar and radical steps on the four example reactions.",
+  "problemSets": [
+    {
+      "problemSetSlug": "polar-steps",
+      "title": "Polar steps",
+      "conceptInOneLine": "A lone pair or a π bond attacks an electrophile; a leaving group takes the pair.",
+      "conceptCard": "Each curved arrow moves **one pair** of electrons.\n\nStart the arrow at the electrons, not at the atom.",
+      "conceptFigurePaths": ["figures/curved-arrow.svg"],
+      "checkpoint": false,
+      "setItems": [
+        { "reactionSlug": "sn2-hydroxide-bromomethane", "whyThisOne": "One concerted step: attack and loss together." },
+        { "reactionSlug": "aldol-addition-base", "whyThisOne": "An enolate forms, then adds to a carbonyl." }
+      ]
+    },
+    {
+      "problemSetSlug": "radical-chain",
+      "title": "Radical chain",
+      "conceptInOneLine": "Fish-hook arrows move one electron each.",
+      "conceptCard": "A bond broken evenly needs **two** fish-hooks.",
+      "checkpoint": false,
+      "setItems": [
+        { "reactionSlug": "radical-bromination-methane", "whyThisOne": "Initiation, propagation and termination." }
+      ]
+    },
+    {
+      "problemSetSlug": "first-checkpoint",
+      "title": "Checkpoint",
+      "conceptInOneLine": "Which kind of step is this?",
+      "conceptCard": "The names are hidden until you finish.",
+      "checkpoint": true,
+      "setItems": [
+        { "reactionSlug": "radical-bromination-methane", "whyThisOne": "Radical or polar?" },
+        { "reactionSlug": "sn2-hydroxide-bromomethane", "whyThisOne": "One step or two?" }
+      ]
+    }
+  ]
+}

@@ -12,6 +12,8 @@ import {
 } from "../testSupport/fixtureFiles.js";
 import {
   catalogueSchemaViolations,
+  catalogueTracks,
+  conceptFigureFilePath,
   dailyReactionVersionRefForDate,
   localDateText,
   reactionFilePath,
@@ -84,4 +86,26 @@ test("the local date uses the learner's own calendar day, zero-padded", () => {
   // new Date(year, monthIndex, day, hour) is in the local time zone, whatever it is.
   expect(localDateText(new Date(2026, 0, 5, 0, 30))).toBe("2026-01-05");
   expect(localDateText(new Date(2026, 11, 31, 23, 59))).toBe("2026-12-31");
+});
+
+test("the catalogue's tracks are read as written", () => {
+  const catalogue = readCatalogue(exampleCatalogueDocument());
+  const tracks = catalogueTracks(catalogue);
+  expect(tracks.map((track) => track.trackSlug)).toEqual(["first-mechanisms"]);
+  expect(tracks[0]?.problemSets[0]?.setItems.map((setItem) => setItem.reactionSlug)).toEqual([
+    "sn2-hydroxide-bromomethane",
+    "aldol-addition-base",
+  ]);
+});
+
+test("a catalogue built before tracks existed has none", () => {
+  const { tracks, ...catalogueWithoutTracks } = exampleCatalogueDocument();
+  expect(tracks).toBeDefined();
+  expect(catalogueTracks(readCatalogue(catalogueWithoutTracks))).toEqual([]);
+});
+
+test("a concept figure is served under t/<track slug>/", () => {
+  expect(conceptFigureFilePath("aromatic-chemistry", "figures/arenium-ion.svg")).toBe(
+    "t/aromatic-chemistry/figures/arenium-ion.svg",
+  );
 });

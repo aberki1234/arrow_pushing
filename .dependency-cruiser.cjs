@@ -7,6 +7,7 @@ const layersLowestFirst = [
   "chemistryToolkit",
   "attemptAssessment",
   "reactionFiles",
+  "trackFiles",
   "reactionLinting",
   "catalogue",
   "catalogueBuilding",

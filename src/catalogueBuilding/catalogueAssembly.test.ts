@@ -157,6 +157,31 @@ describe("assembleCatalogue", () => {
   });
 });
 
+it("assembleCatalogue holds the compiled tracks it is given, and none by default", () => {
+  const track = {
+    trackSlug: "first-mechanisms",
+    title: "First mechanisms",
+    goal: "Polar steps first.",
+    problemSets: [
+      {
+        problemSetSlug: "polar-steps",
+        title: "Polar steps",
+        conceptInOneLine: "Pairs move.",
+        conceptCard: "One pair per arrow.",
+        checkpoint: false,
+        setItems: [{ reactionSlug: "sn2", whyThisOne: "One step." }],
+      },
+    ],
+  };
+  const publishedVersions = [standInVersion("sn2@1")];
+  const withTracks = assembleCatalogue(publishedVersions, undefined, "2026-12-01", BUILT_AT, [
+    track,
+  ]);
+  expect(withTracks.tracks).toEqual([track]);
+  expect(catalogueSchemaViolationPaths(withTracks)).toEqual([]);
+  expect(firstBuild(publishedVersions).tracks).toEqual([]);
+});
+
 it("checkAgainstPreviousCatalogue passes a consistent previous catalogue", () => {
   const publishedVersions = [standInVersion("sn2@1"), standInVersion("aldol@1")];
   expect(() => {

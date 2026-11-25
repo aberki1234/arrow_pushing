@@ -485,12 +485,24 @@ One hand-written file per track, `content/tracks/<trackSlug>.json` (shape: `sche
 
 * Set items are ordered by hand; the difficulty tier is shown but does not order them. A reaction may appear in
   several problem sets, at most once in each. Problem-set membership does not affect `dailyPuzzleEligible`.
-* **Lint** (with the reaction linter): schema; slugs unique within the track; a set item whose reaction is not
-  published is a **warning**. A checkpoint is the last problem set and lists only reactions from earlier problem
-  sets of the track.
-* **Catalogue build:** the tracks are compiled into `catalogue.json` (a `tracks` list of the same shape, concept
-  figures copied beside it); set items with no published reaction are left out, and a problem set left empty is
-  hidden. A push changing `content/tracks/` also runs the site build.
+* `checkpoint` is required (`false` on an ordinary problem set). `conceptFigurePaths` are `figures/<name>.svg`,
+  relative to the track file's folder (so `content/tracks/figures/`).
+* **Lint** (built in 9a: `src/reactionLinting/trackLint.ts`, `conceptFigureChecks.ts`, `trackFileLint.ts`;
+  `npx tsx src/reactionLinting/runFromShell.ts lint-tracks FILE... --published-folder FOLDER`, where the published
+  reactions are the reaction files anywhere under FOLDER; `make lint-tracks`). Rule ids:
+  `schema-violation` (error; nothing else is checked then), `problem-set-slug-repeated` (error),
+  `set-item-reaction-repeated` (error, at the second appearance), `set-item-not-published` (**warning**),
+  `checkpoint-not-last` (error), `checkpoint-reaction-not-earlier` (error: a checkpoint reaction in no earlier
+  problem set), `concept-figure-missing` (error), `file-not-readable` (error). Cases:
+  `fixtures/lint_cases/track_edits.json` on the example track `fixtures/tracks/first-mechanisms.json`.
+* **Catalogue build** (built in 9a: `src/catalogueBuilding/trackCompiling.ts`; `build … --tracks-folder FOLDER`):
+  every `*.json` in the folder is linted (an error refuses the build: `track-file-not-readable`,
+  `track-file-has-lint-errors`; warnings are printed), then compiled into the catalogue's optional **`tracks`**:
+  each track without `formatVersion`, set items with no published reaction left out, then empty problem sets,
+  then empty tracks; sorted by `trackSlug` (two files with one slug: `track-slug-duplicated`). Concept figures
+  are copied to **`t/<trackSlug>/figures/<name>.svg`** (`conceptFigureFilePath` in `src/catalogue/`). Without the
+  option, or if the folder does not exist, `tracks` is `[]`; catalogues built before item 9 have no `tracks` key,
+  read as none (`catalogueTracks`). A push to `main` changing `content/tracks/` also runs the deploy workflow.
 * Tracks move into Postgres, with an editor screen, only once contributors author problem sets.
 
 ## 7. Learner progress (`localStorage`, key `arrowpush.progress`)
@@ -722,8 +734,9 @@ RDKit (RDKit.js) on every valid SMILES case and every example state (`src/chemis
    * **8d** Contributors: sign-up, submit → review (play-through + diff) → changes requested | published.
      Built after item 9 (decided 2026-11-25).
 9. Learn: tracks and problem sets (scoped 2026-11-25, SPEC §5 "Learn", §6.1 here), before 8d. In three parts:
-   * **9a** The track file: `schema/track.schema.json`, fixtures, the lint checks, compiling into `catalogue.json`
-     (catalogue schema and reader), and the site build running on a push to `content/tracks/`.
+   * **9a Done 2026-11-26.** The track file: `schema/track.schema.json` (`src/trackFiles/`), the example track
+     and lint cases, the lint checks and `lint-tracks`, compiling into `catalogue.json` (`--tracks-folder`, the
+     catalogue schema and reader), and the deploy workflow running on a push to `content/tracks/` (§6.1).
    * **9b** The Learn, track and problem set pages, Next up, the breadcrumb and Next in set, the Home Continue
      learning card and the Progress Tracks section, `lastProblemSetRef`.
    * **9c** Checkpoints: the `checkpoint` run mode (daily scoring, names hidden, shuffled once per attempt),

@@ -9,6 +9,11 @@ import { fileURLToPath } from "node:url";
 // A plain path, not a URL: under jsdom (component tests) the global URL is not one node:fs takes.
 const fixturesFolder = join(dirname(fileURLToPath(import.meta.url)), "..", "..", "fixtures");
 
+/** The absolute path of fixtures/. */
+export function fixturesFolderPath(): string {
+  return fixturesFolder;
+}
+
 export function isRecord(value: unknown): value is Record<string, unknown> {
   return typeof value === "object" && value !== null && !Array.isArray(value);
 }

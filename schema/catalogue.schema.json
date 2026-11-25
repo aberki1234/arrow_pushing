@@ -18,6 +18,11 @@
       "type": "array",
       "items": {"$ref": "#/$defs/catalogueEntry"}
     },
+    "tracks": {
+      "description": "The Learn tracks, compiled from content/tracks/ (docs/schema-design.md section 6.1), sorted by slug: only published set items, no empty problem set or track. Absent in catalogues built before item 9.",
+      "type": "array",
+      "items": {"$ref": "#/$defs/catalogueTrack"}
+    },
     "dateToDailyReactionVersionRef": {
       "description": "The daily calendar: a learner's local date to the reaction version played that day. Dates are never removed or changed by a later build.",
       "type": "object",
@@ -32,6 +37,22 @@
       "description": "<reaction slug>@<reaction version>, e.g. aldol-addition-base@3.",
       "type": "string",
       "pattern": "^[a-z0-9]+(-[a-z0-9]+)*@[1-9][0-9]*$"
+    },
+    "catalogueTrack": {
+      "description": "A track file without its formatVersion; the problem sets are those of schema/track.schema.json.",
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["trackSlug", "title", "goal", "problemSets"],
+      "properties": {
+        "trackSlug": {"$ref": "#/$defs/slug"},
+        "title": {"type": "string", "minLength": 1},
+        "goal": {"type": "string", "minLength": 1},
+        "problemSets": {
+          "type": "array",
+          "minItems": 1,
+          "items": {"$ref": "track.schema.json#/$defs/problemSet"}
+        }
+      }
     },
     "catalogueEntry": {
       "type": "object",

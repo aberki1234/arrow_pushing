@@ -1,0 +1,25 @@
+{
+  "description": "Edits that make the clean example track (fixtures/tracks/first-mechanisms.json) break track lint rules (src/reactionLinting/trackLint.ts). The published reactions are the four examples in fixtures/reactions. Edits work as in reaction_edits.json. expectedLintRuleIds is the sorted list of distinct rule ids the linter must report, and nothing else.",
+  "cases": [
+    {"caseName": "schema violation stops the lint",
+     "edits": [{"pathToDelete": ["goal"]}, {"pathToSet": ["problemSets", 1, "problemSetSlug"], "newValue": "polar-steps"}],
+     "expectedLintRuleIds": ["schema-violation"]},
+    {"caseName": "two problem sets share a slug",
+     "edits": [{"pathToSet": ["problemSets", 1, "problemSetSlug"], "newValue": "polar-steps"}],
+     "expectedLintRuleIds": ["problem-set-slug-repeated"]},
+    {"caseName": "a reaction twice in one problem set",
+     "edits": [{"pathToSet": ["problemSets", 0, "setItems", 2], "copyFromPath": ["problemSets", 0, "setItems", 0]}],
+     "expectedLintRuleIds": ["set-item-reaction-repeated"]},
+    {"caseName": "a reaction not published yet",
+     "edits": [{"pathToSet": ["problemSets", 0, "setItems", 2], "newValue": {"reactionSlug": "e2-elimination", "whyThisOne": "Coming later."}}],
+     "expectedLintRuleIds": ["set-item-not-published"]},
+    {"caseName": "a checkpoint before the last problem set",
+     "edits": [{"pathToSet": ["problemSets", 1, "checkpoint"], "newValue": true},
+               {"pathToSet": ["problemSets", 1, "setItems", 0], "copyFromPath": ["problemSets", 0, "setItems", 0]},
+               {"pathToDelete": ["problemSets", 2, "setItems", 0]}],
+     "expectedLintRuleIds": ["checkpoint-not-last"]},
+    {"caseName": "a checkpoint reaction from no earlier problem set",
+     "edits": [{"pathToSet": ["problemSets", 2, "setItems", 1, "reactionSlug"], "newValue": "wittig-methylenation-cyclohexanone"}],
+     "expectedLintRuleIds": ["checkpoint-reaction-not-earlier"]}
+  ]
+}

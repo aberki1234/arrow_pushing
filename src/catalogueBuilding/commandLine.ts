@@ -3,11 +3,14 @@
  *
  * Command
  *   build FILE... --out FOLDER (--previous-catalogue FILE | --start-new-calendar)
- *         [--build-date YYYY-MM-DD] [--built-at YYYY-MM-DDTHH:MM:SSZ]
+ *         [--tracks-folder FOLDER] [--build-date YYYY-MM-DD] [--built-at YYYY-MM-DDTHH:MM:SSZ]
  *     Read and lint the published reaction files, check them against the previous catalogue,
  *     extend the daily calendar and write catalogue.json plus r/<slug>/<version>.<hash>.json into
  *     FOLDER (new or empty). Lint warnings are printed. Exit status 1 with
  *     "error <error code>: <message>" if the build refuses; nothing is written then.
+ *     --tracks-folder: the Learn track files (*.json, figures beside them), linted and compiled
+ *     into the catalogue's tracks; figures are copied to t/<track slug>/. Without it, or if the
+ *     folder does not exist, the catalogue has no tracks.
  *     --build-date and --built-at default to the current UTC date and time.
  * A malformed command prints the usage and exits with 2.
  */
@@ -22,6 +25,7 @@ import {
   readPublishedVersion,
 } from "./publishedVersions.js";
 import { checkOutputFolderUsable, writeSite } from "./siteWriting.js";
+import { compileTracks, readTrackFolder } from "./trackCompiling.js";
 
 const EXIT_SUCCESS = 0;
 const EXIT_FAILURE = 1; // the build refused
@@ -29,7 +33,7 @@ const EXIT_MALFORMED_COMMAND = 2;
 const USAGE =
   "usage: catalogue-building build FILE... --out FOLDER " +
   "(--previous-catalogue FILE | --start-new-calendar)\n" +
-  "       [--build-date YYYY-MM-DD] [--built-at YYYY-MM-DDTHH:MM:SSZ]";
+  "       [--tracks-folder FOLDER] [--build-date YYYY-MM-DD] [--built-at YYYY-MM-DDTHH:MM:SSZ]";
 const DATE_PATTERN = /^\d{4}-\d{2}-\d{2}$/;
 const MOMENT_PATTERN = /^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}Z$/;
 
@@ -40,6 +44,8 @@ interface BuildCommand {
   readonly outputFolder: string;
   /** undefined: start a new calendar. */
   readonly previousCataloguePath: string | undefined;
+  /** undefined: no tracks. */
+  readonly tracksFolder: string | undefined;
   readonly buildDate: string | undefined;
   readonly builtAt: string | undefined;
 }
@@ -71,6 +77,7 @@ function parsedBuildCommand(argumentTexts: readonly string[]): BuildCommand | un
         out: { type: "string" },
         "previous-catalogue": { type: "string" },
         "start-new-calendar": { type: "boolean" },
+        "tracks-folder": { type: "string" },
         "build-date": { type: "string" },
         "built-at": { type: "string" },
       },
@@ -95,6 +102,7 @@ function parsedBuildCommand(argumentTexts: readonly string[]): BuildCommand | un
     reactionPaths,
     outputFolder: values.out,
     previousCataloguePath: values["previous-catalogue"],
+    tracksFolder: values["tracks-folder"],
     buildDate: values["build-date"],
     builtAt: values["built-at"],
   };
@@ -140,8 +148,20 @@ async function runBuild(command: BuildCommand, printLine: PrintLine): Promise<vo
   const now = utcSecondText(new Date().toISOString());
   const buildDate = command.buildDate ?? now.slice(0, 10);
   const builtAt = command.builtAt ?? now;
-  const catalogue = assembleCatalogue(publishedVersions, previousCatalogue, buildDate, builtAt);
-  writeSite(command.outputFolder, catalogue, publishedVersions);
+  const publishedReactionSlugs = new Set(publishedVersions.map((version) => version.reactionSlug));
+  const { trackDocuments, conceptFigureCopies } =
+    command.tracksFolder === undefined
+      ? { trackDocuments: [], conceptFigureCopies: [] }
+      : readTrackFolder(command.tracksFolder, publishedReactionSlugs, printLine);
+  const tracks = compileTracks(trackDocuments, publishedReactionSlugs);
+  const catalogue = assembleCatalogue(
+    publishedVersions,
+    previousCatalogue,
+    buildDate,
+    builtAt,
+    tracks,
+  );
+  writeSite(command.outputFolder, catalogue, publishedVersions, conceptFigureCopies);
 }
 
 /** Run one command; returns the exit status. */

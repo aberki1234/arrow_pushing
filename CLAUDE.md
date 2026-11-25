@@ -12,17 +12,20 @@ Do not change agreed decisions without asking; update `docs/SPEC.md` and `docs/s
 
 ## Layout
 
-- `schema/reaction.schema.json` — JSON Schema of one reaction file (shape only); `schema/catalogue.schema.json` — the
-  learner site's `catalogue.json`; `schema/progress.schema.json` — learner progress in `localStorage`.
+- `schema/reaction.schema.json` — JSON Schema of one reaction file (shape only); `schema/track.schema.json` — one
+  Learn track file (`content/tracks/<trackSlug>.json`); `schema/catalogue.schema.json` — the learner site's
+  `catalogue.json`; `schema/progress.schema.json` — learner progress in `localStorage`.
 - `fixtures/` — shared test cases read by Vitest: `reactions/` (example reactions), `schema_cases/` (invalid edits),
   `notation/` (curved-arrow notation cases), `state_graphs/` (SMILES reading and arrow application cases),
   `assessment/` (symmetry, resonance, misconception-pattern and attempt cases), `lint_cases/` (edits that break lint rules),
-  `catalogue/` (daily calendar cases, catalogue reading cases).
+  `catalogue/` (daily calendar cases, catalogue reading cases), `tracks/` (the example Learn track and its figure;
+  its lint cases are `lint_cases/track_edits.json`).
 - `src/` — all code is TypeScript (no Python since build item 8.0). Layers lowest first (`.dependency-cruiser.cjs`):
   `arrowNotation/`, `stateGraphs/` (strict mapped-SMILES parser, applying arrows), `chemistryToolkit/` (RDKit.js:
   atoms, 2D layout, a structure as written; never reachable from the learner site), `attemptAssessment/` (the
-  validator's decision), `reactionFiles/` (Ajv, state atom checks), `reactionLinting/` (the linter; command line
-  `npx tsx src/reactionLinting/runFromShell.ts lint|seed-coordinates`), `catalogue/` (reading `catalogue.json`),
+  validator's decision), `reactionFiles/` (Ajv, state atom checks), `trackFiles/` (the track schema and types),
+  `reactionLinting/` (the linter, reactions and tracks; command line
+  `npx tsx src/reactionLinting/runFromShell.ts lint|seed-coordinates|lint-tracks`), `catalogue/` (reading `catalogue.json`),
   `catalogueBuilding/` (the static catalogue and daily calendar: `npx tsx src/catalogueBuilding/runFromShell.ts
   build`; `make catalogue`), `reactionDatabase/` (8c: Postgres via Kysely, schema `arrowpush`; SQL migrations,
   drafts, versions, publishing, export, import; tests on PGlite with `testSupport/temporaryDatabase.ts`), `moleculeDrawing/` (state → SVG primitives and pick targets, curved-arrow
@@ -58,7 +61,7 @@ Do not change agreed decisions without asking; update `docs/SPEC.md` and `docs/s
   swap), and Vitest runs at most 4 files at once (`vite.config.ts`): a PGlite + RDKit.js worker peaks near 1.1 GB and
   WSL has 8 GB. Run single heavy files the same way: `systemd-run --user --scope -q -p MemoryMax=5G -p
   MemorySwapMax=0 nice -n 19 npx vitest run <file>`. Never run Vitest with its default worker count.
-- **Checks**: `make lint` (`make lint-typescript`, then the reaction linter on the examples), `make test` (Vitest),
+- **Checks**: `make lint` (`make lint-typescript`, then the reaction linter on the examples and `make lint-tracks`), `make test` (Vitest),
   `make check`. `make lint-typescript`: Prettier check (TS/JS, Svelte, `src/**/*.css`), ESLint with the size and
   complexity limits (Svelte files too), `tsc`, `svelte-check`, dependency-cruiser (layers of `src/`; add each new
   folder there).

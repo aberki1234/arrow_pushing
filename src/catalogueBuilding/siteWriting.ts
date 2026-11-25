@@ -4,13 +4,15 @@
  * Files written (paths relative to the output folder)
  *   catalogue.json                    the catalogue, 2-space JSON for people reading it
  *   r/<slug>/<version>.<hash 8>.json  each published version's canonical JSON bytes
+ *   t/<track slug>/figures/<name>.svg each concept figure, copied as it is
  */
-import { existsSync, mkdirSync, readdirSync, statSync, writeFileSync } from "node:fs";
+import { copyFileSync, existsSync, mkdirSync, readdirSync, statSync, writeFileSync } from "node:fs";
 import { dirname, join } from "node:path";
 import type { BuiltCatalogue } from "./catalogueAssembly.js";
 import { CatalogueBuildError } from "./catalogueBuildErrors.js";
 import type { PublishedVersion } from "./publishedVersions.js";
 import { canonicalJsonBytes, reactionFilePath } from "./staticFileNaming.js";
+import type { ConceptFigureCopy } from "./trackCompiling.js";
 
 const CATALOGUE_FILE_NAME = "catalogue.json";
 
@@ -30,13 +32,19 @@ export function checkOutputFolderUsable(outputFolder: string): void {
   }
 }
 
-/** Write the catalogue and every published version's file. */
+/** Write the catalogue, every published version's file and every concept figure. */
 export function writeSite(
   outputFolder: string,
   catalogue: BuiltCatalogue,
   publishedVersions: readonly PublishedVersion[],
+  conceptFigureCopies: readonly ConceptFigureCopy[] = [],
 ): void {
   checkOutputFolderUsable(outputFolder);
+  for (const figure of conceptFigureCopies) {
+    const sitePath = join(outputFolder, figure.sitePath);
+    mkdirSync(dirname(sitePath), { recursive: true });
+    copyFileSync(figure.sourcePath, sitePath);
+  }
   for (const version of publishedVersions) {
     const filePath = join(
       outputFolder,

@@ -11,13 +11,19 @@
  *     Fill in RDKit coordinates for each state whose coordinates do not cover exactly its atoms,
  *     and write the file back (2-space JSON) if anything changed. Prints the states seeded.
  *     Exit status 1 if a file cannot be read as JSON.
+ *   lint-tracks FILE... --published-folder FOLDER
+ *     Lint each track file (schema/track.schema.json; docs/schema-design.md §6.1). The published
+ *     reactions are the reaction files anywhere under FOLDER, by their reactionSlug. Prints one
+ *     line per lint finding, as lint does. Exit status 1 if any file has an error.
  * A malformed command prints the usage and exits with 2.
  */
 import { readFileSync, writeFileSync } from "node:fs";
+import { parseArgs } from "node:util";
 import { loadChemistryToolkit } from "../chemistryToolkit/chemistryToolkit.js";
 import { seedMissingCoordinates } from "./coordinateSeeding.js";
 import type { LintFinding } from "./lintFindings.js";
 import { lintReaction } from "./reactionLint.js";
+import { lintTrackFile, publishedReactionSlugsInFolder } from "./trackFileLint.js";
 
 const EXIT_SUCCESS = 0;
 const EXIT_FAILURE = 1; // an error-level finding, or a file that is not JSON
@@ -25,6 +31,7 @@ const EXIT_MALFORMED_COMMAND = 2;
 const USAGE = [
   "usage: reaction-linting lint FILE... [--json]",
   "       reaction-linting seed-coordinates FILE...",
+  "       reaction-linting lint-tracks FILE... --published-folder FOLDER",
 ].join("\n");
 
 type PrintLine = (line: string) => void;
@@ -73,6 +80,14 @@ async function lintReport(reactionPath: string): Promise<LintReport> {
   };
 }
 
+/** "<file>: <level> <rule id> at <instance path>: <message>". */
+function findingLine(filePath: string, finding: LintFinding): string {
+  return (
+    `${filePath}: ${finding.lintLevel} ${finding.lintRuleId} at ` +
+    `${finding.instancePath || "/"}: ${finding.message}`
+  );
+}
+
 async function runLint(
   reactionPaths: readonly string[],
   printJson: boolean,
@@ -87,10 +102,7 @@ async function runLint(
   } else {
     for (const report of reports) {
       for (const finding of report.lintFindings) {
-        printLine(
-          `${report.reactionFile}: ${finding.lintLevel} ${finding.lintRuleId} at ` +
-            `${finding.instancePath || "/"}: ${finding.message}`,
-        );
+        printLine(findingLine(report.reactionFile, finding));
       }
     }
   }
@@ -119,12 +131,53 @@ async function runSeedCoordinates(
   return exitStatus;
 }
 
+/** The track paths and published folder of lint-tracks, or undefined if malformed. */
+function parsedLintTracksCommand(
+  argumentTexts: readonly string[],
+): { trackPaths: string[]; publishedFolder: string } | undefined {
+  try {
+    const { positionals, values } = parseArgs({
+      args: [...argumentTexts],
+      allowPositionals: true,
+      options: { "published-folder": { type: "string" } },
+    });
+    const publishedFolder = values["published-folder"];
+    return positionals.length > 0 && publishedFolder !== undefined
+      ? { trackPaths: positionals, publishedFolder }
+      : undefined;
+  } catch {
+    return undefined;
+  }
+}
+
+function runLintTracks(argumentTexts: readonly string[], printLine: PrintLine): number {
+  const command = parsedLintTracksCommand(argumentTexts);
+  if (command === undefined) {
+    printLine(USAGE);
+    return EXIT_MALFORMED_COMMAND;
+  }
+  const publishedReactionSlugs = publishedReactionSlugsInFolder(command.publishedFolder);
+  let exitStatus = EXIT_SUCCESS;
+  for (const trackPath of command.trackPaths) {
+    for (const finding of lintTrackFile(trackPath, publishedReactionSlugs).lintFindings) {
+      printLine(findingLine(trackPath, finding));
+      if (finding.lintLevel === "error") {
+        exitStatus = EXIT_FAILURE;
+      }
+    }
+  }
+  return exitStatus;
+}
+
 /** Run one command; returns the exit status. */
 export async function runReactionLinting(
   argumentTexts: readonly string[],
   printLine: PrintLine,
 ): Promise<number> {
   const [command, ...rest] = argumentTexts;
+  if (command === "lint-tracks") {
+    return runLintTracks(rest, printLine);
+  }
   const options = rest.filter((text) => text.startsWith("--"));
   const reactionPaths = rest.filter((text) => !text.startsWith("--"));
   const knownOptions = command === "lint" ? ["--json"] : [];

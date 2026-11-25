@@ -25,7 +25,7 @@ LOW_PRIORITY_CAPPED = $(MEMORY_CAP) nice -n 19
 PRETTIER_FILES = "**/*.ts" "**/*.js" "**/*.cjs" "**/*.svelte" "src/**/*.css"
 
 .PHONY: lint
-lint: lint-typescript lint-reactions
+lint: lint-typescript lint-reactions lint-tracks
 
 .PHONY: lint-typescript
 lint-typescript:
@@ -40,12 +40,21 @@ lint-typescript:
 lint-reactions:
 	$(REACTION_LINTING) lint fixtures/reactions/*.json
 
-# Build the learner site's catalogue from the example reactions into build/site/, a fresh calendar
+# The Learn track files (docs/schema-design.md §6.1): the example track against the example
+# reactions, and the real tracks, if any, against the published backup in content/published/.
+.PHONY: lint-tracks
+lint-tracks:
+	$(REACTION_LINTING) lint-tracks fixtures/tracks/*.json --published-folder fixtures/reactions
+	$(if $(wildcard content/tracks/*.json),$(REACTION_LINTING) lint-tracks content/tracks/*.json \
+		--published-folder content/published)
+
+# Build the learner site's catalogue from the example reactions and track into build/site/, a fresh calendar
 # each time; the real build passes --previous-catalogue instead.
 .PHONY: catalogue
 catalogue:
 	rm -rf build/site
-	$(CATALOGUE_BUILDING) build fixtures/reactions/*.json --out build/site --start-new-calendar
+	$(CATALOGUE_BUILDING) build fixtures/reactions/*.json --out build/site --start-new-calendar \
+		--tracks-folder fixtures/tracks
 
 # The learner site (src/learnerSite, Vite): the app built into build/app/, then merged with a
 # fresh catalogue in build/site/ (open it with a static server, e.g. npx vite preview).

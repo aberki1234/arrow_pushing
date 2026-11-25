@@ -377,8 +377,9 @@ atomSelector        := O1 | O* (any O) | @nucleophile (a role) | *</code></pre>
     { "problemSetSlug": "aromatic-checkpoint", "title": "Checkpoint", …, "checkpoint": true, "setItems": [ … ] } ] }</code></pre>
     <ul>
       <li>Items are ordered by hand; the difficulty tier is shown but doesn't order them. A reaction may appear in several problem sets, at most once in each. Membership doesn't affect the daily puzzle.</li>
-      <li><b>Lint</b>: the schema; slugs unique in the track; an item whose reaction isn't published is a <b>warning</b>. A checkpoint comes last and uses only reactions from the track's earlier problem sets.</li>
-      <li><b>Catalogue build</b>: tracks are compiled into <code>catalogue.json</code> (figures copied beside it). Unpublished items are left out and an empty problem set is hidden. A push changing <code>content/tracks/</code> also rebuilds the site.</li>
+      <li>Every problem set says <code>"checkpoint": true</code> or <code>false</code>. Figures are SVG files in <code>content/tracks/figures/</code>.</li>
+      <li><b>Lint</b> <span class="tag ok">built</span> (<code>make lint-tracks</code>): the schema; problem-set slugs unique in the track; a reaction at most once per problem set; an item whose reaction isn't published is a <b>warning</b>; a checkpoint comes last and uses only reactions from the track's earlier problem sets; every figure exists.</li>
+      <li><b>Catalogue build</b> <span class="tag ok">built</span>: tracks are compiled into <code>catalogue.json</code>, and figures are copied to <code>t/&lt;track&gt;/figures/</code>. Unpublished items are left out, then empty problem sets, then empty tracks. A lint error in a track file stops the build. A push changing <code>content/tracks/</code> also rebuilds the site.</li>
       <li>Tracks move into Postgres, with an editor screen, only once contributors write problem sets.</li>
     </ul>
 
@@ -467,7 +468,7 @@ verifications(id uuid pk, identifier, value, expires_at, …)   -- the OAuth sta
       </li>
       <li>Learn: tracks and problem sets (scoped 2026-11-25, <a href="spec.html#architecture">spec §5</a>, <a href="#tracks">§6.1</a>), built before 8d, in three parts:
         <ul>
-          <li><b>9a</b> The track file: its schema, fixtures, lint checks, compiling into <code>catalogue.json</code>, and the site rebuilding on a push to <code>content/tracks/</code>.</li>
+          <li><span class="tag ok">done</span> <b>9a</b> The track file: its schema, an example track, lint checks, compiling into <code>catalogue.json</code> with figures, and the site rebuilding on a push to <code>content/tracks/</code>.</li>
           <li><b>9b</b> The Learn, track and problem set pages, Next up, the breadcrumb and Next in set, Home's Continue learning card and Progress's Tracks section.</li>
           <li><b>9c</b> Checkpoints: the checkpoint run mode (daily scoring, names hidden, shuffled once per attempt).</li>
         </ul>

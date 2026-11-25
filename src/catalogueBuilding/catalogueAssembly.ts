@@ -12,6 +12,7 @@
 import {
   type Catalogue,
   type CatalogueEntry,
+  type CatalogueTrack,
   catalogueSchemaViolations,
 } from "../catalogue/catalogueReading.js";
 import { CatalogueBuildError } from "./catalogueBuildErrors.js";
@@ -154,14 +155,16 @@ function validPreviousCatalogue(previousCatalogue: unknown): BuiltCatalogue {
 }
 
 /**
- * The new catalogue. `previousCatalogue` undefined starts a new calendar on `buildDate`. Throws
- * CatalogueBuildError (previous-catalogue-invalid, the checks above, or no-eligible-reactions).
+ * The new catalogue. `previousCatalogue` undefined starts a new calendar on `buildDate`.
+ * `tracks`: the compiled Learn tracks (trackCompiling.ts). Throws CatalogueBuildError
+ * (previous-catalogue-invalid, the checks above, or no-eligible-reactions).
  */
 export function assembleCatalogue(
   publishedVersions: readonly PublishedVersion[],
   previousCatalogue: unknown,
   buildDate: string,
   builtAt: string,
+  tracks: readonly CatalogueTrack[] = [],
 ): BuiltCatalogue {
   let previousDateToRef: Readonly<Record<string, string>> = {};
   if (previousCatalogue !== undefined) {
@@ -173,6 +176,7 @@ export function assembleCatalogue(
     formatVersion: CATALOGUE_FORMAT_VERSION,
     builtAt,
     reactions: catalogueEntries(publishedVersions),
+    tracks,
     dateToDailyReactionVersionRef: appendedDailyCalendar(
       previousDateToRef,
       eligibleVersionRefs(publishedVersions),
