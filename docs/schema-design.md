@@ -671,6 +671,15 @@ RDKit (RDKit.js) on every valid SMILES case and every example state (`src/chemis
      hashes checked); `.github/workflows/deploy-site.yml` (backup commit, build with the live catalogue,
      Cloudflare Pages), `.github/workflows/database-upkeep.yml` (daily query, weekly `pg_dump`), `render.yaml`.
      Checked in headless Chromium against the server on PGlite (sign-in, open, lint, Publish, Edit offered).
+     Part 4 done 2026-11-25 by the owner: Supabase (Sydney), the Render web service, the GitHub OAuth app,
+     Cloudflare Pages, the repository's Actions variables and secrets; the examples imported, the first deploy
+     run with a new calendar, the upkeep workflow run, and an Edit → Publish → automatic deploy end to end.
+     Facts for setting it up again: make `arrowpush_server` (LOGIN) and `arrowpush_readonly` (LOGIN) as
+     `postgres` before the first start, and `GRANT CREATE ON DATABASE postgres TO arrowpush_server`
+     (`CREATE SCHEMA IF NOT EXISTS` checks that right even when the schema exists); the pooler's user is
+     `<role>.<project-ref>`, Session mode (5432); both connection strings end in
+     `?sslmode=verify-full&sslrootcert=deploy/supabase-root-ca.crt` (Node does not trust Supabase's root CA);
+     whichever role first runs the migrations owns the tables.
    * **8d** Contributors: sign-up, submit → review (play-through + diff) → changes requested | published.
 9. Problem sets: reaction sets that teach one concept (Zaitsev's rule, kinetic versus thermodynamic enolates).
    To be scoped after item 8 (SPEC §9).
