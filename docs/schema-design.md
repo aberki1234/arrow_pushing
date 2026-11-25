@@ -549,7 +549,8 @@ current state the wrong checks, hints and feedback shown; not the arrows being d
   reaction version does not reset them. Export/import is this JSON. Import merges runs, deduplicated by
   `reactionVersionRef + startedAt`.
 * **Item 9 (decided 2026-11-25):** a run's `mode` gains **`checkpoint`** (daily scoring rules, names hidden), and a
-  run gains an optional **`problemSetSlug`** (set for checkpoint runs). Done and mastered for set items are derived
+  run gains an optional **`problemSetRef`** (`"<trackSlug>/<problemSetSlug>"`, set for checkpoint runs; built in
+  9c). Done and mastered for set items are derived
   from `runs`, nothing new stored, except **`lastProblemSetRef`** (`"<trackSlug>/<problemSetSlug>"`, the last
   problem set touched, for Home's Continue learning card).
 
@@ -746,8 +747,12 @@ RDKit (RDKit.js) on every valid SMILES case and every example state (`src/chemis
      is open while none of the problem set's items is done and folded after (no visit is stored). Until 9c a
      checkpoint's items are never done and play as ordinary practice. Checked in headless Chromium on the example
      track (every page, the breadcrumb, the figure; no console errors).
-   * **9c** Checkpoints: the `checkpoint` run mode (daily scoring, names hidden, shuffled once per attempt),
-     `problemSetSlug` on runs.
+   * **9c Done 2026-11-26.** Checkpoints: the `checkpoint` run mode (`hasLimitedAttempts` in `stepSession.ts`:
+     3 attempts per step, points), `problemSetRef` on runs, a checkpoint item done only by a checkpoint run with
+     its ref (`slugsDoneInCheckpoint`), `learnTracks/checkpointAttempt.ts` (an attempt shuffles the items not
+     yet done there, or all once every one is done; Fisher–Yates with the random source passed in), and
+     `learnerSite/CheckpointRun.svelte` on the checkpoint's page (names hidden, revealed in each finished view).
+     Next up links to a checkpoint go to its page; a checkpoint has no `#/learn/…/<reaction>` play route.
    Alongside: authoring the "Aromatic chemistry" reactions in the editor (SPEC §2).
 
 ## 11. Corrections to the mockup content

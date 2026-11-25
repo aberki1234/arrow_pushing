@@ -10,6 +10,7 @@ import { expect, it } from "vitest";
 import type { CatalogueTrack } from "../catalogue/catalogueReading.js";
 import {
   type LearnerProgress,
+  type RunRecord,
   emptyProgress,
   withRun,
 } from "../learnerProgress/learnerProgress.js";
@@ -22,6 +23,7 @@ import {
   trackProgress,
 } from "./trackProgress.js";
 
+const TRACK = "first-mechanisms";
 const SN2 = "sn2-hydroxide-bromomethane";
 const ALDOL = "aldol-addition-base";
 const RADICAL = "radical-bromination-methane";
@@ -57,7 +59,7 @@ function progressWith(...slugAndOutcomes: [string, "firstTry" | "afterHint"][]):
 }
 
 it("with no runs nothing is done and mastery is 0%", () => {
-  const polarSteps = problemSetProgress(problemSetOf("polar-steps"), emptyProgress());
+  const polarSteps = problemSetProgress(TRACK, problemSetOf("polar-steps"), emptyProgress());
   expect(polarSteps.doneCount).toBe(0);
   expect(polarSteps.totalCount).toBe(2);
   expect(polarSteps.masteryPercent).toBe(0);
@@ -69,7 +71,7 @@ it("with no runs nothing is done and mastery is 0%", () => {
 
 it("a set item is done after any finished run, and mastered only at 100%", () => {
   const progress = progressWith([SN2, "firstTry"], [ALDOL, "afterHint"]);
-  const polarSteps = problemSetProgress(problemSetOf("polar-steps"), progress);
+  const polarSteps = problemSetProgress(TRACK, problemSetOf("polar-steps"), progress);
   expect(polarSteps.setItemMarks.map((mark) => [mark.done, mark.mastered])).toEqual([
     [true, true],
     [true, false],
@@ -84,12 +86,12 @@ it("a daily run counts as done too", () => {
     emptyProgress(),
     runOf(`${SN2}@1`, "2026-12-01T09:00:00Z", [stepOf("firstTry")], "daily"),
   );
-  expect(problemSetProgress(problemSetOf("polar-steps"), progress).doneCount).toBe(1);
+  expect(problemSetProgress(TRACK, problemSetOf("polar-steps"), progress).doneCount).toBe(1);
 });
 
 it("a checkpoint's set items are not done by ordinary runs", () => {
   const progress = progressWith([SN2, "firstTry"], [RADICAL, "firstTry"]);
-  const checkpoint = problemSetProgress(problemSetOf("first-checkpoint"), progress);
+  const checkpoint = problemSetProgress(TRACK, problemSetOf("first-checkpoint"), progress);
   expect(checkpoint.doneCount).toBe(0);
   expect(checkpoint.setItemMarks.map((mark) => mark.masteryPercent)).toEqual([100, 100]);
 });
@@ -130,8 +132,33 @@ it("once every ordinary problem set is done, Next up is the checkpoint", () => {
 
 it("Next up in a problem set is its first set item not done, or null when all are", () => {
   const polarSteps = problemSetOf("polar-steps");
-  expect(nextUpInProblemSet(polarSteps, progressWith([SN2, "firstTry"]))?.reactionSlug).toBe(ALDOL);
+  expect(nextUpInProblemSet(TRACK, polarSteps, progressWith([SN2, "firstTry"]))?.reactionSlug).toBe(
+    ALDOL,
+  );
   expect(
-    nextUpInProblemSet(polarSteps, progressWith([SN2, "firstTry"], [ALDOL, "afterHint"])),
+    nextUpInProblemSet(TRACK, polarSteps, progressWith([SN2, "firstTry"], [ALDOL, "afterHint"])),
   ).toBeNull();
+});
+
+const CHECKPOINT_REF = "first-mechanisms/first-checkpoint";
+
+it("a checkpoint's set item is done by a checkpoint run in that checkpoint only", () => {
+  const checkpointRun = (problemSetRef: string): RunRecord => ({
+    ...runOf(`${RADICAL}@1`, "2026-12-01T09:00:00Z", [stepOf("afterHint")], "checkpoint"),
+    problemSetRef,
+  });
+  const inThisCheckpoint = withRun(emptyProgress(), checkpointRun(CHECKPOINT_REF));
+  const checkpoint = problemSetProgress(TRACK, problemSetOf("first-checkpoint"), inThisCheckpoint);
+  expect(checkpoint.setItemMarks.map((mark) => mark.done)).toEqual([true, false]);
+  const inAnotherCheckpoint = withRun(
+    emptyProgress(),
+    checkpointRun("other-track/first-checkpoint"),
+  );
+  expect(
+    problemSetProgress(TRACK, problemSetOf("first-checkpoint"), inAnotherCheckpoint).doneCount,
+  ).toBe(0);
+  // A checkpoint run also counts for the ordinary problem set holding the reaction.
+  expect(problemSetProgress(TRACK, problemSetOf("radical-chain"), inThisCheckpoint).doneCount).toBe(
+    1,
+  );
 });

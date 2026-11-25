@@ -30,5 +30,5 @@ export function continueLearning(
   const found = findProblemSet(catalogue, trackSlug, problemSetSlug);
   return found === null
     ? null
-    : { ...found, nextUp: nextUpInProblemSet(found.problemSet, progress) };
+    : { ...found, nextUp: nextUpInProblemSet(trackSlug, found.problemSet, progress) };
 }

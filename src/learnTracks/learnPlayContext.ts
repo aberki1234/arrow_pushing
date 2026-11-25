@@ -67,7 +67,8 @@ function afterRunOf(
 
 /**
  * The context of playing `reactionSlug` from a problem set; null when the catalogue has no such
- * track, problem set, set item or reaction.
+ * track, problem set, set item or reaction, and for a checkpoint, whose reactions are played on
+ * its own page with their names hidden (checkpointAttempt.ts).
  */
 export function learnPlayContext(
   catalogue: Catalogue,
@@ -79,7 +80,7 @@ export function learnPlayContext(
   const setItemPosition =
     found?.problemSet.setItems.findIndex((setItem) => setItem.reactionSlug === reactionSlug) ?? -1;
   const entry = catalogue.reactions.find((candidate) => candidate.reactionSlug === reactionSlug);
-  if (found === null || setItemPosition < 0 || entry === undefined) {
+  if (found === null || found.problemSet.checkpoint || setItemPosition < 0 || entry === undefined) {
     return null;
   }
   const { track, problemSet } = found;

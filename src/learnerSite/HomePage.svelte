@@ -28,7 +28,7 @@
   import { continueLearning } from "../learnTracks/continueLearning.js";
   import { nextUpInTrack } from "../learnTracks/trackProgress.js";
   import { browserStorage } from "./browserStorage.js";
-  import { learnHash } from "./learnView.js";
+  import { learnHash, nextUpHash } from "./learnView.js";
   import { loadMisconceptionInfo } from "./misconceptionLoading.js";
   import { loadSessionReaction } from "./reactionLoading.js";
   import { siteRouteHash } from "./siteRoutes.js";
@@ -141,14 +141,14 @@
         <p class="small muted">Problem set complete ✓</p>
         <a class="btn sm" href={learnHash(learning.track.trackSlug)}>Choose the next one</a>
       {:else}
-        <p class="small">Next up: {entryOf(learning.nextUp.reactionSlug)?.title}</p>
+        <p class="small">
+          Next up: {learning.problemSet.checkpoint
+            ? "the checkpoint"
+            : entryOf(learning.nextUp.reactionSlug)?.title}
+        </p>
         <a
           class="btn primary sm"
-          href={learnHash(
-            learning.track.trackSlug,
-            learning.problemSet.problemSetSlug,
-            learning.nextUp.reactionSlug,
-          )}
+          href={nextUpHash(learning.track.trackSlug, learning.problemSet, learning.nextUp)}
         >
           Continue
         </a>
@@ -164,11 +164,7 @@
         class="btn primary sm"
         href={nextUp === null
           ? learnHash(firstTrack.trackSlug)
-          : learnHash(
-              firstTrack.trackSlug,
-              nextUp.problemSet.problemSetSlug,
-              nextUp.setItem.reactionSlug,
-            )}
+          : nextUpHash(firstTrack.trackSlug, nextUp.problemSet, nextUp.setItem)}
       >
         Start
       </a>

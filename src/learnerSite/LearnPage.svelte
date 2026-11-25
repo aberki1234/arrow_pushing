@@ -5,7 +5,7 @@
   import { readProgress } from "../learnerProgress/learnerProgress.js";
   import { nextUpInTrack, trackProgress } from "../learnTracks/trackProgress.js";
   import { browserStorage } from "./browserStorage.js";
-  import { learnHash } from "./learnView.js";
+  import { learnHash, nextUpHash } from "./learnView.js";
 
   const { catalogue }: { catalogue: Catalogue } = $props();
 
@@ -42,11 +42,7 @@
         {:else}
           <a
             class="btn primary sm"
-            href={learnHash(
-              track.trackSlug,
-              nextUp.problemSet.problemSetSlug,
-              nextUp.setItem.reactionSlug,
-            )}
+            href={nextUpHash(track.trackSlug, nextUp.problemSet, nextUp.setItem)}
           >
             {progressOfTrack.doneCount === 0 ? "▶ Start" : "▶ Continue"}
           </a>

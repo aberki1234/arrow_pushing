@@ -36,6 +36,8 @@ export interface RunRecord {
   /** ISO time; with the ref, identifies the run. */
   readonly startedAt: string;
   readonly stepResults: readonly StepResult[];
+  /** A checkpoint run's problem set, "<trackSlug>/<problemSetSlug>" (item 9c). */
+  readonly problemSetRef?: string;
 }
 
 export interface DailyResult {
@@ -179,13 +181,21 @@ export function clearDailyInProgress(storage: ProgressStorage): void {
   storage.removeItem(DAILY_IN_PROGRESS_STORAGE_KEY);
 }
 
-/** The run to save for a session started at `startedAt` (ISO time). */
-export function runRecordOf(session: StepSession, startedAt: string): RunRecord {
+/**
+ * The run to save for a session started at `startedAt` (ISO time). `problemSetRef`: the
+ * checkpoint the run was played in, "<trackSlug>/<problemSetSlug>", or null.
+ */
+export function runRecordOf(
+  session: StepSession,
+  startedAt: string,
+  problemSetRef: string | null = null,
+): RunRecord {
   const { reactionSlug, reactionVersion } = session.reaction;
-  return {
+  const run: RunRecord = {
     reactionVersionRef: `${reactionSlug}@${String(reactionVersion)}`,
     mode: session.mode,
     startedAt,
     stepResults: session.stepResults,
   };
+  return problemSetRef === null ? run : { ...run, problemSetRef };
 }

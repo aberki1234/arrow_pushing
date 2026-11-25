@@ -77,3 +77,41 @@ test("an unknown problem set says so", () => {
   });
   expect(screen.getByRole("alert").textContent).toContain("not found");
 });
+
+function renderCheckpoint(): void {
+  render(ProblemSetPage, {
+    props: {
+      catalogue: exampleLearnCatalogue(),
+      trackSlug: "first-mechanisms",
+      problemSetSlug: "first-checkpoint",
+    },
+  });
+}
+
+test("a checkpoint hides the names of reactions not yet done in it", () => {
+  writeProgress(
+    browserStorage,
+    withRun(emptyProgress(), {
+      ...runOf(
+        "sn2-hydroxide-bromomethane@1",
+        "2026-12-01T09:00:00Z",
+        [stepOf("firstTry")],
+        "checkpoint",
+      ),
+      problemSetRef: "first-mechanisms/first-checkpoint",
+    }),
+  );
+  renderCheckpoint();
+  const items = within(screen.getByRole("list", { name: "Set items" })).getAllByRole("listitem");
+  const itemTexts = items.map((item) => item.textContent);
+  expect(itemTexts.some((text) => text.includes("Radical bromination"))).toBe(false);
+  expect(itemTexts.some((text) => text.includes("Hidden reaction"))).toBe(true);
+  expect(itemTexts.some((text) => text.includes("SN2 substitution"))).toBe(true);
+  expect(screen.queryAllByRole("link", { name: /Radical|SN2/ })).toEqual([]);
+});
+
+test("a checkpoint is started on its own page, not from a link naming a reaction", () => {
+  renderCheckpoint();
+  expect(screen.getByRole("button", { name: /Start checkpoint/ })).toBeTruthy();
+  expect(screen.queryByRole("link", { name: /Next up|Start:/ })).toBeNull();
+});

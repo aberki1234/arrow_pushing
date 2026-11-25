@@ -5,6 +5,8 @@ import { exampleSessionReaction } from "../testSupport/exampleSessions.js";
 import type { TappedPlace } from "./arrowPicking.js";
 import {
   DAILY_ATTEMPTS_PER_STEP,
+  revealsReactionClass,
+  hasLimitedAttempts,
   NO_ARROWS_MESSAGE,
   type StepSession,
   cancelPick,
@@ -59,10 +61,20 @@ describe("starting", () => {
     expect(session.stepResults).toEqual([]);
   });
 
-  test("a radical reaction starts with fish-hooks", () => {
+  test("a radical reaction starts with fish-hooks in practice", () => {
     const session = startStepSession(exampleSessionReaction("radical-bromination-methane"));
     expect(session.arrowType).toBe("fishHook");
+    expect(revealsReactionClass("practice")).toBe(true);
   });
+
+  test.each(["daily", "checkpoint"] as const)(
+    "in %s mode a radical reaction starts with electron pairs, so nothing tells its class",
+    (mode) => {
+      const radical = exampleSessionReaction("radical-bromination-methane");
+      expect(startStepSession(radical, mode).arrowType).toBe("pair");
+      expect(revealsReactionClass(mode)).toBe(false);
+    },
+  );
 });
 
 describe("drawing", () => {
@@ -298,5 +310,19 @@ describe("feedback ids", () => {
     expect(session.lastAssessment?.assessmentKind).toBe("genericRule");
     session = checkArrows(drawSn2(clearArrows(setArrowType(session, "pair"))));
     expect(session.stepResults[0]?.feedbackIdsShown).toEqual(["rule:wrong-arrow-type"]);
+  });
+});
+
+describe("checkpoint mode (item 9c)", () => {
+  test("the daily rules apply: the third wrong check misses the step", () => {
+    const checkpoint = startStepSession(
+      exampleSessionReaction("sn2-hydroxide-bromomethane"),
+      "checkpoint",
+    );
+    expect(hasLimitedAttempts("checkpoint")).toBe(true);
+    expect(hasLimitedAttempts("practice")).toBe(false);
+    const missed = threeWrongChecks(checkpoint);
+    expect(missed.phase).toBe("stepMissed");
+    expect(missed.stepResults.map((stepResult) => stepResult.stepOutcome)).toEqual(["missed"]);
   });
 });

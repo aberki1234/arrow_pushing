@@ -11,6 +11,7 @@
     chooseDestination,
     ghostArrows,
     revealedArrows,
+    revealsReactionClass,
     tapPlace,
   } from "../stepSession/stepSession.js";
   import ArrowControls from "./ArrowControls.svelte";
@@ -60,7 +61,11 @@
     })),
   ]);
   const choice = $derived(destinationChoice(session));
-  const radical = $derived(reaction.reactionClasses.includes("radical"));
+  // Only practice tags a radical reaction; daily and checkpoint leave radical or polar to the
+  // learner (revealsReactionClass).
+  const radical = $derived(
+    revealsReactionClass(session.mode) && reaction.reactionClasses.includes("radical"),
+  );
   let pendingTargetId: string | null = $state(null);
 
   function pickTarget(target: PickTarget): void {
@@ -97,6 +102,8 @@
     <div class="row">
       {#if session.mode === "daily"}
         <span class="pill new">Daily puzzle</span>
+      {:else if session.mode === "checkpoint"}
+        <span class="pill warn">Checkpoint</span>
       {:else}
         <span class="pill">Practice</span>
         {#each reaction.reactionClasses as reactionClass (reactionClass)}

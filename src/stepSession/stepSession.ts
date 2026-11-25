@@ -40,7 +40,8 @@ export const HINT_TIER_COUNT = 3;
 export const NO_ARROWS_MESSAGE = "Draw at least one arrow, then check.";
 export const DAILY_ATTEMPTS_PER_STEP = 3;
 
-export type SessionMode = "practice" | "daily";
+/** practice: unlimited attempts, free hints. daily and checkpoint: the daily rules (item 9c). */
+export type SessionMode = "practice" | "daily" | "checkpoint";
 export type SessionPhase = "drawing" | "stepCorrect" | "stepMissed" | "changeEvent" | "complete";
 export type StepOutcome = "firstTry" | "afterRetry" | "afterHint" | "missed";
 
@@ -118,7 +119,10 @@ export function startStepSession(
     mode,
     phase: "drawing",
     currentStateId: reaction.startStateId,
-    arrowType: reaction.reactionClasses.includes("radical") ? "fishHook" : "pair",
+    arrowType:
+      revealsReactionClass(mode) && reaction.reactionClasses.includes("radical")
+        ? "fishHook"
+        : "pair",
     drawnArrows: [],
     pendingSource: null,
     pendingDestinationOptions: null,
@@ -259,6 +263,20 @@ function stepResultOf(session: StepSession, stepKey: string, stepOutcome: StepOu
   };
 }
 
+/**
+ * Whether the screen may hint at the reaction's class (decided 2026-11-26): practice starts a
+ * radical reaction on fish-hooks and tags it "radical"; daily and checkpoint start on electron
+ * pairs with no tag, since telling radical from polar is part of the puzzle.
+ */
+export function revealsReactionClass(mode: SessionMode): boolean {
+  return mode === "practice";
+}
+
+/** Whether the mode allows DAILY_ATTEMPTS_PER_STEP checks per step (daily and checkpoint). */
+export function hasLimitedAttempts(mode: SessionMode): boolean {
+  return mode !== "practice";
+}
+
 /** A check that was not correct; in daily mode the last allowed one misses the step. */
 function afterWrongCheck(session: StepSession, assessment: AttemptAssessment): StepSession {
   const feedbackId = feedbackIdOf(session, assessment);
@@ -272,7 +290,7 @@ function afterWrongCheck(session: StepSession, assessment: AttemptAssessment): S
   };
   const preferredStep = stepsLeaving(session.reaction, session.currentStateId)[0];
   if (
-    session.mode !== "daily" ||
+    !hasLimitedAttempts(session.mode) ||
     session.wrongCheckCount + 1 < DAILY_ATTEMPTS_PER_STEP ||
     preferredStep === undefined
   ) {

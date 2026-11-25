@@ -39,10 +39,20 @@ it("after the last set item the problem set is complete and the next one is offe
   ).toBe("radical-chain");
 });
 
-it("after the last problem set's last item there is no next problem set", () => {
-  const context = learnPlayContext(exampleLearnCatalogue(), TRACK, "first-checkpoint", SN2);
-  expect(context?.breadcrumbText).toBe("First mechanisms › Checkpoint · 2 of 2");
-  expect(context?.afterRun).toEqual({ afterRunKind: "problemSetComplete", nextProblemSet: null });
+it("after the last item of the last problem set there is no next problem set", () => {
+  const context = learnPlayContext(
+    exampleLearnCatalogue(),
+    TRACK,
+    "radical-chain",
+    "radical-bromination-methane",
+  );
+  expect(context?.breadcrumbText).toBe("First mechanisms › Radical chain · 1 of 1");
+  expect(context?.afterRun.afterRunKind).toBe("problemSetComplete");
+  expect(
+    context?.afterRun.afterRunKind === "problemSetComplete"
+      ? context.afterRun.nextProblemSet?.problemSetSlug
+      : undefined,
+  ).toBe("first-checkpoint");
 });
 
 it.each([
@@ -62,4 +72,8 @@ it("findProblemSet finds a problem set by its track and slug", () => {
     "Radical chain",
   );
   expect(findProblemSet(exampleLearnCatalogue(), TRACK, "nowhere")).toBeNull();
+});
+
+it("a checkpoint's reactions have no play context: they are played from its page", () => {
+  expect(learnPlayContext(exampleLearnCatalogue(), TRACK, "first-checkpoint", SN2)).toBeNull();
 });

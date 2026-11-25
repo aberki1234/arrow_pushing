@@ -160,8 +160,14 @@ then a halobenzene (deactivating but ortho/para). The track ends with a checkpoi
   - **Checkpoint:** each track ends with a checkpoint problem set (`checkpoint: true`) mixing reactions from its
     earlier problem sets, shuffled once per attempt, **names hidden** until finished. It is a third run mode,
     **`checkpoint`**, scored by the **daily rules** (3 attempts per step, −1 per wrong check or hint, missed steps).
-    A checkpoint item is done only by a run in that checkpoint (runs record an optional `problemSetSlug`); its runs
-    count towards mastery like any other.
+    Daily and checkpoint runs start on electron-pair arrows and show no "radical" tag (decided 2026-11-26), so
+    telling radical from polar is left to the learner; practice keeps the fish-hook start and the tag.
+    A checkpoint item is done only by a run in that checkpoint (runs record an optional `problemSetRef`,
+    `"<trackSlug>/<problemSetSlug>"`, since problem-set slugs are unique only within a track); its runs count
+    towards mastery like any other. **An attempt is one sitting on the checkpoint's own page** (built 2026-11-26,
+    item 9c): Start checkpoint shuffles the reactions not yet done there (all of them once every one is done) and
+    plays them one after another; the order is not stored and no URL names a reaction. Names stay hidden in its
+    list until done there.
   - **Authoring:** one hand-written JSON file per track, `content/tracks/<trackSlug>.json` (shape
     `schema/track.schema.json`), in git; the reaction linter checks it and the catalogue build compiles it into
     `catalogue.json`. A set item whose reaction is not published gives a lint **warning** and is left out of the

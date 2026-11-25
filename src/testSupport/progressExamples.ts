@@ -1,6 +1,6 @@
 /** Hand-made runs and daily results for the learner statistics tests. */
 import type { DailyResult, RunRecord } from "../learnerProgress/learnerProgress.js";
-import type { StepOutcome, StepResult } from "../stepSession/stepSession.js";
+import type { SessionMode, StepOutcome, StepResult } from "../stepSession/stepSession.js";
 
 /** A step result: attempts and hints follow from the outcome unless given. */
 export function stepOf(
@@ -17,7 +17,7 @@ export function runOf(
   reactionVersionRef: string,
   startedAt: string,
   stepResults: readonly StepResult[],
-  mode: "practice" | "daily" = "practice",
+  mode: SessionMode = "practice",
 ): RunRecord {
   return { reactionVersionRef, mode, startedAt, stepResults };
 }

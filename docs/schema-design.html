@@ -401,7 +401,7 @@ atomSelector        := O1 | O* (any O) | @nucleophile (a role) | *</code></pre>
       <li>The daily share grid has <b>one tile per step taken</b>. A preferred or accepted step on the first try both give 🟩.</li>
       <li>Mastery and misconception history are grouped by slug, step key and tag, so a new version doesn't reset them.</li>
       <li><span class="tag ok">built</span> in item 7c. <b>Mastery</b> = the score of the most recent run of a reaction (100% = mastered). Recurring mistakes are counted from the feedback shown, grouped by misconception tag. <b>Import</b> merges a file into what's in the browser and never overwrites a day already played.</li>
-      <li><b>Item 9</b> (decided 2026-11-25): a run's mode can also be <code>checkpoint</code> (daily scoring, names hidden), and a run can record its <code>problemSetSlug</code>. Done and mastered for set items are worked out from the runs; the only new saved field is <code>lastProblemSetRef</code>, the last problem set touched, for Home's Continue learning card.</li>
+      <li><b>Item 9</b> (decided 2026-11-25): a run's mode can also be <code>checkpoint</code> (daily scoring, names hidden), and a checkpoint run records its <code>problemSetRef</code> (<code>&lt;track&gt;/&lt;problem set&gt;</code>). Done and mastered for set items are worked out from the runs; the only new saved field is <code>lastProblemSetRef</code>, the last problem set touched, for Home's Continue learning card.</li>
     </ul>
 
     <h2 id="postgres">8 · Postgres (editor and submissions only)</h2>
@@ -470,7 +470,7 @@ verifications(id uuid pk, identifier, value, expires_at, …)   -- the OAuth sta
         <ul>
           <li><span class="tag ok">done</span> <b>9a</b> The track file: its schema, an example track, lint checks, compiling into <code>catalogue.json</code> with figures, and the site rebuilding on a push to <code>content/tracks/</code>.</li>
           <li><span class="tag ok">done</span> <b>9b</b> The Learn, track and problem set pages, Next up, the breadcrumb and Next in set, Home's Continue learning card and Progress's Tracks section. The concept card is open until one of the problem set's reactions is done, then folded. Until 9c, a checkpoint's reactions play as ordinary practice and never count as done.</li>
-          <li><b>9c</b> Checkpoints: the checkpoint run mode (daily scoring, names hidden, shuffled once per attempt).</li>
+          <li><span class="tag ok">done</span> <b>9c</b> Checkpoints: the checkpoint run mode (daily scoring, names hidden), each run recording its checkpoint (<code>problemSetRef</code>), and attempts on the checkpoint's own page that shuffle the reactions not yet done there.</li>
         </ul>
         Alongside: authoring the “Aromatic chemistry” reactions in the editor.</li>
     </ol>

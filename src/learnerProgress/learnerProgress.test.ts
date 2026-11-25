@@ -170,3 +170,21 @@ test("a last problem set ref that is not <track>/<problem set> is unreadable", (
   });
   expect(readProgress(storage)).toEqual(emptyProgress());
 });
+
+test("a checkpoint run records its problem set and is saved and read back", () => {
+  const session = startStepSession(
+    exampleSessionReaction("sn2-hydroxide-bromomethane"),
+    "checkpoint",
+  );
+  const run = runRecordOf(session, "2026-12-01T09:00:00.000Z", "first-mechanisms/first-checkpoint");
+  expect(run.mode).toBe("checkpoint");
+  expect(run.problemSetRef).toBe("first-mechanisms/first-checkpoint");
+  const storage = memoryStorage();
+  writeProgress(storage, withRun(emptyProgress(), run));
+  expect(readProgress(storage).runs).toEqual([run]);
+});
+
+test("a run outside a checkpoint records no problem set", () => {
+  const session = startStepSession(exampleSessionReaction("sn2-hydroxide-bromomethane"));
+  expect("problemSetRef" in runRecordOf(session, "2026-12-01T09:00:00.000Z")).toBe(false);
+});

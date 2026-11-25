@@ -48,7 +48,12 @@
       "required": ["reactionVersionRef", "mode", "startedAt", "stepResults"],
       "properties": {
         "reactionVersionRef": { "$ref": "#/$defs/reactionVersionRef" },
-        "mode": { "enum": ["practice", "daily"] },
+        "mode": { "enum": ["practice", "daily", "checkpoint"] },
+        "problemSetRef": {
+          "description": "A checkpoint run's problem set, <trackSlug>/<problemSetSlug> (item 9c).",
+          "type": "string",
+          "pattern": "^[a-z0-9]+(-[a-z0-9]+)*/[a-z0-9]+(-[a-z0-9]+)*$"
+        },
         "startedAt": { "type": "string", "minLength": 1 },
         "stepResults": { "type": "array", "items": { "$ref": "#/$defs/stepResult" } }
       }

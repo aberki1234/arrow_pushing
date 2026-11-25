@@ -15,6 +15,7 @@
     showNextHint,
     shownHintTexts,
     undoArrow,
+    hasLimitedAttempts,
   } from "../stepSession/stepSession.js";
   import { stepCounterText } from "./stepScreenView.js";
 
@@ -58,7 +59,7 @@
 
 <div class="card flat">
   <div class="small muted">{stepCounterText(session)}</div>
-  {#if session.mode === "daily" && session.phase === "drawing"}
+  {#if hasLimitedAttempts(session.mode) && session.phase === "drawing"}
     <div class="small" aria-label={attemptsLeftName}>
       <span class="muted">Attempts left</span>
       <span class="pips" aria-hidden="true">
@@ -201,8 +202,9 @@
     {/if}
   </div>
   <div class="small muted" style="margin-top:6px">
-    {session.mode === "daily"
-      ? "Daily: each wrong check and each hint costs a point."
+    {hasLimitedAttempts(session.mode)
+      ? `${session.mode === "daily" ? "Daily" : "Checkpoint"}: each wrong check and each hint ` +
+        "costs a point."
       : "Practice: hints are free."}
   </div>
 </div>
