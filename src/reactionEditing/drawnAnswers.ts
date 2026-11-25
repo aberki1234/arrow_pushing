@@ -353,3 +353,47 @@ export function addPartialArrowSet(
     ),
   });
 }
+
+/** The list without position `position`; an emptied list removes its key. */
+function withoutPosition(record: JsonRecord, key: string, position: number): JsonRecord {
+  const entries: unknown[] = Array.isArray(record[key]) ? record[key] : [];
+  const kept = entries.filter((unusedEntry, index) => index !== position);
+  const rest = Object.fromEntries(Object.entries(record).filter(([existing]) => existing !== key));
+  return kept.length === 0 ? rest : { ...rest, [key]: kept };
+}
+
+function hasPosition(record: JsonRecord, key: string, position: number): boolean {
+  const entries: unknown[] = Array.isArray(record[key]) ? record[key] : [];
+  return Number.isInteger(position) && position >= 0 && position < entries.length;
+}
+
+export function removePartialProgressMessage(
+  document: ReactionDocument,
+  stateId: string,
+  position: number,
+): AnswerEdit {
+  const state = statesOf(document)[stateId];
+  if (!isRecord(state) || !hasPosition(state, "partialProgressMessages", position)) {
+    return refused(`no partial progress message ${String(position)} on state "${stateId}"`);
+  }
+  const changed = withoutPosition(state, "partialProgressMessages", position);
+  return edited({ ...document, stateIdToState: { ...statesOf(document), [stateId]: changed } });
+}
+
+export function removePartialArrowSet(
+  document: ReactionDocument,
+  stepKey: string,
+  position: number,
+): AnswerEdit {
+  const step = stepsOf(document).find((candidate) => candidate.stepKey === stepKey);
+  if (step === undefined || !hasPosition(step, "partialArrowSets", position)) {
+    return refused(`no partial arrow set ${String(position)} on step "${stepKey}"`);
+  }
+  const changed = withoutPosition(step, "partialArrowSets", position);
+  return edited({
+    ...document,
+    steps: stepsOf(document).map((candidate) =>
+      candidate.stepKey === stepKey ? changed : candidate,
+    ),
+  });
+}

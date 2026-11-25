@@ -19,8 +19,8 @@
   let leavingMapNumbers = $state("");
 </script>
 
-<section class="card" aria-label={`State ${stateId}`}>
-  <h3>State {stateId}</h3>
+<section class="card" aria-label={`Structure of ${stateId}`}>
+  <h3>Structure</h3>
   <label class="small" for="state-smiles">Mapped SMILES (every atom keeps its map number)</label>
   <textarea id="state-smiles" rows="3" bind:value={editedSmiles}></textarea>
   <div class="row">

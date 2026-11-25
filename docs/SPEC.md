@@ -190,6 +190,11 @@ Diels–Alder needs a concerted multi-arrow step (3 arrows) — the model must s
     arrow sets are added by drawing** them on the state (a misconception is saved as the exact pattern, then
     loosened by editing its text); a partial arrow set is kept only if it reaches the step's to-state as the
     validator would. Pinning lone-pair angles waits for v2.
+  - **Built 2026-11-25 (8b):** as above, plus these defaults: clearing an optional text removes its key (required
+    text stays empty for lint); making a step preferred makes the other preferred step from its state accepted;
+    a drawn misconception is refused at once if its arrows are a correct answer or would hide one; tapping a bond
+    in Wedges mode cycles plain → wedge → reversed → dash → reversed; state ids and step keys are renamed
+    everywhere.
 - **Backend (for editor/submissions only):** **TypeScript + Svelte** frontend; **TypeScript on Node + Postgres**
   (decided 2026-11-25, replacing FastAPI: the linter runs in the same process; framework, hosting, OAuth providers
   and how a publish starts the build are decided when 8c starts) (reaction as JSONB

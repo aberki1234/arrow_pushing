@@ -8,12 +8,16 @@
   const {
     document,
     selectedStateId,
+    selectedStepKey,
     onSelectState,
+    onSelectStep,
     onDeleteStep,
   }: {
     document: ReactionDocument;
     selectedStateId: string;
+    selectedStepKey: string | null;
     onSelectState: (stateId: string) => void;
+    onSelectStep: (stepKey: string) => void;
     onDeleteStep: (stepKey: string) => void;
   } = $props();
 
@@ -40,7 +44,15 @@
             {outlineRowText(row, document)}
           </button>
         {:else if row.rowKind === "step"}
-          <span class="small muted">↓ {outlineRowText(row, document)}</span>
+          <button
+            class="chip small"
+            aria-pressed={row.stepKey === selectedStepKey}
+            onclick={() => {
+              onSelectStep(row.stepKey);
+            }}
+          >
+            ↓ {outlineRowText(row, document)}
+          </button>
           <button
             class="btn sm"
             aria-label={`Delete step ${row.stepKey}`}

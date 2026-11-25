@@ -1,7 +1,9 @@
 <script lang="ts">
-  // The editing screen: toolbar (save, download, undo/redo, modes, Play as learner), the
-  // mechanism panel, the selected state's drawing, and the panels for drawing arrows and for the
-  // state. Every decision is in editorSession.ts; this component only passes events on.
+  // The editing screen: toolbar (save, download, undo/redo, Play as learner), the mechanism
+  // panel, the selected state's drawing with the editing modes, and a side panel with tabs for
+  // the reaction's, the state's and the step's fields and the live lint. Every decision is in
+  // editorSession.ts; this component passes events on, and runs the lint about LINT_DELAY after
+  // the last edit (in a worker: workerLinter.ts), dropping answers to drafts since changed.
   import type { ChemistryToolkit } from "../chemistryToolkit/chemistryToolkit.js";
   import MoleculeCanvas from "../learnerSite/MoleculeCanvas.svelte";
   import { destinationChoice, tappedPlaceOf } from "../learnerSite/stepScreenView.js";
@@ -13,33 +15,50 @@
   } from "../reactionEditing/arrowDrawing.js";
   import { canRedo, canUndo } from "../reactionEditing/editHistory.js";
   import { previewReadiness } from "../reactionEditing/learnerPreview.js";
+  import { placeOfFinding } from "../reactionEditing/lintPlaces.js";
+  import { stepsOf } from "../reactionEditing/reactionDraft.js";
   import { statesLeftUnreachable } from "../reactionEditing/stepDeletion.js";
+  import type { LintFinding } from "../reactionLinting/lintFindings.js";
   import AtomHandles from "./AtomHandles.svelte";
   import DrawingControls from "./DrawingControls.svelte";
   import {
     addChange,
+    applyDocumentEdit,
     applyStateSmiles,
     currentDraft,
     dragAtom,
+    type DrawnAnswer,
     editorRedo,
     editorUndo,
     type EditorMode,
     type EditorSession,
+    goToPlace,
+    makeArrowStep,
     removeStep,
+    saveDrawnArrowsAs,
     selectState,
+    selectStep,
     setEditorMode,
+    setSideTab,
+    type SideTab,
     tapOnCanvas,
     updateArrowDrawing,
-    makeArrowStep,
   } from "./editorSession.js";
   import { draftDrawing, drawnArrowsOn, mappedSmilesOf } from "./editorView.js";
+  import LintPanel from "./LintPanel.svelte";
   import MechanismPanel from "./MechanismPanel.svelte";
+  import MisconceptionList from "./MisconceptionList.svelte";
+  import ReactionPanel from "./ReactionPanel.svelte";
   import StatePanel from "./StatePanel.svelte";
+  import StateTextFields from "./StateTextFields.svelte";
+  import StepPanel from "./StepPanel.svelte";
+  import type { DraftLinter } from "./workerLinter.js";
 
   const {
     session,
     update,
     toolkit,
+    lintDraft,
     onSave,
     onDownload,
     onPlay,
@@ -47,17 +66,25 @@
     session: EditorSession;
     update: (next: EditorSession) => void;
     toolkit: ChemistryToolkit | null;
+    lintDraft: DraftLinter;
     onSave: () => void;
     onDownload: () => void;
     onPlay: (stateId: string) => void;
   } = $props();
 
+  const LINT_DELAY_MILLISECONDS = 300;
   const MODES: readonly { mode: EditorMode; label: string }[] = [
     { mode: "look", label: "Look" },
     { mode: "drawArrows", label: "Draw arrows" },
     { mode: "moveAtoms", label: "Move atoms" },
     { mode: "showHydrogen", label: "Show H" },
+    { mode: "wedges", label: "Wedges" },
   ];
+
+  let pendingTargetId: string | null = $state(null);
+  let findings = $state.raw<readonly LintFinding[]>([]);
+  let linting = $state(false);
+  let lintRun = 0;
 
   const document = $derived(currentDraft(session));
   const shown = $derived(draftDrawing(document, session.selectedStateId));
@@ -67,7 +94,39 @@
   );
   const readiness = $derived(previewReadiness(document));
   const selectedSmiles = $derived(mappedSmilesOf(document, session.selectedStateId));
-  let pendingTargetId: string | null = $state(null);
+  const leavingArrowStepKeys = $derived(
+    stepsOf(document)
+      .filter((step) => step.fromStateId === session.selectedStateId && step.stepKind !== "change")
+      .map((step) => String(step.stepKey)),
+  );
+  const tabs = $derived<readonly { sideTab: SideTab; label: string }[]>([
+    { sideTab: "reaction", label: "Reaction" },
+    { sideTab: "state", label: "State" },
+    { sideTab: "step", label: "Step" },
+    { sideTab: "lint", label: `Lint (${String(findings.length)})` },
+  ]);
+
+  $effect(() => {
+    const draft = document;
+    lintRun += 1;
+    const run = lintRun;
+    linting = true;
+    const timer = setTimeout(() => {
+      void lintDraft(draft).then((found) => {
+        if (run === lintRun) {
+          findings = found;
+          linting = false;
+        }
+      });
+    }, LINT_DELAY_MILLISECONDS);
+    return () => {
+      clearTimeout(timer);
+    };
+  });
+
+  function apply(edit: Parameters<typeof applyDocumentEdit>[1]): void {
+    update(applyDocumentEdit(session, edit));
+  }
 
   function pickTarget(target: PickTarget): void {
     const next = tapOnCanvas(session, tappedPlaceOf(target));
@@ -87,15 +146,14 @@
   }
 
   function addChangeFromForm(pastedSmiles: string, removedText: string): void {
-    if (toolkit === null) {
-      return;
+    if (toolkit !== null) {
+      const removedFragmentMapNumbers = removedText
+        .split(",")
+        .map((part) => part.trim())
+        .filter((part) => part !== "")
+        .map(Number);
+      update(addChange(session, { pastedSmiles, removedFragmentMapNumbers }, toolkit));
     }
-    const removedFragmentMapNumbers = removedText
-      .split(",")
-      .map((part) => part.trim())
-      .filter((part) => part !== "")
-      .map(Number);
-    update(addChange(session, { pastedSmiles, removedFragmentMapNumbers }, toolkit));
   }
 
   function chooseOption(optionIndex: number): void {
@@ -110,6 +168,10 @@
 
   function selectStateById(stateId: string): void {
     update(selectState(session, stateId));
+  }
+
+  function selectStepByKey(stepKey: string): void {
+    update(selectStep(session, stepKey));
   }
 
   function dragAtomBy(mapNumber: number, deltaX: number, deltaY: number): void {
@@ -129,18 +191,28 @@
     update(makeArrowStep(session));
   }
 
+  function saveAs(answer: DrawnAnswer): void {
+    pendingTargetId = null;
+    update(saveDrawnArrowsAs(session, answer));
+  }
+
   function applySmiles(mappedSmiles: string, regenerate: boolean): void {
     update(applyStateSmiles(session, mappedSmiles, regenerate));
   }
 
+  function goToFinding(finding: LintFinding): void {
+    update(goToPlace(session, placeOfFinding(document, finding)));
+  }
+
   function onWindowKey(event: KeyboardEvent): void {
+    const inField =
+      event.target instanceof HTMLInputElement || event.target instanceof HTMLTextAreaElement;
     const withModifier = event.ctrlKey || event.metaKey;
-    if (withModifier && event.key.toLowerCase() === "z") {
+    if (withModifier && event.key.toLowerCase() === "z" && !inField) {
       event.preventDefault();
       update(event.shiftKey ? editorRedo(session) : editorUndo(session));
     } else if (event.key === "Escape") {
-      pendingTargetId = null;
-      update(updateArrowDrawing(session, cancelPick));
+      cancelChoice();
     }
   }
 </script>
@@ -193,7 +265,9 @@
   <MechanismPanel
     {document}
     selectedStateId={session.selectedStateId}
+    selectedStepKey={session.selectedStepKey}
     onSelectState={selectStateById}
+    onSelectStep={selectStepByKey}
     onDeleteStep={deleteWithConfirm}
   />
   <section class="card canvas-card" aria-label="Selected state">
@@ -213,7 +287,7 @@
     <MoleculeCanvas
       drawing={shown.drawing}
       {arrows}
-      interactive={session.mode === "drawArrows"}
+      interactive={session.mode === "drawArrows" || session.mode === "wedges"}
       selectedTargetId={pendingTargetId}
       {choice}
       onPick={pickTarget}
@@ -231,20 +305,50 @@
         {/if}
       {/snippet}
     </MoleculeCanvas>
-  </section>
-  <div class="side">
     {#if session.arrowDrawing !== null}
       <DrawingControls
         drawing={session.arrowDrawing}
         onChange={changeDrawing}
         onMakeStep={makeStep}
+        {leavingArrowStepKeys}
+        onSaveAs={saveAs}
       />
     {/if}
-    <StatePanel
-      stateId={session.selectedStateId}
-      mappedSmiles={selectedSmiles}
-      onApplySmiles={applySmiles}
-      onAddChange={addChangeFromForm}
-    />
+  </section>
+  <div class="side">
+    <div class="row" role="tablist" aria-label="Fields">
+      {#each tabs as { sideTab, label } (sideTab)}
+        <button
+          class="chip"
+          role="tab"
+          aria-selected={session.sideTab === sideTab}
+          disabled={sideTab === "step" && session.selectedStepKey === null}
+          onclick={() => {
+            update(setSideTab(session, sideTab));
+          }}
+        >
+          {label}
+        </button>
+      {/each}
+    </div>
+    {#if session.sideTab === "reaction"}
+      <ReactionPanel {document} {apply} />
+    {:else if session.sideTab === "step" && session.selectedStepKey !== null}
+      <StepPanel {document} stepKey={session.selectedStepKey} {apply} />
+    {:else if session.sideTab === "lint"}
+      <LintPanel {findings} {linting} onGoTo={goToFinding} />
+    {:else}
+      <section class="card" aria-label="State fields">
+        <h3>State {session.selectedStateId}</h3>
+        <StateTextFields {document} stateId={session.selectedStateId} {apply} />
+        <MisconceptionList {document} stateId={session.selectedStateId} {apply} />
+      </section>
+      <StatePanel
+        stateId={session.selectedStateId}
+        mappedSmiles={selectedSmiles}
+        onApplySmiles={applySmiles}
+        onAddChange={addChangeFromForm}
+      />
+    {/if}
   </div>
 </div>

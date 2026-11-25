@@ -615,7 +615,7 @@ RDKit (RDKit.js) on every valid SMILES case and every example state (`src/chemis
      until the first reaction is authored in `content/reactions/`. paste SMILES, draw arrows → generated state, drag,
      show H, change steps, branches and automatic joins, regenerate, undo/redo, mechanism panel, Play as learner,
      saving to `content/reactions/`.
-   * **8b** Form fields, misconceptions and partial arrow sets by drawing, live lint panel. Part 1 done 2026-11-25
+   * **8b Done 2026-11-25.** Form fields, misconceptions and partial arrow sets by drawing, live lint panel. Part 1
      (`src/reactionEditing/`): `fieldEdits.ts` (every form field; clearing optional text removes the key, required
      text stays empty for lint; making a step preferred makes the other preferred step from its state accepted;
      renaming states and steps everywhere; wedge style cycle plain → wedge → reversed → dash → reversed),
@@ -623,6 +623,11 @@ RDKit (RDKit.js) on every valid SMILES case and every example state (`src/chemis
      or if it would hide one; partial progress messages; partial arrow sets kept only if the validator accepts
      them), `lintPlaces.ts` (finding → reaction / state / step and field), `lintRequests.ts` (the lint worker's
      core). Each edit of an example that keeps it valid still lints clean.
+     Part 2: the page's tabs (Reaction, State, Step, Lint), step selection, a Wedges mode, "Save the arrows as…" a
+     misconception, partial progress message or another arrow set; list fields as lines of text
+     (`reactionEditor/fieldText.ts`); live lint in a Web Worker (`reactionEditor/lintWorker.ts`,
+     `workerLinter.ts`) about 300 ms after the last edit, each finding showing its place and going there on a
+     click. Checked in headless Chromium (lint from the worker, a finding fixed, a misconception saved, a wedge).
    * **8c** Backend (TypeScript on Node + Postgres, §8); details settled when it starts.
 9. Problem sets: reaction sets that teach one concept (Zaitsev's rule, kinetic versus thermodynamic enolates).
    To be scoped after item 8 (SPEC §9).

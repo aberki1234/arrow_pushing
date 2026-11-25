@@ -9,7 +9,9 @@ import { fireEvent, render, screen, waitFor } from "@testing-library/svelte";
 import { beforeAll, expect, test } from "vitest";
 import { loadChemistryToolkit } from "../chemistryToolkit/chemistryToolkit.js";
 import EditorApp from "./EditorApp.svelte";
+import { lintRequestAnswerer } from "../reactionEditing/lintRequests.js";
 import type { ReactionFileStore } from "./reactionFileStore.js";
+import type { DraftLinter } from "./workerLinter.js";
 
 beforeAll(() => {
   // jsdom has no matchMedia: answer as an author who prefers reduced motion (StepPlay asks).
@@ -35,8 +37,13 @@ function memoryFileStore(): ReactionFileStore & { saved: Map<string, unknown> } 
   };
 }
 
+/** Lint in the test's own thread (the page uses a worker). */
+const answerLint = lintRequestAnswerer(loadChemistryToolkit());
+const lintDraft: DraftLinter = async (document) =>
+  (await answerLint({ requestId: 1, document })).lintFindings;
+
 async function createSn2Draft(fileStore: ReactionFileStore): Promise<void> {
-  render(EditorApp, { props: { toolkitLoading: loadChemistryToolkit(), fileStore } });
+  render(EditorApp, { props: { toolkitLoading: loadChemistryToolkit(), fileStore, lintDraft } });
   const create = await screen.findByRole("button", { name: "Create" });
   await fireEvent.input(screen.getByLabelText(/Slug/), { target: { value: "sn2-test" } });
   await fireEvent.input(screen.getByLabelText("Title"), { target: { value: "SN2 test" } });
@@ -102,4 +109,36 @@ test("Play as learner opens the learner's step screen on the draft, and goes bac
   expect(screen.getByRole("button", { name: "Check" })).toBeTruthy();
   await fireEvent.click(screen.getByRole("button", { name: "Back to editing" }));
   expect(screen.getByRole("navigation", { name: "Mechanism" })).toBeTruthy();
+});
+
+test("live lint lists findings, goes to their place, and clears once fixed", async () => {
+  await createSn2Draft(memoryFileStore());
+  await drawSubstitution();
+  await fireEvent.click(screen.getByRole("tab", { name: /Lint/ }));
+  const summaryFinding = await screen.findByRole(
+    "button",
+    { name: /minLength/ },
+    { timeout: 10000 },
+  );
+  await fireEvent.click(summaryFinding);
+  expect(screen.getByRole("tab", { name: "Reaction" }).getAttribute("aria-selected")).toBe("true");
+  const summary = screen.getByLabelText(/Mechanism summary/);
+  await fireEvent.change(summary, { target: { value: "Backside attack." } });
+  await fireEvent.click(screen.getByRole("tab", { name: /Lint/ }));
+  await waitFor(
+    () => {
+      expect(screen.queryByRole("button", { name: /minLength/ })).toBeNull();
+    },
+    { timeout: 10000 },
+  );
+});
+
+test("a learner prompt typed in the State tab is saved, and can be undone", async () => {
+  await createSn2Draft(memoryFileStore());
+  await fireEvent.change(screen.getByLabelText("Learner prompt"), {
+    target: { value: "Push the arrows." },
+  });
+  expect(screen.getByLabelText<HTMLInputElement>("Learner prompt").value).toBe("Push the arrows.");
+  await fireEvent.click(screen.getByRole("button", { name: "Undo" }));
+  expect(screen.getByLabelText<HTMLInputElement>("Learner prompt").value).toBe("");
 });

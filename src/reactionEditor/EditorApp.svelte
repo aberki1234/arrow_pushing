@@ -11,13 +11,17 @@
   import EditorWorkspace from "./EditorWorkspace.svelte";
   import type { ListedReactionFile, ReactionFileStore } from "./reactionFileStore.js";
   import StartPanel from "./StartPanel.svelte";
+  import type { DraftLinter } from "./workerLinter.js";
 
   const {
     toolkitLoading,
     fileStore,
+    lintDraft,
   }: {
     toolkitLoading: Promise<ChemistryToolkit>;
     fileStore: ReactionFileStore;
+    /** Live lint (a worker in the browser: workerLinter.ts). */
+    lintDraft: DraftLinter;
   } = $props();
 
   let toolkit = $state.raw<ChemistryToolkit | null>(null);
@@ -151,6 +155,7 @@
       session={current}
       update={updateSession}
       {toolkit}
+      {lintDraft}
       onSave={() => {
         save(current);
       }}

@@ -43,3 +43,11 @@ input:not([type="file"]) {
 .handle {
   cursor: grab;
 }
+.finding {
+  display: block;
+  width: 100%;
+  text-align: left;
+}
+.finding code {
+  margin: 0 4px;
+}

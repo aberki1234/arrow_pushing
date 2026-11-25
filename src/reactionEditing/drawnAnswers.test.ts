@@ -18,6 +18,8 @@ import {
   type AnswerEdit,
   moveMisconception,
   removeMisconception,
+  removePartialArrowSet,
+  removePartialProgressMessage,
   updateMisconception,
 } from "./drawnAnswers.js";
 import { type ReactionDocument, statesOf, stepsOf } from "./reactionDraft.js";
@@ -157,5 +159,24 @@ describe("partial progress messages and partial arrow sets", () => {
     expect(
       refusalOf(addPartialArrowSet(aldol, "enolate-formation", arrows(...notations))),
     ).toContain(reasonPart);
+  });
+});
+
+describe("removing partial progress messages and partial arrow sets", () => {
+  it("removes by position, and refuses a position that is not there", () => {
+    const withoutFirst = edited(removePartialProgressMessage(sn2, "reactants", 0));
+    const messages = (statesOf(withoutFirst).reactants as { partialProgressMessages: unknown[] })
+      .partialProgressMessages;
+    expect(messages).toHaveLength(1);
+    expect(refusalOf(removePartialProgressMessage(sn2, "reactants", 5))).toContain(
+      "no partial progress message 5",
+    );
+    const carbanionRoute = arrows("lp O1 -> σ O1-H4", "σ C3-H4 -> lp C3");
+    const withSet = edited(addPartialArrowSet(aldol, "enolate-formation", carbanionRoute));
+    const withoutSet = edited(removePartialArrowSet(withSet, "enolate-formation", 0));
+    expect("partialArrowSets" in (stepsOf(withoutSet)[0] ?? {})).toBe(false);
+    expect(refusalOf(removePartialArrowSet(aldol, "enolate-formation", 0))).toContain(
+      "no partial arrow set 0",
+    );
   });
 });

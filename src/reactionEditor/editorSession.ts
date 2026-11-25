@@ -8,6 +8,10 @@
  *   drawArrows    taps on the selected state draw arrows; "Make step" turns them into a step
  *   moveAtoms     drag atoms to tidy the selected state's layout
  *   showHydrogen  a tap on an atom shows one of its implicit hydrogens
+ *   wedges        a tap on a bond cycles its wedge style (display only)
+ * The side panel shows one tab: the reaction's fields, the selected state's, the selected step's,
+ * or the lint findings. Field edits (reactionEditing/fieldEdits.ts, drawnAnswers.ts) all go
+ * through applyDocumentEdit(), so each can be undone.
  */
 import type { ChemistryToolkit } from "../chemistryToolkit/chemistryToolkit.js";
 import type { TappedPlace } from "../stepSession/arrowPicking.js";
@@ -22,12 +26,22 @@ import {
   undo,
 } from "../reactionEditing/editHistory.js";
 import { showHydrogen } from "../reactionEditing/explicitHydrogens.js";
-import { type ReactionDocument, statesOf } from "../reactionEditing/reactionDraft.js";
+import {
+  addMisconceptionFromArrows,
+  addPartialArrowSet,
+  addPartialProgressMessage,
+  type MisconceptionFields,
+} from "../reactionEditing/drawnAnswers.js";
+import { cycleWedgeStyle } from "../reactionEditing/fieldEdits.js";
+import type { LintPlace } from "../reactionEditing/lintPlaces.js";
+import { type ReactionDocument, statesOf, stepsOf } from "../reactionEditing/reactionDraft.js";
 import { editStateSmiles, regenerateStatesAfter } from "../reactionEditing/stateRegeneration.js";
 import { deleteStep } from "../reactionEditing/stepDeletion.js";
 import { addArrowStep } from "../reactionEditing/stepGeneration.js";
 
-export type EditorMode = "look" | "drawArrows" | "moveAtoms" | "showHydrogen";
+export type EditorMode = "look" | "drawArrows" | "moveAtoms" | "showHydrogen" | "wedges";
+
+export type SideTab = "reaction" | "state" | "step" | "lint";
 
 export interface EditorMessage {
   readonly tone: "neutral" | "good" | "bad";
@@ -39,6 +53,9 @@ export interface EditorSession {
   /** The file the draft is saved as in content/reactions/. */
   readonly fileName: string;
   readonly selectedStateId: string;
+  /** The step whose fields the step tab shows, if one is selected. */
+  readonly selectedStepKey: string | null;
+  readonly sideTab: SideTab;
   readonly mode: EditorMode;
   /** The arrows being drawn on the selected state (drawArrows mode only). */
   readonly arrowDrawing: ArrowDrawing | null;
@@ -67,7 +84,9 @@ function withDraft(
   const selectedStateId = wanted in statesOf(document) ? wanted : startStateIdOf(document);
   const arrowDrawing =
     session.mode === "drawArrows" ? startArrowDrawing(document, selectedStateId) : null;
-  return { ...session, history, selectedStateId, arrowDrawing, message };
+  const stepStillThere = stepsOf(document).some((step) => step.stepKey === session.selectedStepKey);
+  const selectedStepKey = stepStillThere ? session.selectedStepKey : null;
+  return { ...session, history, selectedStateId, selectedStepKey, arrowDrawing, message };
 }
 
 function refusedWith(session: EditorSession, reason: string): EditorSession {
@@ -79,6 +98,8 @@ export function openDraft(document: ReactionDocument, fileName: string): EditorS
     history: startHistory(document),
     fileName,
     selectedStateId: startStateIdOf(document),
+    selectedStepKey: null,
+    sideTab: "state",
     mode: "look",
     arrowDrawing: null,
     message: NO_MESSAGE,
@@ -86,7 +107,54 @@ export function openDraft(document: ReactionDocument, fileName: string): EditorS
 }
 
 export function selectState(session: EditorSession, stateId: string): EditorSession {
-  return withDraft(session, session.history, NO_MESSAGE, stateId);
+  const sideTab = session.sideTab === "step" ? "state" : session.sideTab;
+  return withDraft(
+    { ...session, selectedStepKey: null, sideTab },
+    session.history,
+    NO_MESSAGE,
+    stateId,
+  );
+}
+
+/** Select a step: its from-state is shown, and the step tab. */
+export function selectStep(session: EditorSession, stepKey: string): EditorSession {
+  const step = stepsOf(currentDraft(session)).find((candidate) => candidate.stepKey === stepKey);
+  if (step === undefined) {
+    return session;
+  }
+  const selected = withDraft(session, session.history, NO_MESSAGE, String(step.fromStateId));
+  return { ...selected, selectedStepKey: stepKey, sideTab: "step" };
+}
+
+export function setSideTab(session: EditorSession, sideTab: SideTab): EditorSession {
+  return { ...session, sideTab };
+}
+
+/** Show the place a lint finding points at (reactionEditing/lintPlaces.ts). */
+export function goToPlace(session: EditorSession, place: LintPlace): EditorSession {
+  if (place.placeKind === "step") {
+    return selectStep(session, place.stepKey);
+  }
+  if (place.placeKind === "state") {
+    return { ...selectState(session, place.stateId), sideTab: "state" };
+  }
+  return { ...session, sideTab: "reaction" };
+}
+
+/** Record a field edit, or show why it was refused (the draft is then unchanged). */
+export function applyDocumentEdit(
+  session: EditorSession,
+  edit:
+    | { readonly outcome: "edited"; readonly document: ReactionDocument }
+    | { readonly outcome: "refused"; readonly reason: string },
+  successText = "",
+): EditorSession {
+  if (edit.outcome === "refused") {
+    return refusedWith(session, edit.reason);
+  }
+  const message: EditorMessage =
+    successText === "" ? NO_MESSAGE : { tone: "good", text: successText };
+  return withDraft(session, recordEdit(session.history, edit.document), message);
 }
 
 export function setEditorMode(session: EditorSession, mode: EditorMode): EditorSession {
@@ -122,7 +190,56 @@ export function tapOnCanvas(session: EditorSession, tapped: TappedPlace): Editor
   if (session.mode === "showHydrogen" && tapped.placeKind === "atom") {
     return revealHydrogenAt(session, tapped.mapNumber);
   }
+  if (session.mode === "wedges" && tapped.placeKind === "bond") {
+    return applyDocumentEdit(
+      session,
+      cycleWedgeStyle(currentDraft(session), session.selectedStateId, tapped.mapNumbers),
+    );
+  }
   return session;
+}
+
+/** What the drawn arrows are saved as (drawnAnswers.ts). */
+export type DrawnAnswer =
+  | ({ readonly answerKind: "misconception" } & MisconceptionFields)
+  | { readonly answerKind: "partialProgress"; readonly feedbackMessage: string }
+  | { readonly answerKind: "partialArrowSet"; readonly stepKey: string };
+
+/** Save the drawn arrows as a misconception, partial progress message or partial arrow set. */
+export function saveDrawnArrowsAs(session: EditorSession, answer: DrawnAnswer): EditorSession {
+  const arrows = session.arrowDrawing?.drawnArrows ?? [];
+  const document = currentDraft(session);
+  const stateId = session.selectedStateId;
+  let edit;
+  let text: string;
+  if (answer.answerKind === "misconception") {
+    edit = addMisconceptionFromArrows(document, stateId, arrows, answer);
+    const ids = edit.outcome === "edited" ? misconceptionIdsOn(edit.document, stateId) : [];
+    text = `Saved ${ids.at(-1) ?? "the misconception"} on ${stateId}.`;
+  } else if (answer.answerKind === "partialProgress") {
+    edit = addPartialProgressMessage(document, stateId, arrows, answer.feedbackMessage);
+    text = `Saved a partial progress message on ${stateId}.`;
+  } else {
+    edit = addPartialArrowSet(document, answer.stepKey, arrows);
+    text = `Saved another complete arrow set for ${answer.stepKey}.`;
+  }
+  return applyDocumentEdit(session, edit, text);
+}
+
+function misconceptionIdsOn(document: ReactionDocument, stateId: string): string[] {
+  const state = statesOf(document)[stateId];
+  const entries: unknown[] =
+    typeof state === "object" &&
+    state !== null &&
+    "misconceptions" in state &&
+    Array.isArray(state.misconceptions)
+      ? state.misconceptions
+      : [];
+  return entries.map((entry) =>
+    typeof entry === "object" && entry !== null && "misconceptionId" in entry
+      ? String(entry.misconceptionId)
+      : "",
+  );
 }
 
 /** The drawn arrows become a step (reactionEditing/stepGeneration.ts). */
