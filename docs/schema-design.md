@@ -615,7 +615,14 @@ RDKit (RDKit.js) on every valid SMILES case and every example state (`src/chemis
      until the first reaction is authored in `content/reactions/`. paste SMILES, draw arrows → generated state, drag,
      show H, change steps, branches and automatic joins, regenerate, undo/redo, mechanism panel, Play as learner,
      saving to `content/reactions/`.
-   * **8b** Form fields, misconceptions and partial arrow sets by drawing, live lint panel.
+   * **8b** Form fields, misconceptions and partial arrow sets by drawing, live lint panel. Part 1 done 2026-11-25
+     (`src/reactionEditing/`): `fieldEdits.ts` (every form field; clearing optional text removes the key, required
+     text stays empty for lint; making a step preferred makes the other preferred step from its state accepted;
+     renaming states and steps everywhere; wedge style cycle plain → wedge → reversed → dash → reversed),
+     `drawnAnswers.ts` (misconception from drawn arrows as the exact pattern, refused at once if a correct answer
+     or if it would hide one; partial progress messages; partial arrow sets kept only if the validator accepts
+     them), `lintPlaces.ts` (finding → reaction / state / step and field), `lintRequests.ts` (the lint worker's
+     core). Each edit of an example that keeps it valid still lints clean.
    * **8c** Backend (TypeScript on Node + Postgres, §8); details settled when it starts.
 9. Problem sets: reaction sets that teach one concept (Zaitsev's rule, kinetic versus thermodynamic enolates).
    To be scoped after item 8 (SPEC §9).
