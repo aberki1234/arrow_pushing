@@ -524,7 +524,13 @@ reaction_versions(reaction_id uuid → reactions, reaction_version int, pk(react
 
 reviews(id uuid pk, reaction_id, reaction_version → reaction_versions, reviewer_user_id → users,
         review_decision text check (review_decision in ('publish','changes_requested')), comment text, created_at)
+
+sessions(id text pk,                                  -- random, the cookie's value
+         user_id uuid → users, created_at, expires_at timestamptz)   -- added 2026-11-25 (8c)
 ```
+
+* Decided 2026-11-25 (8c): every table lives in the schema `arrowpush` (not `public`), with row-level security on
+  and no policies, and Supabase's Data API off; the server connects as its own role. `reviews` is unused until 8d.
 
 * The whole document, mechanism graph included, lives in `reaction_document`. Columns duplicate only what queries need.
 * Publishing sets the hash and `published_at`, then triggers the static build.
@@ -628,7 +634,11 @@ RDKit (RDKit.js) on every valid SMILES case and every example state (`src/chemis
      (`reactionEditor/fieldText.ts`); live lint in a Web Worker (`reactionEditor/lintWorker.ts`,
      `workerLinter.ts`) about 300 ms after the last edit, each finding showing its place and going there on a
      click. Checked in headless Chromium (lint from the worker, a finding fixed, a misconception saved, a wedge).
-   * **8c** Backend (TypeScript on Node + Postgres, §8); details settled when it starts.
+   * **8c** Backend for the owner (decided 2026-11-25, SPEC §5): Hono + Kysely on Render, Supabase Postgres (schema
+     `arrowpush`), GitHub sign-in for one account, the editor saving through the API, one Publish action (server
+     lint, licence, submitted → published), a GitHub Actions workflow that backs up, builds and deploys to
+     Cloudflare Pages, and a scheduled keep-awake + weekly dump.
+   * **8d** Contributors: sign-up, submit → review (play-through + diff) → changes requested | published.
 9. Problem sets: reaction sets that teach one concept (Zaitsev's rule, kinetic versus thermodynamic enolates).
    To be scoped after item 8 (SPEC §9).
 

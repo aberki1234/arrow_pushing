@@ -196,14 +196,37 @@ Diels–Alder needs a concerted multi-arrow step (3 arrows) — the model must s
     in Wedges mode cycles plain → wedge → reversed → dash → reversed; state ids and step keys are renamed
     everywhere.
 - **Backend (for editor/submissions only):** **TypeScript + Svelte** frontend; **TypeScript on Node + Postgres**
-  (decided 2026-11-25, replacing FastAPI: the linter runs in the same process; framework, hosting, OAuth providers
-  and how a publish starts the build are decided when 8c starts) (reaction as JSONB
+  (decided 2026-11-25, replacing FastAPI: the linter runs in the same process) (reaction as JSONB
   document, version table, status column); learner site built from published JSON and served from a static host
   (e.g. Cloudflare Pages). The linter runs server-side on submission.
+  **Decided 2026-11-25 (8c grilling):**
+  - **Scope:** 8c is for the owner alone, end to end. Contributor sign-up, the reviewer's screen (play-through +
+    diff) and "changes requested" are **8d**.
+  - **Content:** Postgres is the source of truth; each published version is also committed to `content/published/`
+    in the repo as a backup. The four examples are imported as published version 1 (they stay test fixtures), local
+    drafts as drafts. "Edit" on a published reaction makes version n+1 a draft (refused if an unpublished version
+    exists).
+  - **Server:** **Hono** on Node (tests through `app.request()`), **Kysely** over node-postgres with plain SQL
+    migrations matching schema-design §8, hosted on **Render Starter** ($7/month). It serves the built editor at the
+    same address; the editor saves through the API there, and `make editor` keeps the local file mode.
+  - **Database:** **Supabase free**, used as plain Postgres through its pooler (IPv4); tables in their own schema
+    `arrowpush`, the Data API off, row-level security on with no policies, the server on its own role. A scheduled
+    GitHub Actions workflow runs a daily keep-awake query and a weekly `pg_dump` with a read-only role. Tests use
+    **PGlite** (a fresh database per test file); an optional run against Docker Postgres before a deploy.
+  - **Sign-in:** GitHub OAuth, with an allow-list holding only the owner's account. Sessions: a random id in an
+    httpOnly, SameSite cookie, stored in Postgres, 30 days.
+  - **Publishing:** one **Publish** action: the full lint runs on the server and any error refuses it (warnings
+    shown); a one-time CC BY-SA 4.0 agreement is recorded with its date; submitted → published in one transaction;
+    then a `repository_dispatch` starts a GitHub Actions workflow that exports the published versions from a
+    read-only endpoint, commits the backup files, builds the site with the live `catalogue.json` as
+    `--previous-catalogue`, and deploys to **Cloudflare Pages**.
+  - **Addresses:** the hosts' own (`*.onrender.com`, `*.pages.dev`) until the name and domain are chosen, before the
+    site is announced to learners (a new domain resets learners' saved progress; Export / Import carries it).
 
 ## 6. Community content & moderation
 
-- Contributors sign in via OAuth (e.g. GitHub/Google); learners don't need accounts.
+- Contributors sign in via OAuth (e.g. GitHub/Google); learners don't need accounts. (8c: the owner only, by GitHub;
+  contributors arrive in 8d.)
 - Submission gated on linter passing (arrows reproduce each state; every step has ≥ 1 hint — mockup shows a 3-tier minimum as advice).
 - Status flow: **draft → submitted → changes requested | published**. Only the owner (later, named reviewers) publishes.
 - **Published versions are immutable**; an edit creates a new version, old versions stay reachable (learner progress points at a version).
@@ -241,8 +264,8 @@ Chromium: no console errors. Emoji (💡) may render as tofu in headless only.
 - The **JSON schema**, **Postgres schema** and misconception pattern syntax: `docs/schema-design.md` (2026-11-24),
   "mostly fine" per the user; the decisions in §4 are settled, and details may still be refined.
 - Final product name / branding / domain.
-- Hosting specifics, OAuth providers, reviewer roles beyond the owner, the backend web framework, how a publish
-  starts the static build (all to settle in a short grilling when item 8c starts).
+- Contributors and reviewers (item 8d): OAuth providers beyond GitHub (e.g. Google for students), reviewer roles
+  beyond the owner, the review screen.
 - Which exact reactions beyond the list above; authoring order of the first content set.
 - **Problem sets (to scope after item 8, added 2026-11-25):** sets of reactions that teach one chemistry concept
   (e.g. Zaitsev's rule, kinetic versus thermodynamic enolates), so learners can practise that concept. Not yet
