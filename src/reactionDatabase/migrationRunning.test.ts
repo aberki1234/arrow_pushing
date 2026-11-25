@@ -30,7 +30,15 @@ beforeEach(async () => {
   await emptyAllTables(connection);
 });
 
-const TABLE_NAMES = ["reaction_versions", "reactions", "reviews", "sessions", "users"];
+const TABLE_NAMES = [
+  "accounts",
+  "reaction_versions",
+  "reactions",
+  "reviews",
+  "sessions",
+  "users",
+  "verifications",
+];
 
 describe("applying the migrations", () => {
   it("applies 0001 on a fresh database and nothing on a second run", async () => {

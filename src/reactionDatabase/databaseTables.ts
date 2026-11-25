@@ -23,13 +23,16 @@ type JsonColumn<ReadShape> = ColumnType<ReadShape, string, string>;
 /** A timestamptz column with a default: read as a Date, written as a Date or left out. */
 type TimestampWithDefault = ColumnType<Date, Date | undefined, Date>;
 
+/** A signed-in person (Better Auth's user, plus siteRole). `name` is the display name. */
 export interface UsersTable {
   readonly id: Generated<string>;
-  displayName: string;
-  oauthProvider: string;
-  oauthSubject: string;
+  name: string;
+  email: string;
+  emailVerified: boolean;
+  image: string | null;
   siteRole: SiteRole;
   createdAt: TimestampWithDefault;
+  updatedAt: TimestampWithDefault;
 }
 
 export interface ReactionsTable {
@@ -65,11 +68,43 @@ export interface ReviewsTable {
   createdAt: TimestampWithDefault;
 }
 
+/** A sign-in session (Better Auth's): the cookie carries `token`, signed. */
 export interface SessionsTable {
-  id: string;
+  readonly id: Generated<string>;
+  token: string;
   userId: string;
-  createdAt: TimestampWithDefault;
   expiresAt: Date;
+  ipAddress: string | null;
+  userAgent: string | null;
+  createdAt: TimestampWithDefault;
+  updatedAt: Date;
+}
+
+/** A sign-in account of a user (Better Auth's): GitHub's user id is accountId. */
+export interface AccountsTable {
+  readonly id: Generated<string>;
+  accountId: string;
+  providerId: string;
+  userId: string;
+  accessToken: string | null;
+  refreshToken: string | null;
+  idToken: string | null;
+  accessTokenExpiresAt: Date | null;
+  refreshTokenExpiresAt: Date | null;
+  scope: string | null;
+  password: string | null;
+  createdAt: TimestampWithDefault;
+  updatedAt: Date;
+}
+
+/** A short-lived value of the sign-in flow (Better Auth's verification). */
+export interface VerificationsTable {
+  readonly id: Generated<string>;
+  identifier: string;
+  value: string;
+  expiresAt: Date;
+  createdAt: TimestampWithDefault;
+  updatedAt: TimestampWithDefault;
 }
 
 export interface AppliedMigrationsTable {
@@ -84,6 +119,8 @@ export interface ArrowpushTables {
   "arrowpush.reactionVersions": ReactionVersionsTable;
   "arrowpush.reviews": ReviewsTable;
   "arrowpush.sessions": SessionsTable;
+  "arrowpush.accounts": AccountsTable;
+  "arrowpush.verifications": VerificationsTable;
   "arrowpush.appliedMigrations": AppliedMigrationsTable;
 }
 

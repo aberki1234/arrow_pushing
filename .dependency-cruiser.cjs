@@ -21,6 +21,7 @@ const layersLowestFirst = [
   "learnerSite",
   "reactionEditor",
   "editorFileServer",
+  "backendServer",
 ];
 
 const layerRules = layersLowestFirst.slice(0, -1).map((layer, position) => ({
@@ -50,7 +51,9 @@ module.exports = {
         "(Node tools, later the editor) must not be reachable from its entry point.",
       from: { path: "^src/learnerSite/main\\.ts$" },
       to: {
-        path: "^src/(chemistryToolkit|reactionLinting|catalogueBuilding|reactionEditing|reactionEditor|editorFileServer)/",
+        path:
+          "^src/(chemistryToolkit|reactionLinting|catalogueBuilding|reactionDatabase|reactionEditing|" +
+          "reactionEditor|editorFileServer|backendServer)/",
         reachable: true,
       },
     },

@@ -11,8 +11,11 @@
     "test": "vitest run"
   },
   "dependencies": {
+    "@hono/node-server": "2.1.11",
     "@rdkit/rdkit": "2026.9.2",
     "ajv": "8.20.0",
+    "better-auth": "1.7.28",
+    "hono": "4.13.22",
     "kysely": "0.29.9",
     "pg": "8.23.1",
     "svelte": "5.59.1"

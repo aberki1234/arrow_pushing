@@ -12,6 +12,14 @@ endif
 REACTION_LINTING = npx tsx src/reactionLinting/runFromShell.ts
 CATALOGUE_BUILDING = npx tsx src/catalogueBuilding/runFromShell.ts
 
+# Tests run at the lowest priority and, where systemd's user manager runs (WSL with systemd, most
+# Linux desktops), in a memory-capped scope without swap: past TEST_MEMORY the kernel kills the
+# test run alone (exit 137) instead of freezing the machine. TEST_MEMORY=8G make test to raise it.
+TEST_MEMORY ?= 5G
+MEMORY_CAP := $(shell systemd-run --user --scope -q true >/dev/null 2>&1 && \
+	echo systemd-run --user --scope -q -p MemoryMax=$(TEST_MEMORY) -p MemorySwapMax=0)
+LOW_PRIORITY_CAPPED = $(MEMORY_CAP) nice -n 19
+
 # The files Prettier formats: TypeScript/JavaScript, Svelte and the site's CSS (fixtures, docs and
 # mockups keep their own layout).
 PRETTIER_FILES = "**/*.ts" "**/*.js" "**/*.cjs" "**/*.svelte" "src/**/*.css"
@@ -57,9 +65,15 @@ dev:
 editor:
 	npx vite --config vite.editor.config.ts
 
+# The backend server (src/backendServer): sign-in, the reaction API and the built editor. Settings
+# come from environment variables (src/backendServer/serverSettings.ts); it applies migrations first.
+.PHONY: server
+server:
+	npx tsx src/backendServer/runFromShell.ts serve
+
 .PHONY: test
 test:
-	npx vitest run
+	$(LOW_PRIORITY_CAPPED) npx vitest run
 
 # Rewrite the TypeScript/JavaScript files in Prettier's layout (lint only checks it).
 .PHONY: format

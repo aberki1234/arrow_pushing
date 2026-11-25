@@ -54,6 +54,10 @@ Do not change agreed decisions without asking; update `docs/SPEC.md` and `docs/s
   (the Makefile does this from `CONDA_PREFIX`, so with `conda run` set `CONDA_PREFIX` to the environment if needed).
 - **Formatting**: `make format` runs Prettier (100 characters) on the TS/JS code; `make lint` only checks it.
   Fixtures, docs and mockups keep their hand-written layout.
+- **Test resources**: `make test` runs at `nice -n 19` in a `systemd-run` scope capped at `TEST_MEMORY` (5G, no
+  swap), and Vitest runs at most 4 files at once (`vite.config.ts`): a PGlite + RDKit.js worker peaks near 1.1 GB and
+  WSL has 8 GB. Run single heavy files the same way: `systemd-run --user --scope -q -p MemoryMax=5G -p
+  MemorySwapMax=0 nice -n 19 npx vitest run <file>`. Never run Vitest with its default worker count.
 - **Checks**: `make lint` (`make lint-typescript`, then the reaction linter on the examples), `make test` (Vitest),
   `make check`. `make lint-typescript`: Prettier check (TS/JS, Svelte, `src/**/*.css`), ESLint with the size and
   complexity limits (Svelte files too), `tsc`, `svelte-check`, dependency-cruiser (layers of `src/`; add each new

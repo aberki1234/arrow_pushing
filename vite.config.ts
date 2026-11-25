@@ -20,5 +20,13 @@ export default defineConfig({
   plugins: [svelte({ configFile: false }), svelteTesting()],
   // Many tests lint or replay whole example reactions (about 2 s each alone); with every test file
   // running in parallel, 5 s is not always enough, so tests get 30 s.
-  test: { root: fromProjectRoot("."), include: ["src/**/*.test.ts"], testTimeout: 30_000 },
+  // At most 4 test files at once: a worker with a PGlite database and RDKit.js peaks near 1.1 GB,
+  // and the development laptop's WSL has 8 GB. Measured 2026-11-25: 4 workers, about 3.7 GB in
+  // all and 50 s; Vitest's default (one per core, 11 here) used up the memory and froze WSL.
+  test: {
+    root: fromProjectRoot("."),
+    include: ["src/**/*.test.ts"],
+    testTimeout: 30_000,
+    maxWorkers: 4,
+  },
 });

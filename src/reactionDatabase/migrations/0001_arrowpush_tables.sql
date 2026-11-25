@@ -3,15 +3,64 @@
 -- Row-level security is on with no policies: only the server's own role (the tables' owner)
 -- reads and writes them, never Supabase's Data API.
 
+-- Sign-in (Better Auth; docs/SPEC.md §5, backend, "Sign-in"): users, sessions, accounts and
+-- verifications have the columns Better Auth expects (checked in migrationRunning.test.ts with
+-- its getMigrations()), plus site_role. A user signs in through an account: GitHub's numeric user
+-- id is accounts.account_id where provider_id = 'github'.
 CREATE TABLE arrowpush.users (
   id uuid PRIMARY KEY DEFAULT gen_random_uuid(),
-  display_name text NOT NULL,
-  oauth_provider text NOT NULL,
-  oauth_subject text NOT NULL,
+  name text NOT NULL,
+  email text NOT NULL UNIQUE,
+  email_verified boolean NOT NULL,
+  image text,
   site_role text NOT NULL CHECK (site_role IN ('contributor', 'reviewer', 'owner')),
   created_at timestamptz NOT NULL DEFAULT now(),
-  UNIQUE (oauth_provider, oauth_subject)
+  updated_at timestamptz NOT NULL DEFAULT now()
 );
+
+-- token is the session cookie's value before Better Auth signs it with BETTER_AUTH_SECRET.
+CREATE TABLE arrowpush.sessions (
+  id uuid PRIMARY KEY DEFAULT gen_random_uuid(),
+  token text NOT NULL UNIQUE,
+  user_id uuid NOT NULL REFERENCES arrowpush.users (id) ON DELETE CASCADE,
+  expires_at timestamptz NOT NULL,
+  ip_address text,
+  user_agent text,
+  created_at timestamptz NOT NULL DEFAULT now(),
+  updated_at timestamptz NOT NULL
+);
+CREATE INDEX sessions_user_id ON arrowpush.sessions (user_id);
+
+-- Access tokens are stored encrypted (account.encryptOAuthTokens); password stays null (GitHub
+-- sign-in only).
+CREATE TABLE arrowpush.accounts (
+  id uuid PRIMARY KEY DEFAULT gen_random_uuid(),
+  account_id text NOT NULL,
+  provider_id text NOT NULL,
+  user_id uuid NOT NULL REFERENCES arrowpush.users (id) ON DELETE CASCADE,
+  access_token text,
+  refresh_token text,
+  id_token text,
+  access_token_expires_at timestamptz,
+  refresh_token_expires_at timestamptz,
+  scope text,
+  password text,
+  created_at timestamptz NOT NULL DEFAULT now(),
+  updated_at timestamptz NOT NULL,
+  UNIQUE (provider_id, account_id)
+);
+CREATE INDEX accounts_user_id ON arrowpush.accounts (user_id);
+
+-- Short-lived values of the sign-in flow (Better Auth's OAuth state).
+CREATE TABLE arrowpush.verifications (
+  id uuid PRIMARY KEY DEFAULT gen_random_uuid(),
+  identifier text NOT NULL,
+  value text NOT NULL,
+  expires_at timestamptz NOT NULL,
+  created_at timestamptz NOT NULL DEFAULT now(),
+  updated_at timestamptz NOT NULL DEFAULT now()
+);
+CREATE INDEX verifications_identifier ON arrowpush.verifications (identifier);
 
 CREATE TABLE arrowpush.reactions (
   id uuid PRIMARY KEY DEFAULT gen_random_uuid(),
@@ -75,16 +124,10 @@ CREATE TABLE arrowpush.reviews (
     REFERENCES arrowpush.reaction_versions (reaction_id, reaction_version)
 );
 
--- Sign-in sessions: the id is the random value of the session cookie.
-CREATE TABLE arrowpush.sessions (
-  id text PRIMARY KEY,
-  user_id uuid NOT NULL REFERENCES arrowpush.users (id),
-  created_at timestamptz NOT NULL DEFAULT now(),
-  expires_at timestamptz NOT NULL
-);
-
 ALTER TABLE arrowpush.users ENABLE ROW LEVEL SECURITY;
 ALTER TABLE arrowpush.reactions ENABLE ROW LEVEL SECURITY;
 ALTER TABLE arrowpush.reaction_versions ENABLE ROW LEVEL SECURITY;
 ALTER TABLE arrowpush.reviews ENABLE ROW LEVEL SECURITY;
 ALTER TABLE arrowpush.sessions ENABLE ROW LEVEL SECURITY;
+ALTER TABLE arrowpush.accounts ENABLE ROW LEVEL SECURITY;
+ALTER TABLE arrowpush.verifications ENABLE ROW LEVEL SECURITY;

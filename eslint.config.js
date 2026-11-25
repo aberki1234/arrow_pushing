@@ -49,6 +49,17 @@ export default tseslint.config(
         { selector: "enumMember", format: ["PascalCase"] },
         // JSON keys and library option names are written as they are, e.g. "$schema".
         { selector: "property", modifiers: ["requiresQuotes"], format: null },
+        // Names fixed by outside formats: environment variables (UPPER_CASE), GitHub's JSON
+        // (repository_dispatch's event_type, the OAuth token and /user answers) and Hono's
+        // per-request `Variables`.
+        {
+          selector: "property",
+          format: null,
+          filter: {
+            regex: "^([A-Z][A-Z0-9_]*|event_type|access_token|token_type|avatar_url|Variables)$",
+            match: true,
+          },
+        },
         { selector: "import", format: ["camelCase", "PascalCase"] },
       ],
     },

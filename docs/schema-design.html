@@ -376,9 +376,8 @@ atomSelector        := O1 | O* (any O) | @nucleophile (a role) | *</code></pre>
     </ul>
 
     <h2 id="postgres">8 · Postgres (editor and submissions only)</h2>
-<pre><code>users(id uuid pk, display_name, oauth_provider, oauth_subject,
-      site_role in ('contributor','reviewer','owner'), created_at,
-      unique(oauth_provider, oauth_subject))
+<pre><code>users(id uuid pk, name, email unique, email_verified, image,   -- Better Auth's user
+      site_role in ('contributor','reviewer','owner'), created_at, updated_at)
 
 reactions(id uuid pk, reaction_slug unique, owner_user_id → users, created_at)
 
@@ -393,7 +392,11 @@ reaction_versions(reaction_id → reactions, reaction_version int, pk(reaction_i
 reviews(id pk, reaction_id, reaction_version → reaction_versions, reviewer_user_id → users,
         review_decision in ('publish','changes_requested'), comment, created_at)
 
-sessions(id pk, user_id → users, created_at, expires_at)   -- added for 8c: sign-in sessions</code></pre>
+-- sign-in tables, Better Auth's (changed 2026-11-25 from hand-written sign-in):
+sessions(id uuid pk, token unique, user_id → users, expires_at, ip_address, user_agent, …)
+accounts(id uuid pk, account_id, provider_id, user_id → users, tokens (encrypted), …,
+         unique(provider_id, account_id))   -- GitHub's numeric user id where provider_id = 'github'
+verifications(id uuid pk, identifier, value, expires_at, …)   -- the OAuth state</code></pre>
     <p>Decided for 8c: the tables live in their own schema (<code>arrowpush</code>), with row-level security on and Supabase’s automatic Data API off; only the server reaches them. <code>reviews</code> waits for 8d.</p>
     <p>The whole document, mechanism graph included, lives in <code>reaction_document</code>.</p>
 
@@ -429,7 +432,7 @@ sessions(id pk, user_id → users, created_at, expires_at)   -- added for 8c: si
           <li><span class="tag ok">done</span> <b>8.0</b> One implementation in TypeScript: the linter and catalogue build become Node command-line tools, with RDKit.js for reading ordinary SMILES, coordinates and atom checks; the Python code and pytest are deleted. Before deleting, both linters gave the same findings on every lint case. Content hashes changed once (numbers are now written as JavaScript writes them; nothing was published yet). The Python paths in the items above now live in the <code>src/</code> folders of the same names.</li>
           <li><b>8a</b> Editor core (<span class="tag ok">done</span>; run <code>make editor</code>: writing states back to SMILES, pasted SMILES → state, new drafts; drawn arrows → steps with automatic joins, change steps, show H, editing a state and regenerating after it, deleting steps, undo/redo, the mechanism panel’s rows, dragging atoms, Play as learner — each checked by replaying or editing the example reactions): paste SMILES, draw arrows to generate states, drag, show H, change steps, branches and automatic joins, regenerate, undo/redo, mechanism panel, Play as learner, saving to <code>content/reactions/</code>.</li>
           <li><span class="tag ok">done</span> <b>8b</b> Form fields (tabs for the reaction, the state and the step), misconceptions, partial progress messages and partial arrow sets added by drawing them, wedges, and live lint in a Web Worker: a click on a finding goes to its place.</li>
-          <li><b>8c</b> Backend for you (decided 2026-11-25, <a href="spec.html#architecture">spec §5</a>): Hono + Kysely on Render, Supabase Postgres, GitHub sign-in, the editor saving through it, Publish (server lint, licence) and a GitHub Actions workflow that backs up, rebuilds and deploys the site to Cloudflare Pages. In four parts: the database layer, the server (sign-in, the API), the editor and workflows, then setting up the accounts (only you can). <span class="tag ok">part 1 done</span> the database layer in <code>src/reactionDatabase/</code>: the tables of §8 with their rules (one unpublished version, published versions immutable), saving drafts, Edit → the next version, Publish (server lint, licence, content hash), the export of published versions and the import of the examples, all tested on PGlite.</li>
+          <li><b>8c</b> Backend for you (decided 2026-11-25, <a href="spec.html#architecture">spec §5</a>): Hono + Kysely on Render, Supabase Postgres, GitHub sign-in, the editor saving through it, Publish (server lint, licence) and a GitHub Actions workflow that backs up, rebuilds and deploys the site to Cloudflare Pages. In four parts: the database layer, the server (sign-in, the API), the editor and workflows, then setting up the accounts (only you can). <span class="tag ok">part 1 done</span> the database layer in <code>src/reactionDatabase/</code>: the tables of §8 with their rules (one unpublished version, published versions immutable), saving drafts, Edit → the next version, Publish (server lint, licence, content hash), the export of published versions and the import of the examples, all tested on PGlite. <span class="tag ok">part 2 done</span> the server in <code>src/backendServer/</code>: GitHub sign-in through Better Auth (your GitHub id only, 30-day sessions), the editor's API (list, read, save a draft, Edit, Publish, which starts the deploy workflow), the public export of published versions, the built editor's files, settings from environment variables, and <code>make server</code>.</li>
           <li><b>8d</b> Contributors: sign-up, submit → review (play-through and diff) → changes requested or published.</li>
         </ul>
       </li>

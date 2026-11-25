@@ -505,9 +505,8 @@ current state the wrong checks, hints and feedback shown; not the arrows being d
 ## 8. Postgres (editor and submissions only)
 
 ```sql
-users(id uuid pk, display_name text, oauth_provider text, oauth_subject text,
-      site_role text check (site_role in ('contributor','reviewer','owner')), created_at timestamptz,
-      unique(oauth_provider, oauth_subject))
+users(id uuid pk, name text, email text unique, email_verified boolean, image text,   -- Better Auth's user
+      site_role text check (site_role in ('contributor','reviewer','owner')), created_at, updated_at timestamptz)
 
 reactions(id uuid pk, reaction_slug text unique, owner_user_id uuid → users, created_at timestamptz)
 
@@ -525,8 +524,13 @@ reaction_versions(reaction_id uuid → reactions, reaction_version int, pk(react
 reviews(id uuid pk, reaction_id, reaction_version → reaction_versions, reviewer_user_id → users,
         review_decision text check (review_decision in ('publish','changes_requested')), comment text, created_at)
 
-sessions(id text pk,                                  -- random, the cookie's value
-         user_id uuid → users, created_at, expires_at timestamptz)   -- added 2026-11-25 (8c)
+-- Sign-in tables, Better Auth's (changed 2026-11-25, 8c part 2; replace the hand-written sessions table):
+sessions(id uuid pk, token text unique,               -- token = the cookie's value before signing
+         user_id uuid → users, expires_at, ip_address, user_agent, created_at, updated_at)
+accounts(id uuid pk, account_id text, provider_id text, -- GitHub's numeric user id where provider_id = 'github'
+         user_id uuid → users, access_token, refresh_token, id_token (encrypted), …_expires_at, scope,
+         password (unused), created_at, updated_at, unique(provider_id, account_id))
+verifications(id uuid pk, identifier, value, expires_at, created_at, updated_at)   -- OAuth state
 ```
 
 * Decided 2026-11-25 (8c): every table lives in the schema `arrowpush` (not `public`), with row-level security on
@@ -646,8 +650,17 @@ RDKit (RDKit.js) on every valid SMILES case and every example state (`src/chemis
      `migrationRunning.ts`; `reactionVersions.ts` (save a draft, "Edit" → version n+1, list, read),
      `publishing.ts` (server lint, licence, submitted → published, content hash as the static build's),
      `publishedExport.ts`, `contentImport.ts` (examples as published version 1, drafts, safe to rerun),
-     `userAccounts.ts`. Tests on PGlite (`testSupport/temporaryDatabase.ts`; PGlite is pinned to 0.5.x, the
+     (`userAccounts.ts`, replaced by Better Auth in part 2). Tests on PGlite (`testSupport/temporaryDatabase.ts`; PGlite is pinned to 0.5.x, the
      newest `kysely-pglite-dialect` supports).
+     Part 2 done 2026-11-25, `src/backendServer/`: `authentication.ts` (Better Auth, GitHub only, the allow-list
+     of numeric GitHub ids checked at every sign-in, 30-day sessions, tokens encrypted), `reactionRoutes.ts`
+     (`/api/reactions…`: list, read, save a draft, next version, publish; `/api/published-versions`, public),
+     `refusalAnswers.ts` (refusal code → 400/403/404/409/422), `deployDispatch.ts` (`repository_dispatch`
+     `reaction-published`; a failed start never undoes a publish), `serverApplication.ts` (csrf check, `/api/me`,
+     the built editor's files), `serverSettings.ts` (environment variables), `commandLine.ts` + `runFromShell.ts`
+     (`serve | migrate | import`; `make server`), `ownerAccount.ts`; `reactionDatabase/postgresConnection.ts`
+     (node-postgres, untested until the Docker Postgres run). Tests sign in through a fake GitHub
+     (`testSupport/serverTesting.ts`).
    * **8d** Contributors: sign-up, submit → review (play-through + diff) → changes requested | published.
 9. Problem sets: reaction sets that teach one concept (Zaitsev's rule, kinetic versus thermodynamic enolates).
    To be scoped after item 8 (SPEC §9).

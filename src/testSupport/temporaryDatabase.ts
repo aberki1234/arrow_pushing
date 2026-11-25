@@ -44,12 +44,12 @@ export async function newMigratedDatabase(): Promise<DatabaseConnection> {
 /** Remove every row (TRUNCATE fires no row trigger, so published versions go too). */
 export async function emptyAllTables(connection: DatabaseConnection): Promise<void> {
   await connection.runSqlScript(
-    "TRUNCATE arrowpush.reviews, arrowpush.sessions, arrowpush.reaction_versions, " +
-      "arrowpush.reactions, arrowpush.users;",
+    "TRUNCATE arrowpush.reviews, arrowpush.sessions, arrowpush.accounts, " +
+      "arrowpush.verifications, arrowpush.reaction_versions, arrowpush.reactions, arrowpush.users;",
   );
 }
 
-/** A user with the given role, for tests. */
+/** A user with the given role, for tests (no sign-in account). */
 export async function insertUser(
   connection: DatabaseConnection,
   displayName: string,
@@ -57,7 +57,12 @@ export async function insertUser(
 ): Promise<string> {
   const insertedUser = await connection.database
     .insertInto("arrowpush.users")
-    .values({ displayName, oauthProvider: "github", oauthSubject: displayName, siteRole })
+    .values({
+      name: displayName,
+      email: `${displayName.replaceAll(" ", "-")}@example.com`,
+      emailVerified: true,
+      siteRole,
+    })
     .returning("id")
     .executeTakeFirstOrThrow();
   return insertedUser.id;

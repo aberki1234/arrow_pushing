@@ -213,8 +213,11 @@ Diels–Alder needs a concerted multi-arrow step (3 arrows) — the model must s
     `arrowpush`, the Data API off, row-level security on with no policies, the server on its own role. A scheduled
     GitHub Actions workflow runs a daily keep-awake query and a weekly `pg_dump` with a read-only role. Tests use
     **PGlite** (a fresh database per test file); an optional run against Docker Postgres before a deploy.
-  - **Sign-in:** GitHub OAuth, with an allow-list holding only the owner's account. Sessions: a random id in an
-    httpOnly, SameSite cookie, stored in Postgres, 30 days.
+  - **Sign-in:** GitHub OAuth, with an allow-list (numeric GitHub user ids) holding only the owner's account.
+    Sessions: a random token in an httpOnly, SameSite=Lax cookie, signed, stored in Postgres, 30 days.
+    **Changed 2026-11-25 (8c part 2, agreed with the user):** sign-in uses the library **Better Auth** rather than
+    hand-written OAuth; its tables `users`, `sessions`, `accounts`, `verifications` replace the hand-written users
+    and sessions tables (schema-design §8), GitHub tokens stored encrypted.
   - **Publishing:** one **Publish** action: the full lint runs on the server and any error refuses it (warnings
     shown); a one-time CC BY-SA 4.0 agreement is recorded with its date; submitted → published in one transaction;
     then a `repository_dispatch` starts a GitHub Actions workflow that exports the published versions from a
