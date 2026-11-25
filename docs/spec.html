@@ -123,7 +123,7 @@
           <li><b>8a</b>: structures and the mechanism. <b>8b</b>: every text field and metadata, annotations, spectators, abbreviated groups, wedges, and the <b>live lint panel</b> (runs about 300 ms after each edit; click a finding to jump to it). Misconceptions and partial arrow sets are <b>added by drawing them</b>. Hand-placed lone pairs wait for v2. <span class="tag ok">built</span> (8a and 8b): a misconception that is really a correct answer, or would hide one, is refused straight away; making a step preferred makes the other one from its state accepted; a bond tapped in Wedges mode cycles through the wedge styles.</li>
         </ul></td></tr>
       <tr><td>Stack</td><td><b>TypeScript + Svelte</b> frontend; <b>TypeScript on Node + Postgres</b> (decided 2026-11-25, replacing FastAPI; reaction as a JSONB document, version table, status column) for the editor and submissions only; learner site built from published JSON on a static host such as Cloudflare Pages.</td></tr>
-      <tr><td>Backend (8c)</td><td><b>Decided 2026-11-25</b> (8c grilling). For you alone first; contributors and review come in <b>8d</b>.
+      <tr><td>Backend (8c)</td><td><b>Decided 2026-11-25</b> (8c grilling). For you alone first; contributors and review come in <b>8e</b> (renumbered 2026-11-26: 8d is now Create).
         <ul>
           <li><b>Postgres is the source of truth</b>; every published version is also committed to the repo as a backup. The four examples become published version 1; editing a published reaction makes version n+1 a draft.</li>
           <li><b>Hono</b> on Node with <b>Kysely</b> (typed SQL) on <b>Render Starter</b> ($7/month); it also serves the editor, which saves through it.</li>
@@ -135,11 +135,26 @@
           <li>Database access: the automatic Data API is off and row-level security is on for every table. The server owns the tables, so it reads and writes them; the weekly backup reads them as a read-only role with one read policy per table (migration 0002); every other role sees nothing.</li>
           <li><b>Defaults chosen with the first part (2026-11-25):</b> you agree to the licence once; later versions reuse that date. The server, not the editor, numbers versions inside the stored file. A reaction whose versions are all published is changed only through Edit.</li>
         </ul></td></tr>
+      <tr><td>Create (8d)</td><td><b>Decided 2026-11-26</b> from the mockup <a href="../mockups/create.html">create.html</a>. The editor is <b>reskinned</b> into stages that show only what each stage needs. For you alone; built so that opening it to contributors (<b>8e</b>) is a small step.
+        <ul>
+          <li><b>What stays:</b> everything the editor already decides (in <code>src/reactionEditing/</code>), the server and database, Play as learner, live lint, and <code>make editor</code> on local files. Mostly the pages change.</li>
+          <li><b>Create home</b> (“Your mechanisms”): each reaction with a thumbnail, its status and a progress line; <b>New mechanism</b>; <b>Improve a published one</b> (the next version).</li>
+          <li><b>Four stages</b>, a suggested order, never locked:
+            <ol>
+              <li><b>Start:</b> the name, the starting materials (SMILES, with example chips; the sketcher comes later) drawn live, optional conditions. Nothing else.</li>
+              <li><b>Mechanism:</b> the drawing with Arrow, Fish-hook, Move atoms and <b>⋯ More</b> (Show H, Add a molecule, Wedges, Shorten a group, Edit as SMILES); a row of state thumbnails; <b>Make the step</b>, refused with the reason if the arrows don't work; then an optional “Why does this step happen?”, another step, or another correct route.</li>
+              <li><b>Teaching:</b> a to-do list made from the checks, grouped by step: the learner's question, hints, why it happens, common wrong answers (drawn, then the message), the summary. One item open at a time, beside its drawing.</li>
+              <li><b>Publish:</b> Play as learner; the checks as tasks with <b>Fix →</b>; reaction type and a suggested difficulty; <b>More details</b> (authors, references, caption); <b>Advanced</b> (step keys, state names, partial arrow sets, spectators, notes on atoms, the SMILES); the licence tick; Publish (Submit for review for a contributor).</li>
+            </ol></li>
+          <li><b>One domain</b> (name still open): the learner site at <code>&lt;domain&gt;</code> on Cloudflare Pages, Create at <b><code>create.&lt;domain&gt;</code></b> served by Render together with its API, so sign-in needs no cross-site cookies. The editor and RDKit.js stay off the learner host. Until the domain exists, Create stays on its <code>onrender.com</code> address. Create uses the learner site's header and look.</li>
+          <li><b>No Create tab for learners</b> while it is yours alone; one build setting shows it when contributors arrive.</li>
+          <li><b>Ready for contributors:</b> every “may this user …” decision on the server is in one place, by site role (owner, reviewer, contributor); the editor shows Publish or Submit for review from the signed-in role. 8e adds sign-up, Submit, the review screen and the header tab.</li>
+        </ul></td></tr>
     </tbody></table>
 
     <h2 id="community">6 · Community content &amp; moderation</h2>
     <ul>
-      <li>Contributors sign in with OAuth (e.g. GitHub or Google). Learners don’t need accounts. (8c: you only, by GitHub; contributors in 8d.)</li>
+      <li>Contributors sign in with OAuth (e.g. GitHub or Google). Learners don’t need accounts. (8c: you only, by GitHub; contributors in 8e.)</li>
       <li>Submission is gated on the linter passing.</li>
       <li>Status flow: <b>draft → submitted → changes requested | published</b>. Only you (later, named reviewers) publish.</li>
       <li><b>Published versions are immutable</b>; an edit creates a new version, and old versions stay reachable because learner progress points at a version.</li>
@@ -156,7 +171,8 @@
       <tr><td><a href="../mockups/step.html?r=aldol&amp;mode=daily">step</a></td><td><b>Clickable arrow drawing</b>: SN2, 3-step aldol, radical fish-hook step. Bottom bar forces each UI state (idle, source selected, partial, plausible, wrong, generic rule, hints, correct, out of attempts). Try <a href="../mockups/step.html?r=radical">radical</a> and <a href="../mockups/step.html?r=sn2">SN2</a>.</td></tr>
       <tr><td><a href="../mockups/complete.html">complete</a></td><td>Mechanism summary with per-step result and attribution/licence</td></tr>
       <tr><td><a href="../mockups/progress.html">progress</a></td><td>Streak, history, mastery by type, recurring misconceptions, library, export/import</td></tr>
-      <tr><td><a href="../mockups/editor.html">editor</a></td><td>Timeline, canvas with tools, lint/hints/alternatives/misconceptions/submit tabs</td></tr>
+      <tr><td><a href="../mockups/editor.html">editor</a></td><td>Timeline, canvas with tools, lint/hints/alternatives/misconceptions/submit tabs (replaced by <i>create</i>)</td></tr>
+      <tr><td><a href="../mockups/create.html">create</a></td><td><b>Added 2026-11-26, agreed as the design of item 8d.</b> The Create home (“Your mechanisms”) and the four stages: Start, Mechanism (draw the SN2 step by clicking), Teaching, Publish.</td></tr>
     </tbody></table>
     <p class="muted">Validation in the mockups is hard-coded in <code>mockups/scenes.js</code>, which previews the shape of the future content. Checked in headless Chromium with no console errors.</p>
 
@@ -176,7 +192,7 @@
     <ul>
       <li>The <b>JSON schema</b>, <b>Postgres schema</b> and misconception pattern syntax are in <a href="schema-design.html">schema-design.html</a> and “mostly fine” per you. The decisions in §4 are settled; details may still be refined.</li>
       <li>Final product name, branding and domain.</li>
-      <li>Contributors and reviewers (item 8d): sign-in beyond GitHub (e.g. Google for students), reviewer roles beyond you, the review screen.</li>
+      <li>Contributors and reviewers (item 8e): sign-in beyond GitHub (e.g. Google for students), reviewer roles beyond you, the review screen.</li>
       <li>Which reactions beyond the list above, and the order of authoring the first content set.</li>
       <li>Tracks after “Aromatic chemistry” (e.g. Zaitsev versus Hofmann, kinetic versus thermodynamic enolates) and their problem sets. Problem sets themselves were scoped on 2026-11-25 (§1, §2, §5).</li>
       <li><b>Deferred:</b> whole-mechanism mode, stereo validation, learner accounts/leaderboards/sync, visual-editor polish, synkit-assisted drafting.</li>

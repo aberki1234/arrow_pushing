@@ -586,7 +586,7 @@ verifications(id uuid pk, identifier, value, expires_at, created_at, updated_at)
 ```
 
 * Decided 2026-11-25 (8c): every table lives in the schema `arrowpush` (not `public`), with row-level security on
-  and no policies, and Supabase's Data API off; the server connects as its own role. `reviews` is unused until 8d.
+  and no policies, and Supabase's Data API off; the server connects as its own role. `reviews` is unused until 8e.
   Migration 0002 (2026-11-25) adds the role `arrowpush_readonly` for the weekly dump: SELECT and a read policy
   (`read_only_select`) on every table, nothing else. A new table needs its policy in the same migration.
 
@@ -732,8 +732,22 @@ RDKit (RDKit.js) on every valid SMILES case and every example state (`src/chemis
      `<role>.<project-ref>`, Session mode (5432); both connection strings end in
      `?sslmode=verify-full&sslrootcert=deploy/supabase-root-ca.crt` (Node does not trust Supabase's root CA);
      whichever role first runs the migrations owns the tables.
-   * **8d** Contributors: sign-up, submit → review (play-through + diff) → changes requested | published.
-     Built after item 9 (decided 2026-11-25).
+   * **8d** Create: the editor reskinned as a staged flow for the owner (decided 2026-11-26, SPEC §5 "Create";
+     design `mockups/create.html`). Proposed in three parts:
+     - **Part 1, decisions** (TDD, pure TypeScript): in `src/reactionEditing/`, the stage a draft opens on and
+       each stage's completeness; the Teaching to-do list from the draft and its lint findings (item, place,
+       needed / recommended / optional, done); the suggested difficulty; the rows of the state thumbnail strip
+       (preferred route, branches under the state they leave, "joins X"); the progress line on the Create home.
+       On the server (`src/backendServer/`), one module deciding what a site role may do (save, edit, publish,
+       submit, review), used by every route, and the signed-in user's role in the API.
+     - **Part 2, the pages** (`src/reactionEditor/`): Create home, the stepper and the four stages, reusing the
+       learner site's header and styles and the existing components where they fit; component tests for the
+       stage switching; a walkthrough in headless Chromium (new SN2 from SMILES → step → teaching → Publish).
+     - **Part 3, the domain** (the owner sets up the accounts): the learner site on `<domain>` (Cloudflare Pages)
+       and Create on `create.<domain>` (Render), the GitHub sign-in app's callback and the server's public
+       address moved there; checked end to end.
+   * **8e** Contributors: sign-up beyond the allow-list, submit → review (play-through + diff) → changes requested
+     | published, the Create tab in the learner header.
 9. Learn: tracks and problem sets (scoped 2026-11-25, SPEC §5 "Learn", §6.1 here), before 8d. In three parts:
    * **9a Done 2026-11-26.** The track file: `schema/track.schema.json` (`src/trackFiles/`), the example track
      and lint cases, the lint checks and `lint-tracks`, compiling into `catalogue.json` (`--tracks-folder`, the

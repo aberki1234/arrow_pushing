@@ -3,7 +3,7 @@
   var root = document.documentElement;
   try { var t = localStorage.getItem('theme'); if (t) root.setAttribute('data-theme', t); } catch (e) {}
   var pages = [['index.html', 'Home'], ['daily.html', 'Daily'], ['practice.html', 'Practice'],
-               ['step.html', 'Step screen'], ['complete.html', 'Summary'], ['progress.html', 'Progress'], ['editor.html', 'Editor']];
+               ['step.html', 'Step screen'], ['complete.html', 'Summary'], ['progress.html', 'Progress'], ['editor.html', 'Editor'], ['create.html', 'Create']];
   var here = location.pathname.split('/').pop() || 'index.html';
   var host = document.getElementById('nav');
   if (!host) return;

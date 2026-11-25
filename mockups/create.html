@@ -1,0 +1,451 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Create — ArrowPush mockup</title>
+<link rel="stylesheet" href="style.css">
+<style>
+  /* stage stepper */
+  .stepper { display: flex; gap: 0; list-style: none; padding: 0; margin: 18px 0 0; counter-reset: st; flex-wrap: wrap; }
+  .stepper li { flex: 1; min-width: 130px; }
+  .stepper button { width: 100%; border: 0; background: none; font: inherit; cursor: pointer; text-align: left; padding: 10px 12px 12px;
+    border-bottom: 3px solid var(--line); color: var(--muted); display: flex; gap: 10px; align-items: center; }
+  .stepper .n { width: 28px; height: 28px; border-radius: 50%; display: grid; place-items: center; font-weight: 800; font-size: .85rem;
+    background: var(--surface-2); border: 1px solid var(--line); flex: none; }
+  .stepper b { display: block; color: var(--ink); font-size: .95rem; } .stepper small { font-size: .78rem; }
+  .stepper button[aria-current="step"] { border-color: var(--accent); }
+  .stepper button[aria-current="step"] .n { background: var(--accent); color: var(--accent-ink); border-color: var(--accent); }
+  .stepper button.done .n { background: var(--good-soft); color: var(--good); border-color: var(--good); }
+
+  .narrow { max-width: 720px; margin-left: auto; margin-right: auto; }
+  .stage2 { display: grid; grid-template-columns: minmax(0, 1.7fr) minmax(260px, 1fr); gap: 16px; align-items: start; }
+  @media (max-width: 860px) { .stage2 { grid-template-columns: 1fr; } }
+  .toolbar { display: flex; gap: 6px; flex-wrap: wrap; align-items: center; padding: 6px 4px 10px; border-bottom: 1px solid var(--line); margin-bottom: 6px; }
+  .tool { border: 1px solid var(--line); background: var(--surface); color: var(--ink); border-radius: 10px; padding: 6px 10px; font: inherit; font-size: .85rem; font-weight: 700; cursor: pointer; }
+  .tool[aria-pressed="true"] { background: var(--accent); color: var(--accent-ink); border-color: var(--accent); }
+  .menu { position: relative; }
+  .menu-pop { position: absolute; top: 110%; left: 0; z-index: 5; min-width: 250px; background: var(--surface); border: 1px solid var(--line); border-radius: 12px; box-shadow: var(--shadow); padding: 6px; }
+  .menu-pop button { display: block; width: 100%; text-align: left; border: 0; background: none; font: inherit; color: var(--ink); padding: 8px 10px; border-radius: 8px; cursor: pointer; }
+  .menu-pop button:hover { background: var(--surface-2); }
+  .menu-pop small { display: block; color: var(--muted); font-size: .76rem; }
+
+  /* filmstrip of states */
+  .strip { display: flex; gap: 8px; align-items: center; overflow-x: auto; padding: 10px 2px 4px; }
+  .frame { flex: none; width: 150px; border: 2px solid var(--line); border-radius: 12px; background: var(--surface); cursor: pointer; padding: 4px; text-align: center; font-size: .78rem; font-weight: 700; color: var(--muted); }
+  .frame svg { width: 100%; height: 70px; display: block; }
+  .frame[aria-current="true"] { border-color: var(--accent); color: var(--accent); }
+  .frame.add { border-style: dashed; display: grid; place-items: center; height: 96px; font-size: .85rem; }
+  .strip .to { color: var(--muted); font-weight: 800; flex: none; }
+
+  .arrowlist { list-style: none; margin: 0; padding: 0; display: grid; gap: 6px; }
+  .arrowlist li { display: flex; align-items: center; gap: 8px; background: var(--surface-2); border-radius: 10px; padding: 6px 10px; font-size: .9rem; }
+  .note { border-radius: 12px; padding: 10px 12px; font-size: .9rem; background: var(--surface-2); }
+  .note.good { background: var(--good-soft); color: var(--good); } .note.bad { background: var(--bad-soft); color: var(--bad); }
+  .note.warn { background: var(--warn-soft); color: var(--warn); }
+  details.adv summary { cursor: pointer; font-weight: 700; color: var(--muted); font-size: .88rem; padding: 6px 0; }
+  .optional { font-weight: 600; color: var(--muted); font-size: .78rem; }
+
+  /* teaching checklist */
+  .teach { display: grid; grid-template-columns: minmax(240px, .9fr) minmax(0, 1.6fr); gap: 16px; align-items: start; }
+  @media (max-width: 860px) { .teach { grid-template-columns: 1fr; } }
+  .todo { list-style: none; margin: 0; padding: 0; display: grid; gap: 4px; }
+  .todo button { width: 100%; text-align: left; border: 1px solid transparent; background: none; font: inherit; color: var(--ink); padding: 8px 10px; border-radius: 10px; cursor: pointer; display: flex; gap: 10px; align-items: center; }
+  .todo button:hover { background: var(--surface-2); }
+  .todo button[aria-current="true"] { background: var(--accent-soft); border-color: var(--accent); }
+  .mark { width: 22px; height: 22px; border-radius: 50%; display: grid; place-items: center; font-size: .75rem; font-weight: 800; flex: none; border: 2px solid var(--line); color: var(--muted); }
+  .mark.ok { background: var(--good); border-color: var(--good); color: #fff; }
+  .mark.need { border-color: var(--bad); color: var(--bad); }
+  .todo .tag { margin-left: auto; }
+  .grouphead { font-size: .75rem; text-transform: uppercase; letter-spacing: .06em; color: var(--muted); font-weight: 800; margin: 12px 0 4px 4px; }
+  .tier { display: grid; grid-template-columns: 90px 1fr; gap: 10px; align-items: start; margin-top: 10px; }
+  .tier .lab { font-weight: 800; font-size: .85rem; padding-top: 8px; } .tier .lab small { display: block; color: var(--muted); font-weight: 600; }
+
+  .mylist .item { display: flex; gap: 14px; align-items: center; padding: 12px 6px; border-bottom: 1px solid var(--line); }
+  .mylist .item:last-child { border-bottom: 0; }
+  .thumb { width: 96px; height: 52px; flex: none; border-radius: 8px; background: var(--surface-2); }
+  .bigchoice { display: grid; gap: 6px; text-decoration: none; color: var(--ink); cursor: pointer; text-align: left; font: inherit; }
+  .bigchoice .ic { font-size: 1.6rem; }
+  .mock { margin-top: 28px; border: 2px dashed var(--line); border-radius: 14px; padding: 12px 16px; }
+  .mock h3 { font-size: .8rem; text-transform: uppercase; letter-spacing: .06em; color: var(--muted); }
+  .mock li { margin-bottom: 4px; }
+  .seg { display: inline-flex; border: 1px solid var(--line); border-radius: 10px; overflow: hidden; }
+  .seg button { border: 0; background: var(--surface); color: var(--ink); padding: 7px 12px; font: inherit; font-size: .85rem; font-weight: 700; cursor: pointer; }
+  .seg button[aria-pressed="true"] { background: var(--accent); color: var(--accent-ink); }
+</style>
+</head>
+<body>
+<div id="nav"></div>
+<div class="wrap">
+
+<!-- ============ My mechanisms (the Create tab's landing page) ============ -->
+<section id="v-list">
+  <div class="row spread mt">
+    <div><h1>Create</h1><p class="muted" style="margin:0">Build a mechanism puzzle for others to learn from. Structures and arrows first; the teaching text comes later.</p></div>
+    <span class="pill">Signed in with GitHub</span>
+  </div>
+  <div class="grid g2 mt">
+    <button class="card hero bigchoice" data-go="start"><span class="ic">✚</span><h2 style="margin:0">New mechanism</h2>
+      <span class="muted">Paste or draw the starting materials, then push arrows.</span></button>
+    <button class="card bigchoice" data-go="start"><span class="ic">✎</span><h2 style="margin:0">Improve a published one</h2>
+      <span class="muted">Opens a copy as the next version. Learners keep the old one until yours is published.</span></button>
+  </div>
+  <h2 class="mt2">Your mechanisms</h2>
+  <div class="card flat mylist">
+    <div class="item"><svg class="thumb" id="th1" viewBox="0 0 640 330"></svg>
+      <div style="flex:1"><b>Wittig reaction</b><div class="small muted">Draft · mechanism done, teaching 4 of 9 · edited 2 h ago</div></div>
+      <span class="pill">Draft</span><button class="btn sm" data-go="teach">Continue</button></div>
+    <div class="item"><svg class="thumb" id="th2" viewBox="0 0 640 330"></svg>
+      <div style="flex:1"><b>Pinacol rearrangement</b><div class="small muted">A reviewer left 2 comments</div></div>
+      <span class="pill warn">Changes requested</span><button class="btn sm" data-go="publish">See comments</button></div>
+    <div class="item"><svg class="thumb" id="th3" viewBox="0 0 640 330"></svg>
+      <div style="flex:1"><b>Radical bromination</b><div class="small muted">Submitted yesterday</div></div>
+      <span class="pill new">In review</span><button class="btn sm">View</button></div>
+    <div class="item"><svg class="thumb" id="th4" viewBox="0 0 640 330"></svg>
+      <div style="flex:1"><b>SN2 substitution</b><div class="small muted">Version 2 · played 1,204 times · 71% first try</div></div>
+      <span class="pill good">Published</span><button class="btn sm">Edit as v3</button></div>
+  </div>
+</section>
+
+<!-- ============ The editor: four stages ============ -->
+<section id="v-editor" class="hidden">
+  <div class="row spread mt">
+    <div class="row"><button class="btn sm" data-go="list">← Your mechanisms</button>
+      <h2 style="margin:0" id="rxnName">SN2 of bromomethane</h2><span class="pill">Draft · saved</span></div>
+    <div class="row"><button class="btn sm" title="Undo">↶</button><button class="btn sm" title="Redo">↷</button>
+      <button class="btn sm" id="playTop">▶ Play as learner</button></div>
+  </div>
+  <ol class="stepper" aria-label="Stages">
+    <li><button data-stage="start"><span class="n">1</span><span><b>Start</b><small>name + molecules</small></span></button></li>
+    <li><button data-stage="mech"><span class="n">2</span><span><b>Mechanism</b><small>push the arrows</small></span></button></li>
+    <li><button data-stage="teach"><span class="n">3</span><span><b>Teaching</b><small>questions, hints, traps</small></span></button></li>
+    <li><button data-stage="publish"><span class="n">4</span><span><b>Publish</b><small>try it, details, submit</small></span></button></li>
+  </ol>
+
+  <!-- Stage 1: Start -->
+  <div id="s-start" class="narrow mt">
+    <div class="card">
+      <label class="f" for="nm">What is this reaction called?</label>
+      <input type="text" id="nm" value="SN2 of bromomethane">
+      <label class="f">What reacts?</label>
+      <div class="row" style="margin-bottom:8px">
+        <div class="seg"><button aria-pressed="true" id="bySmiles">Type SMILES</button><button aria-pressed="false" id="byDraw">Draw</button></div>
+        <span class="small muted">or try: <button class="chip" data-ex="[OH-].CBr">hydroxide + bromomethane</button> <button class="chip" data-ex="c1ccccc1.BrBr">benzene + Br₂</button></span>
+      </div>
+      <input type="text" id="smi" value="[OH-].CBr" style="font-family:ui-monospace,monospace">
+      <div id="drawNote" class="note hidden mt">A structure sketcher (e.g. Ketcher) opens here. It draws <b>starting materials only</b>; arrows are pushed in the next stage.</div>
+      <div class="card flat mt" style="padding:6px"><svg class="mol" id="startPrev" viewBox="0 0 640 290"></svg></div>
+      <div class="small muted" style="margin-top:4px">Read as: hydroxide ion · bromomethane. Charges, lone pairs and atom numbers are filled in for you.</div>
+      <label class="f" for="cond">Conditions over the arrow <span class="optional">optional</span></label>
+      <input type="text" id="cond" placeholder="e.g. NaOH, EtOH/H₂O, 25 °C">
+      <div class="row spread mt"><span class="small muted">That's all for now. Type, difficulty and teaching text come later.</span>
+        <button class="btn primary" data-stage="mech">Push the arrows →</button></div>
+    </div>
+  </div>
+
+  <!-- Stage 2: Mechanism -->
+  <div id="s-mech" class="hidden mt">
+    <div class="stage2">
+      <section class="card" style="padding:8px">
+        <div class="toolbar">
+          <button class="tool" aria-pressed="true" id="tPair">⟶ Arrow</button>
+          <button class="tool" aria-pressed="false" id="tHook">⇀ Fish-hook</button>
+          <button class="tool" aria-pressed="false" id="tMove">✥ Move atoms</button>
+          <span class="menu"><button class="tool" id="moreBtn" aria-expanded="false">⋯ More</button>
+            <div class="menu-pop hidden" id="morePop">
+              <button>Show an H<small>make one hydrogen tappable (e.g. for a proton transfer)</small></button>
+              <button>Add a molecule<small>a reagent arrives between steps (a change step)</small></button>
+              <button>Wedges and dashes<small>tap a bond to cycle its style</small></button>
+              <button>Shorten a group (Ph, tBu)<small>draw a bystander group as its label</small></button>
+              <button>Edit as SMILES<small>for experts; can regenerate the states after</small></button>
+            </div></span>
+          <span class="spacer"></span>
+          <span class="small muted" id="viewing">Viewing: Start</span>
+        </div>
+        <svg class="mol" id="svg" viewBox="0 0 640 300" aria-label="Drawing of the selected state">
+          <defs><marker id="mFull" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="5.5" markerHeight="5.5" orient="auto-start-reverse" markerUnits="strokeWidth"><path d="M0,1 L9,5 L0,9 z" fill="context-stroke" stroke="context-stroke"/></marker></defs>
+          <g id="molLayer"></g><g id="hitLayer"></g><g id="arrowLayer"></g>
+        </svg>
+        <div class="small muted" id="canvasHint" style="padding:0 8px 6px">Tap a <b>source</b> (lone pair or bond), then where the electrons <b>go</b>.</div>
+        <div class="strip" id="strip" aria-label="States of the mechanism"></div>
+      </section>
+
+      <aside class="grid" style="gap:12px">
+        <div class="card flat" id="stepCard">
+          <div class="small muted">New step from <b id="fromName">Start</b></div>
+          <ul class="arrowlist mt" id="arrowList" style="margin-top:8px"></ul>
+          <div class="small muted" id="emptyList">No arrows yet.</div>
+          <div class="row mt"><button class="btn sm" id="clearA">Clear</button><span class="spacer"></span>
+            <button class="btn primary" id="makeStep" disabled>Make the step</button></div>
+          <div id="stepMsg" class="mt"></div>
+        </div>
+        <div class="card flat hidden" id="doneCard">
+          <div class="note good">✓ Step 1 made. The product appears in the strip below the drawing.</div>
+          <label class="f" for="why">Why does this step happen? <span class="optional">optional now, asked again in Teaching</span></label>
+          <textarea id="why" rows="3" placeholder="e.g. Hydroxide attacks the δ+ carbon from the back as bromide leaves."></textarea>
+          <div class="row mt"><button class="btn sm">+ Another step from here</button><button class="btn sm">⑂ Another correct route</button></div>
+          <div class="row mt"><span class="spacer"></span><button class="btn primary" data-stage="teach">Mechanism done → Teaching</button></div>
+        </div>
+        <div class="card flat small muted">
+          <b style="color:var(--ink)">How this works</b><br>
+          The site applies your arrows and draws the next state. Arrows that break the chemistry are refused straight away, with the reason.
+          A result identical to a state you already have joins it automatically.
+        </div>
+      </aside>
+    </div>
+  </div>
+
+  <!-- Stage 3: Teaching -->
+  <div id="s-teach" class="hidden mt">
+    <div class="teach">
+      <section class="card flat">
+        <div class="row spread"><b>To do</b><span class="small muted"><span id="needCount">2</span> needed before publishing</span></div>
+        <div class="bar" style="margin:8px 0 4px"><i id="teachBar" style="width:40%"></i></div>
+        <div class="grouphead">Step 1 · Start → Product</div>
+        <ul class="todo">
+          <li><button data-item="prompt" aria-current="true"><span class="mark need" id="mk-prompt">!</span>Question the learner sees<span class="pill tag warn">needed</span></button></li>
+          <li><button data-item="hints"><span class="mark need" id="mk-hints">!</span>Hints<span class="pill tag warn">1 needed</span></button></li>
+          <li><button data-item="why"><span class="mark ok">✓</span>Why it happens<span class="pill tag">from stage 2</span></button></li>
+          <li><button data-item="traps"><span class="mark">0</span>Common wrong answers<span class="pill tag">recommended</span></button></li>
+        </ul>
+        <div class="grouphead">Whole reaction</div>
+        <ul class="todo">
+          <li><button data-item="summary"><span class="mark">·</span>Summary at the end<span class="pill tag">optional</span></button></li>
+        </ul>
+      </section>
+
+      <section class="card" id="teachPane">
+        <div id="p-prompt">
+          <h3>What does the learner see before drawing?</h3>
+          <div class="grid" style="grid-template-columns: 220px 1fr; gap:14px">
+            <svg class="mol card flat" style="padding:2px" id="miniA" viewBox="0 0 640 300"></svg>
+            <div><textarea rows="3" id="promptTxt" placeholder="e.g. Draw the arrows for the single, concerted step."></textarea>
+              <div class="small muted" style="margin-top:6px">Suggestions: <button class="chip" data-fill="Draw the arrows for the single, concerted step.">single concerted step</button>
+                <button class="chip" data-fill="Hydroxide attacks. Which bond breaks at the same time?">name the attacker</button></div></div>
+          </div>
+        </div>
+        <div id="p-hints" class="hidden">
+          <h3>Hints, from a nudge to the answer</h3>
+          <p class="small muted">One is needed; three make the best ladder. The third hint shows your arrows as dashed ghost arrows for the learner to trace, so it only needs a sentence.</p>
+          <div class="tier"><span class="lab">1 · Nudge</span><textarea rows="2" placeholder="Which carbon is electron-poor?"></textarea></div>
+          <div class="tier"><span class="lab">2 · Narrower<small>optional</small></span><textarea rows="2" placeholder="The C–Br carbon is δ+. Where must its electrons go?"></textarea></div>
+          <div class="tier"><span class="lab">3 · Answer<small>+ ghost arrows</small></span><textarea rows="2" placeholder="O⁻ attacks C while C–Br breaks onto Br."></textarea></div>
+        </div>
+        <div id="p-why" class="hidden">
+          <h3>Why it happens (shown after a correct step)</h3>
+          <textarea rows="4">Hydroxide attacks the δ+ carbon from the back as bromide leaves.</textarea>
+        </div>
+        <div id="p-traps" class="hidden">
+          <h3>Common wrong answers</h3>
+          <p class="small muted">Draw a mistake learners make on the molecule, then write what you'd tell them. Mistakes you don't list still get the general feedback (wrong electron count, reversed arrow, …).</p>
+          <div class="grid" style="grid-template-columns: 1fr 1fr; gap:14px">
+            <div><svg class="mol card flat" style="padding:2px" id="miniB" viewBox="0 0 640 300"></svg>
+              <div class="small muted" style="margin-top:4px">Drawn: lone pair on O → Br</div></div>
+            <div>
+              <label class="f" style="margin-top:0">What to tell the learner</label>
+              <textarea rows="4">Both HO⁻ and Br carry negative character, so they repel. A nucleophile attacks the electron-poor (δ+) atom. Which is it?</textarea>
+              <label class="f">How wrong is it?</label>
+              <div class="seg"><button aria-pressed="true">Wrong</button><button aria-pressed="false">Plausible, not this reaction</button></div>
+              <details class="adv mt"><summary>Match more than this exact drawing</summary><span class="small muted">e.g. "any lone pair on O to any halogen". Atom roles and patterns live here.</span></details>
+            </div>
+          </div>
+          <div class="row mt"><button class="btn sm">✚ Draw another mistake</button></div>
+        </div>
+        <div id="p-summary" class="hidden">
+          <h3>Summary shown when the learner finishes</h3>
+          <textarea rows="3" placeholder="One concerted step; inversion of configuration at carbon."></textarea>
+        </div>
+        <div class="row spread mt"><span class="small muted">Saved as you type.</span>
+          <button class="btn primary" id="nextItem">Next to do →</button></div>
+      </section>
+    </div>
+  </div>
+
+  <!-- Stage 4: Publish -->
+  <div id="s-publish" class="hidden mt narrow">
+    <div class="card hero row spread">
+      <div><h3 style="margin:0">Try it as a learner first</h3><span class="muted small">The real step screen, with your hints and wrong-answer messages.</span></div>
+      <button class="btn primary">▶ Play as learner</button>
+    </div>
+    <div class="card mt">
+      <h3>Checks</h3>
+      <ul class="todo">
+        <li><button data-stage="teach"><span class="mark need">✕</span>Step 1 has no question for the learner<span class="small tag" style="color:var(--accent)">Fix →</span></button></li>
+        <li><button data-stage="teach"><span class="mark" style="border-color:var(--warn);color:var(--warn)">!</span>Only one hint on step 1; three work best<span class="small tag" style="color:var(--accent)">Improve →</span></button></li>
+        <li><button><span class="mark ok">✓</span>Every step reproduces its next state</button></li>
+      </ul>
+    </div>
+    <div class="card mt">
+      <h3>Details for the library</h3>
+      <label class="f">Reaction type</label>
+      <div class="row" style="gap:6px"><button class="chip" aria-pressed="true">Substitution</button><button class="chip">Elimination</button><button class="chip">Carbonyl</button><button class="chip">Pericyclic</button><button class="chip">Rearrangement</button><button class="chip">Radical</button></div>
+      <label class="f">Difficulty</label>
+      <div class="row" style="gap:6px"><button class="chip" aria-pressed="true">●○○ intro</button><button class="chip">●●○</button><button class="chip">●●●</button>
+        <span class="small muted">suggested from 1 step, 2 arrows</span></div>
+      <label class="f" for="subt">One-line description <span class="optional">optional</span></label>
+      <input type="text" id="subt" placeholder="Hydroxide displaces bromide from bromomethane">
+      <details class="adv mt"><summary>More details: authors, references, caption</summary>
+        <label class="f">Authors</label><input type="text" value="M. L.">
+        <label class="f">References</label><textarea rows="2" placeholder="Clayden, Organic Chemistry, ch. 15"></textarea>
+      </details>
+      <details class="adv"><summary>Advanced (rarely needed)</summary>
+        <p class="small muted">Step keys and state names · alternative arrow sets that count as "right so far" · faded spectator atoms · notes on atoms · atom roles for wrong-answer patterns · the mapped SMILES of each state.</p>
+      </details>
+    </div>
+    <div class="card mt">
+      <label class="row small" style="gap:8px"><input type="checkbox"> I agree to share this under CC BY-SA 4.0, with my name shown on the reaction.</label>
+      <div class="row spread mt"><span class="small muted">A reviewer plays it through before it goes live.</span>
+        <button class="btn primary" disabled>Submit for review</button></div>
+    </div>
+  </div>
+</section>
+
+<div class="mock">
+  <h3>Mockup notes: what changes from the current editor</h3>
+  <ul class="small">
+    <li><b>A Create tab on the learner site</b> lists your mechanisms with their status; the editor opens from there.</li>
+    <li><b>Four stages, one job each.</b> Stage 1 asks only for a name and the molecules (one SMILES box or a sketcher); stage 2 only for arrows; stage 3 is a to-do list of teaching text, one item open at a time; stage 4 holds the library details, checks and submit.</li>
+    <li><b>Most fields are hidden until they matter.</b> Show H, change steps, wedges and abbreviated groups sit under "⋯ More". Step keys, state ids, partial arrow sets, spectators, annotations and atom roles sit under "Advanced". Difficulty is suggested.</li>
+    <li><b>Lint becomes the to-do list.</b> Errors read as tasks with a "Fix →" link, not a panel of rule ids.</li>
+    <li>Stages are a suggested order, not locks: you can jump back to stage 2 at any time.</li>
+  </ul>
+</div>
+</div>
+
+<script src="common.js"></script>
+<script src="scenes.js"></script>
+<script>
+(function () {
+  const $ = (id) => document.getElementById(id);
+  const NS = 'http://www.w3.org/2000/svg';
+  const sn2 = SCENES.sn2.steps[0];
+  const els = sn2.els;
+  const correct = sn2.correct[0];
+  const refusal = {
+    'lpO>Br': 'Refused: bromine would have 10 electrons.',
+    'lpBr>C': 'Refused: carbon would have 10 electrons. Did the C–Br bond break?',
+    'bCBr>C': 'Refused: the bond\'s electrons are already on this carbon.',
+    'lpO>C': null, 'bCBr>Br': null
+  };
+  let arrows = [], selected = null, stepMade = false, viewing = 'start';
+
+  /* ---------- views and stages ---------- */
+  const stages = ['start', 'mech', 'teach', 'publish'];
+  function show(view) {
+    $('v-list').classList.toggle('hidden', view !== 'list');
+    $('v-editor').classList.toggle('hidden', view === 'list');
+    if (view !== 'list') stage(view);
+    window.scrollTo(0, 0);
+  }
+  function stage(s) {
+    stages.forEach((k, i) => {
+      $('s-' + k).classList.toggle('hidden', k !== s);
+      const b = document.querySelector('.stepper [data-stage="' + k + '"]');
+      b.toggleAttribute('aria-current', k === s); if (k === s) b.setAttribute('aria-current', 'step');
+      b.classList.toggle('done', i < stages.indexOf(s));
+    });
+    location.hash = s;
+  }
+  document.querySelectorAll('[data-go]').forEach((b) => b.addEventListener('click', () => show(b.dataset.go)));
+  document.querySelectorAll('[data-stage]').forEach((b) => b.addEventListener('click', () => stage(b.dataset.stage)));
+
+  /* ---------- thumbnails and previews ---------- */
+  ['th1', 'th2', 'th3', 'th4'].forEach((id, i) => { $(id).innerHTML = [sn2After, chain3, radBefore, sn2Before][i](i === 1); });
+  $('startPrev').innerHTML = sn2Before();
+  $('miniA').innerHTML = sn2Before();
+  $('miniB').innerHTML = sn2Before() + '<path class="arrow wrong" marker-end="url(#mFullB)" d="M138 160 Q 290 60 432 160"/>' +
+    '<defs><marker id="mFullB" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="5.5" markerHeight="5.5" orient="auto" markerUnits="strokeWidth"><path d="M0,1 L9,5 L0,9 z" fill="var(--bad)"/></marker></defs>';
+  $('bySmiles').onclick = () => { $('bySmiles').setAttribute('aria-pressed', 'true'); $('byDraw').setAttribute('aria-pressed', 'false'); $('smi').classList.remove('hidden'); $('drawNote').classList.add('hidden'); };
+  $('byDraw').onclick = () => { $('byDraw').setAttribute('aria-pressed', 'true'); $('bySmiles').setAttribute('aria-pressed', 'false'); $('smi').classList.add('hidden'); $('drawNote').classList.remove('hidden'); };
+  document.querySelectorAll('[data-ex]').forEach((b) => b.onclick = () => { $('smi').value = b.dataset.ex; });
+  $('nm').oninput = () => { $('rxnName').textContent = $('nm').value || 'Untitled'; };
+  $('moreBtn').onclick = () => { const p = $('morePop'); p.classList.toggle('hidden'); $('moreBtn').setAttribute('aria-expanded', String(!p.classList.contains('hidden'))); };
+  ['tPair', 'tHook', 'tMove'].forEach((id) => $(id).onclick = () => ['tPair', 'tHook', 'tMove'].forEach((k) => $(k).setAttribute('aria-pressed', String(k === id))));
+
+  /* ---------- stage 2: arrows on the canvas ---------- */
+  function strip() {
+    const frame = (key, label, draw) => '<button class="frame" data-view="' + key + '" aria-current="' + (viewing === key) + '"><svg viewBox="0 0 640 300">' + draw() + '</svg>' + label + '</button>';
+    let h = frame('start', 'Start', sn2Before);
+    if (stepMade) h += '<span class="to">→</span>' + frame('product', 'Product', sn2After) + '<span class="to">→</span><button class="frame add" style="width:110px">+ step</button>';
+    else h += '<span class="to">→</span><div class="frame add" style="width:150px">next state appears<br>when you make a step</div>';
+    $('strip').innerHTML = h;
+    $('strip').querySelectorAll('[data-view]').forEach((b) => b.onclick = () => { viewing = b.dataset.view; draw(); });
+  }
+  function draw() {
+    $('molLayer').innerHTML = viewing === 'start' ? sn2Before() : sn2After();
+    $('viewing').textContent = 'Viewing: ' + (viewing === 'start' ? 'Start' : 'Product');
+    $('hitLayer').innerHTML = ''; $('arrowLayer').innerHTML = '';
+    if (viewing === 'start') { hits(); arrowsOut(); }
+    $('canvasHint').classList.toggle('hidden', viewing !== 'start' || stepMade);
+    strip();
+  }
+  function hits() {
+    els.forEach((e) => {
+      const c = document.createElementNS(NS, 'circle');
+      c.setAttribute('class', 'hit' + (selected === e.id ? ' sel' : '')); c.setAttribute('cx', e.x); c.setAttribute('cy', e.y);
+      c.setAttribute('r', Math.max(e.r, 15)); c.setAttribute('tabindex', '0'); c.setAttribute('aria-label', e.label);
+      c.onclick = () => pick(e);
+      $('hitLayer').appendChild(c);
+    });
+  }
+  function pick(e) {
+    if (stepMade) return;
+    if (!selected) { if (e.role === 'src') selected = e.id; draw(); return; }
+    if (e.id === selected) { selected = null; draw(); return; }
+    arrows.push({ src: selected, sink: e.id }); selected = null; list(); draw();
+  }
+  function arrowsOut() {
+    arrows.forEach((a) => {
+      const s = els.find((x) => x.id === a.src), t = els.find((x) => x.id === a.sink);
+      const tx = t.tx || t.x, ty = t.ty || t.y, mx = (s.x + tx) / 2, my = Math.min(s.y, ty) - 70;
+      const p = document.createElementNS(NS, 'path');
+      p.setAttribute('class', 'arrow'); p.setAttribute('marker-end', 'url(#mFull)');
+      p.setAttribute('d', 'M' + s.x + ' ' + (s.y - 8) + ' Q ' + mx + ' ' + my + ' ' + tx + ' ' + (ty - 6));
+      $('arrowLayer').appendChild(p);
+    });
+  }
+  function label(id) { return els.find((x) => x.id === id).label; }
+  function list() {
+    $('arrowList').innerHTML = arrows.map((a) => '<li>⟶ ' + label(a.src) + ' → ' + label(a.sink) + '</li>').join('');
+    $('emptyList').classList.toggle('hidden', arrows.length > 0);
+    $('makeStep').disabled = arrows.length === 0;
+    $('stepMsg').innerHTML = '';
+  }
+  $('clearA').onclick = () => { arrows = []; selected = null; list(); draw(); };
+  $('makeStep').onclick = () => {
+    const keys = arrows.map((a) => a.src + '>' + a.sink);
+    const bad = keys.find((k) => refusal[k]);
+    if (bad) { $('stepMsg').innerHTML = '<div class="note bad">' + refusal[bad] + ' Change the arrows and try again.</div>'; return; }
+    if (keys.length !== correct.length || !correct.every((k) => keys.includes(k))) {
+      $('stepMsg').innerHTML = '<div class="note warn">These arrows leave an atom with the wrong electron count. Is a second arrow missing?</div>'; return;
+    }
+    stepMade = true; viewing = 'product';
+    $('stepCard').classList.add('hidden'); $('doneCard').classList.remove('hidden'); draw();
+  };
+
+  /* ---------- stage 3: teaching to-do ---------- */
+  const items = ['prompt', 'hints', 'why', 'traps', 'summary'];
+  function openItem(k) {
+    items.forEach((i) => { $('p-' + i).classList.toggle('hidden', i !== k); });
+    document.querySelectorAll('[data-item]').forEach((b) => b.setAttribute('aria-current', String(b.dataset.item === k)));
+  }
+  document.querySelectorAll('[data-item]').forEach((b) => b.onclick = () => openItem(b.dataset.item));
+  $('nextItem').onclick = () => {
+    const cur = document.querySelector('[data-item][aria-current="true"]').dataset.item;
+    openItem(items[(items.indexOf(cur) + 1) % items.length]);
+  };
+  function tick(id, done) { const m = $(id); m.className = 'mark ' + (done ? 'ok' : 'need'); m.textContent = done ? '✓' : '!'; }
+  function recount() {
+    const p = $('promptTxt').value.trim() !== '', h = $('p-hints').querySelector('textarea').value.trim() !== '';
+    tick('mk-prompt', p); tick('mk-hints', h);
+    $('needCount').textContent = 2 - p - h; $('teachBar').style.width = (40 + 30 * (p + h)) + '%';
+  }
+  $('promptTxt').oninput = recount; $('p-hints').querySelector('textarea').oninput = recount;
+  document.querySelectorAll('[data-fill]').forEach((b) => b.onclick = () => { $('promptTxt').value = b.dataset.fill; recount(); });
+
+  list(); draw();
+  const start = location.hash.slice(1);
+  show(stages.includes(start) ? start : 'list');
+})();
+</script>
+</body>
+</html>

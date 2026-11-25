@@ -251,7 +251,7 @@ then a halobenzene (deactivating but ortho/para). The track ends with a checkpoi
   (e.g. Cloudflare Pages). The linter runs server-side on submission.
   **Decided 2026-11-25 (8c grilling):**
   - **Scope:** 8c is for the owner alone, end to end. Contributor sign-up, the reviewer's screen (play-through +
-    diff) and "changes requested" are **8d**.
+    diff) and "changes requested" are **8e** (renumbered 2026-11-26: 8d is now the Create flow, below).
   - **Content:** Postgres is the source of truth; each published version is also committed to `content/published/`
     in the repo as a backup. The four examples are imported as published version 1 (they stay test fixtures), local
     drafts as drafts. "Edit" on a published reaction makes version n+1 a draft (refused if an unpublished version
@@ -288,11 +288,49 @@ then a halobenzene (deactivating but ortho/para). The track ends with a checkpoi
     rows. On Supabase the owner makes `arrowpush_readonly` first (LOGIN, password) as `postgres`.
   - **Addresses:** the hosts' own (`*.onrender.com`, `*.pages.dev`) until the name and domain are chosen, before the
     site is announced to learners (a new domain resets learners' saved progress; Export / Import carries it).
+- **Create (item 8d, decided 2026-11-26 from the mockup `mockups/create.html`):** the editor is **reskinned** into a
+  staged flow that shows only the fields the current stage needs (the 8b editor showed every field at once). It is
+  **for the owner alone**, built so that opening it to contributors (8e) is a small step.
+  - **What stays:** every decision in `src/reactionEditing/`, the server's API, the database, Play as learner, live
+    lint in a worker, and `make editor`'s file mode (the new pages work on `content/reactions/` too). Mostly the
+    Svelte pages in `src/reactionEditor/` change.
+  - **Create home ("Your mechanisms"):** each reaction with a thumbnail, its status (draft / submitted / changes
+    requested / published) and a progress line ("mechanism done, teaching 4 of 9"); **New mechanism**; **Improve a
+    published one** (Edit → version n+1, as in 8c).
+  - **Four stages**, shown as a stepper; a suggested order, never locked:
+    1. **Start:** the reaction's name, the starting materials (SMILES, with a few example chips; the sketcher stays
+       deferred) with a live drawing, and optional conditions. Nothing else; the slug is made from the name.
+    2. **Mechanism:** the drawing with **Arrow**, **Fish-hook**, **Move atoms** and **⋯ More** (Show H, Add a
+       molecule = a change step, Wedges, Shorten a group = abbreviated groups, Edit as SMILES with regenerate); a
+       **row of state thumbnails** under the drawing; **Make the step**, refused at once with the reason when the
+       validator refuses the arrows; after it, one optional "Why does this step happen?" (the explanation), **Another
+       step from here** and **Another correct route** (a branch).
+    3. **Teaching:** a **to-do list built from the lint findings**, grouped by step, each item marked needed,
+       recommended or optional: the question the learner sees (prompt), hints (one needed, three best; the third
+       shows ghost arrows), why it happens, common wrong answers (drawn on the molecule, then the message and
+       wrong / plausible; loosening the pattern and atom roles under "Match more than this exact drawing"), and the
+       summary at the end. One item open at a time beside a small drawing of its state.
+    4. **Publish:** Play as learner; the checks written as tasks with **Fix →** (going to the stage and item);
+       reaction type and difficulty (suggested from the mechanism, changeable), a one-line description; **More
+       details** (authors, references, caption); **Advanced** (step keys, state ids, partial arrow sets and partial
+       progress messages, spectators, annotations, the mapped SMILES); the licence tick; **Publish** for the owner
+       (**Submit for review** for a contributor, 8e).
+  - **Hosting: one domain** (name still open). The learner site at `<domain>` on Cloudflare Pages; Create at
+    **`create.<domain>`, served by the Render server** with its API, so the editor and API share an origin (no
+    CORS, the sign-in cookie unchanged). RDKit.js and the editor stay off the learner host. Until the domain is
+    bought, Create stays at the `onrender.com` address. The Create pages reuse the learner site's header and styles
+    and link back to it.
+  - **Learners see no Create tab** while Create is the owner's alone; one build setting adds it to the header when
+    contributors arrive (8e).
+  - **Ready for contributors:** every "may this user …" decision on the server sits in one module, by site role
+    (owner / reviewer / contributor, already a column of `users`); the editor asks the server for the signed-in
+    user's role and shows Publish or Submit for review from it. 8e then adds sign-up beyond the allow-list,
+    Submit, the review screen (play-through + diff), changes requested and the header tab.
 
 ## 6. Community content & moderation
 
 - Contributors sign in via OAuth (e.g. GitHub/Google); learners don't need accounts. (8c: the owner only, by GitHub;
-  contributors arrive in 8d.)
+  contributors arrive in 8e.)
 - Submission gated on linter passing (arrows reproduce each state; every step has ≥ 1 hint — mockup shows a 3-tier minimum as advice).
 - Status flow: **draft → submitted → changes requested | published**. Only the owner (later, named reviewers) publishes.
 - **Published versions are immutable**; an edit creates a new version, old versions stay reachable (learner progress points at a version).
@@ -308,6 +346,9 @@ arrow drawing; SN2, 3-step aldol, radical fish-hook step; mock-state forcing bar
 (timeline, canvas, lint/hints/alternatives/misconceptions/submit tabs). Validation in the mockup is hard-coded in
 `mockups/scenes.js` (shape of future content: states, coords, arrows, diag entries, partials, hints). Verified in headless
 Chromium: no console errors. Emoji (💡) may render as tofu in headless only.
+**`create` (added 2026-11-26, agreed as the design of item 8d):** the Create home ("Your mechanisms") and the four
+stages (Start, Mechanism, Teaching, Publish); the SN2 step can be drawn by clicking (`#start`, `#mech`, `#teach`,
+`#publish` open a stage). It supersedes `editor.html` as the editor's design.
 
 ## 8. Process rules
 
@@ -330,7 +371,7 @@ Chromium: no console errors. Emoji (💡) may render as tofu in headless only.
 - The **JSON schema**, **Postgres schema** and misconception pattern syntax: `docs/schema-design.md` (2026-11-24),
   "mostly fine" per the user; the decisions in §4 are settled, and details may still be refined.
 - Final product name / branding / domain.
-- Contributors and reviewers (item 8d): OAuth providers beyond GitHub (e.g. Google for students), reviewer roles
+- Contributors and reviewers (item 8e): OAuth providers beyond GitHub (e.g. Google for students), reviewer roles
   beyond the owner, the review screen.
 - Which exact reactions beyond the list above; authoring order of the first content set.
 - Tracks after "Aromatic chemistry" (e.g. Zaitsev versus Hofmann, kinetic versus thermodynamic enolates) and their
