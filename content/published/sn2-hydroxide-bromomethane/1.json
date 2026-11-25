@@ -1,0 +1,149 @@
+{
+  "steps": [
+    {
+      "stepKey": "substitution",
+      "stepKind": "polar",
+      "toStateId": "products",
+      "fromStateId": "reactants",
+      "canonicalArrows": [
+        "lp O1 -> σ O1-C2",
+        "σ C2-Br3 -> lp Br3"
+      ],
+      "routePreference": "preferred",
+      "explanationAfterStep": "Backside attack and loss of the leaving group happen in one concerted step, so the rate depends on both species."
+    }
+  ],
+  "title": "SN2 substitution",
+  "authors": [
+    {
+      "url": null,
+      "name": "mech_training example content"
+    }
+  ],
+  "licence": "CC-BY-SA-4.0",
+  "subtitle": "Hydroxide displaces bromide from bromomethane",
+  "references": [
+    "Clayden, Greeves and Warren, Organic Chemistry, 2nd edition (Oxford University Press)"
+  ],
+  "reactionSlug": "sn2-hydroxide-bromomethane",
+  "startStateId": "reactants",
+  "formatVersion": 1,
+  "difficultyTier": 1,
+  "stateIdToState": {
+    "products": {
+      "caption": "methanol + bromide",
+      "mappedSmiles": "[OH:1][CH3:2].[Br-:3].[Na+:4]",
+      "mapNumberToCoordinates": {
+        "1": [
+          -1.5,
+          0
+        ],
+        "2": [
+          0,
+          0
+        ],
+        "3": [
+          3.4,
+          0
+        ],
+        "4": [
+          -3.3,
+          -1.9
+        ]
+      }
+    },
+    "reactants": {
+      "caption": "hydroxide + bromomethane",
+      "hintTiers": [
+        "Which species is the nucleophile, and which atom is electron-poor?",
+        "The nucleophile attacks the δ+ carbon while the C–Br bond breaks, at the same time. How many arrows is that?",
+        "Arrow 1: lone pair on O → carbon. Arrow 2: C–Br bond → Br."
+      ],
+      "annotations": [
+        {
+          "text": "nucleophile",
+          "nearMapNumber": 1
+        }
+      ],
+      "mappedSmiles": "[OH-:1].[CH3:2][Br:3].[Na+:4]",
+      "learnerPrompt": "Draw the arrows for the single, concerted step.",
+      "misconceptions": [
+        {
+          "severity": "wrong",
+          "arrowPattern": "lp O1 -> Br3",
+          "feedbackMessage": "Both HO⁻ and Br carry negative character, so they repel. A nucleophile attacks the electron-poor (δ+) atom.",
+          "misconceptionId": "attack-on-bromine",
+          "misconceptionTag": "attack-leaving-group"
+        },
+        {
+          "severity": "wrong",
+          "arrowPattern": "lp Br3 -> C2",
+          "feedbackMessage": "Bromine is the leaving group: it leaves with the electrons rather than attacking the carbon it is leaving.",
+          "misconceptionId": "bromide-attacks-carbon",
+          "misconceptionTag": "leaving-group-as-nucleophile"
+        },
+        {
+          "severity": "wrong",
+          "arrowPattern": "σ C2-Br3 -> lp C2",
+          "feedbackMessage": "The C–Br pair goes to the more electronegative atom, which can stabilise it: bromine.",
+          "misconceptionId": "bond-electrons-to-carbon",
+          "misconceptionTag": "electrons-toward-less-electronegative-atom"
+        }
+      ],
+      "mapNumberToCoordinates": {
+        "1": [
+          -3.3,
+          0
+        ],
+        "2": [
+          0,
+          0
+        ],
+        "3": [
+          1.5,
+          0
+        ],
+        "4": [
+          -3.3,
+          -1.9
+        ]
+      },
+      "partialProgressMessages": [
+        {
+          "learnerArrows": [
+            "lp O1 -> σ O1-C2"
+          ],
+          "feedbackMessage": "Octet check: carbon would now have 10 electrons. What has to leave as the nucleophile arrives?"
+        },
+        {
+          "learnerArrows": [
+            "σ C2-Br3 -> lp Br3"
+          ],
+          "feedbackMessage": "Bromide leaves with its pair. But SN2 is concerted: what pushes electrons in on the other side at the same time?"
+        }
+      ]
+    }
+  },
+  "conditionsLabel": "NaOH · EtOH/H₂O · 25 °C",
+  "reactionClasses": [
+    "substitution"
+  ],
+  "reactionVersion": 1,
+  "mechanismSummary": "SN2: one concerted step. The nucleophile attacks from the side opposite the leaving group, so a stereocentre would be inverted (Walden inversion).",
+  "dailyPuzzleEligible": true,
+  "spectatorMapNumbers": [
+    4
+  ],
+  "atomRoleToMapNumbers": {
+    "nucleophile": [
+      1
+    ],
+    "electrophile": [
+      2
+    ],
+    "leavingGroup": [
+      3
+    ]
+  },
+  "previousReactionVersion": null
+}
