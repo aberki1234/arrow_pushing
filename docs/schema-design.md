@@ -58,6 +58,10 @@ Each term below means exactly one thing in the docs, the JSON and the code.
 | **done (set item)** | Its reaction has a finished run in any mode; in a checkpoint, a finished run in that checkpoint. Not the same as **mastered** (most recent run at 100%). |
 | **checkpoint** | A problem set marked `checkpoint: true` that ends a track: earlier reactions shuffled, names hidden, played in the `checkpoint` run mode with the daily rules. |
 | **run mode** | How a run is played and scored: `practice`, `daily` or `checkpoint` (§7). |
+| **creation stage** | One of Create's four stages: `start`, `mechanism`, `teaching`, `publish` (SPEC §5 "Create"). |
+| **teaching item** | One entry of the Teaching to-do list (a state's learner prompt, hint tiers or misconceptions, a step's explanation or caption, the mechanism summary), with its need (needed / recommended / optional) and status (missing / started / done). Built from the draft's fields, not from lint. |
+| **check task** | A lint finding as Create's Publish stage shows it: plain words, the creation stage that fixes it, and its place. |
+| **site role / site action** | A user's role (`owner`, `reviewer`, `contributor`) and what it allows (`createReactions`, `seeEveryReaction`, `submitForReview`, `publish`, `review`); decided only in `reactionDatabase/sitePermissions.ts`. |
 
 Abbreviations: `lp` = lone pair; `rad` = radical (unpaired electron); SMILES = simplified molecular-input line-entry
 system; e⁻ = electron.
@@ -734,7 +738,15 @@ RDKit (RDKit.js) on every valid SMILES case and every example state (`src/chemis
      whichever role first runs the migrations owns the tables.
    * **8d** Create: the editor reskinned as a staged flow for the owner (decided 2026-11-26, SPEC §5 "Create";
      design `mockups/create.html`). Proposed in three parts:
-     - **Part 1, decisions** (TDD, pure TypeScript): in `src/reactionEditing/`, the stage a draft opens on and
+     - **Part 1, decisions. Done 2026-11-26.** Built: `reactionEditing/reactionSlugs.ts` (the slug from the
+       name), `stateStrip.ts` (strip rows; state names Start / Intermediate N / Product), `teachingChecklist.ts`,
+       `difficultySuggestion.ts` (3 if another route is accepted or ≥ 5 preferred arrow steps; 1 for at most one
+       arrow step of at most two arrows; else 2: the four examples' tiers), `creationProgress.ts` (opening stage,
+       progress line), `checkTasks.ts`; `reactionDatabase/sitePermissions.ts`, used by Publish and the reaction
+       list (only one's own without `seeEveryReaction`); `/api/me` answers `siteActions`; the server's and the
+       file server's reaction lists give each reaction's `creationProgress`. The Teaching list is built from the
+       draft's fields with lint findings attached (a new draft fails the schema, so lint stops before its
+       learner-text rules); the mechanism summary is **needed** (the schema requires it). Planned as: in `src/reactionEditing/`, the stage a draft opens on and
        each stage's completeness; the Teaching to-do list from the draft and its lint findings (item, place,
        needed / recommended / optional, done); the suggested difficulty; the rows of the state thumbnail strip
        (preferred route, branches under the state they leave, "joins X"); the progress line on the Create home.

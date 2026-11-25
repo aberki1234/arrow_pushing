@@ -178,7 +178,11 @@ describe("the session", () => {
       headers: { cookie: sessionCookieHeader },
     });
     expect(meResponse.status).toBe(200);
-    expect(await meResponse.json()).toEqual({ displayName: "Owner Name", siteRole: "owner" });
+    expect(await meResponse.json()).toEqual({
+      displayName: "Owner Name",
+      siteRole: "owner",
+      siteActions: ["createReactions", "seeEveryReaction", "submitForReview", "publish", "review"],
+    });
     const signOutResponse = await application.request(`${TEST_BASE_URL}/api/auth/sign-out`, {
       method: "POST",
       headers: { cookie: sessionCookieHeader, origin: TEST_BASE_URL },

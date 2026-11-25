@@ -176,7 +176,9 @@ describe("listing and reading", () => {
     expect(listings).toEqual([
       {
         reactionSlug: "aldol-addition-base",
+        ownerUserId,
         title: null,
+        newestReactionDocument: untitled,
         newestReactionVersion: 1,
         newestSubmissionStatus: "draft",
         publishedVersionCount: 0,
@@ -184,13 +186,30 @@ describe("listing and reading", () => {
       },
       {
         reactionSlug: SN2_SLUG,
+        ownerUserId,
         title: "SN2 substitution",
+        newestReactionDocument: {
+          ...sn2Document(),
+          reactionVersion: 2,
+          previousReactionVersion: 1,
+        },
         newestReactionVersion: 2,
         newestSubmissionStatus: "draft",
         publishedVersionCount: 1,
         updatedAt: expect.any(Date) as unknown,
       },
     ]);
+  });
+});
+
+describe("listing one owner's reactions", () => {
+  it("lists only that owner's reactions", async () => {
+    await saveDraft(database, sn2Document(), ownerUserId);
+    const otherUserId = await insertUser(connection, "someone else", "contributor");
+    expect(await listReactions(database, { ownerUserId: otherUserId })).toEqual([]);
+    expect(
+      (await listReactions(database, { ownerUserId })).map((listing) => listing.reactionSlug),
+    ).toEqual([SN2_SLUG]);
   });
 
   it("lists nothing in an empty database", async () => {

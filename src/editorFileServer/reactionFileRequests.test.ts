@@ -27,7 +27,7 @@ describe("listing", () => {
     expect(request("GET", "/")).toEqual({ status: 200, body: [] });
   });
 
-  it("lists every .json file by name with its slug and title", () => {
+  it("lists every .json file by name with its slug, title and progress in Create", () => {
     mkdirSync(folder, { recursive: true });
     writeFileSync(
       join(folder, "b-reaction.json"),
@@ -40,9 +40,29 @@ describe("listing", () => {
     writeFileSync(join(folder, "notes.txt"), "not a reaction");
     writeFileSync(join(folder, "broken.json"), "{ not json");
     expect(request("GET", "").body).toEqual([
-      { fileName: "a-reaction.json", reactionSlug: "a-reaction", title: "A" },
-      { fileName: "b-reaction.json", reactionSlug: "b-reaction", title: "B" },
-      { fileName: "broken.json", reactionSlug: null, title: null },
+      {
+        fileName: "a-reaction.json",
+        reactionSlug: "a-reaction",
+        title: "A",
+        creationProgress: {
+          arrowStepCount: 0,
+          teachingDoneCount: 0,
+          teachingItemCount: 1,
+          neededLeftCount: 1,
+        },
+      },
+      {
+        fileName: "b-reaction.json",
+        reactionSlug: "b-reaction",
+        title: "B",
+        creationProgress: {
+          arrowStepCount: 0,
+          teachingDoneCount: 0,
+          teachingItemCount: 1,
+          neededLeftCount: 1,
+        },
+      },
+      { fileName: "broken.json", reactionSlug: null, title: null, creationProgress: null },
     ]);
   });
 });

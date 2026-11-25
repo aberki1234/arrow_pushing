@@ -32,8 +32,11 @@ export interface WrittenVersion {
 /** One reaction in the editor's list: its newest version. */
 export interface ReactionListing {
   readonly reactionSlug: string;
+  readonly ownerUserId: string;
   /** The newest version's title, or null if its document has none yet. */
   readonly title: string | null;
+  /** For the progress Create shows (reactionEditing/creationProgress.ts). */
+  readonly newestReactionDocument: Record<string, unknown>;
   readonly newestReactionVersion: number;
   readonly newestSubmissionStatus: SubmissionStatus;
   readonly publishedVersionCount: number;
@@ -244,13 +247,22 @@ export function startNextVersion(
   });
 }
 
-/** Every reaction with its newest version, by slug. */
-export async function listReactions(database: ReactionDatabase): Promise<ReactionListing[]> {
-  const versionRows = await database
+/** Every reaction (or only `ownerUserId`'s) with its newest version, by slug. */
+export async function listReactions(
+  database: ReactionDatabase,
+  filter: { readonly ownerUserId?: string } = {},
+): Promise<ReactionListing[]> {
+  let query = database
     .selectFrom("arrowpush.reactions as reaction")
-    .innerJoin("arrowpush.reactionVersions as version", "version.reactionId", "reaction.id")
+    .innerJoin("arrowpush.reactionVersions as version", "version.reactionId", "reaction.id");
+  if (filter.ownerUserId !== undefined) {
+    query = query.where("reaction.ownerUserId", "=", filter.ownerUserId);
+  }
+  const versionRows = await query
     .select([
       "reaction.reactionSlug",
+      "reaction.ownerUserId",
+      "version.reactionDocument",
       "version.reactionVersion",
       "version.submissionStatus",
       "version.updatedAt",
@@ -265,7 +277,9 @@ export async function listReactions(database: ReactionDatabase): Promise<Reactio
     const publishedBefore = earlierListing?.publishedVersionCount ?? 0;
     slugToListing.set(versionRow.reactionSlug, {
       reactionSlug: versionRow.reactionSlug,
+      ownerUserId: versionRow.ownerUserId,
       title: versionRow.title,
+      newestReactionDocument: versionRow.reactionDocument,
       newestReactionVersion: versionRow.reactionVersion,
       newestSubmissionStatus: versionRow.submissionStatus,
       publishedVersionCount:

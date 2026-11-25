@@ -19,6 +19,7 @@ import type { LintFinding } from "../reactionLinting/lintFindings.js";
 import type { ReactionDatabase } from "./databaseTables.js";
 import { ReactionDatabaseError } from "./reactionDatabaseErrors.js";
 import { findReaction, type ReactionWithNewestVersion } from "./reactionVersions.js";
+import { mayPerform } from "./sitePermissions.js";
 
 export interface PublishRequest {
   readonly reactionSlug: string;
@@ -58,7 +59,7 @@ async function draftToPublish(
     .select("siteRole")
     .where("id", "=", publishRequest.publisherUserId)
     .executeTakeFirst();
-  if (publisher?.siteRole !== "owner" && publisher?.siteRole !== "reviewer") {
+  if (publisher === undefined || !mayPerform(publisher.siteRole, "publish")) {
     throw new ReactionDatabaseError(
       "not-allowed-to-publish",
       "only the owner or a reviewer publishes",

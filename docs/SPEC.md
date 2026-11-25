@@ -305,11 +305,12 @@ then a halobenzene (deactivating but ortho/para). The track ends with a checkpoi
        **row of state thumbnails** under the drawing; **Make the step**, refused at once with the reason when the
        validator refuses the arrows; after it, one optional "Why does this step happen?" (the explanation), **Another
        step from here** and **Another correct route** (a branch).
-    3. **Teaching:** a **to-do list built from the lint findings**, grouped by step, each item marked needed,
+    3. **Teaching:** a **to-do list** built from the draft's fields (lint findings shown on their item; a new
+       draft fails the schema, so lint alone cannot drive it), grouped by step, each item marked needed,
        recommended or optional: the question the learner sees (prompt), hints (one needed, three best; the third
        shows ghost arrows), why it happens, common wrong answers (drawn on the molecule, then the message and
        wrong / plausible; loosening the pattern and atom roles under "Match more than this exact drawing"), and the
-       summary at the end. One item open at a time beside a small drawing of its state.
+       summary at the end (needed: the schema requires it; the mockup showed it optional). One item open at a time beside a small drawing of its state.
     4. **Publish:** Play as learner; the checks written as tasks with **Fix →** (going to the stage and item);
        reaction type and difficulty (suggested from the mechanism, changeable), a one-line description; **More
        details** (authors, references, caption); **Advanced** (step keys, state ids, partial arrow sets and partial

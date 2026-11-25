@@ -118,8 +118,7 @@ describe("a reaction's way from draft to published", () => {
       status: 200,
       body: { reactionSlug: SN2_SLUG, reactionVersion: 1, submissionStatus: "draft" },
     });
-    const listing = await apiRequest("GET", "/api/reactions");
-    expect(listing.body).toMatchObject([
+    expect((await apiRequest("GET", "/api/reactions")).body).toMatchObject([
       { reactionSlug: SN2_SLUG, newestSubmissionStatus: "draft" },
     ]);
     const stored = await apiRequest("GET", `/api/reactions/${SN2_SLUG}/versions/1`);
@@ -149,6 +148,28 @@ describe("a reaction's way from draft to published", () => {
     const published = await publishSn2();
     expect(published.status).toBe(200);
     expect(published.body).toMatchObject({ reactionVersion: 1, deployStart: "failed" });
+  });
+});
+
+describe("the reaction list", () => {
+  it("lists each reaction with its progress in Create, not its document", async () => {
+    await saveSn2();
+    const listing = await apiRequest("GET", "/api/reactions");
+    expect(listing.body).toMatchObject([
+      {
+        reactionSlug: SN2_SLUG,
+        newestSubmissionStatus: "draft",
+        creationProgress: {
+          arrowStepCount: 1,
+          teachingDoneCount: 5,
+          teachingItemCount: 5,
+          neededLeftCount: 0,
+        },
+      },
+    ]);
+    expect((listing.body as Record<string, unknown>[])[0]).not.toHaveProperty(
+      "newestReactionDocument",
+    );
   });
 });
 

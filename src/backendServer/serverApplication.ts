@@ -16,6 +16,7 @@ import { AUTHENTICATION_BASE_PATH, createAuthentication, requireSignIn } from ".
 import { reactionRoutes } from "./reactionRoutes.js";
 import { refusalBody, refusalHttpStatus } from "./refusalAnswers.js";
 import type { ServerDependencies, ServerEnvironment } from "./serverDependencies.js";
+import { siteActionsOf } from "../reactionDatabase/sitePermissions.js";
 
 export function createServerApplication(dependencies: ServerDependencies): Hono<ServerEnvironment> {
   const { settings } = dependencies;
@@ -27,7 +28,7 @@ export function createServerApplication(dependencies: ServerDependencies): Hono<
   );
   application.get("/api/me", requireSignIn(authentication), (context) => {
     const { displayName, siteRole } = context.get("signedInUser");
-    return context.json({ displayName, siteRole });
+    return context.json({ displayName, siteRole, siteActions: siteActionsOf(siteRole) });
   });
   application.route("/api", reactionRoutes(dependencies, authentication));
   application.all("/api/*", (context) => context.json({ error: "no such API route" }, 404));

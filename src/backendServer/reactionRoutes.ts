@@ -3,7 +3,11 @@
  * session (401 otherwise); refusals of the database become the answers of refusalAnswers.ts.
  *
  * Routes (bodies and answers are JSON)
- *   GET  /api/reactions                               the reaction listings (reactionVersions.ts)
+ *   GET  /api/reactions                               the reaction listings (reactionVersions.ts):
+ *                                                     every reaction, or only the user's own
+ *                                                     without "seeEveryReaction"
+ *                                                     (sitePermissions.ts), each with its
+ *                                                     creationProgress instead of its document
  *   GET  /api/reactions/:slug                         the newest version (as one stored version)
  *   GET  /api/reactions/:slug/versions/:version       one stored version
  *   PUT  /api/reactions/:slug/draft                   body: the reaction document; its
@@ -19,6 +23,7 @@ import type { ReactionDatabase } from "../reactionDatabase/databaseTables.js";
 import { publishedVersionsForExport } from "../reactionDatabase/publishedExport.js";
 import { publishDraft } from "../reactionDatabase/publishing.js";
 import { ReactionDatabaseError } from "../reactionDatabase/reactionDatabaseErrors.js";
+import { mayPerform } from "../reactionDatabase/sitePermissions.js";
 import {
   findReaction,
   listReactions,
@@ -26,6 +31,7 @@ import {
   saveDraft,
   startNextVersion,
 } from "../reactionDatabase/reactionVersions.js";
+import { creationProgress } from "../reactionEditing/creationProgress.js";
 import { type Authentication, requireSignIn } from "./authentication.js";
 import { startDeploy } from "./deployDispatch.js";
 import type { ServerDependencies, ServerEnvironment } from "./serverDependencies.js";
@@ -56,7 +62,17 @@ function versionNumberFrom(versionText: string): number {
 
 /** Listing, reading, saving a draft and "Edit" (version n+1). */
 function addVersionRoutes(routes: Hono<ServerEnvironment>, database: ReactionDatabase): void {
-  routes.get("/reactions", async (context) => context.json(await listReactions(database)));
+  routes.get("/reactions", async (context) => {
+    const { userId, siteRole } = context.get("signedInUser");
+    const filter = mayPerform(siteRole, "seeEveryReaction") ? {} : { ownerUserId: userId };
+    const listings = await listReactions(database, filter);
+    return context.json(
+      listings.map(({ newestReactionDocument, ...listing }) => ({
+        ...listing,
+        creationProgress: creationProgress(newestReactionDocument),
+      })),
+    );
+  });
 
   routes.get("/reactions/:slug", async (context) => {
     const reactionSlug = context.req.param("slug");
