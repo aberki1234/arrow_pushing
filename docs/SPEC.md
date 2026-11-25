@@ -170,7 +170,8 @@ then a halobenzene (deactivating but ortho/para). The track ends with a checkpoi
   - **Pages:** header order Home · Daily · **Learn** · Practice · Progress. `#/learn`: one card per track (title,
     one-line goal, done / total bar, **Continue** to Next up). `#/learn/<track>`: its problem sets as a vertical
     numbered path (title, concept in a line, done count, mastery ring; Next up highlighted).
-    `#/learn/<track>/<set>`: the concept card (collapsible after the first visit), then the numbered set items
+    `#/learn/<track>/<set>`: the concept card (open until one of its set items is done, then folded; agreed
+    2026-11-26 instead of "after the first visit", so no visits are stored), then the numbered set items
     (title, difficulty tier, "why this one", done / mastered mark) and a **Start / Next up** button.
   - **Playing from a problem set** (`#/learn/<track>/<set>/<reaction>`): the step screen shows a breadcrumb
     ("Aromatic chemistry › The arenium ion · 2 of 5"); the finished view replaces the related reactions with

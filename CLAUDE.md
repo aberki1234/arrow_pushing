@@ -31,7 +31,8 @@ Do not change agreed decisions without asking; update `docs/SPEC.md` and `docs/s
   drafts, versions, publishing, export, import; tests on PGlite with `testSupport/temporaryDatabase.ts`), `moleculeDrawing/` (state → SVG primitives and pick targets, curved-arrow
   geometry), `stepSession/` (taps → arrows, a run through a reaction, scoring, snapshots, feedback text),
   `learnerProgress/` (`localStorage` progress, export / import), `dailyPuzzle/` (today's puzzle, streak, share text),
-  `learnerStatistics/` (mastery, history, recurring feedback, the practice list), `reactionEditing/` (the editor's
+  `learnerStatistics/` (mastery, history, recurring feedback, the practice list), `learnTracks/` (Learn: done and
+  mastered per set item, Next up, Next in set, the concept card's text), `reactionEditing/` (the editor's
   decisions: drafts, drawn arrows → steps, change steps, show H, regeneration, deletion, undo, the mechanism outline,
   Play as learner), `siteData/` (loading the
   catalogue and reaction files), `learnerSite/` (Svelte 5 + Vite app; `make site` → `build/site/`, `make dev`),

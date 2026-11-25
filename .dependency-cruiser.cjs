@@ -18,6 +18,7 @@ const layersLowestFirst = [
   "learnerProgress",
   "dailyPuzzle",
   "learnerStatistics",
+  "learnTracks",
   "siteData",
   "learnerSite",
   "reactionEditor",

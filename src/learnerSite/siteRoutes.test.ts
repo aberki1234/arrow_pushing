@@ -1,6 +1,6 @@
 /** Tests for siteRoutes.ts. */
 import { expect, test } from "vitest";
-import { parseSiteRoute, siteRouteHash } from "./siteRoutes.js";
+import { type SiteRoute, parseSiteRoute, siteRouteHash } from "./siteRoutes.js";
 
 test("the play route carries a reaction version ref", () => {
   expect(parseSiteRoute("#/play/aldol-addition-base@3")).toEqual({
@@ -44,5 +44,35 @@ test("routes print back to hashes", () => {
   ]);
   for (const route of routes) {
     expect(parseSiteRoute(siteRouteHash(route))).toEqual(route);
+  }
+});
+
+test("the Learn routes: tracks, a track, a problem set, and a reaction played from it", () => {
+  const learnRoute = (
+    trackSlug: string | null,
+    problemSetSlug: string | null,
+    reactionSlug: string | null,
+  ): SiteRoute => ({ routeName: "learn", trackSlug, problemSetSlug, reactionSlug });
+  const hashToRoute: [string, SiteRoute][] = [
+    ["#/learn", learnRoute(null, null, null)],
+    ["#/learn/aromatic-chemistry", learnRoute("aromatic-chemistry", null, null)],
+    [
+      "#/learn/aromatic-chemistry/arenium-ion",
+      learnRoute("aromatic-chemistry", "arenium-ion", null),
+    ],
+    [
+      "#/learn/aromatic-chemistry/arenium-ion/bromination-benzene",
+      learnRoute("aromatic-chemistry", "arenium-ion", "bromination-benzene"),
+    ],
+  ];
+  for (const [hash, route] of hashToRoute) {
+    expect(parseSiteRoute(hash)).toEqual(route);
+    expect(siteRouteHash(route)).toBe(hash);
+  }
+});
+
+test("a malformed Learn hash is home", () => {
+  for (const hash of ["#/learn/", "#/learn/Aromatic", "#/learn/a/b/c/d", "#/learnt"]) {
+    expect(parseSiteRoute(hash)).toEqual({ routeName: "home" });
   }
 });

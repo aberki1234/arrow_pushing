@@ -1,6 +1,6 @@
 <script lang="ts">
-  // The site's top bar: brand, Home · Daily · Practice · Progress, and a light/dark theme switch
-  // remembered in the learner's progress (settings.theme).
+  // The site's top bar: brand, Home · Daily · Learn · Practice · Progress, and a light/dark
+  // theme switch remembered in the learner's progress (settings.theme).
   import { readProgress, withTheme, writeProgress } from "../learnerProgress/learnerProgress.js";
   import { browserStorage } from "./browserStorage.js";
   import type { SiteRoute } from "./siteRoutes.js";
@@ -10,6 +10,7 @@
   const NAV_TABS = [
     { routeName: "home", hash: "#/", label: "Home" },
     { routeName: "daily", hash: "#/daily", label: "Daily" },
+    { routeName: "learn", hash: "#/learn", label: "Learn" },
     { routeName: "practice", hash: "#/practice", label: "Practice" },
     { routeName: "progress", hash: "#/progress", label: "Progress" },
   ] as const;

@@ -1,7 +1,8 @@
 <script lang="ts">
-  // Home (decided 2026-11-25, item 7c): the hero, today's puzzle card, continue practising, the
-  // learner's mastery in brief, and browse by type. The daily reaction stays unnamed here.
-  import { type Catalogue, localDateText } from "../catalogue/catalogueReading.js";
+  // Home (decided 2026-11-25, item 7c): the hero, today's puzzle card, continue learning (item
+  // 9b), continue practising, the learner's mastery in brief, and browse by type. The daily
+  // reaction stays unnamed here.
+  import { type Catalogue, catalogueTracks, localDateText } from "../catalogue/catalogueReading.js";
   import {
     dailyPageStateOf,
     dailyPuzzleOn,
@@ -24,7 +25,10 @@
     recurringFeedback,
   } from "../learnerStatistics/recurringFeedback.js";
   import { preferredArrowStepsFrom } from "../stepSession/sessionReaction.js";
+  import { continueLearning } from "../learnTracks/continueLearning.js";
+  import { nextUpInTrack } from "../learnTracks/trackProgress.js";
   import { browserStorage } from "./browserStorage.js";
+  import { learnHash } from "./learnView.js";
   import { loadMisconceptionInfo } from "./misconceptionLoading.js";
   import { loadSessionReaction } from "./reactionLoading.js";
   import { siteRouteHash } from "./siteRoutes.js";
@@ -44,6 +48,8 @@
       : dailyPageStateOf(puzzle, progress, readDailyInProgress(browserStorage)),
   );
   const mastery = masteryBySlug(progress);
+  const learning = $derived(continueLearning(catalogue, progress));
+  const firstTrack = $derived(catalogueTracks(catalogue)[0]);
   const rates = firstTryRates(progress, new Date());
   const lastPractice = [...progress.runs]
     .filter((run) => run.mode === "practice")
@@ -123,6 +129,52 @@
       {/if}
     {/if}
   </section>
+
+  {#if learning !== null}
+    <section class="card" aria-labelledby="learning-heading">
+      <h2 id="learning-heading">Continue learning</h2>
+      <p>
+        <b>{learning.problemSet.title}</b>
+        <span class="muted small">· {learning.track.title}</span>
+      </p>
+      {#if learning.nextUp === null}
+        <p class="small muted">Problem set complete ✓</p>
+        <a class="btn sm" href={learnHash(learning.track.trackSlug)}>Choose the next one</a>
+      {:else}
+        <p class="small">Next up: {entryOf(learning.nextUp.reactionSlug)?.title}</p>
+        <a
+          class="btn primary sm"
+          href={learnHash(
+            learning.track.trackSlug,
+            learning.problemSet.problemSetSlug,
+            learning.nextUp.reactionSlug,
+          )}
+        >
+          Continue
+        </a>
+      {/if}
+    </section>
+  {:else if firstTrack !== undefined}
+    {@const nextUp = nextUpInTrack(firstTrack, progress)}
+    <section class="card" aria-labelledby="learning-heading">
+      <h2 id="learning-heading">Start learning</h2>
+      <p><b>{firstTrack.title}</b></p>
+      <p class="small muted">{firstTrack.goal}</p>
+      <a
+        class="btn primary sm"
+        href={nextUp === null
+          ? learnHash(firstTrack.trackSlug)
+          : learnHash(
+              firstTrack.trackSlug,
+              nextUp.problemSet.problemSetSlug,
+              nextUp.setItem.reactionSlug,
+            )}
+      >
+        Start
+      </a>
+      <a class="small" href={learnHash()}>All tracks →</a>
+    </section>
+  {/if}
 
   <section class="card" aria-labelledby="continue-heading">
     <h2 id="continue-heading">Continue practising</h2>

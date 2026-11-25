@@ -14,6 +14,11 @@
       "propertyNames": { "$ref": "#/$defs/dateText" },
       "additionalProperties": { "$ref": "#/$defs/dailyResult" }
     },
+    "lastProblemSetRef": {
+      "description": "The last Learn problem set touched, <trackSlug>/<problemSetSlug> (item 9b), for Home's Continue learning card.",
+      "type": "string",
+      "pattern": "^[a-z0-9]+(-[a-z0-9]+)*/[a-z0-9]+(-[a-z0-9]+)*$"
+    },
     "settings": {
       "type": "object",
       "additionalProperties": false,

@@ -1,8 +1,8 @@
 <script lang="ts">
   // The learner's progress (decided 2026-11-25, item 7c): streaks, first-try rate, mastery, the
-  // last 28 days of daily puzzles, recurring misconceptions, the reaction library weakest first,
-  // and export / import / reset. Everything lives in this browser.
-  import { type Catalogue, localDateText } from "../catalogue/catalogueReading.js";
+  // last 28 days of daily puzzles, the Learn tracks (item 9b), recurring misconceptions, the
+  // reaction library weakest first, and export / import / reset. Everything lives in this browser.
+  import { type Catalogue, catalogueTracks, localDateText } from "../catalogue/catalogueReading.js";
   import { shareGridOf, streakOn } from "../dailyPuzzle/dailyPuzzle.js";
   import {
     type LearnerProgress,
@@ -32,7 +32,9 @@
     masteryByClass,
     masteryBySlug,
   } from "../learnerStatistics/reactionMastery.js";
+  import { trackProgress } from "../learnTracks/trackProgress.js";
   import { browserStorage } from "./browserStorage.js";
+  import { learnHash } from "./learnView.js";
   import { loadMisconceptionInfo } from "./misconceptionLoading.js";
   import { siteRouteHash } from "./siteRoutes.js";
 
@@ -164,6 +166,33 @@
     {/each}
   </section>
 </div>
+
+{#if catalogueTracks(catalogue).length > 0}
+  <section class="card flat mt" aria-labelledby="tracks-heading">
+    <h2 id="tracks-heading">Tracks</h2>
+    {#each catalogueTracks(catalogue) as track (track.trackSlug)}
+      {@const progressOfTrack = trackProgress(track, progress)}
+      <h3 class="mt">
+        <a href={learnHash(track.trackSlug)}>{track.title}</a>
+        <span class="small muted">
+          · {progressOfTrack.doneCount} of {progressOfTrack.totalCount} done · mastery
+          {progressOfTrack.masteryPercent}%
+        </span>
+      </h3>
+      {#each progressOfTrack.problemSetProgresses as entry (entry.problemSet.problemSetSlug)}
+        <div class="row spread small">
+          <a href={learnHash(track.trackSlug, entry.problemSet.problemSetSlug)}>
+            {entry.problemSet.title}
+          </a>
+          <span>{entry.doneCount} / {entry.totalCount} · {entry.masteryPercent}%</span>
+        </div>
+        <div class="bar" role="presentation">
+          <i style={`width:${String(entry.masteryPercent)}%`}></i>
+        </div>
+      {/each}
+    {/each}
+  </section>
+{/if}
 
 <section class="card flat mt" aria-labelledby="recurring-heading">
   <h2 id="recurring-heading">Your recurring misconceptions</h2>

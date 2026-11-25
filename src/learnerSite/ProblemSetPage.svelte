@@ -1,0 +1,124 @@
+<script lang="ts">
+  // A problem set (decided 2026-11-25, item 9b): the concept card, then the set items in order
+  // with their marks, and a Start / Next up button. Opening it records it as the last problem
+  // set touched, for Home's Continue learning card.
+  import { type Catalogue, conceptFigureFilePath } from "../catalogue/catalogueReading.js";
+  import {
+    readProgress,
+    withLastProblemSetRef,
+    writeProgress,
+  } from "../learnerProgress/learnerProgress.js";
+  import { findProblemSet } from "../learnTracks/learnPlayContext.js";
+  import { nextUpInProblemSet, problemSetProgress } from "../learnTracks/trackProgress.js";
+  import { browserStorage } from "./browserStorage.js";
+  import ConceptCard from "./ConceptCard.svelte";
+  import { difficultyDots, learnHash, setItemMarkText } from "./learnView.js";
+
+  const {
+    catalogue,
+    trackSlug,
+    problemSetSlug,
+  }: { catalogue: Catalogue; trackSlug: string; problemSetSlug: string } = $props();
+
+  const found = $derived(findProblemSet(catalogue, trackSlug, problemSetSlug));
+  const progress = readProgress(browserStorage);
+
+  $effect(() => {
+    if (found !== null) {
+      const touched = withLastProblemSetRef(
+        readProgress(browserStorage),
+        `${trackSlug}/${problemSetSlug}`,
+      );
+      writeProgress(browserStorage, touched);
+    }
+  });
+
+  function entryOf(reactionSlug: string): Catalogue["reactions"][number] | undefined {
+    return catalogue.reactions.find((entry) => entry.reactionSlug === reactionSlug);
+  }
+</script>
+
+{#if found === null}
+  <div class="card mt" role="alert">
+    <h1>Problem set not found</h1>
+    <p class="muted">It may have been renamed or withdrawn.</p>
+    <a class="btn" href={learnHash()}>All tracks</a>
+  </div>
+{:else}
+  {@const { track, problemSet } = found}
+  {@const setProgress = problemSetProgress(problemSet, progress)}
+  {@const nextUp = nextUpInProblemSet(problemSet, progress)}
+  {@const nextProblemSet = track.problemSets[track.problemSets.indexOf(problemSet) + 1]}
+  <p class="small muted mt"><a href={learnHash(track.trackSlug)}>{track.title}</a> ›</p>
+  <h1>
+    {problemSet.title}
+    {#if problemSet.checkpoint}<span class="pill warn">Checkpoint</span>{/if}
+  </h1>
+  <p class="muted">{problemSet.conceptInOneLine}</p>
+  <div class="row small">
+    <span>{setProgress.doneCount} of {setProgress.totalCount} done</span>
+    <span class="muted">· mastery {setProgress.masteryPercent}%</span>
+  </div>
+  <div class="bar" role="presentation">
+    <i style={`width:${String((100 * setProgress.doneCount) / setProgress.totalCount)}%`}></i>
+  </div>
+
+  <ConceptCard
+    conceptCard={problemSet.conceptCard}
+    figureSitePaths={(problemSet.conceptFigurePaths ?? []).map((figurePath) =>
+      conceptFigureFilePath(track.trackSlug, figurePath),
+    )}
+    open={setProgress.doneCount === 0}
+  />
+
+  <ol class="set-items mt" aria-label="Set items">
+    {#each setProgress.setItemMarks as mark (mark.setItem.reactionSlug)}
+      {@const entry = entryOf(mark.setItem.reactionSlug)}
+      {@const isNextUp = nextUp?.reactionSlug === mark.setItem.reactionSlug}
+      <li class="card set-item" class:next={isNextUp}>
+        <div class="row spread">
+          <h2>
+            <a
+              href={learnHash(
+                track.trackSlug,
+                problemSet.problemSetSlug,
+                mark.setItem.reactionSlug,
+              )}
+            >
+              {entry?.title ?? mark.setItem.reactionSlug}
+            </a>
+          </h2>
+          <span class="pill" class:good={mark.mastered} class:new={isNextUp}>
+            {isNextUp ? "Next up" : setItemMarkText(mark)}
+          </span>
+        </div>
+        <p class="small">{mark.setItem.whyThisOne}</p>
+        {#if entry}
+          <span class="dots small" aria-label={`difficulty ${String(entry.difficultyTier)} of 3`}>
+            {difficultyDots(entry.difficultyTier)}
+          </span>
+        {/if}
+      </li>
+    {/each}
+  </ol>
+
+  <div class="row mt">
+    {#if nextUp !== null}
+      <a
+        class="btn primary"
+        href={learnHash(track.trackSlug, problemSet.problemSetSlug, nextUp.reactionSlug)}
+      >
+        ▶ {setProgress.doneCount === 0 ? "Start" : "Next up"}: {entryOf(nextUp.reactionSlug)
+          ?.title ?? nextUp.reactionSlug}
+      </a>
+    {:else}
+      <span class="pill good">Problem set complete ✓</span>
+      {#if nextProblemSet}
+        <a class="btn primary" href={learnHash(track.trackSlug, nextProblemSet.problemSetSlug)}>
+          Next problem set: {nextProblemSet.title}
+        </a>
+      {/if}
+    {/if}
+    <a class="btn" href={learnHash(track.trackSlug)}>Back to {track.title}</a>
+  </div>
+{/if}

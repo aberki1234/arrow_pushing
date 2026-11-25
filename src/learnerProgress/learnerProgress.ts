@@ -52,6 +52,8 @@ export interface LearnerProgress {
   readonly runs: readonly RunRecord[];
   readonly dateToDailyResult: Readonly<Record<string, DailyResult>>;
   readonly settings: { readonly theme: ThemeSetting };
+  /** The last problem set touched, "<trackSlug>/<problemSetSlug>", for Home (item 9b). */
+  readonly lastProblemSetRef?: string;
 }
 
 export interface DailyInProgress {
@@ -131,6 +133,14 @@ export function withDailyResult(
 
 export function withTheme(progress: LearnerProgress, theme: ThemeSetting): LearnerProgress {
   return { ...progress, settings: { ...progress.settings, theme } };
+}
+
+/** The progress with `lastProblemSetRef` ("<trackSlug>/<problemSetSlug>") recorded. */
+export function withLastProblemSetRef(
+  progress: LearnerProgress,
+  lastProblemSetRef: string,
+): LearnerProgress {
+  return { ...progress, lastProblemSetRef };
 }
 
 /** The run a daily result was saved from, if it is among the runs. */

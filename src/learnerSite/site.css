@@ -793,3 +793,48 @@ svg.mol {
 .bar {
   margin: 4px 0 10px;
 }
+
+/* Learn (item 9b): track and problem set lists, Next up highlighted, the concept card. */
+.track-list,
+.track-path,
+.set-items {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: grid;
+  gap: 12px;
+}
+.track-path {
+  counter-reset: path-step;
+}
+.path-step,
+.set-item {
+  position: relative;
+}
+.path-step.next,
+.set-item.next {
+  border-color: var(--accent);
+  box-shadow: 0 0 0 2px var(--accent);
+}
+.set-items {
+  counter-reset: set-item;
+}
+.set-item h2::before {
+  counter-increment: set-item;
+  content: counter(set-item) ". ";
+  color: var(--muted);
+}
+.path-step h2::before {
+  counter-increment: path-step;
+  content: counter(path-step) ". ";
+  color: var(--muted);
+}
+.concept summary {
+  cursor: pointer;
+}
+.concept .figure {
+  display: block;
+  width: min(100%, 360px);
+  max-height: 240px;
+  margin-top: 8px;
+}

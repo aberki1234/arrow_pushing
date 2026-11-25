@@ -3,6 +3,7 @@
  * fixtures/lint_cases/track_edits.json, which make it break track lint rules.
  */
 import { join } from "node:path";
+import { type Catalogue, readCatalogue } from "../catalogue/catalogueReading.js";
 import {
   fixtureCaseEntries,
   fixturesFolderPath,
@@ -62,4 +63,37 @@ export function editedTrack(caseName: string): Record<string, unknown> {
     throw new Error(`no track lint case "${caseName}"`);
   }
   return applyReactionEdits(exampleTrack(), editCase.edits);
+}
+
+/**
+ * A catalogue holding the four example reactions (version 1, stand-in hashes) and the example
+ * track as the catalogue build compiles it (every reaction published, so nothing left out).
+ */
+export function exampleLearnCatalogue(): Catalogue {
+  // The catalogue's track is the track file without its format version.
+  const track = Object.fromEntries(
+    Object.entries(exampleTrack()).filter(([key]) => key !== "formatVersion"),
+  );
+  const slugToTitle: Record<string, string> = {
+    "aldol-addition-base": "Aldol addition",
+    "radical-bromination-methane": "Radical bromination",
+    "sn2-hydroxide-bromomethane": "SN2 substitution",
+    "wittig-methylenation-cyclohexanone": "Wittig reaction",
+  };
+  return readCatalogue({
+    formatVersion: 1,
+    builtAt: "2026-12-01T10:00:00Z",
+    reactions: Object.entries(slugToTitle).map(([reactionSlug, title]) => ({
+      reactionSlug,
+      latestReactionVersion: 1,
+      reactionVersionToContentHash: { "1": "0".repeat(64) },
+      title,
+      subtitle: null,
+      reactionClasses: ["substitution"],
+      difficultyTier: 1,
+      dailyPuzzleEligible: true,
+    })),
+    tracks: [track],
+    dateToDailyReactionVersionRef: {},
+  });
 }

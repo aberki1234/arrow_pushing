@@ -737,8 +737,15 @@ RDKit (RDKit.js) on every valid SMILES case and every example state (`src/chemis
    * **9a Done 2026-11-26.** The track file: `schema/track.schema.json` (`src/trackFiles/`), the example track
      and lint cases, the lint checks and `lint-tracks`, compiling into `catalogue.json` (`--tracks-folder`, the
      catalogue schema and reader), and the deploy workflow running on a push to `content/tracks/` (§6.1).
-   * **9b** The Learn, track and problem set pages, Next up, the breadcrumb and Next in set, the Home Continue
-     learning card and the Progress Tracks section, `lastProblemSetRef`.
+   * **9b Done 2026-11-26.** The Learn, track and problem set pages, Next up, the breadcrumb and Next in set, the
+     Home Continue learning card and the Progress Tracks section, `lastProblemSetRef`. Logic in
+     `src/learnTracks/` (`trackProgress.ts`, `learnPlayContext.ts`, `continueLearning.ts`, `conceptCardText.ts`:
+     the Markdown subset read into blocks, never inserted as HTML); pages in `src/learnerSite/` (`LearnPage`,
+     `TrackPage`, `ProblemSetPage`, `ConceptCard`, `LearnPlay`; `StepScreen` takes the Learn context). Routes
+     `#/learn[/<track>[/<problem set>[/<reaction slug>]]]`; a reaction plays its latest version. The concept card
+     is open while none of the problem set's items is done and folded after (no visit is stored). Until 9c a
+     checkpoint's items are never done and play as ordinary practice. Checked in headless Chromium on the example
+     track (every page, the breadcrumb, the figure; no console errors).
    * **9c** Checkpoints: the `checkpoint` run mode (daily scoring, names hidden, shuffled once per attempt),
      `problemSetSlug` on runs.
    Alongside: authoring the "Aromatic chemistry" reactions in the editor (SPEC §2).

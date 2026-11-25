@@ -17,6 +17,7 @@ import {
   runRecordOf,
   runOfDailyResult,
   withDailyResult,
+  withLastProblemSetRef,
   withRun,
   withTheme,
   writeDailyInProgress,
@@ -150,4 +151,22 @@ test("a session's run record: its ref, mode, start time and step results", () =>
     startedAt: "2026-12-01T09:00:00.000Z",
     stepResults: [],
   });
+});
+
+test("the last problem set touched is saved and read back", () => {
+  const storage = memoryStorage();
+  const progress = withLastProblemSetRef(emptyProgress(), "first-mechanisms/polar-steps");
+  expect(progress.lastProblemSetRef).toBe("first-mechanisms/polar-steps");
+  writeProgress(storage, progress);
+  expect(readProgress(storage).lastProblemSetRef).toBe("first-mechanisms/polar-steps");
+});
+
+test("a last problem set ref that is not <track>/<problem set> is unreadable", () => {
+  const storage = memoryStorage({
+    [PROGRESS_STORAGE_KEY]: JSON.stringify({
+      ...emptyProgress(),
+      lastProblemSetRef: "polar steps",
+    }),
+  });
+  expect(readProgress(storage)).toEqual(emptyProgress());
 });
