@@ -1,7 +1,8 @@
 /**
  * Tests for mappedSmilesReading.ts. The shared cases in
- * fixtures/state_graphs/mapped_smiles_cases.json are the reference; the Python twin reads them with
- * RDKit, so passing them checks this parser against RDKit. Every example state must be readable.
+ * fixtures/state_graphs/mapped_smiles_cases.json are the reference (chemistryToolkit/
+ * strictReaderAgreement.test.ts also checks this parser against RDKit). Every example state must be
+ * readable.
  */
 import { expect, test } from "vitest";
 import {

@@ -1,8 +1,8 @@
 /**
  * Check a reaction file against the reaction schema (schema/reaction.schema.json).
  *
- * The TypeScript counterpart of python/reaction_files/schema_violations.py; both must report the
- * same instance paths for the shared cases in fixtures/schema_cases/invalid_edits.json.
+ * The shared cases in fixtures/schema_cases/invalid_edits.json fix the instance path reported for
+ * each kind of violation.
  *
  * Terms
  *   reaction document  One reaction file, parsed from JSON.
@@ -22,14 +22,14 @@ export interface SchemaViolation {
 
 export const reactionSchema: object = reactionSchemaJson;
 
-// allErrors: report every violation, not only the first, as the Python validator does.
+// allErrors: report every violation, not only the first.
 const validateReaction = new Ajv2020({ allErrors: true }).compile(reactionSchema);
 
 function errorToViolation(error: ErrorObject): SchemaViolation {
   return { instancePath: error.instancePath, message: `${error.keyword}: ${error.message ?? ""}` };
 }
 
-/** Plain code-unit order, the same order Python's sorted() gives these ASCII paths. */
+/** Plain code-unit order, so the sort does not depend on the locale. */
 function compareText(first: string, second: string): number {
   if (first === second) {
     return 0;
@@ -59,4 +59,14 @@ export function schemaViolations(reactionDocument: unknown): SchemaViolation[] {
     return [];
   }
   return schemaViolationsFromErrors(validateReaction.errors ?? []);
+}
+
+/**
+ * ["steps", 0, "routePreference"] -> "/steps/0/routePreference" (RFC 6901: "~" is written "~0"
+ * and "/" is written "~1" inside a key); [] -> "" (the whole document).
+ */
+export function jsonPointer(pathParts: readonly (string | number)[]): string {
+  return pathParts
+    .map((part) => `/${String(part).replaceAll("~", "~0").replaceAll("/", "~1")}`)
+    .join("");
 }

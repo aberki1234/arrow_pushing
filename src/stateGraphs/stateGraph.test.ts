@@ -1,7 +1,6 @@
 /**
  * Tests for stateGraph.ts: the derived electron counts. Graphs are built by hand, so these tests do
- * not depend on SMILES reading. Expected values are counted from Lewis structures, as in the
- * Python twin (tests/state_graphs/test_state_graph.py).
+ * not depend on SMILES reading. Expected values are counted from Lewis structures.
  */
 import { expect, test } from "vitest";
 import {

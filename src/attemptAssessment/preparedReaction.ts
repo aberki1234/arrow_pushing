@@ -2,8 +2,8 @@
  * A reaction file read once for assessing attempts: state graphs, the arrow steps leaving each
  * state, parsed misconceptions and partial-progress messages, and each state's symmetries.
  *
- * The TypeScript twin of python/attempt_assessment/prepared_reaction.py. The document is assumed
- * schema-valid; its fields are still checked as they are read, instead of being cast.
+ * The document is assumed schema-valid; its fields are still checked as they are read, instead of
+ * being cast.
  */
 import { type CurvedArrow, parseCurvedArrow } from "../arrowNotation/curvedArrowNotation.js";
 import { stateGraphFromMappedSmiles } from "../stateGraphs/mappedSmilesReading.js";

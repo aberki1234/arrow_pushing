@@ -1,12 +1,15 @@
-// Import rules for the TypeScript code under src/ (the counterpart of tools/check_layers.py).
-// Folders under src/, lowest layer first, like [tool.layers] in pyproject.toml: a folder may import
-// only folders listed before it. Add each new folder here. testSupport/ is for tests only.
+// Import rules for the TypeScript code under src/.
+// Folders under src/, lowest layer first: a folder may import only folders listed before it. Add
+// each new folder here. testSupport/ is for tests only.
 const layersLowestFirst = [
   "arrowNotation",
   "stateGraphs",
+  "chemistryToolkit",
   "attemptAssessment",
   "reactionFiles",
+  "reactionLinting",
   "catalogue",
+  "catalogueBuilding",
   "moleculeDrawing",
   "stepSession",
   "learnerProgress",
@@ -34,6 +37,15 @@ module.exports = {
       comment: "Every folder under src/ must be listed in layersLowestFirst (or be testSupport).",
       from: { path: "^src/", pathNot: `^src/(${layersLowestFirst.join("|")}|testSupport)/` },
       to: {},
+    },
+    {
+      name: "learner-site-never-loads-node-tools",
+      severity: "error",
+      comment:
+        "The learner site stays small and static: RDKit.js, the linter and the catalogue build " +
+        "(Node tools, later the editor) must not be reachable from its entry point.",
+      from: { path: "^src/learnerSite/main\\.ts$" },
+      to: { path: "^src/(chemistryToolkit|reactionLinting|catalogueBuilding)/", reachable: true },
     },
     {
       name: "test-support-only-in-tests",

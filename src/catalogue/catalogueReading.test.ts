@@ -1,6 +1,6 @@
 /**
  * Tests for catalogueReading.ts against the shared cases in
- * fixtures/catalogue/catalogue_reading_cases.json (the Python tests validate the same catalogue
+ * fixtures/catalogue/catalogue_reading_cases.json (the catalogue build validates the same catalogue
  * and invalid edits with the same schema).
  */
 import { expect, test } from "vitest";

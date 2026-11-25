@@ -1,9 +1,27 @@
 /**
  * Skeleton symmetries of a state, and relabelling a state or an arrow by one of them.
  *
- * The TypeScript twin of python/attempt_assessment/skeleton_symmetry.py, whose docstring defines
- * the sigma skeleton and the search. A symmetry maps old map number -> new map number; the
- * identity comes first; above MAXIMUM_SKELETON_SYMMETRIES only the identity is returned.
+ * Purpose
+ *   Equivalent atoms must not need listing in content: either hydrogen of water, any of three
+ *   alpha hydrogens, either carboxylate oxygen. A skeleton symmetry is a reordering of a state's
+ *   atoms that maps its sigma skeleton onto itself; relabelling a learner's result (or arrows) by
+ *   each symmetry and comparing again accepts every equivalent answer.
+ *
+ * Terms (docs/schema-design.md §0)
+ *   sigma skeleton     atoms, each with its element and implicit hydrogen count, and which pairs
+ *                      are bonded (bond orders, charges and lone pairs ignored, so atoms that
+ *                      differ only by resonance count as equivalent)
+ *   skeleton symmetry  a mapping old map number -> new map number that keeps every atom's element
+ *                      and hydrogen count and maps bonded pairs to bonded pairs (an automorphism)
+ *
+ * Steps
+ *   1. skeletonSymmetriesWithinCap() lists them by backtracking over atoms in map-number order,
+ *      trying for each atom the unused atoms with the same element, hydrogen count and number of
+ *      bonds, and keeping bonds to atoms already placed. The identity comes first.
+ *   2. relabelStateGraph() and relabelCurvedArrow() apply one symmetry.
+ * Molecules here are small (the Wittig reactants have 96 symmetries). Above
+ * MAXIMUM_SKELETON_SYMMETRIES, a safety cap rather than a chemistry number, skeletonSymmetries()
+ * returns only the identity, so answers are then compared without symmetry (the linter warns).
  */
 import type {
   AtomLabel,
@@ -99,11 +117,14 @@ function atomSignature(atom: StateAtom, bondCount: number): string {
   return `${atom.element}/${String(atom.hydrogenCount)}/${String(bondCount)}`;
 }
 
-/** Every skeleton symmetry of `graph`, the identity first; only the identity above the cap. */
-export function skeletonSymmetries(
+/**
+ * Every skeleton symmetry of `graph`, the identity first; undefined when there are more than
+ * `maximumSymmetries` (the linter warns about such states).
+ */
+export function skeletonSymmetriesWithinCap(
   graph: StateGraph,
   maximumSymmetries: number = MAXIMUM_SKELETON_SYMMETRIES,
-): MapNumberRelabelling[] {
+): MapNumberRelabelling[] | undefined {
   const mapNumbers = [...graph.mapNumberToAtom.keys()].sort((first, second) => first - second);
   const mapNumberToNeighbours = new Map(
     mapNumbers.map((mapNumber) => [mapNumber, new Set<number>()]),
@@ -126,9 +147,18 @@ export function skeletonSymmetries(
     maximumSymmetries,
     symmetriesFound: [],
   };
-  const withinCap = extend(search, new Map(), new Set());
-  const identity = new Map(mapNumbers.map((mapNumber) => [mapNumber, mapNumber]));
-  return withinCap ? search.symmetriesFound : [identity];
+  return extend(search, new Map(), new Set()) ? search.symmetriesFound : undefined;
+}
+
+/** Every skeleton symmetry of `graph`, the identity first; only the identity above the cap. */
+export function skeletonSymmetries(
+  graph: StateGraph,
+  maximumSymmetries: number = MAXIMUM_SKELETON_SYMMETRIES,
+): MapNumberRelabelling[] {
+  const identity = new Map(
+    [...graph.mapNumberToAtom.keys()].map((mapNumber) => [mapNumber, mapNumber]),
+  );
+  return skeletonSymmetriesWithinCap(graph, maximumSymmetries) ?? [identity];
 }
 
 function relabelled(mapNumber: number, relabelling: MapNumberRelabelling): number {

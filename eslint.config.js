@@ -1,4 +1,4 @@
-// Lint and complexity rules for TypeScript, matching the Python limits in pyproject.toml
+// Lint and complexity rules for TypeScript, the user's standard limits
 // (see "Code conventions" in ~/.claude/CLAUDE.md): complexity 12, 6 parameters, 40 statements,
 // 50 lines per function, 500 lines per file, 100 characters per line, no single-letter names
 // except loop indices. Layout is Prettier's job (make format); eslint-config-prettier, last in

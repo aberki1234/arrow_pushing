@@ -1,9 +1,26 @@
 /**
  * The state graph: the atoms and bonds of one drawn state, with each atom's electrons counted.
  *
- * The TypeScript twin of python/state_graphs/state_graph.py, whose module docstring explains the
- * electron bookkeeping: formal charge and lone pairs are derived from the electron counts, never
- * stored, so moving electrons always keeps the charge bookkeeping right.
+ * Purpose
+ *   Applying curved arrows, comparing states and checking octets all need the electrons of each
+ *   atom, not just the connectivity. Formal charge and lone pairs are derived from the electron
+ *   counts, never stored, so moving electrons always keeps the charge bookkeeping right.
+ *
+ * Terms (docs/schema-design.md §0)
+ *   map number                 Names one atom for the whole reaction.
+ *   hydrogen count             Implicit hydrogens on an atom (those not drawn as mapped atoms).
+ *   nonbonding electron count  Electrons on the atom that are not in a bond: its lone pairs plus
+ *                              any unpaired electron.
+ *   bond order                 1, 2 or 3; keyed by the two map numbers, the smaller first.
+ *
+ * Electron bookkeeping, per atom
+ *   formal charge     = valence electrons - nonbonding electrons - bond orders - hydrogen count
+ *   unpaired electron = 1 if the nonbonding count is odd, else 0 (an atom with two unpaired
+ *                       electrons, e.g. a triplet carbene, is out of scope)
+ *   lone pairs        = floor(nonbonding electrons / 2)
+ *   valence shell     = nonbonding electrons + 2 * (bond orders + hydrogen count)
+ * Worked example: hydroxide [OH-] has 6 valence electrons, charge -1, no bonds and one H, so
+ * 6 - nonbonding - 0 - 1 = -1 gives 6 nonbonding electrons: three lone pairs.
  */
 
 /** Valence electrons of each element the content may use (main-group group number). */

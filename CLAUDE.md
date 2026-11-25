@@ -14,26 +14,24 @@ Do not change agreed decisions without asking; update `docs/SPEC.md` and `docs/s
 
 - `schema/reaction.schema.json` — JSON Schema of one reaction file (shape only); `schema/catalogue.schema.json` — the
   learner site's `catalogue.json`; `schema/progress.schema.json` — learner progress in `localStorage`.
-- `fixtures/` — shared by pytest and Vitest: `reactions/` (example reactions), `schema_cases/` (invalid edits),
+- `fixtures/` — shared test cases read by Vitest: `reactions/` (example reactions), `schema_cases/` (invalid edits),
   `notation/` (curved-arrow notation cases), `state_graphs/` (SMILES reading and arrow application cases),
   `assessment/` (symmetry, resonance, misconception-pattern and attempt cases), `lint_cases/` (edits that break lint rules),
   `catalogue/` (daily calendar cases, catalogue reading cases).
-- `python/` — Python packages (layers in `pyproject.toml`, lowest first): `arrow_notation/` (parse/print curved
-  arrows), `state_graphs/` (state graph, SMILES reading with RDKit, applying arrows), `attempt_assessment/`
-  (symmetry, resonance, misconception patterns, assessing an attempt), `reaction_files/` (schema validation, RDKit
-  atom checks), `reaction_linting/` (the linter CLI: `PYTHONPATH=python python -m reaction_linting lint|seed-coordinates`),
-  `catalogue_building/` (the static catalogue and daily calendar: `python -m catalogue_building build`; `make catalogue`).
-- `src/` — TypeScript, layers lowest first (`.dependency-cruiser.cjs`): `arrowNotation/`, `stateGraphs/` (strict
-  mapped-SMILES parser, applying arrows), `attemptAssessment/` (the validator's decision), `reactionFiles/` (Ajv),
-  `catalogue/` (reading `catalogue.json`), `moleculeDrawing/` (state → SVG primitives and pick targets, curved-arrow
+- `src/` — all code is TypeScript (no Python since build item 8.0). Layers lowest first (`.dependency-cruiser.cjs`):
+  `arrowNotation/`, `stateGraphs/` (strict mapped-SMILES parser, applying arrows), `chemistryToolkit/` (RDKit.js:
+  atoms, 2D layout, a structure as written; never reachable from the learner site), `attemptAssessment/` (the
+  validator's decision), `reactionFiles/` (Ajv, state atom checks), `reactionLinting/` (the linter; command line
+  `npx tsx src/reactionLinting/runFromShell.ts lint|seed-coordinates`), `catalogue/` (reading `catalogue.json`),
+  `catalogueBuilding/` (the static catalogue and daily calendar: `npx tsx src/catalogueBuilding/runFromShell.ts
+  build`; `make catalogue`), `moleculeDrawing/` (state → SVG primitives and pick targets, curved-arrow
   geometry), `stepSession/` (taps → arrows, a run through a reaction, scoring, snapshots, feedback text),
   `learnerProgress/` (`localStorage` progress, export / import), `dailyPuzzle/` (today's puzzle, streak, share text),
   `learnerStatistics/` (mastery, history, recurring feedback, the practice list), `siteData/` (loading the
   catalogue and reaction files), `learnerSite/` (Svelte 5 + Vite app; `make site` → `build/site/`, `make dev`).
   `testSupport/` (fixture reading for tests). Tests sit beside the code as `*.test.ts`; Svelte component tests start
-  with `// @vitest-environment jsdom`.
-- `tests/` — pytest tests, mirroring `python/` and `tools/`.
-- `tools/` — `check_limits.py`, `check_layers.py`.
+  with `// @vitest-environment jsdom`. Tests that load RDKit.js get it once with `loadChemistryToolkit()` in
+  `beforeAll`.
 
 ## Code conventions specific to this project
 
@@ -42,7 +40,7 @@ Do not change agreed decisions without asking; update `docs/SPEC.md` and `docs/s
   code, tests and messages, and extend that table when a new term appears. In particular: a step is never called an
   "edge"; `routePreference` (preferred/accepted) is not `submission_status` (draft/…/published); an attempt
   assessment is not a step outcome or a review decision.
-- **Case**: JSON keys and TypeScript are camelCase; Python and SQL are snake_case. A JSON key holding a mapping is
+- **Case**: JSON keys and TypeScript are camelCase; SQL is snake_case. A JSON key holding a mapping is
   `keyToValue` (`stateIdToState`, `mapNumberToCoordinates`).
 - **Git**: branch `main`; `.githooks/pre-push` runs `make check` in the `mech_training` env (enable per clone with
   `git config core.hooksPath .githooks`; already set here).
@@ -51,7 +49,7 @@ Do not change agreed decisions without asking; update `docs/SPEC.md` and `docs/s
   (the Makefile does this from `CONDA_PREFIX`, so with `conda run` set `CONDA_PREFIX` to the environment if needed).
 - **Formatting**: `make format` runs Prettier (100 characters) on the TS/JS code; `make lint` only checks it.
   Fixtures, docs and mockups keep their hand-written layout.
-- **Checks**: `make lint` (ruff, mypy, `tools/check_limits.py`, `tools/check_layers.py`, the reaction linter on the examples), `make test`, `make check`.
-  Python import layers are listed lowest first in `pyproject.toml` `[tool.layers]`; add each new package there.
-  The TypeScript side (`make lint-typescript`): Prettier check (TS/JS, Svelte, `src/**/*.css`), ESLint with the same
-  limits (Svelte files too), `tsc`, `svelte-check`, dependency-cruiser (layers of `src/`; add each new folder there).
+- **Checks**: `make lint` (`make lint-typescript`, then the reaction linter on the examples), `make test` (Vitest),
+  `make check`. `make lint-typescript`: Prettier check (TS/JS, Svelte, `src/**/*.css`), ESLint with the size and
+  complexity limits (Svelte files too), `tsc`, `svelte-check`, dependency-cruiser (layers of `src/`; add each new
+  folder there).

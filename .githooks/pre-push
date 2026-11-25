@@ -4,7 +4,7 @@
 #
 # Runs in the project's conda environment (environment.yml, name mech_training) when it exists,
 # so the push works from any shell. Set PREPUSH_CONDA_ENV=<name> to use another environment,
-# or PREPUSH_CONDA_ENV=active to use whatever Python environment is active.
+# or PREPUSH_CONDA_ENV=active to use whatever Node.js is on PATH.
 set -e
 cd "$(git rev-parse --show-toplevel)"
 
@@ -15,10 +15,9 @@ if [ "$conda_environment_name" != "active" ] && command -v conda >/dev/null \
     exec conda run --no-capture-output -n "$conda_environment_name" make check
 fi
 
-if ! command -v ruff >/dev/null || ! command -v mypy >/dev/null \
-    || ! python -c "import pytest" >/dev/null 2>&1; then
-    echo "pre-push: conda environment '$conda_environment_name' not found, and ruff, mypy and pytest" >&2
-    echo "pre-push: are not all installed in the active environment." >&2
+if ! command -v npx >/dev/null; then
+    echo "pre-push: conda environment '$conda_environment_name' not found, and Node.js (npx) is" >&2
+    echo "pre-push: not on PATH." >&2
     echo "pre-push: create it with: conda env create -f environment.yml" >&2
     exit 1
 fi

@@ -1,14 +1,9 @@
-# Conda environment for both sides: Python (linter CLI, shared-fixture tests, lint/complexity checks)
-# and Node.js for the TypeScript tools, so `make check` and the pre-push hook use the same versions.
+# Conda environment: Node.js for the TypeScript tools, so `make check` and the pre-push hook use
+# the same version everywhere (RDKit comes from npm as RDKit.js).
 # Create with: conda env create -f environment.yml
+# Update an existing one with: conda env update -f environment.yml --prune
 name: mech_training
 channels:
   - conda-forge
 dependencies:
-  - python=3.12
-  - rdkit
-  - pytest
-  - ruff
-  - mypy
-  - jsonschema
   - nodejs=24

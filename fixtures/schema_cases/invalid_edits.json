@@ -1,5 +1,5 @@
 {
-  "description": "Edits that make a valid example reaction invalid. Each case names the example (baseReactionFile in fixtures/reactions), one edit (set a value at pathToSet, or delete the key at pathToDelete), and the JSON pointer at which a schema violation must be reported. The Python and TypeScript tests both run every case.",
+  "description": "Edits that make a valid example reaction invalid. Each case names the example (baseReactionFile in fixtures/reactions), one edit (set a value at pathToSet, or delete the key at pathToDelete), and the JSON pointer at which a schema violation must be reported.",
   "cases": [
     {"caseName": "missing start state id", "baseReactionFile": "sn2-hydroxide-bromomethane.json",
      "pathToDelete": ["startStateId"], "expectedViolationPath": ""},

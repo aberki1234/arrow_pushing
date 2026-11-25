@@ -57,3 +57,13 @@ export function exampleReactionDocuments(): [string, Record<string, unknown>][] 
       return [name, document];
     });
 }
+
+/** The path of an example reaction file, e.g. "sn2-hydroxide-bromomethane.json". */
+export function exampleReactionPath(fileName: string): string {
+  return join(fixturesFolder, "reactions", fileName);
+}
+
+/** Every example reaction file's path, by name. */
+export function exampleReactionPaths(): string[] {
+  return exampleReactionDocuments().map(([name]) => exampleReactionPath(name));
+}

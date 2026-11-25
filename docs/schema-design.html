@@ -89,7 +89,7 @@
       <tr><td>Reaction slug</td><td><code>aldol-addition-base</code></td><td>Chosen at first submit. <b>Never changes</b> after the first publish; the title can.</td></tr>
       <tr><td>Reaction version</td><td>1, 2, 3 … per slug</td><td>A new draft gets the next number. A published version never changes.</td></tr>
       <tr><td>Version ref</td><td><code>aldol-addition-base@3</code></td><td>What learner progress, share links and the daily calendar store.</td></tr>
-      <tr><td>Content hash</td><td>sha256 of canonical JSON</td><td>In the catalogue (all 64 hex) and in the static file name (first 8), for cache-busting; lets progress detect a changed file.</td></tr>
+      <tr><td>Content hash</td><td>sha256 of canonical JSON (keys sorted, no spaces, numbers as JavaScript writes them)</td><td>In the catalogue (all 64 hex) and in the static file name (first 8), for cache-busting; lets progress detect a changed file.</td></tr>
       <tr><td>Format version</td><td><code>"formatVersion": 1</code></td><td>Bumped by a format migration.</td></tr>
       <tr><td>State id</td><td><code>s0</code>, <code>betaine</code></td><td>Unique within the reaction.</td></tr>
       <tr><td>Step key</td><td><code>enolate</code></td><td>Unique within the reaction; kept <b>across</b> versions when the step means the same thing, so statistics carry over.</td></tr>
@@ -217,7 +217,7 @@
       <li>No misconception matches an arrow set that would be accepted.</li>
     </ol>
     <h3>The linter <span class="tag ok">built</span></h3>
-    <p><code>python/reaction_linting/</code>. Run <code>PYTHONPATH=python python -m reaction_linting lint FILE… [--json]</code> (exit status 1 on any error), or <code>… seed-coordinates FILE…</code> to give every state whose coordinates don't match its atoms an RDKit layout (the file is rewritten). <code>make lint</code> lints the four examples. Rules, in the order checked; a ⛔ group stops the lint, because the later checks could not run:</p>
+    <p><code>src/reactionLinting/</code> (in TypeScript since item 8.0). Run <code>npx tsx src/reactionLinting/runFromShell.ts lint FILE… [--json]</code> (exit status 1 on any error), or <code>… seed-coordinates FILE…</code> to give every state whose coordinates don't match its atoms an RDKit layout (the file is rewritten). <code>make lint</code> lints the four examples. Rules, in the order checked; a ⛔ group stops the lint, because the later checks could not run:</p>
     <table>
       <tr><th>Rule id</th><th>Level</th><th>What it checks</th></tr>
       <tr><td><code>file-not-readable</code> ⛔</td><td>error</td><td>not JSON (command line only)</td></tr>
@@ -345,7 +345,7 @@ atomSelector        := O1 | O* (any O) | @nucleophile (a role) | *</code></pre>
                   "title": "…", "subtitle": "…",                        // null if absent
                   "reactionClasses": ["…"], "difficultyTier": 1, "dailyPuzzleEligible": true }],
   "dateToDailyReactionVersionRef": { "2026-12-01": "sn2-hydroxide-bromomethane@2", … } }</code></pre>
-    <p>The <b>daily calendar is a list that only grows</b>. “Date mod number of reactions” would reshuffle days whenever a reaction is added. <span class="tag ok">built</span> 2026-11-25 as <code>python -m catalogue_building build</code>; the browser reads it with <code>src/catalogue/</code>. Decided 2026-11-25:</p>
+    <p>The <b>daily calendar is a list that only grows</b>. “Date mod number of reactions” would reshuffle days whenever a reaction is added. <span class="tag ok">built</span> 2026-11-25 as <code>src/catalogueBuilding/</code> (<code>npx tsx src/catalogueBuilding/runFromShell.ts build</code>, in TypeScript since item 8.0); the browser reads it with <code>src/catalogue/</code>. Decided 2026-11-25:</p>
     <ul>
       <li><b>Files in, files out.</b> The build reads published reaction files (later exported from Postgres) and writes into a new or empty folder: <code>catalogue.json</code> plus <code>r/&lt;slug&gt;/&lt;version&gt;.&lt;first 8 hex&gt;.json</code> per published version. Each reaction file holds exactly its canonical JSON, so the content hash (full 64 hex in the catalogue) is the sha256 of the file served.</li>
       <li><b>The calendar's memory is the previous <code>catalogue.json</code>.</b> Without one the build refuses unless told to start a new calendar, which begins on the build date.</li>
@@ -394,16 +394,16 @@ reviews(id pk, reaction_id, reaction_version → reaction_versions, reviewer_use
         review_decision in ('publish','changes_requested'), comment, created_at)</code></pre>
     <p>The whole document, mechanism graph included, lives in <code>reaction_document</code>.</p>
 
-    <h2 id="fixtures">9 · Shared fixtures (JS ↔ Python)</h2>
-    <p>A <code>fixtures/</code> folder read by both Vitest and pytest. The browser validator and the Python linter must agree on all of them.</p>
+    <h2 id="fixtures">9 · Shared fixtures</h2>
+    <p>A <code>fixtures/</code> folder read by the Vitest tests. Since item 8.0 there is one implementation (TypeScript), so the fixtures pin its behaviour. Our own SMILES reader is still checked against RDKit on every valid SMILES case and every example state.</p>
     <ul>
       <li><code>notation/</code> — arrow strings → parsed loci, plus error cases</li>
       <li><code>apply/</code> — state + arrows → expected state or generic rule id</li>
       <li><code>resonance/</code> — pairs of states → equivalent or not (enolate forms, both Kekulé benzenes, carboxylate, allyl radical, a charge-separated carbonyl, two molecules swapping a charge)</li>
       <li><code>assess/</code> — reaction + state + learner arrows → expected attempt assessment</li>
-      <li><code>lint_cases/</code> — edits of the example reactions that break the graph and content rules → expected lint rule ids (Python only)</li>
+      <li><code>lint_cases/</code> — edits of the example reactions that break the graph and content rules → expected lint rule ids (the linter)</li>
       <li><code>reactions/</code> — SN2, aldol, radical bromination and the Wittig, end to end</li>
-      <li><code>catalogue/</code> — daily calendar cases worked out by hand (Python only), and an example catalogue with invalid edits, daily lookups and file paths (both languages)</li>
+      <li><code>catalogue/</code> — daily calendar cases worked out by hand (the catalogue build), and an example catalogue with invalid edits, daily lookups and file paths</li>
     </ul>
 
     <h2 id="order">10 · Proposed build order (each strictly TDD)</h2>
@@ -423,7 +423,7 @@ reviews(id pk, reaction_id, reaction_version → reaction_versions, reviewer_use
       </li>
       <li>The editor and the backend, split in four (decided 2026-11-25, <a href="spec.html#architecture">spec §5</a>):
         <ul>
-          <li><b>8.0</b> One implementation in TypeScript: the linter and catalogue build become Node command-line tools, with RDKit.js for reading ordinary SMILES, coordinates and atom checks; the Python code and pytest are deleted. Starts with a trial of RDKit.js.</li>
+          <li><span class="tag ok">done</span> <b>8.0</b> One implementation in TypeScript: the linter and catalogue build become Node command-line tools, with RDKit.js for reading ordinary SMILES, coordinates and atom checks; the Python code and pytest are deleted. Before deleting, both linters gave the same findings on every lint case. Content hashes changed once (numbers are now written as JavaScript writes them; nothing was published yet). The Python paths in the items above now live in the <code>src/</code> folders of the same names.</li>
           <li><b>8a</b> Editor core: paste SMILES, draw arrows to generate states, drag, show H, change steps, branches and automatic joins, regenerate, undo/redo, mechanism panel, Play as learner, saving to <code>content/reactions/</code>.</li>
           <li><b>8b</b> Form fields, misconceptions and partial arrow sets by drawing, live lint panel.</li>
           <li><b>8c</b> Backend (TypeScript on Node + Postgres, §8); details settled when it starts.</li>

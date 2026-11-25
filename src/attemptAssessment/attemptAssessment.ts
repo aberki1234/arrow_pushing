@@ -1,10 +1,34 @@
 /**
  * Assess one learner attempt: the arrows drawn at a state, against the steps leaving it.
  *
- * The TypeScript twin of python/attempt_assessment/attempt_assessment.py, whose docstring gives
- * the order of the checks (correct, meaningless arrows, misconceptions, partial progress, generic
- * rules, wrong). Both pass the shared cases in fixtures/assessment/attempt_cases.json. Assessments
- * are plain JSON-shaped objects, the same spelling as the Python assessment_to_json().
+ * Purpose
+ *   This is the validator's decision (docs/schema-design.md §4 and §5), run in the browser and by
+ *   the linter. The shared cases in fixtures/assessment/attempt_cases.json fix its behaviour.
+ *   Assessments are plain JSON-shaped objects.
+ *
+ * Terms (docs/schema-design.md §0)
+ *   leaving step        a step whose fromStateId is the current state
+ *   known arrow sets    a leaving step's canonical arrows and its partial arrow sets
+ *   attempt assessment  the answer: correct, misconception, genericRule, partialProgress or wrong
+ *
+ * Order (first that applies wins; decided 2026-11-24)
+ *   1. correct          the arrows' type fits the step kind, they apply, none are redundant, the
+ *                       result is identical or a resonance form of the step's to-state, up to a
+ *                       skeleton symmetry of the state
+ *   2. meaningless      arrow-application rules atom-not-in-state, destination-not-adjacent-to-
+ *                       source, no-electrons-at-source
+ *   3. misconception    the state's authored misconceptions, in list order, up to symmetry
+ *   4. partialProgress  the arrows are an authored partial-progress set, or part of a known arrow
+ *                       set, or give a minor resonance form of a to-state. It reports both the
+ *                       progress (arrows still missing, authored message) and any rule the arrows
+ *                       break (an arrow-application rule, or minor-resonance-form), so the screen
+ *                       can say "right so far ... but ..."
+ *   5. genericRule      wrong-arrow-type (no leaving step's kind fits), redundant-arrow (some
+ *                       arrows together move no electrons, e.g. an arrow and its reverse, so
+ *                       removing them changes nothing), reversed-flow (an arrow whose source and
+ *                       destination atoms are those of a known arrow, swapped), then any other
+ *                       arrow-application rule
+ *   6. wrong            none of the above
  */
 import { type CurvedArrow, formatCurvedArrow } from "../arrowNotation/curvedArrowNotation.js";
 import { ArrowApplicationError, applyCurvedArrows } from "../stateGraphs/arrowApplication.js";
@@ -138,7 +162,7 @@ function netElectronChanges(curvedArrows: readonly CurvedArrow[]): Map<string, n
   return placeToElectronChange;
 }
 
-/** Every group of `groupSize` arrows, in the same order as Python's itertools.combinations. */
+/** Every group of `groupSize` arrows, in lexicographic order of their positions. */
 function groupsOf<Item>(items: readonly Item[], groupSize: number, start = 0): Item[][] {
   if (groupSize === 0) {
     return [[]];

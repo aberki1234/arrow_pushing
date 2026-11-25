@@ -61,7 +61,7 @@ system; e⁻ = electron.
 | Reaction slug | `aldol-addition-base` (`^[a-z0-9]+(-[a-z0-9]+)*$`) | chosen at first submit, **never changes** after first publish (the title can) |
 | Reaction version | integer 1, 2, 3 … per slug | a new draft gets `max+1`; a published version's document never changes |
 | Reaction version ref | `aldol-addition-base@3` | what learner progress, share links and the daily calendar store |
-| Content hash | `sha256` of canonical JSON (sorted keys, no whitespace, UTF-8, non-ASCII as is) | full 64 hex in the catalogue; static file name `r/<slug>/<version>.<first 8 hex of hash>.json` for cache-busting; lets progress detect a changed file |
+| Content hash | `sha256` of canonical JSON (keys sorted at every depth, no whitespace, UTF-8, non-ASCII as is, numbers as JavaScript writes them) | full 64 hex in the catalogue; static file name `r/<slug>/<version>.<first 8 hex of hash>.json` for cache-busting; lets progress detect a changed file |
 | Format version | `"formatVersion": 1` | bumped by a format migration |
 | State id | short slug, e.g. `s0`, `betaine` | unique within the reaction |
 | Step key | short slug, e.g. `enolate` | unique within the reaction; kept **across** reaction versions where the step means the same thing, so statistics aggregate by `reactionSlug/stepKey` |
@@ -95,7 +95,7 @@ follow from valence and charge. Radicals are bracket atoms with missing H (`[CH3
 Examples: SN2 is `lp O1 -> σ O1-C2`, `σ C2-Br3 -> lp Br3`. H-abstraction is `rad Br1 ~> σ Br1-H2`,
 `σ C3-H2 ~> σ Br1-H2`, `σ C3-H2 ~> rad C3`.
 
-**Parser and printer** (build item 2: `python/arrow_notation/curved_arrow_notation.py`,
+**Parser and printer** (build item 2:
 `src/arrowNotation/curvedArrowNotation.ts`, shared cases in `fixtures/notation/curved_arrows.json`):
 * **Printed form**: `σ`/`π` symbols (`sigma`/`pi` accepted on input), bond atoms in ascending map-number order
   (`σ C3-H2` prints as `σ H2-C3`), single spaces. Equal arrows parse to equal structures.
@@ -130,7 +130,7 @@ So content and validation only ever see destination loci.
 
 ## 3. Reaction file (JSON, one file per reaction version)
 
-JSON keys are camelCase (the browser reads them as they are); Python reads the same keys. A key holding a mapping is
+JSON keys are camelCase (the code reads them as they are). A key holding a mapping is
 named `keyToValue`.
 
 ### 3.1 Top level
@@ -236,7 +236,8 @@ off the screen. A change step must be the only step leaving its state.
 6. Each step's canonical arrows and partial arrow sets, applied to its from-state, reproduce its to-state (§4).
 7. No misconception on a state matches an arrow set that §4 would accept (it would hide a correct answer).
 
-**Built (item 5):** `python/reaction_linting/`, run as `PYTHONPATH=python python -m reaction_linting lint FILE... [--json]`
+**Built (item 5; in TypeScript since item 8.0):** `src/reactionLinting/`, run as
+`npx tsx src/reactionLinting/runFromShell.ts lint FILE... [--json]`
 (exit status 1 on any error) and `... seed-coordinates FILE...` (RDKit layout for every state whose coordinates are not
 exactly its atoms; the file is rewritten as 2-space JSON). `make lint` lints the example reactions. Each case in
 `fixtures/lint_cases/reaction_edits.json` breaks rules on purpose. Rule ids, in the order checked (a group stops the
@@ -269,7 +270,7 @@ lint when the rest could not run):
 at most 6 characters. A group is drawn as its label wherever it is intact (all its atoms present, one bond from the
 attachment atom joining it to the rest) and in full elsewhere. Nothing in it can be tapped, the attachment bond
 included. Screen readers read the label. Drawing: `src/moleculeDrawing/abbreviatedGroups.ts`; lint:
-`python/reaction_linting/abbreviated_group_rules.py`.
+`src/reactionLinting/abbreviatedGroupRules.ts`.
 
 Arrow sets are checked with the validator itself (`assess_attempt`, with the step being checked as the only one
 leaving its state), so the linter accepts exactly what the browser accepts.
@@ -304,10 +305,10 @@ Input: the current state `S`, the steps leaving it, and the learner's arrow set 
 1. **Each arrow is legal** on `S`: the source locus exists and holds the electrons, the destination locus is well
    formed, and the arrow type fits some step leaving `S`.
 2. **Apply** `A` to `S`, giving the result `R`, and check the bookkeeping: octet/duet (H ≤ 2 e⁻, period 2 ≤ 8,
-   period ≥ 3 up to 12). **Built (item 3):** `python/state_graphs/`, `src/stateGraphs/`. All arrows of a step move
+   period ≥ 3 up to 12). **Built (item 3):** `src/stateGraphs/`. All arrows of a step move
    their electrons at once. Electrons are counted, and formal charge is derived as valence electrons − nonbonding −
    bond orders − H, so electrons and charge are conserved by construction. The rules, in the order checked, are
-   listed in `python/state_graphs/arrow_application.py`; an even nonbonding count is read as lone pairs, an odd one
+   listed in `src/stateGraphs/arrowApplication.ts`; an even nonbonding count is read as lone pairs, an odd one
    as one unpaired electron (triplet carbenes are out of scope).
 3. **No redundant arrows**: no group of the learner's arrows may together move no electrons (an arrow and its reverse,
    or a longer cycle). Removing such a group leaves `R` unchanged, so a correct answer padded with it is not accepted;
@@ -347,7 +348,7 @@ arrows that give the right formula but move the wrong atoms also fail.
 
 The validator returns an **attempt assessment** (`assessmentKind`): `correct` (step key, route preference,
 `isDifferentDrawing`), `misconception` (id, tag, severity, message), `genericRule` (rule id, message),
-`partialProgress` (see §5.3) or `wrong`. Built in build item 4: `python/attempt_assessment/`,
+`partialProgress` (see §5.3) or `wrong`. Built in build item 4:
 `src/attemptAssessment/`, shared cases in `fixtures/assessment/`. **Decided 2026-11-24 (user):** partial progress comes
 **before** the generic chemistry rules, because a correct but incomplete concerted step nearly always breaks one (the
 first SN2 arrow alone gives carbon 10 electrons). The new order replaces the list below it. Checks, first match wins:
@@ -429,14 +430,16 @@ match an authored message, are a strict part of a known arrow set, or give a min
 ```
 
 The **daily calendar is a list in the build that only grows**. It is not `hash(date) mod N`, which would reshuffle past
-and future days whenever a reaction is added. Built (item 6, 2026-11-25) as `python/catalogue_building/`
-(`python -m catalogue_building build FILE... --out DIR (--previous-catalogue FILE | --start-new-calendar)`); the
+and future days whenever a reaction is added. Built (item 6, 2026-11-25; in TypeScript since item 8.0) as `src/catalogueBuilding/`
+(`npx tsx src/catalogueBuilding/runFromShell.ts build FILE... --out DIR (--previous-catalogue FILE |
+--start-new-calendar)`); the
 browser reads it with `src/catalogue/`. Decided 2026-11-25:
 
 * **Files in, files out.** The build reads published reaction files (later exported from Postgres) and writes into a
   new or empty folder: `catalogue.json` plus `r/<slug>/<version>.<first 8 hex>.json` for every published version. A
-  reaction file holds exactly its **canonical JSON** (sorted keys, no whitespace, UTF-8, non-ASCII as is), so the
-  content hash (full 64 hex in the catalogue) is the sha256 of the served file. Only Python computes hashes.
+  reaction file holds exactly its **canonical JSON** (keys sorted at every depth, no whitespace, UTF-8, non-ASCII as
+  is, numbers as JavaScript's `JSON.stringify` writes them, so `1.0` is `1`), so the content hash (full 64 hex in the
+  catalogue) is the sha256 of the served file. Only the catalogue build computes hashes.
 * **The calendar's memory is the previous `catalogue.json`** (`--previous-catalogue`). Without one the build refuses
   unless `--start-new-calendar` is given; a new calendar starts on the build date (UTC unless `--build-date`).
 * **Frozen, append only.** Every date already in the calendar is kept, past or future, and a ref there is never
@@ -450,7 +453,7 @@ browser reads it with `src/catalogue/`. Decided 2026-11-25:
 * **The learner's local date** picks the daily puzzle (each learner's own midnight); a date outside the calendar
   has no puzzle (`null`). The slug in the catalogue reveals the daily reaction's name to anyone reading the network
   traffic; accepted for v1.
-* **The build refuses** (error codes in `python/catalogue_building/catalogue_build_errors.py`, nothing written) on:
+* **The build refuses** (error codes in `src/catalogueBuilding/catalogueBuildErrors.ts`, nothing written) on:
   a schema failure or lint error in any input (warnings are printed); a slug/version given twice or versions not
   1..n; a version in the previous catalogue missing from the inputs; a published version whose content hash changed;
   a calendar ref to a version not given; a non-empty output folder.
@@ -527,10 +530,11 @@ reviews(id uuid pk, reaction_id, reaction_version → reaction_versions, reviewe
 * Publishing sets the hash and `published_at`, then triggers the static build.
 * The reviewer's diff compares version n with n−1. A diff that understands steps comes later.
 
-## 9. Shared fixtures (JS ↔ Python)
+## 9. Shared fixtures
 
-`fixtures/` at the repo root, read by both Vitest and pytest. The browser validator and the Python linter must give
-identical results on all of them.
+`fixtures/` at the repo root, read by the Vitest tests. Since item 8.0 there is one implementation (TypeScript), so the
+fixtures pin its behaviour rather than keep two languages in step. Our strict SMILES reader is still checked against
+RDKit (RDKit.js) on every valid SMILES case and every example state (`src/chemistryToolkit/strictReaderAgreement.test.ts`).
 
 * `notation/*.json`: arrow strings → parsed loci, plus the error cases.
 * `apply/*.json`: state + arrow set → expected state, or the expected generic rule id.
@@ -538,12 +542,11 @@ identical results on all of them.
   allyl radical, a charge-separated carbonyl, two molecules swapping a charge (not equivalent)).
 * `assess/*.json`: reaction + state id + learner arrow set → expected attempt assessment.
 * `lint_cases/reaction_edits.json`: edits of the example reactions breaking the rules of §3.5 → expected lint rule ids
-  (Python only: the linter is not run in the browser).
+  (the linter, in Node; in the editor from item 8b).
 * `reactions/*.json`: SN2, aldol, radical bromination and the Wittig, end to end.
 * `catalogue/daily_calendar_cases.json`: previous calendar + eligible refs + build date → expected calendar, worked
-  out by hand with `sha256sum` (Python only: the browser does not build the calendar).
-* `catalogue/catalogue_reading_cases.json`: an example catalogue, invalid edits (same violation paths in both
-  languages), the daily ref per local date and the file path per ref.
+  out by hand with `sha256sum` (the catalogue build only).
+* `catalogue/catalogue_reading_cases.json`: an example catalogue, invalid edits (with the violation path each must give), the daily ref per local date and the file path per ref.
 
 ## 10. Proposed build order (each strictly TDD)
 
@@ -583,10 +586,16 @@ identical results on all of them.
      export / import / reset), and the finished view's "Watch out for", related reactions and mastery change:
      `src/learnerStatistics/`, `src/learnerProgress/progressTransfer.ts`. Checked in headless Chromium.
 8. The editor and the backend, split in four (decided 2026-11-25, SPEC §5):
-   * **8.0** One implementation in TypeScript: port the linter (`src/reactionLinting/`) and catalogue build
+   * **8.0 Done 2026-11-25.** One implementation in TypeScript: port the linter (`src/reactionLinting/`) and catalogue build
      (`src/catalogueBuilding/`) to Node command-line tools, with RDKit.js for reading ordinary SMILES, coordinate
      seeding and the state atom checks; move the Python-only fixtures to Vitest; delete `python/`, `tests/`,
      `tools/*.py` and pytest. Starts with a trial of RDKit.js on those three jobs.
+     Built: `src/chemistryToolkit/` (RDKit.js 2026.9.2: atoms, 2D layout, a structure as written),
+     `src/reactionLinting/` and `src/catalogueBuilding/` (each with `runFromShell.ts`, run by `tsx`). Before the
+     Python was deleted, both linters gave the same rule ids, places and messages on every lint case (only the
+     schema validator's and strict reader's own wording differs). Content hashes changed once, since canonical
+     JSON now writes numbers as JavaScript does (nothing was published yet). The Python paths named in items 1–6
+     above are now the `src/` folders of the same names in camelCase.
    * **8a** Editor core (`editor.html`, `src/reactionEditor/`): paste SMILES, draw arrows → generated state, drag,
      show H, change steps, branches and automatic joins, regenerate, undo/redo, mechanism panel, Play as learner,
      saving to `content/reactions/`.

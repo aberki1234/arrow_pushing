@@ -105,7 +105,9 @@ Diels–Alder needs a concerted multi-arrow step (3 arrows) — the model must s
   RDKit did: reading ordinary SMILES, 2D coordinate seeding, the state atom checks. It loads only in the editor and
   the Node tools, **never on the learner site**, which keeps its strict mapped-SMILES parser. Tests compare that
   parser with RDKit.js on the shared fixtures. After the port (build item **8.0**) the Python packages, `tools/*.py`
-  and pytest are deleted; the conda environment stays only to provide Node.
+  and pytest are deleted; the conda environment stays only to provide Node. **Done 2026-11-25**:
+  `src/chemistryToolkit/`, `src/reactionLinting/`, `src/catalogueBuilding/`; the agreement test is
+  `src/chemistryToolkit/strictReaderAgreement.test.ts`.
 - **Rendering:** structures drawn in our own **SVG layer** using **precomputed 2D coordinates per state** (seed from RDKit,
   hand-adjust; stored in content). RDKit is for chemistry, not layout. Avoids layout reshuffles between steps.
 - **Learner site (decided 2026-11-25):** **Svelte 5 + Vite, no SvelteKit**: a static single-page app with hash routes
@@ -137,10 +139,11 @@ Diels–Alder needs a concerted multi-arrow step (3 arrows) — the model must s
 - **Content format:** **one JSON file per reaction version** (schema: `docs/schema-design.md`). Per reaction: metadata, a graph of
   states (atom-mapped SMILES + coordinates, learner prompt, 3 hint tiers, misconceptions) joined by steps (canonical
   arrows, route preference, optional partial arrow sets, explanation), mechanism summary, version, author, licence.
-- **Dev tooling:** (ported to TypeScript in item 8.0, see above) a Python CLI linter checks that arrows applied to each state reproduce the next one and seeds
-  coordinates from RDKit. **The JS validator and Python linter share the same test fixtures** (cannot drift apart).
-  Built (item 5, 2026-11-24): `python/reaction_linting/`, rules and ids in `docs/schema-design.md` §3.5.
-- **Catalogue build** (item 6, built 2026-11-25; ported to TypeScript in item 8.0): `python/catalogue_building/` turns published reaction files into
+- **Dev tooling:** a command-line linter checks that arrows applied to each state reproduce the next one and seeds
+  coordinates from RDKit. Built in item 5 (2026-11-24) in Python, ported to TypeScript in item 8.0:
+  `src/reactionLinting/` (`npx tsx src/reactionLinting/runFromShell.ts lint|seed-coordinates`), using the validator
+  itself; rules and ids in `docs/schema-design.md` §3.5.
+- **Catalogue build** (item 6, built 2026-11-25; ported to TypeScript in item 8.0): `src/catalogueBuilding/` turns published reaction files into
   `catalogue.json` (with the daily calendar) and content-hashed reaction files; the browser reads it with
   `src/catalogue/`. The calendar is frozen and append-only, filled in whole cycles 60 days ahead, and the daily
   puzzle follows the **learner's local date**. Rules: `docs/schema-design.md` §6.
@@ -186,7 +189,7 @@ Diels–Alder needs a concerted multi-arrow step (3 arrows) — the model must s
   (decided 2026-11-25, replacing FastAPI: the linter runs in the same process; framework, hosting, OAuth providers
   and how a publish starts the build are decided when 8c starts) (reaction as JSONB
   document, version table, status column); learner site built from published JSON and served from a static host
-  (e.g. Cloudflare Pages). The Python linter can also run server-side on submission.
+  (e.g. Cloudflare Pages). The linter runs server-side on submission.
 
 ## 6. Community content & moderation
 
@@ -209,19 +212,17 @@ Chromium: no console errors. Emoji (💡) may render as tofu in headless only.
 
 ## 8. Process rules
 
-- User's global protocol: **strict TDD** — plan (file stubs + test cases) → stubs + tests (Vitest; pytest until item 8.0 removes Python)
+- User's global protocol: **strict TDD** — plan (file stubs + test cases) → stubs + tests (Vitest)
   → red run → minimal implementation → refactor; do not report done until 0 failures. This applies to the **real build**
   (validator, schema, linter), not to throwaway HTML sketches.
 - **Naming standard** (user, 2026-11-24): every name must be unambiguous to a reader new to that part of the code. The
   reference level is `aberki1234/eyring-uncertainty` `eyring.py` and RetrosynthWeb's
   `python/retro/transform_proposals/`. The rules are in the project `CLAUDE.md` ("Code conventions"). Terms are fixed
   in `docs/schema-design.md` §0.
-- **Lint and complexity checks** (user, 2026-11-24), the same as RetrosynthWeb's: ruff (incl. annotations, max 6
-  arguments, max 40 statements, McCabe complexity ≤ 12), mypy strict-ish, `tools/check_limits.py` (function ≤ 50 lines,
-  file ≤ 500 lines, dataclass ≤ 6 fields), `tools/check_layers.py` (import layers, no cycles); `make lint`, `make test`,
-  `make check`. The TS side has the same limits in ESLint (plus `tsc --strict`, dependency-cruiser), and Prettier
-  formats TS/JS at 100 characters (`make format`; checked in `make lint`). After item 8.0 only the TypeScript checks
-  remain (the Python tools go with the Python code).
+- **Lint and complexity checks** (user, 2026-11-24), the same limits as RetrosynthWeb's: complexity ≤ 12, at most 6
+  parameters, at most 40 statements, functions ≤ 50 lines, files ≤ 500 lines, import layers with no cycles. Since
+  item 8.0 (no Python left) they are checked by ESLint (plus `tsc --strict`, `svelte-check`), dependency-cruiser
+  (layers of `src/`) and Prettier (100 characters; `make format`); `make lint`, `make test`, `make check`.
 - Documents meant for the user to read are written as **HTML**.
 - Treat user details as private; don't send them to external services.
 

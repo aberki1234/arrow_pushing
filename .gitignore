@@ -1,8 +1,4 @@
 # Tool caches
-__pycache__/
-.mypy_cache/
-.pytest_cache/
-.ruff_cache/
 
 # JavaScript / build output (for when the TS project exists)
 node_modules/

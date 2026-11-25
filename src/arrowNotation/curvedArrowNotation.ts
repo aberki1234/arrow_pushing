@@ -1,9 +1,31 @@
 /**
  * Parse and print the curved-arrow notation, e.g. "lp O1 -> σ O1-C2".
  *
- * The TypeScript twin of python/arrow_notation/curved_arrow_notation.py; both pass the shared
- * cases in fixtures/notation/curved_arrows.json. Terms, the printed form and the error codes (and
- * the order they are checked in) are described in that Python module's docstring.
+ * Purpose
+ *   Content, the editor, the linter and the tests write curved arrows as text. This module turns
+ *   that text into a structure (and back), so every part of the code compares arrows the same way.
+ *   The shared cases in fixtures/notation/curved_arrows.json fix its behaviour.
+ *
+ * Terms (docs/schema-design.md §0)
+ *   atom label      Element + map number, e.g. "O1", "Cl12". The map number names one atom for the
+ *                   whole reaction.
+ *   electron locus  Where electrons sit: "lp X" (lone pair), "rad X" (unpaired electron),
+ *                   "σ X-Y" (sigma bond), "π X-Y" (pi bond). "sigma" and "pi" are accepted too.
+ *   curved arrow    "<source locus> -> <destination locus>" moves a pair of electrons; "~>" (a
+ *                   fish-hook) moves one electron. The destination is where the electrons end up.
+ *   printed form    σ and π symbols, bond atoms in ascending map-number order, single spaces. Two
+ *                   notations that mean the same arrow parse to equal structures and print the
+ *                   same.
+ *
+ * Error codes, checked in this order (the first that applies is thrown)
+ *   malformed-arrow                  not "<locus> -> <locus>" or "<locus> ~> <locus>"
+ *   malformed-locus                  a locus is not "lp X", "rad X", "σ X-Y" or "π X-Y"
+ *   malformed-atom-label             an atom label is not element + map number (no leading 0)
+ *   conflicting-atom-labels          one map number appears with two elements
+ *   bond-to-same-atom                a bond joins an atom to itself
+ *   arrow-to-itself                  the source and destination are the same locus
+ *   unpaired-electron-in-pair-arrow  "rad" in a pair arrow (an unpaired electron is one electron)
+ * Checks that need the molecule (does O1 have a lone pair?) are not made here.
  */
 
 export type LocusKind = "lonePair" | "unpairedElectron" | "sigmaBond" | "piBond";

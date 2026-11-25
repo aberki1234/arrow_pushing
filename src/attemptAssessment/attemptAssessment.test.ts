@@ -1,6 +1,6 @@
 /**
  * Tests for attemptAssessment.ts against the shared cases in fixtures/assessment/attempt_cases.json
- * (the Python twin runs the same cases). Only the fields named in each expectedAssessment are
+ * Only the fields named in each expectedAssessment are
  * compared; for partial progress, "hasAuthoredMessage" is derived from authoredMessage.
  */
 import { expect, test } from "vitest";

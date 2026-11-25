@@ -1,11 +1,24 @@
 /**
  * Read a state's mapped SMILES into a StateGraph, with a strict parser of our own.
  *
- * Decided 2026-11-24 (SPEC section 5): the browser does not load RDKit.js; it reads only the
- * strict SMILES subset that reaction files use, and refuses anything else. The Python twin
- * (python/state_graphs/mapped_smiles_reading.py) reads the same cases with real RDKit, so the
- * shared fixtures (fixtures/state_graphs/mapped_smiles_cases.json) check this parser against it.
- * The accepted subset and the error codes are listed in that Python module's docstring.
+ * Decided 2026-11-24 (SPEC §5): the browser does not load RDKit.js; it reads only the strict
+ * SMILES subset that reaction files use, and refuses anything else. The shared cases in
+ * fixtures/state_graphs/mapped_smiles_cases.json fix the graphs it gives, and
+ * chemistryToolkit/strictReaderAgreement.test.ts checks this reader against RDKit.
+ *
+ * Accepted SMILES (the strict subset used by reaction files)
+ *   every atom in brackets with a map number ([CH3:2], [H:4], [O-:1]); Kekulé bonds (-, =, #);
+ *   branches, ring closures and "." between molecules. Bond orders and hydrogen counts are taken
+ *   exactly as written (a Kekulé ring is not re-perceived as aromatic).
+ *
+ * Error codes (MappedSmilesError.errorCode)
+ *   malformed-smiles            not readable SMILES (or empty)
+ *   unmapped-atom               an atom has no map number (including atoms without brackets)
+ *   aromatic-notation           lower-case aromatic atoms or ":" aromatic bonds
+ *   unsupported-smiles-feature  isotopes, stereo marks (@, /, \), "*" atoms, "$" bonds
+ *   duplicate-map-number        one map number used for two atoms
+ *   unsupported-element         an element without an entry in ELEMENT_TO_VALENCE_ELECTRONS
+ *   impossible-electron-count   more bonds, hydrogens and charge than valence electrons allow
  */
 import {
   bondKey,
@@ -98,7 +111,7 @@ function chargeValue(chargeText: string | undefined): number {
 }
 
 /**
- * The first problem with a matched bracket atom, checked in the same order as the Python twin:
+ * The first problem with a matched bracket atom, checked in this order:
  * isotope, "*" or "@" marks; aromatic (lower-case) symbol; no map number; unknown element.
  */
 function bracketAtomProblem(

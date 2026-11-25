@@ -1,6 +1,6 @@
 /**
  * Tests for arrowPatterns.ts against the shared cases in
- * fixtures/assessment/arrow_pattern_cases.json (the Python twin runs the same cases); every pattern
+ * fixtures/assessment/arrow_pattern_cases.json; every pattern
  * in the example reactions must parse.
  */
 import { expect, test } from "vitest";

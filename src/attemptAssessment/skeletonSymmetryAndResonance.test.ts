@@ -1,6 +1,6 @@
 /**
  * Tests for skeletonSymmetry.ts and resonanceEquivalence.ts against the shared cases in
- * fixtures/assessment (the Python twins run the same cases).
+ * fixtures/assessment.
  */
 import { expect, test } from "vitest";
 import { formatCurvedArrow, parseCurvedArrow } from "../arrowNotation/curvedArrowNotation.js";
@@ -8,7 +8,12 @@ import { stateGraphFromMappedSmiles } from "../stateGraphs/mappedSmilesReading.j
 import { stateGraphToJson } from "../stateGraphs/stateGraph.js";
 import { fixtureCaseEntries, textField } from "../testSupport/fixtureFiles.js";
 import { chargedAtomCount, compareStates } from "./resonanceEquivalence.js";
-import { relabelCurvedArrow, relabelStateGraph, skeletonSymmetries } from "./skeletonSymmetry.js";
+import {
+  relabelCurvedArrow,
+  relabelStateGraph,
+  skeletonSymmetries,
+  skeletonSymmetriesWithinCap,
+} from "./skeletonSymmetry.js";
 
 const symmetryCases = fixtureCaseEntries("assessment/skeleton_symmetry_cases.json", "cases").map(
   (entry) => ({
@@ -46,6 +51,12 @@ test("the identity comes first and every symmetry is a bijection", () => {
 
 test("above the cap only the identity is returned", () => {
   expect(skeletonSymmetries(stateGraphFromMappedSmiles(benzene), 5)).toEqual([benzeneIdentity]);
+});
+
+test("within the cap every symmetry is returned; above it, undefined", () => {
+  const graph = stateGraphFromMappedSmiles(benzene);
+  expect(skeletonSymmetriesWithinCap(graph, 12)).toHaveLength(12);
+  expect(skeletonSymmetriesWithinCap(graph, 11)).toBeUndefined();
 });
 
 test("relabelStateGraph moves electrons and bonds with the atoms", () => {

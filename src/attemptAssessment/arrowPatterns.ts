@@ -1,8 +1,26 @@
 /**
  * Misconception arrow patterns: parse them, and match them against a learner's arrows.
  *
- * The TypeScript twin of python/attempt_assessment/arrow_patterns.py, whose docstring gives the
- * grammar and the matching rules. Both pass fixtures/assessment/arrow_pattern_cases.json.
+ * Grammar (docs/schema-design.md §5.2)
+ *   arrowPattern        := singleArrowPattern ( ";" singleArrowPattern )*
+ *   singleArrowPattern  := sourcePattern ( "->" | "~>" | "*>" ) destinationPattern
+ *   sourcePattern       := "*" | locusKind atomSelector | locusKind atomSelector "-" atomSelector
+ *   destinationPattern  := a source-style locus pattern, or a bare atomSelector
+ *   locusKind           := lp | rad | σ | sigma | π | pi | bond | *
+ *   atomSelector        := O1 | O* | @roleName | *
+ * "->" matches pair arrows, "~>" fish-hooks, "*>" either. "bond" means σ or π. A "*" kind with
+ * one atom means a lone pair or unpaired electron on it; with two atoms, any bond between them.
+ * "@roleName" means any atom listed for that role in atomRoleToMapNumbers.
+ *
+ * Matching
+ *   A bare atom destination ("lp O1 -> Br3") matches when the electrons end on that atom (a lone
+ *   pair or unpaired electron there) or form a bond to it from a different atom ("σ O1-Br3",
+ *   "π O1-Br3"). Bond atoms match in either order. A pattern matches a set of learner arrows when
+ *   each of its single-arrow patterns is matched by some learner arrow (other arrows may be
+ *   present too). Symmetry is applied by the caller.
+ *
+ * Error codes (ArrowPatternError.errorCode): malformed-arrow-pattern, unknown-atom-role.
+ * The shared cases in fixtures/assessment/arrow_pattern_cases.json fix the behaviour.
  */
 import type {
   AtomLabel,
@@ -35,7 +53,7 @@ const LOCUS_KIND_TO_ACCEPTING_WORDS: Readonly<Record<LocusKind, ReadonlySet<stri
 };
 const ATOM_SELECTOR_PATTERN =
   /^(?:(?<element>[A-Z][a-z]?)(?<mapNumber>[1-9][0-9]*|\*)|@(?<role>[a-z][A-Za-z0-9]*)|\*)$/u;
-const BARE_ATOM_KIND_WORD = "atom";
+export const BARE_ATOM_KIND_WORD = "atom";
 
 type RoleTable = Readonly<Record<string, readonly number[]>>;
 

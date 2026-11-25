@@ -1,9 +1,42 @@
 /**
  * Apply the curved arrows of one step to a state, or a change step's added and removed molecules.
  *
- * The TypeScript twin of python/state_graphs/arrow_application.py, whose module docstring says
- * how arrows move electrons and lists the generic rule ids in the order they are checked. Both
- * pass the shared cases in fixtures/state_graphs/arrow_application_cases.json.
+ * Purpose
+ *   The learner's arrows (and the author's) are checked by applying them: the result must be a
+ *   real state, and the validator then compares it with the step's to-state. The shared cases in
+ *   fixtures/state_graphs/arrow_application_cases.json fix the behaviour.
+ *
+ * How arrows move electrons (all arrows of a step are applied together)
+ *   source lp X          X loses electronsMoved nonbonding electrons
+ *   source rad X         X loses its unpaired electron (fish-hook only; the parser refuses ->)
+ *   source σ/π A-B       the A-B bond loses electronsMoved electrons
+ *   destination lp X     X gains a pair (pair arrows only)
+ *   destination rad X    X gains one nonbonding electron (fish-hook only)
+ *   destination σ/π A-B  the A-B bond gains electronsMoved electrons
+ *   A bond ends with (2 * order + electrons gained - electrons lost) electrons, which must be
+ *   even; a bond with no electrons left is removed.
+ *
+ * Generic rule ids (ArrowApplicationError.genericRuleId), checked in this order
+ *   Before applying, for each arrow in turn:
+ *   1. atom-not-in-state                   an atom label names no atom of the state (or the
+ *                                          wrong element)
+ *   2. destination-not-adjacent-to-source  source and destination share no atom
+ *   3. no-electrons-at-source              no lone pair / unpaired electron there, no such bond,
+ *                                          or a π source on a single bond
+ *   4. destination-bond-already-exists     a σ destination where the atoms are already bonded
+ *      destination-bond-missing            a π destination where the atoms are not bonded
+ *   5. fish-hook-to-lone-pair              one electron cannot become a lone pair: use rad X
+ *   After applying all arrows:
+ *   6. odd-electrons-in-bond               a bond left with an odd number of electrons
+ *   7. no-electrons-at-source              a lone pair or bond used more often than it exists
+ *   8. bond-order-above-three
+ *   9. octet-exceeded                      an atom touched by an arrow has more valence-shell
+ *                                          electrons than its period allows (2, 8, or 12)
+ *
+ * Change steps
+ *   applySpeciesChange() adds a change step's molecules (new map numbers only) and removes whole
+ *   molecules. Error codes (SpeciesChangeError.errorCode): added-map-number-in-use,
+ *   removed-map-number-absent.
  */
 import {
   type CurvedArrow,

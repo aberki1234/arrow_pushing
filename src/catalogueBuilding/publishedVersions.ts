@@ -1,0 +1,118 @@
+/**
+ * Read the published reaction files a build starts from; refuse any not fit to publish.
+ *
+ * Terms
+ *   published version  One reaction file given to the build: its slug, version, parsed document
+ *                      and content hash (staticFileNaming).
+ * Steps
+ *   1. readPublishedVersion() reads one file, lints it (reactionLinting) and refuses it on any lint
+ *      error; lint warnings are returned for the command line to print.
+ *   2. checkVersionNumbering() refuses a slug/version given twice and a slug whose versions are
+ *      not exactly 1..n.
+ */
+import { readFileSync } from "node:fs";
+import type { ChemistryToolkit } from "../chemistryToolkit/chemistryToolkit.js";
+import type { LintFinding } from "../reactionLinting/lintFindings.js";
+import { lintReaction } from "../reactionLinting/reactionLint.js";
+import { CatalogueBuildError } from "./catalogueBuildErrors.js";
+import { contentHashOf, reactionVersionRef } from "./staticFileNaming.js";
+
+export interface PublishedVersion {
+  readonly reactionSlug: string;
+  readonly reactionVersion: number;
+  readonly reactionDocument: Readonly<Record<string, unknown>>;
+  readonly contentHash: string;
+  readonly sourcePath: string;
+}
+
+function isRecord(value: unknown): value is Record<string, unknown> {
+  return typeof value === "object" && value !== null && !Array.isArray(value);
+}
+
+function readReactionFile(reactionPath: string): Record<string, unknown> {
+  let document: unknown;
+  try {
+    document = JSON.parse(readFileSync(reactionPath, "utf-8"));
+  } catch (error) {
+    const reason = error instanceof Error ? error.message : String(error);
+    throw new CatalogueBuildError("reaction-file-not-readable", `${reactionPath}: ${reason}`);
+  }
+  if (!isRecord(document)) {
+    throw new CatalogueBuildError(
+      "reaction-file-not-readable",
+      `${reactionPath}: the file does not hold a JSON object`,
+    );
+  }
+  return document;
+}
+
+function findingLine(finding: LintFinding): string {
+  return `${finding.lintRuleId} at ${finding.instancePath || "/"}: ${finding.message}`;
+}
+
+/**
+ * The file as a published version, and its lint warnings. Throws CatalogueBuildError
+ * reaction-file-not-readable or reaction-file-has-lint-errors (listing every error).
+ */
+export function readPublishedVersion(
+  reactionPath: string,
+  toolkit: Pick<ChemistryToolkit, "readAtoms">,
+): { publishedVersion: PublishedVersion; lintWarnings: LintFinding[] } {
+  const reactionDocument = readReactionFile(reactionPath);
+  const lintFindings = lintReaction(reactionDocument, toolkit);
+  const lintErrors = lintFindings.filter((finding) => finding.lintLevel === "error");
+  if (lintErrors.length > 0) {
+    throw new CatalogueBuildError(
+      "reaction-file-has-lint-errors",
+      `${reactionPath}: ${lintErrors.map(findingLine).join("; ")}`,
+    );
+  }
+  // The lint passed, so the schema holds: the slug is text and the version a number.
+  const publishedVersion: PublishedVersion = {
+    reactionSlug: String(reactionDocument.reactionSlug),
+    reactionVersion: Number(reactionDocument.reactionVersion),
+    reactionDocument,
+    contentHash: contentHashOf(reactionDocument),
+    sourcePath: reactionPath,
+  };
+  return { publishedVersion, lintWarnings: lintFindings };
+}
+
+/**
+ * Throws CatalogueBuildError reaction-version-duplicated or reaction-versions-not-consecutive (a
+ * slug's versions must be exactly 1..n).
+ */
+export function checkVersionNumbering(publishedVersions: readonly PublishedVersion[]): void {
+  const slugToVersions = new Map<string, PublishedVersion[]>();
+  for (const version of publishedVersions) {
+    slugToVersions.set(version.reactionSlug, [
+      ...(slugToVersions.get(version.reactionSlug) ?? []),
+      version,
+    ]);
+  }
+  for (const [reactionSlug, slugVersions] of [...slugToVersions].sort(([first], [second]) =>
+    first < second ? -1 : 1,
+  )) {
+    const versionNumbers = slugVersions
+      .map((version) => version.reactionVersion)
+      .sort((first, second) => first - second);
+    const duplicated = versionNumbers.find((number, index) => number === versionNumbers[index + 1]);
+    if (duplicated !== undefined) {
+      const duplicatedPaths = slugVersions
+        .filter((version) => version.reactionVersion === duplicated)
+        .map((version) => version.sourcePath);
+      const duplicatedRef = reactionVersionRef(reactionSlug, duplicated);
+      throw new CatalogueBuildError(
+        "reaction-version-duplicated",
+        `${duplicatedRef} is given twice: ${duplicatedPaths.join(", ")}`,
+      );
+    }
+    if (versionNumbers.some((number, index) => number !== index + 1)) {
+      throw new CatalogueBuildError(
+        "reaction-versions-not-consecutive",
+        `${reactionSlug} has versions [${versionNumbers.join(", ")}]; they must be 1 to ` +
+          `${String(versionNumbers.length)} with none missing`,
+      );
+    }
+  }
+}

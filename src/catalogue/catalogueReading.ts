@@ -2,7 +2,7 @@
  * Reading catalogue.json in the learner site: today's daily puzzle and where a reaction
  * version's static file is.
  *
- * catalogue.json is written by the catalogue build (python/catalogue_building) and has the shape
+ * catalogue.json is written by the catalogue build (src/catalogueBuilding) and has the shape
  * of schema/catalogue.schema.json; docs/schema-design.md section 6.
  *
  * Terms
@@ -41,7 +41,7 @@ const CONTENT_HASH_CHARACTERS_IN_FILE_NAME = 8;
 // The slug pattern of docs/schema-design.md section 1, then "@" and a version from 1.
 const reactionVersionRefPattern = /^([a-z0-9]+(?:-[a-z0-9]+)*)@([1-9][0-9]*)$/;
 
-// allErrors: report every violation, not only the first, as the Python build does.
+// allErrors: report every violation, not only the first.
 const validateCatalogue = new Ajv2020({ allErrors: true }).compile(catalogueSchemaJson);
 
 /** Every schema violation in the document, sorted by instance path; empty if it is valid. */

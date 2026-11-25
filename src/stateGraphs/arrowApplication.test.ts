@@ -1,8 +1,8 @@
 /**
  * Tests for arrowApplication.ts. The shared cases in
- * fixtures/state_graphs/arrow_application_cases.json are the reference (the Python tests run them
- * too). The strongest check is that every step of the four example reactions, applied to its
- * from-state, gives exactly its to-state.
+ * fixtures/state_graphs/arrow_application_cases.json are the reference. The strongest check is
+ * that every step of the four example reactions, applied to its from-state, gives exactly its
+ * to-state.
  */
 import { expect, test } from "vitest";
 import { parseCurvedArrow } from "../arrowNotation/curvedArrowNotation.js";

@@ -1,8 +1,8 @@
 /**
  * Tests for curvedArrowNotation.ts.
  *
- * The shared cases in fixtures/notation/curved_arrows.json are the reference; the Python tests run
- * the same cases. Every arrow written in the example reactions must parse.
+ * The shared cases in fixtures/notation/curved_arrows.json are the reference. Every arrow written
+ * in the example reactions must parse.
  */
 import { readdirSync, readFileSync } from "node:fs";
 import { expect, test } from "vitest";

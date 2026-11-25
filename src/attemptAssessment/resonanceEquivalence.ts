@@ -1,8 +1,21 @@
 /**
  * Compare a learner's result state with a target state, accepting resonance forms (decision Q1).
  *
- * The TypeScript twin of python/attempt_assessment/resonance_equivalence.py, whose docstring
- * states the rule and why no list of resonance forms is needed.
+ * Rule (docs/schema-design.md §4, point 4)
+ *   Two drawings are resonance forms of each other when everything that π and lone-pair arrows
+ *   cannot change is the same: the atoms with their elements and hydrogen counts, which pairs are
+ *   σ-bonded, and each molecule's charge and unpaired electrons. Bond orders, lone pairs and the
+ *   charges of single atoms may differ. Both drawings already passed the octet check, so the
+ *   electrons that differ can only move through conjugated atoms: no list of forms is needed, and
+ *   the check is one pass over atoms and bonds.
+ *   A form with more charged atoms than the target (e.g. C+ next to O- instead of C=O) is a
+ *   minor, charge-separated form: the learner is shown it is not the drawing wanted.
+ *
+ * Comparisons (StateComparison)
+ *   identical           the same drawing
+ *   resonanceForm       another resonance form, with no more charged atoms
+ *   minorResonanceForm  a resonance form with more charged atoms than the target
+ *   different           not a resonance form of the target
  */
 import {
   bondKeyMapNumbers,

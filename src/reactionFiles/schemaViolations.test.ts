@@ -2,8 +2,8 @@
  * Tests for schemaViolations.ts.
  *
  * The valid documents are the example reactions in fixtures/reactions. The invalid ones are made
- * from them by the shared edits in fixtures/schema_cases/invalid_edits.json, which the Python tests
- * run too, so both validators must report the same instance paths.
+ * from them by the shared edits in fixtures/schema_cases/invalid_edits.json, each with the instance
+ * path that must be reported.
  *
  * The helpers check types at run time instead of casting, so a malformed fixture fails with a
  * message naming the problem rather than silently editing the wrong place.
@@ -11,7 +11,7 @@
 import { readdirSync, readFileSync } from "node:fs";
 import { Ajv2020 } from "ajv/dist/2020.js";
 import { expect, test } from "vitest";
-import { reactionSchema, schemaViolations } from "./schemaViolations.js";
+import { jsonPointer, reactionSchema, schemaViolations } from "./schemaViolations.js";
 
 /** Any value JSON can hold. Mutable, because an edit changes a copy of a parsed document. */
 type JsonValue = null | boolean | number | string | JsonValue[] | JsonObject;
@@ -143,7 +143,7 @@ function changeChild(
   newValue: JsonValue | undefined,
 ): void {
   if (Array.isArray(container) && typeof keyOrPosition === "number") {
-    // splice removes the position and shifts later items down, as Python's `del items[i]` does.
+    // splice removes the position and shifts later items down.
     if (newValue === undefined) {
       container.splice(keyOrPosition, 1);
     } else {
@@ -239,4 +239,10 @@ test("violations are sorted by instance path and each has a message", () => {
   expect(reportedPaths).toEqual([...reportedPaths].sort());
   expect(reportedPaths).toEqual(expect.arrayContaining(["/difficultyTier", "/licence"]));
   expect(violations.every((violation) => violation.message.length > 0)).toBe(true);
+});
+
+test("a JSON pointer joins keys and positions, escaping ~ and / inside a key (RFC 6901)", () => {
+  expect(jsonPointer(["steps", 0, "routePreference"])).toBe("/steps/0/routePreference");
+  expect(jsonPointer(["a/b", "c~d"])).toBe("/a~1b/c~0d");
+  expect(jsonPointer([])).toBe("");
 });
