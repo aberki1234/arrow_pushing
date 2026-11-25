@@ -18,6 +18,8 @@ const layersLowestFirst = [
   "learnerStatistics",
   "siteData",
   "learnerSite",
+  "reactionEditor",
+  "editorFileServer",
 ];
 
 const layerRules = layersLowestFirst.slice(0, -1).map((layer, position) => ({
@@ -46,7 +48,10 @@ module.exports = {
         "The learner site stays small and static: RDKit.js, the linter and the catalogue build " +
         "(Node tools, later the editor) must not be reachable from its entry point.",
       from: { path: "^src/learnerSite/main\\.ts$" },
-      to: { path: "^src/(chemistryToolkit|reactionLinting|catalogueBuilding)/", reachable: true },
+      to: {
+        path: "^src/(chemistryToolkit|reactionLinting|catalogueBuilding|reactionEditing|reactionEditor|editorFileServer)/",
+        reachable: true,
+      },
     },
     {
       name: "test-support-only-in-tests",

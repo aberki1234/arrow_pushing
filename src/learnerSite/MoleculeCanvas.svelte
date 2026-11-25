@@ -2,6 +2,8 @@
   // Renders one state drawing (moleculeDrawing/stateDrawing.ts) as SVG: bonds, atom labels,
   // electron dots, annotations, curved arrows, and the pick targets the learner taps or reaches
   // with Tab and Enter. The "which atom forms the bond?" menu opens beside the tapped atom.
+  // The editor may pass an `overlay` (its drag and show-H handles), drawn on top.
+  import type { Snippet } from "svelte";
   import type { DrawnCurvedArrow } from "../moleculeDrawing/curvedArrowGeometry.js";
   import {
     type PickTarget,
@@ -19,6 +21,7 @@
     onPick,
     onChoose,
     onCancelChoice,
+    overlay,
   }: {
     drawing: StateDrawing;
     arrows: readonly { drawn: DrawnCurvedArrow; arrowClass: string }[];
@@ -28,6 +31,7 @@
     onPick: (target: PickTarget) => void;
     onChoose: (optionIndex: number) => void;
     onCancelChoice: () => void;
+    overlay?: Snippet;
   } = $props();
 
   // Drawing sizes, in pixels.
@@ -259,4 +263,6 @@
       {/each}
     </g>
   {/if}
+
+  {@render overlay?.()}
 </svg>

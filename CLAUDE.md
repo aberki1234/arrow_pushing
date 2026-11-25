@@ -27,8 +27,12 @@ Do not change agreed decisions without asking; update `docs/SPEC.md` and `docs/s
   build`; `make catalogue`), `moleculeDrawing/` (state → SVG primitives and pick targets, curved-arrow
   geometry), `stepSession/` (taps → arrows, a run through a reaction, scoring, snapshots, feedback text),
   `learnerProgress/` (`localStorage` progress, export / import), `dailyPuzzle/` (today's puzzle, streak, share text),
-  `learnerStatistics/` (mastery, history, recurring feedback, the practice list), `siteData/` (loading the
-  catalogue and reaction files), `learnerSite/` (Svelte 5 + Vite app; `make site` → `build/site/`, `make dev`).
+  `learnerStatistics/` (mastery, history, recurring feedback, the practice list), `reactionEditing/` (the editor's
+  decisions: drafts, drawn arrows → steps, change steps, show H, regeneration, deletion, undo, the mechanism outline,
+  Play as learner), `siteData/` (loading the
+  catalogue and reaction files), `learnerSite/` (Svelte 5 + Vite app; `make site` → `build/site/`, `make dev`),
+  `reactionEditor/` (the editor page, Svelte; `make editor` → http://localhost:5174/, development only),
+  `editorFileServer/` (the dev server's reading and saving of `content/reactions/`).
   `testSupport/` (fixture reading for tests). Tests sit beside the code as `*.test.ts`; Svelte component tests start
   with `// @vitest-environment jsdom`. Tests that load RDKit.js get it once with `loadChemistryToolkit()` in
   `beforeAll`.

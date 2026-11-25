@@ -596,7 +596,7 @@ RDKit (RDKit.js) on every valid SMILES case and every example state (`src/chemis
      schema validator's and strict reader's own wording differs). Content hashes changed once, since canonical
      JSON now writes numbers as JavaScript does (nothing was published yet). The Python paths named in items 1–6
      above are now the `src/` folders of the same names in camelCase.
-   * **8a** Editor core (`editor.html`; logic `src/reactionEditing/`, app `src/reactionEditor/`, file plugin
+   * **8a Done 2026-11-25.** Editor core (`make editor`; logic `src/reactionEditing/`, app `src/reactionEditor/`, file plugin
      `src/editorFileServer/`). Part 1 done 2026-11-25: `stateGraphs/mappedSmilesWriting.ts` (round trip on every
      fixture and example state), `chemistryToolkit` `readStructure` and the browser wasm location,
      `reactionEditing/startState.ts` (pasted SMILES → state) and `reactionDraft.ts` (new draft, add state/step).
@@ -605,7 +605,14 @@ RDKit (RDKit.js) on every valid SMILES case and every example state (`src/chemis
      on the preferred route), `changeSteps.ts` + `atomPlacement.ts` (the aldol replays through its change step),
      `explicitHydrogens.ts` (show H; the examples still lint clean), `stateRegeneration.ts` (edit a state's mapped
      SMILES, regenerate after it; edited SN2, Wittig and aldol still lint clean), `stepDeletion.ts`,
-     `editHistory.ts`, `mechanismOutline.ts`, `atomDragging.ts`, `learnerPreview.ts`. paste SMILES, draw arrows → generated state, drag,
+     `editHistory.ts`, `mechanismOutline.ts`, `atomDragging.ts`, `learnerPreview.ts`.
+     Part 3 done 2026-11-25: `reactionEditing/arrowDrawing.ts` (taps → arrows on any state),
+     `editorFileServer/reactionFileRequests.ts` (list/read/save in `content/reactions/`; the Vite plugin is in
+     `vite.editor.config.ts`), and the page in `src/reactionEditor/` (`editorSession.ts`, `editorView.ts`,
+     `draftCreation.ts`, Svelte components reusing the learner's `MoleculeCanvas` and `StepPlay`). Checked in
+     headless Chromium: a new SN2 from SMILES, the step drawn by clicking, saved, an atom dragged, played as a
+     learner and checked correct, with no console errors. `make catalogue` still builds from `fixtures/reactions/`
+     until the first reaction is authored in `content/reactions/`. paste SMILES, draw arrows → generated state, drag,
      show H, change steps, branches and automatic joins, regenerate, undo/redo, mechanism panel, Play as learner,
      saving to `content/reactions/`.
    * **8b** Form fields, misconceptions and partial arrow sets by drawing, live lint panel.

@@ -51,6 +51,12 @@ site: catalogue
 dev:
 	npx vite
 
+# The reaction editor (src/reactionEditor), served with its reaction-file server: drafts are read
+# from and saved to content/reactions/. Development only; open http://localhost:5174/.
+.PHONY: editor
+editor:
+	npx vite --config vite.editor.config.ts
+
 .PHONY: test
 test:
 	npx vitest run

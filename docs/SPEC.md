@@ -157,7 +157,8 @@ Diels–Alder needs a concerted multi-arrow step (3 arrows) — the model must s
   The editor reuses the validator's arrow-application code.
   **Decided 2026-11-25 (item 8 grilling).** Item 8 is split: **8.0** the TypeScript port (above), **8a** editor
   core, **8b** form fields and live lint, **8c** backend.
-  - The editor is a **second Vite entry page** (`editor.html`, `make editor`), never deployed to the learner host:
+  - The editor is a **second Vite page** (`src/reactionEditor/index.html`, `make editor` on port 5174), never
+    deployed to the learner host:
     its decisions in plain TypeScript in `src/reactionEditing/`, the thin Svelte app in `src/reactionEditor/`, the
     dev-server file plugin in `src/editorFileServer/` (agreed 2026-11-25 with the 8a plan). "Play as learner" runs the unsaved document in the real step screen (practice
     mode), from the start or the selected state, once every step reproduces its to-state.

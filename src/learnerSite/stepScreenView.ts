@@ -191,7 +191,9 @@ export interface DestinationChoice {
 }
 
 /** The "which atom forms the bond?" menu while a choice is pending; otherwise null. */
-export function destinationChoice(session: StepSession): DestinationChoice | null {
+export function destinationChoice(
+  session: Pick<StepSession, "pendingDestinationOptions">,
+): DestinationChoice | null {
   const options = session.pendingDestinationOptions;
   if (options === null) {
     return null;
