@@ -18,11 +18,16 @@ services:
         value: "24"
       - key: EDITOR_FILES_FOLDER
         value: build/editor
+      # The learner site, for Create's "Back to the site" link; Vite reads it when the editor is
+      # built, so a change needs a new build.
+      - key: VITE_LEARNER_SITE_ADDRESS
+        value: https://arrowpushing.com
       - key: BETTER_AUTH_SECRET
         generateValue: true
       # Ends in ?sslmode=verify-full&sslrootcert=deploy/supabase-root-ca.crt (Supabase's root CA).
       - key: DATABASE_URL
         sync: false
+      # https://create.arrowpushing.com (Create's own address; GitHub's callback is under it).
       - key: PUBLIC_BASE_URL
         sync: false
       - key: GITHUB_CLIENT_ID

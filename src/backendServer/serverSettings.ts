@@ -7,7 +7,7 @@
  *                             ?sslmode=verify-full&sslrootcert=deploy/supabase-root-ca.crt: Node
  *                             does not trust Supabase's own root CA, so it is named here (the
  *                             file is Supabase Root 2021 CA, as the pooler presents it).
- *   PUBLIC_BASE_URL           The server's own address, e.g. "https://arrowpush.onrender.com"
+ *   PUBLIC_BASE_URL           The server's own address, "https://create.arrowpushing.com"
  *                             (GitHub sends the browser back to
  *                             <PUBLIC_BASE_URL>/api/auth/callback/github).
  *   BETTER_AUTH_SECRET        At least 32 random characters: Better Auth signs session cookies

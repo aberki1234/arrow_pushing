@@ -10,8 +10,8 @@
 #      start_new_calendar, starts a new calendar: a failed fetch never resets it.
 #   3. Build the learner app beside it and deploy build/site/ to Cloudflare Pages.
 #
-# Repository variables: BACKEND_URL (e.g. https://arrowpush.onrender.com), SITE_URL (e.g.
-# https://arrowpush.pages.dev), CLOUDFLARE_PAGES_PROJECT. Secrets: CLOUDFLARE_API_TOKEN (Pages:
+# Repository variables: BACKEND_URL (https://create.arrowpushing.com), SITE_URL
+# (https://arrowpushing.com), CLOUDFLARE_PAGES_PROJECT. Secrets: CLOUDFLARE_API_TOKEN (Pages:
 # Edit), CLOUDFLARE_ACCOUNT_ID.
 name: Deploy the learner site
 
