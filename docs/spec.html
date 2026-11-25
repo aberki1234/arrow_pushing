@@ -89,16 +89,28 @@
     <h2 id="architecture">5 · Architecture</h2>
     <table><thead><tr><th>Area</th><th>Decision</th></tr></thead><tbody>
       <tr><td>Validator</td><td>Runs <b>in the browser</b>: our own arrow-application layer, as a separate module so a Python/synkit validator stays possible later. <b>Decided 2026-11-24:</b> the browser reads state SMILES with our own <b>strict mapped-SMILES parser</b> (every atom bracketed and mapped, Kekulé, no aromatic atoms) instead of loading RDKit.js. Python builds the same graph with real RDKit, and shared test cases require the two to agree. RDKit.js remains an option for later editor needs.</td></tr>
+      <tr><td>One implementation</td><td><b>Decided 2026-11-25</b> (item 8 grilling): the chemistry logic, the reaction linter and the catalogue build exist <b>once, in TypeScript</b>, so the editor, linter and learner site can never disagree. The linter and catalogue build become Node command-line tools; <b>RDKit.js</b> (RDKit compiled to WebAssembly) reads ordinary SMILES, seeds coordinates and checks atoms. It loads only in the editor and the tools, never on the learner site, which keeps its own strict reader (tests compare the two). Once ported (<b>item 8.0</b>) the Python code is deleted.</td></tr>
       <tr><td>Daily mode</td><td><b>Built</b> (item 7b). Each step is worth 3 points, minus 1 per wrong check or hint. After 3 wrong checks the step is <b>missed</b> (🟥): the answer is shown dashed and the puzzle carries on. The name stays hidden until the end. An unfinished puzzle is saved after every check and picked up again after a reload. The finished view shows the tiles, points, step by step, the mechanism and the authors, with a <b>Copy</b> button for <code>ArrowPush #142 🟩🟨🟥 5/9</code> and the streak.</td></tr>
       <tr><td>Home, practice, progress</td><td><b>Built</b> (item 7c). <b>Mastery</b> of a reaction is the score of your most recent run in either mode (100% = mastered); a new version does not reset it. The <b>practice</b> list filters by type, difficulty and status and searches by name. The <b>progress</b> page shows streaks, the first-try rate this week, the last 28 days of dailies, mastery by type, your most frequent misconceptions with their messages, the reactions weakest first, and <b>export / import / reset</b>. The finished view adds “Watch out for” and related reactions.</td></tr>
       <tr><td>Learner site</td><td><b>Static</b>, hosted on a CDN. Progress in <code>localStorage</code> with export/import. <b>No learner accounts in v1.</b></td></tr>
       <tr><td>Rendering</td><td>Our own SVG layer with <b>precomputed 2D coordinates per state</b> (seeded from RDKit, hand-adjusted, stored in content). Avoids layout jumping between steps.</td></tr>
       <tr><td>Learner site</td><td><b>Svelte 5 + Vite, no SvelteKit</b> (decided 2026-11-25): a static single-page app reading <code>catalogue.json</code> and the reaction files. The logic lives in plain TypeScript modules tested first; the components only display it. Item 7 is split into <b>7a</b> step screen in practice mode (<b>built</b>), <b>7b</b> daily mode, completion page and saved progress, <b>7c</b> home, practice list and progress page.</td></tr>
       <tr><td>Content</td><td><b>One JSON file per reaction version</b> (<a href="schema-design.html">schema-design.html</a>): metadata; a graph of states (atom-mapped SMILES, coordinates, learner prompt, 3 hint tiers, misconceptions) joined by steps (canonical arrows, route preference, optional partial arrow sets, explanation); mechanism summary; version, author, licence.</td></tr>
-      <tr><td>Dev tooling</td><td>Python CLI linter: arrows applied to each state must reproduce the next; seeds coordinates. The JS validator and Python linter <b>share test fixtures</b> so they can’t drift. <b>Built</b> (item 5): <code>python -m reaction_linting</code>; rules in the schema design §3.5.</td></tr>
-      <tr><td>Catalogue build</td><td><b>Built</b> (item 6): <code>python -m catalogue_building build</code> writes <code>catalogue.json</code> (with the daily calendar) and one content-hashed file per reaction version. The calendar never changes a date it already has, is filled in whole cycles 60 days ahead, and the daily puzzle follows the <b>learner's local date</b>. Rules in the schema design §6.</td></tr>
-      <tr><td>Editor</td><td><b>Visual editor from the start.</b> Embedded sketcher (e.g. Ketcher) for <i>initial structures only</i>; our own SVG layer for arrows, lone pairs and charges. Applying arrows generates the next state; layout is tidied by dragging; hints, misconceptions, route preference and partial arrow sets are form fields; “Play as learner” runs the real learner code; a live lint panel (✕ blocks submission, ⚠ is advice).</td></tr>
-      <tr><td>Stack</td><td><b>TypeScript + Svelte</b> frontend; <b>FastAPI + Postgres</b> (reaction as a JSONB document, version table, status column) for the editor and submissions only; learner site built from published JSON on a static host such as Cloudflare Pages.</td></tr>
+      <tr><td>Dev tooling</td><td><i>Being ported to TypeScript in item 8.0.</i> Python CLI linter: arrows applied to each state must reproduce the next; seeds coordinates. The JS validator and Python linter <b>share test fixtures</b> so they can’t drift. <b>Built</b> (item 5): <code>python -m reaction_linting</code>; rules in the schema design §3.5.</td></tr>
+      <tr><td>Catalogue build</td><td><b>Built</b> (item 6; being ported to TypeScript in item 8.0): <code>python -m catalogue_building build</code> writes <code>catalogue.json</code> (with the daily calendar) and one content-hashed file per reaction version. The calendar never changes a date it already has, is filled in whole cycles 60 days ahead, and the daily puzzle follows the <b>learner's local date</b>. Rules in the schema design §6.</td></tr>
+      <tr><td>Editor</td><td><b>Visual editor from the start.</b> Embedded sketcher (e.g. Ketcher) for <i>initial structures only</i>; our own SVG layer for arrows, lone pairs and charges. Applying arrows generates the next state; layout is tidied by dragging; hints, misconceptions, route preference and partial arrow sets are form fields; “Play as learner” runs the real learner code; a live lint panel (✕ blocks submission, ⚠ is advice).
+        <p><b>Decided 2026-11-25</b> (item 8 grilling). Item 8 is split into <b>8.0</b> the TypeScript port, <b>8a</b> editor core, <b>8b</b> form fields and live lint, <b>8c</b> backend.</p>
+        <ul>
+          <li>A second page in the same project (<code>editor.html</code>, <code>make editor</code>), never put on the learner host. <b>Play as learner</b> runs the unsaved reaction in the real step screen, from the start or any state, once every step reproduces.</li>
+          <li>Until 8c, reactions live in <code>content/reactions/</code> and the editor saves there while <code>make editor</code> runs (Download / Open file also work). Git keeps the history.</li>
+          <li><b>Start structure:</b> paste SMILES (aromatic is fine); it is kekulized and atoms numbered automatically. <b>Ketcher comes later.</b></li>
+          <li>A generated state <b>keeps every atom where it was</b>; you tidy by dragging. A result identical to an existing state <b>joins it automatically</b>.</li>
+          <li><b>Show H</b> on any atom makes one hydrogen tappable, in every state containing that atom.</li>
+          <li>After changing an earlier state, <b>regenerate the states after this one</b> on request; steps that no longer work are listed and left alone.</li>
+          <li>Undo/redo; deleting a step removes states left unreachable after a confirm. The mechanism panel lists the preferred route with branches indented under their state.</li>
+          <li><b>8a</b>: structures and the mechanism. <b>8b</b>: every text field and metadata, annotations, spectators, abbreviated groups, wedges, and the <b>live lint panel</b> (runs about 300 ms after each edit; click a finding to jump to it). Misconceptions and partial arrow sets are <b>added by drawing them</b>. Hand-placed lone pairs wait for v2.</li>
+        </ul></td></tr>
+      <tr><td>Stack</td><td><b>TypeScript + Svelte</b> frontend; <b>TypeScript on Node + Postgres</b> (decided 2026-11-25, replacing FastAPI; reaction as a JSONB document, version table, status column) for the editor and submissions only; learner site built from published JSON on a static host such as Cloudflare Pages.</td></tr>
     </tbody></table>
 
     <h2 id="community">6 · Community content &amp; moderation</h2>
@@ -125,7 +137,7 @@
     <p class="muted">Validation in the mockups is hard-coded in <code>mockups/scenes.js</code>, which previews the shape of the future content. Checked in headless Chromium with no console errors.</p>
 
     <h2 id="process">8 · Process</h2>
-    <ul><li>Your global protocol is <b>strict TDD</b>: plan (stubs and test cases) → stubs and tests (pytest for Python, Vitest or Jest for TS) → red run → minimal implementation → refactor, and no “done” until 0 failures. It applies to the <b>real build</b> (validator, schema, linter), not the throwaway sketches.</li>
+    <ul><li>Your global protocol is <b>strict TDD</b>: plan (stubs and test cases) → stubs and tests (Vitest; pytest only until item 8.0 removes Python) → red run → minimal implementation → refactor, and no “done” until 0 failures. It applies to the <b>real build</b> (validator, schema, linter), not the throwaway sketches.</li>
       <li><b>Naming standard</b> (2026-11-24): every name must be unambiguous to someone new to that part of the code. The reference level is <code>eyring.py</code> in <code>aberki1234/eyring-uncertainty</code> and RetrosynthWeb's <code>transform_proposals</code>. The rules are in the project <code>CLAUDE.md</code>, and terms are fixed in <a href="schema-design.html#terms">schema-design §0</a>.</li>
       <li><b>Lint and complexity checks</b> (2026-11-24), the same as RetrosynthWeb's:
         <ul>
@@ -134,15 +146,16 @@
           <li>functions of at most 50 lines, files of at most 500 lines, and dataclasses of at most 6 fields;</li>
           <li>import layers with no cycles.</li>
         </ul>
-        Run them with <code>make lint</code>, <code>make test</code> or <code>make check</code>. The TypeScript side has the same limits in ESLint, and Prettier lays out the code at 100 characters per line (<code>make format</code>; <code>make lint</code> checks it).</li>
+        Run them with <code>make lint</code>, <code>make test</code> or <code>make check</code>. The TypeScript side has the same limits in ESLint, and Prettier lays out the code at 100 characters per line (<code>make format</code>; <code>make lint</code> checks it). After item 8.0 only the TypeScript checks remain.</li>
       <li>Documents meant for you to read are written as <b>HTML</b>.</li></ul>
 
     <h2 id="open">9 · Still open</h2>
     <ul>
       <li>The <b>JSON schema</b>, <b>Postgres schema</b> and misconception pattern syntax are in <a href="schema-design.html">schema-design.html</a> and “mostly fine” per you. The decisions in §4 are settled; details may still be refined.</li>
       <li>Final product name, branding and domain.</li>
-      <li>Hosting specifics, OAuth providers, reviewer roles beyond you.</li>
+      <li>Hosting specifics, OAuth providers, reviewer roles beyond you, the backend framework and how publishing starts the site build: settled in a short grilling when item 8c starts.</li>
       <li>Which reactions beyond the list above, and the order of authoring the first content set.</li>
+      <li><b>Problem sets</b> (to scope after item 8, added 2026-11-25): sets of reactions that teach one chemistry concept (e.g. Zaitsev’s rule, kinetic versus thermodynamic enolates), so learners can practise that concept. Not scoped yet: the format, how sets are authored and shown, and how they relate to the catalogue are all open.</li>
       <li><b>Deferred:</b> whole-mechanism mode, stereo validation, learner accounts/leaderboards/sync, visual-editor polish, synkit-assisted drafting.</li>
     </ul>
   </main>

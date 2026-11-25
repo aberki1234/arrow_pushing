@@ -98,6 +98,14 @@ Diels–Alder needs a concerted multi-arrow step (3 arrows) — the model must s
   validator remains possible later). **Decided 2026-11-24 (build item 3):** the browser reads state SMILES with our own
   **strict mapped-SMILES parser** (every atom bracketed and mapped, Kekulé, no aromatic atoms), not RDKit.js; Python builds
   the same graph with real RDKit and shared fixtures require identical graphs. RDKit.js stays an option for later editor needs. Learner site is **static** (CDN-hostable).
+- **One implementation, in TypeScript (decided 2026-11-25, item 8 grilling; replaces "Python builds the same
+  graph with real RDKit" above and the Python linter below).** The chemistry logic (arrow notation, state graphs,
+  attempt assessment), the reaction linter and the catalogue build exist **once, in TypeScript**. The linter and
+  catalogue build run as Node command-line tools. **RDKit.js** (the official WebAssembly build) does what Python
+  RDKit did: reading ordinary SMILES, 2D coordinate seeding, the state atom checks. It loads only in the editor and
+  the Node tools, **never on the learner site**, which keeps its strict mapped-SMILES parser. Tests compare that
+  parser with RDKit.js on the shared fixtures. After the port (build item **8.0**) the Python packages, `tools/*.py`
+  and pytest are deleted; the conda environment stays only to provide Node.
 - **Rendering:** structures drawn in our own **SVG layer** using **precomputed 2D coordinates per state** (seed from RDKit,
   hand-adjust; stored in content). RDKit is for chemistry, not layout. Avoids layout reshuffles between steps.
 - **Learner site (decided 2026-11-25):** **Svelte 5 + Vite, no SvelteKit**: a static single-page app with hash routes
@@ -129,10 +137,10 @@ Diels–Alder needs a concerted multi-arrow step (3 arrows) — the model must s
 - **Content format:** **one JSON file per reaction version** (schema: `docs/schema-design.md`). Per reaction: metadata, a graph of
   states (atom-mapped SMILES + coordinates, learner prompt, 3 hint tiers, misconceptions) joined by steps (canonical
   arrows, route preference, optional partial arrow sets, explanation), mechanism summary, version, author, licence.
-- **Dev tooling:** a Python CLI linter checks that arrows applied to each state reproduce the next one and seeds
+- **Dev tooling:** (ported to TypeScript in item 8.0, see above) a Python CLI linter checks that arrows applied to each state reproduce the next one and seeds
   coordinates from RDKit. **The JS validator and Python linter share the same test fixtures** (cannot drift apart).
   Built (item 5, 2026-11-24): `python/reaction_linting/`, rules and ids in `docs/schema-design.md` §3.5.
-- **Catalogue build** (item 6, built 2026-11-25): `python/catalogue_building/` turns published reaction files into
+- **Catalogue build** (item 6, built 2026-11-25; ported to TypeScript in item 8.0): `python/catalogue_building/` turns published reaction files into
   `catalogue.json` (with the daily calendar) and content-hashed reaction files; the browser reads it with
   `src/catalogue/`. The calendar is frozen and append-only, filled in whole cycles 60 days ahead, and the daily
   puzzle follows the **learner's local date**. Rules: `docs/schema-design.md` §6.
@@ -144,7 +152,39 @@ Diels–Alder needs a concerted multi-arrow step (3 arrows) — the model must s
   5. "Play as learner" preview runs the **same code** as the learner screen;
   6. live lint panel (✕ blocks submission, ⚠ is advice).
   The editor reuses the validator's arrow-application code.
-- **Backend (for editor/submissions only):** **TypeScript + Svelte** frontend; **FastAPI + Postgres** (reaction as JSONB
+  **Decided 2026-11-25 (item 8 grilling).** Item 8 is split: **8.0** the TypeScript port (above), **8a** editor
+  core, **8b** form fields and live lint, **8c** backend.
+  - The editor is a **second Vite entry page** (`editor.html`, `src/reactionEditor/`, `make editor`), never
+    deployed to the learner host. "Play as learner" runs the unsaved document in the real step screen (practice
+    mode), from the start or the selected state, once every step reproduces its to-state.
+  - Until 8c, authored reactions live in **`content/reactions/`** (the test examples stay in `fixtures/reactions/`);
+    the catalogue build reads from there. A Vite dev-server plugin lists, opens and saves files there; Download /
+    Open file also work without it. Git is the version history.
+  - **Start state:** paste any SMILES RDKit.js reads (aromatic, charges, radicals); it is kekulized and heavy
+    atoms are numbered 1…n in SMILES order; hydrogens stay implicit. **Ketcher is deferred** (later in item 8 or v2).
+  - **Generated states keep every atom's coordinates** from the from-state; atoms added by a change step get
+    RDKit.js coordinates clear of the others. The author tidies by dragging.
+  - A result **identical** to an existing state (up to skeleton symmetry) **joins it automatically** ("joins state
+    X"); a resonance form of one is a lint error, not a join.
+  - **"Show H"** on any atom of any state turns one implicit H into a mapped H, spread to every state containing
+    that atom.
+  - States stay stored in full. After changing an earlier state, **"regenerate the states after this one"** (on
+    request only) reapplies later steps' canonical arrows, keeps coordinates of atoms still present, and lists the
+    steps whose arrows no longer apply, leaving their states unchanged.
+  - **Undo/redo** over every edit; deleting a step also deletes states left unreachable, after a confirm naming them.
+  - **Mechanism panel:** a list in route order, the preferred route first, each branch indented under the state it
+    leaves and ending "joins X"; "add step / add branch from here". A drawn graph comes later.
+  - **8a** covers structures and the mechanism (paste, draw arrows, drag, show H, change steps, branches,
+    regenerate). **8b** adds every form field (prompt, hint tiers, misconceptions, partial progress messages,
+    partial arrow sets, explanation, route preference, step key, caption, annotations, spectators, abbreviated
+    groups, wedge style by tapping a bond, reaction metadata) and the **live lint panel**: the full linter about
+    300 ms after the last edit, in a Web Worker; clicking a finding jumps to its place. **Misconceptions and partial
+    arrow sets are added by drawing** them on the state (a misconception is saved as the exact pattern, then
+    loosened by editing its text); a partial arrow set is kept only if it reaches the step's to-state as the
+    validator would. Pinning lone-pair angles waits for v2.
+- **Backend (for editor/submissions only):** **TypeScript + Svelte** frontend; **TypeScript on Node + Postgres**
+  (decided 2026-11-25, replacing FastAPI: the linter runs in the same process; framework, hosting, OAuth providers
+  and how a publish starts the build are decided when 8c starts) (reaction as JSONB
   document, version table, status column); learner site built from published JSON and served from a static host
   (e.g. Cloudflare Pages). The Python linter can also run server-side on submission.
 
@@ -169,7 +209,7 @@ Chromium: no console errors. Emoji (💡) may render as tofu in headless only.
 
 ## 8. Process rules
 
-- User's global protocol: **strict TDD** — plan (file stubs + test cases) → stubs + tests (pytest for Python, Vitest/Jest for TS)
+- User's global protocol: **strict TDD** — plan (file stubs + test cases) → stubs + tests (Vitest; pytest until item 8.0 removes Python)
   → red run → minimal implementation → refactor; do not report done until 0 failures. This applies to the **real build**
   (validator, schema, linter), not to throwaway HTML sketches.
 - **Naming standard** (user, 2026-11-24): every name must be unambiguous to a reader new to that part of the code. The
@@ -180,7 +220,8 @@ Chromium: no console errors. Emoji (💡) may render as tofu in headless only.
   arguments, max 40 statements, McCabe complexity ≤ 12), mypy strict-ish, `tools/check_limits.py` (function ≤ 50 lines,
   file ≤ 500 lines, dataclass ≤ 6 fields), `tools/check_layers.py` (import layers, no cycles); `make lint`, `make test`,
   `make check`. The TS side has the same limits in ESLint (plus `tsc --strict`, dependency-cruiser), and Prettier
-  formats TS/JS at 100 characters (`make format`; checked in `make lint`).
+  formats TS/JS at 100 characters (`make format`; checked in `make lint`). After item 8.0 only the TypeScript checks
+  remain (the Python tools go with the Python code).
 - Documents meant for the user to read are written as **HTML**.
 - Treat user details as private; don't send them to external services.
 
@@ -189,7 +230,11 @@ Chromium: no console errors. Emoji (💡) may render as tofu in headless only.
 - The **JSON schema**, **Postgres schema** and misconception pattern syntax: `docs/schema-design.md` (2026-11-24),
   "mostly fine" per the user; the decisions in §4 are settled, and details may still be refined.
 - Final product name / branding / domain.
-- Hosting specifics, OAuth providers, reviewer roles beyond the owner.
+- Hosting specifics, OAuth providers, reviewer roles beyond the owner, the backend web framework, how a publish
+  starts the static build (all to settle in a short grilling when item 8c starts).
 - Which exact reactions beyond the list above; authoring order of the first content set.
+- **Problem sets (to scope after item 8, added 2026-11-25):** sets of reactions that teach one chemistry concept
+  (e.g. Zaitsev's rule, kinetic versus thermodynamic enolates), so learners can practise that concept. Not yet
+  scoped: format, how sets are authored and shown, and how they relate to the catalogue are all open.
 - Deferred features: whole-mechanism mode, stereo validation, learner accounts/leaderboards/sync, visual editor polish (v2),
   synkit-assisted drafting of mechanisms.

@@ -582,7 +582,18 @@ identical results on all of them.
      progress page (streaks, first-try rate, 28-day history, mastery by type, recurring misconceptions, library,
      export / import / reset), and the finished view's "Watch out for", related reactions and mastery change:
      `src/learnerStatistics/`, `src/learnerProgress/progressTransfer.ts`. Checked in headless Chromium.
-8. Then the editor and the backend.
+8. The editor and the backend, split in four (decided 2026-11-25, SPEC §5):
+   * **8.0** One implementation in TypeScript: port the linter (`src/reactionLinting/`) and catalogue build
+     (`src/catalogueBuilding/`) to Node command-line tools, with RDKit.js for reading ordinary SMILES, coordinate
+     seeding and the state atom checks; move the Python-only fixtures to Vitest; delete `python/`, `tests/`,
+     `tools/*.py` and pytest. Starts with a trial of RDKit.js on those three jobs.
+   * **8a** Editor core (`editor.html`, `src/reactionEditor/`): paste SMILES, draw arrows → generated state, drag,
+     show H, change steps, branches and automatic joins, regenerate, undo/redo, mechanism panel, Play as learner,
+     saving to `content/reactions/`.
+   * **8b** Form fields, misconceptions and partial arrow sets by drawing, live lint panel.
+   * **8c** Backend (TypeScript on Node + Postgres, §8); details settled when it starts.
+9. Problem sets: reaction sets that teach one concept (Zaitsev's rule, kinetic versus thermodynamic enolates).
+   To be scoped after item 8 (SPEC §9).
 
 ## 11. Corrections to the mockup content
 

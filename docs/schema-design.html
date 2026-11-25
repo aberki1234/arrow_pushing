@@ -421,7 +421,15 @@ reviews(id pk, reaction_id, reaction_version → reaction_versions, reviewer_use
           <li><span class="tag ok">done</span> 7c: home, practice list with filters and search, progress page with export / import / reset, and the finished view's “Watch out for” and related reactions.</li>
         </ul>
       </li>
-      <li>Then the editor and the backend</li>
+      <li>The editor and the backend, split in four (decided 2026-11-25, <a href="spec.html#architecture">spec §5</a>):
+        <ul>
+          <li><b>8.0</b> One implementation in TypeScript: the linter and catalogue build become Node command-line tools, with RDKit.js for reading ordinary SMILES, coordinates and atom checks; the Python code and pytest are deleted. Starts with a trial of RDKit.js.</li>
+          <li><b>8a</b> Editor core: paste SMILES, draw arrows to generate states, drag, show H, change steps, branches and automatic joins, regenerate, undo/redo, mechanism panel, Play as learner, saving to <code>content/reactions/</code>.</li>
+          <li><b>8b</b> Form fields, misconceptions and partial arrow sets by drawing, live lint panel.</li>
+          <li><b>8c</b> Backend (TypeScript on Node + Postgres, §8); details settled when it starts.</li>
+        </ul>
+      </li>
+      <li>Problem sets: reaction sets that teach one concept (Zaitsev’s rule, kinetic versus thermodynamic enolates). To be scoped after item 8 (<a href="spec.html#open">spec §9</a>).</li>
     </ol>
 
     <h2 id="fixes">11 · Corrections to the mockup content</h2>
