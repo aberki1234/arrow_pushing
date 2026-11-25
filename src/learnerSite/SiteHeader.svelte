@@ -1,11 +1,18 @@
 <script lang="ts">
-  // The site's top bar: brand, the daily puzzle, the reaction list, and a light/dark theme switch
+  // The site's top bar: brand, Home · Daily · Practice · Progress, and a light/dark theme switch
   // remembered in the learner's progress (settings.theme).
   import { readProgress, withTheme, writeProgress } from "../learnerProgress/learnerProgress.js";
   import { browserStorage } from "./browserStorage.js";
   import type { SiteRoute } from "./siteRoutes.js";
 
   const { route }: { route: SiteRoute } = $props();
+
+  const NAV_TABS = [
+    { routeName: "home", hash: "#/", label: "Home" },
+    { routeName: "daily", hash: "#/daily", label: "Daily" },
+    { routeName: "practice", hash: "#/practice", label: "Practice" },
+    { routeName: "progress", hash: "#/progress", label: "Progress" },
+  ] as const;
 
   function toggleTheme(): void {
     const root = document.documentElement;
@@ -35,12 +42,15 @@
       </svg>
       ArrowPush
     </a>
-    <a class="tab" href="#/daily" aria-current={route.routeName === "daily" ? "page" : undefined}>
-      Daily
-    </a>
-    <a class="tab" href="#/" aria-current={route.routeName === "reactionList" ? "page" : undefined}>
-      Reactions
-    </a>
+    {#each NAV_TABS as tab (tab.routeName)}
+      <a
+        class="tab"
+        href={tab.hash}
+        aria-current={route.routeName === tab.routeName ? "page" : undefined}
+      >
+        {tab.label}
+      </a>
+    {/each}
     <span class="spacer"></span>
     <button
       class="iconbtn"

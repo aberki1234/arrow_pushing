@@ -13,6 +13,7 @@
   import { loadSessionReaction } from "./reactionLoading.js";
   import RunSummary from "./RunSummary.svelte";
   import StepPlay from "./StepPlay.svelte";
+  import { type FinishedViewExtras, finishedViewExtras } from "./runSummaryView.js";
 
   const { catalogue, reactionVersionRef }: { catalogue: Catalogue; reactionVersionRef: string } =
     $props();
@@ -20,6 +21,7 @@
   let session: StepSession | null = $state.raw(null);
   let startedAt = new Date().toISOString();
   let loadError: string | null = $state(null);
+  let extras: FinishedViewExtras | null = $state.raw(null);
 
   $effect(() => {
     loadSessionReaction(catalogue, reactionVersionRef)
@@ -33,10 +35,10 @@
 
   function update(next: StepSession): void {
     if (next.phase === "complete" && session?.phase !== "complete") {
-      writeProgress(
-        browserStorage,
-        withRun(readProgress(browserStorage), runRecordOf(next, startedAt)),
-      );
+      const before = readProgress(browserStorage);
+      const after = withRun(before, runRecordOf(next, startedAt));
+      writeProgress(browserStorage, after);
+      extras = finishedViewExtras(catalogue, next.reaction, before, after);
     }
     session = next;
   }
@@ -53,15 +55,15 @@
   <div class="card mt" role="alert">
     <h2>This reaction could not be loaded</h2>
     <p class="muted">{loadError}</p>
-    <a class="btn" href="#/">Back to the reactions</a>
+    <a class="btn" href="#/practice">Back to the reactions</a>
   </div>
 {:else if session === null}
   <p class="muted mt">Loading the reaction…</p>
 {:else if session.phase === "complete"}
-  <RunSummary reaction={session.reaction} stepResults={session.stepResults} daily={null}>
+  <RunSummary reaction={session.reaction} stepResults={session.stepResults} daily={null} {extras}>
     {#snippet actions()}
       <button class="btn" type="button" onclick={restart}>↺ Play again</button>
-      <a class="btn primary" href="#/">Another reaction</a>
+      <a class="btn primary" href="#/practice">Another reaction</a>
     {/snippet}
   </RunSummary>
 {:else}

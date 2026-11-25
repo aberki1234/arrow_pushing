@@ -488,6 +488,13 @@ current state the wrong checks, hints and feedback shown; not the arrows being d
   `ArrowPush #<n> 🟩🟨🟥 <points>/<maximum>`, no link yet. Code: `src/dailyPuzzle/`, `src/stepSession/stepScoring.ts`.
 * The daily share grid has **one tile per step taken**, so its length depends on the route. A preferred or accepted
   step on the first try both give 🟩.
+* **Item 7c (decided 2026-11-25, `src/learnerStatistics/`):** a reaction's **mastery** is the points of its most recent
+  finished run ÷ that run's maximum (both modes, same scoring), **mastered** at 100%; class mastery averages all
+  catalogue reactions of the class, untried as 0%. The first-try rate covers steps of runs started in the last 7 days.
+  Recurring feedback is counted from `feedbackIdsShown`: a rule id is one row, misconceptions are grouped by
+  `misconceptionTag` (else id) and shown with the authored message from the reaction's latest version. **Import**
+  merges: runs deduplicated by `reactionVersionRef + startedAt`, a daily result added only for a date the browser has
+  none for, settings kept; an invalid file changes nothing.
 * Mastery and the misconception history are computed from `runs`, grouped by slug, step key and tag, so a new
   reaction version does not reset them. Export/import is this JSON. Import merges runs, deduplicated by
   `reactionVersionRef + startedAt`.
@@ -571,7 +578,10 @@ identical results on all of them.
      steps, share text, streak; resumes after a reload), the finished view in both modes, `localStorage` progress
      and the remembered theme: `src/learnerProgress/`, `src/dailyPuzzle/`, `schema/progress.schema.json`.
      Checked in headless Chromium on a one-step and a three-step daily.
-   * 7c. Home, practice list with filters and search, progress page.
+   * **7c. Done 2026-11-25.** Home, practice list (filters by type, difficulty, status, search; kept in the hash),
+     progress page (streaks, first-try rate, 28-day history, mastery by type, recurring misconceptions, library,
+     export / import / reset), and the finished view's "Watch out for", related reactions and mastery change:
+     `src/learnerStatistics/`, `src/learnerProgress/progressTransfer.ts`. Checked in headless Chromium.
 8. Then the editor and the backend.
 
 ## 11. Corrections to the mockup content

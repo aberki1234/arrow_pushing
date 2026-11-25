@@ -123,3 +123,8 @@ export function dailyPageStateOf(
   }
   return { pageState: "before", dropSavedPuzzle: saved !== null };
 }
+
+/** "1 step", "3 steps". */
+export function stepCountText(stepCount: number): string {
+  return `${String(stepCount)} ${stepCount === 1 ? "step" : "steps"}`;
+}

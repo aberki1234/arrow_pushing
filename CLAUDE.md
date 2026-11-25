@@ -27,7 +27,8 @@ Do not change agreed decisions without asking; update `docs/SPEC.md` and `docs/s
   mapped-SMILES parser, applying arrows), `attemptAssessment/` (the validator's decision), `reactionFiles/` (Ajv),
   `catalogue/` (reading `catalogue.json`), `moleculeDrawing/` (state → SVG primitives and pick targets, curved-arrow
   geometry), `stepSession/` (taps → arrows, a run through a reaction, scoring, snapshots, feedback text),
-  `learnerProgress/` (`localStorage` progress), `dailyPuzzle/` (today's puzzle, streak, share text), `siteData/` (loading the
+  `learnerProgress/` (`localStorage` progress, export / import), `dailyPuzzle/` (today's puzzle, streak, share text),
+  `learnerStatistics/` (mastery, history, recurring feedback, the practice list), `siteData/` (loading the
   catalogue and reaction files), `learnerSite/` (Svelte 5 + Vite app; `make site` → `build/site/`, `make dev`).
   `testSupport/` (fixture reading for tests). Tests sit beside the code as `*.test.ts`; Svelte component tests start
   with `// @vitest-environment jsdom`.

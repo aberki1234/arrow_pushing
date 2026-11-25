@@ -2,6 +2,19 @@
  * What the finished view shows about a run (decided 2026-11-25, item 7b): each step taken with
  * its prompt, outcome, the arrows in words and the explanation, and the reaction's attribution.
  */
+import type { Catalogue } from "../catalogue/catalogueReading.js";
+import type { LearnerProgress } from "../learnerProgress/learnerProgress.js";
+import {
+  type PracticeCard,
+  practiceCards,
+  relatedCards,
+} from "../learnerStatistics/practiceList.js";
+import { masteryBySlug } from "../learnerStatistics/reactionMastery.js";
+import {
+  type RecurringFeedbackRow,
+  misconceptionInfoOf,
+  recurringFeedback,
+} from "../learnerStatistics/recurringFeedback.js";
 import { describeCurvedArrow } from "../stepSession/arrowDescriptions.js";
 import type { SessionReaction } from "../stepSession/sessionReaction.js";
 import type { StepOutcome, StepResult } from "../stepSession/stepSession.js";
@@ -51,4 +64,35 @@ export function attributionText(reaction: SessionReaction): string {
   return [names.length > 0 ? `By ${names.join(", ")}` : "", licence]
     .filter((part) => part !== "")
     .join(" · ");
+}
+
+export interface FinishedViewExtras {
+  /** Feedback this reaction has shown the learner, this run included, most frequent first. */
+  readonly watchOutRows: readonly RecurringFeedbackRow[];
+  /** Up to 3 other reactions sharing a class. */
+  readonly relatedCards: readonly PracticeCard[];
+  /** null when the reaction had never been finished before this run. */
+  readonly masteryBefore: number | null;
+  readonly masteryAfter: number;
+}
+
+/** What the finished view adds from the learner's history (item 7c). */
+export function finishedViewExtras(
+  catalogue: Catalogue,
+  reaction: SessionReaction,
+  progressBefore: LearnerProgress,
+  progressAfter: LearnerProgress,
+): FinishedViewExtras {
+  const slug = reaction.reactionSlug;
+  const masteryAfter = masteryBySlug(progressAfter);
+  return {
+    watchOutRows: recurringFeedback(
+      progressAfter,
+      new Map([[slug, misconceptionInfoOf(reaction)]]),
+      slug,
+    ),
+    relatedCards: relatedCards(practiceCards(catalogue, masteryAfter), slug),
+    masteryBefore: masteryBySlug(progressBefore).get(slug)?.masteryPercent ?? null,
+    masteryAfter: masteryAfter.get(slug)?.masteryPercent ?? 0,
+  };
 }

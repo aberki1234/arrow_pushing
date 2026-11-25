@@ -372,6 +372,7 @@ atomSelector        := O1 | O* (any O) | @nucleophile (a role) | *</code></pre>
       <li><b>Daily rules</b> (decided 2026-11-25): 3 attempts per step; after the third the step is <b>missed</b>, its arrows are shown dashed, and the puzzle continues. <b>Points:</b> 3 per step, minus 1 per wrong check and per hint, never below 0; a missed step scores 0. The puzzle counts for the day it was started. <b>Streak:</b> days in a row with a finished daily. <b>Share text:</b> <code>ArrowPush #142 🟩🟨🟥 5/9</code>.</li>
       <li>The daily share grid has <b>one tile per step taken</b>. A preferred or accepted step on the first try both give 🟩.</li>
       <li>Mastery and misconception history are grouped by slug, step key and tag, so a new version doesn't reset them.</li>
+      <li><span class="tag ok">built</span> in item 7c. <b>Mastery</b> = the score of the most recent run of a reaction (100% = mastered). Recurring mistakes are counted from the feedback shown, grouped by misconception tag. <b>Import</b> merges a file into what's in the browser and never overwrites a day already played.</li>
     </ul>
 
     <h2 id="postgres">8 · Postgres (editor and submissions only)</h2>
@@ -417,7 +418,7 @@ reviews(id pk, reaction_id, reaction_version → reaction_versions, reviewer_use
         <ul>
           <li><span class="tag ok">done</span> 7a: the step screen in practice mode. Molecules are drawn from the stored coordinates with every lone pair shown; taps become arrows; checks, hints and ghost arrows, change events and branches all work. The four examples play end to end in the browser.</li>
           <li><span class="tag ok">done</span> 7b: daily mode (attempts, points, missed steps, share text, streak, resuming after a reload), the finished view in both modes, and saved progress including the theme.</li>
-          <li>7c: home, practice list and progress page.</li>
+          <li><span class="tag ok">done</span> 7c: home, practice list with filters and search, progress page with export / import / reset, and the finished view's “Watch out for” and related reactions.</li>
         </ul>
       </li>
       <li>Then the editor and the backend</li>

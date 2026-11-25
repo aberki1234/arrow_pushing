@@ -9,20 +9,40 @@ test("the play route carries a reaction version ref", () => {
   });
 });
 
-test("an empty, unknown or malformed hash is the reaction list", () => {
+test("an empty, unknown or malformed hash is home", () => {
   for (const hash of ["", "#", "#/", "#/nowhere", "#/play/", "#/play/Aldol@1", "#/play/aldol"]) {
-    expect(parseSiteRoute(hash)).toEqual({ routeName: "reactionList" });
+    expect(parseSiteRoute(hash)).toEqual({ routeName: "home" });
   }
 });
 
-test("routes print back to hashes", () => {
-  expect(siteRouteHash({ routeName: "reactionList" })).toBe("#/");
-  const play = { routeName: "play", reactionVersionRef: "sn2-hydroxide-bromomethane@1" } as const;
-  expect(siteRouteHash(play)).toBe("#/play/sn2-hydroxide-bromomethane@1");
-  expect(parseSiteRoute(siteRouteHash(play))).toEqual(play);
+test("daily, progress, and practice with or without its filter query", () => {
+  expect(parseSiteRoute("#/daily")).toEqual({ routeName: "daily" });
+  expect(parseSiteRoute("#/progress")).toEqual({ routeName: "progress" });
+  expect(parseSiteRoute("#/practice")).toEqual({ routeName: "practice", practiceQuery: "" });
+  expect(parseSiteRoute("#/practice?type=carbonyl&status=new")).toEqual({
+    routeName: "practice",
+    practiceQuery: "type=carbonyl&status=new",
+  });
 });
 
-test("the daily puzzle has its own route", () => {
-  expect(parseSiteRoute("#/daily")).toEqual({ routeName: "daily" });
-  expect(siteRouteHash({ routeName: "daily" })).toBe("#/daily");
+test("routes print back to hashes", () => {
+  const routes = [
+    { routeName: "home" },
+    { routeName: "daily" },
+    { routeName: "progress" },
+    { routeName: "practice", practiceQuery: "" },
+    { routeName: "practice", practiceQuery: "type=carbonyl" },
+    { routeName: "play", reactionVersionRef: "sn2-hydroxide-bromomethane@1" },
+  ] as const;
+  expect(routes.map(siteRouteHash)).toEqual([
+    "#/",
+    "#/daily",
+    "#/progress",
+    "#/practice",
+    "#/practice?type=carbonyl",
+    "#/play/sn2-hydroxide-bromomethane@1",
+  ]);
+  for (const route of routes) {
+    expect(parseSiteRoute(siteRouteHash(route))).toEqual(route);
+  }
 });

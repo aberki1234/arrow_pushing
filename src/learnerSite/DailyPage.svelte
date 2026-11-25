@@ -8,6 +8,7 @@
     dailyPageStateOf,
     dailyPuzzleOn,
     dailyResultOf,
+    stepCountText,
     streakOn,
   } from "../dailyPuzzle/dailyPuzzle.js";
   import {
@@ -29,6 +30,7 @@
   import { loadSessionReaction } from "./reactionLoading.js";
   import RunSummary from "./RunSummary.svelte";
   import StepPlay from "./StepPlay.svelte";
+  import { type FinishedViewExtras, finishedViewExtras } from "./runSummaryView.js";
   import { siteRouteHash } from "./siteRoutes.js";
 
   const { catalogue }: { catalogue: Catalogue } = $props();
@@ -44,6 +46,7 @@
   let session: StepSession | null = $state.raw(null);
   let startedAt = "";
   let loadError: string | null = $state(null);
+  let extras: FinishedViewExtras | null = $state.raw(null);
 
   $effect(() => {
     if (puzzle === null) {
@@ -87,11 +90,9 @@
     }
     const run = runRecordOf(next, startedAt);
     const dailyResult = dailyResultOf(puzzle, run);
-    progress = withDailyResult(
-      withRun(readProgress(browserStorage), run),
-      puzzle.localDate,
-      dailyResult,
-    );
+    const before = readProgress(browserStorage);
+    progress = withDailyResult(withRun(before, run), puzzle.localDate, dailyResult);
+    extras = finishedViewExtras(catalogue, next.reaction, before, progress);
     writeProgress(browserStorage, progress);
     clearDailyInProgress(browserStorage);
     pageState = { pageState: "finished", dailyResult };
@@ -120,10 +121,6 @@
     }
   }
 
-  function stepCountText(stepCount: number): string {
-    return `${String(stepCount)} ${stepCount === 1 ? "step" : "steps"}`;
-  }
-
   function difficultyDots(difficultyTier: number): string {
     return "●".repeat(difficultyTier) + "○".repeat(MAXIMUM_DIFFICULTY_TIER - difficultyTier);
   }
@@ -133,7 +130,7 @@
   <div class="card mt">
     <h1>No puzzle today</h1>
     <p class="muted">There is no daily puzzle for today's date yet. Try a reaction in practice.</p>
-    <a class="btn primary" href="#/">Practise a reaction</a>
+    <a class="btn primary" href="#/practice">Practise a reaction</a>
   </div>
 {:else if loadError !== null}
   <div class="card mt" role="alert">
@@ -151,6 +148,7 @@
       puzzleNumber: puzzle.puzzleNumber,
       streak: streakOn(progress.dateToDailyResult, puzzle.localDate),
     }}
+    extras={extras ?? finishedViewExtras(catalogue, reaction, progress, progress)}
   >
     {#snippet actions()}
       <a
@@ -159,7 +157,7 @@
       >
         Practise this reaction
       </a>
-      <a class="btn primary" href="#/">Other reactions</a>
+      <a class="btn primary" href="#/practice">Other reactions</a>
     {/snippet}
   </RunSummary>
 {:else if pageState.pageState === "inProgress" && session !== null}

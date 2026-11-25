@@ -3,7 +3,9 @@
   import { onMount } from "svelte";
   import { fetchSiteJson, loadCatalogue } from "../siteData/siteData.js";
   import DailyPage from "./DailyPage.svelte";
-  import ReactionList from "./ReactionList.svelte";
+  import HomePage from "./HomePage.svelte";
+  import PracticePage from "./PracticePage.svelte";
+  import ProgressPage from "./ProgressPage.svelte";
   import SiteHeader from "./SiteHeader.svelte";
   import StepScreen from "./StepScreen.svelte";
   import { parseSiteRoute } from "./siteRoutes.js";
@@ -33,8 +35,12 @@
       {#key route.reactionVersionRef}
         <StepScreen {catalogue} reactionVersionRef={route.reactionVersionRef} />
       {/key}
+    {:else if route.routeName === "practice"}
+      <PracticePage {catalogue} practiceQuery={route.practiceQuery} />
+    {:else if route.routeName === "progress"}
+      <ProgressPage {catalogue} />
     {:else}
-      <ReactionList {catalogue} />
+      <HomePage {catalogue} />
     {/if}
   {:catch loadError}
     <div class="card mt" role="alert">

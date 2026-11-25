@@ -107,7 +107,7 @@
     <h1 style="margin-top:6px">{heading}</h1>
     <div class="muted">{subtitle}</div>
   </div>
-  <a class="btn sm" href="#/">All reactions</a>
+  <a class="btn sm" href="#/practice">All reactions</a>
 </div>
 <div class="row spread mt">
   <StepTiles {session} />

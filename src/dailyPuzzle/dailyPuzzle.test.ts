@@ -17,6 +17,7 @@ import {
   dateBefore,
   shareGridOf,
   shareText,
+  stepCountText,
   streakOn,
   timeUntilNextPuzzleText,
 } from "./dailyPuzzle.js";
@@ -147,4 +148,9 @@ describe("page state", () => {
       dropSavedPuzzle: true,
     });
   });
+});
+
+test("the number of steps in words", () => {
+  expect(stepCountText(1)).toBe("1 step");
+  expect(stepCountText(3)).toBe("3 steps");
 });

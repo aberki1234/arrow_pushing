@@ -11,6 +11,7 @@ const layersLowestFirst = [
   "stepSession",
   "learnerProgress",
   "dailyPuzzle",
+  "learnerStatistics",
   "siteData",
   "learnerSite",
 ];

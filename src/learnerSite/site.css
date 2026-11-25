@@ -761,3 +761,35 @@ svg.mol {
   font: inherit;
   margin-top: 8px;
 }
+
+/* progress page (from mockups/progress.html) */
+.stat b {
+  font-size: 1.8rem;
+  display: block;
+}
+.cal {
+  display: grid;
+  grid-template-columns: repeat(14, 1fr);
+  gap: 4px;
+  max-width: 460px;
+  list-style: none;
+  padding: 0;
+  margin: 0 0 8px;
+}
+.cal .day {
+  aspect-ratio: 1;
+  border-radius: 5px;
+  background: var(--surface-2);
+}
+.cal .day.good {
+  background: var(--good);
+}
+.cal .day.helped {
+  background: #d89a00;
+}
+.cal .day.missed {
+  background: var(--bad);
+}
+.bar {
+  margin: 4px 0 10px;
+}

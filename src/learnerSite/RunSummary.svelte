@@ -7,17 +7,21 @@
   import type { SessionReaction } from "../stepSession/sessionReaction.js";
   import { maximumPoints, totalPoints } from "../stepSession/stepScoring.js";
   import type { StepResult } from "../stepSession/stepSession.js";
-  import { attributionText, summarySteps } from "./runSummaryView.js";
+  import { type FinishedViewExtras, attributionText, summarySteps } from "./runSummaryView.js";
+  import { siteRouteHash } from "./siteRoutes.js";
 
   const {
     reaction,
     stepResults,
     daily,
+    extras,
     actions,
   }: {
     reaction: SessionReaction;
     stepResults: readonly StepResult[];
     daily: { puzzleNumber: number; streak: number } | null;
+    /** From the learner's history (item 7c); null when not worked out. */
+    extras: FinishedViewExtras | null;
     actions: Snippet;
   } = $props();
 
@@ -89,8 +93,54 @@
       </label>
     {/if}
   {/if}
+  {#if extras !== null}
+    <p class="small muted mt">
+      Mastery {extras.masteryBefore === null
+        ? ""
+        : `${String(extras.masteryBefore)}% → `}{extras.masteryAfter}%
+    </p>
+  {/if}
   <div class="row mt">{@render actions()}</div>
 </section>
+
+{#if extras !== null && (extras.watchOutRows.length > 0 || extras.relatedCards.length > 0)}
+  <div class="grid g2 mt">
+    {#if extras.watchOutRows.length > 0}
+      <section class="card flat" aria-labelledby="watch-heading">
+        <h2 id="watch-heading">Watch out for</h2>
+        <ul>
+          {#each extras.watchOutRows as row (row.groupKey)}
+            <li>
+              <b>{row.heading}</b> ({row.count}×){#if row.message}: {row.message}{/if}
+            </li>
+          {/each}
+        </ul>
+        <p class="small muted">
+          From your history with this reaction; see <a href="#/progress">Progress</a>.
+        </p>
+      </section>
+    {/if}
+    {#if extras.relatedCards.length > 0}
+      <section class="card flat" aria-labelledby="related-heading">
+        <h2 id="related-heading">More {reaction.reactionClasses[0] ?? ""} reactions</h2>
+        <ul>
+          {#each extras.relatedCards as card (card.reactionSlug)}
+            <li>
+              <a
+                href={siteRouteHash({
+                  routeName: "play",
+                  reactionVersionRef: card.reactionVersionRef,
+                })}
+              >
+                {card.title}
+              </a>
+            </li>
+          {/each}
+        </ul>
+      </section>
+    {/if}
+  </div>
+{/if}
 
 <section class="card flat mt" aria-labelledby="steps-heading">
   <h2 id="steps-heading">Step by step</h2>

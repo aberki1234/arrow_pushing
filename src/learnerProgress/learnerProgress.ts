@@ -91,12 +91,18 @@ export function readProgress(storage: ProgressStorage): LearnerProgress {
   if (text === null) {
     return emptyProgress();
   }
-  const saved = parsedJson(text);
-  if (isValidProgress?.(saved) === true) {
-    return saved as LearnerProgress;
+  const saved = progressFromText(text);
+  if (saved !== null) {
+    return saved;
   }
   storage.setItem(UNREADABLE_PROGRESS_STORAGE_KEY, text);
   return emptyProgress();
+}
+
+/** The text as progress, or null when it is not JSON matching schema/progress.schema.json. */
+export function progressFromText(text: string): LearnerProgress | null {
+  const parsed = parsedJson(text);
+  return isValidProgress?.(parsed) === true ? (parsed as LearnerProgress) : null;
 }
 
 export function writeProgress(storage: ProgressStorage, progress: LearnerProgress): void {

@@ -116,6 +116,16 @@ Diels–Alder needs a concerted multi-arrow step (3 arrows) — the model must s
   `ArrowPush #142 🟩🟨🟥 5/9` (no link yet). The **finished view** (both modes) names the reaction and shows the
   tiles, step by step with the arrows in words, the mechanism summary and the attribution; daily adds points, Copy,
   streak and the time to the next puzzle.
+- **Home, practice, progress (decided 2026-11-25, item 7c):** **mastery** of a reaction = points of its most recent
+  finished run (either mode, same scoring) ÷ that run's maximum, grouped by slug so a new version does not reset it;
+  **mastered** = 100%; class mastery averages every catalogue reaction of the class (untried = 0%). **First-try rate**:
+  share of steps taken in the last 7 days that were first try, with the change from the week before. The **progress
+  page** shows streak and best streak, first-try rate, mastered count, the last 28 days of dailies, mastery by type,
+  the top 5 recurring misconceptions (rules by plain heading; misconceptions grouped by tag with their authored
+  message), the reaction library weakest first, and **export / import (merged) / reset**. The **practice list**
+  filters by type, difficulty and status (new / practised / mastered) and searches titles; filters live in the hash.
+  The **home** page has today's puzzle, continue practising, mastery in brief and browse by type. The finished view
+  adds "Watch out for", up to 3 related reactions (a shared class) and the mastery change.
 - **Content format:** **one JSON file per reaction version** (schema: `docs/schema-design.md`). Per reaction: metadata, a graph of
   states (atom-mapped SMILES + coordinates, learner prompt, 3 hint tiers, misconceptions) joined by steps (canonical
   arrows, route preference, optional partial arrow sets, explanation), mechanism summary, version, author, licence.
@@ -180,7 +190,6 @@ Chromium: no console errors. Emoji (💡) may render as tofu in headless only.
   "mostly fine" per the user; the decisions in §4 are settled, and details may still be refined.
 - Final product name / branding / domain.
 - Hosting specifics, OAuth providers, reviewer roles beyond the owner.
-- Scoring details beyond the daily rules above (mastery formula shown in mockups is illustrative).
 - Which exact reactions beyond the list above; authoring order of the first content set.
 - Deferred features: whole-mechanism mode, stereo validation, learner accounts/leaderboards/sync, visual editor polish (v2),
   synkit-assisted drafting of mechanisms.

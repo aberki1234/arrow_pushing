@@ -12,7 +12,7 @@ export interface FeedbackText {
   readonly paragraphs: readonly string[];
 }
 
-const GENERIC_RULE_ID_TO_HEADING: Readonly<Record<string, string>> = {
+export const GENERIC_RULE_ID_TO_HEADING: Readonly<Record<string, string>> = {
   "atom-not-in-state": "That atom isn't here",
   "destination-not-adjacent-to-source": "Electrons move to a neighbouring place",
   "no-electrons-at-source": "No electrons there",
