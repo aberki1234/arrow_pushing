@@ -48,7 +48,10 @@ export function currentStateDrawing(session: StepSession, scale: number): StateD
     graphOf(reaction.prepared, currentStateId),
     stateOf(reaction, currentStateId).displayFields,
     scale,
-    reaction.spectatorMapNumbers,
+    {
+      spectatorMapNumbers: reaction.spectatorMapNumbers,
+      abbreviatedGroups: reaction.abbreviatedGroups,
+    },
   );
 }
 

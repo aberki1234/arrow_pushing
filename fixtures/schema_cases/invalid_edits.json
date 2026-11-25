@@ -44,6 +44,10 @@
      "pathToSet": ["stateIdToState", "reactants", "misconceptions", 0, "severity"], "newValue": "bad",
      "expectedViolationPath": "/stateIdToState/reactants/misconceptions/0/severity"},
     {"caseName": "state without mapped SMILES", "baseReactionFile": "sn2-hydroxide-bromomethane.json",
-     "pathToDelete": ["stateIdToState", "products", "mappedSmiles"], "expectedViolationPath": "/stateIdToState/products"}
+     "pathToDelete": ["stateIdToState", "products", "mappedSmiles"], "expectedViolationPath": "/stateIdToState/products"},
+    {"caseName": "abbreviated group label longer than six characters", "baseReactionFile": "wittig-methylenation-cyclohexanone.json",
+     "pathToSet": ["abbreviatedGroups", 0, "groupLabel"], "newValue": "Phenyl1", "expectedViolationPath": "/abbreviatedGroups/0/groupLabel"},
+    {"caseName": "abbreviated group without its map numbers", "baseReactionFile": "wittig-methylenation-cyclohexanone.json",
+     "pathToDelete": ["abbreviatedGroups", 0, "mapNumbers"], "expectedViolationPath": "/abbreviatedGroups/0"}
   ]
 }

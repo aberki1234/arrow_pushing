@@ -104,6 +104,22 @@
      "expectedLintRuleIds": ["fewer-than-three-hint-tiers"]},
     {"caseName": "no learner text needed after a change step's state", "baseReactionFile": "aldol-addition-base.json",
      "edits": [],
-     "expectedLintRuleIds": []}
+     "expectedLintRuleIds": []},
+    {"caseName": "abbreviated group names an unknown atom", "baseReactionFile": "wittig-methylenation-cyclohexanone.json",
+     "edits": [{"pathToSet": ["abbreviatedGroups", 0, "mapNumbers"], "newValue": [11, 12, 13, 14, 15, 16, 99]}],
+     "expectedLintRuleIds": ["abbreviated-group-atoms-unknown"]},
+    {"caseName": "abbreviated ring missing one atom is attached by three bonds", "baseReactionFile": "wittig-methylenation-cyclohexanone.json",
+     "edits": [{"pathToSet": ["abbreviatedGroups", 0, "mapNumbers"], "newValue": [11, 12, 13, 14, 15]}],
+     "expectedLintRuleIds": ["abbreviated-group-not-attached-once"]},
+    {"caseName": "abbreviated group attached from an atom outside it", "baseReactionFile": "wittig-methylenation-cyclohexanone.json",
+     "edits": [{"pathToSet": ["abbreviatedGroups", 0, "attachmentMapNumber"], "newValue": 2}],
+     "expectedLintRuleIds": ["abbreviated-group-not-attached-once"]},
+    {"caseName": "canonical arrows use an abbreviated atom", "baseReactionFile": "radical-bromination-methane.json",
+     "edits": [{"pathToSet": ["abbreviatedGroups"], "newValue": [{"groupLabel": "H", "attachmentMapNumber": 2, "mapNumbers": [2]}]},
+               {"pathToDelete": ["stateIdToState", "methyl-radical", "misconceptions", 0]}],
+     "expectedLintRuleIds": ["arrow-touches-abbreviated-group"]},
+    {"caseName": "misconception names an abbreviated atom", "baseReactionFile": "aldol-addition-base.json",
+     "edits": [{"pathToSet": ["abbreviatedGroups"], "newValue": [{"groupLabel": "Me", "attachmentMapNumber": 8, "mapNumbers": [8]}]}],
+     "expectedLintRuleIds": ["misconception-in-abbreviated-group"]}
   ]
 }

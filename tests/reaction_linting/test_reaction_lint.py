@@ -18,7 +18,7 @@ EXAMPLE_REACTION_FILES = sorted((FIXTURES_FOLDER / "reactions").glob("*.json"))
 LINT_CASES: List[Dict[str, Any]] = json.loads(
     (FIXTURES_FOLDER / "lint_cases" / "reaction_edits.json").read_text(encoding="utf-8"))["cases"]
 WARNING_RULE_IDS = {"fewer-than-three-hint-tiers", "misconception-never-fires",
-                    "too-many-skeleton-symmetries"}
+                    "too-many-skeleton-symmetries", "misconception-in-abbreviated-group"}
 
 
 def load_example_reaction(file_name: str) -> Dict[str, Any]:
@@ -94,7 +94,9 @@ def test_every_rule_id_has_a_lint_case() -> None:
         "step-does-not-reproduce-to-state", "misconception-pattern-invalid",
         "duplicate-misconception-id", "misconception-hides-correct-answer",
         "misconception-never-fires", "learner-prompt-missing", "hint-tiers-missing",
-        "fewer-than-three-hint-tiers"}
+        "fewer-than-three-hint-tiers", "abbreviated-group-atoms-unknown",
+        "abbreviated-group-not-attached-once", "arrow-touches-abbreviated-group",
+        "misconception-in-abbreviated-group"}
 
 
 @pytest.mark.parametrize("case_name, expected_instance_paths", [
@@ -111,6 +113,11 @@ def test_every_rule_id_has_a_lint_case() -> None:
     ("branch state no longer reachable", ["/stateIdToState/betaine"]),
     ("both Wittig routes preferred", ["/steps/1/routePreference"]),
     ("two leaving steps reach the same state drawn twice", ["/steps/4"]),
+    ("abbreviated group names an unknown atom", ["/abbreviatedGroups/0"]),
+    ("abbreviated ring missing one atom is attached by three bonds", ["/abbreviatedGroups/0"]),
+    ("canonical arrows use an abbreviated atom", ["/steps/0/canonicalArrows"]),
+    ("misconception names an abbreviated atom",
+     ["/stateIdToState/enolate-and-aldehyde/misconceptions/2"]),
 ])
 def test_finding_points_at_the_broken_place(case_name: str,
                                             expected_instance_paths: List[str]) -> None:

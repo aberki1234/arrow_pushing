@@ -8,7 +8,8 @@ Steps (a later group runs only when the earlier groups found no error that would
        (state_graphs.mapped_smiles_reading). Stop here if any: later checks read every state.
     3. Graph rules without chemistry (mechanism_graph_rules), state ids first; stop if a step
        names an unknown state.
-    4. Learner text (state_content_rules) and misconception text (misconception_rules).
+    4. Learner text (state_content_rules), misconception text (misconception_rules) and
+       abbreviated groups (abbreviated_group_rules).
     5. Chemistry, on the reaction prepared for assessment without any misconception whose
        pattern does not parse: steps reproduce their to-states and leaving steps reach different
        states (step_reproduction), misconception matching (misconception_rules), symmetry cap.
@@ -21,6 +22,10 @@ from reaction_files.schema_violations import schema_violations
 from reaction_files.state_atom_consistency import state_atom_problems
 from state_graphs.mapped_smiles_reading import MappedSmilesError, state_graph_from_mapped_smiles
 
+from reaction_linting.abbreviated_group_rules import (
+    abbreviated_group_arrow_findings,
+    abbreviated_group_structure_findings,
+)
 from reaction_linting.lint_findings import LintFinding, LintLevel, lint_error
 from reaction_linting.mechanism_graph_rules import (
     mechanism_graph_findings,
@@ -70,7 +75,9 @@ def lint_reaction(reaction_document: Mapping[str, Any],
             return blocking_findings
     findings = (mechanism_graph_findings(reaction_document)
                 + learner_text_findings(reaction_document)
-                + misconception_text_findings(reaction_document))
+                + misconception_text_findings(reaction_document)
+                + abbreviated_group_structure_findings(reaction_document)
+                + abbreviated_group_arrow_findings(reaction_document))
     prepared = prepare_reaction(without_invalid_patterns(reaction_document))
     return (findings
             + step_reproduction_findings(reaction_document, prepared)

@@ -41,7 +41,10 @@ Diels–Alder needs a concerted multi-arrow step (3 arrows) — the model must s
 - **Drawing (decided 2026-11-25):** every heavy atom is **labelled** with its implicit H and charge (CH₃, OH⁻) in v1;
   skeletal display may come later as a setting. **Every lone pair is drawn**, spread evenly through the free space
   round the atom (showing only the relevant ones would give the answer away). One **scale per reaction** (56 px per
-  bond, from the start state), so bonds keep their length between steps.
+  bond, from the start state), so bonds keep their length between steps. **Abbreviated groups** (decided 2026-11-25):
+  the author may list bystander groups (`abbreviatedGroups`, e.g. the three Ph on P in the Wittig), drawn as their
+  label wherever intact and never tapped; lint rules keep steps and misconceptions off them
+  (`docs/schema-design.md` §3.5).
 - **Step screen (practice, item 7a):** after a correct check the arrows stay and the step's explanation shows; **Next
   step** moves on with a short cross-fade (none under reduced motion). A change step is an **event card** with
   Continue (no tile, no score). Hints are free; the **third hint shows the canonical arrows as ghost arrows**, which

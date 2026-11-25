@@ -17,7 +17,12 @@ import {
   lonePairCount,
   unpairedElectronCount,
 } from "../stateGraphs/stateGraph.js";
-import { type AtomLabelText, type HydrogenSide, atomLabelText } from "./atomLabels.js";
+import {
+  type AbbreviatedGroup,
+  type StateDisplayPlan,
+  stateDisplayPlan,
+} from "./abbreviatedGroups.js";
+import { type AtomLabelText, atomLabelText } from "./atomLabels.js";
 import { type BondLines, type WedgeStyle, bondLines } from "./bondLines.js";
 import {
   type MapNumberToCoordinates,
@@ -26,6 +31,14 @@ import {
   viewBoxAround,
 } from "./drawingLayout.js";
 import { type ElectronDotKind, placeElectronDots } from "./electronDotPlacement.js";
+import {
+  CHARGE_DIRECTION,
+  HYDROGEN_SIDE_TO_ANGLE,
+  type LabelTextPlacement,
+  annotationPoint,
+  labelEnds,
+  labelTextPlacement,
+} from "./labelPlacement.js";
 import { type Point, angleFrom, pointAtAngle } from "./planeGeometry.js";
 
 export const ATOM_TARGET_RADIUS = 16;
@@ -36,23 +49,6 @@ export const ELECTRON_DOT_DISTANCE = 15;
 /** Half the gap between the two dots of a lone pair. */
 export const LONE_PAIR_HALF_GAP = 3.2;
 export const VIEW_BOX_PADDING = 34;
-/** How far an annotation sits from its atom. */
-export const ANNOTATION_DISTANCE = 34;
-/** Width of one label character at the label font (19 px); the canvas uses it too. */
-export const LABEL_CHARACTER_WIDTH = 11;
-/** The charge is written at the label's upper right: electron dots keep out of that way. */
-export const CHARGE_DIRECTION = -Math.PI / 4;
-/** How far above or below the element hydrogens written there sit (centre to centre). */
-export const HYDROGEN_ROW_OFFSET = 18;
-/** How far above the element's centre the charge is written. */
-export const CHARGE_RISE = 9;
-const HYDROGEN_SIDE_TO_ANGLE: Readonly<Record<HydrogenSide, number>> = {
-  right: 0,
-  left: Math.PI,
-  below: Math.PI / 2,
-  above: -Math.PI / 2,
-};
-
 /** What the drawing needs from a state record of the reaction file. */
 export interface StateDisplayFields {
   readonly mapNumberToCoordinates: MapNumberToCoordinates;
@@ -62,16 +58,28 @@ export interface StateDisplayFields {
   readonly caption?: string;
 }
 
-export interface DrawnAtom {
+export type { AbbreviatedGroup } from "./abbreviatedGroups.js";
+export {
+  ANNOTATION_DISTANCE,
+  CHARGE_DIRECTION,
+  CHARGE_RISE,
+  HYDROGEN_ROW_OFFSET,
+  LABEL_CHARACTER_WIDTH,
+} from "./labelPlacement.js";
+
+/** Reaction-level drawing settings, the same in every state. */
+export interface ReactionDisplayFields {
+  /** Drawn faded, never picked (Na⁺, MgBr⁺). */
+  readonly spectatorMapNumbers?: readonly number[];
+  /** Drawn as their label wherever intact; nothing in them is picked. */
+  readonly abbreviatedGroups?: readonly AbbreviatedGroup[];
+}
+
+export interface DrawnAtom extends LabelTextPlacement {
   readonly mapNumber: number;
   readonly element: string;
   readonly point: Point;
   readonly labelText: AtomLabelText;
-  /** Where the implicit-hydrogen text is written and how it is anchored; null without any. */
-  readonly hydrogenTextPoint: Point | null;
-  readonly hydrogenTextAnchor: "start" | "middle" | "end";
-  /** The charge's left end, at the label's upper right; null for a neutral atom. */
-  readonly chargePoint: Point | null;
   readonly isSpectator: boolean;
 }
 
@@ -202,50 +210,6 @@ function drawnElectronDots(
   });
 }
 
-/** Where an atom's hydrogen text and charge are written around its element. */
-function labelTextPlacement(
-  point: Point,
-  labelText: AtomLabelText,
-): Pick<DrawnAtom, "hydrogenTextPoint" | "hydrogenTextAnchor" | "chargePoint"> {
-  const { element, hydrogenText, hydrogenSide, chargeText } = labelText;
-  const halfElement = (element.length * LABEL_CHARACTER_WIDTH) / 2;
-  const hydrogenSideToPlacement = {
-    right: { point: { x: point.x + halfElement, y: point.y }, anchor: "start" },
-    left: { point: { x: point.x - halfElement, y: point.y }, anchor: "end" },
-    above: { point: { x: point.x, y: point.y - HYDROGEN_ROW_OFFSET }, anchor: "middle" },
-    below: { point: { x: point.x, y: point.y + HYDROGEN_ROW_OFFSET }, anchor: "middle" },
-  } as const;
-  const placement = hydrogenSideToPlacement[hydrogenSide];
-  const hasHydrogens = hydrogenText !== "";
-  const rightEdge =
-    point.x +
-    halfElement +
-    (hasHydrogens && hydrogenSide === "right" ? hydrogenText.length * LABEL_CHARACTER_WIDTH : 0);
-  return {
-    hydrogenTextPoint: hasHydrogens ? placement.point : null,
-    hydrogenTextAnchor: placement.anchor,
-    chargePoint: chargeText === "" ? null : { x: rightEdge + 1, y: point.y - CHARGE_RISE },
-  };
-}
-
-/**
- * Straight below or above the atom (whichever is further from bonds and dots): a horizontal text
- * label there does not run into the neighbours beside it.
- */
-function annotationPoint(point: Point, takenAngles: readonly number[]): Point {
-  const clearance = (direction: number): number =>
-    takenAngles.reduce(
-      (smallest, angle) =>
-        Math.min(
-          smallest,
-          Math.abs(Math.atan2(Math.sin(angle - direction), Math.cos(angle - direction))),
-        ),
-      Math.PI,
-    );
-  const direction = clearance(Math.PI / 2) >= clearance(-Math.PI / 2) ? Math.PI / 2 : -Math.PI / 2;
-  return pointAtAngle(point, direction, ANNOTATION_DISTANCE);
-}
-
 interface DrawnParts {
   readonly atoms: DrawnAtom[];
   readonly bonds: DrawnBond[];
@@ -273,10 +237,11 @@ function drawnBondsOf(
   graph: StateGraph,
   displayFields: StateDisplayFields,
   mapNumberToPoint: ReadonlyMap<number, Point>,
-  spectators: ReadonlySet<number>,
+  plan: StateDisplayPlan,
 ): DrawnBond[] {
   return [...graph.bondToOrder.entries()]
     .map(([key, bondOrder]) => ({ mapNumbers: bondKeyMapNumbers(key), bondOrder }))
+    .filter(({ mapNumbers }) => !mapNumbers.some((atom) => plan.hiddenMapNumbers.has(atom)))
     .sort(
       (one, other) =>
         one.mapNumbers[0] - other.mapNumbers[0] || one.mapNumbers[1] - other.mapNumbers[1],
@@ -294,35 +259,51 @@ function drawnBondsOf(
           bondOrder,
           wedge?.style ?? null,
         ),
-        isSpectator: spectators.has(first) || spectators.has(second),
+        isSpectator: plan.spectatorMapNumbers.has(first) || plan.spectatorMapNumbers.has(second),
       };
     });
+}
+
+/** The atom's label: its group's label for an intact group's attachment atom. */
+function labelTextOf(
+  graph: StateGraph,
+  atom: StateAtom,
+  bondAngles: readonly number[],
+  plan: StateDisplayPlan,
+): AtomLabelText {
+  const groupLabel = plan.mapNumberToGroupLabel.get(atom.mapNumber);
+  if (groupLabel !== undefined) {
+    return { element: groupLabel, hydrogenText: "", hydrogenSide: "right", chargeText: "" };
+  }
+  return atomLabelText(
+    atom.element,
+    atom.hydrogenCount,
+    formalCharge(graph, atom.mapNumber),
+    bondAngles,
+  );
 }
 
 function drawnPartsOf(
   graph: StateGraph,
   displayFields: StateDisplayFields,
   mapNumberToPoint: ReadonlyMap<number, Point>,
-  spectators: ReadonlySet<number>,
+  plan: StateDisplayPlan,
 ): DrawnParts {
   const atoms: DrawnAtom[] = [];
   const electronDots: DrawnElectronDot[] = [];
   const annotations: DrawnAnnotation[] = [];
-  const atomsInOrder = [...graph.mapNumberToAtom.values()].sort(
-    (one, other) => one.mapNumber - other.mapNumber,
-  );
+  const atomsInOrder = [...graph.mapNumberToAtom.values()]
+    .filter((atom) => !plan.hiddenMapNumbers.has(atom.mapNumber))
+    .sort((one, other) => one.mapNumber - other.mapNumber);
   for (const atom of atomsInOrder) {
     const point = pointOf(mapNumberToPoint, atom.mapNumber);
     const bareSurroundings = surroundingsOf(graph, atom.mapNumber, mapNumberToPoint, null);
-    const labelText = atomLabelText(
-      atom.element,
-      atom.hydrogenCount,
-      formalCharge(graph, atom.mapNumber),
-      bareSurroundings.bondAngles,
-    );
+    const labelText = labelTextOf(graph, atom, bareSurroundings.bondAngles, plan);
     const { occupiedAngles } = surroundingsOf(graph, atom.mapNumber, mapNumberToPoint, labelText);
     const authored = displayFields.mapNumberToLonePairAnglesDegrees?.[String(atom.mapNumber)] ?? [];
-    const dots = drawnElectronDots(atom, point, occupiedAngles, authored);
+    const dots = plan.mapNumberToGroupLabel.has(atom.mapNumber)
+      ? []
+      : drawnElectronDots(atom, point, occupiedAngles, authored);
     electronDots.push(...dots);
     atoms.push({
       mapNumber: atom.mapNumber,
@@ -330,7 +311,7 @@ function drawnPartsOf(
       point,
       labelText,
       ...labelTextPlacement(point, labelText),
-      isSpectator: spectators.has(atom.mapNumber),
+      isSpectator: plan.spectatorMapNumbers.has(atom.mapNumber),
     });
     for (const annotation of displayFields.annotations ?? []) {
       if (annotation.nearMapNumber === atom.mapNumber) {
@@ -341,7 +322,7 @@ function drawnPartsOf(
   }
   return {
     atoms,
-    bonds: drawnBondsOf(graph, displayFields, mapNumberToPoint, spectators),
+    bonds: drawnBondsOf(graph, displayFields, mapNumberToPoint, plan),
     electronDots,
     annotations,
   };
@@ -381,16 +362,17 @@ function electronTargetsOf(
     });
 }
 
-function pickTargetsOf(graph: StateGraph, parts: DrawnParts): PickTarget[] {
+function pickTargetsOf(graph: StateGraph, parts: DrawnParts, plan: StateDisplayPlan): PickTarget[] {
   const nameOf = (mapNumber: number): string => {
     const atom = graph.mapNumberToAtom.get(mapNumber);
     return atom === undefined ? String(mapNumber) : atomName(atom);
   };
+  const tappable = (mapNumber: number): boolean => !plan.untappableMapNumbers.has(mapNumber);
   const liveAtoms = new Set(
-    parts.atoms.filter((atom) => !atom.isSpectator).map((atom) => atom.mapNumber),
+    parts.atoms.map((atom) => atom.mapNumber).filter((mapNumber) => tappable(mapNumber)),
   );
   const bondTargets = parts.bonds
-    .filter((bond) => !bond.isSpectator)
+    .filter((bond) => bond.mapNumbers.every(tappable))
     .map((bond): PickTarget => ({
       pickTargetId: `bond:${bond.mapNumbers.join("-")}`,
       targetKind: "bond",
@@ -400,7 +382,7 @@ function pickTargetsOf(graph: StateGraph, parts: DrawnParts): PickTarget[] {
       accessibleName: `bond ${nameOf(bond.mapNumbers[0])}–${nameOf(bond.mapNumbers[1])}`,
     }));
   const atomTargets = parts.atoms
-    .filter((atom) => !atom.isSpectator)
+    .filter((atom) => tappable(atom.mapNumber))
     .map((atom): PickTarget => ({
       pickTargetId: `atom:${String(atom.mapNumber)}`,
       targetKind: "atom",
@@ -414,28 +396,6 @@ function pickTargetsOf(graph: StateGraph, parts: DrawnParts): PickTarget[] {
     ...bondTargets,
     ...electronTargetsOf(parts.electronDots, liveAtoms, nameOf),
   ];
-}
-
-/** The outer ends of an atom's label text: left and right, and its hydrogen row if any. */
-function labelEnds(atom: DrawnAtom): Point[] {
-  const { element, hydrogenText, hydrogenSide, chargeText } = atom.labelText;
-  const halfElement = (element.length * LABEL_CHARACTER_WIDTH) / 2;
-  const hydrogenWidth = hydrogenText.length * LABEL_CHARACTER_WIDTH;
-  const left = atom.point.x - halfElement - (hydrogenSide === "left" ? hydrogenWidth : 0);
-  const right =
-    atom.point.x +
-    halfElement +
-    (hydrogenSide === "right" ? hydrogenWidth : 0) +
-    chargeText.length * LABEL_CHARACTER_WIDTH;
-  const ends = [
-    { x: left, y: atom.point.y },
-    { x: right, y: atom.point.y },
-  ];
-  if (hydrogenText !== "" && (hydrogenSide === "above" || hydrogenSide === "below")) {
-    const rowOffset = hydrogenSide === "above" ? -HYDROGEN_ROW_OFFSET : HYDROGEN_ROW_OFFSET;
-    ends.push({ x: atom.point.x, y: atom.point.y + rowOffset });
-  }
-  return ends;
 }
 
 function centroidOf(atoms: readonly DrawnAtom[]): Point {
@@ -452,19 +412,24 @@ export function drawState(
   graph: StateGraph,
   displayFields: StateDisplayFields,
   scale: number,
-  spectatorMapNumbers: readonly number[] = [],
+  reactionDisplay: ReactionDisplayFields = {},
 ): StateDrawing {
   const mapNumberToPoint = screenPoints(displayFields.mapNumberToCoordinates, scale);
-  const parts = drawnPartsOf(graph, displayFields, mapNumberToPoint, new Set(spectatorMapNumbers));
+  const plan = stateDisplayPlan(
+    graph,
+    reactionDisplay.spectatorMapNumbers ?? [],
+    reactionDisplay.abbreviatedGroups ?? [],
+  );
+  const parts = drawnPartsOf(graph, displayFields, mapNumberToPoint, plan);
   const boxedPoints = [
-    ...parts.atoms.flatMap(labelEnds),
+    ...parts.atoms.flatMap((atom) => labelEnds(atom.point, atom.labelText)),
     ...parts.electronDots.map((dot) => dot.center),
     ...parts.annotations.map((annotation) => annotation.point),
   ];
   return {
     ...parts,
     caption: displayFields.caption ?? "",
-    pickTargets: pickTargetsOf(graph, parts),
+    pickTargets: pickTargetsOf(graph, parts, plan),
     viewBox: viewBoxAround(boxedPoints, VIEW_BOX_PADDING),
     centroid: centroidOf(parts.atoms),
   };

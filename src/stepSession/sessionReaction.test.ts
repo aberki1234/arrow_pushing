@@ -49,3 +49,14 @@ test("arrow steps left on the preferred route", () => {
   expect(preferredArrowStepsFrom(wittig, "betaine")).toBe(2);
   expect(preferredArrowStepsFrom(wittig, "products")).toBe(0);
 });
+
+test("abbreviated groups are read; reactions without any have none", () => {
+  const wittig = exampleSessionReaction("wittig-methylenation-cyclohexanone");
+  expect(wittig.abbreviatedGroups.map((group) => group.attachmentMapNumber)).toEqual([11, 21, 31]);
+  expect(wittig.abbreviatedGroups[0]).toEqual({
+    groupLabel: "Ph",
+    attachmentMapNumber: 11,
+    mapNumbers: [11, 12, 13, 14, 15, 16],
+  });
+  expect(exampleSessionReaction("sn2-hydroxide-bromomethane").abbreviatedGroups).toEqual([]);
+});

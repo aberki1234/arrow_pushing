@@ -38,6 +38,19 @@
       "description": "Atoms drawn faded and never validated (counterions such as Na+).",
       "type": "array", "uniqueItems": true, "items": { "$ref": "#/$defs/mapNumber" }
     },
+    "abbreviatedGroups": {
+      "description": "Bystander groups drawn as a short label (Ph, OMe) wherever they hang off the rest by one bond. Never tapped; validation still uses every atom. Optional.",
+      "type": "array",
+      "items": {
+        "type": "object", "additionalProperties": false,
+        "required": ["groupLabel", "attachmentMapNumber", "mapNumbers"],
+        "properties": {
+          "groupLabel": { "type": "string", "minLength": 1, "maxLength": 6 },
+          "attachmentMapNumber": { "$ref": "#/$defs/mapNumber" },
+          "mapNumbers": { "$ref": "#/$defs/mapNumberList" }
+        }
+      }
+    },
     "startStateId": { "$ref": "#/$defs/slug" },
     "stateIdToState": {
       "type": "object", "minProperties": 2,

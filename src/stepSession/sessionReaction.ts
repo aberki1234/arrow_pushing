@@ -4,7 +4,7 @@
  */
 import { type CurvedArrow, parseCurvedArrow } from "../arrowNotation/curvedArrowNotation.js";
 import { type PreparedReaction, prepareReaction } from "../attemptAssessment/attemptAssessment.js";
-import type { StateDisplayFields } from "../moleculeDrawing/stateDrawing.js";
+import type { AbbreviatedGroup, StateDisplayFields } from "../moleculeDrawing/stateDrawing.js";
 
 export interface SessionState {
   readonly stateId: string;
@@ -37,6 +37,7 @@ export interface SessionReaction {
   readonly mechanismSummary: string;
   readonly startStateId: string;
   readonly spectatorMapNumbers: readonly number[];
+  readonly abbreviatedGroups: readonly AbbreviatedGroup[];
   readonly stateIdToState: ReadonlyMap<string, SessionState>;
   readonly steps: readonly SessionStep[];
   readonly prepared: PreparedReaction;
@@ -71,6 +72,14 @@ function numberList(value: unknown): number[] {
   return Array.isArray(value)
     ? value.filter((item): item is number => typeof item === "number")
     : [];
+}
+
+function abbreviatedGroupsIn(value: unknown): AbbreviatedGroup[] {
+  return (Array.isArray(value) ? value : []).filter(isDocumentRecord).map((group) => ({
+    groupLabel: requiredText(group, "groupLabel"),
+    attachmentMapNumber: Number(group["attachmentMapNumber"]),
+    mapNumbers: numberList(group["mapNumbers"]),
+  }));
 }
 
 function sessionStateOf(stateId: string, state: DocumentRecord): SessionState {
@@ -123,6 +132,7 @@ export function readSessionReaction(reactionDocument: DocumentRecord): SessionRe
     mechanismSummary: textOr(reactionDocument, "mechanismSummary", ""),
     startStateId: requiredText(reactionDocument, "startStateId"),
     spectatorMapNumbers: numberList(reactionDocument["spectatorMapNumbers"]),
+    abbreviatedGroups: abbreviatedGroupsIn(reactionDocument["abbreviatedGroups"]),
     stateIdToState,
     steps: steps.filter(isDocumentRecord).map(sessionStepOf),
     prepared: prepareReaction(reactionDocument),

@@ -1,14 +1,16 @@
 /** Tests for stateDrawing.ts on states of the example reactions (fixtures/reactions). */
-import { expect, test } from "vitest";
+import { describe, expect, test } from "vitest";
 import { stateGraphFromMappedSmiles } from "../stateGraphs/mappedSmilesReading.js";
 import { exampleReactionDocuments, isRecord } from "../testSupport/fixtureFiles.js";
 import { plainLabel } from "./atomLabels.js";
 import { reactionScale } from "./drawingLayout.js";
 import { distanceBetween } from "./planeGeometry.js";
 import {
+  type AbbreviatedGroup,
   ELECTRON_DOT_DISTANCE,
   HYDROGEN_ROW_OFFSET,
   LABEL_CHARACTER_WIDTH,
+  type ReactionDisplayFields,
   type StateDisplayFields,
   type StateDrawing,
   drawState,
@@ -18,7 +20,7 @@ import {
 interface ExampleState {
   readonly mappedSmiles: string;
   readonly displayFields: StateDisplayFields;
-  readonly spectatorMapNumbers: readonly number[];
+  readonly reactionDisplay: ReactionDisplayFields;
 }
 
 function exampleState(reactionSlug: string, stateId: string): ExampleState {
@@ -29,18 +31,21 @@ function exampleState(reactionSlug: string, stateId: string): ExampleState {
   if (document === undefined || !isRecord(state) || typeof state["mappedSmiles"] !== "string") {
     throw new Error(`no state ${stateId} in ${reactionSlug}`);
   }
-  const spectators = document["spectatorMapNumbers"];
   return {
     mappedSmiles: state["mappedSmiles"],
     displayFields: state as unknown as StateDisplayFields,
-    spectatorMapNumbers: Array.isArray(spectators) ? (spectators as number[]) : [],
+    // The schema has checked both fields' shape.
+    reactionDisplay: {
+      spectatorMapNumbers: (document["spectatorMapNumbers"] ?? []) as number[],
+      abbreviatedGroups: (document["abbreviatedGroups"] ?? []) as AbbreviatedGroup[],
+    },
   };
 }
 
 function drawExample(reactionSlug: string, stateId: string, scale = 40): StateDrawing {
   const state = exampleState(reactionSlug, stateId);
   const graph = stateGraphFromMappedSmiles(state.mappedSmiles);
-  return drawState(graph, state.displayFields, scale, state.spectatorMapNumbers);
+  return drawState(graph, state.displayFields, scale, state.reactionDisplay);
 }
 
 function targetIdsOfKind(drawing: StateDrawing, targetKind: string): string[] {
@@ -197,4 +202,51 @@ test("every state of every example can be drawn at the reaction's scale", () => 
       expect(drawing.atoms.length).toBeGreaterThan(0);
     }
   }
+});
+
+describe("abbreviated groups", () => {
+  const WITTIG = "wittig-methylenation-cyclohexanone";
+
+  test("an intact phenyl is drawn as Ph at its attachment atom, joined by one bond", () => {
+    const drawing = drawExample(WITTIG, "reactants");
+    const mapNumbers = drawing.atoms.map((atom) => atom.mapNumber);
+    expect(mapNumbers).toContain(11);
+    for (const hidden of [12, 13, 14, 15, 16, 22, 36]) {
+      expect(mapNumbers).not.toContain(hidden);
+    }
+    expect(plainLabel(drawnAtomOf(drawing, 11).labelText)).toBe("Ph");
+    const bondKeys = drawing.bonds.map((bond) => bond.mapNumbers.join("-"));
+    expect(bondKeys).toContain("1-11");
+    expect(bondKeys).not.toContain("11-12");
+    expect(drawing.atoms).toHaveLength(27 - 3 * 5);
+  });
+
+  test("nothing in a group can be tapped, the attachment bond included", () => {
+    const drawing = drawExample(WITTIG, "oxaphosphetane");
+    const groupAtoms = new Set([11, 12, 13, 14, 15, 16, 21, 22, 23, 24, 25, 26]);
+    for (const target of drawing.pickTargets) {
+      expect(target.mapNumbers.some((mapNumber) => groupAtoms.has(mapNumber))).toBe(false);
+    }
+    expect(drawing.pickTargets.map((target) => target.pickTargetId)).toContain("atom:1");
+  });
+
+  test("a group that is not intact in a state is drawn in full there", () => {
+    const sn2 = exampleState(SN2, "reactants");
+    const bromineAsGroup: ReactionDisplayFields = {
+      ...sn2.reactionDisplay,
+      abbreviatedGroups: [{ groupLabel: "X", attachmentMapNumber: 3, mapNumbers: [3] }],
+    };
+    const draw = (stateId: string): StateDrawing => {
+      const state = exampleState(SN2, stateId);
+      return drawState(
+        stateGraphFromMappedSmiles(state.mappedSmiles),
+        state.displayFields,
+        40,
+        bromineAsGroup,
+      );
+    };
+    // Reactants: Br hangs off carbon by one bond. Products: bromide is on its own.
+    expect(plainLabel(drawnAtomOf(draw("reactants"), 3).labelText)).toBe("X");
+    expect(plainLabel(drawnAtomOf(draw("products"), 3).labelText)).toBe("Br−");
+  });
 });

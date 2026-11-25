@@ -78,6 +78,7 @@
       <tr><td><b>generic rule</b></td><td>A check built into the code (octet, reversed flow …) with a fixed id.</td></tr>
       <tr><td><b>change step</b></td><td>A step with no arrows that adds or removes molecules (a reagent arrives, a work-up).</td></tr>
       <tr><td><b>spectator</b></td><td>An atom drawn faded and never validated (Na⁺, MgBr⁺).</td></tr>
+      <tr><td><b>abbreviated group</b></td><td>Bystander atoms drawn as one short label (Ph, OMe) wherever they hang off the rest by one bond. Never tapped; validation still uses every atom.</td></tr>
       <tr><td><b>reaction slug / version / version ref</b></td><td><code>aldol-addition-base</code> / <code>3</code> / <code>aldol-addition-base@3</code>.</td></tr>
       <tr><td><b>format version</b></td><td>The version of the file format itself, separate from a reaction version.</td></tr>
     </tbody></table></div>
@@ -151,6 +152,7 @@
   "dailyPuzzleEligible": true,
   "atomRoleToMapNumbers": { "nucleophile": [1], "electrophile": [2], "leavingGroup": [3] },
   "spectatorMapNumbers": [4],
+  "abbreviatedGroups": [{ "groupLabel": "Ph", "attachmentMapNumber": 11, "mapNumbers": [11, 12, 13, 14, 15, 16] }],
   "startStateId": "s0",
   "stateIdToState": { "s0": { … }, "s1": { … } },
   "steps": [ … ],                        // order carries no meaning
@@ -234,6 +236,10 @@
       <tr><td><code>misconception-hides-correct-answer</code></td><td>error</td><td>rule 7, against the accepted canonical arrows and partial arrow sets, up to symmetry (not every accepted arrow set can be listed)</td></tr>
       <tr><td><code>misconception-never-fires</code></td><td>warning</td><td>an earlier, wider entry on the same state always matches first. The test never warns wrongly but can miss a case.</td></tr>
       <tr><td><code>too-many-skeleton-symmetries</code></td><td>warning</td><td>above the symmetry cap (§4) on a state where arrows are drawn</td></tr>
+      <tr><td><code>abbreviated-group-atoms-unknown</code></td><td>error</td><td>a group names an atom no state has</td></tr>
+      <tr><td><code>abbreviated-group-not-attached-once</code></td><td>error</td><td>in a state with all its atoms, the group is not one piece joined to the rest by one bond from its attachment atom</td></tr>
+      <tr><td><code>arrow-touches-abbreviated-group</code></td><td>error</td><td>a step's arrows use an atom of a group, which the learner could not tap</td></tr>
+      <tr><td><code>misconception-in-abbreviated-group</code></td><td>warning</td><td>a misconception names an atom of a group, so it can never fire</td></tr>
     </table>
     <p>Arrow sets are checked by the validator itself, with the step being checked as the only one leaving its state, so the linter accepts exactly what the browser accepts.</p>
 

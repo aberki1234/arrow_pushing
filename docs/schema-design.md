@@ -47,6 +47,7 @@ Each term below means exactly one thing in the docs, the JSON and the code.
 | **generic rule** | A check built into the code (octet, reversed flow, …) with a fixed id. |
 | **change step** | A step with no arrows that adds or removes molecules (a reagent arrives, a work-up). |
 | **spectator** | An atom drawn faded and never validated (Na⁺, MgBr⁺). |
+| **abbreviated group** | Bystander atoms drawn as one short label (Ph, OMe) at their attachment atom wherever they hang off the rest by one bond. Never tapped; validation still uses every atom. |
 | **reaction slug / reaction version / reaction version ref** | `aldol-addition-base` / `3` / `aldol-addition-base@3`. |
 | **format version** | The version of the file format itself, separate from a reaction version. |
 
@@ -148,6 +149,8 @@ named `keyToValue`.
   "dailyPuzzleEligible": true,
   "atomRoleToMapNumbers": { "nucleophile": [1], "electrophile": [2], "leavingGroup": [3] },  // optional
   "spectatorMapNumbers": [4],            // drawn faded, never validated
+  "abbreviatedGroups": [                 // optional; drawn as the label wherever intact, never tapped
+    { "groupLabel": "Ph", "attachmentMapNumber": 11, "mapNumbers": [11, 12, 13, 14, 15, 16] }],
   "startStateId": "s0",
   "stateIdToState": { "s0": { … }, "s1": { … } },   // §3.2
   "steps": [ … ],                        // §3.3; order carries no meaning
@@ -257,6 +260,16 @@ lint when the rest could not run):
 | `misconception-hides-correct-answer` | error | rule 7, checked against the canonical arrows and partial arrow sets that are accepted, up to symmetry (every accepted arrow set cannot be listed) |
 | `misconception-never-fires` | warning | an earlier entry on the state covers it (§5.2); the coverage test is sound but not complete |
 | `too-many-skeleton-symmetries` | warning | above `MAXIMUM_SKELETON_SYMMETRIES` (§4) on a state where arrows are drawn |
+| `abbreviated-group-atoms-unknown` | error | a map number of an abbreviated group is in no state |
+| `abbreviated-group-not-attached-once` | error | in a state holding all its atoms, the group is not one connected piece joined to the rest by exactly one bond from `attachmentMapNumber` |
+| `arrow-touches-abbreviated-group` | error | canonical arrows or a partial arrow set use an atom of a group (the attachment bond included): the learner could not tap it |
+| `misconception-in-abbreviated-group` | warning | a misconception pattern names an atom of a group, so it can never fire |
+
+**Abbreviated groups** (decided 2026-11-25): listed explicitly by the author (no automatic detection), `groupLabel`
+at most 6 characters. A group is drawn as its label wherever it is intact (all its atoms present, one bond from the
+attachment atom joining it to the rest) and in full elsewhere. Nothing in it can be tapped, the attachment bond
+included. Screen readers read the label. Drawing: `src/moleculeDrawing/abbreviatedGroups.ts`; lint:
+`python/reaction_linting/abbreviated_group_rules.py`.
 
 Arrow sets are checked with the validator itself (`assess_attempt`, with the step being checked as the only one
 leaving its state), so the linter accepts exactly what the browser accepts.
