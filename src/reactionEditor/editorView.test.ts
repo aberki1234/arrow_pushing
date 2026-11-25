@@ -1,10 +1,9 @@
 /** Tests for editorView.ts: what the editor page shows, worked out from the draft. */
 import { describe, expect, it } from "vitest";
 import { parseCurvedArrow } from "../arrowNotation/curvedArrowNotation.js";
-import { mechanismOutline } from "../reactionEditing/mechanismOutline.js";
 import { newReactionDraft } from "../reactionEditing/reactionDraft.js";
 import { exampleReaction } from "../testSupport/reactionEdits.js";
-import { draftDrawing, drawnArrowsOn, mappedSmilesOf, outlineRowText } from "./editorView.js";
+import { draftDrawing, drawnArrowsOn, mappedSmilesOf } from "./editorView.js";
 
 describe("draftDrawing", () => {
   it("draws any state of the draft at the reaction's scale, with pick targets", () => {
@@ -37,27 +36,6 @@ describe("drawnArrowsOn", () => {
     const drawn = drawnArrowsOn(drawing, arrows);
     expect(drawn).toHaveLength(2);
     expect(drawn[0]?.arrowClass).toBe("");
-  });
-});
-
-describe("outlineRowText", () => {
-  it("names states, steps and joins", () => {
-    const wittig = exampleReaction("wittig-methylenation-cyclohexanone.json");
-    const texts = mechanismOutline(wittig).map((row) => outlineRowText(row, wittig));
-    expect(texts.slice(0, 5)).toEqual([
-      "reactants (start)",
-      "betaine-formation · polar · accepted",
-      "betaine",
-      "ring-closure · polar · accepted",
-      "joins oxaphosphetane",
-    ]);
-    expect(texts.at(-1)).toBe("products");
-  });
-
-  it("names a change step's kind", () => {
-    const aldol = exampleReaction("aldol-addition-base.json");
-    const texts = mechanismOutline(aldol).map((row) => outlineRowText(row, aldol));
-    expect(texts).toContain("second-aldehyde-arrives · change · preferred");
   });
 });
 

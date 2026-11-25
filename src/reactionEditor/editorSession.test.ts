@@ -36,7 +36,6 @@ describe("opening and selecting", () => {
     expect(session.selectedStateId).toBe("reactants");
     expect(session.fileName).toBe("sn2.json");
     expect(session.history.past).toEqual([]);
-    expect(session.mode).toBe("look");
   });
 
   it("starts a fresh drawing when another state is selected while drawing", () => {
@@ -60,8 +59,9 @@ describe("making steps", () => {
       "sn2.json",
     );
     const made = makeArrowStep(drawSubstitution(withoutProducts));
-    expect(made.message).toEqual({ tone: "good", text: "Added step-1 to a new state, state-1." });
+    expect(made.message).toEqual({ tone: "good", text: "Step made: Start → Product." });
     expect(made.selectedStateId).toBe("state-1");
+    expect(made.selectedStepKey).toBe("step-1");
     // Still drawing: a fresh drawing on the new state, ready for the next step.
     expect(made.arrowDrawing?.stateId).toBe("state-1");
     expect(made.arrowDrawing?.drawnArrows).toEqual([]);

@@ -1,17 +1,18 @@
 // @vitest-environment jsdom
 /**
- * A few component tests for the editor page (the decisions are tested in editorSession.ts and
- * src/reactionEditing; these check the wiring): create a draft from SMILES, draw a step with the
- * keyboard alone, undo it, save it, and play it as a learner; on the server, sign in, Edit and
- * Publish. Layout is checked by eye in a browser, not here.
+ * Component tests for Create (the decisions are tested in editorSession.ts, createView.ts and
+ * src/reactionEditing; these check the wiring): a new mechanism from its name and SMILES, a step
+ * drawn with the keyboard alone, undone, saved by itself; the Teaching to-do list; Publish's
+ * checks going to their place; Play as learner; on the server, sign in, Edit and Publish.
+ * Layout is checked by eye in a browser, not here.
  */
-import { fireEvent, render, screen, waitFor } from "@testing-library/svelte";
+import { cleanup, fireEvent, render, screen, waitFor, within } from "@testing-library/svelte";
 import { beforeAll, expect, test } from "vitest";
 import { loadChemistryToolkit } from "../chemistryToolkit/chemistryToolkit.js";
 import EditorApp from "./EditorApp.svelte";
 import { lintRequestAnswerer } from "../reactionEditing/lintRequests.js";
 import { exampleReaction } from "../testSupport/reactionEdits.js";
-import type { ReactionFileStore } from "./reactionFileStore.js";
+import type { ListedReactionFile, ReactionFileStore } from "./reactionFileStore.js";
 import type { PublishOutcome, ServerReactionStore } from "./serverReactionStore.js";
 import type { DraftLinter } from "./workerLinter.js";
 
@@ -45,21 +46,31 @@ const answerLint = lintRequestAnswerer(loadChemistryToolkit());
 const lintDraft: DraftLinter = async (document) =>
   (await answerLint({ requestId: 1, document })).lintFindings;
 
-/** Create the SN2 draft from the start panel, rendering the editor first unless `rendered`. */
+/** Render Create (unless `rendered`), then make the SN2 draft on the Start stage. */
 async function createSn2Draft(
   fileStore: ReactionFileStore,
   options: { rendered?: boolean } = {},
 ): Promise<void> {
   if (options.rendered !== true) {
-    render(EditorApp, { props: { toolkitLoading: loadChemistryToolkit(), fileStore, lintDraft } });
+    render(EditorApp, {
+      props: {
+        toolkitLoading: loadChemistryToolkit(),
+        fileStore,
+        lintDraft,
+        autosaveDelayMilliseconds: 0,
+      },
+    });
   }
-  const create = await screen.findByRole("button", { name: "Create" });
-  await fireEvent.input(screen.getByLabelText(/Slug/), { target: { value: "sn2-test" } });
-  await fireEvent.input(screen.getByLabelText("Title"), { target: { value: "SN2 test" } });
-  await fireEvent.input(screen.getByLabelText(/Start structure/), {
-    target: { value: "[OH-].CBr" },
+  await fireEvent.click(await screen.findByRole("button", { name: /New mechanism/ }));
+  await fireEvent.input(screen.getByLabelText(/What is this reaction called/), {
+    target: { value: "SN2 test" },
   });
-  await fireEvent.click(create);
+  await fireEvent.input(screen.getByLabelText(/What reacts/), { target: { value: "[OH-].CBr" } });
+  const pushArrows = screen.getByRole("button", { name: "Push the arrows →" });
+  await waitFor(() => {
+    expect(pushArrows.hasAttribute("disabled")).toBe(false);
+  });
+  await fireEvent.click(pushArrows);
   await screen.findByRole("heading", { name: "SN2 test" });
 }
 
@@ -73,116 +84,160 @@ async function pressEnterOn(accessibleName: string): Promise<void> {
 }
 
 async function drawSubstitution(): Promise<void> {
-  await fireEvent.click(screen.getByRole("button", { name: "Draw arrows" }));
   await pressEnterOn("lone pair on O1");
   await pressEnterOn("C2");
   await pressEnterOn("bond C2–Br3");
   await pressEnterOn("Br3");
-  await fireEvent.click(screen.getByRole("button", { name: "Make step" }));
+  await fireEvent.click(screen.getByRole("button", { name: "Make the step" }));
 }
 
-test("a new draft from SMILES, a step drawn with the keyboard, undone and redone", async () => {
+function stageButton(title: string): HTMLElement {
+  return within(screen.getByRole("list", { name: "Stages" })).getByRole("button", {
+    name: new RegExp(title),
+  });
+}
+
+test("a new mechanism opens on Mechanism; a step is drawn, undone and redone", async () => {
   await createSn2Draft(memoryFileStore());
+  expect(stageButton("Mechanism").getAttribute("aria-current")).toBe("step");
   await drawSubstitution();
-  expect(screen.getByRole("status").textContent).toContain("Added step-1 to a new state, state-2.");
-  expect(screen.getByRole("navigation", { name: "Mechanism" }).textContent).toContain("state-2");
+  expect(screen.getByRole("status").textContent).toContain("Step made: Start → Product.");
+  expect(screen.getByRole("button", { name: "Show Product" })).toBeTruthy();
   await fireEvent.click(screen.getByRole("button", { name: "Undo" }));
-  expect(screen.getByRole("navigation", { name: "Mechanism" }).textContent).not.toContain(
-    "state-2",
-  );
+  expect(screen.queryByRole("button", { name: "Show Product" })).toBeNull();
   await fireEvent.keyDown(window, { key: "z", ctrlKey: true, shiftKey: true });
-  expect(screen.getByRole("navigation", { name: "Mechanism" }).textContent).toContain("state-2");
+  expect(screen.getByRole("button", { name: "Show Product" })).toBeTruthy();
 });
 
-test("saving writes the draft under its slug", async () => {
+test("the draft saves by itself under its slug, made from the name", async () => {
   const fileStore = memoryFileStore();
   await createSn2Draft(fileStore);
   await drawSubstitution();
-  await fireEvent.click(screen.getByRole("button", { name: "Save sn2-test.json" }));
   await waitFor(() => {
-    expect(fileStore.saved.has("sn2-test.json")).toBe(true);
+    expect(
+      (fileStore.saved.get("sn2-test.json") as { steps?: unknown[] } | undefined)?.steps,
+    ).toHaveLength(1);
   });
-  const saved = fileStore.saved.get("sn2-test.json") as { steps: unknown[] };
-  expect(saved.steps).toHaveLength(1);
+  await waitFor(() => {
+    expect(screen.getByText("Saved")).toBeTruthy();
+  });
 });
 
-test("Play as learner opens the learner's step screen on the draft, and goes back", async () => {
-  await createSn2Draft(memoryFileStore());
-  expect(screen.getByRole("button", { name: "Play as learner" }).hasAttribute("disabled")).toBe(
-    true,
+test("going back to Your mechanisms saves an unsaved draft at once", async () => {
+  const fileStore = memoryFileStore();
+  render(EditorApp, {
+    props: {
+      toolkitLoading: loadChemistryToolkit(),
+      fileStore,
+      lintDraft,
+      autosaveDelayMilliseconds: 60_000,
+    },
+  });
+  await createSn2Draft(fileStore, { rendered: true });
+  await drawSubstitution();
+  await fireEvent.click(stageButton("Teaching"));
+  expect(fileStore.saved.has("sn2-test.json")).toBe(false);
+  await fireEvent.click(
+    screen.getAllByRole("button", { name: "← Your mechanisms" })[0] as HTMLElement,
   );
-  await drawSubstitution();
-  // Play starts from the selected state: after the step that is the product, so pick the start.
-  await fireEvent.click(screen.getByRole("button", { name: "state-1 (start)" }));
-  await fireEvent.click(screen.getByRole("button", { name: "Play as learner" }));
-  expect(screen.getByRole("button", { name: "Check" })).toBeTruthy();
-  await fireEvent.click(screen.getByRole("button", { name: "Back to editing" }));
-  expect(screen.getByRole("navigation", { name: "Mechanism" })).toBeTruthy();
+  await waitFor(() => {
+    expect(
+      (fileStore.saved.get("sn2-test.json") as { steps?: unknown[] } | undefined)?.steps,
+    ).toHaveLength(1);
+  });
 });
 
-test("live lint lists findings, goes to their place, and clears once fixed", async () => {
+test("Teaching lists what is needed; the question written is done, and undone", async () => {
   await createSn2Draft(memoryFileStore());
   await drawSubstitution();
-  await fireEvent.click(screen.getByRole("tab", { name: /Lint/ }));
-  const summaryFinding = await screen.findByRole(
+  await fireEvent.click(stageButton("Teaching"));
+  const question = screen.getByRole("button", { name: /Question the learner sees/ });
+  expect(question.textContent).toContain("needed");
+  await fireEvent.change(screen.getByLabelText(/What does the learner see/), {
+    target: { value: "Push the arrows." },
+  });
+  expect(
+    screen.getByRole("button", { name: /Question the learner sees/ }).textContent,
+  ).not.toContain("needed");
+  await fireEvent.click(screen.getByRole("button", { name: "Undo" }));
+  expect(screen.getByLabelText<HTMLTextAreaElement>(/What does the learner see/).value).toBe("");
+});
+
+test("Publish lists the checks; Fix goes to the place, and the check clears", async () => {
+  await createSn2Draft(memoryFileStore());
+  await drawSubstitution();
+  await fireEvent.click(stageButton("Publish"));
+  const summaryTask = await screen.findByRole(
     "button",
-    { name: /minLength/ },
+    { name: /The summary at the end is empty/ },
     { timeout: 10000 },
   );
-  await fireEvent.click(summaryFinding);
-  expect(screen.getByRole("tab", { name: "Reaction" }).getAttribute("aria-selected")).toBe("true");
-  const summary = screen.getByLabelText(/Mechanism summary/);
-  await fireEvent.change(summary, { target: { value: "Backside attack." } });
-  await fireEvent.click(screen.getByRole("tab", { name: /Lint/ }));
+  await fireEvent.click(summaryTask);
+  expect(stageButton("Teaching").getAttribute("aria-current")).toBe("step");
+  await fireEvent.change(screen.getByLabelText(/Shown when the learner finishes/), {
+    target: { value: "Backside attack." },
+  });
+  await fireEvent.click(stageButton("Publish"));
   await waitFor(
     () => {
-      expect(screen.queryByRole("button", { name: /minLength/ })).toBeNull();
+      expect(screen.queryByRole("button", { name: /The summary at the end is empty/ })).toBeNull();
+      expect(screen.queryByText("Checking…")).toBeNull();
     },
     { timeout: 10000 },
   );
 });
 
-test("a learner prompt typed in the State tab is saved, and can be undone", async () => {
+test("Play as learner opens the learner's step screen on the draft, and goes back", async () => {
   await createSn2Draft(memoryFileStore());
-  await fireEvent.change(screen.getByLabelText("Learner prompt"), {
-    target: { value: "Push the arrows." },
-  });
-  expect(screen.getByLabelText<HTMLInputElement>("Learner prompt").value).toBe("Push the arrows.");
-  await fireEvent.click(screen.getByRole("button", { name: "Undo" }));
-  expect(screen.getByLabelText<HTMLInputElement>("Learner prompt").value).toBe("");
+  expect(screen.getByRole("button", { name: "▶ Play as learner" }).hasAttribute("disabled")).toBe(
+    true,
+  );
+  await drawSubstitution();
+  // Play starts from the selected state: after the step that is the product, so show the start.
+  await fireEvent.click(screen.getByRole("button", { name: "Show Start" }));
+  await fireEvent.click(screen.getByRole("button", { name: "▶ Play as learner" }));
+  expect(screen.getByRole("button", { name: "Check" })).toBeTruthy();
+  await fireEvent.click(screen.getByRole("button", { name: "Back to editing" }));
+  expect(screen.getByRole("list", { name: "Stages" })).toBeTruthy();
 });
 
+const ALDOL_LISTING: ListedReactionFile = {
+  fileName: "aldol.json",
+  reactionSlug: "aldol",
+  title: "Aldol addition",
+  newestReactionVersion: 1,
+  newestSubmissionStatus: "published",
+  creationProgress: {
+    arrowStepCount: 3,
+    teachingDoneCount: 14,
+    teachingItemCount: 14,
+    neededLeftCount: 0,
+  },
+};
+
 /**
- * The built editor's store, in memory: a server where the owner may or may not be signed in.
- * `calls` records the order of saves and publishes.
+ * The built editor's store, in memory: a server where the user may or may not be signed in, with
+ * the site actions of their role. `calls` records the order of saves and publishes.
  */
-function memoryServerStore(signedIn: boolean): ServerReactionStore & {
-  saved: Map<string, unknown>;
-  calls: string[];
-} {
+function memoryServerStore(
+  signedIn: boolean,
+  siteActions: readonly string[] = ["createReactions", "publish"],
+): ServerReactionStore & { saved: Map<string, unknown>; calls: string[] } {
   const saved = new Map<string, unknown>();
   const calls: string[] = [];
   return {
     saved,
     calls,
     storagePlace: "the server",
-    list: () =>
-      Promise.resolve([
-        {
-          fileName: "aldol.json",
-          reactionSlug: "aldol",
-          title: "Aldol addition",
-          newestReactionVersion: 1,
-          newestSubmissionStatus: "published",
-        },
-      ]),
+    list: () => Promise.resolve([ALDOL_LISTING]),
     read: (fileName) => Promise.resolve(saved.get(fileName) as Record<string, unknown>),
     save: (fileName, document): Promise<void> => {
       calls.push(`save ${fileName}`);
       saved.set(fileName, document);
       return Promise.resolve();
     },
-    signedInName: () => Promise.resolve(signedIn ? "Owner Name" : null),
+    signedInUser: () =>
+      Promise.resolve(signedIn ? { displayName: "Owner Name", siteActions } : null),
     signInAddress: () => Promise.resolve("https://github.com/login/oauth/authorize?state=x"),
     publish: (reactionSlug, licenceAgreed): Promise<PublishOutcome> => {
       calls.push(`publish ${reactionSlug} ${String(licenceAgreed)}`);
@@ -201,61 +256,68 @@ function memoryServerStore(signedIn: boolean): ServerReactionStore & {
   };
 }
 
-test("on the server, not signed in: Sign in with GitHub goes to GitHub's address", async () => {
-  const visitedAddresses: string[] = [];
+function renderOnServer(
+  serverStore: ServerReactionStore,
+  goToAddress?: (address: string) => void,
+): void {
   render(EditorApp, {
     props: {
       toolkitLoading: loadChemistryToolkit(),
-      fileStore: memoryServerStore(false),
-      publishing: memoryServerStore(false),
+      fileStore: serverStore,
+      publishing: serverStore,
       lintDraft,
-      goToAddress: (address: string) => visitedAddresses.push(address),
+      autosaveDelayMilliseconds: 0,
+      ...(goToAddress === undefined ? {} : { goToAddress }),
     },
   });
+}
+
+test("on the server, not signed in: Sign in with GitHub goes to GitHub's address", async () => {
+  const visitedAddresses: string[] = [];
+  renderOnServer(memoryServerStore(false), (address) => visitedAddresses.push(address));
   await fireEvent.click(await screen.findByRole("button", { name: "Sign in with GitHub" }));
   await waitFor(() => {
     expect(visitedAddresses).toEqual(["https://github.com/login/oauth/authorize?state=x"]);
   });
 });
 
-test("on the server: the list shows each status, and Edit opens the next version", async () => {
+test("on the server: the list shows status and progress; Edit opens the next version", async () => {
   const serverStore = memoryServerStore(true);
-  render(EditorApp, {
-    props: {
-      toolkitLoading: loadChemistryToolkit(),
-      fileStore: serverStore,
-      publishing: serverStore,
-      lintDraft,
-    },
-  });
-  expect(await screen.findByText("published v1")).toBeTruthy();
-  await fireEvent.click(screen.getByRole("button", { name: "Edit as version 2" }));
+  renderOnServer(serverStore);
+  const list = await screen.findByRole("region", { name: "Your mechanisms" });
+  expect(list.textContent).toContain("Published");
+  expect(list.textContent).toContain("3 steps · teaching done");
+  await fireEvent.click(within(list).getByRole("button", { name: "Edit as version 2" }));
   await screen.findByRole("heading", {
     name: String(exampleReaction("aldol-addition-base.json").title),
   });
   expect(serverStore.calls).toEqual(["next-version aldol"]);
 });
 
-test("on the server: Publish saves first, sends the licence tick, shows the outcome", async () => {
+test("on the server: a draft names its author; Publish saves first, sends the tick", async () => {
   const serverStore = memoryServerStore(true);
-  render(EditorApp, {
-    props: {
-      toolkitLoading: loadChemistryToolkit(),
-      fileStore: serverStore,
-      publishing: serverStore,
-      lintDraft,
-    },
-  });
+  renderOnServer(serverStore);
   await createSn2Draft(serverStore, { rendered: true });
+  await fireEvent.click(stageButton("Publish"));
   await fireEvent.click(screen.getByRole("checkbox", { name: /CC BY-SA 4\.0/ }));
   await fireEvent.click(screen.getByRole("button", { name: "Publish" }));
   await waitFor(() => {
     expect(screen.getByRole("status").textContent).toContain("Published version 1.");
   });
-  expect(serverStore.calls).toEqual(["save sn2-test.json", "publish sn2-test true"]);
+  expect(serverStore.calls.slice(-2)).toEqual(["save sn2-test.json", "publish sn2-test true"]);
+  expect((serverStore.saved.get("sn2-test.json") as { authors: unknown }).authors).toEqual([
+    { name: "Owner Name", url: null },
+  ]);
 });
 
-test("in file mode there is no Publish", async () => {
+test("there is no Publish in file mode, nor for a role that may not publish", async () => {
   await createSn2Draft(memoryFileStore());
+  await fireEvent.click(stageButton("Publish"));
+  expect(screen.queryByRole("button", { name: "Publish" })).toBeNull();
+  cleanup();
+  const contributorStore = memoryServerStore(true, ["createReactions", "submitForReview"]);
+  renderOnServer(contributorStore);
+  await createSn2Draft(contributorStore, { rendered: true });
+  await fireEvent.click(stageButton("Publish"));
   expect(screen.queryByRole("button", { name: "Publish" })).toBeNull();
 });

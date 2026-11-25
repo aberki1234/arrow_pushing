@@ -56,7 +56,7 @@ export interface TeachingCounts {
 type JsonRecord = Readonly<Record<string, unknown>>;
 
 /** The full hint ladder: conceptual, narrowing, reveal (lint: fewer-than-three-hint-tiers). */
-const FULL_HINT_LADDER_LENGTH = 3;
+export const FULL_HINT_LADDER_LENGTH = 3;
 
 /** Lint rules about a whole state that belong to one of its fields. */
 const LINT_RULE_TO_FIELD: Readonly<Record<string, string>> = {
@@ -204,4 +204,32 @@ export function teachingCounts(groups: readonly TeachingGroup[]): TeachingCounts
     neededLeftCount: items.filter((item) => item.need === "needed" && item.itemStatus === "missing")
       .length,
   };
+}
+
+/** "<itemKind> <placeKind>:<state id, step key or nothing>", e.g. "hintTiers state:reactants". */
+export function teachingItemKey(item: TeachingItem): string {
+  const { place } = item;
+  const subject =
+    place.placeKind === "state" ? place.stateId : place.placeKind === "step" ? place.stepKey : "";
+  return `${item.itemKind} ${place.placeKind}:${subject}`;
+}
+
+/**
+ * The key of the first item not done after `currentKey` (from the start if null), wrapping
+ * round; when every item is done, simply the next item. Null for an empty list.
+ */
+export function nextTeachingItemKey(
+  groups: readonly TeachingGroup[],
+  currentKey: string | null,
+): string | null {
+  const items = groups.flatMap((group) => group.items);
+  const currentPosition = items.findIndex((item) => teachingItemKey(item) === currentKey);
+  // From just after the current item (or from the first when there is none), all the way round.
+  const inOrder = Array.from(
+    items.keys(),
+    (offset) => items[(currentPosition + 1 + offset) % items.length],
+  );
+  const notDone = inOrder.find((item) => item !== undefined && item.itemStatus !== "done");
+  const next = notDone ?? inOrder[0];
+  return next === undefined ? null : teachingItemKey(next);
 }

@@ -1,6 +1,6 @@
 /**
- * Tests for the 8b actions of editorSession.ts: selecting steps, side tabs, applying field edits
- * through the undo history, wedges, saving drawn arrows as answers, and going to a lint finding.
+ * Tests for the 8b actions of editorSession.ts: selecting steps, applying field edits through the
+ * undo history, wedges, and saving drawn arrows as answers.
  */
 import { describe, expect, it } from "vitest";
 import { setStateField } from "../reactionEditing/fieldEdits.js";
@@ -10,7 +10,6 @@ import { exampleReaction } from "../testSupport/reactionEdits.js";
 import {
   applyDocumentEdit,
   currentDraft,
-  goToPlace,
   openDraft,
   saveDrawnArrowsAs,
   selectState,
@@ -25,31 +24,12 @@ function session(fileName = "aldol-addition-base.json"): EditorSession {
   return openDraft(exampleReaction(fileName), fileName);
 }
 
-describe("selection and side tabs", () => {
-  it("selecting a step selects its from-state and shows the step tab", () => {
+describe("selection", () => {
+  it("selecting a step selects its from-state; selecting a state clears it", () => {
     const selected = selectStep(session(), "carbon-carbon-bond-formation");
     expect(selected.selectedStepKey).toBe("carbon-carbon-bond-formation");
     expect(selected.selectedStateId).toBe("enolate-and-aldehyde");
-    expect(selected.sideTab).toBe("step");
     expect(selectState(selected, "enolate").selectedStepKey).toBeNull();
-  });
-
-  it("goes to the place of a lint finding", () => {
-    const atStep = goToPlace(session(), {
-      placeKind: "step",
-      stepKey: "protonation",
-      field: "explanationAfterStep",
-    });
-    expect([atStep.selectedStepKey, atStep.sideTab]).toEqual(["protonation", "step"]);
-    const atState = goToPlace(session(), {
-      placeKind: "state",
-      stateId: "alkoxide",
-      field: "hintTiers",
-    });
-    expect([atState.selectedStateId, atState.sideTab]).toEqual(["alkoxide", "state"]);
-    expect(goToPlace(session(), { placeKind: "reaction", field: "authors" }).sideTab).toBe(
-      "reaction",
-    );
   });
 });
 
@@ -96,7 +76,7 @@ describe("saving drawn arrows as answers", () => {
       severity: "wrong",
       feedbackMessage: "Polar conditions: the bond breaks heterolytically.",
     });
-    expect(saved.message).toEqual({ tone: "good", text: "Saved misconception-1 on reactants." });
+    expect(saved.message).toEqual({ tone: "good", text: "Saved the wrong answer on Start." });
     expect(saved.arrowDrawing?.drawnArrows).toEqual([]);
   });
 
@@ -105,7 +85,10 @@ describe("saving drawn arrows as answers", () => {
       answerKind: "partialProgress",
       feedbackMessage: "One more.",
     });
-    expect(saved.message.tone).toBe("good");
+    expect(saved.message).toEqual({
+      tone: "good",
+      text: 'Saved a "right so far" message on Start.',
+    });
   });
 
   it("refuses a partial arrow set the validator does not accept, keeping the arrows", () => {

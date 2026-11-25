@@ -9,9 +9,11 @@
  *   moveAtoms     drag atoms to tidy the selected state's layout
  *   showHydrogen  a tap on an atom shows one of its implicit hydrogens
  *   wedges        a tap on a bond cycles its wedge style (display only)
- * The side panel shows one tab: the reaction's fields, the selected state's, the selected step's,
- * or the lint findings. Field edits (reactionEditing/fieldEdits.ts, drawnAnswers.ts) all go
- * through applyDocumentEdit(), so each can be undone.
+ * Stages (docs/SPEC.md §5, "Create"): a draft opens on the stage its progress points to
+ * (reactionEditing/creationProgress.ts). Arrows are drawn on the mechanism stage, and on the
+ * teaching stage while its "Common wrong answers" item is open; elsewhere the drawing only shows.
+ * Field edits (reactionEditing/fieldEdits.ts, drawnAnswers.ts) all go through
+ * applyDocumentEdit(), so each can be undone.
  */
 import type { ChemistryToolkit } from "../chemistryToolkit/chemistryToolkit.js";
 import type { TappedPlace } from "../stepSession/arrowPicking.js";
@@ -33,15 +35,25 @@ import {
   type MisconceptionFields,
 } from "../reactionEditing/drawnAnswers.js";
 import { cycleWedgeStyle } from "../reactionEditing/fieldEdits.js";
+import { stageOfPlace } from "../reactionEditing/checkTasks.js";
+import {
+  type CreationStage,
+  creationProgress,
+  openingStage,
+} from "../reactionEditing/creationProgress.js";
 import type { LintPlace } from "../reactionEditing/lintPlaces.js";
 import { type ReactionDocument, statesOf, stepsOf } from "../reactionEditing/reactionDraft.js";
 import { editStateSmiles, regenerateStatesAfter } from "../reactionEditing/stateRegeneration.js";
 import { deleteStep } from "../reactionEditing/stepDeletion.js";
+import { stateDisplayNames, stateStripRows } from "../reactionEditing/stateStrip.js";
 import { addArrowStep } from "../reactionEditing/stepGeneration.js";
+import {
+  nextTeachingItemKey,
+  teachingChecklist,
+  teachingItemKey,
+} from "../reactionEditing/teachingChecklist.js";
 
 export type EditorMode = "look" | "drawArrows" | "moveAtoms" | "showHydrogen" | "wedges";
-
-export type SideTab = "reaction" | "state" | "step" | "lint";
 
 export interface EditorMessage {
   readonly tone: "neutral" | "good" | "bad";
@@ -53,9 +65,12 @@ export interface EditorSession {
   /** The file the draft is saved as in content/reactions/. */
   readonly fileName: string;
   readonly selectedStateId: string;
-  /** The step whose fields the step tab shows, if one is selected. */
+  /** The step whose fields the mechanism stage shows, if one is selected. */
   readonly selectedStepKey: string | null;
-  readonly sideTab: SideTab;
+  /** Create's stage on screen (docs/SPEC.md §5, "Create"). */
+  readonly stage: CreationStage;
+  /** The Teaching item open (teachingChecklist.teachingItemKey), if one is. */
+  readonly teachingItemKey: string | null;
   readonly mode: EditorMode;
   /** The arrows being drawn on the selected state (drawArrows mode only). */
   readonly arrowDrawing: ArrowDrawing | null;
@@ -93,60 +108,137 @@ function refusedWith(session: EditorSession, reason: string): EditorSession {
   return { ...session, message: { tone: "bad", text: reason } };
 }
 
+/** The first state of the route that no step leaves yet: where drawing goes on. */
+function stateToContinueFrom(document: ReactionDocument): string {
+  const steps = stepsOf(document);
+  const [route] = stateStripRows(document);
+  const open = route?.frames.find(
+    (frame) =>
+      frame.frameKind === "state" && !steps.some((step) => step.fromStateId === frame.stateId),
+  );
+  return open?.frameKind === "state" ? open.stateId : startStateIdOf(document);
+}
+
 export function openDraft(document: ReactionDocument, fileName: string): EditorSession {
-  return {
+  const stage = openingStage(creationProgress(document));
+  const opened: EditorSession = {
     history: startHistory(document),
     fileName,
-    selectedStateId: startStateIdOf(document),
+    selectedStateId:
+      stage === "mechanism" ? stateToContinueFrom(document) : startStateIdOf(document),
     selectedStepKey: null,
-    sideTab: "state",
+    stage: "start",
+    teachingItemKey: null,
     mode: "look",
     arrowDrawing: null,
     message: NO_MESSAGE,
   };
+  return setStage(opened, stage);
 }
 
 export function selectState(session: EditorSession, stateId: string): EditorSession {
-  const sideTab = session.sideTab === "step" ? "state" : session.sideTab;
-  return withDraft(
-    { ...session, selectedStepKey: null, sideTab },
-    session.history,
-    NO_MESSAGE,
-    stateId,
-  );
+  return withDraft({ ...session, selectedStepKey: null }, session.history, NO_MESSAGE, stateId);
 }
 
-/** Select a step: its from-state is shown, and the step tab. */
+/** Select a step: its from-state is shown. */
 export function selectStep(session: EditorSession, stepKey: string): EditorSession {
   const step = stepsOf(currentDraft(session)).find((candidate) => candidate.stepKey === stepKey);
   if (step === undefined) {
     return session;
   }
   const selected = withDraft(session, session.history, NO_MESSAGE, String(step.fromStateId));
-  return { ...selected, selectedStepKey: stepKey, sideTab: "step" };
+  return { ...selected, selectedStepKey: stepKey };
 }
 
-export function setSideTab(session: EditorSession, sideTab: SideTab): EditorSession {
-  return { ...session, sideTab };
+const MECHANISM_MODES: readonly EditorMode[] = [
+  "drawArrows",
+  "moveAtoms",
+  "showHydrogen",
+  "wedges",
+];
+
+/** Show a stage. The teaching stage keeps its open item, or opens the first not done. */
+export function setStage(session: EditorSession, stage: CreationStage): EditorSession {
+  if (stage === "teaching") {
+    const groups = teachingChecklist(currentDraft(session), []);
+    const keys = groups.flatMap((group) => group.items.map(teachingItemKey));
+    const kept = keys.find((key) => key === session.teachingItemKey);
+    const key = kept ?? nextTeachingItemKey(groups, null);
+    if (key !== null) {
+      return selectTeachingItem(session, key);
+    }
+  }
+  const mode =
+    stage === "mechanism"
+      ? MECHANISM_MODES.includes(session.mode)
+        ? session.mode
+        : "drawArrows"
+      : "look";
+  const message = stage === session.stage ? session.message : NO_MESSAGE;
+  return withDraft({ ...session, stage, mode }, session.history, message);
 }
 
-/** Show the place a lint finding points at (reactionEditing/lintPlaces.ts). */
+/** Open a teaching item: its state is shown; arrows are drawn there for wrong answers. */
+export function selectTeachingItem(session: EditorSession, itemKey: string): EditorSession {
+  const document = currentDraft(session);
+  const item = teachingChecklist(document, [])
+    .flatMap((group) => group.items)
+    .find((candidate) => teachingItemKey(candidate) === itemKey);
+  if (item === undefined) {
+    return session;
+  }
+  const { place } = item;
+  const stateId =
+    place.placeKind === "state"
+      ? place.stateId
+      : place.placeKind === "step"
+        ? String(stepsOf(document).find((step) => step.stepKey === place.stepKey)?.fromStateId)
+        : session.selectedStateId;
+  const mode = item.itemKind === "misconceptions" ? "drawArrows" : "look";
+  return withDraft(
+    { ...session, stage: "teaching", teachingItemKey: itemKey, mode, selectedStepKey: null },
+    session.history,
+    NO_MESSAGE,
+    stateId,
+  );
+}
+
+/** The teaching item at `place`, or else the first one on the same state or step. */
+function teachingItemKeyAt(document: ReactionDocument, place: LintPlace): string | null {
+  const items = teachingChecklist(document, []).flatMap((group) => group.items);
+  const subjectOf = (candidate: LintPlace): string => JSON.stringify({ ...candidate, field: null });
+  const exact = items.find((item) => JSON.stringify(item.place) === JSON.stringify(place));
+  const sameSubject = items.find((item) => subjectOf(item.place) === subjectOf(place));
+  const found = exact ?? sameSubject;
+  return found === undefined ? null : teachingItemKey(found);
+}
+
+/** Show the place a lint finding points at, on the stage that edits it (checkTasks.ts). */
 export function goToPlace(session: EditorSession, place: LintPlace): EditorSession {
-  if (place.placeKind === "step") {
-    return selectStep(session, place.stepKey);
+  const stage = stageOfPlace(place);
+  if (stage === "teaching") {
+    const key = teachingItemKeyAt(currentDraft(session), place);
+    return key === null ? setStage(session, stage) : selectTeachingItem(session, key);
   }
-  if (place.placeKind === "state") {
-    return { ...selectState(session, place.stateId), sideTab: "state" };
+  const staged = setStage(session, stage);
+  if (stage === "mechanism" && place.placeKind === "step") {
+    return selectStep(staged, place.stepKey);
   }
-  return { ...session, sideTab: "reaction" };
+  if (stage === "mechanism" && place.placeKind === "state") {
+    return selectState(staged, place.stateId);
+  }
+  return staged;
 }
+
+/** A field edit (reactionEditing/fieldEdits.ts, drawnAnswers.ts): the new draft, or why not. */
+export type DocumentEdit =
+  | { readonly outcome: "edited"; readonly document: ReactionDocument }
+  | { readonly outcome: "refused"; readonly reason: string };
 
 /** Record a field edit, or show why it was refused (the draft is then unchanged). */
 export function applyDocumentEdit(
   session: EditorSession,
-  edit:
-    | { readonly outcome: "edited"; readonly document: ReactionDocument }
-    | { readonly outcome: "refused"; readonly reason: string },
+  edit: DocumentEdit,
   successText = "",
 ): EditorSession {
   if (edit.outcome === "refused") {
@@ -212,34 +304,18 @@ export function saveDrawnArrowsAs(session: EditorSession, answer: DrawnAnswer): 
   const stateId = session.selectedStateId;
   let edit;
   let text: string;
+  const stateName = stateDisplayNames(document).get(stateId) ?? stateId;
   if (answer.answerKind === "misconception") {
     edit = addMisconceptionFromArrows(document, stateId, arrows, answer);
-    const ids = edit.outcome === "edited" ? misconceptionIdsOn(edit.document, stateId) : [];
-    text = `Saved ${ids.at(-1) ?? "the misconception"} on ${stateId}.`;
+    text = `Saved the wrong answer on ${stateName}.`;
   } else if (answer.answerKind === "partialProgress") {
     edit = addPartialProgressMessage(document, stateId, arrows, answer.feedbackMessage);
-    text = `Saved a partial progress message on ${stateId}.`;
+    text = `Saved a "right so far" message on ${stateName}.`;
   } else {
     edit = addPartialArrowSet(document, answer.stepKey, arrows);
-    text = `Saved another complete arrow set for ${answer.stepKey}.`;
+    text = "Saved another complete arrow set for this step.";
   }
   return applyDocumentEdit(session, edit, text);
-}
-
-function misconceptionIdsOn(document: ReactionDocument, stateId: string): string[] {
-  const state = statesOf(document)[stateId];
-  const entries: unknown[] =
-    typeof state === "object" &&
-    state !== null &&
-    "misconceptions" in state &&
-    Array.isArray(state.misconceptions)
-      ? state.misconceptions
-      : [];
-  return entries.map((entry) =>
-    typeof entry === "object" && entry !== null && "misconceptionId" in entry
-      ? String(entry.misconceptionId)
-      : "",
-  );
 }
 
 /** The drawn arrows become a step (reactionEditing/stepGeneration.ts). */
@@ -249,20 +325,24 @@ export function makeArrowStep(session: EditorSession): EditorSession {
   if (generation.outcome === "refused") {
     return refusedWith(session, generation.reason);
   }
+  const names = stateDisplayNames(generation.document);
+  const nameOf = (stateId: string): string => names.get(stateId) ?? stateId;
+  const fromTo = `${nameOf(session.selectedStateId)} → ${nameOf(generation.toStateId)}`;
   const joined = generation.joinedExistingState
-    ? `Added ${generation.stepKey}, joining ${generation.toStateId}.`
-    : `Added ${generation.stepKey} to a new state, ${generation.toStateId}.`;
+    ? `Step made: ${fromTo}, joining a state you already have.`
+    : `Step made: ${fromTo}.`;
   const warning =
     generation.resonanceFormOfStateId === null
       ? ""
       : ` It is a resonance form of ${generation.resonanceFormOfStateId}; lint will flag it.`;
   const history = recordEdit(session.history, generation.document);
-  return withDraft(
+  const made = withDraft(
     session,
     history,
     { tone: "good", text: joined + warning },
     generation.toStateId,
   );
+  return { ...made, selectedStepKey: generation.stepKey };
 }
 
 /** Molecules arrive or leave at the selected state (reactionEditing/changeSteps.ts). */

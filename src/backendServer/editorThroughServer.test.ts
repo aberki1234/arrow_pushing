@@ -72,8 +72,11 @@ async function signedInStore(): Promise<ReturnType<typeof serverReactionStore>> 
 
 describe("signing in", () => {
   it("knows who is signed in, and no one without a session", async () => {
-    expect(await (await signedInStore()).signedInName()).toBe("Owner Name");
-    expect(await serverReactionStore(browserFetch("")).signedInName()).toBeNull();
+    expect(await (await signedInStore()).signedInUser()).toEqual({
+      displayName: "Owner Name",
+      siteActions: ["createReactions", "seeEveryReaction", "submitForReview", "publish", "review"],
+    });
+    expect(await serverReactionStore(browserFetch("")).signedInUser()).toBeNull();
   });
 
   it("gets GitHub's sign-in address", async () => {
@@ -81,6 +84,14 @@ describe("signing in", () => {
     expect(signInAddress).toMatch(/^https:\/\/github\.com\/login\/oauth\/authorize\?/);
   });
 });
+
+/** The SN2 example's progress in Create: one step, every teaching item done. */
+const SN2_PROGRESS = {
+  arrowStepCount: 1,
+  teachingDoneCount: 5,
+  teachingItemCount: 5,
+  neededLeftCount: 0,
+};
 
 describe("a reaction from draft to published, from the editor", () => {
   it("saves, lists, reads, refuses Publish without the licence, publishes and edits", async () => {
@@ -94,6 +105,7 @@ describe("a reaction from draft to published, from the editor", () => {
         title: exampleReaction(SN2_FILE_NAME).title,
         newestReactionVersion: 1,
         newestSubmissionStatus: "draft",
+        creationProgress: SN2_PROGRESS,
       },
     ]);
     expect(await store.read(SN2_FILE_NAME)).toEqual(exampleReaction(SN2_FILE_NAME));

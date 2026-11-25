@@ -323,6 +323,12 @@ then a halobenzene (deactivating but ortho/para). The track ends with a checkpoi
     and link back to it.
   - **Learners see no Create tab** while Create is the owner's alone; one build setting adds it to the header when
     contributors arrive (8e).
+  - **Defaults chosen while building the pages (2026-11-26):** the draft **saves by itself** about 1.5 s
+    after the last change to it, and at once on going back to Your mechanisms (no Save button; Download the
+    JSON file stays on Publish); a new draft names the signed-in user as its author; Publish's checks list
+    the needed teaching items still missing as well as the lint findings; the Create home lists reactions
+    without thumbnails (its list has no documents); "Submit for review" waits for 8e, so a role that may
+    not publish sees no button; hint tiers left empty at the end are dropped.
   - **Ready for contributors:** every "may this user …" decision on the server sits in one module, by site role
     (owner / reviewer / contributor, already a column of `users`); the editor asks the server for the signed-in
     user's role and shows Publish or Submit for review from it. 8e then adds sign-up beyond the allow-list,

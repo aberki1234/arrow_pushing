@@ -4,6 +4,8 @@
  * backend's database (serverReactionStore.ts; the built editor). Both name a reaction by its
  * file name, "<slug>.json".
  */
+import type { CreationProgress } from "../reactionEditing/creationProgress.js";
+
 export const REACTION_FILES_PATH = "/editor-api/reactions";
 
 export interface ListedReactionFile {
@@ -13,6 +15,8 @@ export interface ListedReactionFile {
   /** The server's only: the newest version's number and submission status. */
   readonly newestReactionVersion?: number;
   readonly newestSubmissionStatus?: string;
+  /** How far the draft has come in Create; null for a file that is not a reaction. */
+  readonly creationProgress: CreationProgress | null;
 }
 
 export interface ReactionFileStore {

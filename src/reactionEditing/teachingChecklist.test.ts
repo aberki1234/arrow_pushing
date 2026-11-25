@@ -3,7 +3,13 @@ import { expect, it } from "vitest";
 import type { LintFinding } from "../reactionLinting/lintFindings.js";
 import { exampleReaction } from "../testSupport/reactionEdits.js";
 import { newReactionDraft } from "./reactionDraft.js";
-import { type TeachingGroup, teachingChecklist, teachingCounts } from "./teachingChecklist.js";
+import {
+  nextTeachingItemKey,
+  type TeachingGroup,
+  teachingChecklist,
+  teachingCounts,
+  teachingItemKey,
+} from "./teachingChecklist.js";
 
 type JsonRecord = Record<string, unknown>;
 
@@ -132,4 +138,40 @@ it("attaches lint findings at an item's place to that item", () => {
     [neverFires],
     [],
   ]);
+});
+
+it("keys each item by its kind and place", () => {
+  const [stateGroup] = teachingChecklist(exampleReaction("sn2-hydroxide-bromomethane.json"), []);
+  expect(stateGroup?.items.map(teachingItemKey)).toEqual([
+    "learnerPrompt state:reactants",
+    "hintTiers state:reactants",
+    "misconceptions state:reactants",
+    "explanationAfterStep step:substitution",
+  ]);
+});
+
+it("finds the next item not done after the current one, wrapping round", () => {
+  const sn2 = exampleReaction("sn2-hydroxide-bromomethane.json");
+  const states = sn2.stateIdToState as Record<string, Record<string, unknown>>;
+  const partly = {
+    ...sn2,
+    mechanismSummary: "",
+    stateIdToState: { ...states, reactants: { ...states.reactants, hintTiers: ["One"] } },
+  };
+  const groups = teachingChecklist(partly, []);
+  expect(nextTeachingItemKey(groups, null)).toBe("hintTiers state:reactants");
+  expect(nextTeachingItemKey(groups, "hintTiers state:reactants")).toBe(
+    "mechanismSummary reaction:",
+  );
+  expect(nextTeachingItemKey(groups, "mechanismSummary reaction:")).toBe(
+    "hintTiers state:reactants",
+  );
+});
+
+it("moves on to the next item when every item is done", () => {
+  const groups = teachingChecklist(exampleReaction("sn2-hydroxide-bromomethane.json"), []);
+  expect(nextTeachingItemKey(groups, null)).toBe("learnerPrompt state:reactants");
+  expect(nextTeachingItemKey(groups, "learnerPrompt state:reactants")).toBe(
+    "hintTiers state:reactants",
+  );
 });

@@ -1,21 +1,4 @@
 /* The editor's own layout, on top of the learner site's styles (learnerSite/site.css). */
-.editor-layout {
-  display: grid;
-  grid-template-columns: minmax(200px, 1fr) minmax(320px, 2.4fr) minmax(260px, 1.2fr);
-  gap: 16px;
-  align-items: start;
-}
-.outline {
-  list-style: none;
-  padding: 0;
-  margin: 0;
-}
-.outline li {
-  display: flex;
-  gap: 6px;
-  align-items: center;
-  margin: 4px 0;
-}
 .canvas-card {
   overflow: auto;
 }
@@ -44,11 +27,416 @@ input:not([type="file"], [type="checkbox"]) {
 .handle {
   cursor: grab;
 }
-.finding {
+
+/* Create (docs/SPEC.md §5, "Create"; the design is mockups/create.html). */
+.block {
+  display: block;
+}
+.grow {
+  flex: 1;
+}
+.ink {
+  color: var(--ink);
+}
+.accent {
+  color: var(--accent);
+}
+.mono {
+  font-family: ui-monospace, monospace;
+}
+.optional {
+  font-weight: 600;
+  color: var(--muted);
+  font-size: 0.78rem;
+}
+.narrow {
+  max-width: 760px;
+  margin-left: auto;
+  margin-right: auto;
+}
+.mt-small {
+  margin: 8px 0 4px;
+}
+.draft-title {
+  margin: 0;
+}
+.message.warn {
+  color: var(--warn);
+}
+.bigchoice {
+  display: grid;
+  gap: 6px;
+  text-align: left;
+  font: inherit;
+  color: var(--ink);
+  cursor: pointer;
+}
+section.bigchoice {
+  cursor: default;
+}
+.bigchoice .ic {
+  font-size: 1.6rem;
+}
+.choice-title {
+  font-size: 1.3rem;
+  font-weight: 800;
+}
+.mylist .item {
+  display: flex;
+  gap: 14px;
+  align-items: center;
+  padding: 12px 6px;
+  border-bottom: 1px solid var(--line);
+}
+.mylist .item:last-child {
+  border-bottom: 0;
+}
+
+/* the stage stepper */
+.stepper {
+  display: flex;
+  list-style: none;
+  padding: 0;
+  margin: 18px 0 0;
+  flex-wrap: wrap;
+}
+.stepper li {
+  flex: 1;
+  min-width: 130px;
+}
+.stepper button {
+  width: 100%;
+  border: 0;
+  background: none;
+  font: inherit;
+  cursor: pointer;
+  text-align: left;
+  padding: 10px 12px 12px;
+  border-bottom: 3px solid var(--line);
+  color: var(--muted);
+  display: flex;
+  gap: 10px;
+  align-items: center;
+}
+.stepper button[disabled] {
+  cursor: not-allowed;
+  opacity: 0.5;
+}
+.stepper .n {
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  display: grid;
+  place-items: center;
+  font-weight: 800;
+  font-size: 0.85rem;
+  background: var(--surface-2);
+  border: 1px solid var(--line);
+  flex: none;
+}
+.stepper b {
+  display: block;
+  color: var(--ink);
+  font-size: 0.95rem;
+}
+.stepper small {
+  font-size: 0.78rem;
+}
+.stepper button[aria-current="step"] {
+  border-color: var(--accent);
+}
+.stepper button[aria-current="step"] .n {
+  background: var(--accent);
+  color: var(--accent-ink);
+  border-color: var(--accent);
+}
+.stepper button.done .n {
+  background: var(--good-soft);
+  color: var(--good);
+  border-color: var(--good);
+}
+
+/* the Start stage */
+.preview {
+  padding: 6px;
+  min-height: 80px;
+}
+
+/* the Mechanism stage */
+.stage2 {
+  display: grid;
+  grid-template-columns: minmax(0, 1.7fr) minmax(260px, 1fr);
+  gap: 16px;
+  align-items: start;
+}
+@media (max-width: 860px) {
+  .stage2,
+  .teach {
+    grid-template-columns: 1fr;
+  }
+}
+.toolbar {
+  display: flex;
+  gap: 6px;
+  flex-wrap: wrap;
+  align-items: center;
+  padding: 6px 4px 10px;
+  border-bottom: 1px solid var(--line);
+  margin-bottom: 6px;
+}
+.tool {
+  border: 1px solid var(--line);
+  background: var(--surface);
+  color: var(--ink);
+  border-radius: 10px;
+  padding: 6px 10px;
+  font: inherit;
+  font-size: 0.85rem;
+  font-weight: 700;
+  cursor: pointer;
+}
+.tool[aria-pressed="true"] {
+  background: var(--accent);
+  color: var(--accent-ink);
+  border-color: var(--accent);
+}
+.menu {
+  position: relative;
+}
+.menu-pop {
+  position: absolute;
+  top: 110%;
+  left: 0;
+  z-index: 5;
+  min-width: 260px;
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  box-shadow: var(--shadow);
+  padding: 6px;
+}
+.menu-pop button {
   display: block;
   width: 100%;
   text-align: left;
+  border: 0;
+  background: none;
+  font: inherit;
+  color: var(--ink);
+  padding: 8px 10px;
+  border-radius: 8px;
+  cursor: pointer;
 }
-.finding code {
-  margin: 0 4px;
+.menu-pop button:hover {
+  background: var(--surface-2);
+}
+.menu-pop small {
+  display: block;
+  color: var(--muted);
+  font-size: 0.76rem;
+}
+.canvas-hint {
+  padding: 0 8px 6px;
+}
+.strips {
+  display: grid;
+  gap: 4px;
+}
+.strip {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+  overflow-x: auto;
+  padding: 6px 2px 4px;
+}
+.frame {
+  flex: none;
+  width: 150px;
+  border: 2px solid var(--line);
+  border-radius: 12px;
+  background: var(--surface);
+  cursor: pointer;
+  padding: 4px;
+  text-align: center;
+  font: inherit;
+  font-size: 0.78rem;
+  font-weight: 700;
+  color: var(--muted);
+}
+.frame .thumbnail {
+  height: 70px;
+}
+.frame .thumbnail svg {
+  height: 100%;
+}
+.frame[aria-current="true"] {
+  border-color: var(--accent);
+  color: var(--accent);
+}
+.strip .to {
+  flex: none;
+  border: 1px solid var(--line);
+  background: var(--surface);
+  color: var(--muted);
+  border-radius: 999px;
+  width: 32px;
+  height: 32px;
+  font: inherit;
+  font-weight: 800;
+  cursor: pointer;
+}
+.strip .to[aria-current="true"] {
+  background: var(--accent);
+  color: var(--accent-ink);
+  border-color: var(--accent);
+}
+.arrowlist {
+  list-style: none;
+  margin: 8px 0 0;
+  padding: 0;
+  display: grid;
+  gap: 6px;
+}
+.arrowlist li {
+  background: var(--surface-2);
+  border-radius: 10px;
+  padding: 6px 10px;
+  font-size: 0.9rem;
+}
+details.adv summary {
+  cursor: pointer;
+  font-weight: 700;
+  color: var(--muted);
+  font-size: 0.88rem;
+  padding: 6px 0;
+}
+
+/* the Teaching stage */
+.teach {
+  display: grid;
+  grid-template-columns: minmax(240px, 0.9fr) minmax(0, 1.6fr);
+  gap: 16px;
+  align-items: start;
+}
+.todo {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: 4px;
+}
+.todo button {
+  width: 100%;
+  text-align: left;
+  border: 1px solid transparent;
+  background: none;
+  font: inherit;
+  color: var(--ink);
+  padding: 8px 10px;
+  border-radius: 10px;
+  cursor: pointer;
+  display: flex;
+  gap: 10px;
+  align-items: center;
+}
+.todo button:hover {
+  background: var(--surface-2);
+}
+.todo button[aria-current="true"] {
+  background: var(--accent-soft);
+  border-color: var(--accent);
+}
+.todo .tag {
+  margin-left: auto;
+}
+.mark {
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  display: grid;
+  place-items: center;
+  font-size: 0.75rem;
+  font-weight: 800;
+  flex: none;
+  border: 2px solid var(--line);
+  color: var(--muted);
+}
+.mark.ok {
+  background: var(--good);
+  border-color: var(--good);
+  color: #fff;
+}
+.mark.need {
+  border-color: var(--bad);
+  color: var(--bad);
+}
+.mark.warnmark {
+  border-color: var(--warn);
+  color: var(--warn);
+}
+.grouphead {
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--muted);
+  font-weight: 800;
+  margin: 12px 0 4px 4px;
+}
+.with-picture {
+  display: flex;
+  gap: 14px;
+  align-items: flex-start;
+}
+.picture {
+  width: 220px;
+  flex: none;
+  padding: 2px;
+}
+.tier {
+  display: grid;
+  grid-template-columns: 100px 1fr;
+  gap: 10px;
+  align-items: start;
+  margin-top: 10px;
+}
+.tier .lab {
+  font-weight: 800;
+  font-size: 0.85rem;
+  padding-top: 8px;
+}
+.tier .lab small {
+  display: block;
+  color: var(--muted);
+  font-weight: 600;
+}
+.findings {
+  margin: 0 0 8px;
+}
+.seg {
+  display: inline-flex;
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  overflow: hidden;
+}
+.seg button {
+  border: 0;
+  background: var(--surface);
+  color: var(--ink);
+  padding: 7px 12px;
+  font: inherit;
+  font-size: 0.85rem;
+  font-weight: 700;
+  cursor: pointer;
+}
+.seg button[aria-pressed="true"] {
+  background: var(--accent);
+  color: var(--accent-ink);
+}
+/* Field captions that are not labels (a group of chips, a choice) look like label.f. */
+p.f {
+  display: block;
+  font-size: 0.82rem;
+  font-weight: 700;
+  color: var(--muted);
+  margin: 10px 0 4px;
 }

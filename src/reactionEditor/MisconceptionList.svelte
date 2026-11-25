@@ -1,6 +1,7 @@
 <script lang="ts">
-  // The selected state's misconceptions (tried in order; the first match wins) and partial
-  // progress messages. New ones are drawn on the canvas and saved from the drawing panel.
+  // The selected state's saved wrong answers (misconceptions, tried in order; the first match
+  // wins) and "right so far" messages (partial progress). New ones are drawn (WrongAnswers.svelte);
+  // the pattern, id and tag sit under "Match more than this exact drawing".
   import {
     moveMisconception,
     removeMisconception,
@@ -40,57 +41,34 @@
   }
 </script>
 
-<h3 class="mt">Misconceptions</h3>
+<h3 class="mt">Saved wrong answers</h3>
 {#if misconceptions.length === 0}
-  <p class="small muted">None yet: draw a wrong answer, then "Save as misconception".</p>
+  <p class="small muted">None yet.</p>
 {/if}
 {#each misconceptions as entry, position (entry.misconceptionId)}
-  <fieldset class="card flat" aria-label={`Misconception ${entry.misconceptionId}`}>
-    <div class="row">
-      <input
-        aria-label="Misconception id"
-        value={entry.misconceptionId}
-        onchange={(event) => {
-          change(entry.misconceptionId, "misconceptionId", event.currentTarget.value);
-        }}
-      />
-      <select
-        aria-label="Severity"
-        value={entry.severity}
-        onchange={(event) => {
-          change(entry.misconceptionId, "severity", event.currentTarget.value);
-        }}
-      >
-        <option value="wrong">wrong</option>
-        <option value="plausible">plausible</option>
-      </select>
-    </div>
-    <input
-      aria-label="Tag (groups misconceptions on the progress page)"
-      placeholder="tag"
-      value={entry.misconceptionTag ?? ""}
-      onchange={(event) => {
-        change(entry.misconceptionId, "misconceptionTag", event.currentTarget.value);
-      }}
-    />
-    <input
-      aria-label="Arrow pattern"
-      value={entry.arrowPattern}
-      onchange={(event) => {
-        change(entry.misconceptionId, "arrowPattern", event.currentTarget.value);
-      }}
-    />
+  <fieldset class="card flat" aria-label={`Wrong answer ${entry.misconceptionId}`}>
     <textarea
-      aria-label="Feedback message"
+      aria-label="Message the learner sees"
       rows="2"
       value={entry.feedbackMessage}
       onchange={(event) => {
         change(entry.misconceptionId, "feedbackMessage", event.currentTarget.value);
       }}></textarea>
     <div class="row">
+      <select
+        aria-label="How wrong"
+        value={entry.severity}
+        onchange={(event) => {
+          change(entry.misconceptionId, "severity", event.currentTarget.value);
+        }}
+      >
+        <option value="wrong">wrong</option>
+        <option value="plausible">plausible, not this reaction</option>
+      </select>
       <button
         class="btn sm"
         disabled={position === 0}
+        title="Tried in order: the first match wins"
         onclick={() => {
           apply(moveMisconception(document, stateId, entry.misconceptionId, -1));
         }}
@@ -115,10 +93,39 @@
         Remove
       </button>
     </div>
+    <details class="adv">
+      <summary>Match more than this exact drawing</summary>
+      <input
+        aria-label="Arrow pattern"
+        class="mono"
+        value={entry.arrowPattern}
+        onchange={(event) => {
+          change(entry.misconceptionId, "arrowPattern", event.currentTarget.value);
+        }}
+      />
+      <input
+        aria-label="Id"
+        value={entry.misconceptionId}
+        onchange={(event) => {
+          change(entry.misconceptionId, "misconceptionId", event.currentTarget.value);
+        }}
+      />
+      <input
+        aria-label="Tag (groups wrong answers on the progress page)"
+        placeholder="tag"
+        value={entry.misconceptionTag ?? ""}
+        onchange={(event) => {
+          change(entry.misconceptionId, "misconceptionTag", event.currentTarget.value);
+        }}
+      />
+      <p class="small muted">Atom roles for patterns (@role) are on Publish → Advanced.</p>
+    </details>
   </fieldset>
 {/each}
 
-<h3 class="mt">Partial progress messages</h3>
+{#if partialMessages.length > 0}
+  <h3 class="mt">"Right so far" messages</h3>
+{/if}
 {#each partialMessages as entry, position (position)}
   <div class="row">
     <span class="small">

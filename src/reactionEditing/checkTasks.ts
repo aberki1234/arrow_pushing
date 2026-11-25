@@ -10,6 +10,7 @@ import type { CreationStage } from "./creationProgress.js";
 import { type LintPlace, placeOfFinding } from "./lintPlaces.js";
 import { type ReactionDocument, statesOf, stepsOf } from "./reactionDraft.js";
 import { stateDisplayNames } from "./stateStrip.js";
+import { teachingChecklist } from "./teachingChecklist.js";
 
 export interface CheckTask {
   readonly lintLevel: LintLevel;
@@ -57,7 +58,8 @@ interface TaskWriting {
   readonly stateIdToName: ReadonlyMap<string, string>;
 }
 
-function stageOfPlace(place: LintPlace): CreationStage {
+/** The creation stage where the field at `place` is edited. */
+export function stageOfPlace(place: LintPlace): CreationStage {
   if (place.placeKind === "reaction") {
     return REACTION_FIELD_TO_STAGE[place.field ?? ""] ?? "publish";
   }
@@ -143,4 +145,38 @@ export function checkTasks(
     }
   }
   return tasks;
+}
+
+/**
+ * Publish's checks: the lint findings as tasks, then each needed teaching item still missing
+ * that they do not already name (a new draft's schema violations stop the linter before its
+ * learner-text rules, so those would otherwise appear only once the schema is satisfied).
+ */
+export function publishChecks(
+  document: ReactionDocument,
+  lintFindings: readonly LintFinding[],
+): CheckTask[] {
+  const writing: TaskWriting = { document, stateIdToName: stateDisplayNames(document) };
+  const tasks = checkTasks(document, lintFindings);
+  const missingItems = teachingChecklist(document, [])
+    .flatMap((group) => group.items)
+    .filter((item) => item.need === "needed" && item.itemStatus === "missing");
+  for (const item of missingItems) {
+    const taskText = missingItemText(writing, item.itemKind, item.place);
+    if (!tasks.some((listed) => listed.taskText === taskText)) {
+      tasks.push({ lintLevel: "error", taskText, stage: "teaching", place: item.place });
+    }
+  }
+  return tasks;
+}
+
+/** A needed teaching item's absence, worded as the lint finding about it would be. */
+function missingItemText(writing: TaskWriting, itemKind: string, place: LintPlace): string {
+  if (place.placeKind !== "state") {
+    return SCHEMA_PLACE_TO_TASK["/mechanismSummary"]?.[0] ?? "";
+  }
+  const name = stateName(writing, place.stateId);
+  return itemKind === "learnerPrompt"
+    ? `${name} has no question for the learner`
+    : `${name} has no hint`;
 }

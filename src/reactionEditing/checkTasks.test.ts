@@ -2,7 +2,7 @@
 import { expect, it } from "vitest";
 import type { LintFinding } from "../reactionLinting/lintFindings.js";
 import { exampleReaction } from "../testSupport/reactionEdits.js";
-import { checkTasks } from "./checkTasks.js";
+import { checkTasks, publishChecks } from "./checkTasks.js";
 
 const sn2 = exampleReaction("sn2-hydroxide-bromomethane.json");
 const sn2WithOneHint = {
@@ -114,4 +114,39 @@ it("keeps the message of a finding it has no wording for, at its place's stage",
     stage: "start",
     place: { placeKind: "reaction", field: "title" },
   });
+});
+
+it("adds the needed teaching items still missing, which a schema violation hides from lint", () => {
+  const states = sn2.stateIdToState as Record<string, Record<string, unknown>>;
+  const { reactants } = states;
+  const bare = {
+    ...sn2,
+    mechanismSummary: "",
+    stateIdToState: { ...states, reactants: { ...reactants, learnerPrompt: "", hintTiers: [] } },
+  };
+  const summaryFinding = finding(
+    "schema-violation",
+    "/mechanismSummary",
+    "minLength: must NOT have fewer than 1 characters",
+  );
+  expect(publishChecks(bare, [summaryFinding])).toEqual([
+    {
+      lintLevel: "error",
+      taskText: "The summary at the end is empty",
+      stage: "teaching",
+      place: { placeKind: "reaction", field: "mechanismSummary" },
+    },
+    {
+      lintLevel: "error",
+      taskText: "Start has no question for the learner",
+      stage: "teaching",
+      place: { placeKind: "state", stateId: "reactants", field: "learnerPrompt" },
+    },
+    {
+      lintLevel: "error",
+      taskText: "Start has no hint",
+      stage: "teaching",
+      place: { placeKind: "state", stateId: "reactants", field: "hintTiers" },
+    },
+  ]);
 });

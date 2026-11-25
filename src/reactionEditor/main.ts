@@ -18,6 +18,12 @@ import { httpReactionFileStore } from "./reactionFileStore.js";
 import { serverReactionStore } from "./serverReactionStore.js";
 import { browserWorkerPort, workerLinter } from "./workerLinter.js";
 
+/** VITE_LEARNER_SITE_ADDRESS at build time (render.yaml), for "Back to the site"; else none. */
+function learnerSiteAddressFromBuild(): string | null {
+  const address: unknown = import.meta.env["VITE_LEARNER_SITE_ADDRESS"];
+  return typeof address === "string" && address !== "" ? address : null;
+}
+
 const appElement = document.getElementById("app");
 if (appElement === null) {
   throw new Error("index.html has no #app element");
@@ -29,6 +35,7 @@ mount(EditorApp, {
     toolkitLoading: loadChemistryToolkit({ wasmLocation: rdkitWasmUrl }),
     fileStore: serverStore ?? httpReactionFileStore(),
     publishing: serverStore,
+    learnerSiteAddress: learnerSiteAddressFromBuild(),
     lintDraft: workerLinter(
       browserWorkerPort(
         new Worker(new URL("./lintWorker.ts", import.meta.url), { type: "module" }),

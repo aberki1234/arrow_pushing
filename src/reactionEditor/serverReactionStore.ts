@@ -6,6 +6,7 @@
  * A reaction is named "<slug>.json" here too, as in content/reactions/ (reactionFileStore.ts).
  * Reading one reads its newest version.
  */
+import type { CreationProgress } from "../reactionEditing/creationProgress.js";
 import type { ListedReactionFile, ReactionFileStore } from "./reactionFileStore.js";
 
 export const SERVER_STORAGE_PLACE = "the server";
@@ -28,9 +29,15 @@ export type PublishOutcome =
       readonly lintFindingCount: number;
     };
 
+/** Who is signed in, and what their site role allows (reactionDatabase/sitePermissions.ts). */
+export interface SignedInUser {
+  readonly displayName: string;
+  readonly siteActions: readonly string[];
+}
+
 export interface ReactionPublishing {
-  /** The signed-in user's name, or null when not signed in. */
-  signedInName(): Promise<string | null>;
+  /** The signed-in user, or null when not signed in. */
+  signedInUser(): Promise<SignedInUser | null>;
   /** GitHub's sign-in address to send the browser to; it comes back to the editor at "/". */
   signInAddress(): Promise<string>;
   publish(reactionSlug: string, licenceAgreed: boolean): Promise<PublishOutcome>;
@@ -53,6 +60,7 @@ interface ServerListing {
   readonly title: string | null;
   readonly newestReactionVersion: number;
   readonly newestSubmissionStatus: string;
+  readonly creationProgress: CreationProgress;
 }
 
 interface ServerAnswer {
@@ -94,6 +102,7 @@ function listedReactionOf(listing: ServerListing): ListedReactionFile {
     title: listing.title,
     newestReactionVersion: listing.newestReactionVersion,
     newestSubmissionStatus: listing.newestSubmissionStatus,
+    creationProgress: listing.creationProgress,
   };
 }
 
@@ -116,6 +125,16 @@ function publishOutcomeOf(answer: ServerAnswer): PublishOutcome {
   };
 }
 
+/** /api/me's answer: the user and their site actions, or null without a session. */
+function signedInUserOf(meAnswer: ServerAnswer): SignedInUser | null {
+  const displayName = bodyField(meAnswer, "displayName");
+  const siteActions = bodyField(meAnswer, "siteActions");
+  if (meAnswer.status !== 200 || typeof displayName !== "string") {
+    return null;
+  }
+  return { displayName, siteActions: Array.isArray(siteActions) ? siteActions.map(String) : [] };
+}
+
 /** The store over the API; `fetchFunction` is the browser's fetch unless a test passes another. */
 export function serverReactionStore(fetchFunction: typeof fetch = fetch): ServerReactionStore {
   const request = async (path: string, init?: RequestInit): Promise<ServerAnswer> =>
@@ -135,11 +154,8 @@ export function serverReactionStore(fetchFunction: typeof fetch = fetch): Server
       const draftPath = `${REACTIONS_PATH}/${slugOfFileName(fileName)}/draft`;
       successfulBody(await request(draftPath, jsonRequest("PUT", document)));
     },
-    signedInName: async (): Promise<string | null> => {
-      const meAnswer = await request("/api/me");
-      const displayName = bodyField(meAnswer, "displayName");
-      return meAnswer.status === 200 && typeof displayName === "string" ? displayName : null;
-    },
+    signedInUser: async (): Promise<SignedInUser | null> =>
+      signedInUserOf(await request("/api/me")),
     signInAddress: async (): Promise<string> => {
       const signInRequest = jsonRequest("POST", { provider: "github", callbackURL: "/" });
       const signInAnswer = await request("/api/auth/sign-in/social", signInRequest);

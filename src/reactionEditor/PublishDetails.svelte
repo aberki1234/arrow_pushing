@@ -1,0 +1,85 @@
+<script lang="ts">
+  // Publish's folded sections: More details (authors, references, daily puzzle) and Advanced
+  // (spectators, atom roles for wrong-answer patterns; where the per-state and per-step
+  // settings are).
+  import { setReactionField } from "../reactionEditing/fieldEdits.js";
+  import type { ReactionDocument } from "../reactionEditing/reactionDraft.js";
+  import {
+    authorsText,
+    mapNumbersText,
+    readAuthors,
+    readMapNumbers,
+    readRoles,
+    type ReadText,
+    rolesText,
+  } from "./fieldText.js";
+
+  type Edit = ReturnType<typeof setReactionField>;
+
+  const { document, apply }: { document: ReactionDocument; apply: (edit: Edit) => void } = $props();
+
+  const listOf = <Item,>(key: string): Item[] =>
+    Array.isArray(document[key]) ? (document[key] as Item[]) : [];
+
+  function setFromText<Value>(key: string, read: ReadText<Value>): void {
+    apply(
+      "reason" in read
+        ? { outcome: "refused", reason: read.reason }
+        : setReactionField(document, key, read.value),
+    );
+  }
+</script>
+
+<details class="adv mt">
+  <summary>More details: authors, references, daily puzzle</summary>
+  <label class="f" for="authors">Authors (one per line: name | optional link)</label>
+  <textarea
+    id="authors"
+    rows="2"
+    value={authorsText(listOf("authors"))}
+    onchange={(event) => {
+      setFromText("authors", readAuthors(event.currentTarget.value));
+    }}></textarea>
+  <label class="f" for="references">References (one per line)</label>
+  <textarea
+    id="references"
+    rows="2"
+    value={listOf<string>("references").join("\n")}
+    onchange={(event) => {
+      const references = event.currentTarget.value.split("\n").filter((line) => line.trim() !== "");
+      apply(setReactionField(document, "references", references));
+    }}></textarea>
+  <label class="row small mt">
+    <input
+      type="checkbox"
+      checked={document.dailyPuzzleEligible === true}
+      onchange={(event) => {
+        apply(setReactionField(document, "dailyPuzzleEligible", event.currentTarget.checked));
+      }}
+    />
+    Can be a daily puzzle
+  </label>
+</details>
+<details class="adv">
+  <summary>Advanced (rarely needed)</summary>
+  <label class="f" for="spectators">Spectator atoms, drawn faded (atom numbers)</label>
+  <input
+    id="spectators"
+    value={mapNumbersText(listOf("spectatorMapNumbers"))}
+    onchange={(event) => {
+      setFromText("spectatorMapNumbers", readMapNumbers(event.currentTarget.value));
+    }}
+  />
+  <label class="f" for="roles">Atom roles for wrong-answer patterns (role: atom numbers)</label>
+  <textarea
+    id="roles"
+    rows="2"
+    value={rolesText((document.atomRoleToMapNumbers ?? {}) as Record<string, number[]>)}
+    onchange={(event) => {
+      setFromText("atomRoleToMapNumbers", readRoles(event.currentTarget.value));
+    }}></textarea>
+  <p class="small muted">
+    A state's name, caption and notes on atoms: Mechanism → select the state → Advanced. A step's
+    key, route and other arrow sets: Mechanism → select the step → Advanced.
+  </p>
+</details>

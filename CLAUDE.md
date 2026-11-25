@@ -36,7 +36,8 @@ Do not change agreed decisions without asking; update `docs/SPEC.md` and `docs/s
   decisions: drafts, drawn arrows → steps, change steps, show H, regeneration, deletion, undo, the mechanism outline,
   Play as learner), `siteData/` (loading the
   catalogue and reaction files), `learnerSite/` (Svelte 5 + Vite app; `make site` → `build/site/`, `make dev`),
-  `reactionEditor/` (the editor page, Svelte; `make editor` → http://localhost:5174/, development only),
+  `reactionEditor/` (Create, item 8d: Your mechanisms and the Start / Mechanism / Teaching / Publish stages,
+  Svelte; `make editor` → http://localhost:5174/ on `content/reactions/`; built for the Render server),
   `editorFileServer/` (the dev server's reading and saving of `content/reactions/`).
   `testSupport/` (fixture reading for tests). Tests sit beside the code as `*.test.ts`; Svelte component tests start
   with `// @vitest-environment jsdom`. Tests that load RDKit.js get it once with `loadChemistryToolkit()` in

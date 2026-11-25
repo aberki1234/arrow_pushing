@@ -752,7 +752,19 @@ RDKit (RDKit.js) on every valid SMILES case and every example state (`src/chemis
        (preferred route, branches under the state they leave, "joins X"); the progress line on the Create home.
        On the server (`src/backendServer/`), one module deciding what a site role may do (save, edit, publish,
        submit, review), used by every route, and the signed-in user's role in the API.
-     - **Part 2, the pages** (`src/reactionEditor/`): Create home, the stepper and the four stages, reusing the
+     - **Part 2, the pages. Done 2026-11-26.** Built in `src/reactionEditor/`: `EditorApp` (Your mechanisms,
+       a new mechanism's Start stage, a draft, Play as learner; **autosave** about 1.5 s after the last edit
+       to the draft, and at once on going back to Your mechanisms), `CreateHome`, `CreateHeader`,
+       `StageStepper`, `CreateWorkspace` (top row, live lint), `StartStage`, `MechanismStage` (with
+       `DrawingCanvas`, `StateStrip`, `StepCard`, `MorePanel`, `StateAdvanced`), `TeachingStage`
+       (`TeachingItemPane`, `WrongAnswers`), `PublishStage` (`PublishDetails`); the words in
+       `createView.ts`; the session's stage and open teaching item, `setStage`, `selectTeachingItem` and
+       `goToPlace` by stage in `editorSession.ts`; `draftCreation.ts` makes the slug from the name and
+       records the signed-in author. The 8b tab panels are gone. Publish's checks add the needed teaching
+       items still missing (`checkTasks.publishChecks`). `/api/me`'s site actions decide whether Publish
+       shows. "Back to the site" links to `VITE_LEARNER_SITE_ADDRESS` when the build sets it. Checked in
+       headless Chromium (new SN2 → step → question, hint, a wrong answer → Publish's checks → saved and
+       listed → reopened, light and dark; no console errors). Planned as (`src/reactionEditor/`): Create home, the stepper and the four stages, reusing the
        learner site's header and styles and the existing components where they fit; component tests for the
        stage switching; a walkthrough in headless Chromium (new SN2 from SMILES → step → teaching → Publish).
      - **Part 3, the domain** (the owner sets up the accounts): the learner site on `<domain>` (Cloudflare Pages)
