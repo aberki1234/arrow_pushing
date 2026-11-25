@@ -24,7 +24,8 @@ Do not change agreed decisions without asking; update `docs/SPEC.md` and `docs/s
   validator's decision), `reactionFiles/` (Ajv, state atom checks), `reactionLinting/` (the linter; command line
   `npx tsx src/reactionLinting/runFromShell.ts lint|seed-coordinates`), `catalogue/` (reading `catalogue.json`),
   `catalogueBuilding/` (the static catalogue and daily calendar: `npx tsx src/catalogueBuilding/runFromShell.ts
-  build`; `make catalogue`), `moleculeDrawing/` (state → SVG primitives and pick targets, curved-arrow
+  build`; `make catalogue`), `reactionDatabase/` (8c: Postgres via Kysely, schema `arrowpush`; SQL migrations,
+  drafts, versions, publishing, export, import; tests on PGlite with `testSupport/temporaryDatabase.ts`), `moleculeDrawing/` (state → SVG primitives and pick targets, curved-arrow
   geometry), `stepSession/` (taps → arrows, a run through a reaction, scoring, snapshots, feedback text),
   `learnerProgress/` (`localStorage` progress, export / import), `dailyPuzzle/` (today's puzzle, streak, share text),
   `learnerStatistics/` (mastery, history, recurring feedback, the practice list), `reactionEditing/` (the editor's

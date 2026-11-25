@@ -220,6 +220,11 @@ Diels–Alder needs a concerted multi-arrow step (3 arrows) — the model must s
     then a `repository_dispatch` starts a GitHub Actions workflow that exports the published versions from a
     read-only endpoint, commits the backup files, builds the site with the live `catalogue.json` as
     `--previous-catalogue`, and deploys to **Cloudflare Pages**.
+  - **Defaults chosen with the 8c part 1 plan (2026-11-25):** the licence is agreed **once per author**: the
+    first Publish needs the tick, later versions record the date of that first agreement. The **server numbers
+    versions**: on every save it sets the stored document's `reactionVersion` and `previousReactionVersion` to
+    the row's, whatever the editor sent. Saving a reaction whose versions are all published is refused ("use
+    Edit"); only the reaction's owner saves or edits it; the owner or a reviewer publishes.
   - **Addresses:** the hosts' own (`*.onrender.com`, `*.pages.dev`) until the name and domain are chosen, before the
     site is announced to learners (a new domain resets learners' saved progress; Export / Import carries it).
 

@@ -10,6 +10,7 @@ const layersLowestFirst = [
   "reactionLinting",
   "catalogue",
   "catalogueBuilding",
+  "reactionDatabase",
   "moleculeDrawing",
   "stepSession",
   "reactionEditing",
@@ -70,8 +71,10 @@ module.exports = {
     {
       name: "no-dev-dependencies-in-shipped-code",
       severity: "error",
-      comment: "Code that ships to the browser must not import test or build tools.",
-      from: { path: "^src", pathNot: "\\.test\\.ts$" },
+      comment:
+        "Code that ships must not import test or build tools; tests and testSupport/ (only " +
+        "reachable from tests, see test-support-only-in-tests) may.",
+      from: { path: "^src", pathNot: ["\\.test\\.ts$", "^src/testSupport/"] },
       to: { dependencyTypes: ["npm-dev"] },
     },
   ],

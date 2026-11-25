@@ -637,7 +637,17 @@ RDKit (RDKit.js) on every valid SMILES case and every example state (`src/chemis
    * **8c** Backend for the owner (decided 2026-11-25, SPEC §5): Hono + Kysely on Render, Supabase Postgres (schema
      `arrowpush`), GitHub sign-in for one account, the editor saving through the API, one Publish action (server
      lint, licence, submitted → published), a GitHub Actions workflow that backs up, builds and deploys to
-     Cloudflare Pages, and a scheduled keep-awake + weekly dump.
+     Cloudflare Pages, and a scheduled keep-awake + weekly dump. In four parts: **1** the database layer,
+     **2** the Hono server (sign-in, sessions, the API, the export endpoint, serving the editor), **3** the editor
+     saving and publishing through the API, the workflows and `render.yaml`, **4** setting up the accounts
+     (Supabase, Render, the GitHub OAuth app, Cloudflare), which only the owner can do.
+     Part 1 done 2026-11-25, `src/reactionDatabase/`: `migrations/0001_arrowpush_tables.sql` (§8, with the
+     one-unpublished-version index, the trigger keeping published rows immutable, row-level security) run by
+     `migrationRunning.ts`; `reactionVersions.ts` (save a draft, "Edit" → version n+1, list, read),
+     `publishing.ts` (server lint, licence, submitted → published, content hash as the static build's),
+     `publishedExport.ts`, `contentImport.ts` (examples as published version 1, drafts, safe to rerun),
+     `userAccounts.ts`. Tests on PGlite (`testSupport/temporaryDatabase.ts`; PGlite is pinned to 0.5.x, the
+     newest `kysely-pglite-dialect` supports).
    * **8d** Contributors: sign-up, submit → review (play-through + diff) → changes requested | published.
 9. Problem sets: reaction sets that teach one concept (Zaitsev's rule, kinetic versus thermodynamic enolates).
    To be scoped after item 8 (SPEC §9).
