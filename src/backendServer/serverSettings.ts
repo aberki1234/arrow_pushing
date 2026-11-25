@@ -2,7 +2,11 @@
  * The server's settings, read from environment variables (set on Render; docs/SPEC.md §5, backend).
  *
  * Variables
- *   DATABASE_URL              Postgres connection string (Supabase's pooler).
+ *   DATABASE_URL              Postgres connection string (Supabase's pooler, Session mode, as the
+ *                             role arrowpush_server), ending in
+ *                             ?sslmode=verify-full&sslrootcert=deploy/supabase-root-ca.crt: Node
+ *                             does not trust Supabase's own root CA, so it is named here (the
+ *                             file is Supabase Root 2021 CA, as the pooler presents it).
  *   PUBLIC_BASE_URL           The server's own address, e.g. "https://arrowpush.onrender.com"
  *                             (GitHub sends the browser back to
  *                             <PUBLIC_BASE_URL>/api/auth/callback/github).

@@ -20,6 +20,7 @@ services:
         value: build/editor
       - key: BETTER_AUTH_SECRET
         generateValue: true
+      # Ends in ?sslmode=verify-full&sslrootcert=deploy/supabase-root-ca.crt (Supabase's root CA).
       - key: DATABASE_URL
         sync: false
       - key: PUBLIC_BASE_URL
