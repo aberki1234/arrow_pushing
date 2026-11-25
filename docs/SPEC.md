@@ -106,7 +106,16 @@ Diels–Alder needs a concerted multi-arrow step (3 arrows) — the model must s
   (`src/learnerSite/`) stay thin, with a few component tests. `make site` builds it into `build/site/`; `make dev`
   serves it. Item 7 is split: **7a** step screen in practice mode (built 2026-11-25), **7b** daily mode, completion
   page and `localStorage` progress, **7c** home, practice list and progress page.
-- **Learner progress:** `localStorage` only, with export/import; **no learner accounts in v1**.
+- **Learner progress:** `localStorage` only, with export/import; **no learner accounts in v1**. Built in item 7b
+  (`src/learnerProgress/`, `schema/progress.schema.json`; export/import arrives with the progress page in 7c).
+- **Daily mode (decided 2026-11-25, item 7b):** each step is worth **3 points**, −1 per wrong check, −1 per hint, never
+  below 0. After the 3rd wrong check the step is **missed** (0 points, 🟥): its arrows are shown dashed and the puzzle
+  continues from the textbook step's result. Hints cost a point (the third shows ghost arrows). The name and subtitle
+  are hidden until the end. An unfinished puzzle is **saved after every check and resumed** after a reload; it counts
+  for the day it was started. **Streak:** consecutive days with a finished daily. **Share text:**
+  `ArrowPush #142 🟩🟨🟥 5/9` (no link yet). The **finished view** (both modes) names the reaction and shows the
+  tiles, step by step with the arrows in words, the mechanism summary and the attribution; daily adds points, Copy,
+  streak and the time to the next puzzle.
 - **Content format:** **one JSON file per reaction version** (schema: `docs/schema-design.md`). Per reaction: metadata, a graph of
   states (atom-mapped SMILES + coordinates, learner prompt, 3 hint tiers, misconceptions) joined by steps (canonical
   arrows, route preference, optional partial arrow sets, explanation), mechanism summary, version, author, licence.

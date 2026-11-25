@@ -465,12 +465,27 @@ browser reads it with `src/catalogue/`. Decided 2026-11-25:
                                "attemptCount": 2, "hintsUsed": 1,
                                "feedbackIdsShown": ["misconception:aldol-addition-base/oh-adds-carbonyl",
                                                     "rule:octet-exceeded"] }] }],
-  "dateToDailyResult": { "2026-12-01": { "reactionVersionRef": "…@2", "shareGrid": "🟩🟨🟩", "score": 4 } },
+  "dateToDailyResult": { "2026-12-01": { "reactionVersionRef": "…@2", "puzzleNumber": 142,
+                                         "runStartedAt": "2026-12-01T…", "shareGrid": "🟩🟨🟩", "score": 4 } },
   "settings": { "theme": "auto" } }
 ```
 
+Built in item 7b (2026-11-25): `src/learnerProgress/`, checked against `schema/progress.schema.json` when read.
+A daily result also stores its `puzzleNumber` and `runStartedAt` (with the ref, that identifies its run). If the saved
+text cannot be read, the site starts afresh and keeps the old text under `arrowpush.progress.unreadable`. An unfinished
+daily puzzle is kept under **`arrowpush.dailyInProgress`** (`$defs/dailyInProgress` in the same schema): the local
+date it was started on, its number, ref, `startedAt`, and a snapshot of the session (state, steps taken, and at the
+current state the wrong checks, hints and feedback shown; not the arrows being drawn), saved after every check and step.
+
 * A run's `stepResults` are the steps the learner actually took, in order, so a run records its route. A failed or
-  revealed state is recorded under its preferred step's key.
+  revealed state is recorded under its preferred step's key. Runs are saved when they complete, in both modes.
+* **Daily rules (decided 2026-11-25):** 3 attempts per step (every check that is not correct counts; a check with no
+  arrows does not). After the third the step is **missed**: the preferred step's arrows are shown dashed with its
+  explanation, and the run continues from its to-state. **Points:** 3 per step, −1 per wrong check, −1 per hint, never
+  below 0; missed = 0; the maximum is 3 × steps taken. Hints work as in practice (the third shows ghost arrows) but
+  cost a point. The puzzle belongs to the local date it was started on; an unfinished one from an earlier day is
+  dropped. **Streak:** consecutive local days with a finished daily, ending today or yesterday. **Share text:**
+  `ArrowPush #<n> 🟩🟨🟥 <points>/<maximum>`, no link yet. Code: `src/dailyPuzzle/`, `src/stepSession/stepScoring.ts`.
 * The daily share grid has **one tile per step taken**, so its length depends on the route. A preferred or accepted
   step on the first try both give 🟩.
 * Mastery and the misconception history are computed from `runs`, grouped by slug, step key and tag, so a new
@@ -552,7 +567,10 @@ identical results on all of them.
      dots, bonds, pick targets, curved-arrow geometry), `src/stepSession/` (taps to arrows, the session, feedback
      text), `src/siteData/` (loading), `src/learnerSite/` (Svelte; `make site`, `make dev`). All four examples
      play end to end in the browser (checked in headless Chromium).
-   * 7b. Daily mode (3 attempts, points, missed steps, share grid), completion page, `localStorage` progress.
+   * **7b. Done 2026-11-25.** Daily mode (`#/daily`: before / in progress / finished; 3 attempts, points, missed
+     steps, share text, streak; resumes after a reload), the finished view in both modes, `localStorage` progress
+     and the remembered theme: `src/learnerProgress/`, `src/dailyPuzzle/`, `schema/progress.schema.json`.
+     Checked in headless Chromium on a one-step and a three-step daily.
    * 7c. Home, practice list with filters and search, progress page.
 8. Then the editor and the backend.
 

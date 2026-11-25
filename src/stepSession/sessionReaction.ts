@@ -35,6 +35,9 @@ export interface SessionReaction {
   readonly difficultyTier: number;
   readonly conditionsLabel: string;
   readonly mechanismSummary: string;
+  readonly authors: readonly { readonly name: string; readonly url: string | null }[];
+  readonly licence: string;
+  readonly references: readonly string[];
   readonly startStateId: string;
   readonly spectatorMapNumbers: readonly number[];
   readonly abbreviatedGroups: readonly AbbreviatedGroup[];
@@ -130,6 +133,14 @@ export function readSessionReaction(reactionDocument: DocumentRecord): SessionRe
     difficultyTier: typeof difficultyTier === "number" ? difficultyTier : 1,
     conditionsLabel: textOr(reactionDocument, "conditionsLabel", ""),
     mechanismSummary: textOr(reactionDocument, "mechanismSummary", ""),
+    authors: (Array.isArray(reactionDocument["authors"]) ? reactionDocument["authors"] : [])
+      .filter(isDocumentRecord)
+      .map((author) => ({
+        name: textOr(author, "name", ""),
+        url: typeof author["url"] === "string" ? author["url"] : null,
+      })),
+    licence: textOr(reactionDocument, "licence", ""),
+    references: textList(reactionDocument["references"]),
     startStateId: requiredText(reactionDocument, "startStateId"),
     spectatorMapNumbers: numberList(reactionDocument["spectatorMapNumbers"]),
     abbreviatedGroups: abbreviatedGroupsIn(reactionDocument["abbreviatedGroups"]),

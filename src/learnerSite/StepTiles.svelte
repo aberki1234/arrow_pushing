@@ -1,11 +1,17 @@
 <script lang="ts">
   // One tile per arrow step: ✓ first try, ~ with help, the current step, steps ahead.
   import type { StepSession } from "../stepSession/stepSession.js";
-  import { stepTiles } from "./stepScreenView.js";
+  import { type StepTileKind, stepTiles } from "./stepScreenView.js";
 
   const { session }: { session: StepSession } = $props();
 
-  const TILE_KIND_TO_CLASS = { firstTry: "g", helped: "y", current: "current", ahead: "e" };
+  const TILE_KIND_TO_CLASS: Readonly<Record<StepTileKind, string>> = {
+    firstTry: "g",
+    helped: "y",
+    missed: "r",
+    current: "current",
+    ahead: "e",
+  };
 </script>
 
 <ol class="row mini-tiles" aria-label="Steps" style="list-style:none;margin:0;padding:0">

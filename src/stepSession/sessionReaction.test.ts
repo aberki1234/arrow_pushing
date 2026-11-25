@@ -60,3 +60,11 @@ test("abbreviated groups are read; reactions without any have none", () => {
   });
   expect(exampleSessionReaction("sn2-hydroxide-bromomethane").abbreviatedGroups).toEqual([]);
 });
+
+test("the attribution is read: authors, licence and references", () => {
+  const reaction = exampleSessionReaction("sn2-hydroxide-bromomethane");
+  expect(reaction.authors.length).toBeGreaterThan(0);
+  expect(reaction.authors[0]?.name).toBeTruthy();
+  expect(reaction.licence).toBe("CC-BY-SA-4.0");
+  expect(reaction.references.length).toBeGreaterThan(0);
+});

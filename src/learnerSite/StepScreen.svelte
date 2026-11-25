@@ -1,29 +1,49 @@
 <script lang="ts">
-  // Loads one reaction version and holds its step session; StepPlay renders it.
+  // Practice mode: loads one reaction version and holds its step session. When the run is
+  // complete it is saved to the learner's progress and the finished view replaces the screen.
   import type { Catalogue } from "../catalogue/catalogueReading.js";
-  import { fetchSiteJson, loadReactionDocument } from "../siteData/siteData.js";
-  import { readSessionReaction } from "../stepSession/sessionReaction.js";
+  import {
+    readProgress,
+    runRecordOf,
+    withRun,
+    writeProgress,
+  } from "../learnerProgress/learnerProgress.js";
   import { type StepSession, startStepSession } from "../stepSession/stepSession.js";
+  import { browserStorage } from "./browserStorage.js";
+  import { loadSessionReaction } from "./reactionLoading.js";
+  import RunSummary from "./RunSummary.svelte";
   import StepPlay from "./StepPlay.svelte";
 
   const { catalogue, reactionVersionRef }: { catalogue: Catalogue; reactionVersionRef: string } =
     $props();
 
   let session: StepSession | null = $state.raw(null);
+  let startedAt = new Date().toISOString();
   let loadError: string | null = $state(null);
 
   $effect(() => {
-    loadReactionDocument(fetchSiteJson, catalogue, reactionVersionRef)
-      .then((reactionDocument) => {
-        session = startStepSession(readSessionReaction(reactionDocument));
+    loadSessionReaction(catalogue, reactionVersionRef)
+      .then((reaction) => {
+        session = startStepSession(reaction);
       })
       .catch((error: unknown) => {
         loadError = String(error);
       });
   });
 
+  function update(next: StepSession): void {
+    if (next.phase === "complete" && session?.phase !== "complete") {
+      writeProgress(
+        browserStorage,
+        withRun(readProgress(browserStorage), runRecordOf(next, startedAt)),
+      );
+    }
+    session = next;
+  }
+
   function restart(): void {
     if (session !== null) {
+      startedAt = new Date().toISOString();
       session = startStepSession(session.reaction);
     }
   }
@@ -37,12 +57,18 @@
   </div>
 {:else if session === null}
   <p class="muted mt">Loading the reaction…</p>
+{:else if session.phase === "complete"}
+  <RunSummary reaction={session.reaction} stepResults={session.stepResults} daily={null}>
+    {#snippet actions()}
+      <button class="btn" type="button" onclick={restart}>↺ Play again</button>
+      <a class="btn primary" href="#/">Another reaction</a>
+    {/snippet}
+  </RunSummary>
 {:else}
   <StepPlay
     {session}
-    update={(next: StepSession) => {
-      session = next;
-    }}
-    {restart}
+    {update}
+    heading={session.reaction.title}
+    subtitle={session.reaction.subtitle}
   />
 {/if}

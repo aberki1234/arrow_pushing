@@ -4,6 +4,7 @@ import { formatCurvedArrow, formatElectronLocus } from "../arrowNotation/curvedA
 import { exampleSessionReaction } from "../testSupport/exampleSessions.js";
 import type { TappedPlace } from "./arrowPicking.js";
 import {
+  DAILY_ATTEMPTS_PER_STEP,
   NO_ARROWS_MESSAGE,
   type StepSession,
   cancelPick,
@@ -12,6 +13,7 @@ import {
   clearArrows,
   continueToNextState,
   ghostArrows,
+  revealedArrows,
   removeArrow,
   setArrowType,
   showNextHint,
@@ -128,7 +130,13 @@ describe("checking", () => {
     expect(checked.lastAssessment?.assessmentKind).toBe("correct");
     expect(checked.currentStep?.stepKey).toBe("substitution");
     expect(checked.stepResults).toEqual([
-      { stepKey: "substitution", stepOutcome: "firstTry", attemptCount: 1, hintsUsed: 0 },
+      {
+        stepKey: "substitution",
+        stepOutcome: "firstTry",
+        attemptCount: 1,
+        hintsUsed: 0,
+        feedbackIdsShown: [],
+      },
     ]);
     expect(tapPlace(checked, lonePair(1))).toBe(checked);
     const finished = continueToNextState(checked);
@@ -221,5 +229,74 @@ describe("routes", () => {
       "σ H2-C3 ~> rad C3",
     ]);
     expect(checkArrows(session).lastAssessment?.assessmentKind).toBe("correct");
+  });
+});
+
+/** Three wrong SN2 checks: the hydroxide attacking bromine (an authored misconception). */
+function threeWrongChecks(session: StepSession): StepSession {
+  let checked = session;
+  for (let attempt = 0; attempt < DAILY_ATTEMPTS_PER_STEP; attempt++) {
+    checked = checkArrows(draw(clearArrows(checked), lonePair(1), atom(3)));
+  }
+  return checked;
+}
+
+describe("daily mode", () => {
+  const sn2Daily = (): StepSession =>
+    startStepSession(exampleSessionReaction("sn2-hydroxide-bromomethane"), "daily");
+
+  test("a session knows its mode; practice is the default", () => {
+    expect(sn2Daily().mode).toBe("daily");
+    expect(sn2Session().mode).toBe("practice");
+  });
+
+  test("the third wrong check reveals the preferred step and records it as missed", () => {
+    const missed = threeWrongChecks(sn2Daily());
+    expect(DAILY_ATTEMPTS_PER_STEP).toBe(3);
+    expect(missed.phase).toBe("stepMissed");
+    expect(missed.currentStep?.stepKey).toBe("substitution");
+    expect(revealedArrows(missed).map(formatCurvedArrow)).toEqual([
+      "lp O1 -> σ O1-C2",
+      "σ C2-Br3 -> lp Br3",
+    ]);
+    expect(missed.stepResults).toEqual([
+      {
+        stepKey: "substitution",
+        stepOutcome: "missed",
+        attemptCount: 3,
+        hintsUsed: 0,
+        feedbackIdsShown: ["misconception:sn2-hydroxide-bromomethane/attack-on-bromine"],
+      },
+    ]);
+    expect(checkArrows(missed)).toBe(missed);
+    expect(tapPlace(missed, lonePair(1))).toBe(missed);
+    expect(continueToNextState(missed).phase).toBe("complete");
+  });
+
+  test("practice has no attempt limit", () => {
+    const practice = threeWrongChecks(sn2Session());
+    expect(practice.phase).toBe("drawing");
+    expect(practice.wrongCheckCount).toBe(3);
+    expect(revealedArrows(practice)).toEqual([]);
+  });
+});
+
+describe("feedback ids", () => {
+  test("feedback shown at a state is recorded with the step taken from it", () => {
+    let session = checkArrows(draw(sn2Session(), lonePair(1), atom(3)));
+    session = checkArrows(draw(clearArrows(session), lonePair(1), atom(3)));
+    session = checkArrows(drawSn2(clearArrows(session)));
+    expect(session.stepResults[0]?.feedbackIdsShown).toEqual([
+      "misconception:sn2-hydroxide-bromomethane/attack-on-bromine",
+    ]);
+  });
+
+  test("a generic rule is recorded as rule:<id>", () => {
+    // A fish-hook where the step needs pairs: wrong-arrow-type.
+    let session = setArrowType(sn2Session(), "fishHook");
+    session = checkArrows(draw(session, lonePair(1), atom(2)));
+    expect(session.lastAssessment?.assessmentKind).toBe("genericRule");
+    session = checkArrows(drawSn2(clearArrows(setArrowType(session, "pair"))));
+    expect(session.stepResults[0]?.feedbackIdsShown).toEqual(["rule:wrong-arrow-type"]);
   });
 });

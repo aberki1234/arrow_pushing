@@ -32,7 +32,8 @@ function renderSn2(): void {
         session = next;
         void rendered.rerender({ session });
       },
-      restart: () => undefined,
+      heading: "SN2 substitution",
+      subtitle: "",
     },
   });
 }

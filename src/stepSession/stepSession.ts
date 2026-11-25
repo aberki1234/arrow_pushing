@@ -6,6 +6,8 @@
  * Phases
  *   drawing       the learner draws arrows at the current state and checks them
  *   stepCorrect   the check was correct: the arrows stay, the explanation shows, "Next step" waits
+ *   stepMissed    daily only: the third wrong check; the preferred step's arrows are revealed and
+ *                 "Next step" continues from its to-state
  *   changeEvent   a change step (a reagent arrives, a work-up) is shown; nothing to draw
  *   complete      the product is reached
  *
@@ -14,6 +16,12 @@
  * separate reveal). A correct check follows whichever leaving step matched, preferred or accepted.
  * Step outcome: firstTry, afterRetry (a wrong check before), or afterHint (any hint shown).
  * A check with no arrows is not an attempt.
+ *
+ * Daily mode (decided 2026-11-25, item 7b): DAILY_ATTEMPTS_PER_STEP checks per step; every check
+ * that is not correct counts. After the last one the step is missed: recorded under the
+ * preferred step's key, which the run then follows. Points: stepScoring.ts. Every misconception
+ * and generic rule shown at a state is recorded with the step taken from it, as
+ * "misconception:<reaction slug>/<misconception id>" or "rule:<generic rule id>".
  */
 import type { CurvedArrow, ElectronLocus } from "../arrowNotation/curvedArrowNotation.js";
 import { type AttemptAssessment, assessAttempt } from "../attemptAssessment/attemptAssessment.js";
@@ -30,9 +38,11 @@ import { type SessionReaction, type SessionStep, stepsLeaving } from "./sessionR
 
 export const HINT_TIER_COUNT = 3;
 export const NO_ARROWS_MESSAGE = "Draw at least one arrow, then check.";
+export const DAILY_ATTEMPTS_PER_STEP = 3;
 
-export type SessionPhase = "drawing" | "stepCorrect" | "changeEvent" | "complete";
-export type StepOutcome = "firstTry" | "afterRetry" | "afterHint";
+export type SessionMode = "practice" | "daily";
+export type SessionPhase = "drawing" | "stepCorrect" | "stepMissed" | "changeEvent" | "complete";
+export type StepOutcome = "firstTry" | "afterRetry" | "afterHint" | "missed";
 
 export interface StepResult {
   readonly stepKey: string;
@@ -40,10 +50,13 @@ export interface StepResult {
   /** Checks made at the state, the correct one included. */
   readonly attemptCount: number;
   readonly hintsUsed: number;
+  /** "misconception:<slug>/<id>" and "rule:<id>" entries shown at the step's from-state. */
+  readonly feedbackIdsShown: readonly string[];
 }
 
 export interface StepSession {
   readonly reaction: SessionReaction;
+  readonly mode: SessionMode;
   readonly phase: SessionPhase;
   readonly currentStateId: string;
   readonly arrowType: ArrowType;
@@ -58,7 +71,9 @@ export interface StepSession {
   readonly wrongCheckCount: number;
   readonly hintsShown: number;
   readonly lastAssessment: AttemptAssessment | null;
-  /** The step just taken (stepCorrect) or being shown (changeEvent). */
+  /** Feedback ids shown at the current state so far, in order, without repeats. */
+  readonly feedbackIdsAtState: readonly string[];
+  /** The step just taken (stepCorrect), missed (stepMissed) or shown (changeEvent). */
   readonly currentStep: SessionStep | null;
   readonly stepResults: readonly StepResult[];
 }
@@ -89,13 +104,18 @@ function enterState(session: StepSession, stateId: string): StepSession {
     wrongCheckCount: 0,
     hintsShown: 0,
     lastAssessment: null,
+    feedbackIdsAtState: [],
     currentStep: phase === "changeEvent" ? (firstLeaving ?? null) : null,
   };
 }
 
-export function startStepSession(reaction: SessionReaction): StepSession {
+export function startStepSession(
+  reaction: SessionReaction,
+  mode: SessionMode = "practice",
+): StepSession {
   const blank: StepSession = {
     reaction,
+    mode,
     phase: "drawing",
     currentStateId: reaction.startStateId,
     arrowType: reaction.reactionClasses.includes("radical") ? "fishHook" : "pair",
@@ -106,6 +126,7 @@ export function startStepSession(reaction: SessionReaction): StepSession {
     wrongCheckCount: 0,
     hintsShown: 0,
     lastAssessment: null,
+    feedbackIdsAtState: [],
     currentStep: null,
     stepResults: [],
   };
@@ -214,6 +235,58 @@ function outcomeOf(session: StepSession): StepOutcome {
   return session.wrongCheckCount > 0 ? "afterRetry" : "firstTry";
 }
 
+/** The feedback id an assessment shows, if it is a misconception or a generic rule. */
+function feedbackIdOf(session: StepSession, assessment: AttemptAssessment): string | null {
+  switch (assessment.assessmentKind) {
+    case "misconception":
+      return `misconception:${session.reaction.reactionSlug}/${assessment.misconceptionId}`;
+    case "genericRule":
+      return `rule:${assessment.genericRuleId}`;
+    case "partialProgress":
+      return assessment.brokenRuleId === null ? null : `rule:${assessment.brokenRuleId}`;
+    default:
+      return null;
+  }
+}
+
+function stepResultOf(session: StepSession, stepKey: string, stepOutcome: StepOutcome): StepResult {
+  return {
+    stepKey,
+    stepOutcome,
+    attemptCount: session.wrongCheckCount + 1,
+    hintsUsed: session.hintsShown,
+    feedbackIdsShown: session.feedbackIdsAtState,
+  };
+}
+
+/** A check that was not correct; in daily mode the last allowed one misses the step. */
+function afterWrongCheck(session: StepSession, assessment: AttemptAssessment): StepSession {
+  const feedbackId = feedbackIdOf(session, assessment);
+  const counted: StepSession = {
+    ...session,
+    lastAssessment: assessment,
+    feedbackIdsAtState:
+      feedbackId === null || session.feedbackIdsAtState.includes(feedbackId)
+        ? session.feedbackIdsAtState
+        : [...session.feedbackIdsAtState, feedbackId],
+  };
+  const preferredStep = stepsLeaving(session.reaction, session.currentStateId)[0];
+  if (
+    session.mode !== "daily" ||
+    session.wrongCheckCount + 1 < DAILY_ATTEMPTS_PER_STEP ||
+    preferredStep === undefined
+  ) {
+    return { ...counted, wrongCheckCount: session.wrongCheckCount + 1 };
+  }
+  return {
+    ...counted,
+    phase: "stepMissed",
+    currentStep: preferredStep,
+    stepResults: [...session.stepResults, stepResultOf(counted, preferredStep.stepKey, "missed")],
+    wrongCheckCount: session.wrongCheckCount + 1,
+  };
+}
+
 export function checkArrows(session: StepSession): StepSession {
   if (session.phase !== "drawing") {
     return session;
@@ -228,31 +301,29 @@ export function checkArrows(session: StepSession): StepSession {
     session.drawnArrows,
   );
   if (assessment.assessmentKind !== "correct") {
-    return { ...checked, lastAssessment: assessment, wrongCheckCount: session.wrongCheckCount + 1 };
+    return afterWrongCheck(checked, assessment);
   }
   const takenStep =
     session.reaction.steps.find((step) => step.stepKey === assessment.stepKey) ?? null;
-  const stepResult: StepResult = {
-    stepKey: assessment.stepKey,
-    stepOutcome: outcomeOf(session),
-    attemptCount: session.wrongCheckCount + 1,
-    hintsUsed: session.hintsShown,
-  };
   return {
     ...checked,
     phase: "stepCorrect",
     lastAssessment: assessment,
     currentStep: takenStep,
-    stepResults: [...session.stepResults, stepResult],
+    stepResults: [
+      ...session.stepResults,
+      stepResultOf(session, assessment.stepKey, outcomeOf(session)),
+    ],
   };
 }
 
-/** "Next step" after a correct check, or "Continue" after a change event. */
+/** "Next step" after a correct or missed step, or "Continue" after a change event. */
 export function continueToNextState(session: StepSession): StepSession {
-  if (
-    (session.phase !== "stepCorrect" && session.phase !== "changeEvent") ||
-    session.currentStep === null
-  ) {
+  const movesOn =
+    session.phase === "stepCorrect" ||
+    session.phase === "stepMissed" ||
+    session.phase === "changeEvent";
+  if (!movesOn || session.currentStep === null) {
     return session;
   }
   return enterState(session, session.currentStep.toStateId);
@@ -273,4 +344,24 @@ export function ghostArrows(session: StepSession): readonly CurvedArrow[] {
     return [];
   }
   return stepsLeaving(session.reaction, session.currentStateId)[0]?.canonicalArrows ?? [];
+}
+
+/** The missed step's canonical arrows, shown dashed; none unless a step was just missed. */
+export function revealedArrows(session: StepSession): readonly CurvedArrow[] {
+  return session.phase === "stepMissed" ? (session.currentStep?.canonicalArrows ?? []) : [];
+}
+
+/** Rebuild a session from saved progress (sessionSnapshot.ts): at `stateId`, with the steps
+ * taken and the current state's wrong checks, hints and feedback restored. */
+export function sessionAtState(
+  reaction: SessionReaction,
+  mode: SessionMode,
+  stateId: string,
+  restored: Pick<
+    StepSession,
+    "stepResults" | "wrongCheckCount" | "hintsShown" | "feedbackIdsAtState"
+  >,
+): StepSession {
+  const entered = enterState(startStepSession(reaction, mode), stateId);
+  return { ...entered, ...restored };
 }

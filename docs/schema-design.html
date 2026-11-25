@@ -363,10 +363,13 @@ atomSelector        := O1 | O* (any O) | @nucleophile (a role) | *</code></pre>
                                "attemptCount": 2, "hintsUsed": 1,
                                "feedbackIdsShown": ["misconception:aldol-addition-base/oh-adds-carbonyl",
                                                     "rule:octet-exceeded"] }] }],
-  "dateToDailyResult": { "2026-12-01": { "reactionVersionRef": "…@2", "shareGrid": "🟩🟨🟩", "score": 4 } },
+  "dateToDailyResult": { "2026-12-01": { "reactionVersionRef": "…@2", "puzzleNumber": 142,
+                                         "runStartedAt": "2026-12-01T…", "shareGrid": "🟩🟨🟩", "score": 4 } },
   "settings": { "theme": "auto" } }</code></pre>
+    <p><span class="tag ok">built</span> in item 7b. The saved progress is checked against <code>schema/progress.schema.json</code>; if it can't be read, the site starts afresh and keeps the old text aside. An unfinished daily puzzle is saved separately after every check and step, and resumes where the learner left off (only the arrows being drawn are lost).</p>
     <ul>
-      <li>A run's step results are the steps the learner actually took, so a run records its route.</li>
+      <li>A run's step results are the steps the learner actually took, so a run records its route. Runs are saved when they complete, in both modes.</li>
+      <li><b>Daily rules</b> (decided 2026-11-25): 3 attempts per step; after the third the step is <b>missed</b>, its arrows are shown dashed, and the puzzle continues. <b>Points:</b> 3 per step, minus 1 per wrong check and per hint, never below 0; a missed step scores 0. The puzzle counts for the day it was started. <b>Streak:</b> days in a row with a finished daily. <b>Share text:</b> <code>ArrowPush #142 🟩🟨🟥 5/9</code>.</li>
       <li>The daily share grid has <b>one tile per step taken</b>. A preferred or accepted step on the first try both give 🟩.</li>
       <li>Mastery and misconception history are grouped by slug, step key and tag, so a new version doesn't reset them.</li>
     </ul>
@@ -413,7 +416,7 @@ reviews(id pk, reaction_id, reaction_version → reaction_versions, reviewer_use
       <li>The learner UI, in three parts (Svelte 5 + Vite):
         <ul>
           <li><span class="tag ok">done</span> 7a: the step screen in practice mode. Molecules are drawn from the stored coordinates with every lone pair shown; taps become arrows; checks, hints and ghost arrows, change events and branches all work. The four examples play end to end in the browser.</li>
-          <li>7b: daily mode, completion page and saved progress.</li>
+          <li><span class="tag ok">done</span> 7b: daily mode (attempts, points, missed steps, share text, streak, resuming after a reload), the finished view in both modes, and saved progress including the theme.</li>
           <li>7c: home, practice list and progress page.</li>
         </ul>
       </li>

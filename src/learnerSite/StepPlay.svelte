@@ -1,6 +1,7 @@
 <script lang="ts">
-  // The step screen in practice mode (item 7a): header, step tiles, the molecule canvas and the
-  // controls. All decisions live in stepSession/ and stepScreenView.ts; this only wires them.
+  // The step screen (items 7a, 7b): header, step tiles, the molecule canvas and the controls, in
+  // practice or daily mode. All decisions live in stepSession/ and stepScreenView.ts; this only
+  // wires them. The parent shows the finished view once the session is complete.
   import { fade } from "svelte/transition";
   import { drawCurvedArrow } from "../moleculeDrawing/curvedArrowGeometry.js";
   import type { PickTarget } from "../moleculeDrawing/stateDrawing.js";
@@ -9,6 +10,7 @@
     cancelPick,
     chooseDestination,
     ghostArrows,
+    revealedArrows,
     tapPlace,
   } from "../stepSession/stepSession.js";
   import ArrowControls from "./ArrowControls.svelte";
@@ -27,8 +29,15 @@
   const {
     session,
     update,
-    restart,
-  }: { session: StepSession; update: (next: StepSession) => void; restart: () => void } = $props();
+    heading,
+    subtitle,
+  }: {
+    session: StepSession;
+    update: (next: StepSession) => void;
+    /** The reaction's title, or "Daily puzzle #N" while a daily puzzle hides it. */
+    heading: string;
+    subtitle: string;
+  } = $props();
 
   // The cross-fade between states (decided 2026-11-25), off under prefers-reduced-motion.
   const FADE_MILLISECONDS = 250;
@@ -41,11 +50,11 @@
   const drawing = $derived(currentStateDrawing(session, scale));
   const arrowClass = $derived(session.phase === "stepCorrect" ? "good" : "");
   const drawnArrows = $derived([
-    ...ghostArrows(session).map((curvedArrow) => ({
+    ...[...ghostArrows(session), ...revealedArrows(session)].map((curvedArrow) => ({
       drawn: drawCurvedArrow(drawing, curvedArrow),
       arrowClass: "ghost",
     })),
-    ...session.drawnArrows.map((curvedArrow) => ({
+    ...(session.phase === "stepMissed" ? [] : session.drawnArrows).map((curvedArrow) => ({
       drawn: drawCurvedArrow(drawing, curvedArrow),
       arrowClass,
     })),
@@ -86,13 +95,17 @@
 <div class="row spread mt">
   <div>
     <div class="row">
-      <span class="pill">Practice</span>
-      {#each reaction.reactionClasses as reactionClass (reactionClass)}
-        <span class="pill" class:rad={reactionClass === "radical"}>{reactionClass}</span>
-      {/each}
+      {#if session.mode === "daily"}
+        <span class="pill new">Daily puzzle</span>
+      {:else}
+        <span class="pill">Practice</span>
+        {#each reaction.reactionClasses as reactionClass (reactionClass)}
+          <span class="pill" class:rad={reactionClass === "radical"}>{reactionClass}</span>
+        {/each}
+      {/if}
     </div>
-    <h1 style="margin-top:6px">{reaction.title}</h1>
-    <div class="muted">{reaction.subtitle}</div>
+    <h1 style="margin-top:6px">{heading}</h1>
+    <div class="muted">{subtitle}</div>
   </div>
   <a class="btn sm" href="#/">All reactions</a>
 </div>
@@ -127,11 +140,5 @@
   <aside class="grid" style="gap:12px">
     <ArrowControls {session} {update} {radical} onArrowsChanged={() => (pendingTargetId = null)} />
     <FeedbackPanel feedback={feedbackPanelText(session)} />
-    {#if session.phase === "complete"}
-      <div class="row">
-        <button class="btn" type="button" onclick={restart}>Play again</button>
-        <a class="btn primary" href="#/">Another reaction</a>
-      </div>
-    {/if}
   </aside>
 </div>

@@ -13,7 +13,7 @@ Do not change agreed decisions without asking; update `docs/SPEC.md` and `docs/s
 ## Layout
 
 - `schema/reaction.schema.json` — JSON Schema of one reaction file (shape only); `schema/catalogue.schema.json` — the
-  learner site's `catalogue.json`.
+  learner site's `catalogue.json`; `schema/progress.schema.json` — learner progress in `localStorage`.
 - `fixtures/` — shared by pytest and Vitest: `reactions/` (example reactions), `schema_cases/` (invalid edits),
   `notation/` (curved-arrow notation cases), `state_graphs/` (SMILES reading and arrow application cases),
   `assessment/` (symmetry, resonance, misconception-pattern and attempt cases), `lint_cases/` (edits that break lint rules),
@@ -26,7 +26,8 @@ Do not change agreed decisions without asking; update `docs/SPEC.md` and `docs/s
 - `src/` — TypeScript, layers lowest first (`.dependency-cruiser.cjs`): `arrowNotation/`, `stateGraphs/` (strict
   mapped-SMILES parser, applying arrows), `attemptAssessment/` (the validator's decision), `reactionFiles/` (Ajv),
   `catalogue/` (reading `catalogue.json`), `moleculeDrawing/` (state → SVG primitives and pick targets, curved-arrow
-  geometry), `stepSession/` (taps → arrows, a run through a reaction, feedback text), `siteData/` (loading the
+  geometry), `stepSession/` (taps → arrows, a run through a reaction, scoring, snapshots, feedback text),
+  `learnerProgress/` (`localStorage` progress), `dailyPuzzle/` (today's puzzle, streak, share text), `siteData/` (loading the
   catalogue and reaction files), `learnerSite/` (Svelte 5 + Vite app; `make site` → `build/site/`, `make dev`).
   `testSupport/` (fixture reading for tests). Tests sit beside the code as `*.test.ts`; Svelte component tests start
   with `// @vitest-environment jsdom`.

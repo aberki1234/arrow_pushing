@@ -13,10 +13,19 @@ import {
   type SessionState,
   preferredArrowStepsFrom,
 } from "../stepSession/sessionReaction.js";
-import type { StepSession } from "../stepSession/stepSession.js";
+import type { StepOutcome, StepSession } from "../stepSession/stepSession.js";
 
-/** done (✓ first try, ~ after a retry or hint), the current step, or one still ahead. */
-export type StepTileKind = "firstTry" | "helped" | "current" | "ahead";
+/** done (✓ first try, ~ after a retry or hint, ✕ missed), the current step, or one ahead. */
+export type StepTileKind = "firstTry" | "helped" | "missed" | "current" | "ahead";
+
+const OUTCOME_TO_TILE: Readonly<
+  Record<StepOutcome, { stepTileKind: StepTileKind; tileText: string; spoken: string }>
+> = {
+  firstTry: { stepTileKind: "firstTry", tileText: "✓", spoken: "first try" },
+  afterRetry: { stepTileKind: "helped", tileText: "~", spoken: "with help" },
+  afterHint: { stepTileKind: "helped", tileText: "~", spoken: "with help" },
+  missed: { stepTileKind: "missed", tileText: "✕", spoken: "missed" },
+};
 
 export interface StepTile {
   readonly stepTileKind: StepTileKind;
@@ -57,7 +66,8 @@ export function currentStateDrawing(session: StepSession, scale: number): StateD
 
 /** Arrow steps still ahead after the steps taken (the current one included while drawing). */
 function stepsAhead(session: StepSession): number {
-  if (session.phase === "stepCorrect" && session.currentStep !== null) {
+  const stepDone = session.phase === "stepCorrect" || session.phase === "stepMissed";
+  if (stepDone && session.currentStep !== null) {
     return preferredArrowStepsFrom(session.reaction, session.currentStep.toStateId);
   }
   return preferredArrowStepsFrom(session.reaction, session.currentStateId);
@@ -66,12 +76,8 @@ function stepsAhead(session: StepSession): number {
 /** Tiles for the steps taken, the current one, and those left on the preferred route. */
 export function stepTiles(session: StepSession): StepTile[] {
   const doneTiles = session.stepResults.map((stepResult, position): StepTile => {
-    const firstTry = stepResult.stepOutcome === "firstTry";
-    return {
-      stepTileKind: firstTry ? "firstTry" : "helped",
-      tileText: firstTry ? "✓" : "~",
-      accessibleName: `Step ${String(position + 1)}: ${firstTry ? "first try" : "with help"}`,
-    };
+    const { stepTileKind, tileText, spoken } = OUTCOME_TO_TILE[stepResult.stepOutcome];
+    return { stepTileKind, tileText, accessibleName: `Step ${String(position + 1)}: ${spoken}` };
   });
   const ahead = stepsAhead(session);
   const aheadTiles = Array.from({ length: ahead }, (unusedEntry, offset): StepTile => {
@@ -100,6 +106,8 @@ export function canvasInstruction(session: StepSession): string {
   switch (session.phase) {
     case "stepCorrect":
       return "Correct. Press Next step to continue from the new structure.";
+    case "stepMissed":
+      return "Out of attempts: the arrows are shown dashed. Press Next step to continue.";
     case "changeEvent":
       return "Nothing to draw here. Press Continue.";
     case "complete":
@@ -114,25 +122,47 @@ export function canvasInstruction(session: StepSession): string {
   }
 }
 
+/** The feedback panel's text for phases that do not depend on a check. */
+function phaseFeedback(session: StepSession): FeedbackText | null {
+  switch (session.phase) {
+    case "changeEvent": {
+      const caption = session.currentStep?.caption ?? "";
+      return {
+        feedbackTone: "neutral",
+        heading: "Something changes",
+        paragraphs: [caption === "" ? "New molecules join the mixture." : caption],
+      };
+    }
+    case "complete":
+      return {
+        feedbackTone: "good",
+        heading: "Mechanism complete",
+        paragraphs: [session.reaction.mechanismSummary],
+      };
+    case "stepMissed": {
+      const explanation = session.currentStep?.explanationAfterStep ?? "";
+      return {
+        feedbackTone: "wrong",
+        heading: "Out of attempts",
+        paragraphs: [
+          "The arrows for this step are shown dashed.",
+          ...(explanation === "" ? [] : [explanation]),
+        ],
+      };
+    }
+    default:
+      return null;
+  }
+}
+
 /** The feedback panel: a refused tap, a change event, the end, or the last check. */
 export function feedbackPanelText(session: StepSession): FeedbackText {
   if (session.pickMessage !== null) {
     return { feedbackTone: "neutral", heading: "Hold on", paragraphs: [session.pickMessage] };
   }
-  if (session.phase === "changeEvent") {
-    const caption = session.currentStep?.caption ?? "";
-    return {
-      feedbackTone: "neutral",
-      heading: "Something changes",
-      paragraphs: [caption === "" ? "New molecules join the mixture." : caption],
-    };
-  }
-  if (session.phase === "complete") {
-    return {
-      feedbackTone: "good",
-      heading: "Mechanism complete",
-      paragraphs: [session.reaction.mechanismSummary],
-    };
+  const forPhase = phaseFeedback(session);
+  if (forPhase !== null) {
+    return forPhase;
   }
   if (session.lastAssessment !== null) {
     const explanation =

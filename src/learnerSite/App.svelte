@@ -2,6 +2,7 @@
   // The learner site: a header and the page the URL hash names (siteRoutes.ts).
   import { onMount } from "svelte";
   import { fetchSiteJson, loadCatalogue } from "../siteData/siteData.js";
+  import DailyPage from "./DailyPage.svelte";
   import ReactionList from "./ReactionList.svelte";
   import SiteHeader from "./SiteHeader.svelte";
   import StepScreen from "./StepScreen.svelte";
@@ -21,12 +22,14 @@
   });
 </script>
 
-<SiteHeader />
+<SiteHeader {route} />
 <main class="wrap">
   {#await cataloguePromise}
     <p class="muted mt">Loading reactions…</p>
   {:then catalogue}
-    {#if route.routeName === "play"}
+    {#if route.routeName === "daily"}
+      <DailyPage {catalogue} />
+    {:else if route.routeName === "play"}
       {#key route.reactionVersionRef}
         <StepScreen {catalogue} reactionVersionRef={route.reactionVersionRef} />
       {/key}

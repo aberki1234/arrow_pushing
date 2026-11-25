@@ -1,13 +1,21 @@
 <script lang="ts">
-  // The site's top bar: brand, the reaction list, and a light/dark theme switch (not yet
-  // remembered between visits: learner settings arrive with progress in item 7b).
+  // The site's top bar: brand, the daily puzzle, the reaction list, and a light/dark theme switch
+  // remembered in the learner's progress (settings.theme).
+  import { readProgress, withTheme, writeProgress } from "../learnerProgress/learnerProgress.js";
+  import { browserStorage } from "./browserStorage.js";
+  import type { SiteRoute } from "./siteRoutes.js";
+
+  const { route }: { route: SiteRoute } = $props();
+
   function toggleTheme(): void {
     const root = document.documentElement;
     const chosen = root.dataset["theme"];
     const isDark =
       chosen === "dark" ||
       (chosen === undefined && window.matchMedia("(prefers-color-scheme: dark)").matches);
-    root.dataset["theme"] = isDark ? "light" : "dark";
+    const theme = isDark ? "light" : "dark";
+    root.dataset["theme"] = theme;
+    writeProgress(browserStorage, withTheme(readProgress(browserStorage), theme));
   }
 </script>
 
@@ -27,7 +35,12 @@
       </svg>
       ArrowPush
     </a>
-    <a class="tab" href="#/">Reactions</a>
+    <a class="tab" href="#/daily" aria-current={route.routeName === "daily" ? "page" : undefined}>
+      Daily
+    </a>
+    <a class="tab" href="#/" aria-current={route.routeName === "reactionList" ? "page" : undefined}>
+      Reactions
+    </a>
     <span class="spacer"></span>
     <button
       class="iconbtn"

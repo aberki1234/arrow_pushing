@@ -1,0 +1,89 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:mech-training:schema:progress:1",
+  "title": "Learner progress in the browser",
+  "description": "localStorage key arrowpush.progress (docs/schema-design.md section 7). $defs/dailyInProgress is the unfinished daily puzzle kept under arrowpush.dailyInProgress.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["formatVersion", "runs", "dateToDailyResult", "settings"],
+  "properties": {
+    "formatVersion": { "const": 1 },
+    "runs": { "type": "array", "items": { "$ref": "#/$defs/run" } },
+    "dateToDailyResult": {
+      "type": "object",
+      "propertyNames": { "$ref": "#/$defs/dateText" },
+      "additionalProperties": { "$ref": "#/$defs/dailyResult" }
+    },
+    "settings": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["theme"],
+      "properties": { "theme": { "enum": ["auto", "light", "dark"] } }
+    }
+  },
+  "$defs": {
+    "dateText": { "type": "string", "pattern": "^[0-9]{4}-[0-9]{2}-[0-9]{2}$" },
+    "reactionVersionRef": { "type": "string", "pattern": "^[a-z0-9]+(-[a-z0-9]+)*@[1-9][0-9]*$" },
+    "slug": { "type": "string", "pattern": "^[a-z0-9]+(-[a-z0-9]+)*$" },
+    "stepResult": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["stepKey", "stepOutcome", "attemptCount", "hintsUsed", "feedbackIdsShown"],
+      "properties": {
+        "stepKey": { "$ref": "#/$defs/slug" },
+        "stepOutcome": { "enum": ["firstTry", "afterRetry", "afterHint", "missed"] },
+        "attemptCount": { "type": "integer", "minimum": 1 },
+        "hintsUsed": { "type": "integer", "minimum": 0, "maximum": 3 },
+        "feedbackIdsShown": { "type": "array", "items": { "type": "string", "minLength": 1 } }
+      }
+    },
+    "run": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["reactionVersionRef", "mode", "startedAt", "stepResults"],
+      "properties": {
+        "reactionVersionRef": { "$ref": "#/$defs/reactionVersionRef" },
+        "mode": { "enum": ["practice", "daily"] },
+        "startedAt": { "type": "string", "minLength": 1 },
+        "stepResults": { "type": "array", "items": { "$ref": "#/$defs/stepResult" } }
+      }
+    },
+    "dailyResult": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["reactionVersionRef", "puzzleNumber", "runStartedAt", "shareGrid", "score"],
+      "properties": {
+        "reactionVersionRef": { "$ref": "#/$defs/reactionVersionRef" },
+        "puzzleNumber": { "type": "integer", "minimum": 1 },
+        "runStartedAt": { "type": "string", "minLength": 1 },
+        "shareGrid": { "type": "string" },
+        "score": { "type": "integer", "minimum": 0 }
+      }
+    },
+    "dailyInProgress": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["formatVersion", "localDate", "puzzleNumber", "reactionVersionRef", "startedAt", "snapshot"],
+      "properties": {
+        "formatVersion": { "const": 1 },
+        "localDate": { "$ref": "#/$defs/dateText" },
+        "puzzleNumber": { "type": "integer", "minimum": 1 },
+        "reactionVersionRef": { "$ref": "#/$defs/reactionVersionRef" },
+        "startedAt": { "type": "string", "minLength": 1 },
+        "snapshot": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["mode", "stateId", "stepResults", "wrongCheckCount", "hintsShown", "feedbackIdsAtState"],
+          "properties": {
+            "mode": { "const": "daily" },
+            "stateId": { "$ref": "#/$defs/slug" },
+            "stepResults": { "type": "array", "items": { "$ref": "#/$defs/stepResult" } },
+            "wrongCheckCount": { "type": "integer", "minimum": 0 },
+            "hintsShown": { "type": "integer", "minimum": 0, "maximum": 3 },
+            "feedbackIdsAtState": { "type": "array", "items": { "type": "string" } }
+          }
+        }
+      }
+    }
+  }
+}

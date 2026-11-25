@@ -9,6 +9,8 @@ const layersLowestFirst = [
   "catalogue",
   "moleculeDrawing",
   "stepSession",
+  "learnerProgress",
+  "dailyPuzzle",
   "siteData",
   "learnerSite",
 ];

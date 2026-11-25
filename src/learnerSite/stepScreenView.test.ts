@@ -5,6 +5,7 @@ import type { TappedPlace } from "../stepSession/arrowPicking.js";
 import {
   type StepSession,
   checkArrows,
+  clearArrows,
   continueToNextState,
   showNextHint,
   startStepSession,
@@ -138,5 +139,30 @@ describe("canvas helpers", () => {
       optionLabels: ["C3 forms the bond", "C5 forms the bond"],
     });
     expect(destinationChoice(aldolSession())).toBeNull();
+  });
+});
+
+describe("a missed step (daily)", () => {
+  function sn2Missed(): StepSession {
+    let session = startStepSession(exampleSessionReaction("sn2-hydroxide-bromomethane"), "daily");
+    for (let attempt = 0; attempt < 3; attempt++) {
+      session = checkArrows([lonePair(1), atom(3)].reduce(tapPlace, clearArrows(session)));
+    }
+    return session;
+  }
+
+  test("is a ✕ tile and says the arrows are revealed", () => {
+    const missed = sn2Missed();
+    expect(stepTiles(missed).map((tile) => [tile.stepTileKind, tile.tileText])).toEqual([
+      ["missed", "✕"],
+    ]);
+    expect(stepTiles(missed)[0]?.accessibleName).toBe("Step 1: missed");
+    expect(canvasInstruction(missed)).toMatch(/Next step/);
+    const feedback = feedbackPanelText(missed);
+    expect(feedback.feedbackTone).toBe("wrong");
+    expect(feedback.heading).toBe("Out of attempts");
+    expect(feedback.paragraphs.join(" ")).toMatch(/dashed/);
+    expect(feedback.paragraphs.join(" ")).toMatch(/concerted/);
+    expect(stepCounterText(missed)).toBe("Step 1 of 1");
   });
 });

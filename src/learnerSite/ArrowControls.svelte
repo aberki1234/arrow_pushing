@@ -3,12 +3,14 @@
   import { describeCurvedArrow } from "../stepSession/arrowDescriptions.js";
   import type { ArrowType } from "../stepSession/arrowPicking.js";
   import {
+    DAILY_ATTEMPTS_PER_STEP,
     HINT_TIER_COUNT,
     type StepSession,
     checkArrows,
     clearArrows,
     continueToNextState,
     removeArrow,
+    revealedArrows,
     setArrowType,
     showNextHint,
     shownHintTexts,
@@ -33,6 +35,16 @@
     session.reaction.stateIdToState.get(session.currentStateId)?.learnerPrompt ?? "",
   );
   const hintTexts = $derived(shownHintTexts(session));
+  const attemptsLeft = $derived(DAILY_ATTEMPTS_PER_STEP - session.wrongCheckCount);
+  const pipSlots = Array.from({ length: DAILY_ATTEMPTS_PER_STEP }, (unusedEntry, slot) => slot);
+  const showsPrompt = $derived(
+    session.phase === "drawing" ||
+      session.phase === "stepCorrect" ||
+      session.phase === "stepMissed",
+  );
+  const attemptsLeftName = $derived(
+    `${String(attemptsLeft)} of ${String(DAILY_ATTEMPTS_PER_STEP)} attempts left`,
+  );
 
   function change(next: StepSession): void {
     onArrowsChanged();
@@ -46,7 +58,17 @@
 
 <div class="card flat">
   <div class="small muted">{stepCounterText(session)}</div>
-  {#if session.phase === "drawing" || session.phase === "stepCorrect"}
+  {#if session.mode === "daily" && session.phase === "drawing"}
+    <div class="small" aria-label={attemptsLeftName}>
+      <span class="muted">Attempts left</span>
+      <span class="pips" aria-hidden="true">
+        {#each pipSlots as slot (slot)}
+          <span class:off={slot >= attemptsLeft}></span>
+        {/each}
+      </span>
+    </div>
+  {/if}
+  {#if showsPrompt}
     <h2 style="margin:2px 0 10px">{prompt}</h2>
     <div class="row small" style="margin-bottom:10px">
       <span class="muted" id="arrow-type-label">Arrow type</span>
@@ -73,7 +95,13 @@
       </div>
       {#if radical}<span class="pill rad">radical</span>{/if}
     </div>
-    {#if session.drawnArrows.length === 0}
+    {#if session.phase === "stepMissed"}
+      <ol class="arrowlist" aria-label="The step's arrows">
+        {#each revealedArrows(session) as curvedArrow, position (position)}
+          <li><b>{position + 1}.</b> {describeCurvedArrow(curvedArrow)}</li>
+        {/each}
+      </ol>
+    {:else if session.drawnArrows.length === 0}
       <div class="small muted">
         Tap a <b>source</b> (lone pair, bond or unpaired electron), then a
         <b>target</b> (atom or bond).
@@ -148,10 +176,10 @@
       >
         Check
       </button>
-    {:else if session.phase === "stepCorrect"}
+    {:else if session.phase === "stepCorrect" || session.phase === "stepMissed"}
       <span class="spacer"></span>
       <button
-        class="btn good"
+        class={session.phase === "stepCorrect" ? "btn good" : "btn primary"}
         type="button"
         onclick={() => {
           change(continueToNextState(session));
@@ -172,5 +200,9 @@
       </button>
     {/if}
   </div>
-  <div class="small muted" style="margin-top:6px">Practice: hints are free.</div>
+  <div class="small muted" style="margin-top:6px">
+    {session.mode === "daily"
+      ? "Daily: each wrong check and each hint costs a point."
+      : "Practice: hints are free."}
+  </div>
 </div>

@@ -21,3 +21,8 @@ test("routes print back to hashes", () => {
   expect(siteRouteHash(play)).toBe("#/play/sn2-hydroxide-bromomethane@1");
   expect(parseSiteRoute(siteRouteHash(play))).toEqual(play);
 });
+
+test("the daily puzzle has its own route", () => {
+  expect(parseSiteRoute("#/daily")).toEqual({ routeName: "daily" });
+  expect(siteRouteHash({ routeName: "daily" })).toBe("#/daily");
+});
