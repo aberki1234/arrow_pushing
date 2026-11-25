@@ -440,3 +440,15 @@ p.f {
   color: var(--muted);
   margin: 10px 0 4px;
 }
+/* The field a check led to (fieldFocus.ts) flashes briefly. */
+.flash {
+  outline: 3px solid var(--accent);
+  outline-offset: 3px;
+  border-radius: 8px;
+  transition: outline-color 1.2s ease-out;
+}
+@media (prefers-reduced-motion: reduce) {
+  .flash {
+    transition: none;
+  }
+}

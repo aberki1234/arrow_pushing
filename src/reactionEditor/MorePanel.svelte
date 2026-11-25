@@ -71,6 +71,7 @@
     </label>
     <textarea
       id="groups"
+      data-field="abbreviatedGroups"
       rows="3"
       value={abbreviatedGroupsText(groups)}
       onchange={(event) => {
@@ -83,7 +84,12 @@
       }}></textarea>
   {:else}
     <label class="f" for="state-smiles">Mapped SMILES (every atom keeps its number)</label>
-    <textarea id="state-smiles" class="mono" rows="3" bind:value={editedSmiles}></textarea>
+    <textarea
+      id="state-smiles"
+      data-field="mappedSmiles"
+      class="mono"
+      rows="3"
+      bind:value={editedSmiles}></textarea>
     <div class="row mt">
       <button
         class="btn sm"

@@ -92,6 +92,7 @@
     <label class="f" for="start-name">What is this reaction called?</label>
     <input
       id="start-name"
+      data-field="title"
       value={textOf("title")}
       onchange={(event) => {
         apply(setReactionField(document, "title", event.currentTarget.value));
@@ -110,6 +111,7 @@
     </label>
     <input
       id="start-conditions"
+      data-field="conditionsLabel"
       value={textOf("conditionsLabel")}
       onchange={(event) => {
         apply(setReactionField(document, "conditionsLabel", event.currentTarget.value));

@@ -27,6 +27,7 @@
   <label class="f" for="state-id">State id (in the file)</label>
   <input
     id="state-id"
+    data-field="stateId"
     value={stateId}
     onchange={(event) => {
       apply(renameState(document, stateId, event.currentTarget.value.trim()));
@@ -35,6 +36,7 @@
   <label class="f" for="state-caption">Caption under the drawing</label>
   <input
     id="state-caption"
+    data-field="caption"
     value={typeof state.caption === "string" ? state.caption : ""}
     onchange={(event) => {
       apply(setStateField(document, stateId, "caption", event.currentTarget.value));
@@ -43,6 +45,7 @@
   <label class="f" for="annotations">Notes on atoms (text @ atom number, one per line)</label>
   <textarea
     id="annotations"
+    data-field="annotations"
     rows="2"
     value={annotationsText(annotations)}
     onchange={(event) => {

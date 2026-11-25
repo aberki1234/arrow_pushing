@@ -102,6 +102,7 @@
         <label class="f" for="teach-prompt">What does the learner see before drawing?</label>
         <textarea
           id="teach-prompt"
+          data-field="learnerPrompt"
           rows="3"
           value={textIn(state, "learnerPrompt")}
           placeholder="e.g. Draw the arrows for the single, concerted step."
@@ -127,7 +128,7 @@
           ghost arrows for the learner to trace.
         </p>
         {#each HINT_TIERS as tier, position (tier.label)}
-          <div class="tier">
+          <div class="tier" data-field={position === 0 ? "hintTiers" : undefined}>
             <label class="lab" for={`hint-${String(position)}`}>
               {tier.label}<small>{tier.note}</small>
             </label>
@@ -145,6 +146,7 @@
         <label class="f" for="teach-why">Shown after a correct step</label>
         <textarea
           id="teach-why"
+          data-field="explanationAfterStep"
           rows="4"
           value={textIn(step, "explanationAfterStep")}
           onchange={(event) => {
@@ -154,6 +156,7 @@
         <label class="f" for="teach-caption">What the learner reads as the molecules change</label>
         <input
           id="teach-caption"
+          data-field="caption"
           value={textIn(step, "caption")}
           onchange={(event) => {
             setStepText("caption", event.currentTarget.value);
@@ -163,6 +166,7 @@
         <label class="f" for="teach-summary">Shown when the learner finishes</label>
         <textarea
           id="teach-summary"
+          data-field="mechanismSummary"
           rows="3"
           value={textIn(document, "mechanismSummary")}
           placeholder="e.g. One concerted step; inversion of configuration at carbon."

@@ -35,6 +35,7 @@
   <label class="f" for="authors">Authors (one per line: name | optional link)</label>
   <textarea
     id="authors"
+    data-field="authors"
     rows="2"
     value={authorsText(listOf("authors"))}
     onchange={(event) => {
@@ -43,6 +44,7 @@
   <label class="f" for="references">References (one per line)</label>
   <textarea
     id="references"
+    data-field="references"
     rows="2"
     value={listOf<string>("references").join("\n")}
     onchange={(event) => {
@@ -52,6 +54,7 @@
   <label class="row small mt">
     <input
       type="checkbox"
+      data-field="dailyPuzzleEligible"
       checked={document.dailyPuzzleEligible === true}
       onchange={(event) => {
         apply(setReactionField(document, "dailyPuzzleEligible", event.currentTarget.checked));
@@ -65,6 +68,7 @@
   <label class="f" for="spectators">Spectator atoms, drawn faded (atom numbers)</label>
   <input
     id="spectators"
+    data-field="spectatorMapNumbers"
     value={mapNumbersText(listOf("spectatorMapNumbers"))}
     onchange={(event) => {
       setFromText("spectatorMapNumbers", readMapNumbers(event.currentTarget.value));
@@ -73,6 +77,7 @@
   <label class="f" for="roles">Atom roles for wrong-answer patterns (role: atom numbers)</label>
   <textarea
     id="roles"
+    data-field="atomRoleToMapNumbers"
     rows="2"
     value={rolesText((document.atomRoleToMapNumbers ?? {}) as Record<string, number[]>)}
     onchange={(event) => {

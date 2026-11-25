@@ -127,6 +127,18 @@ describe("going to a finding's place", () => {
     expect([atStep.stage, atStep.selectedStepKey]).toEqual(["mechanism", "protonation"]);
   });
 
+  it("asks for the place's field to be shown, anew on every visit", () => {
+    const first = goToPlace(aldol(), { placeKind: "reaction", field: "authors" });
+    expect(first.focusRequest?.field).toBe("authors");
+    const again = goToPlace(first, { placeKind: "reaction", field: "authors" });
+    expect(again.focusRequest?.field).toBe("authors");
+    expect(again.focusRequest?.requestNumber).toBeGreaterThan(
+      first.focusRequest?.requestNumber ?? 0,
+    );
+    const atState = goToPlace(aldol(), { placeKind: "state", stateId: "alkoxide", field: null });
+    expect(atState.focusRequest).toBeNull();
+  });
+
   it("goes to the reaction's fields on their stage", () => {
     expect(goToPlace(aldol(), { placeKind: "reaction", field: "authors" }).stage).toBe("publish");
     expect(goToPlace(aldol(), { placeKind: "reaction", field: "title" }).stage).toBe("start");

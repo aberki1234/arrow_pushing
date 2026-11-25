@@ -124,7 +124,7 @@
   <section class="card mt" aria-label="Details for the library">
     <h3>Details for the library</h3>
     <p class="f">Reaction type</p>
-    <div class="row">
+    <div class="row" data-field="reactionClasses">
       {#each REACTION_CLASSES as reactionClass (reactionClass)}
         <button
           class="chip"
@@ -138,7 +138,7 @@
       {/each}
     </div>
     <p class="f">Difficulty</p>
-    <div class="row" role="group" aria-label="Difficulty">
+    <div class="row" role="group" aria-label="Difficulty" data-field="difficultyTier">
       {#each TIERS as { tier, dots } (tier)}
         <button
           class="chip"
@@ -157,6 +157,7 @@
     </label>
     <input
       id="publish-subtitle"
+      data-field="subtitle"
       value={typeof document.subtitle === "string" ? document.subtitle : ""}
       placeholder="e.g. Hydroxide displaces bromide from bromomethane"
       onchange={(event) => {

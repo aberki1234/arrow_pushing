@@ -3,6 +3,7 @@
   // name, whether it is saved, undo and redo, Play as learner), the stage stepper, and the stage
   // on screen. Lint runs about LINT_DELAY after the last edit, in a worker (workerLinter.ts),
   // dropping answers to drafts since changed; Teaching and Publish show its findings.
+  import { tick } from "svelte";
   import type { ChemistryToolkit } from "../chemistryToolkit/chemistryToolkit.js";
   import type { CreationStage } from "../reactionEditing/creationProgress.js";
   import { canRedo, canUndo } from "../reactionEditing/editHistory.js";
@@ -17,6 +18,7 @@
     type EditorSession,
     setStage,
   } from "./editorSession.js";
+  import { showField } from "./fieldFocus.js";
   import MechanismStage from "./MechanismStage.svelte";
   import PublishStage from "./PublishStage.svelte";
   import StageStepper from "./StageStepper.svelte";
@@ -48,6 +50,20 @@
   } = $props();
 
   const LINT_DELAY_MILLISECONDS = 300;
+
+  let shownRequestNumber = 0;
+  // A check asked for a field: show it once the stage it is on has been drawn. Two ticks: a
+  // stage may open a panel (⋯ More) for it in its own effect first.
+  $effect(() => {
+    const request = session.focusRequest;
+    if (request === null || request.requestNumber === shownRequestNumber) {
+      return;
+    }
+    shownRequestNumber = request.requestNumber;
+    void tick()
+      .then(tick)
+      .then(() => showField(window.document, request.field));
+  });
 
   let findings = $state.raw<readonly LintFinding[]>([]);
   let linting = $state(true);

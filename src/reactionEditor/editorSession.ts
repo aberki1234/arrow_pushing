@@ -71,6 +71,11 @@ export interface EditorSession {
   readonly stage: CreationStage;
   /** The Teaching item open (teachingChecklist.teachingItemKey), if one is. */
   readonly teachingItemKey: string | null;
+  /**
+   * The field a check asked to see (goToPlace): the page opens its folded section, scrolls to it
+   * and focuses it. Numbered, so that the same check clicked again shows it again.
+   */
+  readonly focusRequest: { readonly field: string; readonly requestNumber: number } | null;
   readonly mode: EditorMode;
   /** The arrows being drawn on the selected state (drawArrows mode only). */
   readonly arrowDrawing: ArrowDrawing | null;
@@ -129,6 +134,7 @@ export function openDraft(document: ReactionDocument, fileName: string): EditorS
     selectedStepKey: null,
     stage: "start",
     teachingItemKey: null,
+    focusRequest: null,
     mode: "look",
     arrowDrawing: null,
     message: NO_MESSAGE,
@@ -213,8 +219,18 @@ function teachingItemKeyAt(document: ReactionDocument, place: LintPlace): string
   return found === undefined ? null : teachingItemKey(found);
 }
 
-/** Show the place a lint finding points at, on the stage that edits it (checkTasks.ts). */
+/** Show the place a lint finding points at, on the stage that edits it, asking for its field. */
 export function goToPlace(session: EditorSession, place: LintPlace): EditorSession {
+  const shown = goToPlaceOnItsStage(session, place);
+  const requestNumber = (session.focusRequest?.requestNumber ?? 0) + 1;
+  return {
+    ...shown,
+    focusRequest: place.field === null ? null : { field: place.field, requestNumber },
+  };
+}
+
+/** The place's stage, with its teaching item, state or step selected (checkTasks.ts). */
+function goToPlaceOnItsStage(session: EditorSession, place: LintPlace): EditorSession {
   const stage = stageOfPlace(place);
   if (stage === "teaching") {
     const key = teachingItemKeyAt(currentDraft(session), place);

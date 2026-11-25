@@ -49,6 +49,7 @@
     <label class="f" for="step-caption">What happens (caption the learner sees)</label>
     <input
       id="step-caption"
+      data-field="caption"
       value={textOf("caption")}
       onchange={(event) => {
         apply(setStepField(document, stepKey, "caption", event.currentTarget.value));
@@ -60,6 +61,7 @@
     </label>
     <textarea
       id="step-why"
+      data-field="explanationAfterStep"
       rows="3"
       value={textOf("explanationAfterStep")}
       placeholder="e.g. Hydroxide attacks the δ+ carbon from the back as bromide leaves."
@@ -92,6 +94,7 @@
     <label class="f" for="step-key">Step key (learner progress records it)</label>
     <input
       id="step-key"
+      data-field="stepKey"
       value={stepKey}
       onchange={(event) => {
         apply(renameStep(document, stepKey, event.currentTarget.value.trim()));
@@ -101,6 +104,7 @@
       <label class="f" for="step-route">Route</label>
       <select
         id="step-route"
+        data-field="routePreference"
         value={textOf("routePreference")}
         onchange={(event) => {
           const preference = event.currentTarget.value === "preferred" ? "preferred" : "accepted";
@@ -110,7 +114,9 @@
         <option value="preferred">preferred (the textbook route: hints follow it)</option>
         <option value="accepted">accepted (also correct)</option>
       </select>
-      <p class="f">Other complete arrow sets ("right so far" is recognised for them)</p>
+      <p class="f" data-field="partialArrowSets">
+        Other complete arrow sets ("right so far" is recognised for them)
+      </p>
       {#each partialSets as arrowSet, position (position)}
         <div class="row">
           <code class="small">{arrowSet.join("; ")}</code>

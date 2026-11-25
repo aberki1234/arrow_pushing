@@ -3,7 +3,7 @@
 > Source of truth for what has been **agreed with the user** (design grilling, 2026-11-24). Do not silently change
 > anything under "Agreed"; if it needs to change, ask the user and edit this file in the same change.
 > Items under "Open" are NOT decided. A human-readable copy is `docs/spec.html` — keep both in sync.
-> Working name "ArrowPush" is a placeholder used in the mockups, not a decision.
+> The product is named **ArrowPush** (decided 2026-11-26), at `arrowpushing.com`.
 
 ## 1. Product
 
@@ -329,6 +329,8 @@ then a halobenzene (deactivating but ortho/para). The track ends with a checkpoi
     the needed teaching items still missing as well as the lint findings; the Create home lists reactions
     without thumbnails (its list has no documents); "Submit for review" waits for 8e, so a role that may
     not publish sees no button; hint tiers left empty at the end are dropped.
+    A check clicked on Publish goes to its stage, opens the folded section holding its field, scrolls to
+    it, focuses it and flashes it briefly (`fieldFocus.ts`; each field carries `data-field`).
   - **Ready for contributors:** every "may this user …" decision on the server sits in one module, by site role
     (owner / reviewer / contributor, already a column of `users`); the editor asks the server for the signed-in
     user's role and shows Publish or Submit for review from it. 8e then adds sign-up beyond the allow-list,
@@ -377,7 +379,7 @@ stages (Start, Mechanism, Teaching, Publish); the SN2 step can be drawn by click
 
 - The **JSON schema**, **Postgres schema** and misconception pattern syntax: `docs/schema-design.md` (2026-11-24),
   "mostly fine" per the user; the decisions in §4 are settled, and details may still be refined.
-- Final product name / branding / domain.
+- Branding beyond the name (logo, colours). Name and domain decided 2026-11-26: ArrowPush, `arrowpushing.com`.
 - Contributors and reviewers (item 8e): OAuth providers beyond GitHub (e.g. Google for students), reviewer roles
   beyond the owner, the review screen.
 - Which exact reactions beyond the list above; authoring order of the first content set.

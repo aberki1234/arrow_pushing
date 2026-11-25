@@ -86,6 +86,16 @@
   let moreOpen = $state(false);
   let panelKind = $state<MorePanelKind | null>(null);
 
+  // A check about a group or a state's SMILES opens the panel that edits it.
+  $effect(() => {
+    const field = session.focusRequest?.field;
+    if (field === "abbreviatedGroups") {
+      panelKind = "shortenGroup";
+    } else if (field === "mappedSmiles") {
+      panelKind = "editSmiles";
+    }
+  });
+
   const document = $derived(currentDraft(session));
   const names = $derived(stateDisplayNames(document));
   const selectedName = $derived(names.get(session.selectedStateId) ?? session.selectedStateId);

@@ -187,6 +187,28 @@ test("Publish lists the checks; Fix goes to the place, and the check clears", as
   );
 });
 
+test("a check on Publish itself opens its folded section and focuses the field", async () => {
+  await createSn2Draft(memoryFileStore());
+  await drawSubstitution();
+  await fireEvent.click(stageButton("Publish"));
+  const authorTask = await screen.findByRole(
+    "button",
+    { name: /Name at least one author/ },
+    { timeout: 10000 },
+  );
+  const authors = screen.getByLabelText(/Authors/);
+  expect(authors.closest("details")?.open).toBe(false);
+  await fireEvent.click(authorTask);
+  await waitFor(() => {
+    expect(authors.closest("details")?.open).toBe(true);
+    expect(document.activeElement).toBe(authors);
+  });
+  await fireEvent.click(screen.getByRole("button", { name: /Choose a reaction type/ }));
+  await waitFor(() => {
+    expect(document.activeElement?.textContent).toBe("substitution");
+  });
+});
+
 test("Play as learner opens the learner's step screen on the draft, and goes back", async () => {
   await createSn2Draft(memoryFileStore());
   expect(screen.getByRole("button", { name: "▶ Play as learner" }).hasAttribute("disabled")).toBe(

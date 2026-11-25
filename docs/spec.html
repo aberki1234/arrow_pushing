@@ -31,7 +31,7 @@
   </nav>
   <main>
     <h1>ArrowPush — agreed spec <span class="tag">v0.1</span></h1>
-    <p class="muted">Agreed in the design grilling on 2026-11-24. “ArrowPush” is just a placeholder name used in the mockups.</p>
+    <p class="muted">Agreed in the design grilling on 2026-11-24. The product is called <b>ArrowPush</b> (decided 2026-11-26), at <code>arrowpushing.com</code>.</p>
     <div class="note">This page is the human copy. The same content for the assistant lives in <code>docs/SPEC.md</code>. Anything marked “agreed” should only change after you say so, and both files get updated together.</div>
 
     <h2 id="product">1 · Product</h2>
@@ -148,7 +148,7 @@
             </ol></li>
           <li><b>One domain</b>, <b><code>arrowpushing.com</code></b> (bought 2026-11-26; set up in part 3): the learner site at <code>&lt;domain&gt;</code> on Cloudflare Pages, Create at <b><code>create.&lt;domain&gt;</code></b> served by Render together with its API, so sign-in needs no cross-site cookies. The editor and RDKit.js stay off the learner host. Until the domain exists, Create stays on its <code>onrender.com</code> address. Create uses the learner site's header and look.</li>
           <li><b>No Create tab for learners</b> while it is yours alone; one build setting shows it when contributors arrive.</li>
-          <li><b>Chosen while building the pages (2026-11-26):</b> the draft <b>saves by itself</b> a moment after each change, and at once when you go back to Your mechanisms (no Save button; “Download the JSON file” stays on Publish); a new draft names you as its author; Publish's checks also list the needed teaching items still missing; Your mechanisms has no thumbnails; “Submit for review” comes with contributors (8e); empty hints at the end are dropped.</li>
+          <li><b>Chosen while building the pages (2026-11-26):</b> the draft <b>saves by itself</b> a moment after each change, and at once when you go back to Your mechanisms (no Save button; “Download the JSON file” stays on Publish); a new draft names you as its author; Publish's checks also list the needed teaching items still missing; Your mechanisms has no thumbnails; “Submit for review” comes with contributors (8e); empty hints at the end are dropped. Clicking a check opens the folded section its field is in, scrolls to the field, focuses it and makes it flash briefly.</li>
           <li><b>Ready for contributors:</b> every “may this user …” decision on the server is in one place, by site role (owner, reviewer, contributor); the editor shows Publish or Submit for review from the signed-in role. 8e adds sign-up, Submit, the review screen and the header tab.</li>
         </ul></td></tr>
     </tbody></table>
@@ -192,7 +192,7 @@
     <h2 id="open">9 · Still open</h2>
     <ul>
       <li>The <b>JSON schema</b>, <b>Postgres schema</b> and misconception pattern syntax are in <a href="schema-design.html">schema-design.html</a> and “mostly fine” per you. The decisions in §4 are settled; details may still be refined.</li>
-      <li>Final product name, branding and domain.</li>
+      <li>Branding beyond the name (logo, colours). The name, ArrowPush, and the domain, <code>arrowpushing.com</code>, were decided on 2026-11-26.</li>
       <li>Contributors and reviewers (item 8e): sign-in beyond GitHub (e.g. Google for students), reviewer roles beyond you, the review screen.</li>
       <li>Which reactions beyond the list above, and the order of authoring the first content set.</li>
       <li>Tracks after “Aromatic chemistry” (e.g. Zaitsev versus Hofmann, kinetic versus thermodynamic enolates) and their problem sets. Problem sets themselves were scoped on 2026-11-25 (§1, §2, §5).</li>
