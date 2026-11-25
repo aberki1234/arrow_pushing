@@ -230,8 +230,12 @@ Diels–Alder needs a concerted multi-arrow step (3 arrows) — the model must s
     Edit"); only the reaction's owner saves or edits it; the owner or a reviewer publishes.
   - **Defaults chosen with 8c part 3 (2026-11-25):** the first deploy is run by hand with "start a new
     calendar"; every later deploy must fetch the live `catalogue.json`, so a failed fetch never resets the
-    calendar. The weekly dump leaves out session, account and verification rows (sign-in tokens); the read-only
-    role needs BYPASSRLS. Publish in the editor saves the draft first.
+    calendar. The weekly dump leaves out session, account and verification rows (sign-in tokens). Publish in
+    the editor saves the draft first.
+  - **Read-only role (decided 2026-11-25):** the dump connects as `arrowpush_readonly`, which migration 0002
+    gives SELECT and one read policy per table (`--enable-row-security`), not BYPASSRLS. The server's role owns
+    the tables (it runs the migrations), so row-level security does not restrict it; every other role sees no
+    rows. On Supabase the owner makes `arrowpush_readonly` first (LOGIN, password) as `postgres`.
   - **Addresses:** the hosts' own (`*.onrender.com`, `*.pages.dev`) until the name and domain are chosen, before the
     site is announced to learners (a new domain resets learners' saved progress; Export / Import carries it).
 

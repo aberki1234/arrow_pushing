@@ -535,6 +535,8 @@ verifications(id uuid pk, identifier, value, expires_at, created_at, updated_at)
 
 * Decided 2026-11-25 (8c): every table lives in the schema `arrowpush` (not `public`), with row-level security on
   and no policies, and Supabase's Data API off; the server connects as its own role. `reviews` is unused until 8d.
+  Migration 0002 (2026-11-25) adds the role `arrowpush_readonly` for the weekly dump: SELECT and a read policy
+  (`read_only_select`) on every table, nothing else. A new table needs its policy in the same migration.
 
 * The whole document, mechanism graph included, lives in `reaction_document`. Columns duplicate only what queries need.
 * Publishing sets the hash and `published_at`, then triggers the static build.

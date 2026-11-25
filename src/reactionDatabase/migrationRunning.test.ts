@@ -41,8 +41,11 @@ const TABLE_NAMES = [
 ];
 
 describe("applying the migrations", () => {
-  it("applies 0001 on a fresh database and nothing on a second run", async () => {
-    expect(firstRunMigrationNames).toEqual(["0001_arrowpush_tables.sql"]);
+  it("applies every migration on a fresh database and nothing on a second run", async () => {
+    expect(firstRunMigrationNames).toEqual([
+      "0001_arrowpush_tables.sql",
+      "0002_read_only_role.sql",
+    ]);
     expect(await applyMigrations(connection)).toEqual([]);
   });
 

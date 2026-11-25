@@ -398,6 +398,7 @@ accounts(id uuid pk, account_id, provider_id, user_id → users, tokens (encrypt
          unique(provider_id, account_id))   -- GitHub's numeric user id where provider_id = 'github'
 verifications(id uuid pk, identifier, value, expires_at, …)   -- the OAuth state</code></pre>
     <p>Decided for 8c: the tables live in their own schema (<code>arrowpush</code>), with row-level security on and Supabase’s automatic Data API off; only the server reaches them. <code>reviews</code> waits for 8d.</p>
+    <p>Migration 0002 adds a read-only role, <code>arrowpush_readonly</code>, for the weekly backup: it may read every table (one read policy per table) and change nothing. Any other role sees no rows. A new table gets its read policy in the same migration; a test checks every table has one.</p>
     <p>The whole document, mechanism graph included, lives in <code>reaction_document</code>.</p>
 
     <h2 id="fixtures">9 · Shared fixtures</h2>

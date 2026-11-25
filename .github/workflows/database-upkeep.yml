@@ -2,10 +2,12 @@
 #   daily   a query, so that Supabase's free plan does not pause the project for inactivity
 #   weekly  a pg_dump of the schema arrowpush, kept as a workflow artifact for 90 days
 #
-# Secret: DATABASE_READONLY_URL, a connection string for a read-only role. The tables have
-# row-level security with no policies, so the role needs BYPASSRLS to read their rows (pg_dump
-# refuses to dump a table whose rows it cannot all see). Session, account and verification rows
-# are left out of the dump: they hold sign-in tokens, and signing in again recreates them.
+# Secret: DATABASE_READONLY_URL, a connection string for the role arrowpush_readonly. Row-level
+# security is on for every table; migration 0002 gives this role a read policy on each, so it
+# reads every row and writes none. pg_dump turns row-level security off by default and then
+# refuses tables it cannot read whole, so it runs with --enable-row-security. Session, account
+# and verification rows are left out of the dump: they hold sign-in tokens, and signing in again
+# recreates them.
 name: Database upkeep
 
 on:
@@ -41,7 +43,7 @@ jobs:
           DATABASE_READONLY_URL: ${{ secrets.DATABASE_READONLY_URL }}
         run: >
           /usr/lib/postgresql/17/bin/pg_dump "$DATABASE_READONLY_URL"
-          --schema=arrowpush --no-owner --no-privileges --format=custom
+          --schema=arrowpush --no-owner --no-privileges --format=custom --enable-row-security
           --exclude-table-data=arrowpush.sessions
           --exclude-table-data=arrowpush.accounts
           --exclude-table-data=arrowpush.verifications
