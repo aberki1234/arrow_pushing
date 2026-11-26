@@ -13,6 +13,7 @@
   import type { StepSession } from "../stepSession/stepSession.js";
   import SiteHeader from "../learnerSite/SiteHeader.svelte";
   import { navigationTabs } from "../learnerSite/siteNavigation.js";
+  import { publishAndDescribe } from "./batchPublishing.js";
   import CreateHome from "./CreateHome.svelte";
   import CreateSubnav from "./CreateSubnav.svelte";
   import CreateWorkspace from "./CreateWorkspace.svelte";
@@ -426,6 +427,9 @@
       onOpenLocal={openLocal}
       onSignIn={signIn}
       onEdit={publishing === undefined ? undefined : editNextVersion}
+      onPublishSelected={publishing !== undefined && mayPublish
+        ? (slugs: readonly string[]) => publishAndDescribe(slugs, publishing, listFiles)
+        : undefined}
     />
   {:else if view === "new" || session === null}
     <div class="row mt">

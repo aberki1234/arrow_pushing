@@ -189,7 +189,7 @@ function countText(count: number, singular: string): string {
   return `${String(count)} ${singular}${count === 1 ? "" : "s"}`;
 }
 
-const DEPLOY_START_TO_SENTENCE: Record<DeployStart, string> = {
+export const DEPLOY_START_TO_SENTENCE: Record<DeployStart, string> = {
   started: "The learner site is being rebuilt.",
   "not-configured": "No site rebuild is set up on this server.",
   failed: "The site rebuild could not be started: the next Publish will include this version.",

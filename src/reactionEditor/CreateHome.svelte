@@ -4,6 +4,8 @@
   // their status and progress; a banner while a reviewer has asked for changes. On the server,
   // before signing in, the sign-in card instead.
   import { creationProgressLine } from "../reactionEditing/creationProgress.js";
+  import { publishableRows } from "./batchPublishing.js";
+  import { slugOfFileName } from "./serverReactionStore.js";
   import type { SignInProvider } from "./contributorClient.js";
   import type { ListedReactionFile } from "./reactionFileStore.js";
   import {
@@ -30,6 +32,7 @@
     onOpenLocal,
     onSignIn,
     onEdit,
+    onPublishSelected,
   }: {
     files: readonly ListedReactionFile[] | null;
     storagePlace: string;
@@ -45,6 +48,10 @@
     onSignIn?: ((provider: SignInProvider) => void) | undefined;
     /** On the server: a published reaction's next version as a draft. */
     onEdit?: ((fileName: string) => void) | undefined;
+    /** For someone who may publish directly: publish the ticked drafts (batchPublishing.ts). */
+    onPublishSelected?:
+      | ((reactionSlugs: readonly string[]) => Promise<{ tone: "good" | "bad"; text: string }>)
+      | undefined;
   } = $props();
 
   const STATUS_TO_PILL: Readonly<Record<string, { text: string; pillClass: string }>> = {
@@ -69,6 +76,37 @@
     `Nothing to list: ${storagePlace} cannot be reached. Start the editor with make editor, ` +
       "or open a file below.",
   );
+  const publishableSlugs = $derived(
+    onPublishSelected === undefined || userId === null
+      ? []
+      : publishableRows(yourFiles, userId).map((file) => slugOfFileName(file.fileName)),
+  );
+  let selectedSlugs: string[] = $state([]);
+  const selectedCount = $derived(
+    selectedSlugs.filter((slug) => publishableSlugs.includes(slug)).length,
+  );
+  let confirming = $state(false);
+  let publishingNow = $state(false);
+  let batchMessage: { tone: "good" | "bad"; text: string } | null = $state(null);
+
+  function toggleSelected(slug: string): void {
+    selectedSlugs = selectedSlugs.includes(slug)
+      ? selectedSlugs.filter((selected) => selected !== slug)
+      : [...selectedSlugs, slug];
+  }
+
+  async function publishTicked(): Promise<void> {
+    if (onPublishSelected === undefined) {
+      return;
+    }
+    confirming = false;
+    publishingNow = true;
+    const ticked = selectedSlugs.filter((slug) => publishableSlugs.includes(slug));
+    batchMessage = await onPublishSelected(ticked);
+    selectedSlugs = [];
+    publishingNow = false;
+  }
+
   let chosenToImprove = $state("");
   const toImprove = $derived(
     toImproveOptions.find((option) => option.fileName === chosenToImprove) ?? toImproveOptions[0],
@@ -170,6 +208,52 @@
       </div>
     {/if}
   </div>
+  {#if publishableSlugs.length > 0}
+    <div class="row mt" role="group" aria-label="Publish several">
+      <button
+        class="btn sm"
+        onclick={() => {
+          selectedSlugs = [...publishableSlugs];
+        }}
+      >
+        Select all ({publishableSlugs.length})
+      </button>
+      <button
+        class="btn sm primary"
+        disabled={selectedCount === 0 || publishingNow}
+        onclick={() => {
+          confirming = true;
+        }}
+      >
+        Publish selected ({selectedCount})
+      </button>
+      {#if publishingNow}
+        <span class="small muted">Publishing…</span>
+      {/if}
+    </div>
+    {#if confirming}
+      <div class="note mt" role="alert">
+        Publish {selectedCount} without opening them? Each is still linted.
+        <span class="small muted">They go out under CC BY-SA 4.0.</span>
+        <div class="row mt">
+          <button class="btn sm primary" onclick={() => void publishTicked()}>
+            Publish {selectedCount} now
+          </button>
+          <button
+            class="btn sm"
+            onclick={() => {
+              confirming = false;
+            }}
+          >
+            Cancel
+          </button>
+        </div>
+      </div>
+    {/if}
+  {/if}
+  {#if batchMessage !== null}
+    <p class={`small message ${batchMessage.tone}`} role="status">{batchMessage.text}</p>
+  {/if}
   <section class="card flat mylist" aria-label="Your mechanisms">
     {#if files === null}
       <p class="small muted">
@@ -184,7 +268,18 @@
     {/if}
     {#each shownFiles as file (file.fileName)}
       {@const pill = STATUS_TO_PILL[file.newestSubmissionStatus ?? "draft"]}
+      {@const slug = slugOfFileName(file.fileName)}
       <div class="item">
+        {#if publishableSlugs.includes(slug)}
+          <input
+            type="checkbox"
+            aria-label={`Select ${file.title ?? file.fileName}`}
+            checked={selectedSlugs.includes(slug)}
+            onchange={() => {
+              toggleSelected(slug);
+            }}
+          />
+        {/if}
         <div class="grow">
           <b>{file.title ?? file.fileName}</b>
           <div class="small muted">

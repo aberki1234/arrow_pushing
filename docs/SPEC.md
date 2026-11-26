@@ -478,6 +478,11 @@ reactions, track `electrophilic-aromatic-substitution`, problem sets in this ord
       accounts are linked to a GitHub one only when both providers verified the same email.
     - **Your mechanisms can be filtered** (owner, 2026-11-26): All · Drafts · Published, each with its count;
       Drafts are every row not yet published (draft, in review, changes requested).
+    - **Publishing several at once** (owner, 2026-11-26), for small changes such as an assistant's text-only next
+      versions: whoever may publish directly ticks their own unpublished versions (or Select all), then **Publish
+      selected (n)** and a confirmation. Each goes through the usual publish (server lint, licence), one after
+      another; a refusal does not stop the rest, and one message lists what was published and what was refused
+      (`reactionEditor/batchPublishing.ts`).
     - Your mechanisms lists the reactions whose newest version the user wrote, and their own published ones;
       someone else's published reactions are only under "Improve a published one" ("Suggest version n").
     - An author is added to the next version's `authors` once (not if they wrote a version of it before, or
