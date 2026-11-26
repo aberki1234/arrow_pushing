@@ -1,0 +1,111 @@
+{
+  "steps": [
+    {
+      "stepKey": "resonance",
+      "stepKind": "polar",
+      "toStateId": "form-2",
+      "fromStateId": "form-1",
+      "canonicalArrows": [
+        "π C1-C2 -> π C2-C3"
+      ],
+      "routePreference": "preferred",
+      "explanationAfterStep": "The arrow starts at the π bond, the electrons, and ends between the middle carbon and the cation: the positive charge itself never moves along an arrow. Both forms are equal, so the charge is shared by the end carbons. A nucleophile can attack either end."
+    }
+  ],
+  "title": "Allyl cation resonance",
+  "authors": [
+    {
+      "url": null,
+      "name": "Maksim"
+    }
+  ],
+  "licence": "CC-BY-SA-4.0",
+  "subtitle": "A π bond moves next to the empty p orbital",
+  "references": [
+    "Clayden, Greeves and Warren, Organic Chemistry, 2nd edition (Oxford University Press), chapter 7 (Delocalization and conjugation)"
+  ],
+  "reactionSlug": "allyl-cation-resonance",
+  "startStateId": "form-1",
+  "formatVersion": 1,
+  "difficultyTier": 1,
+  "stateIdToState": {
+    "form-1": {
+      "caption": "allyl cation, one resonance form (Cl⁻ is a spectator)",
+      "hintTiers": [
+        "The positive carbon has an empty p orbital. Which electrons are next to it?",
+        "The C=C π bond can slide over towards the positive carbon. One arrow.",
+        "One arrow: the C=C π bond into the bond between the middle carbon and the positive carbon."
+      ],
+      "mappedSmiles": "[CH2:1]=[CH:2][CH2+:3].[Cl-:4]",
+      "learnerPrompt": "Draw the other resonance form of the allyl cation. Move only π bonds.",
+      "misconceptions": [
+        {
+          "severity": "wrong",
+          "arrowPattern": "σ *-* -> *",
+          "feedbackMessage": "Resonance arrows never break or make σ bonds: the atoms stay exactly where they are. Move only lone pairs and π bonds.",
+          "misconceptionId": "break-sigma-bond",
+          "misconceptionTag": "resonance-moves-atoms"
+        },
+        {
+          "severity": "wrong",
+          "arrowPattern": "π C1-C2 -> lp C*",
+          "feedbackMessage": "Putting the π pair on one carbon makes a carbanion next to positive carbons: more charges, not a shifted one. Move the π pair towards the empty p orbital instead.",
+          "misconceptionId": "pi-pair-onto-carbon",
+          "misconceptionTag": "creates-charges"
+        }
+      ],
+      "mapNumberToCoordinates": {
+        "1": [
+          0,
+          0
+        ],
+        "2": [
+          1.3,
+          0.75
+        ],
+        "3": [
+          2.6,
+          0
+        ],
+        "4": [
+          -0.43,
+          2.25
+        ]
+      }
+    },
+    "form-2": {
+      "caption": "allyl cation, the other resonance form (Cl⁻ is a spectator)",
+      "mappedSmiles": "[CH2+:1][CH:2]=[CH2:3].[Cl-:4]",
+      "mapNumberToCoordinates": {
+        "1": [
+          0,
+          0
+        ],
+        "2": [
+          1.3,
+          0.75
+        ],
+        "3": [
+          2.6,
+          0
+        ],
+        "4": [
+          -0.43,
+          2.25
+        ]
+      }
+    }
+  },
+  "conditionsLabel": "resonance · no reagent",
+  "reactionClasses": [
+    "acid-base"
+  ],
+  "reactionVersion": 1,
+  "mechanismSummary": "The C=C π bond moves one place along the chain, towards the positive carbon. The positive charge moves to the other end: it is shared by the two end carbons and never sits on the middle one.",
+  "dailyPuzzleEligible": false,
+  "spectatorMapNumbers": [
+    4
+  ],
+  "atomRoleToMapNumbers": {},
+  "previousReactionVersion": null
+}

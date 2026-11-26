@@ -1,0 +1,125 @@
+{
+  "steps": [
+    {
+      "stepKey": "resonance",
+      "stepKind": "polar",
+      "toStateId": "charge-separated-form",
+      "fromStateId": "neutral-form",
+      "canonicalArrows": [
+        "lp N4 -> π C2-N4",
+        "π C2-O3 -> lp O3"
+      ],
+      "routePreference": "preferred",
+      "explanationAfterStep": "This form has more charges, so it contributes less than the neutral one, but it matters: rotation about the C–N bond is slow at room temperature, and the nitrogen lone pair is not free to act as a base. It also makes the amide carbonyl the least electrophilic of the acid derivatives."
+    }
+  ],
+  "title": "Amide resonance",
+  "authors": [
+    {
+      "url": null,
+      "name": "Maksim"
+    }
+  ],
+  "licence": "CC-BY-SA-4.0",
+  "subtitle": "The nitrogen lone pair is shared with the carbonyl",
+  "references": [
+    "Clayden, Greeves and Warren, Organic Chemistry, 2nd edition (Oxford University Press), chapter 7 (Delocalization and conjugation)"
+  ],
+  "reactionSlug": "amide-resonance",
+  "startStateId": "neutral-form",
+  "formatVersion": 1,
+  "difficultyTier": 2,
+  "stateIdToState": {
+    "neutral-form": {
+      "caption": "acetamide",
+      "hintTiers": [
+        "Which atom next to the carbonyl group has a lone pair?",
+        "Nitrogen's lone pair makes a C=N π bond. Carbon cannot have five bonds, so the C=O π bond moves onto oxygen. Two arrows.",
+        "Arrow 1: the nitrogen lone pair into the C–N bond. Arrow 2: the C=O π bond onto oxygen."
+      ],
+      "mappedSmiles": "[CH3:1][C:2](=[O:3])[NH2:4]",
+      "learnerPrompt": "Draw the charge-separated resonance form of acetamide. Move only lone pairs and π bonds.",
+      "misconceptions": [
+        {
+          "severity": "wrong",
+          "arrowPattern": "σ *-* -> *",
+          "feedbackMessage": "Resonance arrows never break or make σ bonds: the atoms stay exactly where they are. Move only lone pairs and π bonds.",
+          "misconceptionId": "break-sigma-bond",
+          "misconceptionTag": "resonance-moves-atoms"
+        },
+        {
+          "severity": "wrong",
+          "arrowPattern": "lp O3 -> π C2-O3",
+          "feedbackMessage": "The oxygen lone pair pushing in would give carbon five bonds, and there is no π bond on the other side for carbon to lose. Start from the nitrogen lone pair.",
+          "misconceptionId": "oxygen-pushes-in",
+          "misconceptionTag": "electrons-from-wrong-end"
+        },
+        {
+          "severity": "wrong",
+          "arrowPattern": "π C2-O3 -> lp C2",
+          "feedbackMessage": "The π pair moves towards oxygen, the more electronegative atom, not onto carbon.",
+          "misconceptionId": "pi-pair-onto-carbon",
+          "misconceptionTag": "electrons-to-less-electronegative-atom"
+        }
+      ],
+      "mapNumberToCoordinates": {
+        "1": [
+          0,
+          0
+        ],
+        "2": [
+          1.3,
+          0.75
+        ],
+        "3": [
+          1.3,
+          2.25
+        ],
+        "4": [
+          2.6,
+          0
+        ]
+      },
+      "partialProgressMessages": [
+        {
+          "learnerArrows": [
+            "lp N4 -> π C2-N4"
+          ],
+          "feedbackMessage": "Right idea: nitrogen's lone pair forms a C=N π bond. But carbon now has five bonds. Push the C=O π bond onto oxygen at the same time."
+        }
+      ]
+    },
+    "charge-separated-form": {
+      "caption": "acetamide, charge-separated form",
+      "mappedSmiles": "[CH3:1][C:2]([O-:3])=[NH2+:4]",
+      "mapNumberToCoordinates": {
+        "1": [
+          0,
+          0
+        ],
+        "2": [
+          1.3,
+          0.75
+        ],
+        "3": [
+          1.3,
+          2.25
+        ],
+        "4": [
+          2.6,
+          0
+        ]
+      }
+    }
+  },
+  "conditionsLabel": "resonance · no reagent",
+  "reactionClasses": [
+    "acid-base"
+  ],
+  "reactionVersion": 1,
+  "mechanismSummary": "The nitrogen lone pair forms a C=N π bond and the C=O π bond moves onto oxygen. The charge-separated form is a real contributor: the C–N bond has partial double-bond character, the amide is flat and nitrogen is barely basic.",
+  "dailyPuzzleEligible": false,
+  "spectatorMapNumbers": [],
+  "atomRoleToMapNumbers": {},
+  "previousReactionVersion": null
+}
