@@ -15,4 +15,10 @@ const appElement = document.getElementById("app");
 if (appElement === null) {
   throw new Error("index.html has no #app element");
 }
-mount(App, { target: appElement });
+/** VITE_CREATE_ADDRESS at build time (the deploy workflow), for the Create tab; else none. */
+function createAddressFromBuild(): string | null {
+  const address: unknown = import.meta.env["VITE_CREATE_ADDRESS"];
+  return typeof address === "string" && address !== "" ? address : null;
+}
+
+mount(App, { target: appElement, props: { createAddress: createAddressFromBuild() } });

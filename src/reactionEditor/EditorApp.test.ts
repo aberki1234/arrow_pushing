@@ -147,6 +147,26 @@ test("going back to Your mechanisms saves an unsaved draft at once", async () =>
   });
 });
 
+test("the top bar links to the learner site's pages; its Create tab goes back home", async () => {
+  render(EditorApp, {
+    props: {
+      toolkitLoading: loadChemistryToolkit(),
+      fileStore: memoryFileStore(),
+      lintDraft,
+      learnerSiteAddress: "https://arrowpushing.com",
+    },
+  });
+  const site = screen.getByRole("navigation", { name: "Site" });
+  expect(within(site).getByRole("link", { name: "Practice" }).getAttribute("href")).toBe(
+    "https://arrowpushing.com/#/practice",
+  );
+  const createTab = within(site).getByRole("link", { name: "Create" });
+  expect(createTab.getAttribute("aria-current")).toBe("page");
+  await fireEvent.click(await screen.findByRole("button", { name: /New mechanism/ }));
+  await fireEvent.click(createTab);
+  expect(await screen.findByRole("heading", { name: "Create" })).toBeTruthy();
+});
+
 test("Teaching lists what is needed; the question written is done, and undone", async () => {
   await createSn2Draft(memoryFileStore());
   await drawSubstitution();

@@ -321,8 +321,12 @@ then a halobenzene (deactivating but ortho/para). The track ends with a checkpoi
     CORS, the sign-in cookie unchanged). RDKit.js and the editor stay off the learner host. Until the domain is
     bought, Create stays at the `onrender.com` address. The Create pages reuse the learner site's header and styles
     and link back to it.
-  - **Learners see no Create tab** while Create is the owner's alone; one build setting adds it to the header when
-    contributors arrive (8e).
+  - **One top bar for both (changed 2026-11-26 by the owner, replacing "learners see no Create tab"):**
+    Home · Daily · Learn · Practice · Progress · **Create** on the learner site and on Create alike
+    (`learnerSite/siteNavigation.ts`, `SiteHeader.svelte`), so they read as one site. The learner site's Create
+    tab links to `VITE_CREATE_ADDRESS` (the deploy workflow passes the `BACKEND_URL` variable); Create's other
+    tabs link to `VITE_LEARNER_SITE_ADDRESS`. Anyone not on the allow-list who signs in sees "Creating is
+    invite-only for now".
   - **Defaults chosen while building the pages (2026-11-26):** the draft **saves by itself** about 1.5 s
     after the last change to it, and at once on going back to Your mechanisms (no Save button; Download the
     JSON file stays on Publish); a new draft names the signed-in user as its author; Publish's checks list

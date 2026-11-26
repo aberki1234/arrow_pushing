@@ -12,10 +12,23 @@
   import SiteHeader from "./SiteHeader.svelte";
   import StepScreen from "./StepScreen.svelte";
   import TrackPage from "./TrackPage.svelte";
+  import { navigationTabs, type NavigationTabName } from "./siteNavigation.js";
   import { parseSiteRoute } from "./siteRoutes.js";
+
+  const {
+    createAddress = null,
+  }: {
+    /** Create's address, for the Create tab (VITE_CREATE_ADDRESS); null leaves the tab out. */
+    createAddress?: string | null;
+  } = $props();
 
   let route = $state(parseSiteRoute(window.location.hash));
   const cataloguePromise = loadCatalogue(fetchSiteJson);
+  const tabs = $derived(navigationTabs({ learnerSiteAddress: "", createAddress }));
+  // A page with a tab of its own marks it; playing a reaction marks none.
+  const currentTab = $derived<NavigationTabName | null>(
+    tabs.find((tab) => tab.tabName === route.routeName)?.tabName ?? null,
+  );
 
   onMount(() => {
     const followHash = (): void => {
@@ -28,7 +41,7 @@
   });
 </script>
 
-<SiteHeader {route} />
+<SiteHeader {tabs} {currentTab} brandHref="#/" />
 <main class="wrap">
   {#await cataloguePromise}
     <p class="muted mt">Loading reactions…</p>

@@ -9,7 +9,8 @@
   import type { ReactionDocument } from "../reactionEditing/reactionDraft.js";
   import { startPreview } from "../reactionEditing/learnerPreview.js";
   import type { StepSession } from "../stepSession/stepSession.js";
-  import CreateHeader from "./CreateHeader.svelte";
+  import SiteHeader from "../learnerSite/SiteHeader.svelte";
+  import { navigationTabs } from "../learnerSite/siteNavigation.js";
   import CreateHome from "./CreateHome.svelte";
   import CreateWorkspace from "./CreateWorkspace.svelte";
   import { createdDraft, type DraftStart } from "./draftCreation.js";
@@ -42,7 +43,7 @@
     lintDraft: DraftLinter;
     /** The built editor on the server: signing in, Publish and Edit. Absent with make editor. */
     publishing?: ReactionPublishing | undefined;
-    /** The learner site, for the header's "Back to the site". */
+    /** The learner site, for the top bar's tabs (null: make editor, only Create's tab). */
     learnerSiteAddress?: string | null;
     autosaveDelayMilliseconds?: number;
     /** Send the browser to another address (GitHub's sign-in page). */
@@ -237,7 +238,12 @@
   }
 </script>
 
-<CreateHeader {learnerSiteAddress} onHome={leaveToHome} />
+<SiteHeader
+  tabs={navigationTabs({ learnerSiteAddress, createAddress: "/" })}
+  currentTab="create"
+  brandHref={learnerSiteAddress === null ? "/" : `${learnerSiteAddress.replace(/\/$/, "")}/#/`}
+  onCurrentTab={leaveToHome}
+/>
 <main class="wrap">
   {#if view === "home"}
     <CreateHome

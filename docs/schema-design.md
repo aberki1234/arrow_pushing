@@ -771,7 +771,7 @@ RDKit (RDKit.js) on every valid SMILES case and every example state (`src/chemis
        and Create on `create.<domain>` (Render), the GitHub sign-in app's callback and the server's public
        address moved there; checked end to end.
    * **8e** Contributors: sign-up beyond the allow-list, submit → review (play-through + diff) → changes requested
-     | published, the Create tab in the learner header.
+     | published (the Create tab is already in the top bar since 2026-11-26).
 9. Learn: tracks and problem sets (scoped 2026-11-25, SPEC §5 "Learn", §6.1 here), before 8d. In three parts:
    * **9a Done 2026-11-26.** The track file: `schema/track.schema.json` (`src/trackFiles/`), the example track
      and lint cases, the lint checks and `lint-tracks`, compiling into `catalogue.json` (`--tracks-folder`, the

@@ -78,6 +78,9 @@ jobs:
           fi
 
       - name: Build the site
+        env:
+          # Create's address, for the Create tab in the top bar (src/learnerSite/siteNavigation.ts).
+          VITE_CREATE_ADDRESS: ${{ vars.BACKEND_URL }}
         run: |
           npx tsx src/catalogueBuilding/runFromShell.ts build content/published/*/*.json \
             --out build/site $CALENDAR_OPTION --tracks-folder content/tracks
