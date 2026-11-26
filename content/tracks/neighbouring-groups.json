@@ -1,0 +1,103 @@
+{
+  "formatVersion": 1,
+  "trackSlug": "neighbouring-groups",
+  "title": "Neighbouring groups",
+  "goal": "Spot a nucleophile inside the molecule that reaches a reacting carbon first, and follow the small ring it makes to the product.",
+  "level": "advanced",
+  "curriculumCode": "A2",
+  "showcaseReactionSlug": "acetoxonium-participation",
+  "problemSets": [
+    {
+      "problemSetSlug": "anchimeric-assistance",
+      "title": "Anchimeric assistance",
+      "conceptInOneLine": "A lone pair in the same molecule pushes out the leaving group before any outside nucleophile can.",
+      "conceptCard": "A nucleophile that is **part of the same molecule** is always close to the reacting carbon, so it can win easily against a nucleophile from the solution. When it displaces the leaving group, the reaction is faster than expected: **anchimeric assistance** (neighbouring group participation).\n\nThe signs:\n\n- **a fast reaction** at a carbon that should be slow (a primary chloride, a secondary tosylate)\n- **first-order kinetics**: the rate does not depend on the outside nucleophile\n- **retention of configuration**: the neighbouring group attacks from behind (inversion), then the outside nucleophile opens the ring (a second inversion)\n\nGood neighbouring groups have lone pairs: **sulfur** and **nitrogen** (three-membered *episulfonium* and *aziridinium* ions), and the **carbonyl oxygen of an ester**, which reaches round to make a five-membered *acetoxonium* ion. The neighbouring group must sit **anti** to the leaving group. The app does not check stereochemistry yet.",
+      "checkpoint": false,
+      "setItems": [
+        {
+          "reactionSlug": "cyclohexene-bromination",
+          "whyThisOne": "A reminder: a bromine bridges two carbons, then bromide opens the three-membered ring from behind."
+        },
+        {
+          "reactionSlug": "mustard-episulfonium-hydrolysis",
+          "whyThisOne": "Sulfur pushes out chloride: why mustard gas is so dangerous."
+        },
+        {
+          "reactionSlug": "acetoxonium-participation",
+          "whyThisOne": "An ester carbonyl oxygen joins in: two inversions give retention."
+        }
+      ]
+    },
+    {
+      "problemSetSlug": "epoxides",
+      "title": "Epoxides",
+      "conceptInOneLine": "Acid: the nucleophile goes to the more substituted carbon. Base: to the less hindered one.",
+      "conceptCard": "An epoxide is a three-membered ring, strained by about 110 kJ mol⁻¹, so even an alkoxide can be its leaving group. Which carbon the nucleophile attacks depends on the conditions:\n\n- **basic or neutral** (methoxide, hydroxide, amines): a plain SN2 reaction at the **less hindered** carbon\n- **acidic**: the protonated epoxide has its weaker, longer C–O bond to the **more substituted** carbon, which carries most of the positive charge, so a weak nucleophile attacks there\n\nIn both cases the nucleophile comes in from the face opposite the oxygen: **inversion**, and *anti* opening on a ring.\n\nAn alkoxide next to an epoxide is a neighbouring group too. It opens the epoxide inside the molecule and closes a new one: the **Payne rearrangement**, an equilibrium between two epoxy alcohols.",
+      "checkpoint": false,
+      "setItems": [
+        {
+          "reactionSlug": "epoxide-opening-base",
+          "whyThisOne": "Methoxide picks the less hindered carbon."
+        },
+        {
+          "reactionSlug": "epoxide-opening-acid",
+          "whyThisOne": "The same epoxide in acid: methanol picks the more substituted carbon."
+        },
+        {
+          "reactionSlug": "payne-rearrangement",
+          "whyThisOne": "An alkoxide as the neighbouring group: the epoxide walks along the chain."
+        }
+      ]
+    },
+    {
+      "problemSetSlug": "ring-contractions",
+      "title": "Ring contractions",
+      "conceptInOneLine": "A carbanion displaces a halide on the next-but-one carbon; the small ring formed then breaks a different way.",
+      "conceptCard": "A carbanion or enolate can also be the neighbouring group. With a halogen on the carbon on the other side of a C=O or SO₂ group, it closes a **three-membered ring**, which then opens or falls apart in a new direction:\n\n- **Favorskii**: an α-haloketone with an alkoxide. The enolate closes a **cyclopropanone**; the alkoxide adds to it and a ring C–C bond breaks. A cyclic α-chloroketone gives a ring **one carbon smaller**, as an ester\n- **Ramberg–Bäcklund**: an α-halo sulfone with hydroxide. The carbanion closes an **episulfone**, which loses **SO₂**, leaving a C=C bond where the sulfone was\n\nIn both, look for the acidic hydrogen on the side **away from** the halogen: that is the carbanion that can reach the C–halogen carbon.",
+      "checkpoint": false,
+      "setItems": [
+        {
+          "reactionSlug": "favorskii-rearrangement",
+          "whyThisOne": "A six-membered ring ketone becomes a five-membered ring ester."
+        },
+        {
+          "reactionSlug": "ramberg-backlund-reaction",
+          "whyThisOne": "Close a ring, then lose SO₂: a sulfone becomes an alkene."
+        }
+      ]
+    },
+    {
+      "problemSetSlug": "neighbouring-groups-checkpoint",
+      "title": "Checkpoint",
+      "conceptInOneLine": "Which neighbour attacks, which small ring forms, and how does it open?",
+      "conceptCard": "Reactions from every set, shuffled, names hidden until you finish. Three attempts per step.",
+      "checkpoint": true,
+      "setItems": [
+        {
+          "reactionSlug": "mustard-episulfonium-hydrolysis",
+          "whyThisOne": "Which atom pushes out the chloride?"
+        },
+        {
+          "reactionSlug": "acetoxonium-participation",
+          "whyThisOne": "A neighbour with a carbonyl oxygen."
+        },
+        {
+          "reactionSlug": "epoxide-opening-acid",
+          "whyThisOne": "Which carbon, in acid?"
+        },
+        {
+          "reactionSlug": "payne-rearrangement",
+          "whyThisOne": "An alkoxide next to an epoxide."
+        },
+        {
+          "reactionSlug": "favorskii-rearrangement",
+          "whyThisOne": "A ketone becomes a smaller-ring ester."
+        },
+        {
+          "reactionSlug": "ramberg-backlund-reaction",
+          "whyThisOne": "From a sulfone to an alkene."
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,91 @@
+{
+  "formatVersion": 1,
+  "trackSlug": "pericyclic-reactions-ii",
+  "title": "Pericyclic reactions II",
+  "goal": "Recognise retro, hetero, ene and cheletropic variants of the pericyclic reactions, draw hydrogen shifts and 8π closures, and use the Woodward–Hoffmann rules to say which are allowed.",
+  "level": "advanced",
+  "curriculumCode": "A8",
+  "showcaseReactionSlug": "alder-ene-reaction",
+  "problemSets": [
+    {
+      "problemSetSlug": "cycloadditions-and-relatives",
+      "title": "Cycloadditions and their relatives",
+      "conceptInOneLine": "The Diels–Alder ring of six electrons can run backwards, include a heteroatom, use a C–H bond or end on a single atom.",
+      "conceptCard": "The cyclic arrows of the Diels–Alder reaction turn up in several disguises. Each is still one step with six electrons moving round a ring.\n\n- **retro-Diels–Alder**: the cyclohexene unzips back into a diene and a dienophile. Heat and entropy (one molecule becomes two) drive it, especially when a product distils off or is very stable.\n- **hetero-Diels–Alder**: a C=O or C=N is the dienophile, or a heteroatom sits in the diene. Very electron-rich dienes such as **Danishefsky's diene** add even to plain aldehydes; acid then turns the adduct into a dihydropyranone.\n- **ene reaction**: one of the three pairs is an **allylic C–H σ bond**. A new C–C bond forms, the C=C shifts along, and the H moves to the enophile.\n- **cheletropic reaction**: both σ bonds that form or break end on **one atom**. 3-Sulfolene loses SO₂ to give butadiene, a safe way to use a gas.\n\nAll of them are suprafacial on each partner and, where it applies, endo; the app does not check stereochemistry yet, so this is explained in the text.",
+      "checkpoint": false,
+      "setItems": [
+        {
+          "reactionSlug": "retro-diels-alder",
+          "whyThisOne": "Cracking dicyclopentadiene: the Diels–Alder run backwards."
+        },
+        {
+          "reactionSlug": "hetero-diels-alder",
+          "whyThisOne": "A C=O as the dienophile, then acid work-up to a dihydropyranone."
+        },
+        {
+          "reactionSlug": "alder-ene-reaction",
+          "whyThisOne": "A C–H bond replaces one π bond in the ring of six electrons."
+        },
+        {
+          "reactionSlug": "cheletropic-so2-extrusion",
+          "whyThisOne": "Two bonds break to one atom, and a gas leaves."
+        }
+      ]
+    },
+    {
+      "problemSetSlug": "sigmatropic-hydrogen-shifts",
+      "title": "Sigmatropic hydrogen shifts",
+      "conceptInOneLine": "An H moves along a π system, staying on one face: [1,5] shifts are allowed on heating, [1,3] are not.",
+      "conceptCard": "In a **[1,j] hydrogen shift** an H leaves one carbon and bonds to the carbon *j* atoms along a π system, while the π bonds shift. Count the H as atom 1 of one fragment, the carbon it leaves as atom 1 of the other.\n\nWhich shifts happen on heating follows the electron count, like every pericyclic reaction:\n\n- **[1,5]**: six electrons, **suprafacial** (the H stays on one face): allowed and common\n- **[1,3]**: four electrons; it would have to be **antarafacial** (the H crossing to the other face), which a small H cannot reach: not seen\n- **[1,7]**: eight electrons, antarafacial: allowed, because a long triene can twist into a helix\n\nIn 5-substituted cyclopentadienes a [1,5] shift runs even at room temperature, moving the H to the neighbouring ring carbon, so they must be kept cold. The app cannot yet offer that particular new bond (the H moving to the next ring atom), so this set draws an open-chain diene instead. Faces are explained in the text; the app does not check them.",
+      "checkpoint": false,
+      "setItems": [
+        {
+          "reactionSlug": "suprafacial-1-5-hydrogen-shift",
+          "whyThisOne": "The allowed hydrogen shift: six electrons, one face."
+        }
+      ]
+    },
+    {
+      "problemSetSlug": "selection-rules",
+      "title": "Selection rules",
+      "conceptInOneLine": "Count the electrons: 4n + 2 or 4n, heat or light, decides whether a pericyclic reaction is allowed and which way it turns.",
+      "conceptCard": "The **Woodward–Hoffmann rules** in one line: a thermal pericyclic reaction is allowed when the number of (4q + 2)s and (4r)a components is **odd**. In practice, count the electrons that move:\n\n- **4n + 2** (6, 10): on heating, all suprafacial; electrocyclic reactions **disrotatory**\n- **4n** (4, 8): on heating, one component must be antarafacial; electrocyclic reactions **conrotatory**\n- under **light** every rule swaps\n\nSo an (E,Z,Z,E)-octatetraene closes conrotatory (8π) to a trans-disubstituted cyclooctatriene, which then closes disrotatory (6π) to a bicyclo[4.2.0]octadiene. The app draws the first closure; the second makes a four-membered ring, a new bond the app cannot offer yet, so it is described in the text.\n\n**Photochemistry comes later.** Light-driven reactions, such as the [2+2] cycloaddition of two alkenes to a cyclobutane or the Norrish type II cleavage of a ketone, go through excited states, which the app cannot draw yet. They will get their own problems once it can.",
+      "checkpoint": false,
+      "setItems": [
+        {
+          "reactionSlug": "octatetraene-electrocyclisation",
+          "whyThisOne": "Eight electrons close conrotatory: the 4n rule."
+        }
+      ]
+    },
+    {
+      "problemSetSlug": "pericyclic-reactions-ii-checkpoint",
+      "title": "Checkpoint",
+      "conceptInOneLine": "Find the ring of moving electrons, whatever it is disguised as.",
+      "conceptCard": "Reactions from every set, shuffled, names hidden until you finish. Three attempts per step.",
+      "checkpoint": true,
+      "setItems": [
+        {
+          "reactionSlug": "retro-diels-alder",
+          "whyThisOne": "Which two σ bonds were made by the forward reaction?"
+        },
+        {
+          "reactionSlug": "alder-ene-reaction",
+          "whyThisOne": "Which pair of electrons is not a π bond?"
+        },
+        {
+          "reactionSlug": "cheletropic-so2-extrusion",
+          "whyThisOne": "Where does each C–S pair go?"
+        },
+        {
+          "reactionSlug": "suprafacial-1-5-hydrogen-shift",
+          "whyThisOne": "How far does the H move?"
+        },
+        {
+          "reactionSlug": "octatetraene-electrocyclisation",
+          "whyThisOne": "Eight electrons, one new σ bond."
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,111 @@
+{
+  "formatVersion": 1,
+  "trackSlug": "rearrangements",
+  "title": "Rearrangements",
+  "goal": "Spot the group that moves, the atom it moves to, and what drives it: a better cation, less ring strain, or a leaving group on the next atom.",
+  "level": "core",
+  "curriculumCode": "C6",
+  "showcaseReactionSlug": "pinacol-rearrangement",
+  "problemSets": [
+    {
+      "problemSetSlug": "migration-to-carbon",
+      "title": "Migration to carbon",
+      "conceptInOneLine": "A group next to an electron-poor carbon moves across with its bonding pair: a 1,2-shift.",
+      "conceptCard": "In a **1,2-shift** a group (H, alkyl or aryl) moves from one carbon to the next, taking its **bonding pair** with it. The carbon it lands on must be short of electrons: a carbocation, or a carbon losing a leaving group as the group arrives. The carbon it leaves becomes the new cation.\n\nA shift happens when the new cation is **better** than the old one:\n\n- **more substituted** (secondary → tertiary), as in E1 and SN1 reactions\n- **stabilised by an oxygen lone pair**: in the *pinacol* rearrangement the new cation is a protonated ketone, and the C=O formed drives the reaction\n- **less strained**: a ring bond that moves can turn a four-membered ring into a five-membered one\n\nWhen the first cation would be primary, the shift happens *as* the leaving group goes (N₂ in the *Tiffeneau–Demjanov* ring expansion). A rearrangement that makes C=O as a group moves towards a leaving group is called a **semipinacol** rearrangement.",
+      "checkpoint": false,
+      "setItems": [
+        {
+          "reactionSlug": "e1-dehydration-with-methyl-shift",
+          "whyThisOne": "A reminder: a methyl shift turns a secondary cation into a tertiary one."
+        },
+        {
+          "reactionSlug": "pinacol-rearrangement",
+          "whyThisOne": "The classic: a methyl moves, and a protonated ketone is the reward."
+        },
+        {
+          "reactionSlug": "cyclobutylmethyl-ring-expansion",
+          "whyThisOne": "A ring bond moves: four-membered becomes five-membered, then a hydride shift."
+        },
+        {
+          "reactionSlug": "tiffeneau-demjanov-ring-expansion",
+          "whyThisOne": "N₂ leaves as a ring bond moves: one carbon is added to the ring."
+        }
+      ]
+    },
+    {
+      "problemSetSlug": "migration-to-nitrogen",
+      "title": "Migration to nitrogen",
+      "conceptInOneLine": "A group moves from carbon to a nitrogen that is losing a leaving group.",
+      "conceptCard": "Nitrogen can receive a migrating group too, when it carries a **leaving group**: water (from a protonated oxime), bromide or N₂. The group moves to nitrogen *as* the leaving group goes, so nitrogen is never left with six electrons:\n\n- **Beckmann**: an oxime in acid. The group **anti** to the leaving water migrates, and the nitrilium ion formed is trapped by water. An oxime becomes an **amide**\n- **Hofmann**: an amide with Br₂ and NaOH. Bromination on nitrogen, then the group on the carbonyl carbon moves as bromide leaves\n- **Curtius**: an acyl azide on heating loses N₂\n\nHofmann and Curtius both give an **isocyanate**, R–N=C=O. Water turns it into an amine with one carbon fewer (via a carbamic acid, which loses CO₂); an alcohol gives a carbamate. The migrating group keeps its configuration. The app does not check stereochemistry yet.",
+      "checkpoint": false,
+      "setItems": [
+        {
+          "reactionSlug": "beckmann-rearrangement",
+          "whyThisOne": "An oxime becomes a lactam: the route to nylon 6."
+        },
+        {
+          "reactionSlug": "hofmann-rearrangement",
+          "whyThisOne": "An amide loses its carbonyl carbon: bromination, then the shift."
+        },
+        {
+          "reactionSlug": "curtius-rearrangement",
+          "whyThisOne": "Lose N₂, move a group, then trap the isocyanate with an alcohol."
+        }
+      ]
+    },
+    {
+      "problemSetSlug": "migration-to-oxygen",
+      "title": "Migration to oxygen",
+      "conceptInOneLine": "Break a weak O–O bond, and a group moves from carbon onto the oxygen.",
+      "conceptCard": "An O–O bond is weak, so a peroxide oxygen can be the atom that loses a leaving group. A group on the next carbon moves to it as the O–O bond breaks, and a lone pair on that oxygen (or on an OH next door) stabilises the carbon left behind. An oxygen atom is **inserted** into a C–C bond.\n\nWhich group moves? The one best able to carry **positive charge** as it moves:\n\n**tertiary alkyl > secondary alkyl ≈ phenyl > primary alkyl > methyl**\n\n- **Baeyer–Villiger**: a peroxyacid turns a ketone into an ester (or lactone). Acetophenone gives *phenyl acetate*, not methyl benzoate\n- **Hock**: cumene hydroperoxide in acid gives phenol and acetone, the end of the industrial cumene process",
+      "checkpoint": false,
+      "setItems": [
+        {
+          "reactionSlug": "baeyer-villiger-oxidation",
+          "whyThisOne": "A ring carbon moves to oxygen: a ketone becomes a lactone."
+        },
+        {
+          "reactionSlug": "baeyer-villiger-of-acetophenone",
+          "whyThisOne": "Phenyl or methyl? Migratory aptitude decides the product."
+        },
+        {
+          "reactionSlug": "hock-rearrangement",
+          "whyThisOne": "Phenyl moves to oxygen as water leaves: phenol and acetone."
+        }
+      ]
+    },
+    {
+      "problemSetSlug": "rearrangements-checkpoint",
+      "title": "Checkpoint",
+      "conceptInOneLine": "What moves, where to, and why?",
+      "conceptCard": "Reactions from every set, shuffled, names hidden until you finish. Three attempts per step.",
+      "checkpoint": true,
+      "setItems": [
+        {
+          "reactionSlug": "pinacol-rearrangement",
+          "whyThisOne": "Which cation, and which group moves?"
+        },
+        {
+          "reactionSlug": "tiffeneau-demjanov-ring-expansion",
+          "whyThisOne": "Loss of N₂ with a shift."
+        },
+        {
+          "reactionSlug": "beckmann-rearrangement",
+          "whyThisOne": "A group moves to nitrogen."
+        },
+        {
+          "reactionSlug": "curtius-rearrangement",
+          "whyThisOne": "Lose N₂, then trap the isocyanate."
+        },
+        {
+          "reactionSlug": "baeyer-villiger-of-acetophenone",
+          "whyThisOne": "Phenyl or methyl?"
+        },
+        {
+          "reactionSlug": "hock-rearrangement",
+          "whyThisOne": "A group moves to oxygen."
+        }
+      ]
+    }
+  ]
+}

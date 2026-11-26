@@ -1,0 +1,112 @@
+{
+  "formatVersion": 1,
+  "trackSlug": "stereoelectronics",
+  "title": "Stereoelectronics and conformation",
+  "goal": "Predict which bond forms or breaks from how orbitals line up: anti-periplanar bonds, the Bürgi–Dunitz angle, Baldwin's rules and the anomeric effect.",
+  "level": "advanced",
+  "curriculumCode": "A1",
+  "showcaseReactionSlug": "furst-plattner-epoxide-opening",
+  "problemSets": [
+    {
+      "problemSetSlug": "anti-periplanar",
+      "title": "Anti-periplanar",
+      "conceptInOneLine": "A bond breaks best when the pair pushing it out lies anti-periplanar to it; on a ring that means axial.",
+      "conceptCard": "Electrons flow from a filled orbital into an empty σ* orbital best when the two are **anti-periplanar**: in one plane, on opposite sides of the bond.\n\n- **E2 on a cyclohexane**: the C–H and C–leaving group bonds must both be **axial**. A hydrogen that cannot become axial cannot leave, whatever Zaitsev's rule says\n- **Epoxide opening on a locked ring**: the nucleophile attacks anti to the C–O bond and the ring moves straight into a chair with both new groups axial: **trans-diaxial** opening (the Fürst–Plattner rule). The other carbon would have to react through a twist-boat\n\nA tert-butyl group is the usual way to **lock** a cyclohexane: it is always equatorial.\n\nThe app does not check stereochemistry yet: the structures show which atoms are bonded, and the stereochemical outcome is explained in the text.",
+      "checkpoint": false,
+      "setItems": [
+        {
+          "reactionSlug": "e2-of-menthyl-chloride",
+          "whyThisOne": "The only anti-periplanar hydrogen gives the less substituted alkene."
+        },
+        {
+          "reactionSlug": "furst-plattner-epoxide-opening",
+          "whyThisOne": "Two secondary carbons, one chair: the trans-diaxial rule picks the carbon."
+        }
+      ]
+    },
+    {
+      "problemSetSlug": "addition-to-carbonyls",
+      "title": "Addition to carbonyls",
+      "conceptInOneLine": "Nucleophiles reach C=O at about 107°, and what they pass on the way decides the face.",
+      "conceptCard": "A nucleophile attacks the π* orbital of C=O along the **Bürgi–Dunitz trajectory**, about **107°** to the C=O bond, not at 90°. What lies along that path decides which face it attacks:\n\n- **Felkin–Anh**: next to a stereocentre, put the *largest* group perpendicular to the C=O and let the nucleophile come in anti to it, past the *smallest* group\n- **Cyclohexanones**: small hydrides (LiAlH₄, NaBH₄) attack **axially** and give the equatorial alcohol; bulky ones (L-Selectride) attack equatorially and give the axial alcohol\n\nThe arrows are the same as in any carbonyl addition: the selectivity is all in the approach.\n\nThe app does not check stereochemistry yet: the structures show which atoms are bonded, and the stereochemical outcome is explained in the text.",
+      "checkpoint": false,
+      "setItems": [
+        {
+          "reactionSlug": "felkin-anh-addition",
+          "whyThisOne": "A stereocentre next to C=O: which face does the Grignard reagent choose?"
+        },
+        {
+          "reactionSlug": "burgi-dunitz-hydride-addition",
+          "whyThisOne": "A locked cyclohexanone: hydride comes in axially."
+        }
+      ]
+    },
+    {
+      "problemSetSlug": "ring-closure",
+      "title": "Ring closure",
+      "conceptInOneLine": "Baldwin's rules: a ring closes when the nucleophile can reach the right orbital at the right angle.",
+      "conceptCard": "**Baldwin's rules** name a ring closure by three things:\n\n1. the **ring size** formed (3, 4, 5, 6, 7)\n2. **exo** if the bond that breaks ends up outside the new ring, **endo** if inside\n3. the carbon attacked: **tet** (sp³, SN2), **trig** (sp², C=O or C=C), **dig** (sp, alkyne)\n\n**5-exo-tet** and **5-exo-trig** are favoured: the nucleophile reaches 180° behind a C–X bond, or 107° to a π bond. **5-endo-trig** is *disfavoured*: from inside a five-membered ring the nucleophile cannot get to the π* orbital at the right angle, so such closures are slow or do not happen at all.\n\nFive-membered rings close fastest of all except three: the chain loses little freedom and the ring has almost no strain.",
+      "checkpoint": false,
+      "setItems": [
+        {
+          "reactionSlug": "bromo-alcohol-5-exo-tet",
+          "whyThisOne": "5-exo-tet: an alkoxide displaces bromide in its own chain."
+        },
+        {
+          "reactionSlug": "hydroxy-enone-5-exo-trig",
+          "whyThisOne": "5-exo-trig at a C=C: an intramolecular oxa-Michael addition."
+        },
+        {
+          "reactionSlug": "hydroxy-ester-lactonisation",
+          "whyThisOne": "5-exo-trig at a C=O: a hydroxy ester closes to a lactone."
+        },
+        {
+          "reactionSlug": "cyclic-hemiacetal-formation",
+          "whyThisOne": "6-exo-trig: a hydroxy aldehyde closes to a six-membered hemiacetal."
+        }
+      ]
+    },
+    {
+      "problemSetSlug": "anomeric-effect",
+      "title": "Anomeric effect",
+      "conceptInOneLine": "A ring oxygen lone pair anti-periplanar to a C–O bond holds OR axial and pushes leaving groups out.",
+      "conceptCard": "In a tetrahydropyran with an OR group on the carbon next to the ring oxygen (the **anomeric carbon**), OR prefers to be **axial**, against what sterics predict. This is the **anomeric effect**: only when OR is axial does a lone pair of the ring oxygen lie anti-periplanar to the C–OR bond and feed into its σ* orbital (n → σ*).\n\nThe same overlap explains how **glycosides are hydrolysed**: once the OR oxygen is protonated, the ring oxygen pushes it out and an **oxocarbenium ion** forms. Water adds, and the acetal becomes a hemiacetal, which opens to the hydroxy aldehyde.\n\nThe app does not check stereochemistry yet: the structures show which atoms are bonded, and the stereochemical outcome is explained in the text.",
+      "checkpoint": false,
+      "setItems": [
+        {
+          "reactionSlug": "glycoside-hydrolysis",
+          "whyThisOne": "The ring oxygen pushes methanol out: an oxocarbenium ion, then water."
+        }
+      ]
+    },
+    {
+      "problemSetSlug": "stereoelectronics-checkpoint",
+      "title": "Checkpoint",
+      "conceptInOneLine": "Which orbitals line up, and so which bond forms or breaks?",
+      "conceptCard": "Reactions from every set, shuffled, names hidden until you finish. Three attempts per step.",
+      "checkpoint": true,
+      "setItems": [
+        {
+          "reactionSlug": "e2-of-menthyl-chloride",
+          "whyThisOne": "Which hydrogen can be anti-periplanar?"
+        },
+        {
+          "reactionSlug": "furst-plattner-epoxide-opening",
+          "whyThisOne": "Which carbon gives a chair?"
+        },
+        {
+          "reactionSlug": "burgi-dunitz-hydride-addition",
+          "whyThisOne": "Hydride on a locked ketone."
+        },
+        {
+          "reactionSlug": "hydroxy-enone-5-exo-trig",
+          "whyThisOne": "Which ring size, and which carbon?"
+        },
+        {
+          "reactionSlug": "glycoside-hydrolysis",
+          "whyThisOne": "Which lone pair pushes the leaving group out?"
+        }
+      ]
+    }
+  ]
+}

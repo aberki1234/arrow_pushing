@@ -1,0 +1,100 @@
+{
+  "formatVersion": 1,
+  "trackSlug": "robinson-tropinone",
+  "title": "Robinson's tropinone (1917)",
+  "goal": "One pot, three simple pieces, two Mannich reactions: how Robinson made the tropane skeleton of atropine and cocaine.",
+  "level": "graduate",
+  "curriculumCode": "G1",
+  "showcaseReactionSlug": "tropinone-second-mannich",
+  "problemSets": [
+    {
+      "problemSetSlug": "iminium-formation",
+      "title": "Iminium formation",
+      "conceptInOneLine": "A primary amine and a 1,4-dialdehyde close a pyrrolidine ring and leave a cyclic iminium ion.",
+      "conceptCard": "*Tropinone* is the bicyclic ketone at the heart of the tropane alkaloids (atropine, cocaine). Willstätter made it in 1901 in many steps from cycloheptanone. In 1917 Robert Robinson made it in **one pot**, in water at room temperature, from three simple pieces:\n\n- **succinaldehyde** (butanedial), a 1,4-dialdehyde\n- **methylamine**\n- **acetonedicarboxylic acid** (3-oxopentanedioic acid)\n\nHe found it by imagining the molecule cut at the bonds a Mannich reaction makes: an early piece of *retrosynthetic* thinking, and a guess at how plants might do it.\n\nThe first job is the electrophile. Methylamine adds to one aldehyde as in imine formation. Its nitrogen, now a secondary amine, adds to the **second aldehyde in the same molecule**, closing a five-membered ring. Losing water from one of the two OH groups, pushed by the nitrogen lone pair, gives a **cyclic iminium ion**. A tertiary nitrogen has no N–H to lose, so the iminium ion stays put as the electrophile.",
+      "checkpoint": false,
+      "setItems": [
+        {
+          "reactionSlug": "acetone-methylamine-imine",
+          "whyThisOne": "Warm-up: the same addition and loss of water with one ketone."
+        },
+        {
+          "reactionSlug": "tropinone-iminium-formation",
+          "whyThisOne": "Two additions of one nitrogen, a ring closure, and the cyclic iminium ion."
+        }
+      ]
+    },
+    {
+      "problemSetSlug": "first-mannich",
+      "title": "First Mannich",
+      "conceptInOneLine": "The enol of acetonedicarboxylic acid attacks the cyclic iminium ion and makes the first C–C bond.",
+      "conceptCard": "In the **Mannich reaction** an enol attacks an iminium ion. Iminium ions are much better electrophiles than aldehydes, so even the small amount of enol present in water reacts with them.\n\nRobinson first tried **acetone** as the nucleophile and got little tropinone. **Acetonedicarboxylic acid** works far better: each CH₂ sits between the ketone and a CO₂H, so it is doubly activated and enolises much more readily. The CO₂H groups are *activating groups*, to be removed at the end.\n\n- acid-catalysed enolisation: protonate the ketone oxygen, then water removes an α-proton\n- the enol carbon attacks the iminium carbon; the nitrogen gets its lone pair back\n- water removes the proton from the protonated ketone\n\nThe product still has an OH next to the nitrogen (a masked second iminium ion) and a second enolisable CH₂.\n\nIn the flask, near pH 7, the CO₂H groups are mostly ionised and much of the amine is protonated; the problems draw the reacting forms.",
+      "checkpoint": false,
+      "setItems": [
+        {
+          "reactionSlug": "mannich-reaction",
+          "whyThisOne": "Warm-up: the Mannich reaction with acetone and an open-chain iminium ion."
+        },
+        {
+          "reactionSlug": "tropinone-first-mannich",
+          "whyThisOne": "Enolise the doubly activated ketone, then attack the cyclic iminium ion."
+        }
+      ]
+    },
+    {
+      "problemSetSlug": "second-mannich",
+      "title": "Second Mannich",
+      "conceptInOneLine": "A second enol meets a second iminium ion inside the same molecule and closes the tropane bicycle.",
+      "conceptCard": "Everything needed for a second Mannich reaction is now in **one molecule**:\n\n- the ketone enolises again, this time towards the **other α-carbon**, the CH₂ still next to a CO₂H\n- the ring OH is protonated and pushed out by the nitrogen lone pair, giving a **second iminium ion** on the other side of the nitrogen\n- the enol carbon attacks it: an **intramolecular** Mannich reaction closes a six-membered ring\n\nThe product, tropinone-2,4-dicarboxylic acid, has the *8-azabicyclo[3.2.1]octane* (tropane) skeleton: a pyrrolidine and a piperidine sharing the nitrogen and two carbons.\n\n**Stereochemistry** (explained, not yet checked by the app): the nitrogen can only bridge two carbons on the same face, so the bicycle closes cis, and tropinone is a single, symmetrical (meso) compound with no optical activity.",
+      "checkpoint": false,
+      "setItems": [
+        {
+          "reactionSlug": "tropinone-second-mannich",
+          "whyThisOne": "A second enol, a second iminium ion, and the ring closure that builds the bicycle."
+        }
+      ]
+    },
+    {
+      "problemSetSlug": "decarboxylation",
+      "title": "Decarboxylation",
+      "conceptInOneLine": "β-Keto acids lose CO₂ on heating through a six-membered ring of atoms, giving an enol.",
+      "conceptCard": "Robinson acidified the mixture with hydrochloric acid and heated it to remove the two activating groups.\n\nA carboxylic acid with a C=O **β** to it loses CO₂ easily, in one concerted step through a **six-membered ring of atoms**:\n\n- the ketone oxygen takes the acid proton\n- the O–H bond becomes a C=O of CO₂\n- the C–C bond to the carboxyl carbon becomes the C=C of an **enol**\n\nThe enol then turns back into the ketone: H₃O⁺ protonates it on carbon and water takes the proton off oxygen. Here it happens **twice**, once on each side.\n\nLater, Schöpf ran the reaction in buffer near pH 7 (\"physiological conditions\") and raised the yield to around 90%. Plants make tropinone by a related route, through the N-methylpyrrolinium ion.",
+      "checkpoint": false,
+      "setItems": [
+        {
+          "reactionSlug": "tropinone-decarboxylation",
+          "whyThisOne": "Two decarboxylations and two ketonisations finish tropinone."
+        }
+      ]
+    },
+    {
+      "problemSetSlug": "checkpoint",
+      "title": "Checkpoint",
+      "conceptInOneLine": "Robinson's synthesis, and its parent Mannich reaction, shuffled with their names hidden.",
+      "conceptCard": "The reactions of this track in random order and without their names. For each one, ask:\n\n- is this step making the electrophile (an iminium ion) or the nucleophile (an enol)?\n- which proton moves, and through which acid or base?\n- for a ring closure: which atoms are close enough, and what size of ring forms?\n- what drives the last step?",
+      "checkpoint": true,
+      "setItems": [
+        {
+          "reactionSlug": "tropinone-iminium-formation",
+          "whyThisOne": "Making the cyclic iminium ion."
+        },
+        {
+          "reactionSlug": "mannich-reaction",
+          "whyThisOne": "The parent Mannich reaction."
+        },
+        {
+          "reactionSlug": "tropinone-first-mannich",
+          "whyThisOne": "Enolise, then attack."
+        },
+        {
+          "reactionSlug": "tropinone-second-mannich",
+          "whyThisOne": "The ring closure."
+        },
+        {
+          "reactionSlug": "tropinone-decarboxylation",
+          "whyThisOne": "Removing the activating groups."
+        }
+      ]
+    }
+  ]
+}
