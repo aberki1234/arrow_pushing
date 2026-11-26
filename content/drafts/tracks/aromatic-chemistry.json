@@ -1,0 +1,78 @@
+{
+  "formatVersion": 1,
+  "trackSlug": "aromatic-chemistry",
+  "title": "Aromatic chemistry",
+  "goal": "How arenes react with electrophiles, and where.",
+  "problemSets": [
+    {
+      "problemSetSlug": "making-the-electrophile",
+      "title": "Making the electrophile",
+      "conceptInOneLine": "Benzene is a weak nucleophile: it needs a strong electrophile, made first.",
+      "conceptCard": "Aromatic rings only react with **strong** electrophiles. Each reaction here makes one:\n\n- **NO₂⁺** from nitric acid, protonated by sulfuric acid\n- **Br⁺** (as Br–Br–AlBr₃) and **R⁺** or **RC≡O⁺** with a Lewis acid, AlX₃, taking a halide\n\nWatch for carbocations that **rearrange** before the ring ever sees them.",
+      "checkpoint": false,
+      "setItems": [
+        { "reactionSlug": "nitronium-ion-formation", "whyThisOne": "Proton transfer, then loss of water: NO₂⁺." },
+        { "reactionSlug": "bromine-activation-by-aluminium-bromide", "whyThisOne": "A Lewis acid polarises Br₂ in one arrow." },
+        { "reactionSlug": "acylium-ion-formation", "whyThisOne": "An oxygen lone pair stabilises the cation: no rearrangement." },
+        { "reactionSlug": "isopropyl-cation-from-1-chloropropane", "whyThisOne": "A hydride shift: the primary cation never forms." }
+      ]
+    },
+    {
+      "problemSetSlug": "the-arenium-ion",
+      "title": "The arenium ion",
+      "conceptInOneLine": "An electrophile adds, the arenium ion loses H⁺, aromaticity returns.",
+      "conceptCard": "Every reaction in this set has the same two steps.\n\n1. A ring **π bond attacks** the electrophile. Aromaticity is lost: the **arenium (Wheland) ion** carries the positive charge on three ring carbons. This is the slow step.\n2. A base (the counter-ion) **removes the H⁺** from the sp³ carbon and the ring is aromatic again.\n\nSubstitution, not addition: losing H⁺ restores aromaticity.",
+      "checkpoint": false,
+      "setItems": [
+        { "reactionSlug": "nitration-of-benzene", "whyThisOne": "The pattern with the nitronium ion." },
+        { "reactionSlug": "bromination-of-benzene", "whyThisOne": "The Lewis acid leaves with the bromide and comes back." },
+        { "reactionSlug": "friedel-crafts-alkylation-of-benzene", "whyThisOne": "The rearrangement trap: isopropyl, not propyl." },
+        { "reactionSlug": "friedel-crafts-acylation-of-benzene", "whyThisOne": "Acylation stops after one: the ketone deactivates." },
+        { "reactionSlug": "sulfonation-of-benzene", "whyThisOne": "A neutral electrophile, SO₃, and a final proton transfer." }
+      ]
+    },
+    {
+      "problemSetSlug": "directing-effects",
+      "title": "Directing effects",
+      "conceptInOneLine": "Donors direct ortho/para, withdrawing groups direct meta: follow the positive charge.",
+      "conceptCard": "After attack, draw where the **positive charge** goes. Ortho or para attack puts it, in one resonance form, on the carbon **bearing the substituent**.\n\n- A **donor** (CH₃, OMe, OH, NHCOR, even Cl) stabilises that form: **ortho/para**.\n- A **withdrawing group** (NO₂, C=O) makes that form very bad, so **meta** wins.\n\nOH and OMe also **activate** the ring; halogens deactivate but still direct ortho/para.",
+      "checkpoint": false,
+      "setItems": [
+        { "reactionSlug": "nitration-of-toluene", "whyThisOne": "A tertiary carbocation form; ortho and para both form." },
+        { "reactionSlug": "nitration-of-anisole", "whyThisOne": "The oxygen lone pair gives an oxocarbenium form." },
+        { "reactionSlug": "bromination-of-phenol", "whyThisOne": "So activated that no Lewis acid is needed." },
+        { "reactionSlug": "nitration-of-acetanilide", "whyThisOne": "A nitrogen donor, tamed by the carbonyl." },
+        { "reactionSlug": "nitration-of-chlorobenzene", "whyThisOne": "Deactivating, yet ortho/para." },
+        { "reactionSlug": "nitration-of-nitrobenzene", "whyThisOne": "The meta director: the charge avoids the nitro carbon." }
+      ]
+    },
+    {
+      "problemSetSlug": "predict-the-position",
+      "title": "Predict the position",
+      "conceptInOneLine": "New substrates: decide donor or withdrawing first, then attack.",
+      "conceptCard": "No resonance steps are drawn here: decide the position **before** you draw.\n\nAsk: does the group **donate** a lone pair or σ electrons (ortho/para), or **withdraw** through a C=O or N⁺ (meta)? For a bulky electrophile, prefer **para** over ortho.",
+      "checkpoint": false,
+      "setItems": [
+        { "reactionSlug": "bromination-of-acetanilide", "whyThisOne": "An activated ring: Br₂ alone." },
+        { "reactionSlug": "nitration-of-methyl-benzoate", "whyThisOne": "An ester: meta." },
+        { "reactionSlug": "friedel-crafts-acylation-of-anisole", "whyThisOne": "A bulky electrophile: para." },
+        { "reactionSlug": "chlorination-of-toluene", "whyThisOne": "Ortho and para both count." }
+      ]
+    },
+    {
+      "problemSetSlug": "aromatic-checkpoint",
+      "title": "Checkpoint",
+      "conceptInOneLine": "Make the electrophile, attack in the right place, restore the ring.",
+      "conceptCard": "Reactions from every set, shuffled, names hidden until you finish. Three attempts per step.",
+      "checkpoint": true,
+      "setItems": [
+        { "reactionSlug": "acylium-ion-formation", "whyThisOne": "Making an electrophile." },
+        { "reactionSlug": "bromination-of-benzene", "whyThisOne": "The basic pattern." },
+        { "reactionSlug": "friedel-crafts-alkylation-of-benzene", "whyThisOne": "Which carbon ends up on the ring?" },
+        { "reactionSlug": "nitration-of-chlorobenzene", "whyThisOne": "Deactivating but ortho/para." },
+        { "reactionSlug": "nitration-of-methyl-benzoate", "whyThisOne": "A meta director." },
+        { "reactionSlug": "chlorination-of-toluene", "whyThisOne": "Ortho/para with a weak donor." }
+      ]
+    }
+  ]
+}

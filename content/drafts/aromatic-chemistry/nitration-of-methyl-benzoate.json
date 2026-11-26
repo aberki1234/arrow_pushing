@@ -1,0 +1,359 @@
+{
+  "formatVersion": 1,
+  "reactionSlug": "nitration-of-methyl-benzoate",
+  "reactionVersion": 1,
+  "previousReactionVersion": null,
+  "title": "Nitration of methyl benzoate",
+  "subtitle": "Predict the position",
+  "reactionClasses": [
+    "aromatic substitution"
+  ],
+  "difficultyTier": 2,
+  "conditionsLabel": "conc. HNO₃ · conc. H₂SO₄ · 0–10 °C",
+  "dailyPuzzleEligible": true,
+  "atomRoleToMapNumbers": {
+    "electrophile": [
+      2
+    ]
+  },
+  "spectatorMapNumbers": [],
+  "startStateId": "reactants",
+  "stateIdToState": {
+    "reactants": {
+      "mappedSmiles": "[O:1]=[N+:2]=[O:3].[O-:4][S:5](=[O:6])(=[O:7])[OH:8].[CH3:21][O:20][C:18](=[O:19])[C:11]1=[CH:12][C:13]([H:17])=[CH:14][CH:15]=[CH:16]1",
+      "caption": "nitronium ion + hydrogen sulfate + methyl benzoate",
+      "learnerPrompt": "Methyl benzoate attacks NO₂⁺. Where?",
+      "hintTiers": [
+        "Is the ester group a donor or a withdrawing group?",
+        "It withdraws (the C=O pulls electrons): attack meta. π C13=C14 forms the new C13–N2 bond; an N=O π pair moves to oxygen. Two arrows.",
+        "π C13=C14 → new C13–N2 bond; π N2=O3 → lone pair on O3."
+      ],
+      "misconceptions": [
+        {
+          "misconceptionId": "para-attack",
+          "misconceptionTag": "wrong-regiochemistry-para",
+          "severity": "wrong",
+          "arrowPattern": "* -> σ C14-N2",
+          "feedbackMessage": "Para attack would put the positive charge next to the electron-poor ester carbon. The ester directs meta."
+        },
+        {
+          "misconceptionId": "ortho-attack",
+          "misconceptionTag": "wrong-regiochemistry-ortho",
+          "severity": "wrong",
+          "arrowPattern": "* -> σ C12-N2",
+          "feedbackMessage": "Ortho attack would put the positive charge next to the electron-poor ester carbon. The ester directs meta."
+        }
+      ],
+      "partialProgressMessages": [
+        {
+          "learnerArrows": [
+            "π C14-C13 -> σ C13-N2"
+          ],
+          "feedbackMessage": "Right place. What must the electrophile lose as the new bond forms?"
+        }
+      ],
+      "mapNumberToCoordinates": {
+        "1": [
+          0,
+          6.6
+        ],
+        "2": [
+          0,
+          5.1
+        ],
+        "3": [
+          0,
+          3.6
+        ],
+        "4": [
+          6.25,
+          0
+        ],
+        "5": [
+          7.55,
+          0.75
+        ],
+        "6": [
+          8.85,
+          1.5
+        ],
+        "7": [
+          8.3,
+          -0.55
+        ],
+        "8": [
+          6.8,
+          2.05
+        ],
+        "11": [
+          1.5,
+          0
+        ],
+        "12": [
+          0.75,
+          1.3
+        ],
+        "13": [
+          -0.75,
+          1.3
+        ],
+        "14": [
+          -1.5,
+          0
+        ],
+        "15": [
+          -0.75,
+          -1.3
+        ],
+        "16": [
+          0.75,
+          -1.3
+        ],
+        "17": [
+          -1.5,
+          2.6
+        ],
+        "18": [
+          3,
+          0
+        ],
+        "19": [
+          3.75,
+          -1.3
+        ],
+        "20": [
+          3.75,
+          1.3
+        ],
+        "21": [
+          5.25,
+          1.3
+        ]
+      }
+    },
+    "arenium-ion": {
+      "mappedSmiles": "[CH3:21][O:20][C:18](=[O:19])[C:11]1=[CH:12][C:13]([H:17])([N+:2](=[O:1])[O-:3])[CH+:14][CH:15]=[CH:16]1.[O-:4][S:5](=[O:6])(=[O:7])[OH:8]",
+      "caption": "arenium (Wheland) ion",
+      "learnerPrompt": "Restore the aromatic ring.",
+      "hintTiers": [
+        "What can take the proton from the sp³ ring carbon?",
+        "Hydrogen sulfate takes the proton and the C–H pair re-forms the ring π bond. Two arrows.",
+        "O4 lone pair → H17; σ C13–H17 → π C13=C14."
+      ],
+      "misconceptions": [
+        {
+          "misconceptionId": "adds-instead-of-losing-h",
+          "misconceptionTag": "addition-instead-of-substitution",
+          "severity": "plausible",
+          "arrowPattern": "lp O4 -> C14",
+          "feedbackMessage": "Adding the anion to the carbocation would leave a non-aromatic ring. Losing H⁺ restores aromaticity, which wins."
+        }
+      ],
+      "partialProgressMessages": [
+        {
+          "learnerArrows": [
+            "lp O4 -> σ O4-H17"
+          ],
+          "feedbackMessage": "Good: the base takes the proton. Where does the C–H bonding pair go?"
+        }
+      ],
+      "mapNumberToCoordinates": {
+        "1": [
+          0.92,
+          3.29
+        ],
+        "2": [
+          -0.49,
+          2.78
+        ],
+        "3": [
+          -1.64,
+          3.74
+        ],
+        "4": [
+          0,
+          5.29
+        ],
+        "5": [
+          1.3,
+          6.04
+        ],
+        "6": [
+          2.6,
+          6.79
+        ],
+        "7": [
+          2.05,
+          4.74
+        ],
+        "8": [
+          0.55,
+          7.34
+        ],
+        "11": [
+          1.5,
+          0
+        ],
+        "12": [
+          0.75,
+          1.3
+        ],
+        "13": [
+          -0.75,
+          1.3
+        ],
+        "14": [
+          -1.5,
+          0
+        ],
+        "15": [
+          -0.75,
+          -1.3
+        ],
+        "16": [
+          0.75,
+          -1.3
+        ],
+        "17": [
+          -2.16,
+          1.81
+        ],
+        "18": [
+          3,
+          0
+        ],
+        "19": [
+          3.75,
+          -1.3
+        ],
+        "20": [
+          3.75,
+          1.3
+        ],
+        "21": [
+          5.25,
+          1.3
+        ]
+      }
+    },
+    "product": {
+      "mappedSmiles": "[CH3:21][O:20][C:18](=[O:19])[C:11]1=[CH:12][C:13]([N+:2](=[O:1])[O-:3])=[CH:14][CH:15]=[CH:16]1.[H:17][O:4][S:5](=[O:6])(=[O:7])[OH:8]",
+      "caption": "methyl 3-nitrobenzoate + sulfuric acid",
+      "mapNumberToCoordinates": {
+        "1": [
+          -0.75,
+          3.9
+        ],
+        "2": [
+          -1.5,
+          2.6
+        ],
+        "3": [
+          -3,
+          2.6
+        ],
+        "4": [
+          2.6,
+          6.95
+        ],
+        "5": [
+          1.3,
+          6.2
+        ],
+        "6": [
+          0,
+          5.45
+        ],
+        "7": [
+          0.55,
+          7.5
+        ],
+        "8": [
+          2.05,
+          4.9
+        ],
+        "11": [
+          1.5,
+          0
+        ],
+        "12": [
+          0.75,
+          1.3
+        ],
+        "13": [
+          -0.75,
+          1.3
+        ],
+        "14": [
+          -1.5,
+          0
+        ],
+        "15": [
+          -0.75,
+          -1.3
+        ],
+        "16": [
+          0.75,
+          -1.3
+        ],
+        "17": [
+          2.6,
+          8.45
+        ],
+        "18": [
+          3,
+          0
+        ],
+        "19": [
+          3.75,
+          -1.3
+        ],
+        "20": [
+          3.75,
+          1.3
+        ],
+        "21": [
+          5.25,
+          1.3
+        ]
+      }
+    }
+  },
+  "steps": [
+    {
+      "stepKey": "electrophilic-attack",
+      "fromStateId": "reactants",
+      "toStateId": "arenium-ion",
+      "stepKind": "polar",
+      "routePreference": "preferred",
+      "canonicalArrows": [
+        "π C14-C13 -> σ C13-N2",
+        "π N2-O3 -> lp O3"
+      ],
+      "explanationAfterStep": "Meta attack keeps the positive charge away from the carbon bearing the electron-poor carbonyl group."
+    },
+    {
+      "stepKey": "deprotonation",
+      "fromStateId": "arenium-ion",
+      "toStateId": "product",
+      "stepKind": "polar",
+      "routePreference": "preferred",
+      "canonicalArrows": [
+        "lp O4 -> σ O4-H17",
+        "σ C13-H17 -> π C13-C14"
+      ],
+      "explanationAfterStep": "Methyl 3-nitrobenzoate."
+    }
+  ],
+  "mechanismSummary": "The ester C=O withdraws electrons from the ring: it deactivates and directs meta, like a nitro group. Methyl 3-nitrobenzoate is the product (a classic first-year lab preparation).",
+  "references": [
+    "Clayden, Greeves and Warren, Organic Chemistry, 2nd edition (Oxford University Press), chapter 21"
+  ],
+  "authors": [
+    {
+      "name": "Maksim",
+      "url": null
+    }
+  ],
+  "licence": "CC-BY-SA-4.0"
+}

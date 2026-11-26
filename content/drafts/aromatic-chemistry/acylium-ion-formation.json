@@ -1,0 +1,206 @@
+{
+  "formatVersion": 1,
+  "reactionSlug": "acylium-ion-formation",
+  "reactionVersion": 1,
+  "previousReactionVersion": null,
+  "title": "Making the acylium ion",
+  "subtitle": "AlCl₃ pulls chloride from acetyl chloride",
+  "reactionClasses": [
+    "aromatic substitution"
+  ],
+  "difficultyTier": 1,
+  "conditionsLabel": "CH₃COCl · AlCl₃ · CH₂Cl₂",
+  "dailyPuzzleEligible": true,
+  "atomRoleToMapNumbers": {
+    "lewisAcid": [
+      5
+    ],
+    "acylCarbon": [
+      2
+    ]
+  },
+  "spectatorMapNumbers": [],
+  "startStateId": "reactants",
+  "stateIdToState": {
+    "reactants": {
+      "mappedSmiles": "[CH3:1][C:2](=[O:3])[Cl:4].[Cl:6][Al:5]([Cl:7])[Cl:8]",
+      "caption": "acetyl chloride + aluminium chloride",
+      "learnerPrompt": "Aluminium chloride is a Lewis acid. Show it binding to acetyl chloride.",
+      "hintTiers": [
+        "Which atom of AlCl₃ is electron-poor, and which lone pair of acetyl chloride leads to a leaving group?",
+        "The chlorine of acetyl chloride uses a lone pair to bond to aluminium. One arrow.",
+        "Cl4 lone pair → new Cl4–Al5 bond."
+      ],
+      "misconceptions": [
+        {
+          "misconceptionId": "carbonyl-o-binds-al",
+          "misconceptionTag": "unproductive-lewis-complex",
+          "severity": "plausible",
+          "arrowPattern": "lp O3 -> Al5",
+          "feedbackMessage": "The carbonyl oxygen does bind AlCl₃, but that gives no leaving group. Bind the chlorine, so it can leave."
+        }
+      ],
+      "mapNumberToCoordinates": {
+        "1": [
+          0,
+          0
+        ],
+        "2": [
+          1.3,
+          0.75
+        ],
+        "3": [
+          2.6,
+          0
+        ],
+        "4": [
+          1.3,
+          2.25
+        ],
+        "5": [
+          0,
+          4.75
+        ],
+        "6": [
+          1.3,
+          5.5
+        ],
+        "7": [
+          -1.3,
+          5.5
+        ],
+        "8": [
+          0,
+          3.25
+        ]
+      }
+    },
+    "complex": {
+      "mappedSmiles": "[CH3:1][C:2](=[O:3])[Cl+:4][Al-:5]([Cl:6])([Cl:7])[Cl:8]",
+      "caption": "acetyl chloride–AlCl₃ complex",
+      "learnerPrompt": "The chlorine leaves as AlCl₄⁻. Draw how the acylium ion forms.",
+      "hintTiers": [
+        "Losing chloride would leave the carbon short of electrons. Which neighbouring lone pair can make up for it?",
+        "The C–Cl bond breaks onto chlorine while an oxygen lone pair forms a second π bond to carbon. Two arrows.",
+        "O3 lone pair → π C2–O3; σ C2–Cl4 → lone pair on Cl4."
+      ],
+      "misconceptions": [],
+      "partialProgressMessages": [
+        {
+          "learnerArrows": [
+            "σ C2-Cl4 -> lp Cl4"
+          ],
+          "feedbackMessage": "Chloride leaves, but the carbon is left with six electrons. Let the oxygen share another pair."
+        }
+      ],
+      "mapNumberToCoordinates": {
+        "1": [
+          0,
+          0
+        ],
+        "2": [
+          1.3,
+          0.75
+        ],
+        "3": [
+          2.6,
+          0
+        ],
+        "4": [
+          1.3,
+          2.25
+        ],
+        "5": [
+          2.6,
+          3
+        ],
+        "6": [
+          3.9,
+          3.75
+        ],
+        "7": [
+          1.85,
+          4.3
+        ],
+        "8": [
+          3.35,
+          1.7
+        ]
+      }
+    },
+    "acylium": {
+      "mappedSmiles": "[CH3:1][C:2]#[O+:3].[Cl:4][Al-:5]([Cl:6])([Cl:7])[Cl:8]",
+      "caption": "acylium ion + AlCl₄⁻",
+      "mapNumberToCoordinates": {
+        "1": [
+          0,
+          0
+        ],
+        "2": [
+          1.3,
+          0.75
+        ],
+        "3": [
+          2.6,
+          1.5
+        ],
+        "4": [
+          1.5,
+          4
+        ],
+        "5": [
+          0,
+          4
+        ],
+        "6": [
+          -1.5,
+          4
+        ],
+        "7": [
+          0,
+          5.5
+        ],
+        "8": [
+          0,
+          2.5
+        ]
+      }
+    }
+  },
+  "steps": [
+    {
+      "stepKey": "lewis-acid-complex",
+      "fromStateId": "reactants",
+      "toStateId": "complex",
+      "stepKind": "polar",
+      "routePreference": "preferred",
+      "canonicalArrows": [
+        "lp Cl4 -> σ Cl4-Al5"
+      ],
+      "explanationAfterStep": "Coordinated to aluminium, the chlorine carries a positive charge: a much better leaving group."
+    },
+    {
+      "stepKey": "chloride-leaves",
+      "fromStateId": "complex",
+      "toStateId": "acylium",
+      "stepKind": "polar",
+      "routePreference": "preferred",
+      "canonicalArrows": [
+        "lp O3 -> π C2-O3",
+        "σ C2-Cl4 -> lp Cl4"
+      ],
+      "explanationAfterStep": "CH₃–C≡O⁺ is linear. Its carbon is the electrophile; its octets make it stable enough not to rearrange."
+    }
+  ],
+  "mechanismSummary": "Chlorine's lone pair coordinates to AlCl₃, making it a far better leaving group. It leaves as AlCl₄⁻ while the oxygen lone pair forms a C≡O⁺ triple bond: the acylium ion, the electrophile of Friedel–Crafts acylation. Every atom of the acylium ion has an octet, so unlike an alkyl cation it does not rearrange.",
+  "references": [
+    "Clayden, Greeves and Warren, Organic Chemistry, 2nd edition (Oxford University Press), chapter 21"
+  ],
+  "authors": [
+    {
+      "name": "Maksim",
+      "url": null
+    }
+  ],
+  "licence": "CC-BY-SA-4.0"
+}

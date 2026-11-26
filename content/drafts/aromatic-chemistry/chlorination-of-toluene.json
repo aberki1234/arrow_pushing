@@ -1,0 +1,463 @@
+{
+  "formatVersion": 1,
+  "reactionSlug": "chlorination-of-toluene",
+  "reactionVersion": 1,
+  "previousReactionVersion": null,
+  "title": "Chlorination of toluene",
+  "subtitle": "Predict the position",
+  "reactionClasses": [
+    "aromatic substitution"
+  ],
+  "difficultyTier": 2,
+  "conditionsLabel": "Cl₂ · AlCl₃ (or FeCl₃)",
+  "dailyPuzzleEligible": true,
+  "atomRoleToMapNumbers": {
+    "electrophile": [
+      1
+    ],
+    "base": [
+      2
+    ]
+  },
+  "spectatorMapNumbers": [],
+  "startStateId": "reactants",
+  "stateIdToState": {
+    "reactants": {
+      "mappedSmiles": "[Cl:1][Cl+:2][Al-:3]([Cl:4])([Cl:5])[Cl:6].[CH3:18][C:11]1=[C:12]([H:22])[CH:13]=[C:14]([H:17])[CH:15]=[CH:16]1",
+      "caption": "Cl₂–AlCl₃ complex + toluene",
+      "learnerPrompt": "Toluene attacks the activated chlorine. Where?",
+      "hintTiers": [
+        "Is CH₃ a donor or a withdrawing group?",
+        "A donor (weakly): ortho/para. For para, π C13=C14 attacks Cl1 and the Cl–Cl bond breaks. Two arrows.",
+        "π C13=C14 → new C14–Cl1 bond; σ Cl1–Cl2 → lone pair on Cl2."
+      ],
+      "misconceptions": [
+        {
+          "misconceptionId": "meta-attack-13",
+          "misconceptionTag": "wrong-regiochemistry-meta",
+          "severity": "wrong",
+          "arrowPattern": "* -> σ C13-Cl1",
+          "feedbackMessage": "That carbon is meta to CH₃. A methyl group directs ortho/para."
+        },
+        {
+          "misconceptionId": "meta-attack-15",
+          "misconceptionTag": "wrong-regiochemistry-meta",
+          "severity": "wrong",
+          "arrowPattern": "* -> σ C15-Cl1",
+          "feedbackMessage": "That carbon is meta to CH₃. A methyl group directs ortho/para."
+        }
+      ],
+      "partialProgressMessages": [
+        {
+          "learnerArrows": [
+            "π C13-C14 -> σ C14-Cl1"
+          ],
+          "feedbackMessage": "Right place. Which bond of the chlorine breaks?"
+        }
+      ],
+      "mapNumberToCoordinates": {
+        "1": [
+          2.25,
+          3.8
+        ],
+        "2": [
+          1.5,
+          5.1
+        ],
+        "3": [
+          0,
+          5.1
+        ],
+        "4": [
+          -1.5,
+          5.1
+        ],
+        "5": [
+          0,
+          6.6
+        ],
+        "6": [
+          0,
+          3.6
+        ],
+        "11": [
+          1.5,
+          0
+        ],
+        "12": [
+          0.75,
+          1.3
+        ],
+        "13": [
+          -0.75,
+          1.3
+        ],
+        "14": [
+          -1.5,
+          0
+        ],
+        "15": [
+          -0.75,
+          -1.3
+        ],
+        "16": [
+          0.75,
+          -1.3
+        ],
+        "17": [
+          -3,
+          0
+        ],
+        "18": [
+          3,
+          0
+        ],
+        "22": [
+          1.5,
+          2.6
+        ]
+      }
+    },
+    "para-arenium-ion": {
+      "mappedSmiles": "[CH3:18][C:11]1=[C:12]([H:22])[CH+:13][C:14]([H:17])([Cl:1])[CH:15]=[CH:16]1.[Cl:2][Al-:3]([Cl:4])([Cl:5])[Cl:6]",
+      "caption": "arenium ion after para attack",
+      "learnerPrompt": "Restore the aromatic ring.",
+      "hintTiers": [
+        "What can take the proton from the sp³ ring carbon?",
+        "A chloride of AlCl₄⁻ takes the proton, the C–H pair returns to the ring, and the Cl–Al bond breaks back to Cl. Three arrows.",
+        "Cl2 lone pair → H17; σ C14–H17 → π C13=C14; σ Cl2–Al3 → lone pair on Cl2."
+      ],
+      "misconceptions": [],
+      "mapNumberToCoordinates": {
+        "1": [
+          -2.65,
+          0.96
+        ],
+        "2": [
+          1.5,
+          5.1
+        ],
+        "3": [
+          0,
+          5.1
+        ],
+        "4": [
+          -1.5,
+          5.1
+        ],
+        "5": [
+          0,
+          6.6
+        ],
+        "6": [
+          0,
+          3.6
+        ],
+        "11": [
+          1.5,
+          0
+        ],
+        "12": [
+          0.75,
+          1.3
+        ],
+        "13": [
+          -0.75,
+          1.3
+        ],
+        "14": [
+          -1.5,
+          0
+        ],
+        "15": [
+          -0.75,
+          -1.3
+        ],
+        "16": [
+          0.75,
+          -1.3
+        ],
+        "17": [
+          -2.65,
+          -0.96
+        ],
+        "18": [
+          3,
+          0
+        ],
+        "22": [
+          1.5,
+          2.6
+        ]
+      }
+    },
+    "para-product": {
+      "mappedSmiles": "[CH3:18][C:11]1=[C:12]([H:22])[CH:13]=[C:14]([Cl:1])[CH:15]=[CH:16]1.[H:17][Cl:2].[Al:3]([Cl:4])([Cl:5])[Cl:6]",
+      "caption": "4-chlorotoluene (para product)",
+      "mapNumberToCoordinates": {
+        "1": [
+          -3,
+          0
+        ],
+        "2": [
+          4,
+          0
+        ],
+        "3": [
+          0,
+          5.1
+        ],
+        "4": [
+          1.3,
+          5.85
+        ],
+        "5": [
+          -1.3,
+          5.85
+        ],
+        "6": [
+          0,
+          3.6
+        ],
+        "11": [
+          1.5,
+          0
+        ],
+        "12": [
+          0.75,
+          1.3
+        ],
+        "13": [
+          -0.75,
+          1.3
+        ],
+        "14": [
+          -1.5,
+          0
+        ],
+        "15": [
+          -0.75,
+          -1.3
+        ],
+        "16": [
+          0.75,
+          -1.3
+        ],
+        "17": [
+          5.3,
+          0.75
+        ],
+        "18": [
+          3,
+          0
+        ],
+        "22": [
+          1.5,
+          2.6
+        ]
+      }
+    },
+    "ortho-arenium-ion": {
+      "mappedSmiles": "[CH3:18][C+:11]1[C:12]([H:22])([Cl:1])[CH:13]=[C:14]([H:17])[CH:15]=[CH:16]1.[Cl:2][Al-:3]([Cl:4])([Cl:5])[Cl:6]",
+      "caption": "arenium ion after ortho attack",
+      "learnerPrompt": "Restore the aromatic ring.",
+      "hintTiers": [
+        "What can take the proton from the sp³ ring carbon?",
+        "A chloride of AlCl₄⁻ takes the proton, the C–H pair returns to the ring, and the Cl–Al bond breaks back to Cl. Three arrows.",
+        "Cl2 lone pair → H22; σ C12–H22 → π C11=C12; σ Cl2–Al3 → lone pair on Cl2."
+      ],
+      "misconceptions": [],
+      "mapNumberToCoordinates": {
+        "1": [
+          2.16,
+          1.81
+        ],
+        "2": [
+          1.5,
+          5.28
+        ],
+        "3": [
+          0,
+          5.28
+        ],
+        "4": [
+          -1.5,
+          5.28
+        ],
+        "5": [
+          0,
+          6.78
+        ],
+        "6": [
+          0,
+          3.78
+        ],
+        "11": [
+          1.5,
+          0
+        ],
+        "12": [
+          0.75,
+          1.3
+        ],
+        "13": [
+          -0.75,
+          1.3
+        ],
+        "14": [
+          -1.5,
+          0
+        ],
+        "15": [
+          -0.75,
+          -1.3
+        ],
+        "16": [
+          0.75,
+          -1.3
+        ],
+        "17": [
+          -3,
+          0
+        ],
+        "18": [
+          3,
+          0
+        ],
+        "22": [
+          0.49,
+          2.78
+        ]
+      }
+    },
+    "ortho-product": {
+      "mappedSmiles": "[CH3:18][C:11]1=[C:12]([Cl:1])[CH:13]=[C:14]([H:17])[CH:15]=[CH:16]1.[H:22][Cl:2].[Al:3]([Cl:4])([Cl:5])[Cl:6]",
+      "caption": "2-chlorotoluene (ortho product)",
+      "mapNumberToCoordinates": {
+        "1": [
+          1.5,
+          2.6
+        ],
+        "2": [
+          4,
+          0
+        ],
+        "3": [
+          0,
+          5.1
+        ],
+        "4": [
+          1.3,
+          5.85
+        ],
+        "5": [
+          -1.3,
+          5.85
+        ],
+        "6": [
+          0,
+          3.6
+        ],
+        "11": [
+          1.5,
+          0
+        ],
+        "12": [
+          0.75,
+          1.3
+        ],
+        "13": [
+          -0.75,
+          1.3
+        ],
+        "14": [
+          -1.5,
+          0
+        ],
+        "15": [
+          -0.75,
+          -1.3
+        ],
+        "16": [
+          0.75,
+          -1.3
+        ],
+        "17": [
+          -3,
+          0
+        ],
+        "18": [
+          3,
+          0
+        ],
+        "22": [
+          5.3,
+          0.75
+        ]
+      }
+    }
+  },
+  "steps": [
+    {
+      "stepKey": "para-attack",
+      "fromStateId": "reactants",
+      "toStateId": "para-arenium-ion",
+      "stepKind": "polar",
+      "routePreference": "preferred",
+      "canonicalArrows": [
+        "π C13-C14 -> σ C14-Cl1",
+        "σ Cl1-Cl2 -> lp Cl2"
+      ],
+      "explanationAfterStep": "Para attack: one resonance form puts the charge on the carbon bearing CH₃ (tertiary)."
+    },
+    {
+      "stepKey": "para-deprotonation",
+      "fromStateId": "para-arenium-ion",
+      "toStateId": "para-product",
+      "stepKind": "polar",
+      "routePreference": "preferred",
+      "canonicalArrows": [
+        "lp Cl2 -> σ Cl2-H17",
+        "σ C14-H17 -> π C13-C14",
+        "σ Cl2-Al3 -> lp Cl2"
+      ],
+      "explanationAfterStep": "4-Chlorotoluene, HCl and AlCl₃."
+    },
+    {
+      "stepKey": "ortho-attack",
+      "fromStateId": "reactants",
+      "toStateId": "ortho-arenium-ion",
+      "stepKind": "polar",
+      "routePreference": "accepted",
+      "canonicalArrows": [
+        "π C11-C12 -> σ C12-Cl1",
+        "σ Cl1-Cl2 -> lp Cl2"
+      ],
+      "explanationAfterStep": "Ortho attack is also correct: the charge lands straight on the carbon bearing CH₃."
+    },
+    {
+      "stepKey": "ortho-deprotonation",
+      "fromStateId": "ortho-arenium-ion",
+      "toStateId": "ortho-product",
+      "stepKind": "polar",
+      "routePreference": "accepted",
+      "canonicalArrows": [
+        "lp Cl2 -> σ Cl2-H22",
+        "σ C12-H22 -> π C11-C12",
+        "σ Cl2-Al3 -> lp Cl2"
+      ],
+      "explanationAfterStep": "2-Chlorotoluene."
+    }
+  ],
+  "mechanismSummary": "CH₃ is a weak donor: ortho/para. Para is drawn as the main route; ortho also forms and is accepted. AlCl₄⁻ removes the proton, giving HCl and AlCl₃ back.",
+  "references": [
+    "Clayden, Greeves and Warren, Organic Chemistry, 2nd edition (Oxford University Press), chapter 21"
+  ],
+  "authors": [
+    {
+      "name": "Maksim",
+      "url": null
+    }
+  ],
+  "licence": "CC-BY-SA-4.0"
+}

@@ -1,0 +1,245 @@
+{
+  "formatVersion": 1,
+  "reactionSlug": "bromination-of-phenol",
+  "reactionVersion": 1,
+  "previousReactionVersion": null,
+  "title": "Bromination of phenol",
+  "subtitle": "So activated that no Lewis acid is needed",
+  "reactionClasses": [
+    "aromatic substitution"
+  ],
+  "difficultyTier": 3,
+  "conditionsLabel": "Br₂ · CHCl₃ · 0 °C",
+  "dailyPuzzleEligible": true,
+  "atomRoleToMapNumbers": {
+    "electrophile": [
+      1
+    ],
+    "donorOxygen": [
+      18
+    ]
+  },
+  "spectatorMapNumbers": [],
+  "startStateId": "reactants",
+  "stateIdToState": {
+    "reactants": {
+      "mappedSmiles": "[Br:1][Br:2].[OH:18][C:11]1=[CH:12][CH:13]=[C:14]([H:17])[CH:15]=[CH:16]1",
+      "caption": "bromine + phenol",
+      "learnerPrompt": "Phenol attacks bromine without a Lewis acid. Push from the OH group to the para carbon.",
+      "hintTiers": [
+        "Phenol's oxygen lone pair is the real source of the electrons. Which carbon receives them: para to OH?",
+        "O lone pair → π O=C11; π C11=C12 shifts to C12=C13; π C13=C14 attacks Br1; the Br–Br bond breaks. Four arrows.",
+        "O18 lone pair → π O18=C11; π C11=C12 → π C12=C13; π C13=C14 → new C14–Br1 bond; σ Br1–Br2 → lone pair on Br2."
+      ],
+      "misconceptions": [
+        {
+          "misconceptionId": "meta-attack",
+          "misconceptionTag": "wrong-regiochemistry-meta",
+          "severity": "wrong",
+          "arrowPattern": "* -> σ C13-Br1",
+          "feedbackMessage": "That carbon is meta to OH: the oxygen lone pair cannot push electrons there. Try the para carbon."
+        }
+      ],
+      "partialProgressMessages": [
+        {
+          "learnerArrows": [
+            "π C13-C14 -> σ C14-Br1",
+            "σ Br1-Br2 -> lp Br2"
+          ],
+          "feedbackMessage": "These two arrows are enough to make the cation; the OH lone pair is what makes the ring reactive enough. Draw it pushing in too."
+        }
+      ],
+      "mapNumberToCoordinates": {
+        "1": [
+          0,
+          2.3
+        ],
+        "2": [
+          1.3,
+          3.05
+        ],
+        "11": [
+          1.5,
+          0
+        ],
+        "12": [
+          0.75,
+          1.3
+        ],
+        "13": [
+          -0.75,
+          1.3
+        ],
+        "14": [
+          -1.5,
+          0
+        ],
+        "15": [
+          -0.75,
+          -1.3
+        ],
+        "16": [
+          0.75,
+          -1.3
+        ],
+        "17": [
+          -3,
+          0
+        ],
+        "18": [
+          3,
+          0
+        ]
+      }
+    },
+    "oxonium-ion": {
+      "mappedSmiles": "[OH+:18]=[C:11]1[CH:12]=[CH:13][C:14]([H:17])([Br:1])[CH:15]=[CH:16]1.[Br-:2]",
+      "caption": "oxonium form of the cation",
+      "learnerPrompt": "Bromide takes the proton and the ring becomes aromatic again.",
+      "hintTiers": [
+        "The C–H pair must return to the ring, and the electrons flow back to oxygen.",
+        "Br⁻ takes H17; σ C14–H17 → π C13=C14; π C12=C13 → π C11=C12; π O18=C11 → lone pair on O18. Four arrows.",
+        "Br2 lone pair → H17; σ C14–H17 → π C13=C14; π C12=C13 → π C11=C12; π O18=C11 → lone pair on O18."
+      ],
+      "misconceptions": [],
+      "partialProgressMessages": [
+        {
+          "learnerArrows": [
+            "lp Br2 -> σ Br2-H17",
+            "σ C14-H17 -> π C13-C14"
+          ],
+          "feedbackMessage": "Good start, but C13 now has five bonds. Keep the electrons flowing back towards oxygen."
+        }
+      ],
+      "mapNumberToCoordinates": {
+        "1": [
+          -2.65,
+          0.96
+        ],
+        "2": [
+          0,
+          2.3
+        ],
+        "11": [
+          1.5,
+          0
+        ],
+        "12": [
+          0.75,
+          1.3
+        ],
+        "13": [
+          -0.75,
+          1.3
+        ],
+        "14": [
+          -1.5,
+          0
+        ],
+        "15": [
+          -0.75,
+          -1.3
+        ],
+        "16": [
+          0.75,
+          -1.3
+        ],
+        "17": [
+          -2.65,
+          -0.96
+        ],
+        "18": [
+          3,
+          0
+        ]
+      }
+    },
+    "product": {
+      "mappedSmiles": "[OH:18][C:11]1=[CH:12][CH:13]=[C:14]([Br:1])[CH:15]=[CH:16]1.[H:17][Br:2]",
+      "caption": "4-bromophenol + HBr",
+      "mapNumberToCoordinates": {
+        "1": [
+          -3,
+          0
+        ],
+        "2": [
+          0,
+          2.3
+        ],
+        "11": [
+          1.5,
+          0
+        ],
+        "12": [
+          0.75,
+          1.3
+        ],
+        "13": [
+          -0.75,
+          1.3
+        ],
+        "14": [
+          -1.5,
+          0
+        ],
+        "15": [
+          -0.75,
+          -1.3
+        ],
+        "16": [
+          0.75,
+          -1.3
+        ],
+        "17": [
+          1.3,
+          3.05
+        ],
+        "18": [
+          3,
+          0
+        ]
+      }
+    }
+  },
+  "steps": [
+    {
+      "stepKey": "electrophilic-attack",
+      "fromStateId": "reactants",
+      "toStateId": "oxonium-ion",
+      "stepKind": "polar",
+      "routePreference": "preferred",
+      "canonicalArrows": [
+        "lp O18 -> π O18-C11",
+        "π C11-C12 -> π C12-C13",
+        "π C13-C14 -> σ C14-Br1",
+        "σ Br1-Br2 -> lp Br2"
+      ],
+      "explanationAfterStep": "The oxygen lone pair is why phenol reacts with Br₂ alone: the ring is far more nucleophilic than benzene."
+    },
+    {
+      "stepKey": "deprotonation",
+      "fromStateId": "oxonium-ion",
+      "toStateId": "product",
+      "stepKind": "polar",
+      "routePreference": "preferred",
+      "canonicalArrows": [
+        "lp Br2 -> σ Br2-H17",
+        "σ C14-H17 -> π C13-C14",
+        "π C12-C13 -> π C11-C12",
+        "π O18-C11 -> lp O18"
+      ],
+      "explanationAfterStep": "4-Bromophenol and HBr. Ortho bromination also happens; para is major."
+    }
+  ],
+  "mechanismSummary": "The OH lone pair pushes electrons through the ring onto the para carbon, which attacks bromine directly: no Lewis acid is needed. The cation formed is an oxonium ion (O⁺=C). Bromide then takes the ring proton as the electrons flow back to oxygen. In water, phenol is so reactive that 2,4,6-tribromophenol forms at once.",
+  "references": [
+    "Clayden, Greeves and Warren, Organic Chemistry, 2nd edition (Oxford University Press), chapter 21"
+  ],
+  "authors": [
+    {
+      "name": "Maksim",
+      "url": null
+    }
+  ],
+  "licence": "CC-BY-SA-4.0"
+}

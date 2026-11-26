@@ -1,0 +1,359 @@
+{
+  "formatVersion": 1,
+  "reactionSlug": "nitration-of-acetanilide",
+  "reactionVersion": 1,
+  "previousReactionVersion": null,
+  "title": "Nitration of acetanilide",
+  "subtitle": "An amide nitrogen directs para",
+  "reactionClasses": [
+    "aromatic substitution"
+  ],
+  "difficultyTier": 2,
+  "conditionsLabel": "conc. HNO₃ · conc. H₂SO₄ · 0–10 °C",
+  "dailyPuzzleEligible": true,
+  "atomRoleToMapNumbers": {
+    "electrophile": [
+      2
+    ]
+  },
+  "spectatorMapNumbers": [],
+  "startStateId": "reactants",
+  "stateIdToState": {
+    "reactants": {
+      "mappedSmiles": "[O:1]=[N+:2]=[O:3].[O-:4][S:5](=[O:6])(=[O:7])[OH:8].[CH3:21][C:19](=[O:20])[NH:18][C:11]1=[CH:12][CH:13]=[C:14]([H:17])[CH:15]=[CH:16]1",
+      "caption": "nitronium ion + hydrogen sulfate + acetanilide",
+      "learnerPrompt": "Acetanilide attacks NO₂⁺ para to the NHCOCH₃ group.",
+      "hintTiers": [
+        "Which carbon is para to the nitrogen substituent?",
+        "π C13=C14 forms the new C14–N2 bond; an N=O π pair moves onto oxygen. Two arrows.",
+        "π C13=C14 → new C14–N2 bond; π N2=O3 → lone pair on O3."
+      ],
+      "misconceptions": [
+        {
+          "misconceptionId": "meta-attack-13",
+          "misconceptionTag": "wrong-regiochemistry-meta",
+          "severity": "wrong",
+          "arrowPattern": "* -> σ C13-N2",
+          "feedbackMessage": "That carbon is meta to the nitrogen: its lone pair cannot reach the charge from there. Try para."
+        },
+        {
+          "misconceptionId": "meta-attack-15",
+          "misconceptionTag": "wrong-regiochemistry-meta",
+          "severity": "wrong",
+          "arrowPattern": "* -> σ C15-N2",
+          "feedbackMessage": "That carbon is meta to the nitrogen: its lone pair cannot reach the charge from there. Try para."
+        }
+      ],
+      "partialProgressMessages": [
+        {
+          "learnerArrows": [
+            "π C13-C14 -> σ C14-N2"
+          ],
+          "feedbackMessage": "Right place. What must the electrophile lose as the new bond forms?"
+        }
+      ],
+      "mapNumberToCoordinates": {
+        "1": [
+          0,
+          5.3
+        ],
+        "2": [
+          0,
+          3.8
+        ],
+        "3": [
+          0,
+          2.3
+        ],
+        "4": [
+          0,
+          6.85
+        ],
+        "5": [
+          1.3,
+          7.6
+        ],
+        "6": [
+          2.6,
+          8.35
+        ],
+        "7": [
+          2.05,
+          6.3
+        ],
+        "8": [
+          0.55,
+          8.9
+        ],
+        "11": [
+          1.5,
+          0
+        ],
+        "12": [
+          0.75,
+          1.3
+        ],
+        "13": [
+          -0.75,
+          1.3
+        ],
+        "14": [
+          -1.5,
+          0
+        ],
+        "15": [
+          -0.75,
+          -1.3
+        ],
+        "16": [
+          0.75,
+          -1.3
+        ],
+        "17": [
+          -3,
+          0
+        ],
+        "18": [
+          3,
+          0
+        ],
+        "19": [
+          3.75,
+          -1.3
+        ],
+        "20": [
+          3,
+          -2.6
+        ],
+        "21": [
+          5.25,
+          -1.3
+        ]
+      }
+    },
+    "arenium-ion": {
+      "mappedSmiles": "[CH3:21][C:19](=[O:20])[NH:18][C:11]1=[CH:12][CH+:13][C:14]([H:17])([N+:2](=[O:1])[O-:3])[CH:15]=[CH:16]1.[O-:4][S:5](=[O:6])(=[O:7])[OH:8]",
+      "caption": "arenium (Wheland) ion",
+      "learnerPrompt": "Restore the aromatic ring.",
+      "hintTiers": [
+        "The sp³ ring carbon has an H. What can take it?",
+        "Hydrogen sulfate takes the proton and the C–H pair re-forms the ring π bond. Two arrows.",
+        "O4 lone pair → H17; σ C14–H17 → π C13=C14."
+      ],
+      "misconceptions": [
+        {
+          "misconceptionId": "adds-instead-of-losing-h",
+          "misconceptionTag": "addition-instead-of-substitution",
+          "severity": "plausible",
+          "arrowPattern": "lp O4 -> C13",
+          "feedbackMessage": "Adding the anion to the carbocation would leave a non-aromatic ring. Losing H⁺ restores aromaticity, which wins."
+        }
+      ],
+      "partialProgressMessages": [
+        {
+          "learnerArrows": [
+            "lp O4 -> σ O4-H17"
+          ],
+          "feedbackMessage": "Good: the base takes the proton. Where does the C–H bonding pair go?"
+        }
+      ],
+      "mapNumberToCoordinates": {
+        "1": [
+          -2.39,
+          2.44
+        ],
+        "2": [
+          -2.65,
+          0.96
+        ],
+        "3": [
+          -4.06,
+          0.45
+        ],
+        "4": [
+          0,
+          3.99
+        ],
+        "5": [
+          1.3,
+          4.74
+        ],
+        "6": [
+          2.6,
+          5.49
+        ],
+        "7": [
+          2.05,
+          3.44
+        ],
+        "8": [
+          0.55,
+          6.04
+        ],
+        "11": [
+          1.5,
+          0
+        ],
+        "12": [
+          0.75,
+          1.3
+        ],
+        "13": [
+          -0.75,
+          1.3
+        ],
+        "14": [
+          -1.5,
+          0
+        ],
+        "15": [
+          -0.75,
+          -1.3
+        ],
+        "16": [
+          0.75,
+          -1.3
+        ],
+        "17": [
+          -2.65,
+          -0.96
+        ],
+        "18": [
+          3,
+          0
+        ],
+        "19": [
+          3.75,
+          -1.3
+        ],
+        "20": [
+          3,
+          -2.6
+        ],
+        "21": [
+          5.25,
+          -1.3
+        ]
+      }
+    },
+    "product": {
+      "mappedSmiles": "[CH3:21][C:19](=[O:20])[NH:18][C:11]1=[CH:12][CH:13]=[C:14]([N+:2](=[O:1])[O-:3])[CH:15]=[CH:16]1.[H:17][O:4][S:5](=[O:6])(=[O:7])[OH:8]",
+      "caption": "4-nitroacetanilide + sulfuric acid",
+      "mapNumberToCoordinates": {
+        "1": [
+          -3.75,
+          1.3
+        ],
+        "2": [
+          -3,
+          0
+        ],
+        "3": [
+          -3.75,
+          -1.3
+        ],
+        "4": [
+          2.6,
+          4.35
+        ],
+        "5": [
+          1.3,
+          3.6
+        ],
+        "6": [
+          0,
+          2.85
+        ],
+        "7": [
+          0.55,
+          4.9
+        ],
+        "8": [
+          2.05,
+          2.3
+        ],
+        "11": [
+          1.5,
+          0
+        ],
+        "12": [
+          0.75,
+          1.3
+        ],
+        "13": [
+          -0.75,
+          1.3
+        ],
+        "14": [
+          -1.5,
+          0
+        ],
+        "15": [
+          -0.75,
+          -1.3
+        ],
+        "16": [
+          0.75,
+          -1.3
+        ],
+        "17": [
+          2.6,
+          5.85
+        ],
+        "18": [
+          3,
+          0
+        ],
+        "19": [
+          3.75,
+          -1.3
+        ],
+        "20": [
+          3,
+          -2.6
+        ],
+        "21": [
+          5.25,
+          -1.3
+        ]
+      }
+    }
+  },
+  "steps": [
+    {
+      "stepKey": "electrophilic-attack",
+      "fromStateId": "reactants",
+      "toStateId": "arenium-ion",
+      "stepKind": "polar",
+      "routePreference": "preferred",
+      "canonicalArrows": [
+        "π C13-C14 -> σ C14-N2",
+        "π N2-O3 -> lp O3"
+      ],
+      "explanationAfterStep": "The cation is stabilised by the amide nitrogen's lone pair in one of its resonance forms (C=N⁺)."
+    },
+    {
+      "stepKey": "deprotonation",
+      "fromStateId": "arenium-ion",
+      "toStateId": "product",
+      "stepKind": "polar",
+      "routePreference": "preferred",
+      "canonicalArrows": [
+        "lp O4 -> σ O4-H17",
+        "σ C14-H17 -> π C14-C13"
+      ],
+      "explanationAfterStep": "4-Nitroacetanilide. Hydrolysing the amide afterwards gives 4-nitroaniline."
+    }
+  ],
+  "mechanismSummary": "The NHCOCH₃ group donates its nitrogen lone pair into the ring, so it directs ortho and para, but less strongly than NH₂ because the lone pair is shared with the carbonyl. The bulky group favours para. (Aniline itself is protonated in nitrating acid and would direct meta: acetylation protects it.)",
+  "references": [
+    "Clayden, Greeves and Warren, Organic Chemistry, 2nd edition (Oxford University Press), chapter 21"
+  ],
+  "authors": [
+    {
+      "name": "Maksim",
+      "url": null
+    }
+  ],
+  "licence": "CC-BY-SA-4.0"
+}

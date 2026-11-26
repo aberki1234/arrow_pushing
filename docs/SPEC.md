@@ -63,6 +63,12 @@ reactions, track `aromatic-chemistry`, problem sets in this order:
   reviewed by the owner before the remaining reactions are drafted.
 - **Heteroaromatics** (pyrrole/furan at C2, pyridine at C3, harsh) are a second, short batch; naphthalene and indole
   are left out.
+- **As drafted (2026-11-26, 16 drafts after the 3 published pilot reactions; track file in
+  `content/drafts/tracks/aromatic-chemistry.json` until they are published):** Br₂ is activated by **AlBr₃** (the strict
+  reader has no Fe; the conditions say "or FeBr₃"); SO₃ is the electrophile of sulfonation directly (no separate
+  "SO₃ in H₂SO₄" reaction); set 3 is toluene (para preferred, ortho accepted), anisole, phenol (Br₂, pushed from the
+  OH), acetanilide, chlorobenzene and nitrobenzene (benzaldehyde left out); set 4 as agreed, chlorination of toluene
+  also with ortho accepted; the checkpoint reuses six reactions from sets 1–4.
 
 ## 3. Interaction
 

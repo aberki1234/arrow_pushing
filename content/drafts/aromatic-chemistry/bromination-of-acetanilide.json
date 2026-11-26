@@ -1,0 +1,287 @@
+{
+  "formatVersion": 1,
+  "reactionSlug": "bromination-of-acetanilide",
+  "reactionVersion": 1,
+  "previousReactionVersion": null,
+  "title": "Bromination of acetanilide",
+  "subtitle": "Predict the position",
+  "reactionClasses": [
+    "aromatic substitution"
+  ],
+  "difficultyTier": 2,
+  "conditionsLabel": "Br₂ · AcOH · rt",
+  "dailyPuzzleEligible": true,
+  "atomRoleToMapNumbers": {
+    "electrophile": [
+      1
+    ]
+  },
+  "spectatorMapNumbers": [],
+  "startStateId": "reactants",
+  "stateIdToState": {
+    "reactants": {
+      "mappedSmiles": "[Br:1][Br:2].[CH3:21][C:19](=[O:20])[NH:18][C:11]1=[CH:12][CH:13]=[C:14]([H:17])[CH:15]=[CH:16]1",
+      "caption": "bromine + acetanilide",
+      "learnerPrompt": "Acetanilide attacks bromine. Where?",
+      "hintTiers": [
+        "Is NHCOCH₃ a donor or a withdrawing group? That decides ortho/para or meta.",
+        "It donates (N lone pair): attack para. π C13=C14 attacks Br1 and the Br–Br bond breaks. Two arrows.",
+        "π C13=C14 → new C14–Br1 bond; σ Br1–Br2 → lone pair on Br2."
+      ],
+      "misconceptions": [
+        {
+          "misconceptionId": "meta-attack-13",
+          "misconceptionTag": "wrong-regiochemistry-meta",
+          "severity": "wrong",
+          "arrowPattern": "* -> σ C13-Br1",
+          "feedbackMessage": "That carbon is meta to the nitrogen. The NHCOCH₃ group donates its lone pair: it directs ortho/para."
+        },
+        {
+          "misconceptionId": "meta-attack-15",
+          "misconceptionTag": "wrong-regiochemistry-meta",
+          "severity": "wrong",
+          "arrowPattern": "* -> σ C15-Br1",
+          "feedbackMessage": "That carbon is meta to the nitrogen. The NHCOCH₃ group donates its lone pair: it directs ortho/para."
+        }
+      ],
+      "partialProgressMessages": [
+        {
+          "learnerArrows": [
+            "π C13-C14 -> σ C14-Br1"
+          ],
+          "feedbackMessage": "Right place. What must the electrophile lose as the new bond forms?"
+        }
+      ],
+      "mapNumberToCoordinates": {
+        "1": [
+          0,
+          2.3
+        ],
+        "2": [
+          1.3,
+          3.05
+        ],
+        "11": [
+          1.5,
+          0
+        ],
+        "12": [
+          0.75,
+          1.3
+        ],
+        "13": [
+          -0.75,
+          1.3
+        ],
+        "14": [
+          -1.5,
+          0
+        ],
+        "15": [
+          -0.75,
+          -1.3
+        ],
+        "16": [
+          0.75,
+          -1.3
+        ],
+        "17": [
+          -3,
+          0
+        ],
+        "18": [
+          3,
+          0
+        ],
+        "19": [
+          3.75,
+          -1.3
+        ],
+        "20": [
+          3,
+          -2.6
+        ],
+        "21": [
+          5.25,
+          -1.3
+        ]
+      }
+    },
+    "arenium-ion": {
+      "mappedSmiles": "[CH3:21][C:19](=[O:20])[NH:18][C:11]1=[CH:12][CH+:13][C:14]([H:17])([Br:1])[CH:15]=[CH:16]1.[Br-:2]",
+      "caption": "arenium (Wheland) ion",
+      "learnerPrompt": "Restore the aromatic ring.",
+      "hintTiers": [
+        "What can take the proton from the sp³ ring carbon?",
+        "Bromide takes the proton and the C–H pair returns to the ring. Two arrows.",
+        "Br2 lone pair → H17; σ C14–H17 → π C13=C14."
+      ],
+      "misconceptions": [
+        {
+          "misconceptionId": "adds-instead-of-losing-h",
+          "misconceptionTag": "addition-instead-of-substitution",
+          "severity": "plausible",
+          "arrowPattern": "lp Br2 -> C13",
+          "feedbackMessage": "Adding the anion to the carbocation would leave a non-aromatic ring. Losing H⁺ restores aromaticity, which wins."
+        }
+      ],
+      "partialProgressMessages": [
+        {
+          "learnerArrows": [
+            "lp Br2 -> σ Br2-H17"
+          ],
+          "feedbackMessage": "Good: the base takes the proton. Where does the C–H bonding pair go?"
+        }
+      ],
+      "mapNumberToCoordinates": {
+        "1": [
+          -2.65,
+          0.96
+        ],
+        "2": [
+          0,
+          2.3
+        ],
+        "11": [
+          1.5,
+          0
+        ],
+        "12": [
+          0.75,
+          1.3
+        ],
+        "13": [
+          -0.75,
+          1.3
+        ],
+        "14": [
+          -1.5,
+          0
+        ],
+        "15": [
+          -0.75,
+          -1.3
+        ],
+        "16": [
+          0.75,
+          -1.3
+        ],
+        "17": [
+          -2.65,
+          -0.96
+        ],
+        "18": [
+          3,
+          0
+        ],
+        "19": [
+          3.75,
+          -1.3
+        ],
+        "20": [
+          3,
+          -2.6
+        ],
+        "21": [
+          5.25,
+          -1.3
+        ]
+      }
+    },
+    "product": {
+      "mappedSmiles": "[CH3:21][C:19](=[O:20])[NH:18][C:11]1=[CH:12][CH:13]=[C:14]([Br:1])[CH:15]=[CH:16]1.[H:17][Br:2]",
+      "caption": "4-bromoacetanilide + HBr",
+      "mapNumberToCoordinates": {
+        "1": [
+          -3,
+          0
+        ],
+        "2": [
+          0,
+          2.3
+        ],
+        "11": [
+          1.5,
+          0
+        ],
+        "12": [
+          0.75,
+          1.3
+        ],
+        "13": [
+          -0.75,
+          1.3
+        ],
+        "14": [
+          -1.5,
+          0
+        ],
+        "15": [
+          -0.75,
+          -1.3
+        ],
+        "16": [
+          0.75,
+          -1.3
+        ],
+        "17": [
+          1.3,
+          3.05
+        ],
+        "18": [
+          3,
+          0
+        ],
+        "19": [
+          3.75,
+          -1.3
+        ],
+        "20": [
+          3,
+          -2.6
+        ],
+        "21": [
+          5.25,
+          -1.3
+        ]
+      }
+    }
+  },
+  "steps": [
+    {
+      "stepKey": "electrophilic-attack",
+      "fromStateId": "reactants",
+      "toStateId": "arenium-ion",
+      "stepKind": "polar",
+      "routePreference": "preferred",
+      "canonicalArrows": [
+        "π C13-C14 -> σ C14-Br1",
+        "σ Br1-Br2 -> lp Br2"
+      ],
+      "explanationAfterStep": "No Lewis acid: the activated ring is nucleophilic enough to polarise Br₂ itself."
+    },
+    {
+      "stepKey": "deprotonation",
+      "fromStateId": "arenium-ion",
+      "toStateId": "product",
+      "stepKind": "polar",
+      "routePreference": "preferred",
+      "canonicalArrows": [
+        "lp Br2 -> σ Br2-H17",
+        "σ C14-H17 -> π C14-C13"
+      ],
+      "explanationAfterStep": "4-Bromoacetanilide and HBr."
+    }
+  ],
+  "mechanismSummary": "The amide nitrogen activates the ring enough for Br₂ to react without a Lewis acid, and directs para (ortho is hindered by the bulky group). Bromide takes the proton: 4-bromoacetanilide and HBr.",
+  "references": [
+    "Clayden, Greeves and Warren, Organic Chemistry, 2nd edition (Oxford University Press), chapter 21"
+  ],
+  "authors": [
+    {
+      "name": "Maksim",
+      "url": null
+    }
+  ],
+  "licence": "CC-BY-SA-4.0"
+}
