@@ -1,0 +1,872 @@
+{
+  "steps": [
+    {
+      "stepKey": "tin-adds-to-sulfur",
+      "stepKind": "radical",
+      "toStateId": "stannyl-adduct",
+      "fromStateId": "reactants",
+      "canonicalArrows": [
+        "rad Sn12 ~> σ Sn12-S9",
+        "π S9-C8 ~> σ Sn12-S9",
+        "π S9-C8 ~> rad C8"
+      ],
+      "routePreference": "preferred",
+      "explanationAfterStep": "Tin radicals are thiophilic: the Sn–S bond is strong and the C=S π bond weak. The carbon radical formed is stabilised by the oxygen and both sulfur atoms."
+    },
+    {
+      "stepKey": "beta-scission",
+      "stepKind": "radical",
+      "toStateId": "cyclohexyl-radical",
+      "fromStateId": "stannyl-adduct",
+      "canonicalArrows": [
+        "rad C8 ~> π C8-O7",
+        "σ C1-O7 ~> π C8-O7",
+        "σ C1-O7 ~> rad C1"
+      ],
+      "routePreference": "preferred",
+      "explanationAfterStep": "β-Scission: the bond one atom away from the radical breaks, making a C=O. Swapping a C=S for a much stronger C=O drives it. The C–O bond to the alcohol carbon is the one that breaks."
+    },
+    {
+      "stepKey": "hydrogen-transfer",
+      "stepKind": "radical",
+      "toStateId": "products",
+      "fromStateId": "cyclohexyl-radical",
+      "canonicalArrows": [
+        "rad C1 ~> σ C1-H26",
+        "σ H26-Sn25 ~> σ C1-H26",
+        "σ H26-Sn25 ~> rad Sn25"
+      ],
+      "routePreference": "preferred",
+      "explanationAfterStep": "The cyclohexyl radical takes H from Bu₃SnH. The new Bu₃Sn• attacks the next xanthate: a chain. Overall C–OH has become C–H."
+    }
+  ],
+  "title": "Barton–McCombie deoxygenation",
+  "authors": [
+    {
+      "url": null,
+      "name": "Maksim"
+    }
+  ],
+  "licence": "CC-BY-SA-4.0",
+  "subtitle": "A xanthate and Bu₃SnH replace an alcohol's C–O bond with C–H",
+  "references": [
+    "Clayden, Greeves and Warren, Organic Chemistry, 2nd edition (Oxford University Press), chapter 37 (Radical reactions)"
+  ],
+  "reactionSlug": "barton-mccombie-deoxygenation",
+  "startStateId": "reactants",
+  "formatVersion": 1,
+  "difficultyTier": 3,
+  "stateIdToState": {
+    "products": {
+      "caption": "cyclohexane + tin dithiocarbonate + Bu₃Sn• (carries the chain on)",
+      "mappedSmiles": "[CH:1]1([H:26])[CH2:2][CH2:3][CH2:4][CH2:5][CH2:6]1.[O:7]=[C:8]([S:9][Sn:12]([CH2:13][CH2:14][CH2:15][CH3:16])([CH2:17][CH2:18][CH2:19][CH3:20])[CH2:21][CH2:22][CH2:23][CH3:24])[S:10][CH3:11].[Sn:25]([CH2:27][CH2:28][CH2:29][CH3:30])([CH2:31][CH2:32][CH2:33][CH3:34])[CH2:35][CH2:36][CH2:37][CH3:38]",
+      "mapNumberToCoordinates": {
+        "1": [
+          1.5,
+          0
+        ],
+        "2": [
+          0.75,
+          1.3
+        ],
+        "3": [
+          -0.75,
+          1.3
+        ],
+        "4": [
+          -1.5,
+          0
+        ],
+        "5": [
+          -0.75,
+          -1.3
+        ],
+        "6": [
+          0.75,
+          -1.3
+        ],
+        "7": [
+          6.7,
+          4.9
+        ],
+        "8": [
+          5.2,
+          4.9
+        ],
+        "9": [
+          4.45,
+          6.2
+        ],
+        "10": [
+          4.45,
+          3.6
+        ],
+        "11": [
+          5.2,
+          2.3
+        ],
+        "12": [
+          5.2,
+          7.5
+        ],
+        "13": [
+          3.9,
+          8.25
+        ],
+        "14": [
+          2.6,
+          7.5
+        ],
+        "15": [
+          1.3,
+          8.25
+        ],
+        "16": [
+          0,
+          7.5
+        ],
+        "17": [
+          6.5,
+          6.75
+        ],
+        "18": [
+          7.79,
+          7.5
+        ],
+        "19": [
+          9.09,
+          6.75
+        ],
+        "20": [
+          10.39,
+          7.5
+        ],
+        "21": [
+          5.95,
+          8.79
+        ],
+        "22": [
+          7.45,
+          8.79
+        ],
+        "23": [
+          8.2,
+          10.09
+        ],
+        "24": [
+          9.7,
+          10.09
+        ],
+        "25": [
+          10.57,
+          -0.21
+        ],
+        "26": [
+          3,
+          0
+        ],
+        "27": [
+          9.27,
+          0.54
+        ],
+        "28": [
+          7.97,
+          -0.21
+        ],
+        "29": [
+          6.67,
+          0.54
+        ],
+        "30": [
+          5.37,
+          -0.21
+        ],
+        "31": [
+          11.87,
+          0.54
+        ],
+        "32": [
+          13.17,
+          -0.21
+        ],
+        "33": [
+          14.47,
+          0.54
+        ],
+        "34": [
+          15.76,
+          -0.21
+        ],
+        "35": [
+          10.57,
+          -1.71
+        ],
+        "36": [
+          11.87,
+          -2.46
+        ],
+        "37": [
+          11.87,
+          -3.96
+        ],
+        "38": [
+          13.17,
+          -4.71
+        ]
+      }
+    },
+    "reactants": {
+      "caption": "cyclohexyl xanthate + tributyltin radical + tributyltin hydride",
+      "hintTiers": [
+        "Tin loves sulfur, and a C=S π bond is weak. Where does the tin radical attack?",
+        "Tin bonds to the sulfur of C=S; one π electron joins it, the other stays on carbon as an unpaired electron. Three fish-hooks.",
+        "Tin's unpaired electron → new Sn–S bond to the C=S sulfur; one C=S π electron → Sn–S; the other → the carbon."
+      ],
+      "mappedSmiles": "[CH:1]1([O:7][C:8](=[S:9])[S:10][CH3:11])[CH2:2][CH2:3][CH2:4][CH2:5][CH2:6]1.[Sn:12]([CH2:13][CH2:14][CH2:15][CH3:16])([CH2:17][CH2:18][CH2:19][CH3:20])[CH2:21][CH2:22][CH2:23][CH3:24].[Sn:25]([H:26])([CH2:27][CH2:28][CH2:29][CH3:30])([CH2:31][CH2:32][CH2:33][CH3:34])[CH2:35][CH2:36][CH2:37][CH3:38]",
+      "learnerPrompt": "The tin radical attacks the xanthate. Use fish-hook arrows: each moves one electron.",
+      "misconceptions": [
+        {
+          "severity": "wrong",
+          "arrowPattern": "rad Sn12 ~> S10",
+          "feedbackMessage": "The S–Me sulfur has no π bond to open. Tin adds to the thiocarbonyl (C=S) sulfur.",
+          "misconceptionId": "tin-attacks-thioether-sulfur",
+          "misconceptionTag": "wrong-sulfur"
+        },
+        {
+          "severity": "wrong",
+          "arrowPattern": "rad Sn12 ~> C8",
+          "feedbackMessage": "Tin adds to sulfur, not carbon: the Sn–S bond is strong, and the radical left on carbon is stabilised by the oxygen and sulfur around it.",
+          "misconceptionId": "tin-attacks-carbon",
+          "misconceptionTag": "wrong-end-of-pi-bond"
+        },
+        {
+          "severity": "wrong",
+          "arrowPattern": "rad Sn12 ~> O7",
+          "feedbackMessage": "The ether-type oxygen has no π bond to open and no weak bond. Tin adds to the C=S sulfur.",
+          "misconceptionId": "tin-attacks-oxygen",
+          "misconceptionTag": "wrong-atom"
+        }
+      ],
+      "mapNumberToCoordinates": {
+        "1": [
+          1.5,
+          0
+        ],
+        "2": [
+          0.75,
+          1.3
+        ],
+        "3": [
+          -0.75,
+          1.3
+        ],
+        "4": [
+          -1.5,
+          0
+        ],
+        "5": [
+          -0.75,
+          -1.3
+        ],
+        "6": [
+          0.75,
+          -1.3
+        ],
+        "7": [
+          3,
+          0
+        ],
+        "8": [
+          3.75,
+          -1.3
+        ],
+        "9": [
+          5.25,
+          -1.3
+        ],
+        "10": [
+          3,
+          -2.6
+        ],
+        "11": [
+          3.75,
+          -3.9
+        ],
+        "12": [
+          5.2,
+          6.8
+        ],
+        "13": [
+          3.9,
+          7.55
+        ],
+        "14": [
+          2.6,
+          6.8
+        ],
+        "15": [
+          1.3,
+          7.55
+        ],
+        "16": [
+          0,
+          6.8
+        ],
+        "17": [
+          6.5,
+          7.55
+        ],
+        "18": [
+          7.79,
+          6.8
+        ],
+        "19": [
+          9.09,
+          7.55
+        ],
+        "20": [
+          10.39,
+          6.8
+        ],
+        "21": [
+          5.2,
+          5.3
+        ],
+        "22": [
+          6.5,
+          4.55
+        ],
+        "23": [
+          6.5,
+          3.05
+        ],
+        "24": [
+          7.79,
+          2.3
+        ],
+        "25": [
+          12.67,
+          -0.53
+        ],
+        "26": [
+          13.96,
+          -1.28
+        ],
+        "27": [
+          11.37,
+          0.22
+        ],
+        "28": [
+          10.07,
+          -0.53
+        ],
+        "29": [
+          8.77,
+          0.22
+        ],
+        "30": [
+          7.47,
+          -0.53
+        ],
+        "31": [
+          11.92,
+          -1.83
+        ],
+        "32": [
+          12.67,
+          -3.13
+        ],
+        "33": [
+          11.92,
+          -4.43
+        ],
+        "34": [
+          12.67,
+          -5.73
+        ],
+        "35": [
+          13.42,
+          0.77
+        ],
+        "36": [
+          14.92,
+          0.77
+        ],
+        "37": [
+          15.67,
+          2.07
+        ],
+        "38": [
+          17.17,
+          2.07
+        ]
+      },
+      "partialProgressMessages": [
+        {
+          "learnerArrows": [
+            "rad Sn12 ~> σ S9-Sn12",
+            "π C8-S9 ~> rad C8"
+          ],
+          "feedbackMessage": "One more fish-hook: the new Sn–S bond needs one electron from the C=S π bond as well."
+        }
+      ]
+    },
+    "stannyl-adduct": {
+      "caption": "carbon radical stabilised by O and two S atoms; tin now on sulfur",
+      "hintTiers": [
+        "A radical can break the bond one atom away (β) to make a strong π bond. Which strong π bond can form here, and which radical is released?",
+        "The unpaired electron and one electron of the O–cyclohexyl bond make a C=O π bond; the other electron of that bond stays on the cyclohexyl carbon. Three fish-hooks.",
+        "Unpaired electron → new C=O π bond; one electron of the O–cyclohexyl bond → the same π bond; the other → the cyclohexyl carbon."
+      ],
+      "mappedSmiles": "[CH:1]1([O:7][C:8]([S:9][Sn:12]([CH2:13][CH2:14][CH2:15][CH3:16])([CH2:17][CH2:18][CH2:19][CH3:20])[CH2:21][CH2:22][CH2:23][CH3:24])[S:10][CH3:11])[CH2:2][CH2:3][CH2:4][CH2:5][CH2:6]1.[Sn:25]([H:26])([CH2:27][CH2:28][CH2:29][CH3:30])([CH2:31][CH2:32][CH2:33][CH3:34])[CH2:35][CH2:36][CH2:37][CH3:38]",
+      "learnerPrompt": "The radical fragments: β-scission.",
+      "misconceptions": [
+        {
+          "severity": "plausible",
+          "arrowPattern": "σ S10-C11 ~> rad C11",
+          "feedbackMessage": "Breaking the S–methyl bond would release a methyl radical, much less stable than the secondary cyclohexyl radical, and make only a C=S bond. Breaking the C–O bond makes the strong C=O.",
+          "misconceptionId": "lose-methyl-radical",
+          "misconceptionTag": "less-stable-radical"
+        },
+        {
+          "severity": "plausible",
+          "arrowPattern": "σ S9-Sn12 ~> rad Sn12",
+          "feedbackMessage": "That reverses the addition. It does happen, but the fragmentation is irreversible and drains the adduct away.",
+          "misconceptionId": "tin-falls-off",
+          "misconceptionTag": "reverse-step"
+        },
+        {
+          "severity": "plausible",
+          "arrowPattern": "rad C8 ~> H26",
+          "feedbackMessage": "This stabilised radical is in no hurry to take H from tin, and doing so would give no deoxygenation. It fragments first.",
+          "misconceptionId": "early-hydrogen-transfer",
+          "misconceptionTag": "wrong-order"
+        }
+      ],
+      "mapNumberToCoordinates": {
+        "1": [
+          1.5,
+          0
+        ],
+        "2": [
+          0.75,
+          1.3
+        ],
+        "3": [
+          -0.75,
+          1.3
+        ],
+        "4": [
+          -1.5,
+          0
+        ],
+        "5": [
+          -0.75,
+          -1.3
+        ],
+        "6": [
+          0.75,
+          -1.3
+        ],
+        "7": [
+          3,
+          0
+        ],
+        "8": [
+          3.75,
+          -1.3
+        ],
+        "9": [
+          5.25,
+          -1.3
+        ],
+        "10": [
+          3,
+          -2.6
+        ],
+        "11": [
+          3.75,
+          -3.9
+        ],
+        "12": [
+          6,
+          -2.6
+        ],
+        "13": [
+          7.3,
+          -1.85
+        ],
+        "14": [
+          8.6,
+          -2.6
+        ],
+        "15": [
+          9.9,
+          -1.85
+        ],
+        "16": [
+          11.2,
+          -2.6
+        ],
+        "17": [
+          4.7,
+          -3.35
+        ],
+        "18": [
+          4.7,
+          -4.85
+        ],
+        "19": [
+          3.4,
+          -5.6
+        ],
+        "20": [
+          3.4,
+          -7.1
+        ],
+        "21": [
+          6.75,
+          -3.9
+        ],
+        "22": [
+          6,
+          -5.2
+        ],
+        "23": [
+          6.75,
+          -6.5
+        ],
+        "24": [
+          6,
+          -7.79
+        ],
+        "25": [
+          5.2,
+          7.5
+        ],
+        "26": [
+          6.5,
+          6.75
+        ],
+        "27": [
+          3.9,
+          8.25
+        ],
+        "28": [
+          2.6,
+          7.5
+        ],
+        "29": [
+          1.3,
+          8.25
+        ],
+        "30": [
+          0,
+          7.5
+        ],
+        "31": [
+          4.45,
+          6.2
+        ],
+        "32": [
+          5.2,
+          4.9
+        ],
+        "33": [
+          4.45,
+          3.6
+        ],
+        "34": [
+          5.2,
+          2.3
+        ],
+        "35": [
+          5.95,
+          8.79
+        ],
+        "36": [
+          7.45,
+          8.79
+        ],
+        "37": [
+          8.2,
+          10.09
+        ],
+        "38": [
+          9.7,
+          10.09
+        ]
+      },
+      "partialProgressMessages": [
+        {
+          "learnerArrows": [
+            "rad C8 ~> π C8-O7",
+            "σ C1-O7 ~> rad C1"
+          ],
+          "feedbackMessage": "One more fish-hook: the new C=O π bond needs one electron from the breaking O–C bond as well."
+        }
+      ]
+    },
+    "cyclohexyl-radical": {
+      "caption": "cyclohexyl radical + tin dithiocarbonate (C=O formed)",
+      "hintTiers": [
+        "The carbon radical needs a partner. Which weak bond in the flask has a hydrogen on it?",
+        "The cyclohexyl radical takes the hydrogen from Bu₃SnH; the Sn–H bond splits evenly. Three fish-hooks.",
+        "Carbon's unpaired electron → new C–H bond; one Sn–H electron → C–H; the other → tin."
+      ],
+      "mappedSmiles": "[CH:1]1[CH2:2][CH2:3][CH2:4][CH2:5][CH2:6]1.[O:7]=[C:8]([S:9][Sn:12]([CH2:13][CH2:14][CH2:15][CH3:16])([CH2:17][CH2:18][CH2:19][CH3:20])[CH2:21][CH2:22][CH2:23][CH3:24])[S:10][CH3:11].[Sn:25]([H:26])([CH2:27][CH2:28][CH2:29][CH3:30])([CH2:31][CH2:32][CH2:33][CH3:34])[CH2:35][CH2:36][CH2:37][CH3:38]",
+      "learnerPrompt": "The cyclohexyl radical meets tributyltin hydride.",
+      "misconceptions": [
+        {
+          "severity": "wrong",
+          "arrowPattern": "rad C1 ~> Sn25",
+          "feedbackMessage": "Tin already has four bonds. The radical takes the hydrogen; tin keeps the unpaired electron.",
+          "misconceptionId": "carbon-attacks-tin",
+          "misconceptionTag": "wrong-atom-transferred"
+        },
+        {
+          "severity": "plausible",
+          "arrowPattern": "rad C1 ~> O7",
+          "feedbackMessage": "Adding back to the C=O reverses the fragmentation, which strongly favours the fragments. The radical takes H from tin.",
+          "misconceptionId": "radical-adds-to-carbonyl",
+          "misconceptionTag": "reverse-step"
+        }
+      ],
+      "mapNumberToCoordinates": {
+        "1": [
+          1.5,
+          0
+        ],
+        "2": [
+          0.75,
+          1.3
+        ],
+        "3": [
+          -0.75,
+          1.3
+        ],
+        "4": [
+          -1.5,
+          0
+        ],
+        "5": [
+          -0.75,
+          -1.3
+        ],
+        "6": [
+          0.75,
+          -1.3
+        ],
+        "7": [
+          6.7,
+          4.9
+        ],
+        "8": [
+          5.2,
+          4.9
+        ],
+        "9": [
+          4.45,
+          6.2
+        ],
+        "10": [
+          4.45,
+          3.6
+        ],
+        "11": [
+          5.2,
+          2.3
+        ],
+        "12": [
+          5.2,
+          7.5
+        ],
+        "13": [
+          3.9,
+          8.25
+        ],
+        "14": [
+          2.6,
+          7.5
+        ],
+        "15": [
+          1.3,
+          8.25
+        ],
+        "16": [
+          0,
+          7.5
+        ],
+        "17": [
+          6.5,
+          6.75
+        ],
+        "18": [
+          7.79,
+          7.5
+        ],
+        "19": [
+          9.09,
+          6.75
+        ],
+        "20": [
+          10.39,
+          7.5
+        ],
+        "21": [
+          5.95,
+          8.79
+        ],
+        "22": [
+          7.45,
+          8.79
+        ],
+        "23": [
+          8.2,
+          10.09
+        ],
+        "24": [
+          9.7,
+          10.09
+        ],
+        "25": [
+          9.26,
+          -0.7
+        ],
+        "26": [
+          10.56,
+          -1.45
+        ],
+        "27": [
+          7.96,
+          0.05
+        ],
+        "28": [
+          6.66,
+          -0.7
+        ],
+        "29": [
+          5.36,
+          0.05
+        ],
+        "30": [
+          4.06,
+          -0.7
+        ],
+        "31": [
+          8.51,
+          -2
+        ],
+        "32": [
+          9.26,
+          -3.3
+        ],
+        "33": [
+          8.51,
+          -4.59
+        ],
+        "34": [
+          9.26,
+          -5.89
+        ],
+        "35": [
+          10.01,
+          0.6
+        ],
+        "36": [
+          11.51,
+          0.6
+        ],
+        "37": [
+          12.26,
+          1.9
+        ],
+        "38": [
+          13.76,
+          1.9
+        ]
+      },
+      "partialProgressMessages": [
+        {
+          "learnerArrows": [
+            "rad C1 ~> σ C1-H26",
+            "σ H26-Sn25 ~> rad Sn25"
+          ],
+          "feedbackMessage": "One more fish-hook: the new C–H bond needs one electron from the Sn–H bond as well."
+        }
+      ]
+    }
+  },
+  "conditionsLabel": "Bu₃SnH · AIBN (cat.) · toluene · reflux",
+  "reactionClasses": [
+    "radical"
+  ],
+  "reactionVersion": 1,
+  "mechanismSummary": "The alcohol (here cyclohexanol) is first made into its S-methyl xanthate with NaH, CS₂ and MeI. The tin radical adds to the C=S sulfur, giving a stabilised carbon radical. This fragments (β-scission): the C–O bond to the alcohol carbon breaks as a strong C=O forms, releasing the cyclohexyl radical. It takes H from Bu₃SnH, giving cyclohexane and a new Bu₃Sn•. Overall an alcohol is reduced to an alkane, which no polar reagent does directly.",
+  "abbreviatedGroups": [
+    {
+      "groupLabel": "Bu",
+      "mapNumbers": [
+        13,
+        14,
+        15,
+        16
+      ],
+      "attachmentMapNumber": 13
+    },
+    {
+      "groupLabel": "Bu",
+      "mapNumbers": [
+        17,
+        18,
+        19,
+        20
+      ],
+      "attachmentMapNumber": 17
+    },
+    {
+      "groupLabel": "Bu",
+      "mapNumbers": [
+        21,
+        22,
+        23,
+        24
+      ],
+      "attachmentMapNumber": 21
+    },
+    {
+      "groupLabel": "Bu",
+      "mapNumbers": [
+        27,
+        28,
+        29,
+        30
+      ],
+      "attachmentMapNumber": 27
+    },
+    {
+      "groupLabel": "Bu",
+      "mapNumbers": [
+        31,
+        32,
+        33,
+        34
+      ],
+      "attachmentMapNumber": 31
+    },
+    {
+      "groupLabel": "Bu",
+      "mapNumbers": [
+        35,
+        36,
+        37,
+        38
+      ],
+      "attachmentMapNumber": 35
+    }
+  ],
+  "dailyPuzzleEligible": true,
+  "spectatorMapNumbers": [],
+  "atomRoleToMapNumbers": {},
+  "previousReactionVersion": null
+}

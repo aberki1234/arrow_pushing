@@ -1,0 +1,361 @@
+{
+  "steps": [
+    {
+      "stepKey": "abstract-secondary-hydrogen",
+      "stepKind": "radical",
+      "toStateId": "isopropyl-radical",
+      "fromStateId": "reactants",
+      "canonicalArrows": [
+        "rad Br7 ~> σ Br7-H6",
+        "σ H6-C2 ~> σ Br7-H6",
+        "σ H6-C2 ~> rad C2"
+      ],
+      "routePreference": "preferred",
+      "explanationAfterStep": "The H–Br bond formed (366 kJ mol⁻¹) is weaker than the C–H bond broken, so this step is endothermic and its transition state comes late and looks like the radical (Hammond). The greater stability of the secondary radical is then felt almost fully: bromine picks the secondary hydrogen."
+    },
+    {
+      "stepKey": "abstract-primary-hydrogen",
+      "stepKind": "radical",
+      "toStateId": "propyl-radical",
+      "fromStateId": "reactants",
+      "canonicalArrows": [
+        "rad Br7 ~> σ Br7-H5",
+        "σ H5-C1 ~> σ Br7-H5",
+        "σ H5-C1 ~> rad C1"
+      ],
+      "routePreference": "accepted",
+      "explanationAfterStep": "Also correct, but minor: Br• rarely takes a primary hydrogen, because the late transition state feels the lower stability of the primary radical. 1-Bromopropane is only about 3% of the product."
+    },
+    {
+      "stepKey": "bromine-transfer-secondary",
+      "stepKind": "radical",
+      "toStateId": "secondary-product",
+      "fromStateId": "isopropyl-radical",
+      "canonicalArrows": [
+        "rad C2 ~> σ C2-Br8",
+        "σ Br8-Br9 ~> σ C2-Br8",
+        "σ Br8-Br9 ~> rad Br9"
+      ],
+      "routePreference": "preferred",
+      "explanationAfterStep": "The secondary radical takes bromine from Br₂, and the new Br• starts the next cycle."
+    },
+    {
+      "stepKey": "bromine-transfer-primary",
+      "stepKind": "radical",
+      "toStateId": "primary-product",
+      "fromStateId": "propyl-radical",
+      "canonicalArrows": [
+        "rad C1 ~> σ C1-Br8",
+        "σ Br8-Br9 ~> σ C1-Br8",
+        "σ Br8-Br9 ~> rad Br9"
+      ],
+      "routePreference": "preferred",
+      "explanationAfterStep": "The primary radical gives 1-bromopropane in the same way."
+    }
+  ],
+  "title": "Bromination of propane",
+  "authors": [
+    {
+      "url": null,
+      "name": "Maksim"
+    }
+  ],
+  "licence": "CC-BY-SA-4.0",
+  "subtitle": "Br• can take a hydrogen from the end or the middle carbon: which product wins?",
+  "references": [
+    "Clayden, Greeves and Warren, Organic Chemistry, 2nd edition (Oxford University Press), chapter 37 (Radical reactions)"
+  ],
+  "reactionSlug": "bromination-of-propane",
+  "startStateId": "reactants",
+  "formatVersion": 1,
+  "difficultyTier": 2,
+  "stateIdToState": {
+    "reactants": {
+      "caption": "propane + bromine radical + Br₂",
+      "hintTiers": [
+        "Propane has two kinds of hydrogen: six on the end carbons, two on the middle carbon. Which C–H bond is weaker, and which radical is more stable?",
+        "The bromine radical takes a hydrogen from the middle carbon, leaving a secondary radical. Three fish-hooks.",
+        "Bromine's unpaired electron → new Br–H bond; one electron of the middle C–H bond → Br–H; the other → the middle carbon."
+      ],
+      "mappedSmiles": "[H:5][CH2:1][CH:2]([H:6])[CH3:3].[Br:7].[Br:8][Br:9]",
+      "learnerPrompt": "Use fish-hook arrows: each moves one electron. The bromine radical takes a hydrogen from propane.",
+      "misconceptions": [
+        {
+          "severity": "wrong",
+          "arrowPattern": "rad Br7 ~> C*",
+          "feedbackMessage": "Bonding bromine straight to carbon would give carbon five bonds. The radical abstracts a hydrogen, which can only make one bond.",
+          "misconceptionId": "bromine-bonds-to-carbon",
+          "misconceptionTag": "hypervalent-product"
+        },
+        {
+          "severity": "wrong",
+          "arrowPattern": "σ Br8-Br9 ~> H*",
+          "feedbackMessage": "Br₂ does not react with propane directly. The bromine radical is the chain carrier: it abstracts the hydrogen.",
+          "misconceptionId": "halogen-molecule-reacts-first",
+          "misconceptionTag": "wrong-chain-carrier"
+        }
+      ],
+      "mapNumberToCoordinates": {
+        "1": [
+          2.6,
+          0
+        ],
+        "2": [
+          1.3,
+          0.75
+        ],
+        "3": [
+          0,
+          0
+        ],
+        "5": [
+          3.9,
+          0.75
+        ],
+        "6": [
+          1.3,
+          2.25
+        ],
+        "7": [
+          -0.39,
+          3.78
+        ],
+        "8": [
+          1.32,
+          5.32
+        ],
+        "9": [
+          2.61,
+          6.07
+        ]
+      },
+      "partialProgressMessages": [
+        {
+          "learnerArrows": [
+            "rad Br7 ~> σ Br7-H6",
+            "σ C2-H6 ~> rad C2"
+          ],
+          "feedbackMessage": "One more fish-hook: the new Br–H bond needs one electron from the C–H bond as well."
+        },
+        {
+          "learnerArrows": [
+            "rad Br7 ~> σ Br7-H5",
+            "σ C1-H5 ~> rad C1"
+          ],
+          "feedbackMessage": "One more fish-hook: the new Br–H bond needs one electron from the C–H bond as well."
+        }
+      ]
+    },
+    "propyl-radical": {
+      "caption": "propyl radical (primary) + HBr + Br₂",
+      "hintTiers": [
+        "The Br–Br bond is weak. What does the carbon radical attack?",
+        "The carbon radical bonds to one bromine while the Br–Br bond splits evenly. Three fish-hooks.",
+        "Carbon's unpaired electron → new C–Br bond; one Br–Br electron → C–Br; the other → the far bromine."
+      ],
+      "mappedSmiles": "[CH2:1][CH:2]([H:6])[CH3:3].[Br:7][H:5].[Br:8][Br:9]",
+      "learnerPrompt": "The radical takes a bromine atom from Br₂.",
+      "misconceptions": [
+        {
+          "severity": "plausible",
+          "arrowPattern": "rad C1 ~> H5",
+          "feedbackMessage": "That reverses the first step. Br₂ is in large excess and its bond is weak, so the chain goes on with Br₂.",
+          "misconceptionId": "radical-takes-hydrogen-back-primary",
+          "misconceptionTag": "reverse-step"
+        }
+      ],
+      "mapNumberToCoordinates": {
+        "1": [
+          0,
+          0
+        ],
+        "2": [
+          1.3,
+          0.75
+        ],
+        "3": [
+          2.6,
+          0
+        ],
+        "5": [
+          1.13,
+          4.75
+        ],
+        "6": [
+          1.3,
+          2.25
+        ],
+        "7": [
+          -0.17,
+          4
+        ],
+        "8": [
+          4.89,
+          -0.16
+        ],
+        "9": [
+          6.19,
+          0.59
+        ]
+      },
+      "partialProgressMessages": [
+        {
+          "learnerArrows": [
+            "rad C1 ~> σ C1-Br8",
+            "σ Br8-Br9 ~> rad Br9"
+          ],
+          "feedbackMessage": "One more fish-hook: the new C–Br bond needs one electron from the Br–Br bond as well."
+        }
+      ]
+    },
+    "primary-product": {
+      "caption": "1-bromopropane (about 3%) + HBr + Br•",
+      "mappedSmiles": "[Br:8][CH2:1][CH:2]([H:6])[CH3:3].[Br:7][H:5].[Br:9]",
+      "mapNumberToCoordinates": {
+        "1": [
+          2.6,
+          0
+        ],
+        "2": [
+          1.3,
+          0.75
+        ],
+        "3": [
+          0,
+          0
+        ],
+        "5": [
+          1.3,
+          5
+        ],
+        "6": [
+          1.3,
+          2.25
+        ],
+        "7": [
+          0,
+          4.25
+        ],
+        "8": [
+          3.9,
+          0.75
+        ],
+        "9": [
+          -1.7,
+          2.72
+        ]
+      }
+    },
+    "isopropyl-radical": {
+      "caption": "isopropyl radical (secondary) + HBr + Br₂",
+      "hintTiers": [
+        "The Br–Br bond is weak. What does the carbon radical attack?",
+        "The carbon radical bonds to one bromine while the Br–Br bond splits evenly. Three fish-hooks.",
+        "Carbon's unpaired electron → new C–Br bond; one Br–Br electron → C–Br; the other → the far bromine."
+      ],
+      "mappedSmiles": "[H:5][CH2:1][CH:2][CH3:3].[Br:7][H:6].[Br:8][Br:9]",
+      "learnerPrompt": "The radical takes a bromine atom from Br₂.",
+      "misconceptions": [
+        {
+          "severity": "plausible",
+          "arrowPattern": "rad C2 ~> H6",
+          "feedbackMessage": "That reverses the first step. Br₂ is in large excess and its bond is weak, so the chain goes on with Br₂.",
+          "misconceptionId": "radical-takes-hydrogen-back",
+          "misconceptionTag": "reverse-step"
+        }
+      ],
+      "mapNumberToCoordinates": {
+        "1": [
+          2.6,
+          0
+        ],
+        "2": [
+          1.3,
+          0.75
+        ],
+        "3": [
+          0,
+          0
+        ],
+        "5": [
+          3.9,
+          0.75
+        ],
+        "6": [
+          0.91,
+          3.03
+        ],
+        "7": [
+          -0.39,
+          2.28
+        ],
+        "8": [
+          0.58,
+          5.3
+        ],
+        "9": [
+          1.88,
+          6.05
+        ]
+      },
+      "partialProgressMessages": [
+        {
+          "learnerArrows": [
+            "rad C2 ~> σ C2-Br8",
+            "σ Br8-Br9 ~> rad Br9"
+          ],
+          "feedbackMessage": "One more fish-hook: the new C–Br bond needs one electron from the Br–Br bond as well."
+        }
+      ]
+    },
+    "secondary-product": {
+      "caption": "2-bromopropane (main product) + HBr + Br• (carries the chain on)",
+      "mappedSmiles": "[H:5][CH2:1][CH:2]([Br:8])[CH3:3].[Br:7][H:6].[Br:9]",
+      "mapNumberToCoordinates": {
+        "1": [
+          2.6,
+          0
+        ],
+        "2": [
+          1.3,
+          0.75
+        ],
+        "3": [
+          0,
+          0
+        ],
+        "5": [
+          3.9,
+          0.75
+        ],
+        "6": [
+          1.3,
+          5
+        ],
+        "7": [
+          0,
+          4.25
+        ],
+        "8": [
+          1.3,
+          2.25
+        ],
+        "9": [
+          -1.7,
+          2.72
+        ]
+      }
+    }
+  },
+  "conditionsLabel": "Br₂ · hν · 25 °C",
+  "reactionClasses": [
+    "radical",
+    "substitution"
+  ],
+  "reactionVersion": 1,
+  "mechanismSummary": "Br• abstracts a hydrogen and the carbon radical takes Br from Br₂. The abstraction is endothermic, so its transition state is late and resembles the carbon radical: the more stable secondary radical forms much faster. Bromination gives about 97% 2-bromopropane even though only two of the eight hydrogens are secondary. Bromine is less reactive than chlorine, and more selective.",
+  "dailyPuzzleEligible": true,
+  "spectatorMapNumbers": [],
+  "atomRoleToMapNumbers": {},
+  "previousReactionVersion": null
+}

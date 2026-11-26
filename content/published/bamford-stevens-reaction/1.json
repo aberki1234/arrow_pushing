@@ -1,0 +1,689 @@
+{
+  "steps": [
+    {
+      "stepKey": "deprotonation",
+      "stepKind": "polar",
+      "toStateId": "anion",
+      "fromStateId": "reactants",
+      "canonicalArrows": [
+        "lp O21 -> σ O21-H4",
+        "σ N3-H4 -> lp N3"
+      ],
+      "routePreference": "preferred",
+      "explanationAfterStep": "The sulfonyl group makes this N–H acidic."
+    },
+    {
+      "stepKey": "sulfinate-loss",
+      "stepKind": "polar",
+      "toStateId": "diazo",
+      "fromStateId": "anion",
+      "canonicalArrows": [
+        "σ N3-S5 -> lp S5",
+        "lp N2 -> π N2-N3",
+        "π S5-O6 -> lp O6"
+      ],
+      "routePreference": "preferred",
+      "explanationAfterStep": "Toluenesulfinate leaves and the N=N bond forms: diazocyclohexane, a diazo compound. (The sulfinate drawn with the charge on sulfur is also accepted.)"
+    },
+    {
+      "stepKey": "n2-loss",
+      "stepKind": "polar",
+      "toStateId": "carbene",
+      "fromStateId": "diazo",
+      "canonicalArrows": [
+        "π C1-N2 -> lp C1",
+        "σ C1-N2 -> lp N2",
+        "lp N3 -> π N2-N3"
+      ],
+      "routePreference": "preferred",
+      "explanationAfterStep": "N₂ leaves, and the carbon keeps a lone pair: a singlet carbene."
+    },
+    {
+      "stepKey": "hydride-shift",
+      "stepKind": "polar",
+      "toStateId": "products",
+      "fromStateId": "carbene",
+      "canonicalArrows": [
+        "σ C15-H16 -> σ C1-H16",
+        "lp C1 -> π C1-C15"
+      ],
+      "routePreference": "preferred",
+      "explanationAfterStep": "A 1,2-hydride shift into the empty p orbital, then the lone pair forms the π bond: the alkene. This is the usual fate of a carbene with an H on the next carbon."
+    }
+  ],
+  "title": "Bamford–Stevens reaction",
+  "authors": [
+    {
+      "url": null,
+      "name": "Maksim"
+    }
+  ],
+  "licence": "CC-BY-SA-4.0",
+  "subtitle": "A tosylhydrazone and base give a diazo compound, a carbene, then cyclohexene",
+  "references": [
+    "Clayden, Greeves and Warren, Organic Chemistry, 2nd edition (Oxford University Press), chapter 38"
+  ],
+  "reactionSlug": "bamford-stevens-reaction",
+  "startStateId": "reactants",
+  "formatVersion": 1,
+  "difficultyTier": 3,
+  "stateIdToState": {
+    "anion": {
+      "caption": "the tosylhydrazone anion",
+      "hintTiers": [
+        "The N–S bond breaks, and the sulfinate takes the pair. The nitrogen left behind would have only six electrons: which lone pair next door can make a new π bond to it?",
+        "Two arrows (three to draw the sulfinate with O⁻): the N–S bond breaks onto sulfur, and the lone pair of the C=N nitrogen forms an N=N π bond.",
+        "N–S bond → a lone pair on sulfur; lone pair of the C=N nitrogen → N=N π bond; one S=O π bond → a lone pair on that oxygen."
+      ],
+      "mappedSmiles": "[C:1]1(=[N:2][N-:3][S:5](=[O:6])(=[O:7])[C:8]8=[CH:9][CH:10]=[C:11]([CH3:14])[CH:12]=[CH:13]8)[CH:15]([H:16])[CH2:17][CH2:18][CH2:19][CH2:20]1.[H:4][O:21][CH3:22].[Na+:23]",
+      "learnerPrompt": "On heating, the toluenesulfinate leaves: a diazo compound forms.",
+      "misconceptions": [
+        {
+          "severity": "wrong",
+          "arrowPattern": "σ N3-S5 -> lp N3",
+          "feedbackMessage": "Toluenesulfinate is the leaving group: the N–S pair goes to sulfur.",
+          "misconceptionId": "n-pair-to-nitrogen",
+          "misconceptionTag": "wrong-direction-of-cleavage"
+        },
+        {
+          "severity": "wrong",
+          "arrowPattern": "lp N3 -> π N2-N3",
+          "feedbackMessage": "The middle nitrogen already has eight electrons, so it cannot take another π bond from this side. Its own lone pair forms the N=N bond as the sulfinate leaves.",
+          "misconceptionId": "anion-pair-into-nn",
+          "misconceptionTag": "octet"
+        }
+      ],
+      "mapNumberToCoordinates": {
+        "1": [
+          6.75,
+          1.3
+        ],
+        "2": [
+          5.25,
+          1.3
+        ],
+        "3": [
+          4.5,
+          0
+        ],
+        "4": [
+          2.5,
+          3.73
+        ],
+        "5": [
+          3,
+          0
+        ],
+        "6": [
+          3,
+          -1.5
+        ],
+        "7": [
+          3,
+          1.5
+        ],
+        "8": [
+          1.5,
+          0
+        ],
+        "9": [
+          0.75,
+          1.3
+        ],
+        "10": [
+          -0.75,
+          1.3
+        ],
+        "11": [
+          -1.5,
+          0
+        ],
+        "12": [
+          -0.75,
+          -1.3
+        ],
+        "13": [
+          0.75,
+          -1.3
+        ],
+        "14": [
+          -3,
+          0
+        ],
+        "15": [
+          7.5,
+          0
+        ],
+        "16": [
+          6.75,
+          -1.3
+        ],
+        "17": [
+          9,
+          0
+        ],
+        "18": [
+          9.75,
+          1.3
+        ],
+        "19": [
+          9,
+          2.6
+        ],
+        "20": [
+          7.5,
+          2.6
+        ],
+        "21": [
+          1.2,
+          4.48
+        ],
+        "22": [
+          -0.1,
+          3.73
+        ],
+        "23": [
+          -0.54,
+          5.96
+        ]
+      }
+    },
+    "diazo": {
+      "caption": "diazocyclohexane + sodium toluenesulfinate",
+      "hintTiers": [
+        "In an aprotic solvent the diazo compound loses N₂ to give a carbene: the carbon keeps one pair of electrons.",
+        "Three arrows: the C=N π pair moves onto carbon as a lone pair, the C–N σ pair goes to nitrogen, and the terminal nitrogen lone pair makes the N≡N bond.",
+        "C=N π bond → a lone pair on carbon; C–N σ bond → a lone pair on the nitrogen; lone pair of the end nitrogen → another N–N π bond."
+      ],
+      "mappedSmiles": "[C:1]1(=[N+:2]=[N-:3])[CH:15]([H:16])[CH2:17][CH2:18][CH2:19][CH2:20]1.[O-:6][S:5](=[O:7])[C:8]8=[CH:9][CH:10]=[C:11]([CH3:14])[CH:12]=[CH:13]8.[H:4][O:21][CH3:22].[Na+:23]",
+      "learnerPrompt": "Heat: the diazo compound loses N₂.",
+      "misconceptions": [
+        {
+          "severity": "plausible",
+          "arrowPattern": "* -> σ C1-H4",
+          "feedbackMessage": "In a protic solvent (methanol, ethylene glycol) the diazo carbon is protonated, and the reaction goes through a carbocation. Here, in hot diglyme, draw the loss of N₂ to the carbene.",
+          "misconceptionId": "protonate-diazo",
+          "misconceptionTag": "protic-route"
+        }
+      ],
+      "mapNumberToCoordinates": {
+        "1": [
+          1.5,
+          0
+        ],
+        "2": [
+          3,
+          0
+        ],
+        "3": [
+          4.5,
+          0
+        ],
+        "4": [
+          9.4,
+          -0.01
+        ],
+        "5": [
+          2.94,
+          6.04
+        ],
+        "6": [
+          3.69,
+          4.74
+        ],
+        "7": [
+          3.69,
+          7.34
+        ],
+        "8": [
+          1.44,
+          6.04
+        ],
+        "9": [
+          0.69,
+          7.34
+        ],
+        "10": [
+          -0.81,
+          7.34
+        ],
+        "11": [
+          -1.56,
+          6.04
+        ],
+        "12": [
+          -0.81,
+          4.74
+        ],
+        "13": [
+          0.69,
+          4.74
+        ],
+        "14": [
+          -3.06,
+          6.04
+        ],
+        "15": [
+          0.75,
+          1.3
+        ],
+        "16": [
+          1.5,
+          2.6
+        ],
+        "17": [
+          -0.75,
+          1.3
+        ],
+        "18": [
+          -1.5,
+          0
+        ],
+        "19": [
+          -0.75,
+          -1.3
+        ],
+        "20": [
+          0.75,
+          -1.3
+        ],
+        "21": [
+          8.1,
+          0.74
+        ],
+        "22": [
+          6.8,
+          -0.01
+        ],
+        "23": [
+          -1.34,
+          9.58
+        ]
+      },
+      "partialProgressMessages": [
+        {
+          "learnerArrows": [
+            "σ C1-N2 -> lp N2",
+            "lp N3 -> π N2-N3"
+          ],
+          "feedbackMessage": "Right: N₂ forms. Carbon would be left with only four electrons: the C=N π pair stays on carbon as its lone pair."
+        }
+      ]
+    },
+    "carbene": {
+      "caption": "cyclohexylidene (a singlet carbene) + N₂",
+      "hintTiers": [
+        "The carbene carbon has an empty p orbital. A C–H bond on the next carbon can move into it.",
+        "Two arrows: the drawn C–H bond next door moves its H to the carbene carbon, and the carbene lone pair makes a C=C π bond.",
+        "C–H bond on the next carbon → new bond from that H to the carbene carbon; carbene lone pair → C=C π bond."
+      ],
+      "mappedSmiles": "[C:1]1[CH:15]([H:16])[CH2:17][CH2:18][CH2:19][CH2:20]1.[N:2]#[N:3].[O-:6][S:5](=[O:7])[C:8]8=[CH:9][CH:10]=[C:11]([CH3:14])[CH:12]=[CH:13]8.[H:4][O:21][CH3:22].[Na+:23]",
+      "learnerPrompt": "A hydrogen shifts to the carbene carbon.",
+      "misconceptions": [
+        {
+          "severity": "wrong",
+          "arrowPattern": "lp C1 -> σ C1-H16",
+          "feedbackMessage": "The H moves across with its bonding pair (a hydride shift) into the empty p orbital, not as a proton to the lone pair.",
+          "misconceptionId": "h-leaves-as-proton",
+          "misconceptionTag": "carbene-as-base"
+        }
+      ],
+      "mapNumberToCoordinates": {
+        "1": [
+          1.5,
+          0
+        ],
+        "2": [
+          0,
+          6.85
+        ],
+        "3": [
+          0,
+          5.35
+        ],
+        "4": [
+          4.9,
+          4.74
+        ],
+        "5": [
+          9.8,
+          -0.08
+        ],
+        "6": [
+          10.55,
+          -1.38
+        ],
+        "7": [
+          10.55,
+          1.22
+        ],
+        "8": [
+          8.3,
+          -0.08
+        ],
+        "9": [
+          7.55,
+          1.22
+        ],
+        "10": [
+          6.05,
+          1.22
+        ],
+        "11": [
+          5.3,
+          -0.08
+        ],
+        "12": [
+          6.05,
+          -1.38
+        ],
+        "13": [
+          7.55,
+          -1.38
+        ],
+        "14": [
+          3.8,
+          -0.08
+        ],
+        "15": [
+          0.75,
+          1.3
+        ],
+        "16": [
+          1.5,
+          2.6
+        ],
+        "17": [
+          -0.75,
+          1.3
+        ],
+        "18": [
+          -1.5,
+          0
+        ],
+        "19": [
+          -0.75,
+          -1.3
+        ],
+        "20": [
+          0.75,
+          -1.3
+        ],
+        "21": [
+          3.6,
+          5.49
+        ],
+        "22": [
+          2.3,
+          4.74
+        ],
+        "23": [
+          0,
+          9.15
+        ]
+      },
+      "partialProgressMessages": [
+        {
+          "learnerArrows": [
+            "σ C15-H16 -> σ C1-H16"
+          ],
+          "feedbackMessage": "Right: the hydrogen moves across. The next carbon is now a cation: the carbene lone pair forms the C=C bond."
+        }
+      ]
+    },
+    "products": {
+      "caption": "cyclohexene + N₂ + sodium toluenesulfinate",
+      "mappedSmiles": "[C:1]1([H:16])=[CH:15][CH2:17][CH2:18][CH2:19][CH2:20]1.[N:2]#[N:3].[O-:6][S:5](=[O:7])[C:8]8=[CH:9][CH:10]=[C:11]([CH3:14])[CH:12]=[CH:13]8.[H:4][O:21][CH3:22].[Na+:23]",
+      "mapNumberToCoordinates": {
+        "1": [
+          1.5,
+          0
+        ],
+        "2": [
+          0,
+          7.4
+        ],
+        "3": [
+          0,
+          5.9
+        ],
+        "4": [
+          8.74,
+          -0.65
+        ],
+        "5": [
+          6.76,
+          3.76
+        ],
+        "6": [
+          7.51,
+          2.46
+        ],
+        "7": [
+          7.51,
+          5.06
+        ],
+        "8": [
+          5.26,
+          3.76
+        ],
+        "9": [
+          4.51,
+          5.06
+        ],
+        "10": [
+          3.01,
+          5.06
+        ],
+        "11": [
+          2.26,
+          3.76
+        ],
+        "12": [
+          3.01,
+          2.46
+        ],
+        "13": [
+          4.51,
+          2.46
+        ],
+        "14": [
+          0.76,
+          3.76
+        ],
+        "15": [
+          0.75,
+          1.3
+        ],
+        "16": [
+          3,
+          0
+        ],
+        "17": [
+          -0.75,
+          1.3
+        ],
+        "18": [
+          -1.5,
+          0
+        ],
+        "19": [
+          -0.75,
+          -1.3
+        ],
+        "20": [
+          0.75,
+          -1.3
+        ],
+        "21": [
+          7.44,
+          0.1
+        ],
+        "22": [
+          6.14,
+          -0.65
+        ],
+        "23": [
+          11.03,
+          -0.65
+        ]
+      }
+    },
+    "reactants": {
+      "caption": "cyclohexanone tosylhydrazone + sodium methoxide",
+      "hintTiers": [
+        "The N–H next to the sulfonyl group is acidic, like the N–H of a sulfonamide.",
+        "Methoxide takes the drawn N–H proton; the N–H pair stays on nitrogen. Two arrows.",
+        "Methoxide lone pair → new bond to the N–H hydrogen; that N–H bond → a lone pair on nitrogen."
+      ],
+      "mappedSmiles": "[C:1]1(=[N:2][N:3]([H:4])[S:5](=[O:6])(=[O:7])[C:8]8=[CH:9][CH:10]=[C:11]([CH3:14])[CH:12]=[CH:13]8)[CH:15]([H:16])[CH2:17][CH2:18][CH2:19][CH2:20]1.[O-:21][CH3:22].[Na+:23]",
+      "learnerPrompt": "Methoxide removes the most acidic proton.",
+      "misconceptions": [
+        {
+          "severity": "plausible",
+          "arrowPattern": "lp O21 -> σ O21-H16",
+          "feedbackMessage": "That α-C–H is far less acidic than the N–H next to the sulfonyl group. Methoxide takes the N–H proton.",
+          "misconceptionId": "deprotonate-carbon",
+          "misconceptionTag": "less-acidic-proton"
+        },
+        {
+          "severity": "wrong",
+          "arrowPattern": "lp O21 -> σ O21-S5",
+          "feedbackMessage": "Methoxide acts as a base here, not as a nucleophile at sulfur.",
+          "misconceptionId": "attack-sulfur",
+          "misconceptionTag": "base-as-nucleophile"
+        }
+      ],
+      "mapNumberToCoordinates": {
+        "1": [
+          6.75,
+          -1.3
+        ],
+        "2": [
+          5.25,
+          -1.3
+        ],
+        "3": [
+          4.5,
+          0
+        ],
+        "4": [
+          5.25,
+          1.3
+        ],
+        "5": [
+          3,
+          0
+        ],
+        "6": [
+          3,
+          -1.5
+        ],
+        "7": [
+          3,
+          1.5
+        ],
+        "8": [
+          1.5,
+          0
+        ],
+        "9": [
+          0.75,
+          1.3
+        ],
+        "10": [
+          -0.75,
+          1.3
+        ],
+        "11": [
+          -1.5,
+          0
+        ],
+        "12": [
+          -0.75,
+          -1.3
+        ],
+        "13": [
+          0.75,
+          -1.3
+        ],
+        "14": [
+          -3,
+          0
+        ],
+        "15": [
+          7.5,
+          -2.6
+        ],
+        "16": [
+          6.75,
+          -3.9
+        ],
+        "17": [
+          9,
+          -2.6
+        ],
+        "18": [
+          9.75,
+          -1.3
+        ],
+        "19": [
+          9,
+          0
+        ],
+        "20": [
+          7.5,
+          0
+        ],
+        "21": [
+          0.31,
+          4.31
+        ],
+        "22": [
+          -0.99,
+          3.56
+        ],
+        "23": [
+          -0.03,
+          6.58
+        ]
+      },
+      "partialProgressMessages": [
+        {
+          "learnerArrows": [
+            "lp O21 -> σ O21-H4"
+          ],
+          "feedbackMessage": "Right: methoxide takes the proton. Now the N–H pair stays on nitrogen."
+        }
+      ]
+    }
+  },
+  "conditionsLabel": "NaOMe · diglyme · 160 °C",
+  "reactionClasses": [
+    "elimination",
+    "rearrangement"
+  ],
+  "reactionVersion": 1,
+  "mechanismSummary": "Methoxide removes the N–H proton of the tosylhydrazone. On heating, toluenesulfinate leaves and a diazo compound forms. In an aprotic solvent it loses N₂ to give a carbene, which undergoes a 1,2-hydride shift to the alkene. In a protic solvent the diazo carbon is protonated instead, N₂ leaves from the diazonium ion and a carbocation forms; that route gives more substituted alkenes and cation rearrangements.",
+  "abbreviatedGroups": [
+    {
+      "groupLabel": "Tol",
+      "mapNumbers": [
+        8,
+        9,
+        10,
+        11,
+        12,
+        13,
+        14
+      ],
+      "attachmentMapNumber": 8
+    }
+  ],
+  "dailyPuzzleEligible": true,
+  "spectatorMapNumbers": [
+    23
+  ],
+  "atomRoleToMapNumbers": {},
+  "previousReactionVersion": null
+}

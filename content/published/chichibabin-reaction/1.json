@@ -1,0 +1,475 @@
+{
+  "steps": [
+    {
+      "stepKey": "addition",
+      "stepKind": "polar",
+      "toStateId": "anionic-adduct",
+      "fromStateId": "reactants",
+      "canonicalArrows": [
+        "lp N8 -> σ N8-C2",
+        "π N1-C2 -> lp N1"
+      ],
+      "routePreference": "preferred",
+      "explanationAfterStep": "Amide is nucleophilic enough to add to pyridine even without a leaving group. The charge goes onto the ring nitrogen, which is coordinated to the sodium ion; this is why the amide is delivered to C-2."
+    },
+    {
+      "stepKey": "hydride-loss",
+      "stepKind": "polar",
+      "toStateId": "aminopyridine-and-hydride",
+      "fromStateId": "anionic-adduct",
+      "canonicalArrows": [
+        "lp N1 -> π N1-C2",
+        "σ C2-H7 -> lp H7"
+      ],
+      "routePreference": "preferred",
+      "explanationAfterStep": "Hydride is a terrible leaving group, so this step needs heat, but regaining aromaticity pays for it. Elsewhere hydride is almost never lost; pyridine is special."
+    },
+    {
+      "stepKey": "hydrogen-evolution",
+      "stepKind": "polar",
+      "toStateId": "amide-salt",
+      "fromStateId": "aminopyridine-and-hydride",
+      "canonicalArrows": [
+        "lp H7 -> σ H7-H9",
+        "σ N8-H9 -> lp N8"
+      ],
+      "routePreference": "preferred",
+      "explanationAfterStep": "Hydride removes an N–H proton, and H₂ bubbles out of the mixture. Losing a gas makes the whole sequence irreversible; the product sits as its sodium salt until work-up."
+    },
+    {
+      "caption": "Aqueous work-up; the hydrogen gas has gone",
+      "stepKey": "water-work-up",
+      "stepKind": "change",
+      "toStateId": "salt-and-water",
+      "fromStateId": "amide-salt",
+      "addedSpecies": "[OH:11][H:12]",
+      "routePreference": "preferred",
+      "removedFragmentMapNumbers": [
+        7
+      ]
+    },
+    {
+      "stepKey": "protonation",
+      "stepKind": "polar",
+      "toStateId": "products",
+      "fromStateId": "salt-and-water",
+      "canonicalArrows": [
+        "lp N8 -> σ N8-H12",
+        "σ O11-H12 -> lp O11"
+      ],
+      "routePreference": "preferred",
+      "explanationAfterStep": "Water protonates the amide anion and 2-aminopyridine is isolated."
+    }
+  ],
+  "title": "The Chichibabin reaction",
+  "authors": [
+    {
+      "url": null,
+      "name": "Maksim"
+    }
+  ],
+  "licence": "CC-BY-SA-4.0",
+  "subtitle": "Pyridine + NaNH₂: the leaving group is hydride",
+  "references": [
+    "Clayden, Greeves and Warren, Organic Chemistry, 2nd edition (Oxford University Press), chapter 29"
+  ],
+  "reactionSlug": "chichibabin-reaction",
+  "startStateId": "reactants",
+  "formatVersion": 1,
+  "difficultyTier": 3,
+  "stateIdToState": {
+    "products": {
+      "caption": "2-aminopyridine + sodium hydroxide",
+      "mappedSmiles": "[N:1]1=[C:2]([NH:8][H:12])[CH:3]=[CH:4][CH:5]=[CH:6]1.[Na+:10].[OH-:11]",
+      "mapNumberToCoordinates": {
+        "1": [
+          1.5,
+          0
+        ],
+        "2": [
+          0.75,
+          1.3
+        ],
+        "3": [
+          -0.75,
+          1.3
+        ],
+        "4": [
+          -1.5,
+          0
+        ],
+        "5": [
+          -0.75,
+          -1.3
+        ],
+        "6": [
+          0.75,
+          -1.3
+        ],
+        "8": [
+          1.5,
+          2.6
+        ],
+        "10": [
+          4,
+          0
+        ],
+        "11": [
+          -0.12,
+          4.2
+        ],
+        "12": [
+          3,
+          2.6
+        ]
+      }
+    },
+    "reactants": {
+      "caption": "pyridine + sodium amide",
+      "hintTiers": [
+        "Pyridine has no leaving group, but its C=N bond is still electrophilic. Which carbon does the very strong nucleophile NH₂⁻ attack, and where does the charge go?",
+        "The amide nitrogen bonds to the carbon next to the ring nitrogen (the one with the drawn H), and the C=N π bond moves onto the ring nitrogen. Two arrows.",
+        "Amide lone pair → a new C–N bond to the ring carbon with the drawn H; the ring C=N π bond → a lone pair on the ring nitrogen."
+      ],
+      "mappedSmiles": "[N:1]1=[C:2]([H:7])[CH:3]=[CH:4][CH:5]=[CH:6]1.[NH-:8][H:9].[Na+:10]",
+      "learnerPrompt": "The amide ion adds to the ring. Draw the addition.",
+      "misconceptions": [
+        {
+          "severity": "plausible",
+          "arrowPattern": "lp N8 -> σ N8-H7",
+          "feedbackMessage": "Amide is a strong base, but a ring C–H of pyridine is far too weakly acidic for this to matter. The electrophilic C=N carbon is the target.",
+          "misconceptionId": "amide-as-base",
+          "misconceptionTag": "deprotonation-instead-of-addition"
+        },
+        {
+          "severity": "plausible",
+          "arrowPattern": "lp N8 -> σ N8-C4",
+          "feedbackMessage": "Addition at C-4 also puts the charge on nitrogen, but the Chichibabin reaction goes at C-2: the sodium ion sits on the ring nitrogen and delivers the amide next to it.",
+          "misconceptionId": "attack-c4",
+          "misconceptionTag": "wrong-ring-position"
+        },
+        {
+          "severity": "wrong",
+          "arrowPattern": "lp N8 -> σ N8-N1",
+          "feedbackMessage": "The ring nitrogen is the electron-rich atom: it will carry the negative charge. The electrophile is the carbon next to it.",
+          "misconceptionId": "attack-ring-nitrogen",
+          "misconceptionTag": "attack-wrong-atom"
+        }
+      ],
+      "mapNumberToCoordinates": {
+        "1": [
+          1.5,
+          0
+        ],
+        "2": [
+          0.75,
+          1.3
+        ],
+        "3": [
+          -0.75,
+          1.3
+        ],
+        "4": [
+          -1.5,
+          0
+        ],
+        "5": [
+          -0.75,
+          -1.3
+        ],
+        "6": [
+          0.75,
+          -1.3
+        ],
+        "7": [
+          1.5,
+          2.6
+        ],
+        "8": [
+          3.8,
+          0
+        ],
+        "9": [
+          5.1,
+          0.75
+        ],
+        "10": [
+          -0.04,
+          4.25
+        ]
+      },
+      "partialProgressMessages": [
+        {
+          "learnerArrows": [
+            "lp N8 -> σ N8-C2"
+          ],
+          "feedbackMessage": "Right carbon. It now has five bonds: move the C=N π bond onto the ring nitrogen."
+        }
+      ]
+    },
+    "amide-salt": {
+      "caption": "the sodium salt of 2-aminopyridine + hydrogen gas",
+      "mappedSmiles": "[N:1]1=[C:2]([NH-:8])[CH:3]=[CH:4][CH:5]=[CH:6]1.[H:7][H:9].[Na+:10]",
+      "mapNumberToCoordinates": {
+        "1": [
+          1.5,
+          0
+        ],
+        "2": [
+          0.75,
+          1.3
+        ],
+        "3": [
+          -0.75,
+          1.3
+        ],
+        "4": [
+          -1.5,
+          0
+        ],
+        "5": [
+          -0.75,
+          -1.3
+        ],
+        "6": [
+          0.75,
+          -1.3
+        ],
+        "7": [
+          -0.04,
+          5.76
+        ],
+        "8": [
+          1.5,
+          2.6
+        ],
+        "9": [
+          -0.04,
+          4.26
+        ],
+        "10": [
+          3.78,
+          -0.21
+        ]
+      }
+    },
+    "anionic-adduct": {
+      "caption": "the anionic adduct (σ-adduct)",
+      "hintTiers": [
+        "The sp³ carbon carries the new NH₂ group and a hydrogen. One of them must leave, with its bonding electrons, to rebuild the ring.",
+        "The ring nitrogen lone pair re-forms the C=N π bond and the C–H bond breaks with both electrons on hydrogen: a hydride ion leaves. Two arrows.",
+        "Ring nitrogen lone pair → the C=N π bond; the C–H bond on the sp³ carbon → a lone pair on that hydrogen (hydride)."
+      ],
+      "mappedSmiles": "[N-:1]1[C:2]([H:7])([NH:8][H:9])[CH:3]=[CH:4][CH:5]=[CH:6]1.[Na+:10]",
+      "learnerPrompt": "The ring becomes aromatic again. With no halide to lose, what leaves?",
+      "misconceptions": [
+        {
+          "severity": "plausible",
+          "arrowPattern": "σ C2-N8 -> *",
+          "feedbackMessage": "Losing amide again just goes back to pyridine. The other group on that carbon has to go, however reluctantly.",
+          "misconceptionId": "amide-leaves",
+          "misconceptionTag": "reverse-step"
+        }
+      ],
+      "mapNumberToCoordinates": {
+        "1": [
+          1.5,
+          0
+        ],
+        "2": [
+          0.75,
+          1.3
+        ],
+        "3": [
+          -0.75,
+          1.3
+        ],
+        "4": [
+          -1.5,
+          0
+        ],
+        "5": [
+          -0.75,
+          -1.3
+        ],
+        "6": [
+          0.75,
+          -1.3
+        ],
+        "7": [
+          0.49,
+          2.78
+        ],
+        "8": [
+          2.16,
+          1.81
+        ],
+        "9": [
+          3.31,
+          0.85
+        ],
+        "10": [
+          -0.24,
+          4.94
+        ]
+      },
+      "partialProgressMessages": [
+        {
+          "learnerArrows": [
+            "σ C2-H7 -> lp H7"
+          ],
+          "feedbackMessage": "Hydride does leave, but the carbon would be left with three bonds. Bring the ring nitrogen lone pair back to make C=N."
+        }
+      ]
+    },
+    "salt-and-water": {
+      "caption": "the sodium salt + water (work-up)",
+      "hintTiers": [
+        "The amide anion is a strong base. What does it take from water?",
+        "The anionic nitrogen takes a proton from water, giving hydroxide. Two arrows.",
+        "Nitrogen lone pair → a new N–H bond to a hydrogen of water; that O–H bond → a lone pair on oxygen."
+      ],
+      "mappedSmiles": "[N:1]1=[C:2]([NH-:8])[CH:3]=[CH:4][CH:5]=[CH:6]1.[Na+:10].[OH:11][H:12]",
+      "learnerPrompt": "Water protonates the anion. Draw it.",
+      "misconceptions": [
+        {
+          "severity": "plausible",
+          "arrowPattern": "lp N1 -> σ N1-H12",
+          "feedbackMessage": "The ring nitrogen is basic too, but the negative charge is on the exocyclic NH: protonate there to reach the neutral amine.",
+          "misconceptionId": "protonate-ring-nitrogen",
+          "misconceptionTag": "wrong-site"
+        }
+      ],
+      "mapNumberToCoordinates": {
+        "1": [
+          1.5,
+          0
+        ],
+        "2": [
+          0.75,
+          1.3
+        ],
+        "3": [
+          -0.75,
+          1.3
+        ],
+        "4": [
+          -1.5,
+          0
+        ],
+        "5": [
+          -0.75,
+          -1.3
+        ],
+        "6": [
+          0.75,
+          -1.3
+        ],
+        "8": [
+          1.5,
+          2.6
+        ],
+        "10": [
+          -0.04,
+          4.25
+        ],
+        "11": [
+          3.8,
+          0
+        ],
+        "12": [
+          5.1,
+          0.75
+        ]
+      }
+    },
+    "aminopyridine-and-hydride": {
+      "caption": "2-aminopyridine + sodium hydride",
+      "hintTiers": [
+        "Which is the most acidic hydrogen in the mixture?",
+        "Hydride takes a proton from the new NH₂ group: H₂ gas forms and the N–H electrons stay on nitrogen. Two arrows.",
+        "Hydride lone pair → a new H–H bond to an N–H hydrogen; that N–H bond → a lone pair on the amino nitrogen."
+      ],
+      "mappedSmiles": "[N:1]1=[C:2]([NH:8][H:9])[CH:3]=[CH:4][CH:5]=[CH:6]1.[H-:7].[Na+:10]",
+      "learnerPrompt": "Hydride is a very strong base. Draw what it does next.",
+      "misconceptions": [
+        {
+          "severity": "plausible",
+          "arrowPattern": "lp H7 -> σ H7-C*",
+          "feedbackMessage": "Adding hydride back to the ring only reverses the last step. Hydride acts as a base: the NH₂ protons are acidic enough for it.",
+          "misconceptionId": "hydride-adds-to-ring",
+          "misconceptionTag": "hydride-as-nucleophile"
+        }
+      ],
+      "mapNumberToCoordinates": {
+        "1": [
+          1.5,
+          0
+        ],
+        "2": [
+          0.75,
+          1.3
+        ],
+        "3": [
+          -0.75,
+          1.3
+        ],
+        "4": [
+          -1.5,
+          0
+        ],
+        "5": [
+          -0.75,
+          -1.3
+        ],
+        "6": [
+          0.75,
+          -1.3
+        ],
+        "7": [
+          4,
+          0
+        ],
+        "8": [
+          1.5,
+          2.6
+        ],
+        "9": [
+          3,
+          2.6
+        ],
+        "10": [
+          -0.12,
+          4.2
+        ]
+      },
+      "partialProgressMessages": [
+        {
+          "learnerArrows": [
+            "lp H7 -> σ H7-H9"
+          ],
+          "feedbackMessage": "Right proton. Now let the N–H bonding pair stay on nitrogen."
+        }
+      ]
+    }
+  },
+  "conditionsLabel": "NaNH₂ · PhNMe₂ · 110 °C; then H₂O",
+  "reactionClasses": [
+    "aromatic substitution"
+  ],
+  "reactionVersion": 1,
+  "mechanismSummary": "Sodium amide adds to C-2 of pyridine, next to the nitrogen that holds the sodium ion, and the negative charge moves onto nitrogen. With no halide to lose, the adduct rebuilds the aromatic ring by expelling hydride. The hydride removes a proton from the new amino group, giving H₂ gas and the sodium salt of 2-aminopyridine; water at work-up gives 2-aminopyridine.",
+  "dailyPuzzleEligible": true,
+  "spectatorMapNumbers": [
+    10
+  ],
+  "atomRoleToMapNumbers": {
+    "nucleophile": [
+      8
+    ],
+    "electrophilicCarbon": [
+      2
+    ]
+  },
+  "previousReactionVersion": null
+}
