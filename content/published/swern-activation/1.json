@@ -1,0 +1,439 @@
+{
+  "steps": [
+    {
+      "stepKey": "addition",
+      "stepKind": "polar",
+      "toStateId": "tetrahedral",
+      "fromStateId": "reactants",
+      "canonicalArrows": [
+        "lp O3 -> σ O3-C6",
+        "π C6-O7 -> lp O7"
+      ],
+      "routePreference": "preferred",
+      "explanationAfterStep": "The sulfoxide oxygen adds to a carbonyl carbon of oxalyl chloride, as any oxygen nucleophile adds to an acid chloride."
+    },
+    {
+      "stepKey": "chloride-leaves",
+      "stepKind": "polar",
+      "toStateId": "acyloxysulfonium",
+      "fromStateId": "tetrahedral",
+      "canonicalArrows": [
+        "lp O7 -> π C6-O7",
+        "σ C6-Cl5 -> lp Cl5"
+      ],
+      "routePreference": "preferred",
+      "explanationAfterStep": "The C=O re-forms and chloride leaves. The DMSO oxygen is now part of a very good leaving group."
+    },
+    {
+      "stepKey": "chloride-attacks-sulfur",
+      "stepKind": "polar",
+      "toStateId": "chlorosulfonium",
+      "fromStateId": "acyloxysulfonium",
+      "canonicalArrows": [
+        "lp Cl5 -> σ Cl5-S2",
+        "σ S2-O3 -> lp O3"
+      ],
+      "routePreference": "preferred",
+      "explanationAfterStep": "Chloride substitutes at sulfur: the chlorodimethylsulfonium ion, the real oxidant of the Swern."
+    },
+    {
+      "stepKey": "fragmentation",
+      "stepKind": "polar",
+      "toStateId": "products",
+      "fromStateId": "chlorosulfonium",
+      "canonicalArrows": [
+        "lp O3 -> π O3-C6",
+        "σ C6-C8 -> lp C8",
+        "σ C8-Cl10 -> lp Cl10",
+        "lp O9 -> π C8-O9"
+      ],
+      "routePreference": "preferred",
+      "explanationAfterStep": "The chlorooxalate anion falls apart into CO₂, CO and chloride. Two gases leave, so nothing goes back. (CO is toxic: Swern oxidations are run in a fume cupboard.)"
+    }
+  ],
+  "title": "Swern activation",
+  "authors": [
+    {
+      "url": null,
+      "name": "Maksim"
+    }
+  ],
+  "licence": "CC-BY-SA-4.0",
+  "subtitle": "DMSO and oxalyl chloride make the chlorodimethylsulfonium ion, losing CO₂, CO and chloride",
+  "references": [
+    "Clayden, Greeves and Warren, Organic Chemistry, 2nd edition (Oxford University Press), chapter 23"
+  ],
+  "reactionSlug": "swern-activation",
+  "startStateId": "reactants",
+  "formatVersion": 1,
+  "difficultyTier": 3,
+  "stateIdToState": {
+    "products": {
+      "caption": "chlorodimethylsulfonium chloride + CO₂ + CO",
+      "mappedSmiles": "[CH3:1][S+:2]([CH3:4])[Cl:5].[O:3]=[C:6]=[O:7].[C-:8]#[O+:9].[Cl-:10]",
+      "mapNumberToCoordinates": {
+        "1": [
+          0,
+          0
+        ],
+        "2": [
+          1.3,
+          0.75
+        ],
+        "3": [
+          4.83,
+          1.1
+        ],
+        "4": [
+          2.6,
+          0
+        ],
+        "5": [
+          1.3,
+          2.25
+        ],
+        "6": [
+          4.83,
+          -0.4
+        ],
+        "7": [
+          4.83,
+          -1.9
+        ],
+        "8": [
+          -0.27,
+          5.43
+        ],
+        "9": [
+          -0.27,
+          3.93
+        ],
+        "10": [
+          5.45,
+          3.29
+        ]
+      }
+    },
+    "reactants": {
+      "caption": "dimethyl sulfoxide (DMSO) + oxalyl chloride",
+      "hintTiers": [
+        "DMSO's S–O bond is polarised: S⁺–O⁻. Which end is the nucleophile, and which atom of oxalyl chloride is the electrophile?",
+        "The DMSO oxygen makes a bond to a carbonyl carbon of oxalyl chloride, and that C=O π pair moves onto its oxygen. Two arrows.",
+        "DMSO oxygen lone pair → new O–C bond to a carbonyl carbon; that C=O π bond → lone pair on the carbonyl oxygen."
+      ],
+      "mappedSmiles": "[CH3:1][S+:2]([O-:3])[CH3:4].[Cl:5][C:6](=[O:7])[C:8](=[O:9])[Cl:10]",
+      "learnerPrompt": "DMSO attacks oxalyl chloride.",
+      "misconceptions": [
+        {
+          "severity": "plausible",
+          "arrowPattern": "lp S2 -> C*",
+          "feedbackMessage": "Sulfur does have a lone pair, but it carries the positive charge here. The negatively charged oxygen of DMSO is the nucleophile.",
+          "misconceptionId": "sulfur-attacks",
+          "misconceptionTag": "wrong-nucleophilic-atom"
+        },
+        {
+          "severity": "wrong",
+          "arrowPattern": "lp O3 -> Cl*",
+          "feedbackMessage": "Chlorine is not the electrophile; the carbonyl carbon it is attached to is.",
+          "misconceptionId": "oxygen-attacks-chlorine",
+          "misconceptionTag": "attack-leaving-group"
+        },
+        {
+          "severity": "plausible",
+          "arrowPattern": "lp O3 -> σ O3-C6; σ C6-Cl5 -> lp Cl5",
+          "feedbackMessage": "At a C=O carbon the nucleophile adds first and the π pair moves onto oxygen. Chloride leaves in the next step.",
+          "misconceptionId": "concerted-substitution",
+          "misconceptionTag": "concerted-substitution-at-carbonyl"
+        }
+      ],
+      "mapNumberToCoordinates": {
+        "1": [
+          0,
+          0
+        ],
+        "2": [
+          1.3,
+          0.75
+        ],
+        "3": [
+          1.3,
+          2.25
+        ],
+        "4": [
+          2.6,
+          0
+        ],
+        "5": [
+          -0.12,
+          4.04
+        ],
+        "6": [
+          -0.12,
+          5.54
+        ],
+        "7": [
+          -1.42,
+          6.29
+        ],
+        "8": [
+          1.18,
+          6.29
+        ],
+        "9": [
+          2.48,
+          5.54
+        ],
+        "10": [
+          1.18,
+          7.79
+        ]
+      },
+      "partialProgressMessages": [
+        {
+          "learnerArrows": [
+            "lp O3 -> σ O3-C6"
+          ],
+          "feedbackMessage": "Right: oxygen attacks the carbonyl carbon. That carbon would have five bonds: move the C=O π pair onto oxygen."
+        }
+      ]
+    },
+    "tetrahedral": {
+      "caption": "tetrahedral intermediate",
+      "hintTiers": [
+        "Which group on the tetrahedral carbon is the best leaving group?",
+        "The oxygen anion re-forms C=O and the C–Cl bond breaks, its pair going to chlorine. Two arrows.",
+        "Oxygen anion lone pair → C=O π bond; C–Cl bond → lone pair on chlorine."
+      ],
+      "mappedSmiles": "[CH3:1][S+:2]([CH3:4])[O:3][C:6]([O-:7])([Cl:5])[C:8](=[O:9])[Cl:10]",
+      "learnerPrompt": "The tetrahedral intermediate collapses.",
+      "misconceptions": [
+        {
+          "severity": "plausible",
+          "arrowPattern": "σ O3-C6 -> lp O3",
+          "feedbackMessage": "Losing DMSO again just reverses the addition. Chloride is the better leaving group.",
+          "misconceptionId": "dmso-leaves-again",
+          "misconceptionTag": "reverse-step"
+        },
+        {
+          "severity": "wrong",
+          "arrowPattern": "σ C6-C8 -> *",
+          "feedbackMessage": "The C–C bond will break later. First the intermediate collapses and chloride leaves.",
+          "misconceptionId": "c-c-breaks-too-early",
+          "misconceptionTag": "wrong-group-leaves"
+        }
+      ],
+      "mapNumberToCoordinates": {
+        "1": [
+          0,
+          0
+        ],
+        "2": [
+          1.3,
+          0.75
+        ],
+        "3": [
+          1.3,
+          2.25
+        ],
+        "4": [
+          2.6,
+          0
+        ],
+        "5": [
+          1.85,
+          4.3
+        ],
+        "6": [
+          2.6,
+          3
+        ],
+        "7": [
+          3.35,
+          1.7
+        ],
+        "8": [
+          3.9,
+          3.75
+        ],
+        "9": [
+          5.2,
+          3
+        ],
+        "10": [
+          3.9,
+          5.25
+        ]
+      }
+    },
+    "chlorosulfonium": {
+      "caption": "chlorodimethylsulfonium ion + chlorooxalate anion",
+      "hintTiers": [
+        "The anion can break into three small, very stable molecules. Which ones?",
+        "Four arrows at once: the oxygen anion makes a C=O π bond (CO₂), the C–C bond breaks onto the other carbon, that carbon loses chloride, and its oxygen makes a third bond to it (carbon monoxide).",
+        "Oxygen anion lone pair → new C=O π bond; C–C bond → lone pair on the acyl chloride carbon; C–Cl bond → lone pair on chlorine; carbonyl oxygen lone pair → new C≡O π bond."
+      ],
+      "mappedSmiles": "[CH3:1][S+:2]([CH3:4])[Cl:5].[O-:3][C:6](=[O:7])[C:8](=[O:9])[Cl:10]",
+      "learnerPrompt": "The chlorooxalate anion falls apart.",
+      "misconceptions": [
+        {
+          "severity": "plausible",
+          "arrowPattern": "lp O3 -> S2",
+          "feedbackMessage": "That reverses the last step. The anion falls apart into gases instead: this is what makes the activation irreversible.",
+          "misconceptionId": "anion-attacks-sulfur",
+          "misconceptionTag": "reverse-step"
+        }
+      ],
+      "mapNumberToCoordinates": {
+        "1": [
+          0,
+          0
+        ],
+        "2": [
+          1.3,
+          0.75
+        ],
+        "3": [
+          -1.42,
+          6.29
+        ],
+        "4": [
+          2.6,
+          0
+        ],
+        "5": [
+          1.3,
+          2.25
+        ],
+        "6": [
+          -0.12,
+          5.54
+        ],
+        "7": [
+          -0.12,
+          4.04
+        ],
+        "8": [
+          1.18,
+          6.29
+        ],
+        "9": [
+          2.48,
+          5.54
+        ],
+        "10": [
+          1.18,
+          7.79
+        ]
+      },
+      "partialProgressMessages": [
+        {
+          "learnerArrows": [
+            "lp O3 -> π O3-C6",
+            "σ C6-C8 -> lp C8"
+          ],
+          "feedbackMessage": "Right start: CO₂ is forming. The other carbon now has a lone pair and five electron pairs around it: let chloride go, and let its oxygen make a third bond to it."
+        },
+        {
+          "learnerArrows": [
+            "lp O3 -> π O3-C6",
+            "σ C6-C8 -> lp C8",
+            "σ C8-Cl10 -> lp Cl10"
+          ],
+          "feedbackMessage": "Nearly there. The carbon of carbon monoxide has only six electrons: its oxygen gives a lone pair to make the C≡O triple bond."
+        },
+        {
+          "learnerArrows": [
+            "σ C8-Cl10 -> lp Cl10"
+          ],
+          "feedbackMessage": "Chloride does leave, but on its own it would leave a carbon with only six electrons. The C–C bond breaks at the same time and the CO₂ forms: draw the whole fragmentation."
+        }
+      ]
+    },
+    "acyloxysulfonium": {
+      "caption": "acyloxysulfonium ion + chloride",
+      "hintTiers": [
+        "Sulfur is positive and bonded to an oxygen that is part of a good leaving group. What does chloride do?",
+        "The chloride lone pair makes a bond to sulfur, and the S–O bond breaks with its pair going to oxygen. Two arrows.",
+        "Chloride lone pair → new Cl–S bond; S–O bond → lone pair on that oxygen."
+      ],
+      "mappedSmiles": "[CH3:1][S+:2]([CH3:4])[O:3][C:6](=[O:7])[C:8](=[O:9])[Cl:10].[Cl-:5]",
+      "learnerPrompt": "Chloride attacks sulfur.",
+      "misconceptions": [
+        {
+          "severity": "plausible",
+          "arrowPattern": "lp Cl5 -> C8",
+          "feedbackMessage": "Chloride adding to a carbonyl carbon would only swap one chloride for another. Sulfur is the electrophile that matters here.",
+          "misconceptionId": "chloride-attacks-carbonyl",
+          "misconceptionTag": "unproductive-addition"
+        },
+        {
+          "severity": "plausible",
+          "arrowPattern": "lp Cl5 -> C1",
+          "feedbackMessage": "SN2 on a methyl of the sulfonium ion is possible in principle, but attack at sulfur is much faster and leads on to the oxidant.",
+          "misconceptionId": "chloride-attacks-methyl",
+          "misconceptionTag": "attack-saturated-carbon"
+        }
+      ],
+      "mapNumberToCoordinates": {
+        "1": [
+          0,
+          0
+        ],
+        "2": [
+          1.3,
+          0.75
+        ],
+        "3": [
+          1.3,
+          2.25
+        ],
+        "4": [
+          2.6,
+          0
+        ],
+        "5": [
+          4.9,
+          0
+        ],
+        "6": [
+          2.6,
+          3
+        ],
+        "7": [
+          3.9,
+          2.25
+        ],
+        "8": [
+          2.6,
+          4.5
+        ],
+        "9": [
+          3.9,
+          5.25
+        ],
+        "10": [
+          1.3,
+          5.25
+        ]
+      }
+    }
+  },
+  "conditionsLabel": "DMSO · (COCl)₂ · CH₂Cl₂ · −78 °C",
+  "reactionClasses": [
+    "carbonyl",
+    "substitution"
+  ],
+  "reactionVersion": 1,
+  "mechanismSummary": "The oxygen of DMSO adds to oxalyl chloride, and chloride is lost. Chloride then attacks the positive sulfur, pushing out a chlorooxalate anion, which falls apart into CO₂, CO and chloride. The product, chlorodimethylsulfonium chloride, is made at −78 °C and used at once to oxidise an alcohol.",
+  "dailyPuzzleEligible": true,
+  "spectatorMapNumbers": [],
+  "atomRoleToMapNumbers": {
+    "sulfur": [
+      2
+    ],
+    "sulfoxideOxygen": [
+      3
+    ]
+  },
+  "previousReactionVersion": null
+}

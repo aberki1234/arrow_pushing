@@ -1,0 +1,743 @@
+{
+  "steps": [
+    {
+      "stepKey": "enolate-formation",
+      "stepKind": "polar",
+      "toStateId": "enolate",
+      "fromStateId": "reactants",
+      "canonicalArrows": [
+        "lp O14 -> σ O14-H18",
+        "σ C13-H18 -> π C11-C13",
+        "π C11-O12 -> lp O12"
+      ],
+      "routePreference": "preferred",
+      "explanationAfterStep": "Every enolate forms reversibly, but only this one can close a six-membered ring onto the other C=O, so the product comes through it."
+    },
+    {
+      "stepKey": "ring-closure",
+      "stepKind": "polar",
+      "toStateId": "alkoxide",
+      "fromStateId": "enolate",
+      "canonicalArrows": [
+        "lp O12 -> π C11-O12",
+        "π C11-C13 -> σ C1-C13",
+        "π C1-O2 -> lp O2"
+      ],
+      "routePreference": "preferred",
+      "explanationAfterStep": "An intramolecular aldol: the new six-membered ring is the annulation (ring-forming) step."
+    },
+    {
+      "stepKey": "alkoxide-protonation",
+      "stepKind": "polar",
+      "toStateId": "aldol",
+      "fromStateId": "alkoxide",
+      "canonicalArrows": [
+        "lp O2 -> σ O2-H18",
+        "σ O14-H18 -> lp O14"
+      ],
+      "routePreference": "preferred",
+      "explanationAfterStep": "Ethanol protonates the alkoxide, giving the β-hydroxy ketone and ethoxide again."
+    },
+    {
+      "stepKey": "enolate-for-elimination",
+      "stepKind": "polar",
+      "toStateId": "second-enolate",
+      "fromStateId": "aldol",
+      "canonicalArrows": [
+        "lp O14 -> σ O14-H19",
+        "σ C13-H19 -> π C11-C13",
+        "π C11-O12 -> lp O12"
+      ],
+      "routePreference": "preferred",
+      "explanationAfterStep": "This enolate sits next to the carbon carrying OH, ready for E1cB."
+    },
+    {
+      "stepKey": "loss-of-hydroxide",
+      "stepKind": "polar",
+      "toStateId": "products",
+      "fromStateId": "second-enolate",
+      "canonicalArrows": [
+        "lp O12 -> π C11-O12",
+        "π C11-C13 -> π C1-C13",
+        "σ C1-O2 -> lp O2"
+      ],
+      "routePreference": "preferred",
+      "explanationAfterStep": "E1cB: hydroxide leaves and the C=C forms in conjugation with the C=O. The conjugated enone pays for losing a poor leaving group, and heating drives the dehydration."
+    }
+  ],
+  "title": "Robinson annulation 2: aldol and dehydration",
+  "authors": [
+    {
+      "url": null,
+      "name": "Maksim"
+    }
+  ],
+  "licence": "CC-BY-SA-4.0",
+  "subtitle": "An intramolecular aldol closes a ring; E1cB gives the enone",
+  "references": [
+    "Clayden, Greeves and Warren, Organic Chemistry, 2nd edition (Oxford University Press), chapter 26"
+  ],
+  "reactionSlug": "robinson-aldol-and-dehydration",
+  "startStateId": "reactants",
+  "formatVersion": 1,
+  "difficultyTier": 3,
+  "stateIdToState": {
+    "aldol": {
+      "caption": "the bicyclic aldol (a β-hydroxy ketone) + ethoxide",
+      "hintTiers": [
+        "For an E1cB elimination, which enolate has the OH on the next carbon?",
+        "Ethoxide takes the drawn hydrogen between the ketone and the carbon carrying OH. The C–H pair forms a C=C bond to the carbonyl carbon, and the C=O π pair moves onto oxygen. Three arrows.",
+        "Ethoxide lone pair → new bond to the drawn hydrogen; that C–H bond → a π bond to the carbonyl carbon; the C=O π bond → a lone pair on oxygen."
+      ],
+      "mappedSmiles": "[H:18][O:2][C:1]12[CH2:7][CH2:6][CH2:5][CH2:4][CH:3]1[CH2:9][CH2:10][C:11](=[O:12])[CH:13]2[H:19].[CH3:16][CH2:15][O-:14].[Na+:17]",
+      "learnerPrompt": "On heating, ethoxide forms the enolate that leads to dehydration.",
+      "misconceptions": [
+        {
+          "severity": "wrong",
+          "arrowPattern": "σ C1-O2 -> lp O2",
+          "feedbackMessage": "Hydroxide will not leave on its own from a neutral molecule. Form the enolate first: its electrons push hydroxide out (E1cB).",
+          "misconceptionId": "hydroxide-leaves",
+          "misconceptionTag": "poor-leaving-group"
+        },
+        {
+          "severity": "wrong",
+          "arrowPattern": "σ C13-H19 -> π C1-C13",
+          "feedbackMessage": "Hydroxide is too poor a leaving group for a concerted E2. Form the enolate first.",
+          "misconceptionId": "e2-concerted",
+          "misconceptionTag": "e2-instead-of-e1cb"
+        }
+      ],
+      "mapNumberToCoordinates": {
+        "1": [
+          1.5,
+          0
+        ],
+        "2": [
+          2.25,
+          1.3
+        ],
+        "3": [
+          0.75,
+          -1.3
+        ],
+        "4": [
+          -0.75,
+          -1.3
+        ],
+        "5": [
+          -1.5,
+          0
+        ],
+        "6": [
+          -0.75,
+          1.3
+        ],
+        "7": [
+          0.75,
+          1.3
+        ],
+        "9": [
+          1.5,
+          -2.6
+        ],
+        "10": [
+          3,
+          -2.6
+        ],
+        "11": [
+          3.75,
+          -1.3
+        ],
+        "12": [
+          5.25,
+          -1.3
+        ],
+        "13": [
+          3,
+          0
+        ],
+        "14": [
+          2.49,
+          4.63
+        ],
+        "15": [
+          1.19,
+          5.38
+        ],
+        "16": [
+          -0.11,
+          4.63
+        ],
+        "17": [
+          7.09,
+          0.03
+        ],
+        "18": [
+          1.5,
+          2.6
+        ],
+        "19": [
+          3.75,
+          1.3
+        ]
+      },
+      "partialProgressMessages": [
+        {
+          "learnerArrows": [
+            "lp O14 -> σ O14-H19",
+            "σ C13-H19 -> π C11-C13"
+          ],
+          "feedbackMessage": "Good: ethoxide takes the proton and a C=C bond forms. Now move the C=O π pair onto oxygen."
+        }
+      ]
+    },
+    "enolate": {
+      "caption": "the side-chain enolate + ethanol",
+      "hintTiers": [
+        "The enolate carbon and the ring carbonyl carbon would close a ring of six atoms.",
+        "The O⁻ lone pair re-forms C=O, the C=C π pair forms a new C–C bond to the ring carbonyl carbon, and the ring C=O π pair moves onto its oxygen. Three arrows.",
+        "Enolate O⁻ lone pair → C=O π bond; C=C π bond → new C–C bond to the ring carbonyl carbon; ring C=O π bond → a lone pair on its oxygen."
+      ],
+      "mappedSmiles": "[O:2]=[C:1]1[CH:3]([CH2:9][CH2:10][C:11]([O-:12])=[CH:13][H:19])[CH2:4][CH2:5][CH2:6][CH2:7]1.[CH3:16][CH2:15][O:14][H:18].[Na+:17]",
+      "learnerPrompt": "The enolate attacks the ring ketone (intramolecular aldol).",
+      "misconceptions": [
+        {
+          "severity": "plausible",
+          "arrowPattern": "lp O12 -> C1",
+          "feedbackMessage": "O-attack gets nowhere. Make the C–C bond: attack with the enolate carbon.",
+          "misconceptionId": "oxygen-attacks",
+          "misconceptionTag": "ambident-wrong-end"
+        },
+        {
+          "severity": "wrong",
+          "arrowPattern": "π C11-C13 -> O2",
+          "feedbackMessage": "The carbonyl oxygen is electron-rich. Attack the ring carbonyl carbon.",
+          "misconceptionId": "attack-ring-oxygen",
+          "misconceptionTag": "attack-electron-rich-atom"
+        }
+      ],
+      "mapNumberToCoordinates": {
+        "1": [
+          1.5,
+          0
+        ],
+        "2": [
+          2.25,
+          1.3
+        ],
+        "3": [
+          0.75,
+          -1.3
+        ],
+        "4": [
+          -0.75,
+          -1.3
+        ],
+        "5": [
+          -1.5,
+          0
+        ],
+        "6": [
+          -0.75,
+          1.3
+        ],
+        "7": [
+          0.75,
+          1.3
+        ],
+        "9": [
+          1.5,
+          -2.6
+        ],
+        "10": [
+          3,
+          -2.6
+        ],
+        "11": [
+          3.75,
+          -1.3
+        ],
+        "12": [
+          5.25,
+          -1.3
+        ],
+        "13": [
+          3,
+          0
+        ],
+        "14": [
+          2.69,
+          3.54
+        ],
+        "15": [
+          1.39,
+          4.29
+        ],
+        "16": [
+          0.09,
+          3.54
+        ],
+        "17": [
+          -2.11,
+          4.19
+        ],
+        "18": [
+          3.98,
+          4.29
+        ],
+        "19": [
+          3.75,
+          1.3
+        ]
+      },
+      "partialProgressMessages": [
+        {
+          "learnerArrows": [
+            "π C11-C13 -> σ C1-C13",
+            "π C1-O2 -> lp O2"
+          ],
+          "feedbackMessage": "Right bonds, but this leaves a positive carbon next to O⁻ in the side chain. Push the O⁻ lone pair in to re-form C=O."
+        }
+      ]
+    },
+    "alkoxide": {
+      "caption": "bicyclic alkoxide + ethanol",
+      "hintTiers": [
+        "The alkoxide is a strong base. Which proton source is around?",
+        "The O⁻ lone pair takes the drawn proton of ethanol, and the O–H pair stays on ethanol's oxygen. Two arrows.",
+        "Alkoxide lone pair → new O–H bond to the hydrogen of ethanol; that O–H bond → a lone pair on ethanol's oxygen."
+      ],
+      "mappedSmiles": "[O-:2][C:1]12[CH2:7][CH2:6][CH2:5][CH2:4][CH:3]1[CH2:9][CH2:10][C:11](=[O:12])[CH:13]2[H:19].[CH3:16][CH2:15][O:14][H:18].[Na+:17]",
+      "learnerPrompt": "Ethanol protonates the alkoxide.",
+      "misconceptions": [
+        {
+          "severity": "plausible",
+          "arrowPattern": "σ C1-C13 -> *",
+          "feedbackMessage": "Breaking the new C–C bond reopens the ring (a retro-aldol). Protonate the alkoxide.",
+          "misconceptionId": "ring-opens",
+          "misconceptionTag": "reverse-step"
+        },
+        {
+          "severity": "wrong",
+          "arrowPattern": "σ C1-O2 -> lp O2",
+          "feedbackMessage": "O²⁻ cannot leave. Protonate the alkoxide first.",
+          "misconceptionId": "oxide-leaves",
+          "misconceptionTag": "poor-leaving-group"
+        }
+      ],
+      "mapNumberToCoordinates": {
+        "1": [
+          1.5,
+          0
+        ],
+        "2": [
+          2.25,
+          1.3
+        ],
+        "3": [
+          0.75,
+          -1.3
+        ],
+        "4": [
+          -0.75,
+          -1.3
+        ],
+        "5": [
+          -1.5,
+          0
+        ],
+        "6": [
+          -0.75,
+          1.3
+        ],
+        "7": [
+          0.75,
+          1.3
+        ],
+        "9": [
+          1.5,
+          -2.6
+        ],
+        "10": [
+          3,
+          -2.6
+        ],
+        "11": [
+          3.75,
+          -1.3
+        ],
+        "12": [
+          5.25,
+          -1.3
+        ],
+        "13": [
+          3,
+          0
+        ],
+        "14": [
+          2.69,
+          3.54
+        ],
+        "15": [
+          1.39,
+          4.29
+        ],
+        "16": [
+          0.09,
+          3.54
+        ],
+        "17": [
+          -2.11,
+          4.19
+        ],
+        "18": [
+          3.98,
+          4.29
+        ],
+        "19": [
+          3.75,
+          1.3
+        ]
+      },
+      "partialProgressMessages": [
+        {
+          "learnerArrows": [
+            "lp O2 -> σ O2-H18"
+          ],
+          "feedbackMessage": "Good: the alkoxide takes ethanol's proton. Where does that O–H bonding pair go?"
+        }
+      ]
+    },
+    "products": {
+      "caption": "octalone (4,4a,5,6,7,8-hexahydronaphthalen-2(3H)-one) + hydroxide + ethanol",
+      "mappedSmiles": "[C:1]12=[CH:13][C:11](=[O:12])[CH2:10][CH2:9][CH:3]1[CH2:4][CH2:5][CH2:6][CH2:7]2.[H:18][O-:2].[CH3:16][CH2:15][O:14][H:19].[Na+:17]",
+      "mapNumberToCoordinates": {
+        "1": [
+          1.5,
+          0
+        ],
+        "2": [
+          0,
+          5.35
+        ],
+        "3": [
+          0.75,
+          1.3
+        ],
+        "4": [
+          -0.75,
+          1.3
+        ],
+        "5": [
+          -1.5,
+          0
+        ],
+        "6": [
+          -0.75,
+          -1.3
+        ],
+        "7": [
+          0.75,
+          -1.3
+        ],
+        "9": [
+          1.5,
+          2.6
+        ],
+        "10": [
+          3,
+          2.6
+        ],
+        "11": [
+          3.75,
+          1.3
+        ],
+        "12": [
+          5.25,
+          1.3
+        ],
+        "13": [
+          3,
+          0
+        ],
+        "14": [
+          5.83,
+          4.88
+        ],
+        "15": [
+          4.53,
+          5.63
+        ],
+        "16": [
+          3.23,
+          4.88
+        ],
+        "17": [
+          7.04,
+          -0.12
+        ],
+        "18": [
+          1.3,
+          6.1
+        ],
+        "19": [
+          7.13,
+          5.63
+        ]
+      }
+    },
+    "reactants": {
+      "caption": "2-(3-oxobutyl)cyclohexanone + sodium ethoxide",
+      "hintTiers": [
+        "Several enolates can form, but only one can reach the other C=O to close a six-membered ring. Count the atoms.",
+        "Ethoxide takes a drawn hydrogen on the methyl group of the side chain. The C–H pair forms a C=C bond to the side-chain carbonyl carbon, and that C=O π pair moves onto oxygen. Three arrows.",
+        "Ethoxide lone pair → new bond to a drawn hydrogen of the methyl group; that C–H bond → a π bond to the side-chain carbonyl carbon; its C=O π bond → a lone pair on its oxygen."
+      ],
+      "mappedSmiles": "[O:2]=[C:1]1[CH:3]([CH2:9][CH2:10][C:11](=[O:12])[CH:13]([H:18])[H:19])[CH2:4][CH2:5][CH2:6][CH2:7]1.[CH3:16][CH2:15][O-:14].[Na+:17]",
+      "learnerPrompt": "Form the enolate that can close a six-membered ring.",
+      "misconceptions": [
+        {
+          "severity": "plausible",
+          "arrowPattern": "lp O14 -> C1",
+          "feedbackMessage": "Ethoxide adding to a ketone is reversible and leads nowhere. Form an enolate.",
+          "misconceptionId": "ethoxide-adds-to-ring-ketone",
+          "misconceptionTag": "unproductive-addition"
+        },
+        {
+          "severity": "plausible",
+          "arrowPattern": "lp O14 -> C11",
+          "feedbackMessage": "Ethoxide adding to a ketone is reversible and leads nowhere. Form an enolate.",
+          "misconceptionId": "ethoxide-adds-to-chain-ketone",
+          "misconceptionTag": "unproductive-addition"
+        }
+      ],
+      "mapNumberToCoordinates": {
+        "1": [
+          1.5,
+          0
+        ],
+        "2": [
+          3,
+          0
+        ],
+        "3": [
+          0.75,
+          1.3
+        ],
+        "4": [
+          -0.75,
+          1.3
+        ],
+        "5": [
+          -1.5,
+          0
+        ],
+        "6": [
+          -0.75,
+          -1.3
+        ],
+        "7": [
+          0.75,
+          -1.3
+        ],
+        "9": [
+          1.5,
+          2.6
+        ],
+        "10": [
+          0.75,
+          3.9
+        ],
+        "11": [
+          1.5,
+          5.2
+        ],
+        "12": [
+          3,
+          5.2
+        ],
+        "13": [
+          0.75,
+          6.5
+        ],
+        "14": [
+          7.8,
+          -0.65
+        ],
+        "15": [
+          6.5,
+          0.1
+        ],
+        "16": [
+          5.2,
+          -0.65
+        ],
+        "17": [
+          9.65,
+          0.67
+        ],
+        "18": [
+          1.5,
+          7.79
+        ],
+        "19": [
+          -0.75,
+          6.5
+        ]
+      },
+      "partialProgressMessages": [
+        {
+          "learnerArrows": [
+            "lp O14 -> σ O14-H18",
+            "σ C13-H18 -> π C11-C13"
+          ],
+          "feedbackMessage": "Good: ethoxide takes the proton and a C=C bond forms. Now move the side-chain C=O π pair onto oxygen."
+        }
+      ]
+    },
+    "second-enolate": {
+      "caption": "the enolate + ethanol",
+      "hintTiers": [
+        "Electrons from the enolate oxygen can flow along the C=C bond towards the ring-fusion carbon carrying OH.",
+        "The O⁻ lone pair re-forms C=O, the C=C π pair moves one bond along to the carbon carrying OH, and the C–OH bond breaks onto oxygen. Three arrows.",
+        "Enolate O⁻ lone pair → C=O π bond; C=C π bond → a π bond to the ring-fusion carbon; C–OH bond → a lone pair on that oxygen."
+      ],
+      "mappedSmiles": "[H:18][O:2][C:1]12[CH2:7][CH2:6][CH2:5][CH2:4][CH:3]1[CH2:9][CH2:10][C:11]([O-:12])=[CH:13]2.[CH3:16][CH2:15][O:14][H:19].[Na+:17]",
+      "learnerPrompt": "The enolate pushes out hydroxide.",
+      "misconceptions": [
+        {
+          "severity": "plausible",
+          "arrowPattern": "* -> σ C13-H*",
+          "feedbackMessage": "Taking a proton back just reverses the last step. Let the enolate push hydroxide out.",
+          "misconceptionId": "enolate-reprotonated",
+          "misconceptionTag": "reverse-step"
+        },
+        {
+          "severity": "plausible",
+          "arrowPattern": "σ C1-C13 -> *",
+          "feedbackMessage": "Breaking the ring bond is a retro-aldol. Push hydroxide out to make the conjugated enone.",
+          "misconceptionId": "retro-aldol",
+          "misconceptionTag": "reverse-step"
+        }
+      ],
+      "mapNumberToCoordinates": {
+        "1": [
+          1.5,
+          0
+        ],
+        "2": [
+          2.25,
+          1.3
+        ],
+        "3": [
+          0.75,
+          -1.3
+        ],
+        "4": [
+          -0.75,
+          -1.3
+        ],
+        "5": [
+          -1.5,
+          0
+        ],
+        "6": [
+          -0.75,
+          1.3
+        ],
+        "7": [
+          0.75,
+          1.3
+        ],
+        "9": [
+          1.5,
+          -2.6
+        ],
+        "10": [
+          3,
+          -2.6
+        ],
+        "11": [
+          3.75,
+          -1.3
+        ],
+        "12": [
+          5.25,
+          -1.3
+        ],
+        "13": [
+          3,
+          0
+        ],
+        "14": [
+          2.69,
+          3.54
+        ],
+        "15": [
+          1.39,
+          4.29
+        ],
+        "16": [
+          0.09,
+          3.54
+        ],
+        "17": [
+          -2.11,
+          4.19
+        ],
+        "18": [
+          3.75,
+          1.3
+        ],
+        "19": [
+          3.98,
+          4.29
+        ]
+      },
+      "partialProgressMessages": [
+        {
+          "learnerArrows": [
+            "σ C1-O2 -> lp O2"
+          ],
+          "feedbackMessage": "Hydroxide does leave here, but only because the enolate pushes it. Add the arrows from the O⁻ lone pair and the C=C bond."
+        }
+      ]
+    }
+  },
+  "conditionsLabel": "NaOEt · EtOH · heat",
+  "reactionClasses": [
+    "carbonyl",
+    "elimination"
+  ],
+  "reactionVersion": 1,
+  "mechanismSummary": "Ethoxide forms the enolate of the side-chain methyl ketone. It attacks the ring ketone, closing a new six-membered ring, and ethanol protonates the alkoxide. A second enolate forms next to the carbon carrying OH and pushes out hydroxide (E1cB), giving the conjugated bicyclic enone. With the Michael addition before it, this is the Robinson annulation: a new six-membered ring with an enone in it.",
+  "abbreviatedGroups": [
+    {
+      "groupLabel": "Et",
+      "mapNumbers": [
+        15,
+        16
+      ],
+      "attachmentMapNumber": 15
+    }
+  ],
+  "dailyPuzzleEligible": true,
+  "spectatorMapNumbers": [
+    17
+  ],
+  "atomRoleToMapNumbers": {
+    "base": [
+      14
+    ],
+    "alphaCarbon": [
+      13
+    ],
+    "leavingGroup": [
+      2
+    ],
+    "electrophilicCarbon": [
+      1
+    ]
+  },
+  "previousReactionVersion": null
+}

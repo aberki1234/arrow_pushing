@@ -1,0 +1,627 @@
+{
+  "steps": [
+    {
+      "stepKey": "alcohol-attacks-sulfur",
+      "stepKind": "polar",
+      "toStateId": "protonated-alkoxysulfonium",
+      "fromStateId": "reactants",
+      "canonicalArrows": [
+        "lp O14 -> σ O14-S2",
+        "σ S2-Cl4 -> lp Cl4"
+      ],
+      "routePreference": "preferred",
+      "explanationAfterStep": "The alcohol substitutes at sulfur, and chloride leaves."
+    },
+    {
+      "stepKey": "deprotonation",
+      "stepKind": "polar",
+      "toStateId": "alkoxysulfonium",
+      "fromStateId": "protonated-alkoxysulfonium",
+      "canonicalArrows": [
+        "lp Cl6 -> σ Cl6-H15",
+        "σ O14-H15 -> lp O14"
+      ],
+      "routePreference": "preferred",
+      "explanationAfterStep": "The proton is lost: the alkoxysulfonium ion. Nothing more happens at −78 °C until a base is added."
+    },
+    {
+      "caption": "Triethylamine is added at −78 °C and the mixture is allowed to warm. Triethylamine also neutralises the HCl, which is no longer drawn.",
+      "stepKey": "triethylamine-added",
+      "stepKind": "change",
+      "toStateId": "alkoxysulfonium-and-base",
+      "fromStateId": "alkoxysulfonium",
+      "addedSpecies": "[N:20]([CH2:21][CH3:22])([CH2:23][CH3:24])[CH2:25][CH3:26]",
+      "routePreference": "preferred",
+      "removedFragmentMapNumbers": [
+        6
+      ]
+    },
+    {
+      "stepKey": "ylide-formation",
+      "stepKind": "polar",
+      "toStateId": "ylide",
+      "fromStateId": "alkoxysulfonium-and-base",
+      "canonicalArrows": [
+        "lp N20 -> σ N20-H5",
+        "σ C1-H5 -> lp C1"
+      ],
+      "routePreference": "preferred",
+      "explanationAfterStep": "A proton next to S⁺ is removed: a sulfonium ylide, with C⁻ next to S⁺."
+    },
+    {
+      "stepKey": "intramolecular-elimination",
+      "stepKind": "polar",
+      "toStateId": "products",
+      "fromStateId": "ylide",
+      "canonicalArrows": [
+        "lp C1 -> σ C1-H13",
+        "σ C12-H13 -> π C12-O14",
+        "σ O14-S2 -> lp S2"
+      ],
+      "routePreference": "preferred",
+      "explanationAfterStep": "Through a five-membered ring the ylide carbon removes the hydrogen on the alcohol carbon, the C=O forms and dimethyl sulfide leaves. No water and no metal are present, so the aldehyde cannot be oxidised further."
+    }
+  ],
+  "title": "Swern oxidation",
+  "authors": [
+    {
+      "url": null,
+      "name": "Maksim"
+    }
+  ],
+  "licence": "CC-BY-SA-4.0",
+  "subtitle": "The chlorodimethylsulfonium ion and triethylamine oxidise a primary alcohol to an aldehyde",
+  "references": [
+    "Clayden, Greeves and Warren, Organic Chemistry, 2nd edition (Oxford University Press), chapter 23"
+  ],
+  "reactionSlug": "swern-oxidation",
+  "startStateId": "reactants",
+  "formatVersion": 1,
+  "difficultyTier": 3,
+  "stateIdToState": {
+    "ylide": {
+      "caption": "sulfonium ylide + triethylammonium chloride",
+      "hintTiers": [
+        "The ylide carbon is a strong base. Through a five-membered ring it can reach the hydrogen on the alcohol carbon. What happens to the S–O bond?",
+        "Three arrows: the ylide carbon takes that hydrogen, the C–H pair makes a C=O π bond, and the O–S bond breaks with its pair going to sulfur.",
+        "Ylide carbon lone pair → new C–H bond to the hydrogen on the alcohol carbon; that C–H bond → new C=O π bond; O–S bond → lone pair on sulfur."
+      ],
+      "mappedSmiles": "[CH2-:1][S+:2]([CH3:3])[O:14][CH:12]([H:13])[CH2:11][CH3:10].[Cl-:4].[H:5][N+:20]([CH2:21][CH3:22])([CH2:23][CH3:24])[CH2:25][CH3:26]",
+      "learnerPrompt": "The ylide carbon removes a hydrogen inside the same molecule.",
+      "misconceptions": [
+        {
+          "severity": "wrong",
+          "arrowPattern": "σ O14-S2 -> lp O14",
+          "feedbackMessage": "If the S–O pair went to oxygen you would only get back an alkoxide and the ylide. Here sulfur takes the pair: it becomes neutral dimethyl sulfide while the C=O forms.",
+          "misconceptionId": "s-o-pair-to-oxygen",
+          "misconceptionTag": "wrong-direction-of-cleavage"
+        },
+        {
+          "severity": "wrong",
+          "arrowPattern": "lp C1 -> C12",
+          "feedbackMessage": "The alcohol carbon is not an electrophile. The ylide carbon is a base: it takes the hydrogen on that carbon.",
+          "misconceptionId": "ylide-attacks-carbon",
+          "misconceptionTag": "attack-non-electrophile"
+        }
+      ],
+      "mapNumberToCoordinates": {
+        "1": [
+          0,
+          0
+        ],
+        "2": [
+          1.3,
+          0.75
+        ],
+        "3": [
+          2.6,
+          0
+        ],
+        "4": [
+          6.2,
+          0
+        ],
+        "5": [
+          3.92,
+          8.65
+        ],
+        "10": [
+          5.2,
+          3
+        ],
+        "11": [
+          3.9,
+          2.25
+        ],
+        "12": [
+          2.6,
+          3
+        ],
+        "13": [
+          2.6,
+          4.5
+        ],
+        "14": [
+          1.3,
+          2.25
+        ],
+        "20": [
+          2.62,
+          9.4
+        ],
+        "21": [
+          1.32,
+          10.15
+        ],
+        "22": [
+          0.03,
+          9.4
+        ],
+        "23": [
+          1.87,
+          8.1
+        ],
+        "24": [
+          2.62,
+          6.8
+        ],
+        "25": [
+          3.37,
+          10.7
+        ],
+        "26": [
+          4.87,
+          10.7
+        ]
+      },
+      "partialProgressMessages": [
+        {
+          "learnerArrows": [
+            "lp C1 -> σ C1-H13",
+            "σ C12-H13 -> π C12-O14"
+          ],
+          "feedbackMessage": "Nearly: the C=O is forming, but oxygen now has three bonds. Break the O–S bond with its pair going to sulfur."
+        }
+      ]
+    },
+    "products": {
+      "caption": "propanal + dimethyl sulfide + triethylammonium chloride",
+      "mappedSmiles": "[CH2:1]([H:13])[S:2][CH3:3].[CH3:10][CH2:11][CH:12]=[O:14].[Cl-:4].[H:5][N+:20]([CH2:21][CH3:22])([CH2:23][CH3:24])[CH2:25][CH3:26]",
+      "mapNumberToCoordinates": {
+        "1": [
+          2.6,
+          0
+        ],
+        "2": [
+          1.3,
+          0.75
+        ],
+        "3": [
+          0,
+          0
+        ],
+        "4": [
+          6.01,
+          -0.14
+        ],
+        "5": [
+          4.27,
+          7.27
+        ],
+        "10": [
+          0,
+          2.6
+        ],
+        "11": [
+          1.3,
+          3.35
+        ],
+        "12": [
+          2.6,
+          2.6
+        ],
+        "13": [
+          3.9,
+          0.75
+        ],
+        "14": [
+          3.9,
+          3.35
+        ],
+        "20": [
+          2.97,
+          8.02
+        ],
+        "21": [
+          1.68,
+          8.77
+        ],
+        "22": [
+          0.38,
+          8.02
+        ],
+        "23": [
+          2.22,
+          6.72
+        ],
+        "24": [
+          2.97,
+          5.42
+        ],
+        "25": [
+          3.72,
+          9.32
+        ],
+        "26": [
+          5.22,
+          9.32
+        ]
+      }
+    },
+    "reactants": {
+      "caption": "chlorodimethylsulfonium chloride + propan-1-ol",
+      "hintTiers": [
+        "Sulfur is positive and carries chlorine, a good leaving group. Which atom of the alcohol is the nucleophile?",
+        "The alcohol oxygen makes a bond to sulfur, and the S–Cl bond breaks with its pair going to chlorine. Two arrows.",
+        "Alcohol oxygen lone pair → new O–S bond; S–Cl bond → lone pair on chlorine."
+      ],
+      "mappedSmiles": "[CH3:3][S+:2]([CH2:1][H:5])[Cl:4].[Cl-:6].[CH3:10][CH2:11][CH:12]([H:13])[O:14][H:15]",
+      "learnerPrompt": "The alcohol attacks the sulfonium ion.",
+      "misconceptions": [
+        {
+          "severity": "plausible",
+          "arrowPattern": "lp O14 -> C*",
+          "feedbackMessage": "Attack at a methyl carbon is much slower than at sulfur, which is positive and holds a good leaving group. The alcohol attacks sulfur.",
+          "misconceptionId": "alcohol-attacks-methyl",
+          "misconceptionTag": "attack-saturated-carbon"
+        },
+        {
+          "severity": "wrong",
+          "arrowPattern": "lp O14 -> Cl4",
+          "feedbackMessage": "Chlorine is the leaving group, not the electrophile. Attack the sulfur it is bonded to.",
+          "misconceptionId": "alcohol-attacks-chlorine",
+          "misconceptionTag": "attack-leaving-group"
+        }
+      ],
+      "mapNumberToCoordinates": {
+        "1": [
+          2.6,
+          0
+        ],
+        "2": [
+          1.3,
+          0.75
+        ],
+        "3": [
+          0,
+          0
+        ],
+        "4": [
+          1.3,
+          2.25
+        ],
+        "5": [
+          3.9,
+          0.75
+        ],
+        "6": [
+          5.92,
+          -0.25
+        ],
+        "10": [
+          0.02,
+          5.62
+        ],
+        "11": [
+          1.31,
+          6.37
+        ],
+        "12": [
+          2.61,
+          5.62
+        ],
+        "13": [
+          3.91,
+          6.37
+        ],
+        "14": [
+          2.61,
+          4.12
+        ],
+        "15": [
+          3.91,
+          3.37
+        ]
+      },
+      "partialProgressMessages": [
+        {
+          "learnerArrows": [
+            "lp O14 -> σ O14-S2"
+          ],
+          "feedbackMessage": "Right: oxygen attacks sulfur. Sulfur can only take the new bond if one goes: break the S–Cl bond."
+        }
+      ]
+    },
+    "alkoxysulfonium": {
+      "caption": "alkoxysulfonium chloride + HCl",
+      "mappedSmiles": "[CH3:3][S+:2]([CH2:1][H:5])[O:14][CH:12]([H:13])[CH2:11][CH3:10].[Cl-:4].[Cl:6][H:15]",
+      "mapNumberToCoordinates": {
+        "1": [
+          2.6,
+          0
+        ],
+        "2": [
+          1.3,
+          0.75
+        ],
+        "3": [
+          0,
+          0
+        ],
+        "4": [
+          0,
+          5.5
+        ],
+        "5": [
+          3.9,
+          0.75
+        ],
+        "6": [
+          6.2,
+          0
+        ],
+        "10": [
+          5.2,
+          3
+        ],
+        "11": [
+          3.9,
+          2.25
+        ],
+        "12": [
+          2.6,
+          3
+        ],
+        "13": [
+          2.6,
+          4.5
+        ],
+        "14": [
+          1.3,
+          2.25
+        ],
+        "15": [
+          7.5,
+          0.75
+        ]
+      }
+    },
+    "alkoxysulfonium-and-base": {
+      "caption": "alkoxysulfonium chloride + triethylamine",
+      "hintTiers": [
+        "Protons next to a positive sulfur are acidic. Which C–H bonds sit next to S⁺?",
+        "Triethylamine takes a proton from one of the S-methyl groups, and that C–H pair stays on carbon: a sulfonium ylide. Two arrows.",
+        "Nitrogen lone pair → new N–H bond to a methyl proton; that C–H bond → lone pair on the methyl carbon."
+      ],
+      "mappedSmiles": "[CH3:3][S+:2]([CH2:1][H:5])[O:14][CH:12]([H:13])[CH2:11][CH3:10].[Cl-:4].[N:20]([CH2:21][CH3:22])([CH2:23][CH3:24])[CH2:25][CH3:26]",
+      "learnerPrompt": "Triethylamine is the base. Which proton does it take?",
+      "misconceptions": [
+        {
+          "severity": "plausible",
+          "arrowPattern": "lp N20 -> H13",
+          "feedbackMessage": "Removing the hydrogen on the alcohol carbon in an E2 is not how the Swern works: triethylamine is a weak base, and the S-methyl protons, next to S⁺, are more acidic. The ylide then removes that hydrogen itself.",
+          "misconceptionId": "direct-e2",
+          "misconceptionTag": "wrong-proton"
+        },
+        {
+          "severity": "plausible",
+          "arrowPattern": "lp N20 -> S2",
+          "feedbackMessage": "Triethylamine is crowded and acts here as a base, not a nucleophile. Take a proton next to sulfur.",
+          "misconceptionId": "amine-attacks-sulfur",
+          "misconceptionTag": "attack-non-electrophile"
+        }
+      ],
+      "mapNumberToCoordinates": {
+        "1": [
+          2.6,
+          0
+        ],
+        "2": [
+          1.3,
+          0.75
+        ],
+        "3": [
+          0,
+          0
+        ],
+        "4": [
+          6.2,
+          0
+        ],
+        "5": [
+          3.9,
+          0.75
+        ],
+        "10": [
+          5.2,
+          3
+        ],
+        "11": [
+          3.9,
+          2.25
+        ],
+        "12": [
+          2.6,
+          3
+        ],
+        "13": [
+          2.6,
+          4.5
+        ],
+        "14": [
+          1.3,
+          2.25
+        ],
+        "20": [
+          2.63,
+          8.59
+        ],
+        "21": [
+          1.33,
+          9.34
+        ],
+        "22": [
+          0.03,
+          8.59
+        ],
+        "23": [
+          3.92,
+          9.34
+        ],
+        "24": [
+          5.22,
+          8.59
+        ],
+        "25": [
+          2.63,
+          7.09
+        ],
+        "26": [
+          3.92,
+          6.34
+        ]
+      },
+      "partialProgressMessages": [
+        {
+          "learnerArrows": [
+            "lp N20 -> σ N20-H5"
+          ],
+          "feedbackMessage": "Right proton. Its C–H bonding pair must go somewhere: leave it on the methyl carbon."
+        }
+      ]
+    },
+    "protonated-alkoxysulfonium": {
+      "caption": "protonated alkoxysulfonium ion + two chlorides",
+      "hintTiers": [
+        "The oxygen now has three bonds and a positive charge next to a positive sulfur: its O–H is very acidic. Which species can take the proton?",
+        "A chloride lone pair takes the O–H proton; the O–H pair stays on oxygen. Two arrows.",
+        "Chloride lone pair → new Cl–H bond; O–H bond → lone pair on oxygen."
+      ],
+      "mappedSmiles": "[CH3:3][S+:2]([CH2:1][H:5])[O+:14]([H:15])[CH:12]([H:13])[CH2:11][CH3:10].[Cl-:4].[Cl-:6]",
+      "learnerPrompt": "Remove the proton from the positive oxygen.",
+      "misconceptions": [
+        {
+          "severity": "wrong",
+          "arrowPattern": "lp Cl* -> H13",
+          "feedbackMessage": "That C–H is not acidic enough for chloride. Take the proton on the positive oxygen.",
+          "misconceptionId": "chloride-takes-alpha-h",
+          "misconceptionTag": "wrong-proton"
+        },
+        {
+          "severity": "plausible",
+          "arrowPattern": "lp Cl* -> S2",
+          "feedbackMessage": "That reverses the last step. Remove the O–H proton to keep the alkoxysulfonium ion.",
+          "misconceptionId": "chloride-attacks-sulfur",
+          "misconceptionTag": "reverse-step"
+        }
+      ],
+      "mapNumberToCoordinates": {
+        "1": [
+          2.6,
+          0
+        ],
+        "2": [
+          1.3,
+          0.75
+        ],
+        "3": [
+          0,
+          0
+        ],
+        "4": [
+          -0.28,
+          6.77
+        ],
+        "5": [
+          3.9,
+          0.75
+        ],
+        "6": [
+          2.01,
+          7.03
+        ],
+        "10": [
+          -2.6,
+          3
+        ],
+        "11": [
+          -1.3,
+          2.25
+        ],
+        "12": [
+          0,
+          3
+        ],
+        "13": [
+          0,
+          4.5
+        ],
+        "14": [
+          1.3,
+          2.25
+        ],
+        "15": [
+          2.6,
+          3
+        ]
+      }
+    }
+  },
+  "conditionsLabel": "1. Me₂S⁺Cl Cl⁻ (from DMSO + (COCl)₂), CH₂Cl₂, −78 °C · 2. Et₃N",
+  "reactionClasses": [
+    "substitution",
+    "elimination"
+  ],
+  "reactionVersion": 1,
+  "mechanismSummary": "Propan-1-ol attacks chlorodimethylsulfonium ion at sulfur, and the proton is lost: an alkoxysulfonium ion. Triethylamine removes a proton from an S-methyl group, giving a sulfonium ylide, which takes the hydrogen on the alcohol carbon through a five-membered ring. The C=O forms and dimethyl sulfide (which smells strongly) leaves. A primary alcohol stops at the aldehyde.",
+  "abbreviatedGroups": [
+    {
+      "groupLabel": "Et",
+      "mapNumbers": [
+        21,
+        22
+      ],
+      "attachmentMapNumber": 21
+    },
+    {
+      "groupLabel": "Et",
+      "mapNumbers": [
+        23,
+        24
+      ],
+      "attachmentMapNumber": 23
+    },
+    {
+      "groupLabel": "Et",
+      "mapNumbers": [
+        25,
+        26
+      ],
+      "attachmentMapNumber": 25
+    }
+  ],
+  "dailyPuzzleEligible": true,
+  "spectatorMapNumbers": [],
+  "atomRoleToMapNumbers": {
+    "sulfur": [
+      2
+    ],
+    "alcoholOxygen": [
+      14
+    ],
+    "alphaHydrogen": [
+      13
+    ]
+  },
+  "previousReactionVersion": null
+}

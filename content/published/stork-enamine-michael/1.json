@@ -1,0 +1,1036 @@
+{
+  "steps": [
+    {
+      "stepKey": "michael-addition",
+      "stepKind": "polar",
+      "toStateId": "zwitterion",
+      "fromStateId": "reactants",
+      "canonicalArrows": [
+        "lp N8 -> π C1-N8",
+        "π C1-C3 -> σ C3-C14",
+        "π C14-C15 -> π C15-C16",
+        "π C16-O17 -> lp O17"
+      ],
+      "routePreference": "preferred",
+      "explanationAfterStep": "The Stork enamine reaction: the neutral enamine adds 1,4 to the enone. No strong base is used, so the ketone is alkylated only once and the enone does not polymerise."
+    },
+    {
+      "caption": "Water is added for the hydrolysis",
+      "stepKey": "water-added",
+      "stepKind": "change",
+      "toStateId": "zwitterion-and-water",
+      "fromStateId": "zwitterion",
+      "addedSpecies": "[H:20][O:19][H:21].[H:23][O:22][H:24]",
+      "routePreference": "preferred"
+    },
+    {
+      "stepKey": "carbon-protonation",
+      "stepKind": "polar",
+      "toStateId": "iminium",
+      "fromStateId": "zwitterion-and-water",
+      "canonicalArrows": [
+        "lp O17 -> π C16-O17",
+        "π C15-C16 -> σ C15-H20",
+        "σ O19-H20 -> lp O19"
+      ],
+      "routePreference": "preferred",
+      "explanationAfterStep": "Water protonates the enolate on carbon. The side chain is now a ketone, and hydroxide is formed."
+    },
+    {
+      "stepKey": "hydroxide-addition",
+      "stepKind": "polar",
+      "toStateId": "hemiaminal",
+      "fromStateId": "iminium",
+      "canonicalArrows": [
+        "lp O19 -> σ C1-O19",
+        "π C1-N8 -> lp N8"
+      ],
+      "routePreference": "preferred",
+      "explanationAfterStep": "Hydroxide adds to the iminium carbon, giving a hemiaminal: the reverse of the last stage of enamine formation."
+    },
+    {
+      "stepKey": "nitrogen-protonation",
+      "stepKind": "polar",
+      "toStateId": "ammonium",
+      "fromStateId": "hemiaminal",
+      "canonicalArrows": [
+        "lp N8 -> σ N8-H23",
+        "σ O22-H23 -> lp O22"
+      ],
+      "routePreference": "preferred",
+      "explanationAfterStep": "Nitrogen is the most basic atom, so it takes the proton. A neutral amine can now leave."
+    },
+    {
+      "stepKey": "loss-of-pyrrolidine",
+      "stepKind": "polar",
+      "toStateId": "oxonium",
+      "fromStateId": "ammonium",
+      "canonicalArrows": [
+        "lp O19 -> π C1-O19",
+        "σ C1-N8 -> lp N8"
+      ],
+      "routePreference": "preferred",
+      "explanationAfterStep": "The oxygen lone pair pushes out pyrrolidine, and a protonated C=O forms."
+    },
+    {
+      "stepKey": "deprotonation",
+      "stepKind": "polar",
+      "toStateId": "products",
+      "fromStateId": "oxonium",
+      "canonicalArrows": [
+        "lp O22 -> σ O22-H21",
+        "σ O19-H21 -> lp O19"
+      ],
+      "routePreference": "preferred",
+      "explanationAfterStep": "Hydroxide takes the proton and the ketone is back. Pyrrolidine is released, and the product is the same 1,5-diketone as from the enolate route, made without a strong base."
+    }
+  ],
+  "title": "Stork enamine Michael addition",
+  "authors": [
+    {
+      "url": null,
+      "name": "Maksim"
+    }
+  ],
+  "licence": "CC-BY-SA-4.0",
+  "subtitle": "An enamine adds to methyl vinyl ketone; water hydrolyses the iminium ion",
+  "references": [
+    "Clayden, Greeves and Warren, Organic Chemistry, 2nd edition (Oxford University Press), chapter 25"
+  ],
+  "reactionSlug": "stork-enamine-michael",
+  "startStateId": "reactants",
+  "formatVersion": 1,
+  "difficultyTier": 3,
+  "stateIdToState": {
+    "iminium": {
+      "caption": "iminium ion + hydroxide + water",
+      "hintTiers": [
+        "The iminium ion is a strong electrophile, like a protonated C=O. Which carbon carries its positive character?",
+        "The hydroxide lone pair forms a new bond to the iminium carbon, and the C=N π pair moves onto nitrogen. Two arrows.",
+        "Hydroxide lone pair → new C–O bond to the iminium carbon; C=N π bond → a lone pair on nitrogen."
+      ],
+      "mappedSmiles": "[C:1]1(=[N+:8]2[CH2:9][CH2:10][CH2:11][CH2:12]2)[CH:3]([CH2:14][CH:15]([H:20])[C:16](=[O:17])[CH3:18])[CH2:4][CH2:5][CH2:6][CH2:7]1.[O-:19][H:21].[H:23][O:22][H:24]",
+      "learnerPrompt": "Hydrolysis begins: hydroxide adds to the iminium ion.",
+      "misconceptions": [
+        {
+          "severity": "wrong",
+          "arrowPattern": "lp O19 -> N8",
+          "feedbackMessage": "Nitrogen already has four bonds and a full octet. Attack the iminium carbon.",
+          "misconceptionId": "attack-nitrogen",
+          "misconceptionTag": "attack-full-octet"
+        },
+        {
+          "severity": "plausible",
+          "arrowPattern": "lp O19 -> C16",
+          "feedbackMessage": "Hydroxide can add to the ketone, but that is reversible and gets nowhere. The iminium ion is the better electrophile.",
+          "misconceptionId": "hydroxide-adds-to-ketone",
+          "misconceptionTag": "unproductive-addition"
+        }
+      ],
+      "mapNumberToCoordinates": {
+        "1": [
+          1.5,
+          0
+        ],
+        "3": [
+          0.75,
+          1.3
+        ],
+        "4": [
+          -0.75,
+          1.3
+        ],
+        "5": [
+          -1.5,
+          0
+        ],
+        "6": [
+          -0.75,
+          -1.3
+        ],
+        "7": [
+          0.75,
+          -1.3
+        ],
+        "8": [
+          3,
+          0
+        ],
+        "9": [
+          3.88,
+          -1.21
+        ],
+        "10": [
+          5.31,
+          -0.75
+        ],
+        "11": [
+          5.31,
+          0.75
+        ],
+        "12": [
+          3.88,
+          1.21
+        ],
+        "14": [
+          1.5,
+          2.6
+        ],
+        "15": [
+          0.75,
+          3.9
+        ],
+        "16": [
+          -0.75,
+          3.9
+        ],
+        "17": [
+          -1.5,
+          2.6
+        ],
+        "18": [
+          -1.5,
+          5.2
+        ],
+        "19": [
+          -0.09,
+          6.99
+        ],
+        "20": [
+          1.5,
+          5.2
+        ],
+        "21": [
+          1.21,
+          7.74
+        ],
+        "22": [
+          8.9,
+          -0.18
+        ],
+        "23": [
+          10.19,
+          0.57
+        ],
+        "24": [
+          7.6,
+          0.57
+        ]
+      },
+      "partialProgressMessages": [
+        {
+          "learnerArrows": [
+            "lp O19 -> σ C1-O19"
+          ],
+          "feedbackMessage": "Right: hydroxide bonds to the iminium carbon. That carbon now has five bonds: move the C=N π pair onto nitrogen."
+        }
+      ]
+    },
+    "oxonium": {
+      "caption": "protonated ketone + pyrrolidine + hydroxide",
+      "hintTiers": [
+        "The protonated ketone is a strong acid. Which base is in the flask?",
+        "The hydroxide lone pair takes the hydrogen on the C=O⁺ oxygen, and that O–H pair stays on the ketone oxygen. Two arrows.",
+        "Hydroxide lone pair → new O–H bond to the hydrogen on the protonated ketone; that O–H bond → a lone pair on the ketone oxygen."
+      ],
+      "mappedSmiles": "[O+:19]([H:21])=[C:1]1[CH:3]([CH2:14][CH:15]([H:20])[C:16](=[O:17])[CH3:18])[CH2:4][CH2:5][CH2:6][CH2:7]1.[H:23][N:8]1[CH2:9][CH2:10][CH2:11][CH2:12]1.[O-:22][H:24]",
+      "learnerPrompt": "Finish: remove the proton from the protonated ketone.",
+      "misconceptions": [
+        {
+          "severity": "plausible",
+          "arrowPattern": "lp N8 -> C1",
+          "feedbackMessage": "Pyrrolidine adding back reverses the last step. Remove the proton to give the ketone.",
+          "misconceptionId": "amine-adds-back",
+          "misconceptionTag": "reverse-step"
+        },
+        {
+          "severity": "plausible",
+          "arrowPattern": "lp O22 -> C1",
+          "feedbackMessage": "Hydroxide adding to the protonated ketone gives a hydrate, a dead end. Take the proton instead.",
+          "misconceptionId": "hydroxide-adds",
+          "misconceptionTag": "unproductive-addition"
+        }
+      ],
+      "mapNumberToCoordinates": {
+        "1": [
+          1.5,
+          0
+        ],
+        "3": [
+          0.75,
+          1.3
+        ],
+        "4": [
+          -0.75,
+          1.3
+        ],
+        "5": [
+          -1.5,
+          0
+        ],
+        "6": [
+          -0.75,
+          -1.3
+        ],
+        "7": [
+          0.75,
+          -1.3
+        ],
+        "8": [
+          8.34,
+          -0.35
+        ],
+        "9": [
+          7.46,
+          0.86
+        ],
+        "10": [
+          6.03,
+          0.4
+        ],
+        "11": [
+          6.03,
+          -1.1
+        ],
+        "12": [
+          7.46,
+          -1.56
+        ],
+        "14": [
+          1.5,
+          2.6
+        ],
+        "15": [
+          0.75,
+          3.9
+        ],
+        "16": [
+          -0.75,
+          3.9
+        ],
+        "17": [
+          -1.5,
+          2.6
+        ],
+        "18": [
+          -1.5,
+          5.2
+        ],
+        "19": [
+          3,
+          0
+        ],
+        "20": [
+          1.5,
+          5.2
+        ],
+        "21": [
+          3.75,
+          -1.3
+        ],
+        "22": [
+          0.02,
+          6.9
+        ],
+        "23": [
+          9.84,
+          -0.35
+        ],
+        "24": [
+          1.32,
+          7.65
+        ]
+      },
+      "partialProgressMessages": [
+        {
+          "learnerArrows": [
+            "lp O22 -> σ O22-H21"
+          ],
+          "feedbackMessage": "Good: hydroxide takes the proton. Where does the O–H bonding pair go?"
+        }
+      ]
+    },
+    "ammonium": {
+      "caption": "protonated hemiaminal + hydroxide",
+      "hintTiers": [
+        "A neutral amine can now leave. Which lone pair can push it out?",
+        "The OH oxygen lone pair forms a C=O π bond, and the C–N bond breaks onto nitrogen. Two arrows.",
+        "OH oxygen lone pair → C=O π bond; C–N bond → a lone pair on nitrogen."
+      ],
+      "mappedSmiles": "[C:1]1([O:19][H:21])([N+:8]2([H:23])[CH2:9][CH2:10][CH2:11][CH2:12]2)[CH:3]([CH2:14][CH:15]([H:20])[C:16](=[O:17])[CH3:18])[CH2:4][CH2:5][CH2:6][CH2:7]1.[O-:22][H:24]",
+      "learnerPrompt": "Push out the amine.",
+      "misconceptions": [
+        {
+          "severity": "plausible",
+          "arrowPattern": "lp O22 -> σ O22-H23",
+          "feedbackMessage": "Taking the proton back from nitrogen undoes the last step. Let the oxygen lone pair push the amine out.",
+          "misconceptionId": "take-proton-back",
+          "misconceptionTag": "reverse-step"
+        },
+        {
+          "severity": "plausible",
+          "arrowPattern": "lp O22 -> σ O22-H21",
+          "feedbackMessage": "Removing the OH proton first is possible, but then the alkoxide must push out the amine. Here the neutral OH pushes it out, and the proton goes afterwards.",
+          "misconceptionId": "hydroxide-takes-oh-proton",
+          "misconceptionTag": "wrong-order"
+        }
+      ],
+      "mapNumberToCoordinates": {
+        "1": [
+          1.5,
+          0
+        ],
+        "3": [
+          0.75,
+          1.3
+        ],
+        "4": [
+          -0.75,
+          1.3
+        ],
+        "5": [
+          -1.5,
+          0
+        ],
+        "6": [
+          -0.75,
+          -1.3
+        ],
+        "7": [
+          0.75,
+          -1.3
+        ],
+        "8": [
+          2.65,
+          0.96
+        ],
+        "9": [
+          3.49,
+          -0.28
+        ],
+        "10": [
+          4.93,
+          0.13
+        ],
+        "11": [
+          4.98,
+          1.63
+        ],
+        "12": [
+          3.57,
+          2.15
+        ],
+        "14": [
+          1.5,
+          2.6
+        ],
+        "15": [
+          0.75,
+          3.9
+        ],
+        "16": [
+          -0.75,
+          3.9
+        ],
+        "17": [
+          -1.5,
+          2.6
+        ],
+        "18": [
+          -1.5,
+          5.2
+        ],
+        "19": [
+          2.65,
+          -0.96
+        ],
+        "20": [
+          1.5,
+          5.2
+        ],
+        "21": [
+          2.39,
+          -2.44
+        ],
+        "22": [
+          7.2,
+          -0.22
+        ],
+        "23": [
+          2.07,
+          1.89
+        ],
+        "24": [
+          8.5,
+          0.53
+        ]
+      },
+      "partialProgressMessages": [
+        {
+          "learnerArrows": [
+            "σ C1-N8 -> lp N8"
+          ],
+          "feedbackMessage": "The amine does leave here, but only because the oxygen pushes it out. Add the arrow from the OH lone pair to form C=O."
+        }
+      ]
+    },
+    "products": {
+      "caption": "2-(3-oxobutyl)cyclohexanone + pyrrolidine + water",
+      "mappedSmiles": "[O:19]=[C:1]1[CH:3]([CH2:14][CH:15]([H:20])[C:16](=[O:17])[CH3:18])[CH2:4][CH2:5][CH2:6][CH2:7]1.[H:23][N:8]1[CH2:9][CH2:10][CH2:11][CH2:12]1.[H:21][O:22][H:24]",
+      "mapNumberToCoordinates": {
+        "1": [
+          1.5,
+          0
+        ],
+        "3": [
+          0.75,
+          1.3
+        ],
+        "4": [
+          -0.75,
+          1.3
+        ],
+        "5": [
+          -1.5,
+          0
+        ],
+        "6": [
+          -0.75,
+          -1.3
+        ],
+        "7": [
+          0.75,
+          -1.3
+        ],
+        "8": [
+          7.55,
+          -0.43
+        ],
+        "9": [
+          6.67,
+          0.79
+        ],
+        "10": [
+          5.24,
+          0.32
+        ],
+        "11": [
+          5.24,
+          -1.18
+        ],
+        "12": [
+          6.67,
+          -1.64
+        ],
+        "14": [
+          1.5,
+          2.6
+        ],
+        "15": [
+          0.75,
+          3.9
+        ],
+        "16": [
+          -0.75,
+          3.9
+        ],
+        "17": [
+          -1.5,
+          2.6
+        ],
+        "18": [
+          -1.5,
+          5.2
+        ],
+        "19": [
+          3,
+          0
+        ],
+        "20": [
+          1.5,
+          5.2
+        ],
+        "21": [
+          1.27,
+          7.65
+        ],
+        "22": [
+          -0.03,
+          6.9
+        ],
+        "23": [
+          9.05,
+          -0.43
+        ],
+        "24": [
+          -1.33,
+          7.65
+        ]
+      }
+    },
+    "reactants": {
+      "caption": "1-(cyclohex-1-enyl)pyrrolidine (an enamine) + methyl vinyl ketone",
+      "hintTiers": [
+        "An enamine is like a neutral enolate: the nitrogen lone pair pushes electrons into the C=C, so the carbon not bonded to nitrogen is nucleophilic.",
+        "The nitrogen lone pair forms a C=N bond; the enamine C=C pair forms a new C–C bond to the CH₂ end of the enone; the enone C=C pair moves next to the carbonyl; the C=O π pair moves onto oxygen. Four arrows.",
+        "Nitrogen lone pair → C=N π bond; enamine C=C π bond → new C–C bond to the terminal CH₂ of the enone; enone C=C π bond → a π bond between its CH and the carbonyl carbon; enone C=O π bond → a lone pair on its oxygen."
+      ],
+      "mappedSmiles": "[C:1]1([N:8]2[CH2:9][CH2:10][CH2:11][CH2:12]2)=[CH:3][CH2:4][CH2:5][CH2:6][CH2:7]1.[CH2:14]=[CH:15][C:16](=[O:17])[CH3:18]",
+      "learnerPrompt": "The enamine is the nucleophile. Add it to methyl vinyl ketone.",
+      "misconceptions": [
+        {
+          "severity": "plausible",
+          "arrowPattern": "lp N8 -> C14",
+          "feedbackMessage": "Nitrogen can attack, but that is reversible and gets nowhere. The productive bond is C–C: use the nitrogen lone pair to push the C=C electrons out.",
+          "misconceptionId": "nitrogen-attacks",
+          "misconceptionTag": "ambident-wrong-end"
+        },
+        {
+          "severity": "plausible",
+          "arrowPattern": "π C1-C3 -> σ C3-C16",
+          "feedbackMessage": "Enamines are soft, neutral nucleophiles: they add to the far end of the enone, not to its C=O.",
+          "misconceptionId": "direct-addition",
+          "misconceptionTag": "direct-instead-of-conjugate"
+        },
+        {
+          "severity": "wrong",
+          "arrowPattern": "π C1-C3 -> σ C1-C14",
+          "feedbackMessage": "The nucleophilic carbon is the one not bonded to nitrogen: that is where the nitrogen lone pair pushes the electrons.",
+          "misconceptionId": "attack-from-nitrogen-carbon",
+          "misconceptionTag": "wrong-nucleophile-site"
+        }
+      ],
+      "mapNumberToCoordinates": {
+        "1": [
+          1.5,
+          0
+        ],
+        "3": [
+          0.75,
+          1.3
+        ],
+        "4": [
+          -0.75,
+          1.3
+        ],
+        "5": [
+          -1.5,
+          0
+        ],
+        "6": [
+          -0.75,
+          -1.3
+        ],
+        "7": [
+          0.75,
+          -1.3
+        ],
+        "8": [
+          3,
+          0
+        ],
+        "9": [
+          3.88,
+          -1.21
+        ],
+        "10": [
+          5.31,
+          -0.75
+        ],
+        "11": [
+          5.31,
+          0.75
+        ],
+        "12": [
+          3.88,
+          1.21
+        ],
+        "14": [
+          0.03,
+          4.6
+        ],
+        "15": [
+          1.33,
+          5.35
+        ],
+        "16": [
+          2.63,
+          4.6
+        ],
+        "17": [
+          2.63,
+          3.1
+        ],
+        "18": [
+          3.93,
+          5.35
+        ]
+      },
+      "partialProgressMessages": [
+        {
+          "learnerArrows": [
+            "π C1-C3 -> σ C3-C14",
+            "π C14-C15 -> π C15-C16",
+            "π C16-O17 -> lp O17"
+          ],
+          "feedbackMessage": "Right bonds, but this leaves a positive carbon next to nitrogen. Push the nitrogen lone pair in to form C=N⁺."
+        },
+        {
+          "learnerArrows": [
+            "lp N8 -> π C1-N8",
+            "π C1-C3 -> σ C3-C14",
+            "π C14-C15 -> π C15-C16"
+          ],
+          "feedbackMessage": "Nearly: the carbon next to the enone's C=O now has five bonds. Move that C=O π pair onto oxygen."
+        }
+      ]
+    },
+    "hemiaminal": {
+      "caption": "hemiaminal + water",
+      "hintTiers": [
+        "R₂N⁻ is far too basic to leave. What would make the nitrogen a good leaving group?",
+        "The nitrogen lone pair takes a drawn hydrogen of water, and the O–H pair stays on the water oxygen. Two arrows.",
+        "Nitrogen lone pair → new N–H bond to a hydrogen of water; that O–H bond → a lone pair on the water oxygen."
+      ],
+      "mappedSmiles": "[C:1]1([O:19][H:21])([N:8]2[CH2:9][CH2:10][CH2:11][CH2:12]2)[CH:3]([CH2:14][CH:15]([H:20])[C:16](=[O:17])[CH3:18])[CH2:4][CH2:5][CH2:6][CH2:7]1.[H:23][O:22][H:24]",
+      "learnerPrompt": "Make the nitrogen a leaving group.",
+      "misconceptions": [
+        {
+          "severity": "wrong",
+          "arrowPattern": "σ C1-N8 -> lp N8",
+          "feedbackMessage": "An R₂N⁻ anion is a terrible leaving group. Protonate the nitrogen first, so that it leaves as a neutral amine.",
+          "misconceptionId": "amide-anion-leaves",
+          "misconceptionTag": "poor-leaving-group"
+        },
+        {
+          "severity": "plausible",
+          "arrowPattern": "σ C1-O19 -> lp O19",
+          "feedbackMessage": "Losing hydroxide just gives back the iminium ion. Protonate the nitrogen instead.",
+          "misconceptionId": "hydroxide-leaves",
+          "misconceptionTag": "reverse-step"
+        }
+      ],
+      "mapNumberToCoordinates": {
+        "1": [
+          1.5,
+          0
+        ],
+        "3": [
+          0.75,
+          1.3
+        ],
+        "4": [
+          -0.75,
+          1.3
+        ],
+        "5": [
+          -1.5,
+          0
+        ],
+        "6": [
+          -0.75,
+          -1.3
+        ],
+        "7": [
+          0.75,
+          -1.3
+        ],
+        "8": [
+          2.65,
+          0.96
+        ],
+        "9": [
+          4.1,
+          0.6
+        ],
+        "10": [
+          4.9,
+          1.87
+        ],
+        "11": [
+          3.94,
+          3.02
+        ],
+        "12": [
+          2.54,
+          2.46
+        ],
+        "14": [
+          1.5,
+          2.6
+        ],
+        "15": [
+          0.75,
+          3.9
+        ],
+        "16": [
+          -0.75,
+          3.9
+        ],
+        "17": [
+          -1.5,
+          2.6
+        ],
+        "18": [
+          -1.5,
+          5.2
+        ],
+        "19": [
+          2.65,
+          -0.96
+        ],
+        "20": [
+          1.5,
+          5.2
+        ],
+        "21": [
+          2.39,
+          -2.44
+        ],
+        "22": [
+          8.1,
+          -0.15
+        ],
+        "23": [
+          9.4,
+          0.6
+        ],
+        "24": [
+          6.8,
+          0.6
+        ]
+      },
+      "partialProgressMessages": [
+        {
+          "learnerArrows": [
+            "lp N8 -> σ N8-H23"
+          ],
+          "feedbackMessage": "Good: nitrogen takes the proton. Where does the O–H bonding pair go?"
+        }
+      ]
+    },
+    "zwitterion": {
+      "caption": "iminium ion with an enolate in one molecule (a zwitterion)",
+      "mappedSmiles": "[C:1]1(=[N+:8]2[CH2:9][CH2:10][CH2:11][CH2:12]2)[CH:3]([CH2:14][CH:15]=[C:16]([O-:17])[CH3:18])[CH2:4][CH2:5][CH2:6][CH2:7]1",
+      "mapNumberToCoordinates": {
+        "1": [
+          1.5,
+          0
+        ],
+        "3": [
+          0.75,
+          1.3
+        ],
+        "4": [
+          -0.75,
+          1.3
+        ],
+        "5": [
+          -1.5,
+          0
+        ],
+        "6": [
+          -0.75,
+          -1.3
+        ],
+        "7": [
+          0.75,
+          -1.3
+        ],
+        "8": [
+          3,
+          0
+        ],
+        "9": [
+          3.88,
+          -1.21
+        ],
+        "10": [
+          5.31,
+          -0.75
+        ],
+        "11": [
+          5.31,
+          0.75
+        ],
+        "12": [
+          3.88,
+          1.21
+        ],
+        "14": [
+          1.5,
+          2.6
+        ],
+        "15": [
+          0.75,
+          3.9
+        ],
+        "16": [
+          1.5,
+          5.2
+        ],
+        "17": [
+          3,
+          5.2
+        ],
+        "18": [
+          0.75,
+          6.5
+        ]
+      }
+    },
+    "zwitterion-and-water": {
+      "caption": "the zwitterion + water",
+      "hintTiers": [
+        "The enolate is a strong base, and water is a proton source. Which carbon takes the proton to give a ketone?",
+        "The O⁻ lone pair re-forms C=O, the C=C π pair takes a drawn hydrogen of a water molecule, and the O–H pair stays on that oxygen. Three arrows.",
+        "Enolate O⁻ lone pair → C=O π bond; C=C π bond → new C–H bond to a hydrogen of water; that O–H bond → a lone pair on the water oxygen."
+      ],
+      "mappedSmiles": "[C:1]1(=[N+:8]2[CH2:9][CH2:10][CH2:11][CH2:12]2)[CH:3]([CH2:14][CH:15]=[C:16]([O-:17])[CH3:18])[CH2:4][CH2:5][CH2:6][CH2:7]1.[H:20][O:19][H:21].[H:23][O:22][H:24]",
+      "learnerPrompt": "Water arrives. What does the enolate do first?",
+      "misconceptions": [
+        {
+          "severity": "plausible",
+          "arrowPattern": "* -> σ O17-H20",
+          "feedbackMessage": "Protonating oxygen gives the enol, which then tautomerises. Put the proton on carbon to reach the ketone directly.",
+          "misconceptionId": "protonate-enolate-oxygen",
+          "misconceptionTag": "enol-instead-of-keto"
+        },
+        {
+          "severity": "plausible",
+          "arrowPattern": "lp O19 -> C1",
+          "feedbackMessage": "Water will add to the iminium ion, but first the enolate, a strong base, takes a proton from water. That also makes hydroxide, a better nucleophile.",
+          "misconceptionId": "water-adds-first",
+          "misconceptionTag": "wrong-order"
+        },
+        {
+          "severity": "plausible",
+          "arrowPattern": "σ C3-C14 -> *",
+          "feedbackMessage": "Breaking the new C–C bond reverses the Michael addition. Protonate the enolate.",
+          "misconceptionId": "retro-michael",
+          "misconceptionTag": "reverse-step"
+        }
+      ],
+      "mapNumberToCoordinates": {
+        "1": [
+          1.5,
+          0
+        ],
+        "3": [
+          0.75,
+          1.3
+        ],
+        "4": [
+          -0.75,
+          1.3
+        ],
+        "5": [
+          -1.5,
+          0
+        ],
+        "6": [
+          -0.75,
+          -1.3
+        ],
+        "7": [
+          0.75,
+          -1.3
+        ],
+        "8": [
+          3,
+          0
+        ],
+        "9": [
+          3.88,
+          -1.21
+        ],
+        "10": [
+          5.31,
+          -0.75
+        ],
+        "11": [
+          5.31,
+          0.75
+        ],
+        "12": [
+          3.88,
+          1.21
+        ],
+        "14": [
+          1.5,
+          2.6
+        ],
+        "15": [
+          0.75,
+          3.9
+        ],
+        "16": [
+          1.5,
+          5.2
+        ],
+        "17": [
+          3,
+          5.2
+        ],
+        "18": [
+          0.75,
+          6.5
+        ],
+        "19": [
+          8.89,
+          -0.21
+        ],
+        "20": [
+          10.19,
+          0.54
+        ],
+        "21": [
+          7.59,
+          0.54
+        ],
+        "22": [
+          -0.28,
+          8.51
+        ],
+        "23": [
+          1.02,
+          9.26
+        ],
+        "24": [
+          -1.58,
+          9.26
+        ]
+      },
+      "partialProgressMessages": [
+        {
+          "learnerArrows": [
+            "π C15-C16 -> σ C15-H20",
+            "σ O19-H20 -> lp O19"
+          ],
+          "feedbackMessage": "Right: carbon takes the proton. That leaves a positive carbon next to O⁻: push the O⁻ lone pair in to re-form C=O."
+        }
+      ]
+    }
+  },
+  "conditionsLabel": "1. MVK, dioxane, reflux · 2. H₂O",
+  "reactionClasses": [
+    "carbonyl",
+    "addition"
+  ],
+  "reactionVersion": 1,
+  "mechanismSummary": "The nitrogen lone pair of the pyrrolidine enamine of cyclohexanone pushes the C=C electrons onto the terminal carbon of methyl vinyl ketone (a Michael addition), giving an iminium ion and an enolate in one molecule. Water protonates the enolate on carbon. Hydroxide adds to the iminium ion, the hemiaminal is protonated on nitrogen, and the oxygen lone pair pushes out pyrrolidine. Loss of the proton gives 2-(3-oxobutyl)cyclohexanone.",
+  "dailyPuzzleEligible": true,
+  "spectatorMapNumbers": [],
+  "atomRoleToMapNumbers": {
+    "nucleophile": [
+      3
+    ],
+    "iminiumCarbon": [
+      1
+    ],
+    "michaelAcceptorCarbon": [
+      14
+    ]
+  },
+  "previousReactionVersion": null
+}

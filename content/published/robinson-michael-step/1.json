@@ -1,0 +1,500 @@
+{
+  "steps": [
+    {
+      "stepKey": "enolate-formation",
+      "stepKind": "polar",
+      "toStateId": "enolate",
+      "fromStateId": "reactants",
+      "canonicalArrows": [
+        "lp O14 -> σ O14-H8",
+        "σ C3-H8 -> π C1-C3",
+        "π C1-O2 -> lp O2"
+      ],
+      "routePreference": "preferred",
+      "explanationAfterStep": "Ethoxide forms a small amount of the cyclohexanone enolate."
+    },
+    {
+      "stepKey": "michael-addition",
+      "stepKind": "polar",
+      "toStateId": "new-enolate",
+      "fromStateId": "enolate",
+      "canonicalArrows": [
+        "lp O2 -> π C1-O2",
+        "π C1-C3 -> σ C3-C9",
+        "π C9-C10 -> π C10-C11",
+        "π C11-O12 -> lp O12"
+      ],
+      "routePreference": "preferred",
+      "explanationAfterStep": "A Michael (conjugate) addition: the enolate attacks the far end of the C=C, and the charge ends up on the enone's oxygen as a new enolate."
+    },
+    {
+      "stepKey": "carbon-protonation",
+      "stepKind": "polar",
+      "toStateId": "products",
+      "fromStateId": "new-enolate",
+      "canonicalArrows": [
+        "lp O12 -> π C11-O12",
+        "π C10-C11 -> σ C10-H8",
+        "σ O14-H8 -> lp O14"
+      ],
+      "routePreference": "preferred",
+      "explanationAfterStep": "Ethanol protonates the new enolate and ethoxide is regenerated: the base is a catalyst. The two C=O groups of this 1,5-diketone are set up for an intramolecular aldol."
+    }
+  ],
+  "title": "Robinson annulation 1: Michael addition",
+  "authors": [
+    {
+      "url": null,
+      "name": "Maksim"
+    }
+  ],
+  "licence": "CC-BY-SA-4.0",
+  "subtitle": "A cyclohexanone enolate adds to methyl vinyl ketone",
+  "references": [
+    "Clayden, Greeves and Warren, Organic Chemistry, 2nd edition (Oxford University Press), chapter 26"
+  ],
+  "reactionSlug": "robinson-michael-step",
+  "startStateId": "reactants",
+  "formatVersion": 1,
+  "difficultyTier": 2,
+  "stateIdToState": {
+    "enolate": {
+      "caption": "cyclohexanone enolate + methyl vinyl ketone + ethanol",
+      "hintTiers": [
+        "In an enone the C=C is pulled towards the C=O. Which carbon of methyl vinyl ketone is electron-poor besides the carbonyl carbon?",
+        "The O⁻ lone pair re-forms C=O; the enolate C=C pair forms a new C–C bond to the CH₂ end of the enone; the enone C=C pair moves to the C–C bond next to the carbonyl; the C=O π pair moves onto oxygen. Four arrows.",
+        "Enolate O⁻ lone pair → C=O π bond; enolate C=C π bond → new C–C bond to the terminal CH₂ of the enone; enone C=C π bond → a π bond between its CH and the carbonyl carbon; enone C=O π bond → a lone pair on its oxygen."
+      ],
+      "mappedSmiles": "[O-:2][C:1]1=[CH:3][CH2:4][CH2:5][CH2:6][CH2:7]1.[CH2:9]=[CH:10][C:11](=[O:12])[CH3:13].[CH3:16][CH2:15][O:14][H:8].[Na+:17]",
+      "learnerPrompt": "The enolate adds to the end of the enone (conjugate addition).",
+      "misconceptions": [
+        {
+          "severity": "plausible",
+          "arrowPattern": "π C1-C3 -> σ C3-C11",
+          "feedbackMessage": "Attack at the carbonyl carbon (1,2-addition, an aldol) is possible but reversible. Soft, stabilised enolates add to the far end of the enone: 1,4-addition.",
+          "misconceptionId": "direct-addition",
+          "misconceptionTag": "direct-instead-of-conjugate"
+        },
+        {
+          "severity": "wrong",
+          "arrowPattern": "π C1-C3 -> σ C3-C10",
+          "feedbackMessage": "The CH next to the carbonyl is not the electrophilic end. Conjugation makes the terminal CH₂ electron-poor.",
+          "misconceptionId": "attack-enone-ch",
+          "misconceptionTag": "attack-non-electrophile"
+        },
+        {
+          "severity": "plausible",
+          "arrowPattern": "lp O2 -> C9",
+          "feedbackMessage": "O-attack gets nowhere. Make the C–C bond: attack with the α-carbon.",
+          "misconceptionId": "oxygen-attacks",
+          "misconceptionTag": "ambident-wrong-end"
+        }
+      ],
+      "mapNumberToCoordinates": {
+        "1": [
+          1.5,
+          0
+        ],
+        "2": [
+          3,
+          0
+        ],
+        "3": [
+          0.75,
+          1.3
+        ],
+        "4": [
+          -0.75,
+          1.3
+        ],
+        "5": [
+          -1.5,
+          0
+        ],
+        "6": [
+          -0.75,
+          -1.3
+        ],
+        "7": [
+          0.75,
+          -1.3
+        ],
+        "8": [
+          9.19,
+          0.84
+        ],
+        "9": [
+          0.08,
+          3.98
+        ],
+        "10": [
+          1.38,
+          4.73
+        ],
+        "11": [
+          2.68,
+          3.98
+        ],
+        "12": [
+          2.68,
+          2.48
+        ],
+        "13": [
+          3.98,
+          4.73
+        ],
+        "14": [
+          7.9,
+          0.09
+        ],
+        "15": [
+          6.6,
+          0.84
+        ],
+        "16": [
+          5.3,
+          0.09
+        ],
+        "17": [
+          -0.75,
+          6.09
+        ]
+      },
+      "partialProgressMessages": [
+        {
+          "learnerArrows": [
+            "π C1-C3 -> σ C3-C9",
+            "π C9-C10 -> π C10-C11",
+            "π C11-O12 -> lp O12"
+          ],
+          "feedbackMessage": "Right bonds, but this leaves a positive carbon next to O⁻ in the ring. Push the O⁻ lone pair in to re-form C=O."
+        },
+        {
+          "learnerArrows": [
+            "lp O2 -> π C1-O2",
+            "π C1-C3 -> σ C3-C9",
+            "π C9-C10 -> π C10-C11"
+          ],
+          "feedbackMessage": "Nearly: the carbon next to the enone's C=O now has five bonds. Move that C=O π pair onto oxygen."
+        }
+      ]
+    },
+    "products": {
+      "caption": "2-(3-oxobutyl)cyclohexanone, a 1,5-diketone + ethoxide",
+      "mappedSmiles": "[O:2]=[C:1]1[CH:3]([CH2:9][CH:10]([H:8])[C:11](=[O:12])[CH3:13])[CH2:4][CH2:5][CH2:6][CH2:7]1.[CH3:16][CH2:15][O-:14].[Na+:17]",
+      "mapNumberToCoordinates": {
+        "1": [
+          1.5,
+          0
+        ],
+        "2": [
+          3,
+          0
+        ],
+        "3": [
+          0.75,
+          1.3
+        ],
+        "4": [
+          -0.75,
+          1.3
+        ],
+        "5": [
+          -1.5,
+          0
+        ],
+        "6": [
+          -0.75,
+          -1.3
+        ],
+        "7": [
+          0.75,
+          -1.3
+        ],
+        "8": [
+          1.5,
+          5.2
+        ],
+        "9": [
+          1.5,
+          2.6
+        ],
+        "10": [
+          0.75,
+          3.9
+        ],
+        "11": [
+          -0.75,
+          3.9
+        ],
+        "12": [
+          -1.5,
+          2.6
+        ],
+        "13": [
+          -1.5,
+          5.2
+        ],
+        "14": [
+          7.84,
+          -0.38
+        ],
+        "15": [
+          6.54,
+          0.37
+        ],
+        "16": [
+          5.24,
+          -0.38
+        ],
+        "17": [
+          -0.04,
+          6.95
+        ]
+      }
+    },
+    "reactants": {
+      "caption": "cyclohexanone + methyl vinyl ketone + sodium ethoxide",
+      "hintTiers": [
+        "Methyl vinyl ketone could form an enolate too, but here the cyclohexanone enolate is the nucleophile. Which hydrogen is drawn?",
+        "Ethoxide takes the drawn hydrogen next to the cyclohexanone C=O. The C–H pair forms a C=C bond to the carbonyl carbon, and the C=O π pair moves onto oxygen. Three arrows.",
+        "Ethoxide lone pair → new bond to the drawn hydrogen; that C–H bond → a π bond to the carbonyl carbon; the C=O π bond → a lone pair on oxygen."
+      ],
+      "mappedSmiles": "[O:2]=[C:1]1[CH:3]([H:8])[CH2:4][CH2:5][CH2:6][CH2:7]1.[CH2:9]=[CH:10][C:11](=[O:12])[CH3:13].[CH3:16][CH2:15][O-:14].[Na+:17]",
+      "learnerPrompt": "Form the enolate of cyclohexanone.",
+      "misconceptions": [
+        {
+          "severity": "plausible",
+          "arrowPattern": "lp O14 -> C9",
+          "feedbackMessage": "Ethoxide can add to the end of the enone, but that is reversible. Here ethoxide acts as a base on the ketone.",
+          "misconceptionId": "ethoxide-conjugate-addition",
+          "misconceptionTag": "wrong-nucleophile"
+        },
+        {
+          "severity": "plausible",
+          "arrowPattern": "lp O14 -> C1",
+          "feedbackMessage": "Ethoxide adding to the ketone is reversible and leads nowhere. Make the enolate.",
+          "misconceptionId": "ethoxide-adds-to-ketone",
+          "misconceptionTag": "unproductive-addition"
+        }
+      ],
+      "mapNumberToCoordinates": {
+        "1": [
+          1.5,
+          0
+        ],
+        "2": [
+          3,
+          0
+        ],
+        "3": [
+          0.75,
+          1.3
+        ],
+        "4": [
+          -0.75,
+          1.3
+        ],
+        "5": [
+          -1.5,
+          0
+        ],
+        "6": [
+          -0.75,
+          -1.3
+        ],
+        "7": [
+          0.75,
+          -1.3
+        ],
+        "8": [
+          1.5,
+          2.6
+        ],
+        "9": [
+          0.27,
+          5.94
+        ],
+        "10": [
+          1.57,
+          6.69
+        ],
+        "11": [
+          2.87,
+          5.94
+        ],
+        "12": [
+          2.87,
+          4.44
+        ],
+        "13": [
+          4.17,
+          6.69
+        ],
+        "14": [
+          7.9,
+          -0.02
+        ],
+        "15": [
+          6.6,
+          0.73
+        ],
+        "16": [
+          5.3,
+          -0.02
+        ],
+        "17": [
+          -1.45,
+          7.45
+        ]
+      },
+      "partialProgressMessages": [
+        {
+          "learnerArrows": [
+            "lp O14 -> σ O14-H8",
+            "σ C3-H8 -> π C1-C3"
+          ],
+          "feedbackMessage": "Good: ethoxide takes the proton and a C=C bond forms. Now move the C=O π pair onto oxygen."
+        }
+      ]
+    },
+    "new-enolate": {
+      "caption": "the new enolate + ethanol",
+      "hintTiers": [
+        "The new enolate is a base, and ethanol is a proton source. Which atom takes the proton to give a ketone?",
+        "The O⁻ lone pair re-forms C=O, the C=C π pair takes the drawn proton of ethanol, and the O–H pair stays on ethanol's oxygen. Three arrows.",
+        "O⁻ lone pair → C=O π bond; C=C π bond → new C–H bond to the hydrogen of ethanol; that O–H bond → a lone pair on ethanol's oxygen."
+      ],
+      "mappedSmiles": "[O:2]=[C:1]1[CH:3]([CH2:9][CH:10]=[C:11]([O-:12])[CH3:13])[CH2:4][CH2:5][CH2:6][CH2:7]1.[CH3:16][CH2:15][O:14][H:8].[Na+:17]",
+      "learnerPrompt": "Ethanol protonates the new enolate on carbon.",
+      "misconceptions": [
+        {
+          "severity": "plausible",
+          "arrowPattern": "* -> σ O12-H8",
+          "feedbackMessage": "Protonating oxygen gives the enol, which then tautomerises. Put the proton on carbon to reach the ketone directly.",
+          "misconceptionId": "protonate-enolate-oxygen",
+          "misconceptionTag": "enol-instead-of-keto"
+        },
+        {
+          "severity": "plausible",
+          "arrowPattern": "σ C3-C9 -> *",
+          "feedbackMessage": "Breaking the new C–C bond reverses the Michael addition. Protonate the enolate.",
+          "misconceptionId": "new-bond-breaks",
+          "misconceptionTag": "reverse-step"
+        }
+      ],
+      "mapNumberToCoordinates": {
+        "1": [
+          1.5,
+          0
+        ],
+        "2": [
+          3,
+          0
+        ],
+        "3": [
+          0.75,
+          1.3
+        ],
+        "4": [
+          -0.75,
+          1.3
+        ],
+        "5": [
+          -1.5,
+          0
+        ],
+        "6": [
+          -0.75,
+          -1.3
+        ],
+        "7": [
+          0.75,
+          -1.3
+        ],
+        "8": [
+          9.14,
+          0.36
+        ],
+        "9": [
+          1.5,
+          2.6
+        ],
+        "10": [
+          0.75,
+          3.9
+        ],
+        "11": [
+          1.5,
+          5.2
+        ],
+        "12": [
+          3,
+          5.2
+        ],
+        "13": [
+          0.75,
+          6.5
+        ],
+        "14": [
+          7.84,
+          -0.39
+        ],
+        "15": [
+          6.54,
+          0.36
+        ],
+        "16": [
+          5.24,
+          -0.39
+        ],
+        "17": [
+          -0.17,
+          8.6
+        ]
+      },
+      "partialProgressMessages": [
+        {
+          "learnerArrows": [
+            "π C10-C11 -> σ C10-H8",
+            "σ O14-H8 -> lp O14"
+          ],
+          "feedbackMessage": "Right: carbon takes the proton. That leaves a positive carbon next to O⁻: push the O⁻ lone pair in to re-form C=O."
+        }
+      ]
+    }
+  },
+  "conditionsLabel": "MVK · NaOEt (cat.) · EtOH",
+  "reactionClasses": [
+    "carbonyl",
+    "addition"
+  ],
+  "reactionVersion": 1,
+  "mechanismSummary": "Ethoxide forms the enolate of cyclohexanone. The enolate adds to the terminal carbon of methyl vinyl ketone (a Michael, or conjugate, addition), pushing the charge onto the enone oxygen. Ethanol protonates the new enolate on carbon, regenerating ethoxide and giving 2-(3-oxobutyl)cyclohexanone, the 1,5-diketone that the second half of the Robinson annulation closes into a ring.",
+  "abbreviatedGroups": [
+    {
+      "groupLabel": "Et",
+      "mapNumbers": [
+        15,
+        16
+      ],
+      "attachmentMapNumber": 15
+    }
+  ],
+  "dailyPuzzleEligible": true,
+  "spectatorMapNumbers": [
+    17
+  ],
+  "atomRoleToMapNumbers": {
+    "base": [
+      14
+    ],
+    "alphaCarbon": [
+      3
+    ],
+    "michaelAcceptorCarbon": [
+      9
+    ]
+  },
+  "previousReactionVersion": null
+}
