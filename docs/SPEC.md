@@ -61,8 +61,8 @@ reactions, track `electrophilic-aromatic-substitution`, problem sets in this ord
   steps. `dailyPuzzleEligible: true` for all (the checkpoint only reuses earlier reactions, so none is kept unseen).
 - **A pilot comes first**: nitronium formation, nitration of benzene, nitration of anisole (with resonance steps);
   reviewed by the owner before the remaining reactions are drafted.
-- **Heteroaromatics** (pyrrole/furan at C2, pyridine at C3, harsh) are a second, short batch; naphthalene and indole
-  are left out.
+- **Heteroaromatics** move to the Advanced **Heterocycles** track of the curriculum (decided 2026-11-26,
+  `docs/curriculum.md` A5), no longer a second SEAr batch; this track stays as it is.
 - **As drafted (2026-11-26, 16 drafts after the 3 published pilot reactions; all 19 published by
   the owner on 2026-11-26; the track is live from `content/tracks/electrophilic-aromatic-substitution.json`):** Br₂ is activated by **AlBr₃** (the strict
   reader has no Fe; the conditions say "or FeBr₃"); SO₃ is the electrophile of sulfonation directly (no separate
@@ -534,6 +534,9 @@ Publish stage, the review queue, the review screen (only what changed, notes) an
   "mostly fine" per the user; the decisions in §4 are settled, and details may still be refined.
 - Branding beyond the name (logo, colours). Name and domain decided 2026-11-26: ArrowPush, `arrowpushing.com`.
 - Which exact reactions beyond the list above; authoring order of the first content set.
+- **Curriculum roadmap (decided 2026-11-26):** `docs/curriculum.md` / `docs/curriculum.html` list the Learn tracks
+  from first year to graduate synthesis case studies, with prerequisites, problem sets, the capabilities each needs and
+  the authoring order (Foundations first). The items below are settled there, track by track, when each is drafted.
 - Tracks after "Electrophilic aromatic substitution" (e.g. Zaitsev versus Hofmann, kinetic versus thermodynamic enolates) and their
   problem sets. (Problem sets themselves were scoped on 2026-11-25: §1, §2, §5 "Learn".)
 - Deferred features: whole-mechanism mode, stereo validation, learner accounts/leaderboards/sync, visual editor polish (v2).

@@ -1,0 +1,389 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>ArrowPush — curriculum roadmap</title>
+<style>
+  :root { --bg:#f7f5f0; --surface:#fff; --ink:#1d2433; --muted:#5d667a; --line:#e2ded3; --accent:#5b4bdb; --soft:#ece9ff; --warn:#fff0c7; --warnink:#7a4f00; }
+  @media (prefers-color-scheme: dark) { :root { --bg:#12141c; --surface:#1b1e2a; --ink:#eceef6; --muted:#a0a8bd; --line:#2e3345; --accent:#8c80ff; --soft:#2a2755; --warn:#3a2f10; --warnink:#f1b73e; } }
+  * { box-sizing: border-box; }
+  body { margin:0; background:var(--bg); color:var(--ink); font:16px/1.6 ui-rounded,"Segoe UI",system-ui,sans-serif; }
+  .layout { max-width:1060px; margin:0 auto; padding:24px 16px 80px; display:grid; grid-template-columns:210px minmax(0,1fr); gap:32px; }
+  @media (max-width:820px){ .layout{grid-template-columns:1fr} nav.toc{position:static!important} }
+  nav.toc { position:sticky; top:16px; align-self:start; font-size:.9rem; }
+  nav.toc a { display:block; padding:5px 10px; border-radius:8px; color:var(--muted); text-decoration:none; font-weight:600; }
+  nav.toc a:hover { background:var(--soft); color:var(--accent); }
+  h1 { font-size:2rem; margin:0 0 4px; } h2 { font-size:1.35rem; margin:40px 0 10px; padding-top:8px; border-top:1px solid var(--line); } h3 { font-size:1.02rem; margin:20px 0 6px; }
+  p, li { margin:0 0 .6em; } ul { padding-left:20px; margin:0 0 1em; } .muted { color:var(--muted); }
+  .note { background:var(--warn); color:var(--warnink); border-radius:12px; padding:10px 14px; font-size:.92rem; margin:14px 0; }
+  .card { background:var(--surface); border:1px solid var(--line); border-radius:14px; padding:14px 18px; margin:12px 0; }
+  code { background:var(--soft); border-radius:6px; padding:1px 6px; font-size:.9em; }
+  .tag { display:inline-block; font-size:.72rem; font-weight:800; padding:2px 9px; border-radius:99px; background:var(--soft); color:var(--accent); vertical-align:2px; letter-spacing:.03em; }
+  table { width:100%; border-collapse:collapse; font-size:.92rem; } th,td { text-align:left; padding:8px; border-bottom:1px solid var(--line); vertical-align:top; } th { color:var(--muted); font-size:.75rem; text-transform:uppercase; letter-spacing:.05em; }
+  a { color:var(--accent); }
+
+  .track { background:var(--surface); border:1px solid var(--line); border-radius:14px; padding:14px 18px; margin:12px 0; }
+  .track h3 { margin:0 0 4px; } .code { font-family:ui-monospace,monospace; color:var(--muted); font-size:.85rem; margin-right:6px; }
+  .sets { margin:8px 0 0; } .sets li { margin-bottom:.3em; } .need { display:inline-block; font-size:.72rem; font-weight:700; padding:2px 8px; border-radius:99px; background:var(--warn); color:var(--warnink); margin:2px 4px 0 0; }
+  .status-live { background:#d8f5e3; color:#11683a; } .status-next { background:var(--soft); color:var(--accent); } .status-optional { background:var(--line); color:var(--muted); }
+  @media (prefers-color-scheme: dark) { .status-live { background:#123d27; color:#7fe0a8; } }
+  ol.order { columns:2; column-gap:32px; } @media (max-width:820px){ ol.order{columns:1} }
+</style>
+</head>
+<body>
+<div class="layout">
+  <nav class="toc" aria-label="Sections"><a href="#levels">Levels</a><a href="#foundations">Foundations</a><a href="#core">Core</a><a href="#advanced">Advanced</a><a href="#graduate">Graduate</a><a href="#capabilities">Capabilities</a><a href="#order">Authoring order</a></nav>
+  <main>
+<h1>Curriculum roadmap <span class="tag">2026-11-26</span></h1>
+<p class="muted">Which Learn tracks exist, in what order, what each teaches, and what the app needs before it can host them. For authors (you and future contributors), not learners.</p>
+<div class="note">This page is the human copy. The same content for the assistant lives in <code>docs/curriculum.md</code>; update both together when a track changes.</div>
+<p>Backbone: Clayden, Greeves and Warren, <i>Organic Chemistry</i> (2nd edition), checked against a typical UK MChem / US BS and first-year graduate syllabus. A track is 3–6 problem sets and about 12–25 reactions ending in a checkpoint; each reaction keeps its own difficulty tier 1–3. Example reactions are starting points, settled per track when it is drafted.</p>
+<h2 id="levels">Levels</h2><table><thead><tr><th>Level</th><th>Years</th><th>What it covers</th><th>Tracks</th></tr></thead><tbody>
+<tr><td><a href="#foundations"><b>Foundations</b></a></td><td>First year</td><td>Curved arrows and the reactions every later track builds on.</td><td>7</td></tr>
+<tr><td><a href="#core"><b>Core</b></a></td><td>Second year</td><td>Enolates, condensations, conjugate addition, rearrangements, radicals and the first pericyclic reactions.</td><td>9</td></tr>
+<tr><td><a href="#advanced"><b>Advanced</b></a></td><td>Third and fourth year</td><td>Stereoelectronics, named rearrangements, ylides and carbenes, heterocycles, organocatalysis, protecting groups, metal catalysis.</td><td>9</td></tr>
+<tr><td><a href="#graduate"><b>Graduate</b></a></td><td>Synthesis case studies</td><td>One track per published synthesis: its key steps in order, with the real conditions.</td><td>5</td></tr>
+</tbody></table>
+<h2 id="foundations">Foundations <span class="muted" style="font-size:1rem;font-weight:500">· First year</span></h2><p>Curved arrows and the reactions every later track builds on.</p>
+<div class="track" id="F1"><h3><span class="code">F1</span>Curved arrows <span class="tag status-next">next</span></h3>
+<p>Sources and sinks, formal charge, resonance and proton transfer, before any named reaction.</p>
+<p class="muted">Prerequisites: none</p><ul class="sets">
+<li><b>Sources and sinks</b>: hydroxide + H₃O⁺; NH₃ + BF₃ (Lewis adduct); Cl⁻ + a carbocation</li>
+<li><b>Formal charge and octets</b>: protonating water and ammonia; t-butyl cation from t-BuOH₂⁺; a pentavalent-carbon trap (feedback)</li>
+<li><b>Resonance</b>: carboxylate; enolate; allyl cation; amide; nitro group</li>
+<li><b>Proton transfer and pKa</b>: acetic acid + hydroxide; alkoxide + water (which way it goes); phenol vs alcohol acidity</li>
+</ul>
+</div>
+<div class="track" id="F2"><h3><span class="code">F2</span>Nucleophilic substitution <span class="tag status-next">next</span></h3>
+<p>SN2 and SN1: who attacks, what leaves, and why the mechanism changes.</p>
+<p class="muted">Prerequisites: <a href="#F1">F1 Curved arrows</a></p><ul class="sets">
+<li><b>SN2</b>: hydroxide + bromomethane (published); cyanide + iodoethane; Finkelstein (NaI, acetone); azide + benzyl bromide</li>
+<li><b>SN1</b>: t-butyl bromide solvolysis; benzylic and allylic cations; a carbocation rearrangement (1,2-shift)</li>
+<li><b>Making leaving groups</b>: alcohol + HBr; tosylate formation and displacement; Appel (PPh₃, CBr₄)</li>
+</ul>
+<p><span class="need">needs stereo validation</span></p>
+<p class="muted">Inversion and racemisation are explained; checking them needs stereo validation.</p>
+</div>
+<div class="track" id="F3"><h3><span class="code">F3</span>Elimination <span class="tag status-next">next</span></h3>
+<p>E2, E1 and E1cB, and when elimination beats substitution.</p>
+<p class="muted">Prerequisites: <a href="#F2">F2 Nucleophilic substitution</a></p><ul class="sets">
+<li><b>E2</b>: 2-bromopropane + ethoxide; Zaitsev vs Hofmann (alternative products); anti-periplanar in cyclohexanes</li>
+<li><b>E1</b>: acid dehydration of t-butanol; dehydration with a hydride shift</li>
+<li><b>E1cB</b>: β-hydroxy ketone dehydration</li>
+<li><b>Substitution or elimination?</b>: primary vs tertiary substrates; t-BuOK vs NaOEt</li>
+</ul>
+<p><span class="need">needs stereo validation</span></p>
+<p class="muted">Anti-periplanar geometry is explained, not checked, until stereo validation.</p>
+</div>
+<div class="track" id="F4"><h3><span class="code">F4</span>Addition to alkenes</h3>
+<p>Electrophiles adding to C=C: Markovnikov, bromonium ions and concerted additions.</p>
+<p class="muted">Prerequisites: <a href="#F1">F1 Curved arrows</a></p><ul class="sets">
+<li><b>Via carbocations</b>: HBr (Markovnikov); acid-catalysed hydration; addition with a rearrangement</li>
+<li><b>Via three-membered rings</b>: bromination (bromonium); halohydrin formation; epoxidation with mCPBA</li>
+<li><b>Hydroboration</b>: BH₃ then H₂O₂/NaOH (anti-Markovnikov)</li>
+</ul>
+<p><span class="need">needs stereo validation</span></p>
+<p class="muted">Anti and syn addition need stereo validation to be checked.</p>
+</div>
+<div class="track" id="F5"><h3><span class="code">F5</span>Carbonyl addition <span class="tag status-next">next</span></h3>
+<p>Nucleophiles adding to aldehydes and ketones, and what happens to the tetrahedral intermediate.</p>
+<p class="muted">Prerequisites: <a href="#F1">F1 Curved arrows</a></p><ul class="sets">
+<li><b>Nucleophilic addition</b>: NaBH₄ reduction; Grignard addition; cyanohydrin</li>
+<li><b>Hydrates, hemiacetals and acetals</b>: acid-catalysed acetal formation; acetal hydrolysis; acetals as protecting groups</li>
+<li><b>Imines and enamines</b>: imine formation; enamine from a secondary amine; reductive amination (NaBH₃CN)</li>
+<li><b>Ylides</b>: Wittig methylenation (published); betaine vs oxaphosphetane routes</li>
+</ul>
+</div>
+<div class="track" id="F6"><h3><span class="code">F6</span>Carboxylic acid derivatives</h3>
+<p>Nucleophilic acyl substitution through the tetrahedral intermediate, and the reactivity order.</p>
+<p class="muted">Prerequisites: <a href="#F5">F5 Carbonyl addition</a></p><ul class="sets">
+<li><b>Addition–elimination</b>: acid chloride + amine; ester hydrolysis (base); ester hydrolysis (acid)</li>
+<li><b>Making esters and amides</b>: Fischer esterification; DCC coupling; anhydride + alcohol</li>
+<li><b>Two additions</b>: Grignard + ester (tertiary alcohol); LiAlH₄ reduction of an ester; DIBAL to the aldehyde</li>
+</ul>
+</div>
+<div class="track" id="F7"><h3><span class="code">F7</span>Electrophilic aromatic substitution <span class="tag status-live">live</span></h3>
+<p>How arenes react with electrophiles, and where.</p>
+<p class="muted">Prerequisites: <a href="#F1">F1 Curved arrows</a></p><ul class="sets">
+<li><b>Making the electrophile</b>: nitronium ion; Br₂/AlBr₃; acylium ion; isopropyl cation (hydride shift)</li>
+<li><b>The arenium ion</b>: nitration, bromination, Friedel–Crafts alkylation and acylation, sulfonation of benzene</li>
+<li><b>Directing effects</b>: toluene, anisole, phenol, acetanilide, chlorobenzene, nitrobenzene</li>
+<li><b>Predict the position</b>: four new substrates</li>
+</ul>
+<p class="muted">Live since 2026-11-26: 19 reactions and a checkpoint.</p>
+</div>
+<h2 id="core">Core <span class="muted" style="font-size:1rem;font-weight:500">· Second year</span></h2><p>Enolates, condensations, conjugate addition, rearrangements, radicals and the first pericyclic reactions.</p>
+<div class="track" id="C1"><h3><span class="code">C1</span>Enols and enolates</h3>
+<p>Making enols and enolates, and their reactions at carbon.</p>
+<p class="muted">Prerequisites: <a href="#F5">F5 Carbonyl addition</a>, <a href="#F1">F1 Curved arrows</a></p><ul class="sets">
+<li><b>Tautomerism</b>: acid-catalysed enolisation; base-catalysed enolisation</li>
+<li><b>α-Substitution</b>: α-bromination (acid); haloform reaction</li>
+<li><b>Enolate alkylation</b>: LDA + methyl iodide; kinetic vs thermodynamic enolate (alternative products)</li>
+<li><b>The aldol</b>: aldol addition (published); aldol condensation (E1cB)</li>
+</ul>
+</div>
+<div class="track" id="C2"><h3><span class="code">C2</span>Carbonyl condensations</h3>
+<p>Enolates attacking esters and iminium ions: building C–C bonds and rings.</p>
+<p class="muted">Prerequisites: <a href="#C1">C1 Enols and enolates</a>, <a href="#F6">F6 Carboxylic acid derivatives</a></p><ul class="sets">
+<li><b>Claisen family</b>: Claisen condensation; Dieckmann cyclisation; crossed Claisen</li>
+<li><b>Mannich and Knoevenagel</b>: Mannich reaction; Knoevenagel condensation</li>
+<li><b>Robinson annulation</b>: Michael then aldol then dehydration</li>
+</ul>
+<p class="muted">Prerequisite of the tropinone and Wieland–Miescher case studies.</p>
+</div>
+<div class="track" id="C3"><h3><span class="code">C3</span>Conjugate addition</h3>
+<p>1,2 vs 1,4 addition to enones, and soft nucleophiles.</p>
+<p class="muted">Prerequisites: <a href="#C1">C1 Enols and enolates</a></p><ul class="sets">
+<li><b>Michael addition</b>: malonate + methyl vinyl ketone; 1,2 vs 1,4 (alternative products)</li>
+<li><b>Enamines and amines</b>: Stork enamine alkylation; aza-Michael</li>
+<li><b>Baylis–Hillman</b>: DABCO-catalysed MBH</li>
+<li><b>Organocuprates</b>: Me₂CuLi conjugate addition</li>
+</ul>
+<p><span class="need">needs transition metals</span></p>
+<p class="muted">Cuprates need transition-metal support; the rest works now.</p>
+</div>
+<div class="track" id="C4"><h3><span class="code">C4</span>Nucleophilic aromatic substitution</h3>
+<p>When arenes are attacked by nucleophiles: Meisenheimer complexes, benzyne, diazonium salts.</p>
+<p class="muted">Prerequisites: <a href="#F7">F7 Electrophilic aromatic substitution</a></p><ul class="sets">
+<li><b>SNAr</b>: 2,4-dinitrochlorobenzene + methoxide; fluoride as a leaving group</li>
+<li><b>Benzyne</b>: chlorobenzene + NaNH₂ (alternative products)</li>
+<li><b>Diazonium salts</b>: diazotisation; azo coupling; Sandmeyer (CuX)</li>
+</ul>
+<p><span class="need">needs transition metals</span></p>
+<p class="muted">Sandmeyer needs copper; diazotisation and azo coupling work now.</p>
+</div>
+<div class="track" id="C5"><h3><span class="code">C5</span>Oxidation and reduction</h3>
+<p>Hydride donors, oxygen-transfer reagents and dissolving metals, by mechanism.</p>
+<p class="muted">Prerequisites: <a href="#F5">F5 Carbonyl addition</a>, <a href="#F6">F6 Carboxylic acid derivatives</a></p><ul class="sets">
+<li><b>Hydride reductions</b>: NaBH₄ vs LiAlH₄ chemoselectivity; Luche (CeCl₃); Meerwein–Ponndorf–Verley</li>
+<li><b>Oxidations without metals</b>: Swern; Dess–Martin; Baeyer–Villiger</li>
+<li><b>Removing C=O</b>: Wolff–Kishner; Clemmensen (Zn/Hg)</li>
+<li><b>Chromium and dissolving metals</b>: Jones / PCC; Birch reduction</li>
+</ul>
+<p><span class="need">needs new main-group elements</span><span class="need">needs transition metals</span><span class="need">needs single-electron transfer</span></p>
+<p class="muted">Most of the track works now; Luche, Clemmensen, Cr oxidations and Birch each wait for a capability.</p>
+</div>
+<div class="track" id="C6"><h3><span class="code">C6</span>Rearrangements</h3>
+<p>1,2-Shifts to electron-poor carbon, nitrogen and oxygen.</p>
+<p class="muted">Prerequisites: <a href="#F2">F2 Nucleophilic substitution</a>, <a href="#F3">F3 Elimination</a></p><ul class="sets">
+<li><b>To carbon</b>: pinacol rearrangement; Wagner–Meerwein; semipinacol</li>
+<li><b>To nitrogen</b>: Beckmann; Hofmann; Curtius</li>
+<li><b>To oxygen</b>: Baeyer–Villiger (migratory aptitude); Criegee / hydroperoxide rearrangement</li>
+</ul>
+<p class="muted">Needs the 1,2-shift picking built in item 10g.</p>
+</div>
+<div class="track" id="C7"><h3><span class="code">C7</span>Radical reactions</h3>
+<p>Chains, selectivity and radical C–C bond formation, with fish-hook arrows.</p>
+<p class="muted">Prerequisites: <a href="#F1">F1 Curved arrows</a></p><ul class="sets">
+<li><b>Chains</b>: bromination of methane (published); allylic bromination (NBS); HBr with peroxides (anti-Markovnikov)</li>
+<li><b>Selectivity</b>: chlorination vs bromination of propane (alternative products)</li>
+<li><b>Tin chemistry</b>: Barton–McCombie; radical cyclisation (Bu₃SnH, AIBN)</li>
+</ul>
+<p><span class="need">needs new main-group elements</span></p>
+<p class="muted">Tin needs Sn in the element table (also the v1 content list&#x27;s Barton–McCombie).</p>
+</div>
+<div class="track" id="C8"><h3><span class="code">C8</span>Pericyclic reactions I</h3>
+<p>Concerted cycloadditions, electrocyclic reactions and sigmatropic shifts, drawn as one step.</p>
+<p class="muted">Prerequisites: <a href="#F4">F4 Addition to alkenes</a></p><ul class="sets">
+<li><b>Diels–Alder</b>: butadiene + ethene; regiochemistry (alternative products); endo rule</li>
+<li><b>Electrocyclic</b>: hexatriene ring closure; ring opening of cyclobutenes</li>
+<li><b>Sigmatropic</b>: Cope; Claisen (allyl vinyl ether)</li>
+<li><b>1,3-Dipoles</b>: azide–alkyne (thermal); nitrone cycloaddition</li>
+</ul>
+<p><span class="need">needs stereo validation</span></p>
+<p class="muted">Endo and con/disrotatory outcomes are explained until stereo validation.</p>
+</div>
+<div class="track" id="C9"><h3><span class="code">C9</span>Mechanisms in biology <span class="tag status-optional">optional</span></h3>
+<p>The same arrows in enzymes and cofactors. Optional, lower priority.</p>
+<p class="muted">Prerequisites: <a href="#C1">C1 Enols and enolates</a>, <a href="#F6">F6 Carboxylic acid derivatives</a></p><ul class="sets">
+<li><b>Acyl transfer</b>: serine protease (catalytic triad)</li>
+<li><b>Enzymatic C–C bonds</b>: class I aldolase via an enamine; thiamine (umpolung)</li>
+<li><b>Cofactors</b>: NAD⁺/NADH hydride transfer; PLP transamination</li>
+</ul>
+</div>
+<h2 id="advanced">Advanced <span class="muted" style="font-size:1rem;font-weight:500">· Third and fourth year</span></h2><p>Stereoelectronics, named rearrangements, ylides and carbenes, heterocycles, organocatalysis, protecting groups, metal catalysis.</p>
+<div class="track" id="A1"><h3><span class="code">A1</span>Stereoelectronics and conformation</h3>
+<p>Why orbital alignment decides which bonds form and break.</p>
+<p class="muted">Prerequisites: <a href="#F3">F3 Elimination</a>, <a href="#C1">C1 Enols and enolates</a></p><ul class="sets">
+<li><b>Anti-periplanar</b>: E2 in cyclohexanes; Fürst–Plattner epoxide opening</li>
+<li><b>Addition to carbonyls</b>: Felkin–Anh; Bürgi–Dunitz trajectory</li>
+<li><b>Ring closure</b>: Baldwin&#x27;s rules (allowed and disfavoured closures)</li>
+<li><b>Anomeric effect</b>: glycoside hydrolysis</li>
+</ul>
+<p><span class="need">needs stereo validation</span></p>
+<p class="muted">Mostly a stereo-validation track; ring closures work now.</p>
+</div>
+<div class="track" id="A2"><h3><span class="code">A2</span>Neighbouring groups</h3>
+<p>Participation, three-membered intermediates and ring contractions.</p>
+<p class="muted">Prerequisites: <a href="#F2">F2 Nucleophilic substitution</a>, <a href="#C6">C6 Rearrangements</a></p><ul class="sets">
+<li><b>Anchimeric assistance</b>: episulfonium (mustard); acetoxonium ion</li>
+<li><b>Epoxides</b>: acid vs base opening (alternative products); Payne rearrangement</li>
+<li><b>Ring contractions</b>: Favorskii; Ramberg–Bäcklund</li>
+</ul>
+<p><span class="need">needs stereo validation</span></p>
+</div>
+<div class="track" id="A3"><h3><span class="code">A3</span>Sigmatropic and named rearrangements</h3>
+<p>[3,3] and [2,3] shifts in synthesis.</p>
+<p class="muted">Prerequisites: <a href="#C8">C8 Pericyclic reactions I</a>, <a href="#C6">C6 Rearrangements</a></p><ul class="sets">
+<li><b>[3,3]</b>: Ireland–Claisen; Johnson–Claisen; oxy-Cope (anionic)</li>
+<li><b>[2,3]</b>: [2,3]-Wittig; Mislow–Evans</li>
+<li><b>Others</b>: Overman; benzilic acid rearrangement</li>
+</ul>
+<p><span class="need">needs stereo validation</span></p>
+</div>
+<div class="track" id="A4"><h3><span class="code">A4</span>Ylides, carbenes and nitrenes</h3>
+<p>Making C=C and three-membered rings with reactive intermediates.</p>
+<p class="muted">Prerequisites: <a href="#F5">F5 Carbonyl addition</a>, <a href="#C6">C6 Rearrangements</a></p><ul class="sets">
+<li><b>Ylides</b>: Horner–Wadsworth–Emmons; Corey–Chaykovsky; Julia–Kocienski; Peterson (Si)</li>
+<li><b>Carbenes</b>: dichlorocarbene cyclopropanation; Simmons–Smith (Zn); Wolff / Arndt–Eistert</li>
+<li><b>Hydrazones</b>: Bamford–Stevens; Shapiro</li>
+</ul>
+<p><span class="need">needs new main-group elements</span><span class="need">needs transition metals</span><span class="need">needs stereo validation</span></p>
+<p class="muted">Simmons–Smith needs Zn; Rh carbenoids need transition metals.</p>
+</div>
+<div class="track" id="A5"><h3><span class="code">A5</span>Heterocycles</h3>
+<p>Electrophilic and nucleophilic substitution of heteroaromatics, and making the rings.</p>
+<p class="muted">Prerequisites: <a href="#F7">F7 Electrophilic aromatic substitution</a>, <a href="#C4">C4 Nucleophilic aromatic substitution</a>, <a href="#C2">C2 Carbonyl condensations</a></p><ul class="sets">
+<li><b>π-Excessive rings</b>: pyrrole and furan at C2; indole at C3</li>
+<li><b>π-Deficient rings</b>: pyridine SNAr (2-chloropyridine); Chichibabin; pyridine N-oxide</li>
+<li><b>Ring synthesis</b>: Paal–Knorr; Hantzsch pyridine; Fischer indole ([3,3])</li>
+</ul>
+<p class="muted">Takes the heteroaromatics planned as a second SEAr batch (decided 2026-11-26).</p>
+</div>
+<div class="track" id="A6"><h3><span class="code">A6</span>Organocatalysis</h3>
+<p>Enamine and iminium catalysis with small organic molecules.</p>
+<p class="muted">Prerequisites: <a href="#C1">C1 Enols and enolates</a>, <a href="#C3">C3 Conjugate addition</a></p><ul class="sets">
+<li><b>Enamine catalysis</b>: proline aldol; Hajos–Parrish</li>
+<li><b>Iminium catalysis</b>: MacMillan Diels–Alder; organocatalytic Michael</li>
+<li><b>Other modes</b>: NHC benzoin / Stetter; phase-transfer alkylation</li>
+</ul>
+<p><span class="need">needs stereo validation</span></p>
+<p class="muted">Enantioselectivity is the point; turnover is drawn now, selectivity needs stereo validation.</p>
+</div>
+<div class="track" id="A7"><h3><span class="code">A7</span>Protecting groups and chemoselectivity</h3>
+<p>Putting groups on and off by mechanism, and choosing the right one.</p>
+<p class="muted">Prerequisites: <a href="#F6">F6 Carboxylic acid derivatives</a>, <a href="#C5">C5 Oxidation and reduction</a></p><ul class="sets">
+<li><b>Alcohols</b>: TBS on (imidazole) and off (fluoride); THP and MOM acetals; PMB off (DDQ)</li>
+<li><b>Amines</b>: Boc on and off (TFA); Fmoc off (piperidine, E1cB); Cbz off (H₂, Pd)</li>
+<li><b>Peptide coupling</b>: DCC/HOBt; HATU</li>
+</ul>
+<p><span class="need">needs single-electron transfer</span><span class="need">needs transition metals</span></p>
+<p class="muted">PMB/DDQ needs SET; Cbz hydrogenolysis needs Pd.</p>
+</div>
+<div class="track" id="A8"><h3><span class="code">A8</span>Pericyclic reactions II</h3>
+<p>Frontier orbitals and selection rules.</p>
+<p class="muted">Prerequisites: <a href="#C8">C8 Pericyclic reactions I</a></p><ul class="sets">
+<li><b>Cycloadditions</b>: retro-Diels–Alder; hetero-Diels–Alder; ene reaction</li>
+<li><b>Photochemistry</b>: [2+2] photocycloaddition; Norrish type II</li>
+<li><b>Selection rules</b>: thermal vs photochemical electrocyclisation</li>
+</ul>
+<p><span class="need">needs excited states</span><span class="need">needs stereo validation</span></p>
+</div>
+<div class="track" id="A9"><h3><span class="code">A9</span>Metal-catalysed reactions</h3>
+<p>Catalytic cycles as arrow-pushing: oxidative addition, transmetallation, insertion, reductive elimination.</p>
+<p class="muted">Prerequisites: <a href="#F6">F6 Carboxylic acid derivatives</a>, <a href="#C3">C3 Conjugate addition</a></p><ul class="sets">
+<li><b>Cross-coupling</b>: Suzuki; Heck; Sonogashira (Pd/Cu); Buchwald–Hartwig</li>
+<li><b>Oxidation</b>: Wacker; Sharpless epoxidation (Ti); Upjohn dihydroxylation (Os)</li>
+<li><b>Other cycles</b>: olefin metathesis (Ru); hydrogenation (Rh)</li>
+</ul>
+<p><span class="need">needs transition metals</span></p>
+<p class="muted">The whole track waits for transition-metal support.</p>
+</div>
+<h2 id="graduate">Graduate <span class="muted" style="font-size:1rem;font-weight:500">· Synthesis case studies</span></h2><p>One track per published synthesis: its key steps in order, with the real conditions.</p>
+<div class="track" id="G1"><h3><span class="code">G1</span>Robinson&#x27;s tropinone (1917)</h3>
+<p>One-pot double Mannich: succinaldehyde, methylamine and acetonedicarboxylic acid give tropinone.</p>
+<p class="muted">Prerequisites: <a href="#C2">C2 Carbonyl condensations</a></p><ul class="sets">
+<li><b>Iminium formation</b>: succinaldehyde + methylamine</li>
+<li><b>First Mannich</b>: intermolecular, with the dicarboxylate enol</li>
+<li><b>Second Mannich</b>: intramolecular ring closure</li>
+<li><b>Decarboxylation</b>: two β-keto acid decarboxylations</li>
+</ul>
+<p class="muted">Conditions: aqueous buffer, pH 7, rt.</p>
+</div>
+<div class="track" id="G2"><h3><span class="code">G2</span>Wieland–Miescher ketone</h3>
+<p>Robinson annulation of 2-methylcyclohexane-1,3-dione with methyl vinyl ketone; the proline-catalysed (Hajos–Parrish–Eder–Sauer–Wiechert) version.</p>
+<p class="muted">Prerequisites: <a href="#C2">C2 Carbonyl condensations</a>, <a href="#C3">C3 Conjugate addition</a></p><ul class="sets">
+<li><b>Michael addition</b>: dione + MVK</li>
+<li><b>Intramolecular aldol</b>: via a proline enamine</li>
+<li><b>Dehydration</b>: enone formation</li>
+</ul>
+<p><span class="need">needs stereo validation</span></p>
+<p class="muted">The enantioselective version needs stereo validation to check its ee-deciding step.</p>
+</div>
+<div class="track" id="G3"><h3><span class="code">G3</span>Johnson&#x27;s progesterone (1971)</h3>
+<p>A cationic polyene cyclisation forming three rings in one step.</p>
+<p class="muted">Prerequisites: <a href="#C6">C6 Rearrangements</a>, <a href="#A1">A1 Stereoelectronics and conformation</a></p><ul class="sets">
+<li><b>Initiation</b>: allylic cation from a tertiary allylic alcohol (TFA)</li>
+<li><b>Cyclisation</b>: cation–π cascade; vinyl cation trapping</li>
+<li><b>Endgame</b>: ozonolysis; intramolecular aldol</li>
+</ul>
+<p><span class="need">needs stereo validation</span></p>
+</div>
+<div class="track" id="G4"><h3><span class="code">G4</span>Corey&#x27;s prostaglandin F₂α (1969)</h3>
+<p>The Corey lactone route: Diels–Alder, Baeyer–Villiger, iodolactonisation, then the side chains.</p>
+<p class="muted">Prerequisites: <a href="#C8">C8 Pericyclic reactions I</a>, <a href="#C5">C5 Oxidation and reduction</a>, <a href="#A4">A4 Ylides, carbenes and nitrenes</a></p><ul class="sets">
+<li><b>Building the lactone</b>: cyclopentadiene + 2-chloroacrylonitrile; ketone unmasking; Baeyer–Villiger</li>
+<li><b>Iodolactonisation</b>: I₂/KI; Bu₃SnH deiodination</li>
+<li><b>Side chains</b>: HWE; Wittig</li>
+</ul>
+<p><span class="need">needs new main-group elements</span><span class="need">needs stereo validation</span></p>
+<p class="muted">Bu₃SnH needs Sn.</p>
+</div>
+<div class="track" id="G5"><h3><span class="code">G5</span>Woodward&#x27;s reserpine (1956)</h3>
+<p>Diels–Alder to a cis-decalin, then Meerwein–Ponndorf–Verley, Bischler–Napieralski and an epimerisation.</p>
+<p class="muted">Prerequisites: <a href="#C8">C8 Pericyclic reactions I</a>, <a href="#A5">A5 Heterocycles</a></p><ul class="sets">
+<li><b>The E ring</b>: benzoquinone + vinylacrylate Diels–Alder; MPV reduction (Al)</li>
+<li><b>Joining the indole</b>: Bischler–Napieralski (POCl₃); iminium reduction</li>
+<li><b>Epimerisation</b>: C3 epimerisation</li>
+</ul>
+<p><span class="need">needs stereo validation</span></p>
+</div>
+<h3>Second wave</h3><ul>
+<li><b>Overman&#x27;s strychnine (1993)</b>: aza-Cope–Mannich. <span class="need">needs transition metals</span></li>
+<li><b>Nicolaou&#x27;s taxol (1994)</b>: Shapiro, McMurry coupling. <span class="need">needs transition metals</span></li>
+<li><b>A modern Pd- or Ru-catalysed synthesis</b>: cross-coupling or metathesis as the key step. <span class="need">needs transition metals</span></li>
+</ul>
+<h2 id="capabilities">Capabilities the curriculum needs</h2><table><thead><tr><th>Capability</th><th>What it means</th><th>Tracks waiting</th></tr></thead><tbody>
+<tr><td><b>New main-group elements</b></td><td>Zn, Sn, Se, Hg, Ce, Sm… in the strict reader&#x27;s element table (valence and period). Small: a table entry and tests per element.</td><td><a href="#C5">C5</a>, <a href="#C7">C7</a>, <a href="#A4">A4</a>, <a href="#G4">G4</a> <span class="muted">(4)</span></td></tr>
+<tr><td><b>Stereo validation</b></td><td>Checking wedges and E/Z in answers (deferred in SPEC §9). Until then stereochemistry is explained in text and drawn, not assessed.</td><td><a href="#F2">F2</a>, <a href="#F3">F3</a>, <a href="#F4">F4</a>, <a href="#C8">C8</a>, <a href="#A1">A1</a>, <a href="#A2">A2</a>, <a href="#A3">A3</a>, <a href="#A4">A4</a>, <a href="#A6">A6</a>, <a href="#A8">A8</a>, <a href="#G2">G2</a>, <a href="#G3">G3</a>, <a href="#G4">G4</a>, <a href="#G5">G5</a> <span class="muted">(14)</span></td></tr>
+<tr><td><b>Single-electron transfer</b></td><td>An electron as a reagent (Na/NH₃, Li, SmI₂, DDQ): radical anions and SET steps drawn with fish-hooks from a metal or a reagent.</td><td><a href="#C5">C5</a>, <a href="#A7">A7</a> <span class="muted">(2)</span></td></tr>
+<tr><td><b>Transition metals</b></td><td>Pd, Cu, Ru, Rh, Ni, Os, Cr, Ti… with an electron-counting model (oxidation state, d-electrons, 16/18-electron rule) so oxidative addition, migratory insertion and reductive elimination can be drawn and checked.</td><td><a href="#C3">C3</a>, <a href="#C4">C4</a>, <a href="#C5">C5</a>, <a href="#A4">A4</a>, <a href="#A7">A7</a>, <a href="#A9">A9</a> <span class="muted">(6)</span></td></tr>
+<tr><td><b>Excited states</b></td><td>hν as a step: an excited state or triplet diradical drawn as a state.</td><td><a href="#A8">A8</a> <span class="muted">(1)</span></td></tr>
+<tr><td><b>Whole-mechanism mode</b></td><td>Several reactions joined into one run (deferred in SPEC §9); a synthesis track works without it, one step per reaction.</td><td>none yet <span class="muted">(0)</span></td></tr>
+</tbody></table>
+<p><b>Suggested build order:</b> new main-group elements first (cheap; unblocks the Sn, Zn and Ce steps), then stereo validation (the most tracks), then single-electron transfer, then transition metals (a new electron-counting model).</p>
+<h2 id="order">Authoring order</h2><p>Foundations first: each is a prerequisite of later tracks, and the daily puzzle needs a broad pool of tier-1 reactions.</p><ol class="order">
+<li><a href="#F1">F1 Curved arrows</a></li>
+<li><a href="#F2">F2 Nucleophilic substitution</a></li>
+<li><a href="#F3">F3 Elimination</a></li>
+<li><a href="#F5">F5 Carbonyl addition</a></li>
+<li><a href="#F6">F6 Carboxylic acid derivatives</a></li>
+<li><a href="#F4">F4 Addition to alkenes</a></li>
+<li><a href="#C1">C1 Enols and enolates</a></li>
+<li><a href="#C2">C2 Carbonyl condensations</a></li>
+<li><a href="#C3">C3 Conjugate addition</a></li>
+<li><a href="#C6">C6 Rearrangements</a></li>
+<li><a href="#C8">C8 Pericyclic reactions I</a></li>
+<li><a href="#C7">C7 Radical reactions</a></li>
+<li><a href="#C5">C5 Oxidation and reduction</a></li>
+<li><a href="#C4">C4 Nucleophilic aromatic substitution</a></li>
+<li><a href="#A5">A5 Heterocycles</a></li>
+<li><a href="#G1">G1 Robinson&#x27;s tropinone (1917)</a></li>
+<li><a href="#G2">G2 Wieland–Miescher ketone</a></li>
+<li><a href="#A1">A1 Stereoelectronics and conformation</a></li>
+<li><a href="#A2">A2 Neighbouring groups</a></li>
+<li><a href="#A3">A3 Sigmatropic and named rearrangements</a></li>
+<li><a href="#A4">A4 Ylides, carbenes and nitrenes</a></li>
+<li><a href="#A6">A6 Organocatalysis</a></li>
+<li><a href="#A7">A7 Protecting groups and chemoselectivity</a></li>
+<li><a href="#A8">A8 Pericyclic reactions II</a></li>
+<li><a href="#G3">G3 Johnson&#x27;s progesterone (1971)</a></li>
+<li><a href="#G4">G4 Corey&#x27;s prostaglandin F₂α (1969)</a></li>
+<li><a href="#G5">G5 Woodward&#x27;s reserpine (1956)</a></li>
+<li><a href="#C9">C9 Mechanisms in biology</a></li>
+<li><a href="#A9">A9 Metal-catalysed reactions</a></li>
+</ol>
+  </main>
+</div>
+</body>
+</html>

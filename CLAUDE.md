@@ -5,7 +5,8 @@ Do not change agreed decisions without asking; update `docs/SPEC.md` and `docs/s
 
 - `mockups/` — throwaway static HTML sketches (done). Open `mockups/index.html`.
 - `docs/` — `SPEC.md` (for the assistant) and `spec.html` (for the user); `schema-design.md` / `schema-design.html` =
-  reaction file format, Postgres schema, arrow notation and how answers are assessed (mostly agreed). Keep each pair in sync.
+  reaction file format, Postgres schema, arrow notation and how answers are assessed (mostly agreed); `curriculum.md` /
+  `curriculum.html` = the Learn tracks roadmap, first year to graduate. Keep each pair in sync.
 - Documents meant for the user to read are written as **HTML** (a `.md` copy for the assistant may sit beside them).
 - Real build follows the user's global strict-TDD protocol and global "Code conventions" (naming, lint, complexity).
   Build order and progress: `docs/schema-design.md` §10.
