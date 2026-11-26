@@ -1,10 +1,9 @@
 <script lang="ts">
   // The top bar, the same on the learner site and on Create (siteNavigation.ts): the brand,
   // Home · Daily · Learn · Practice · Progress · Create, and a light/dark theme switch remembered
-  // in the learner's progress (settings.theme). Create passes onCurrentTab, so that its own tab
+  // for both sites (sharedTheme.ts). Create passes onCurrentTab, so that its own tab
   // goes back to Your mechanisms without reloading the page.
-  import { readProgress, withTheme, writeProgress } from "../learnerProgress/learnerProgress.js";
-  import { browserStorage } from "./browserStorage.js";
+  import { saveTheme } from "./sharedTheme.js";
   import type { NavigationTab, NavigationTabName } from "./siteNavigation.js";
 
   const {
@@ -28,7 +27,7 @@
       (chosen === undefined && window.matchMedia("(prefers-color-scheme: dark)").matches);
     const theme = isDark ? "light" : "dark";
     root.dataset["theme"] = theme;
-    writeProgress(browserStorage, withTheme(readProgress(browserStorage), theme));
+    saveTheme(theme);
   }
 
   function followTab(event: MouseEvent, tab: NavigationTab): void {
