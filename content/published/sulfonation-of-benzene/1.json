@@ -1,0 +1,400 @@
+{
+  "steps": [
+    {
+      "stepKey": "electrophilic-attack",
+      "stepKind": "polar",
+      "toStateId": "arenium-ion",
+      "fromStateId": "reactants",
+      "canonicalArrows": [
+        "π C13-C14 -> σ C14-S2",
+        "π S2-O4 -> lp O4"
+      ],
+      "routePreference": "preferred",
+      "explanationAfterStep": "The arenium ion carries both charges: + in the ring, − on the sulfonate oxygen."
+    },
+    {
+      "stepKey": "deprotonation",
+      "stepKind": "polar",
+      "toStateId": "sulfonate",
+      "fromStateId": "arenium-ion",
+      "canonicalArrows": [
+        "lp O5 -> σ O5-H17",
+        "σ C14-H17 -> π C13-C14"
+      ],
+      "routePreference": "preferred",
+      "explanationAfterStep": "The ring is aromatic again."
+    },
+    {
+      "stepKey": "protonation",
+      "stepKind": "polar",
+      "toStateId": "sulfonic-acid",
+      "fromStateId": "sulfonate",
+      "canonicalArrows": [
+        "lp O4 -> σ O4-H17",
+        "σ O5-H17 -> lp O5"
+      ],
+      "routePreference": "preferred",
+      "explanationAfterStep": "Benzenesulfonic acid is a strong acid; in the reaction mixture the sulfonate and the acid are in equilibrium."
+    }
+  ],
+  "title": "Sulfonation of benzene",
+  "authors": [
+    {
+      "url": null,
+      "name": "Maksim"
+    }
+  ],
+  "licence": "CC-BY-SA-4.0",
+  "subtitle": "Benzene attacks sulfur trioxide",
+  "references": [
+    "Clayden, Greeves and Warren, Organic Chemistry, 2nd edition (Oxford University Press), chapter 21"
+  ],
+  "reactionSlug": "sulfonation-of-benzene",
+  "startStateId": "reactants",
+  "formatVersion": 1,
+  "difficultyTier": 2,
+  "stateIdToState": {
+    "reactants": {
+      "caption": "SO₃ + hydrogen sulfate + benzene",
+      "hintTiers": [
+        "Sulfur in SO₃ carries three polar S=O bonds. Which atom is electron-poor?",
+        "A ring π bond forms a bond to sulfur, and one S=O π pair moves onto oxygen. Two arrows.",
+        "π C13=C14 → new C14–S2 bond; π S2=O4 → lone pair on O4."
+      ],
+      "mappedSmiles": "[O:1]=[S:2](=[O:3])=[O:4].[O-:5][S:6](=[O:7])(=[O:8])[OH:9].[CH:11]1=[CH:12][CH:13]=[C:14]([H:17])[CH:15]=[CH:16]1",
+      "learnerPrompt": "Benzene attacks sulfur trioxide.",
+      "misconceptions": [
+        {
+          "severity": "wrong",
+          "arrowPattern": "* -> σ C*-O*",
+          "feedbackMessage": "The oxygens of SO₃ are electron-rich. The electrophilic atom is sulfur.",
+          "misconceptionId": "attack-o",
+          "misconceptionTag": "attack-electron-rich-atom"
+        }
+      ],
+      "mapNumberToCoordinates": {
+        "1": [
+          0,
+          2.3
+        ],
+        "2": [
+          1.3,
+          3.05
+        ],
+        "3": [
+          2.6,
+          2.3
+        ],
+        "4": [
+          1.3,
+          4.55
+        ],
+        "5": [
+          3.81,
+          -1.21
+        ],
+        "6": [
+          5.11,
+          -0.46
+        ],
+        "7": [
+          6.41,
+          0.29
+        ],
+        "8": [
+          5.86,
+          -1.76
+        ],
+        "9": [
+          4.36,
+          0.84
+        ],
+        "11": [
+          0.77,
+          -1.29
+        ],
+        "12": [
+          0.02,
+          0.01
+        ],
+        "13": [
+          -1.48,
+          0.01
+        ],
+        "14": [
+          -2.23,
+          -1.29
+        ],
+        "15": [
+          -1.48,
+          -2.59
+        ],
+        "16": [
+          0.02,
+          -2.59
+        ],
+        "17": [
+          -3.73,
+          -1.29
+        ]
+      },
+      "partialProgressMessages": [
+        {
+          "learnerArrows": [
+            "π C13-C14 -> σ C14-S2"
+          ],
+          "feedbackMessage": "Right: the ring attacks sulfur. Move one S=O π pair onto oxygen as well."
+        }
+      ]
+    },
+    "sulfonate": {
+      "caption": "benzenesulfonate + sulfuric acid",
+      "hintTiers": [
+        "Sulfuric acid has just formed. Which oxygen of the sulfonate can take its proton?",
+        "The O⁻ of the sulfonate takes the proton from sulfuric acid. Two arrows.",
+        "O4 lone pair → H17; σ O5–H17 → lone pair on O5."
+      ],
+      "mappedSmiles": "[CH:11]1=[CH:12][CH:13]=[C:14]([S:2](=[O:1])(=[O:3])[O-:4])[CH:15]=[CH:16]1.[H:17][O:5][S:6](=[O:7])(=[O:8])[OH:9]",
+      "learnerPrompt": "Protonate the sulfonate.",
+      "misconceptions": [],
+      "mapNumberToCoordinates": {
+        "1": [
+          -4.5,
+          0
+        ],
+        "2": [
+          -3,
+          0
+        ],
+        "3": [
+          -3,
+          1.5
+        ],
+        "4": [
+          -3,
+          -1.5
+        ],
+        "5": [
+          2.94,
+          5.04
+        ],
+        "6": [
+          1.64,
+          4.29
+        ],
+        "7": [
+          0.34,
+          3.54
+        ],
+        "8": [
+          0.89,
+          5.59
+        ],
+        "9": [
+          2.39,
+          2.99
+        ],
+        "11": [
+          1.5,
+          0
+        ],
+        "12": [
+          0.75,
+          1.3
+        ],
+        "13": [
+          -0.75,
+          1.3
+        ],
+        "14": [
+          -1.5,
+          0
+        ],
+        "15": [
+          -0.75,
+          -1.3
+        ],
+        "16": [
+          0.75,
+          -1.3
+        ],
+        "17": [
+          2.94,
+          6.54
+        ]
+      }
+    },
+    "arenium-ion": {
+      "caption": "arenium ion (zwitterion)",
+      "hintTiers": [
+        "The sp³ ring carbon has an H. What can take it?",
+        "Hydrogen sulfate takes the proton and the C–H pair becomes a ring π bond. Two arrows.",
+        "O5 lone pair → H17; σ C14–H17 → π C13=C14."
+      ],
+      "mappedSmiles": "[CH:11]1=[CH:12][CH+:13][C:14]([H:17])([S:2](=[O:1])(=[O:3])[O-:4])[CH:15]=[CH:16]1.[O-:5][S:6](=[O:7])(=[O:8])[OH:9]",
+      "learnerPrompt": "Restore the aromatic ring.",
+      "misconceptions": [],
+      "mapNumberToCoordinates": {
+        "1": [
+          -3.8,
+          1.93
+        ],
+        "2": [
+          -2.65,
+          0.96
+        ],
+        "3": [
+          -1.68,
+          2.11
+        ],
+        "4": [
+          -3.61,
+          -0.18
+        ],
+        "5": [
+          0.04,
+          3.72
+        ],
+        "6": [
+          1.34,
+          4.47
+        ],
+        "7": [
+          2.64,
+          5.22
+        ],
+        "8": [
+          2.09,
+          3.17
+        ],
+        "9": [
+          0.59,
+          5.77
+        ],
+        "11": [
+          1.5,
+          0
+        ],
+        "12": [
+          0.75,
+          1.3
+        ],
+        "13": [
+          -0.75,
+          1.3
+        ],
+        "14": [
+          -1.5,
+          0
+        ],
+        "15": [
+          -0.75,
+          -1.3
+        ],
+        "16": [
+          0.75,
+          -1.3
+        ],
+        "17": [
+          -2.65,
+          -0.96
+        ]
+      },
+      "partialProgressMessages": [
+        {
+          "learnerArrows": [
+            "lp O5 -> σ O5-H17"
+          ],
+          "feedbackMessage": "Good. Where does the C–H bonding pair go?"
+        }
+      ]
+    },
+    "sulfonic-acid": {
+      "caption": "benzenesulfonic acid + hydrogen sulfate",
+      "mappedSmiles": "[CH:11]1=[CH:12][CH:13]=[C:14]([S:2](=[O:1])(=[O:3])[O:4][H:17])[CH:15]=[CH:16]1.[O-:5][S:6](=[O:7])(=[O:8])[OH:9]",
+      "mapNumberToCoordinates": {
+        "1": [
+          -4.5,
+          0
+        ],
+        "2": [
+          -3,
+          0
+        ],
+        "3": [
+          -3,
+          1.5
+        ],
+        "4": [
+          -3,
+          -1.5
+        ],
+        "5": [
+          0.36,
+          3.54
+        ],
+        "6": [
+          1.66,
+          4.29
+        ],
+        "7": [
+          2.96,
+          5.04
+        ],
+        "8": [
+          2.41,
+          2.99
+        ],
+        "9": [
+          0.91,
+          5.59
+        ],
+        "11": [
+          1.5,
+          0
+        ],
+        "12": [
+          0.75,
+          1.3
+        ],
+        "13": [
+          -0.75,
+          1.3
+        ],
+        "14": [
+          -1.5,
+          0
+        ],
+        "15": [
+          -0.75,
+          -1.3
+        ],
+        "16": [
+          0.75,
+          -1.3
+        ],
+        "17": [
+          -4.3,
+          -2.25
+        ]
+      }
+    }
+  },
+  "conditionsLabel": "fuming H₂SO₄ (SO₃ in H₂SO₄) · 40 °C",
+  "reactionClasses": [
+    "aromatic substitution"
+  ],
+  "reactionVersion": 1,
+  "mechanismSummary": "A ring π bond attacks the sulfur of SO₃ as an S=O π pair moves onto oxygen. Hydrogen sulfate removes the ring proton, and the sulfuric acid formed protonates the sulfonate, giving benzenesulfonic acid and hydrogen sulfate back. Sulfonation is reversible: heating in dilute acid removes the SO₃H group again.",
+  "dailyPuzzleEligible": true,
+  "spectatorMapNumbers": [],
+  "atomRoleToMapNumbers": {
+    "base": [
+      5
+    ],
+    "electrophile": [
+      2
+    ]
+  },
+  "previousReactionVersion": null
+}
