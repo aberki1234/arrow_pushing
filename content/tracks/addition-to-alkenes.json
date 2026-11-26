@@ -1,0 +1,100 @@
+{
+  "formatVersion": 1,
+  "trackSlug": "addition-to-alkenes",
+  "title": "Addition to alkenes",
+  "goal": "How electrophiles add across C=C bonds, and where each part ends up.",
+  "problemSets": [
+    {
+      "problemSetSlug": "via-carbocations",
+      "title": "Via carbocations",
+      "conceptInOneLine": "Protonate to make the more stable cation, then add the nucleophile.",
+      "conceptCard": "The π bond of an alkene is a **nucleophile**. With a strong acid it takes a proton, and a **carbocation** forms on one carbon.\n\n- The proton goes to the carbon that leaves the **more stable cation**: tertiary > secondary > primary, and benzylic or allylic cations are stabilised by resonance. This is **Markovnikov's rule**.\n- The nucleophile (Br⁻, Cl⁻, water) then adds to the cationic carbon.\n- A cation next to a more substituted carbon may **rearrange** first, by a 1,2-shift of H or CH₃.",
+      "checkpoint": false,
+      "setItems": [
+        {
+          "reactionSlug": "propene-and-hbr",
+          "whyThisOne": "The pattern: protonate, then bromide adds."
+        },
+        {
+          "reactionSlug": "2-methylpropene-hydration",
+          "whyThisOne": "Water as the nucleophile; the acid is given back."
+        },
+        {
+          "reactionSlug": "styrene-and-hbr",
+          "whyThisOne": "A benzylic cation, shared with the ring."
+        },
+        {
+          "reactionSlug": "3-3-dimethylbut-1-ene-and-hcl",
+          "whyThisOne": "The cation rearranges before chloride adds."
+        }
+      ]
+    },
+    {
+      "problemSetSlug": "via-three-membered-rings",
+      "title": "Via three-membered rings",
+      "conceptInOneLine": "No free cation: a bridged ion or a concerted step controls the faces.",
+      "conceptCard": "Some electrophiles add **without** a free carbocation.\n\n- **Br₂** forms a **bromonium ion**: one bromine bridges both carbons. A nucleophile opens it from the opposite face, like SN2, so the two new groups end up **anti**.\n- In an unsymmetrical bromonium ion, the nucleophile attacks the **more substituted** carbon, which carries more positive charge.\n- A **peroxy acid** (mCPBA) gives an **epoxide** in one concerted step: both C–O bonds form on the same face (**syn**).\n\n*Stereochemistry is explained in the text; the arrows are what is checked.*",
+      "checkpoint": false,
+      "setItems": [
+        {
+          "reactionSlug": "cyclohexene-bromination",
+          "whyThisOne": "The bromonium ion, opened anti."
+        },
+        {
+          "reactionSlug": "2-methylpropene-bromohydrin",
+          "whyThisOne": "Water opens the ring at the more substituted carbon."
+        },
+        {
+          "reactionSlug": "cyclohexene-epoxidation",
+          "whyThisOne": "Four arrows in one ring: a concerted step."
+        }
+      ]
+    },
+    {
+      "problemSetSlug": "hydroboration",
+      "title": "Hydroboration",
+      "conceptInOneLine": "Boron goes to the less hindered carbon; oxidation swaps B for OH.",
+      "conceptCard": "**Borane**, BH₃, has an empty p orbital. It adds B–H across the C=C bond in one four-centre step: boron to the **less substituted** carbon, H to the other, on the same face.\n\nThen **H₂O₂ and NaOH** replace boron with OH. The key step is a **1,2-shift**: the alkyl group moves from boron to oxygen with its bonding pair.\n\nOverall: H and OH added **anti-Markovnikov**, the opposite of acid-catalysed hydration.",
+      "checkpoint": false,
+      "setItems": [
+        {
+          "reactionSlug": "propene-hydroboration",
+          "whyThisOne": "One step, two arrows, and the opposite regiochemistry to HBr."
+        },
+        {
+          "reactionSlug": "alkylborane-oxidation",
+          "whyThisOne": "A group moves from boron to oxygen."
+        }
+      ]
+    },
+    {
+      "problemSetSlug": "addition-checkpoint",
+      "title": "Checkpoint",
+      "conceptInOneLine": "Cation, bridged ion or concerted step: pick the right one and the right carbon.",
+      "conceptCard": "Reactions from every set, shuffled, names hidden until you finish. Three attempts per step.",
+      "checkpoint": true,
+      "setItems": [
+        {
+          "reactionSlug": "propene-and-hbr",
+          "whyThisOne": "Markovnikov addition."
+        },
+        {
+          "reactionSlug": "3-3-dimethylbut-1-ene-and-hcl",
+          "whyThisOne": "Watch for the rearrangement."
+        },
+        {
+          "reactionSlug": "cyclohexene-bromination",
+          "whyThisOne": "The bromonium ion."
+        },
+        {
+          "reactionSlug": "2-methylpropene-bromohydrin",
+          "whyThisOne": "Which carbon does water attack?"
+        },
+        {
+          "reactionSlug": "propene-hydroboration",
+          "whyThisOne": "Anti-Markovnikov."
+        }
+      ]
+    }
+  ]
+}
