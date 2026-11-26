@@ -1,0 +1,494 @@
+{
+  "steps": [
+    {
+      "stepKey": "first-hydride",
+      "stepKind": "polar",
+      "toStateId": "tetrahedral",
+      "fromStateId": "reactants",
+      "canonicalArrows": [
+        "σ Al11-H12 -> σ C2-H12",
+        "π C2-O3 -> lp O3"
+      ],
+      "routePreference": "preferred",
+      "explanationAfterStep": "Hydride adds to the carbonyl carbon: a tetrahedral intermediate."
+    },
+    {
+      "stepKey": "ethoxide-leaves",
+      "stepKind": "polar",
+      "toStateId": "aldehyde",
+      "fromStateId": "tetrahedral",
+      "canonicalArrows": [
+        "lp O3 -> π C2-O3",
+        "σ C2-O4 -> lp O4"
+      ],
+      "routePreference": "preferred",
+      "explanationAfterStep": "The intermediate collapses and ethoxide leaves: an aldehyde forms."
+    },
+    {
+      "stepKey": "second-hydride",
+      "stepKind": "polar",
+      "toStateId": "alkoxide",
+      "fromStateId": "aldehyde",
+      "canonicalArrows": [
+        "σ Al21-H22 -> σ C2-H22",
+        "π C2-O3 -> lp O3"
+      ],
+      "routePreference": "preferred",
+      "explanationAfterStep": "The aldehyde is more reactive than the ester, so it is reduced at once. LiAlH₄ takes esters all the way to primary alcohols."
+    },
+    {
+      "caption": "Dilute aqueous acid is added (work-up). It also protonates the ethoxide that left earlier and destroys the aluminium hydrides; those are no longer drawn.",
+      "stepKey": "acid-work-up",
+      "stepKind": "change",
+      "toStateId": "alkoxide-and-acid",
+      "fromStateId": "alkoxide",
+      "addedSpecies": "[H:31][OH2+:30].[Cl-:32]",
+      "routePreference": "preferred",
+      "removedFragmentMapNumbers": [
+        4,
+        10,
+        11,
+        21
+      ]
+    },
+    {
+      "stepKey": "protonation",
+      "stepKind": "polar",
+      "toStateId": "products",
+      "fromStateId": "alkoxide-and-acid",
+      "canonicalArrows": [
+        "lp O3 -> σ O3-H31",
+        "σ O30-H31 -> lp O30"
+      ],
+      "routePreference": "preferred",
+      "explanationAfterStep": "The alkoxide becomes ethanol. Here both halves of the ester end up as ethanol: the acyl part by reduction, the OEt part as the leaving group."
+    }
+  ],
+  "title": "LiAlH₄ reduction of an ester",
+  "authors": [
+    {
+      "url": null,
+      "name": "Maksim"
+    }
+  ],
+  "licence": "CC-BY-SA-4.0",
+  "subtitle": "Two hydrides add: ethoxide leaves after the first, and the aldehyde takes the second",
+  "references": [
+    "Clayden, Greeves and Warren, Organic Chemistry, 2nd edition (Oxford University Press), chapter 10"
+  ],
+  "reactionSlug": "lithium-aluminium-hydride-and-ethyl-acetate",
+  "startStateId": "reactants",
+  "formatVersion": 1,
+  "difficultyTier": 2,
+  "stateIdToState": {
+    "aldehyde": {
+      "caption": "acetaldehyde + ethoxide + LiAlH₄",
+      "hintTiers": [
+        "An aldehyde is more electrophilic than the ester it came from. What does the remaining hydride donor do?",
+        "The Al–H bonding pair forms a new C–H bond to the aldehyde carbon, and the C=O π pair moves onto oxygen. Two arrows.",
+        "Al–H bond → new C–H bond to the aldehyde carbonyl carbon; C=O π bond → lone pair on oxygen."
+      ],
+      "mappedSmiles": "[CH3:1][C:2]([H:12])=[O:3].[O-:4][CH2:5][CH3:6].[Li+:10].[AlH3:11].[Li+:20].[H:22][AlH3-:21]",
+      "learnerPrompt": "The aldehyde takes a second hydride.",
+      "misconceptions": [
+        {
+          "severity": "plausible",
+          "arrowPattern": "lp O4 -> C2",
+          "feedbackMessage": "Ethoxide could add back, but hydride is a much stronger nucleophile and adds irreversibly.",
+          "misconceptionId": "ethoxide-adds-back",
+          "misconceptionTag": "reverse-step"
+        }
+      ],
+      "mapNumberToCoordinates": {
+        "1": [
+          0,
+          1
+        ],
+        "2": [
+          1.3,
+          1.75
+        ],
+        "3": [
+          1.3,
+          3.25
+        ],
+        "4": [
+          6.05,
+          -1.09
+        ],
+        "5": [
+          4.75,
+          -0.34
+        ],
+        "6": [
+          3.45,
+          -1.09
+        ],
+        "10": [
+          -0.84,
+          -1.14
+        ],
+        "11": [
+          -0.3,
+          4.84
+        ],
+        "12": [
+          2.6,
+          1
+        ],
+        "20": [
+          1.45,
+          -0.95
+        ],
+        "21": [
+          1.38,
+          6.39
+        ],
+        "22": [
+          2.68,
+          7.14
+        ]
+      }
+    },
+    "alkoxide": {
+      "caption": "two ethoxides + AlH₃",
+      "mappedSmiles": "[CH3:1][C:2]([H:12])([H:22])[O-:3].[O-:4][CH2:5][CH3:6].[Li+:10].[AlH3:11].[Li+:20].[AlH3:21]",
+      "mapNumberToCoordinates": {
+        "1": [
+          0,
+          1.55
+        ],
+        "2": [
+          1.3,
+          2.3
+        ],
+        "3": [
+          2.6,
+          3.05
+        ],
+        "4": [
+          5.64,
+          -1.06
+        ],
+        "5": [
+          4.34,
+          -0.31
+        ],
+        "6": [
+          3.04,
+          -1.06
+        ],
+        "10": [
+          -0.4,
+          -0.71
+        ],
+        "11": [
+          -0.57,
+          5.61
+        ],
+        "12": [
+          0.55,
+          3.6
+        ],
+        "20": [
+          1.16,
+          -2.38
+        ],
+        "21": [
+          7.05,
+          0.73
+        ],
+        "22": [
+          2.05,
+          1
+        ]
+      }
+    },
+    "products": {
+      "caption": "ethanol + water",
+      "mappedSmiles": "[CH3:1][C:2]([H:12])([H:22])[O:3][H:31].[Li+:20].[OH2:30].[Cl-:32]",
+      "mapNumberToCoordinates": {
+        "1": [
+          1,
+          0
+        ],
+        "2": [
+          2.3,
+          0.75
+        ],
+        "3": [
+          3.6,
+          1.5
+        ],
+        "12": [
+          1.55,
+          2.05
+        ],
+        "20": [
+          -1.19,
+          -0.53
+        ],
+        "22": [
+          3.05,
+          -0.55
+        ],
+        "30": [
+          -0.73,
+          1.72
+        ],
+        "31": [
+          3.6,
+          3
+        ],
+        "32": [
+          -0.64,
+          4.02
+        ]
+      }
+    },
+    "reactants": {
+      "caption": "ethyl acetate + lithium aluminium hydride",
+      "hintTiers": [
+        "The Al–H bond is polarised towards hydrogen: it delivers hydride (H⁻). Which atom of the ester is electron-poor?",
+        "The Al–H bonding pair forms a new C–H bond to the carbonyl carbon, and the C=O π pair moves onto oxygen. Two arrows.",
+        "Al–H bond → new C–H bond to the carbonyl carbon; C=O π bond → lone pair on the carbonyl oxygen."
+      ],
+      "mappedSmiles": "[CH3:1][C:2](=[O:3])[O:4][CH2:5][CH3:6].[Li+:10].[H:12][AlH3-:11].[Li+:20].[H:22][AlH3-:21]",
+      "learnerPrompt": "Hydride from the aluminate adds to the ester.",
+      "misconceptions": [
+        {
+          "severity": "wrong",
+          "arrowPattern": "σ Al11-H12 -> O3",
+          "feedbackMessage": "The oxygen is electron-rich. Hydride attacks the electron-poor carbonyl carbon.",
+          "misconceptionId": "hydride-attacks-oxygen",
+          "misconceptionTag": "attack-electron-rich-atom"
+        },
+        {
+          "severity": "wrong",
+          "arrowPattern": "σ Al11-H12 -> lp Al11",
+          "feedbackMessage": "Hydrogen is more electronegative than aluminium: the Al–H pair travels with the hydrogen, as hydride.",
+          "misconceptionId": "al-h-pair-to-aluminium",
+          "misconceptionTag": "electrons-toward-less-electronegative-atom"
+        }
+      ],
+      "mapNumberToCoordinates": {
+        "1": [
+          0,
+          1
+        ],
+        "2": [
+          1.3,
+          1.75
+        ],
+        "3": [
+          2.6,
+          1
+        ],
+        "4": [
+          1.3,
+          3.25
+        ],
+        "5": [
+          2.6,
+          4
+        ],
+        "6": [
+          2.6,
+          5.5
+        ],
+        "10": [
+          -0.74,
+          -1.18
+        ],
+        "11": [
+          2.63,
+          -1.62
+        ],
+        "12": [
+          3.93,
+          -0.87
+        ],
+        "20": [
+          0.77,
+          -2.91
+        ],
+        "21": [
+          5.78,
+          0.57
+        ],
+        "22": [
+          7.08,
+          1.32
+        ]
+      },
+      "partialProgressMessages": [
+        {
+          "learnerArrows": [
+            "σ Al11-H12 -> σ C2-H12"
+          ],
+          "feedbackMessage": "Right: hydride goes to the carbonyl carbon. Now move the C=O π pair onto oxygen."
+        }
+      ]
+    },
+    "tetrahedral": {
+      "caption": "tetrahedral intermediate + AlH₃ + LiAlH₄",
+      "hintTiers": [
+        "The intermediate carries a leaving group. Which one?",
+        "The oxygen anion re-forms the C=O π bond and the bond to the ethoxy oxygen breaks. Two arrows.",
+        "Oxygen lone pair → C=O π bond; C–OEt bond → lone pair on the ethoxy oxygen."
+      ],
+      "mappedSmiles": "[CH3:1][C:2]([H:12])([O-:3])[O:4][CH2:5][CH3:6].[Li+:10].[AlH3:11].[Li+:20].[H:22][AlH3-:21]",
+      "learnerPrompt": "The tetrahedral intermediate collapses.",
+      "misconceptions": [
+        {
+          "severity": "wrong",
+          "arrowPattern": "σ Al21-H22 -> C2",
+          "feedbackMessage": "That carbon has four bonds and no C=O: it is not an electrophile yet. First the intermediate collapses.",
+          "misconceptionId": "second-hydride-too-early",
+          "misconceptionTag": "attack-non-electrophile"
+        },
+        {
+          "severity": "wrong",
+          "arrowPattern": "σ C2-H12 -> lp H12",
+          "feedbackMessage": "Hydride is a very poor leaving group. Ethoxide leaves.",
+          "misconceptionId": "hydride-leaves",
+          "misconceptionTag": "reverse-step"
+        }
+      ],
+      "mapNumberToCoordinates": {
+        "1": [
+          0,
+          2.85
+        ],
+        "2": [
+          1.3,
+          3.6
+        ],
+        "3": [
+          0.55,
+          4.9
+        ],
+        "4": [
+          2.05,
+          2.3
+        ],
+        "5": [
+          3.55,
+          2.3
+        ],
+        "6": [
+          4.3,
+          1
+        ],
+        "10": [
+          0,
+          0
+        ],
+        "11": [
+          2.31,
+          -0.06
+        ],
+        "12": [
+          2.6,
+          4.35
+        ],
+        "20": [
+          5.41,
+          -0.96
+        ],
+        "21": [
+          3.64,
+          -3.96
+        ],
+        "22": [
+          4.93,
+          -3.21
+        ]
+      }
+    },
+    "alkoxide-and-acid": {
+      "caption": "ethoxide + H₃O⁺ (work-up)",
+      "hintTiers": [
+        "The alkoxide oxygen is a strong base. Which species is the acid?",
+        "The alkoxide oxygen lone pair takes a proton from H₃O⁺; that O–H bonding pair stays on water's oxygen. Two arrows.",
+        "Alkoxide oxygen lone pair → new O–H bond to a proton of H₃O⁺; that O–H bond → lone pair on water's oxygen."
+      ],
+      "mappedSmiles": "[CH3:1][C:2]([H:12])([H:22])[O-:3].[Li+:20].[H:31][OH2+:30].[Cl-:32]",
+      "learnerPrompt": "Acid work-up: protonate the alkoxide.",
+      "misconceptions": [
+        {
+          "severity": "wrong",
+          "arrowPattern": "lp O30 -> C2",
+          "feedbackMessage": "That carbon has no leaving group and no C=O. H₃O⁺ is the acid here.",
+          "misconceptionId": "water-attacks-carbon",
+          "misconceptionTag": "attack-non-electrophile"
+        }
+      ],
+      "mapNumberToCoordinates": {
+        "1": [
+          1,
+          0
+        ],
+        "2": [
+          2.3,
+          0.75
+        ],
+        "3": [
+          3.6,
+          1.5
+        ],
+        "12": [
+          1.55,
+          2.05
+        ],
+        "20": [
+          -1.24,
+          -0.4
+        ],
+        "22": [
+          3.05,
+          -0.55
+        ],
+        "30": [
+          -1.97,
+          1.9
+        ],
+        "31": [
+          -0.67,
+          2.65
+        ],
+        "32": [
+          0.56,
+          4.55
+        ]
+      }
+    }
+  },
+  "conditionsLabel": "1. LiAlH₄, Et₂O · 2. HCl(aq)",
+  "reactionClasses": [
+    "carbonyl",
+    "addition",
+    "substitution"
+  ],
+  "reactionVersion": 1,
+  "mechanismSummary": "Hydride from LiAlH₄ adds to the carbonyl carbon of ethyl acetate. The tetrahedral intermediate collapses and ethoxide leaves, giving acetaldehyde, which is more reactive than the ester and takes a second hydride. Acid work-up protonates the alkoxide. Both halves of ethyl acetate end up as ethanol.",
+  "dailyPuzzleEligible": true,
+  "spectatorMapNumbers": [
+    10,
+    20,
+    32
+  ],
+  "atomRoleToMapNumbers": {
+    "aluminium": [
+      11,
+      21
+    ],
+    "carbonylCarbon": [
+      2
+    ],
+    "carbonylOxygen": [
+      3
+    ]
+  },
+  "previousReactionVersion": null
+}
