@@ -1,0 +1,85 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>ArrowPush — stereo validation proposal</title>
+<style>
+  :root { --bg:#f7f5f0; --surface:#fff; --ink:#1d2433; --muted:#5d667a; --line:#e2ded3; --accent:#5b4bdb; --soft:#ece9ff; --warn:#fff0c7; --warnink:#7a4f00; }
+  @media (prefers-color-scheme: dark) { :root { --bg:#12141c; --surface:#1b1e2a; --ink:#eceef6; --muted:#a0a8bd; --line:#2e3345; --accent:#8c80ff; --soft:#2a2755; --warn:#3a2f10; --warnink:#f1b73e; } }
+  * { box-sizing: border-box; }
+  body { margin:0; background:var(--bg); color:var(--ink); font:16px/1.6 ui-rounded,"Segoe UI",system-ui,sans-serif; }
+  .layout { max-width:1060px; margin:0 auto; padding:24px 16px 80px; display:grid; grid-template-columns:210px minmax(0,1fr); gap:32px; }
+  @media (max-width:820px){ .layout{grid-template-columns:1fr} nav.toc{position:static!important} }
+  nav.toc { position:sticky; top:16px; align-self:start; font-size:.9rem; }
+  nav.toc a { display:block; padding:5px 10px; border-radius:8px; color:var(--muted); text-decoration:none; font-weight:600; }
+  nav.toc a:hover { background:var(--soft); color:var(--accent); }
+  h1 { font-size:2rem; margin:0 0 4px; } h2 { font-size:1.35rem; margin:40px 0 10px; padding-top:8px; border-top:1px solid var(--line); } h3 { font-size:1.02rem; margin:20px 0 6px; }
+  p, li { margin:0 0 .6em; } ul { padding-left:20px; margin:0 0 1em; } .muted { color:var(--muted); }
+  .note { background:var(--warn); color:var(--warnink); border-radius:12px; padding:10px 14px; font-size:.92rem; margin:14px 0; }
+  .card { background:var(--surface); border:1px solid var(--line); border-radius:14px; padding:14px 18px; margin:12px 0; }
+  code { background:var(--soft); border-radius:6px; padding:1px 6px; font-size:.9em; }
+  .tag { display:inline-block; font-size:.72rem; font-weight:800; padding:2px 9px; border-radius:99px; background:var(--soft); color:var(--accent); vertical-align:2px; letter-spacing:.03em; }
+  table { width:100%; border-collapse:collapse; font-size:.92rem; } th,td { text-align:left; padding:8px; border-bottom:1px solid var(--line); vertical-align:top; } th { color:var(--muted); font-size:.75rem; text-transform:uppercase; letter-spacing:.05em; }
+</style>
+</head>
+<body>
+<div class="layout">
+  <nav class="toc" aria-label="Sections"><a href="#meaning">What it can mean</a><a href="#phase1">Phase 1</a><a href="#phase2">Phase 2</a><a href="#phase3">Phase 3</a><a href="#order">Build order</a><a href="#questions">Your decisions</a></nav>
+  <main>
+<h1>Stereo validation <span class="tag">agreed · 2026-11-26</span></h1>
+<p class="muted">How ArrowPush could check stereochemistry, in three phases. Agreed on 2026-11-26: you chose every recommendation below. Build item 12.</p>
+<div class="note">This page is the human copy; <code>docs/stereo-validation.md</code> is the assistant's. Your four decisions are recorded at the end.</div>
+
+<h2 id="meaning">What “stereo validation” can mean here</h2>
+<p>Learners draw <b>arrows</b>, never products: the app applies the arrows and compares the result with the authored next state. So stereochemistry can only go wrong in three places.</p>
+<table><thead><tr><th>Kind</th><th>Example</th><th>Learner’s choice?</th><th>What is needed</th></tr></thead><tbody>
+<tr><td><b>A. Outcome only</b></td><td>SN2 inversion; anti opening of a bromonium ion; syn hydroboration; thermal con/disrotatory</td><td>No: the arrows are the same whatever the stereo</td><td>The authored states carry stereo and are right; the learner sees it drawn correctly</td></tr>
+<tr><td><b>B. Atom choice</b></td><td>E2: the H anti-periplanar to Br (axial H in a cyclohexane; E or Z from 2-bromobutane); which of two groups migrates</td><td>Yes: which atom the arrow starts from</td><td>Diastereotopic atoms must stop counting as the same</td></tr>
+<tr><td><b>C. Face choice</b></td><td>Nucleophile adding to one face of C=O; Diels–Alder endo vs exo</td><td>Yes, but a curved arrow cannot say which face</td><td>A new interaction</td></tr>
+</tbody></table>
+<div class="card"><b>A bug today.</b> In an E2, removing the H that is <i>syn</i> to the bromine is accepted as correct: the app treats every H on a carbon as interchangeable. Phase 2 fixes this.</div>
+
+<h2 id="phase1">Phase 1: stereo in the states (kind A)</h2>
+<ul>
+<li><b>Stereo is written in the state’s SMILES</b> (<code>@</code>, <code>@@</code> for a stereocentre; <code>/</code>, <code>\</code> for a double bond). Today these marks are refused.</li>
+<li><b>Wedges stay the drawing</b>, and the linter checks they agree with the SMILES. The editor fills the wedges in when it generates a state.</li>
+<li><b>Applying arrows</b> keeps every stereocentre the arrows do not touch. A centre the step makes or changes takes its configuration from the authored next state: you decide inversion, anti addition and so on.</li>
+<li><b>New lint checks</b>: wedges that disagree with the SMILES (error); a stereocentre that changes although no arrow touches it (error); an unmarked stereocentre in a state that marks others (warning).</li>
+<li>An <b>alternative product</b> may be a stereoisomer (E/Z, a diastereomer), with a caption.</li>
+<li><b>Racemic outcomes</b> (SN1, addition to a flat C=O): one enantiomer drawn, caption “racemic”.</li>
+</ul>
+
+<h2 id="phase2">Phase 2: telling diastereotopic atoms apart (kind B)</h2>
+<ul>
+<li>Two atoms count as interchangeable only if swapping them keeps every stereocentre and double-bond geometry. The two H on C3 of 2-bromobutane, or the axial and equatorial H of a drawn chair, become different atoms.</li>
+<li>Choosing the wrong one is then a wrong answer, or an authored misconception: “This H is syn to the bromine: E2 needs it anti-periplanar.”</li>
+<li>Mirror-image H in an achiral molecule stay interchangeable. The exact rule is fixed in test cases before coding.</li>
+<li>Drawing and tapping need no change: those H are already separate atoms on screen.</li>
+</ul>
+
+<h2 id="phase3">Phase 3: choosing a face (kind C) — needs your decision</h2>
+<p><b>Recommended: a product question after the arrows.</b> When the author gives a step one or more stereoisomeric alternatives (each with a feedback message), a learner who drew the right arrows sees the candidate products side by side, “Which product forms?”, and taps one. A wrong pick shows the authored message and counts as a wrong check. It reuses the drawings and needs no 3D.</p>
+<p class="muted">Other options: a “from the front / from behind” toggle on the arrow (hard to show on a flat drawing), or explanation only, as today.</p>
+
+<h2 id="order">Build order</h2>
+<p class="muted">Each step test-first, starting from shared fixtures.</p>
+<ol>
+<li>Reading and writing stereo marks in state SMILES.</li>
+<li>Applying arrows keeps untouched stereo; test cases for SN2 inversion, bromonium anti opening and E2.</li>
+<li>Stereo-aware comparison and the lint checks; the editor fills wedges.</li>
+<li>Stereo-aware symmetry; E2 test cases (the anti H right, the syn H wrong, a misconception on it).</li>
+<li>Content: add stereo to the SN2, E2 and bromination drafts as the first users.</li>
+<li>Phase 3 after your decision and a mockup.</li>
+</ol>
+
+<h2 id="questions">Your decisions (all: the recommended option)</h2>
+<ol>
+<li><b>Where stereo is stored</b>: in the state’s SMILES, with wedges checked against it (recommended), or only as wedges and coordinates?</li>
+<li><b>Choosing a face</b>: a product question after the arrows (recommended), a front/behind toggle, or explanation only for now?</li>
+<li><b>Racemic outcomes</b>: one enantiomer with a “racemic” caption (recommended), or both enantiomers drawn as products?</li>
+<li><b>Scope now</b>: phases 1 and 2 (recommended), with phase 3 after a mockup?</li>
+</ol>
+  </main>
+</div>
+</body>
+</html>

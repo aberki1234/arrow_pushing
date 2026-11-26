@@ -49,18 +49,39 @@ export interface StateAtom {
   readonly nonbondingElectronCount: number;
 }
 
+/**
+ * A stereocentre's SMILES mark with its neighbours in canonical order (item 12a): an implicit H or
+ * lone pair first, then the mapped neighbours by ascending map number. "@": seen from the first,
+ * the others run anticlockwise; "@@": clockwise.
+ */
+export type TetrahedralMark = "@" | "@@";
+/** A stereo double bond: its two reference neighbours (stereoMarks.ts) on one side or not. */
+export type DoubleBondRelation = "cis" | "trans";
+
 /** `bondToOrder` is keyed by bondKey(): "<smaller map number>-<larger map number>". */
 export interface StateGraph {
   readonly mapNumberToAtom: ReadonlyMap<number, StateAtom>;
   readonly bondToOrder: ReadonlyMap<string, number>;
+  /** Item 12a: the marked stereocentres; absent or empty when the state has no stereo. */
+  readonly mapNumberToTetrahedralMark?: ReadonlyMap<number, TetrahedralMark>;
+  /** Item 12a: the marked double bonds, keyed by bondKey(); absent or empty when none. */
+  readonly bondToDoubleBondRelation?: ReadonlyMap<string, DoubleBondRelation>;
 }
 
-/** The fixture spelling of a state graph: atoms by map number, bonds by their two map numbers. */
+/**
+ * The fixture spelling of a state graph: atoms by map number, bonds by their two map numbers; the
+ * stereo lists only when the state has stereo.
+ */
 export interface StateGraphJson {
   readonly atoms: readonly StateAtom[];
   readonly bonds: readonly {
     readonly mapNumbers: readonly [number, number];
     readonly bondOrder: number;
+  }[];
+  readonly tetrahedralMarks?: readonly { mapNumber: number; mark: TetrahedralMark }[];
+  readonly doubleBondStereo?: readonly {
+    mapNumbers: readonly [number, number];
+    relation: DoubleBondRelation;
   }[];
 }
 
@@ -168,7 +189,18 @@ export function stateGraphToJson(graph: StateGraph): StateGraphJson {
   const bonds = [...graph.bondToOrder.entries()]
     .map(([key, bondOrder]) => ({ mapNumbers: bondKeyMapNumbers(key), bondOrder }))
     .sort((first, second) => compareBondMapNumbers(first.mapNumbers, second.mapNumbers));
-  return { atoms, bonds };
+  const tetrahedralMarks = [...(graph.mapNumberToTetrahedralMark ?? [])]
+    .sort(([first], [second]) => first - second)
+    .map(([mapNumber, mark]) => ({ mapNumber, mark }));
+  const doubleBondStereo = [...(graph.bondToDoubleBondRelation ?? [])]
+    .map(([key, relation]) => ({ mapNumbers: bondKeyMapNumbers(key), relation }))
+    .sort((first, second) => compareBondMapNumbers(first.mapNumbers, second.mapNumbers));
+  return {
+    atoms,
+    bonds,
+    ...(tetrahedralMarks.length > 0 ? { tetrahedralMarks } : {}),
+    ...(doubleBondStereo.length > 0 ? { doubleBondStereo } : {}),
+  };
 }
 
 /** True when both graphs have the same atoms, electron counts and bonds. */

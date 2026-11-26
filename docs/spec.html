@@ -101,7 +101,7 @@
     <h3>Chemistry conventions (v1)</h3>
     <ul>
       <li>Hydrogens that take part in a step are drawn explicitly in that step; the rest stay implicit.</li>
-      <li>Stereo (wedge and dash) is <b>stored and displayed, not validated</b>. The validator checks connectivity, formal charges and lone-pair/radical counts. SN2 inversion is an explanatory note. Stereo validation (CIP) is a v2 feature.</li>
+      <li>Stereo (wedge and dash) is <b>stored and displayed, not validated</b>. The validator checks connectivity, formal charges and lone-pair/radical counts. SN2 inversion is an explanatory note. Stereo validation (CIP) is a v2 feature. <b>Revised 2026-11-26:</b> stereo validation is being built (<a href="stereo-validation.html">proposal</a>). Stereo is written as SMILES marks in each state; wedges stay the drawing and are checked against them. Stereocentres no arrow touches keep their configuration; new ones come from the authored next state. In an E2, removing the H syn to the leaving group becomes a wrong answer. Racemic products: one enantiomer, caption “racemic”. Choosing a face (endo/exo) will be a “Which product forms?” question after the arrows, once there is a mockup.</li>
       <li>Reagents and conditions are labels over the reaction arrow, not drawable species.</li>
       <li>Counterions (Na⁺, MgBr⁺) are drawn faded and not validated as participants.</li>
     </ul>
@@ -246,7 +246,7 @@
       <li>Which reactions beyond the list above, and the order of authoring the first content set.</li>
       <li><b>Curriculum roadmap</b> (decided 2026-11-26): <a href="curriculum.html">curriculum.html</a> lists the Learn tracks from first year to graduate synthesis case studies, with prerequisites, problem sets, the capabilities each needs and the authoring order (Foundations first).</li>
       <li>Tracks after “Electrophilic aromatic substitution” (e.g. Zaitsev versus Hofmann, kinetic versus thermodynamic enolates) and their problem sets. Problem sets themselves were scoped on 2026-11-25 (§1, §2, §5).</li>
-      <li><b>Deferred:</b> whole-mechanism mode, stereo validation, learner accounts/leaderboards/sync, visual-editor polish.</li>
+      <li><b>Deferred:</b> whole-mechanism mode, stereo face choice (phase 3), learner accounts/leaderboards/sync, visual-editor polish.</li>
       <li>The phase-2 MCP server's detailed design (§6, “Drafting with an assistant”).</li>
     </ul>
   </main>

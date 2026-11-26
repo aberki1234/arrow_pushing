@@ -100,6 +100,26 @@ describe("readWrittenStructure", () => {
   });
 });
 
+describe("canonicalStereoSmiles", () => {
+  it("gives one text for two writings of a stereoisomer and another for its mirror image", () => {
+    const first = toolkit.canonicalStereoSmiles("[C@@H:1]([F:2])([Cl:3])[Br:4]");
+    const second = toolkit.canonicalStereoSmiles("[F:2][C@H:1]([Cl:3])[Br:4]");
+    const mirrorImage = toolkit.canonicalStereoSmiles("[C@H:1]([F:2])([Cl:3])[Br:4]");
+    expect(first).toBe(second);
+    expect(first).not.toBe(mirrorImage);
+  });
+
+  it("tells E from Z", () => {
+    expect(toolkit.canonicalStereoSmiles("[CH3:1]/[CH:2]=[CH:3]/[CH3:4]")).not.toBe(
+      toolkit.canonicalStereoSmiles("[CH3:1]/[CH:2]=[CH:3]\\[CH3:4]"),
+    );
+  });
+
+  it("is undefined for SMILES RDKit cannot read", () => {
+    expect(toolkit.canonicalStereoSmiles("[CH3:1](")).toBeUndefined();
+  });
+});
+
 describe("readStructure", () => {
   it("kekulizes an aromatic ring and gives implicit hydrogen counts", () => {
     const phenol = toolkit.readStructure("Oc1ccccc1");

@@ -205,7 +205,7 @@ named `keyToValue`.
   "mappedSmiles": "[OH-:1].[CH3:2][Br:3].[Na+:4]",
   "mapNumberToCoordinates": { "1": [-3.0, 0.0], "2": [0.0, 0.0], "3": [1.9, 0.0], "4": [-4.5, 0.8] },
   "mapNumberToLonePairAnglesDegrees": { "1": [90, 210, 330] },   // optional; otherwise placed automatically
-  "bondToWedgeStyle": { "2-5": "wedge" },     // key "<map number>-<map number>", wide end at the second; display only
+  "bondToWedgeStyle": { "2-5": "wedge" },     // key "<map number>-<map number>", wide end at the second; the drawing (item 12: must agree with the SMILES marks)
   "annotations": [{ "text": "nucleophile", "nearMapNumber": 1 }],
   "caption": "hydroxide + bromomethane",
 
@@ -269,6 +269,7 @@ off the screen. A change step must be the only step leaving its state.
    or end at an **alternative product**, reached only by accepted steps: a minor regioisomer, such as ortho beside
    para (revised 2026-11-26, item 10e; before, branches had to rejoin). An alternative product needs a caption saying
    what it is (warning). Only regioisomers by authoring convention; E/Z and others wait until a reaction needs them.
+   (Item 12: once states carry stereo, an alternative product may also be a stereoisomer.)
 4. **Exactly one route made only of preferred steps.** At most one preferred step leaves each state.
 5. Two steps leaving one state must not reach resonance-equivalent states (up to skeleton symmetry).
 6. Each step's canonical arrows and partial arrow sets, applied to its from-state, reproduce its to-state (§4).
@@ -933,6 +934,22 @@ RDKit (RDKit.js) on every valid SMILES case and every example state (`src/chemis
      drafted and pushed; reviewed by the owner; then the rest of the batch and `content/tracks/electrophilic-aromatic-substitution.json` (renamed from `aromatic-chemistry`, 2026-11-26).
    Phase 2 (design deferred until after the batch): the MCP server at `/mcp` over the same module and tokens, and a
    token page in Create.
+
+12. **Stereo validation** (decided 2026-11-26, SPEC §4 "Chemistry conventions"; design in `docs/stereo-validation.md`).
+    Phases 1–2 now, phase 3 (face choice as a product question) after a mockup:
+    * **12a Done 2026-11-27.** Stereo marks (`@`, `@@`, `/`, `\`) in the strict reader and writer, kept on map
+      numbers (`stateGraphs/stereoMarks.ts`): `StateGraph.mapNumberToTetrahedralMark` holds each stereocentre's
+      mark for its neighbours in canonical order (an implicit H or lone pair first, then mapped neighbours by
+      ascending map number); `bondToDoubleBondRelation` holds `cis`/`trans` between each end's lowest-numbered
+      other neighbour. New error `invalid-stereo-mark`; direction marks on ring closures stay unsupported. The
+      fixture JSON gains `tetrahedralMarks` and `doubleBondStereo` only when a state has stereo. Checked against
+      RDKit (`canonicalStereoSmiles`): reading and rewriting keeps every fixture's stereoisomer. Until 12b, arrow
+      application drops stereo, so content should not use marks yet.
+    * **12b** Arrow application keeps untouched stereo; centres the step makes or changes come from the to-state.
+    * **12c** Stereo-aware comparison; lint `wedges-disagree-with-smiles`, `stereocentre-changes-without-arrows`,
+      `stereocentre-unspecified`; the editor fills wedges from the marks.
+    * **12d** Stereo-aware skeleton symmetry (diastereotopic atoms distinct): E2 anti-periplanar assessed.
+    * **12e** First content: SN2, E2 and bromination drafts with marks.
 
 ## 11. Corrections to the mockup content
 

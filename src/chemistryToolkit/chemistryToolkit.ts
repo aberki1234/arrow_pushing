@@ -65,6 +65,11 @@ export interface ChemistryToolkit {
    * counts and charges worked out, map numbers from the atom-map column, rings in Kekulé form.
    */
   readMolblock(molblock: string): WrittenStructure | undefined;
+  /**
+   * RDKit's canonical SMILES with stereo and map numbers (item 12a): two writings of one
+   * stereoisomer give the same text. Explicit hydrogens are kept.
+   */
+  canonicalStereoSmiles(smiles: string): string | undefined;
 }
 
 // Explicit hydrogens are drawn atoms, so RDKit must not fold them into their neighbours.
@@ -190,6 +195,8 @@ function toolkitOn(rdkit: RDKitModule): ChemistryToolkit {
     readWrittenStructure: (smiles) => withMolecule(rdkit, smiles, writtenStructure, AS_WRITTEN),
     readMolblock: (molblock) =>
       withMolecule(rdkit, molblock, writtenStructure, KEEP_EXPLICIT_HYDROGENS),
+    canonicalStereoSmiles: (smiles) =>
+      withMolecule(rdkit, smiles, (molecule) => molecule.get_smiles()),
   };
 }
 
