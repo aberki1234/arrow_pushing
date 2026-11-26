@@ -2,7 +2,8 @@
   // The top bar, the same on the learner site and on Create (siteNavigation.ts): the brand,
   // Home · Daily · Learn · Practice · Progress · Create, and a light/dark theme switch remembered
   // for both sites (sharedTheme.ts). Create passes onCurrentTab, so that its own tab
-  // goes back to Your mechanisms without reloading the page.
+  // goes back to Your mechanisms without reloading the page, and onSignOut while someone is
+  // signed in, for a Sign out button beside Theme.
   import { saveTheme } from "./sharedTheme.js";
   import type { NavigationTab, NavigationTabName } from "./siteNavigation.js";
 
@@ -11,12 +12,15 @@
     currentTab,
     brandHref,
     onCurrentTab,
+    onSignOut,
   }: {
     tabs: readonly NavigationTab[];
     currentTab: NavigationTabName | null;
     /** Where the brand goes: the learner site's home. */
     brandHref: string;
     onCurrentTab?: (() => void) | undefined;
+    /** Create, while someone is signed in: end the session. */
+    onSignOut?: (() => void) | undefined;
   } = $props();
 
   function toggleTheme(): void {
@@ -67,6 +71,9 @@
       </a>
     {/each}
     <span class="spacer"></span>
+    {#if onSignOut !== undefined}
+      <button class="iconbtn" type="button" onclick={onSignOut}>Sign out</button>
+    {/if}
     <button
       class="iconbtn"
       type="button"

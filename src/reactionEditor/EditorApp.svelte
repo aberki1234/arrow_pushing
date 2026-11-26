@@ -285,6 +285,20 @@
     });
   }
 
+  /** Save what the autosave has not saved yet, end the session, and start Create again. */
+  async function signOut(): Promise<void> {
+    if (contributing === undefined) {
+      return;
+    }
+    await goHome();
+    try {
+      await contributing.signOut();
+      goToAddress("/");
+    } catch (error) {
+      homeMessage = `Not signed out: ${reasonOf(error)}`;
+    }
+  }
+
   /** Save first, so that what is submitted is what is on screen. */
   async function saveAndSubmit(
     current: EditorSession,
@@ -359,6 +373,11 @@
   currentTab="create"
   brandHref={learnerSiteAddress === null ? "/" : `${learnerSiteAddress.replace(/\/$/, "")}/#/`}
   onCurrentTab={leaveToHome}
+  onSignOut={signedInUser !== null && contributing !== undefined
+    ? () => {
+        void signOut();
+      }
+    : undefined}
 />
 <main class="wrap">
   {#if view === "home" && !signInNeeded}

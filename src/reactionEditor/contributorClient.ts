@@ -72,6 +72,8 @@ export interface ContributorClient {
   signInProviders(): Promise<SignInProvider[]>;
   /** The provider's sign-in address to send the browser to; it comes back to "/". */
   signInAddress(provider: SignInProvider): Promise<string>;
+  /** End the session (Better Auth's sign-out). */
+  signOut(): Promise<void>;
   submit(
     reactionSlug: string,
     licenceAgreed: boolean,
@@ -142,6 +144,10 @@ function materialOf(body: unknown, reactionSlug: string): ReviewMaterial {
   };
 }
 
+function reactionPath(reactionSlug: string, rest: string): string {
+  return `/api/reactions/${encodeURIComponent(reactionSlug)}/${rest}`;
+}
+
 /** The client over the API; `fetchFunction` is the browser's fetch unless a test passes another. */
 export function contributorClient(fetchFunction: typeof fetch = fetch): ContributorClient {
   const request = async (path: string, init?: RequestInit): Promise<Answer> => {
@@ -149,8 +155,6 @@ export function contributorClient(fetchFunction: typeof fetch = fetch): Contribu
     const text = await response.text();
     return { status: response.status, body: text === "" ? null : (JSON.parse(text) as unknown) };
   };
-  const reactionPath = (reactionSlug: string, rest: string): string =>
-    `/api/reactions/${encodeURIComponent(reactionSlug)}/${rest}`;
   return {
     signInProviders: async () =>
       (bodyOf(await request("/api/sign-in-providers")) as unknown[]).filter(
@@ -168,6 +172,9 @@ export function contributorClient(fetchFunction: typeof fetch = fetch): Contribu
           "url",
         ),
       ),
+    signOut: async (): Promise<void> => {
+      bodyOf(await request("/api/auth/sign-out", jsonRequest("POST", {})));
+    },
     submit: async (reactionSlug, licenceAgreed, submissionNote) =>
       outcomeOf(
         await request(

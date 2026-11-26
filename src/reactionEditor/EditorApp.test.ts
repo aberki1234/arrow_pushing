@@ -351,6 +351,10 @@ function memoryContributorClient(calls: string[]): ContributorClient {
       calls.push(`review ${reactionSlug} ${decision.reviewDecision} ${decision.comment}`);
       return Promise.resolve({ outcome: "done" });
     },
+    signOut: (): Promise<void> => {
+      calls.push("sign-out");
+      return Promise.resolve();
+    },
     users: () => Promise.resolve([]),
     setRole: () => Promise.resolve({ outcome: "done" }),
   };
@@ -478,4 +482,19 @@ test("an edit submitted before the autosave's wait is not saved again after Subm
   await screen.findByText("Submitted for review.");
   await new Promise((resolve) => setTimeout(resolve, 400));
   expect(contributorStore.calls.at(-1)).toMatch(/^submit sn2-test/);
+});
+
+test("Sign out (only when signed in) ends the session and reloads Create", async () => {
+  const visitedAddresses: string[] = [];
+  const serverStore = memoryServerStore(true);
+  renderOnServer(serverStore, (address) => visitedAddresses.push(address));
+  await fireEvent.click(await screen.findByRole("button", { name: "Sign out" }));
+  await waitFor(() => {
+    expect(visitedAddresses).toEqual(["/"]);
+  });
+  expect(serverStore.calls).toContain("sign-out");
+  cleanup();
+  renderOnServer(memoryServerStore(false));
+  await screen.findByRole("button", { name: "Sign in with GitHub" });
+  expect(screen.queryByRole("button", { name: "Sign out" })).toBeNull();
 });

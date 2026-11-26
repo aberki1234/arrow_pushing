@@ -88,6 +88,15 @@ describe("signing in", () => {
     expect(await serverReactionStore(browserFetch("")).signedInUser()).toBeNull();
   });
 
+  it("signs out: the session ends", async () => {
+    const { sessionCookieHeader } = await signInWithFakeGithub(application, OWNER_PROFILE);
+    vi.unstubAllGlobals();
+    const store = serverReactionStore(browserFetch(sessionCookieHeader));
+    expect(await store.signedInUser()).not.toBeNull();
+    await contributorClient(browserFetch(sessionCookieHeader)).signOut();
+    expect(await store.signedInUser()).toBeNull();
+  });
+
   it("gets the providers and each one's sign-in address", async () => {
     const client = contributorClient(browserFetch(""));
     expect(await client.signInProviders()).toEqual(["github", "google"]);
