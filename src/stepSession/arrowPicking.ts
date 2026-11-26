@@ -242,7 +242,7 @@ export function tapToDestinationLocus(
   if (tapped.placeKind === "newBond") {
     const wanted = bondKey(...tapped.mapNumbers);
     const newBond = offered.find(
-      (candidate) => bondKey(candidate.atoms[0].mapNumber, candidate.atoms[1]?.mapNumber ?? 0) === wanted,
+      (candidate) => bondKey(candidate.atoms[0].mapNumber, candidate.atoms[1].mapNumber) === wanted,
     );
     return newBond === undefined
       ? { pickOutcome: "refused", refusalMessage: NO_SUCH_NEW_BOND }

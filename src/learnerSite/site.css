@@ -464,6 +464,10 @@ svg.mol {
 .bond.wedge {
   fill: var(--mol);
 }
+.bond.hash {
+  stroke-width: 1.6;
+  stroke-linecap: butt;
+}
 .lpd {
   fill: var(--mol);
 }

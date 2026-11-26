@@ -122,23 +122,42 @@ Examples: SN2 is `lp O1 -> σ O1-C2`, `σ C2-Br3 -> lp Br3`. H-abstraction is `r
   those (a test keeps them in step). Checks that need the molecule belong to applying arrows (build item 3).
 * Misconception *patterns* (wildcards, roles, §5.2) are a separate grammar, parsed in build item 4.
 
-**From a learner's tap to a destination locus.** The learner taps a source locus, then an atom or a bond. One pure
-function, `tapToDestinationLocus(state, sourceLocus, tappedAtomOrBond, arrowType)`, used by both the learner screen and
-the editor, returns the destination locus:
+**Where the electrons can go** (the arrow layer's one model; rewritten 2026-11-26 in the coherence pass). The learner
+picks a source locus, then a **place**: an atom, a bond, or a **new bond** (drawn dashed between two atoms). One pure
+function, `tapToDestinationLocus(state, source, place, arrowType, drawnArrows)` in `src/stepSession/arrowPicking.ts`,
+says what a place means, **however it was chosen** (tap, keyboard, or pointing: `destinationTargets.ts` lays the
+same places out on the drawing and picks the nearest to the pointer). Learner screen and Create share it.
 
-| Source locus | Tapped | Destination locus |
+| Source | Place | Destination |
 |---|---|---|
-| lp/rad on X | atom X itself | none (refused: an arrow to itself) |
-| lp/rad on X | atom Y, not bonded to X | `σ X-Y` |
+| lp/rad on X | atom X | refused (an arrow to itself) |
+| lp/rad on X | atom Y not bonded to X | `σ X-Y` (no new-bond place needed: the atom says it) |
 | lp/rad on X | atom Y bonded to X, or bond X–Y | `π X-Y` |
 | bond A–B | atom A or B | `lp A` / `lp B` (`rad` for a fish-hook) |
 | bond A–B | bond B–C | `π B-C` |
-| bond A–B | atom Y, neither A nor B | **ambiguous** if both A and B could bond to Y (alkene + H–Br, Markovnikov). The screen asks "which atom forms the bond?". If only one of A or B is next to Y, that one is used. |
+| bond A–B | atom Y bonded to exactly one end (A) | **the 1,2-shift `σ B-Y`** if one is offered onto Y; otherwise `π A-Y` |
+| bond A–B | atom Y bonded to neither or both | refused: point at the new bond (or the bond) instead |
+| bond A–B | new bond A–Y or B–Y | `σ`, if offered (below); otherwise refused |
 
-Built in item 7a (`src/stepSession/arrowPicking.ts`, with `tapToSourceLocus`). "Next to Y" is read as **bonded to
-Y**: exactly one of A, B bonded to Y gives `π` to that one with no menu; neither (a new σ bond) or both asks. A
-tapped lone pair or unpaired electron counts as its atom. A bond picked as a source gives `π` while the arrows drawn
-so far leave π electrons in it, then `σ` (decided 2026-11-25); an atom is not a source.
+**Which new bonds are offered** (`newBondDestinations.ts`; only for bond sources), from A (or B) to Y:
+* Y must be able to take a bond: electron-poor (C, N, O, B, Al short of an octet, or losing a σ bond to an arrow
+  already drawn), positively charged, with a π bond, a radical, bonded to O/S/halogen, or an H that can pass across
+  (on O, N, S, a halogen, or an acidic C–H next to a π bond or a positive atom).
+* Y in another molecule: offered. Y two bonds away: only as a **1,2-shift** (Y bonded to the other end) onto an
+  electron-poor Y or one with a **single** bond to a leaving group (C–Br, C–OH₂⁺, O–O; not C=O). Three bonds away:
+  never. Four or more: a ring closure.
+* Nothing from an H a drawn arrow already bonds elsewhere; no bond a drawn arrow already gave its pair.
+* On the drawing (`destinationTargets.ts`): new bonds to another molecule, to an H, and 1,2-shifts are always shown;
+  ring closures only within 2.1 bond lengths. A place is anchored at its atom, its bond's midpoint, or a new bond's
+  midpoint and far atom; the nearest within 0.8 bond lengths wins, atoms and bonds before new bonds.
+
+**Guards.** The order the arrows are drawn in never matters: a test tries every order of every step of the examples,
+and the drawability check (`check_drawable.ts --all-orders`, used when drafting) does the same for all content.
+Tests pin what common places mean: the cation in a hydride shift means the shift, the carbonyl carbon in enolate
+formation means the C=C π bond.
+
+A bond picked as a source gives `π` while the arrows drawn so far leave π electrons in it, then `σ` (decided
+2026-11-25); an atom is not a source; a tapped lone pair or unpaired electron counts as its atom.
 
 So content and validation only ever see destination loci.
 

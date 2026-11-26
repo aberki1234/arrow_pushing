@@ -232,7 +232,9 @@ describe("destinations from a bond, continued", () => {
       "π C2-C3",
     );
   });
+});
 
+describe("what an atom or a new bond means", () => {
   test("a carbonyl carbon is no shift target: σ C–H then the C=O carbon is a C=C π bond", () => {
     // Enolate formation with the C–H arrow drawn first (the base arrow not yet drawn).
     const source = sourceOf(tapToSourceLocus(ALDOL_START, bond(3, 4), [], "pair"));
@@ -262,7 +264,9 @@ describe("destinations from a bond, continued", () => {
       destinationText(tapToDestinationLocus(ENOLATE_AND_ALDEHYDE, source, newBond(3, 9), "pair")),
     ).toBe("σ C3-C9");
   });
+});
 
+describe("destinations: bonds and fish-hooks", () => {
   test("a bond sharing one atom gains a π bond; itself and unrelated bonds are refused", () => {
     const source = sourceOf(tapToSourceLocus(ALDOL_START, bond(3, 4), [], "pair"));
     expect(destinationText(tapToDestinationLocus(ALDOL_START, source, bond(3, 5), "pair"))).toBe(

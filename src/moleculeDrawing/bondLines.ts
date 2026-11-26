@@ -18,12 +18,43 @@ export type WedgeStyle = "wedge" | "dash";
 export interface BondLines {
   /** Parallel lines, centre line first for odd orders. Empty for a wedge or dash. */
   readonly lines: readonly LineSegment[];
-  /** The wedge's or dash's outline: narrow end at the first atom. */
-  readonly wedge: { readonly style: WedgeStyle; readonly corners: readonly Point[] } | null;
+  /**
+   * The wedge's or dash's outline (narrow end at the first atom), and for a dash its hash lines
+   * across the bond, each a little wider than the one before (none for a wedge).
+   */
+  readonly wedge: {
+    readonly style: WedgeStyle;
+    readonly corners: readonly Point[];
+    readonly hashes: readonly LineSegment[];
+  } | null;
   readonly midpoint: Point;
 }
 
 const WEDGE_HALF_WIDTH_PIXELS = 3.5;
+/** Space between a dash's hash lines along the bond. */
+const HASH_SPACING_PIXELS = 4.5;
+/** Half the width of the narrowest hash line, at the narrow end. */
+const NARROWEST_HASH_HALF_WIDTH_PIXELS = 0.8;
+
+/** A dash's hash lines from `start` (narrow) to `end` (wide), across the bond. */
+function hashLines(start: Point, end: Point, normal: Point): LineSegment[] {
+  const length = Math.hypot(end.x - start.x, end.y - start.y);
+  const count = Math.max(2, Math.floor(length / HASH_SPACING_PIXELS) + 1);
+  return [...Array(count).keys()].map((position) => {
+    const fraction = position / (count - 1);
+    const centre = {
+      x: start.x + (end.x - start.x) * fraction,
+      y: start.y + (end.y - start.y) * fraction,
+    };
+    const halfWidth =
+      NARROWEST_HASH_HALF_WIDTH_PIXELS +
+      (WEDGE_HALF_WIDTH_PIXELS - NARROWEST_HASH_HALF_WIDTH_PIXELS) * fraction;
+    return {
+      start: { x: centre.x + normal.x * halfWidth, y: centre.y + normal.y * halfWidth },
+      end: { x: centre.x - normal.x * halfWidth, y: centre.y - normal.y * halfWidth },
+    };
+  });
+}
 
 function offsetLine(start: Point, end: Point, normal: Point, offset: number): LineSegment {
   return {
@@ -71,7 +102,8 @@ export function bondLines(
       offsetLine(end, end, normal, WEDGE_HALF_WIDTH_PIXELS).start,
       offsetLine(end, end, normal, -WEDGE_HALF_WIDTH_PIXELS).start,
     ];
-    return { lines: [], wedge: { style: wedgeStyle, corners }, midpoint };
+    const hashes = wedgeStyle === "dash" ? hashLines(start, end, normal) : [];
+    return { lines: [], wedge: { style: wedgeStyle, corners, hashes }, midpoint };
   }
   const lines = lineOffsets(bondOrder).map((offset) => offsetLine(start, end, normal, offset));
   return { lines, wedge: null, midpoint };

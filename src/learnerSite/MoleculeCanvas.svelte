@@ -203,10 +203,19 @@
   <g aria-hidden="true">
     {#each drawing.bonds as bond (bond.mapNumbers.join("-"))}
       <g class:faded={bond.isSpectator}>
-        {#if bond.bondLines.wedge !== null}
+        {#if bond.bondLines.wedge !== null && bond.bondLines.wedge.style === "dash"}
+          {#each bond.bondLines.wedge.hashes as hash, position (position)}
+            <line
+              class="bond hash"
+              x1={hash.start.x}
+              y1={hash.start.y}
+              x2={hash.end.x}
+              y2={hash.end.y}
+            />
+          {/each}
+        {:else if bond.bondLines.wedge !== null}
           <polygon
             class="bond wedge"
-            class:dash={bond.bondLines.wedge.style === "dash"}
             points={bond.bondLines.wedge.corners
               .map((corner) => `${String(corner.x)},${String(corner.y)}`)
               .join(" ")}

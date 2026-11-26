@@ -140,17 +140,20 @@
       <li>Misconception <i>patterns</i> (wildcards, roles) are a separate grammar, built with the feedback pipeline.</li>
     </ul>
 
-    <h3>From a learner's tap to a destination locus</h3>
-    <p>One pure function, <code>tapToDestinationLocus(state, sourceLocus, tappedAtomOrBond, arrowType)</code>, shared by the learner screen and the editor, turns the tap into a destination locus. So content and validation only ever see one form.</p>
-    <div class="tw"><table><thead><tr><th>Source locus</th><th>Tapped</th><th>Destination locus</th></tr></thead><tbody>
-      <tr><td>lp/rad on X</td><td>atom X itself</td><td>none (refused)</td></tr>
-      <tr><td>lp/rad on X</td><td>atom Y, not bonded to X</td><td><code>σ X-Y</code></td></tr>
-      <tr><td>lp/rad on X</td><td>atom Y bonded to X, or bond X–Y</td><td><code>π X-Y</code></td></tr>
-      <tr><td>bond A–B</td><td>atom A or B</td><td><code>lp A</code> / <code>lp B</code> (or <code>rad</code> for a fish-hook)</td></tr>
+    <h3>Where the electrons can go <span class="tag ok">coherence pass 2026-11-26</span></h3>
+    <p>The learner picks a source, then a <b>place</b>: an atom, a bond, or a <b>new bond</b> drawn dashed between two atoms. One function, <code>tapToDestinationLocus</code>, says what a place means however it was chosen (tap, keyboard or pointing); the drawing lays out the same places and picks the nearest to the pointer. Learners and Create share it.</p>
+    <div class="tw"><table><thead><tr><th>Source</th><th>Place</th><th>Destination</th></tr></thead><tbody>
+      <tr><td>lone pair / radical on X</td><td>atom X</td><td>refused</td></tr>
+      <tr><td>lone pair / radical on X</td><td>atom Y not bonded to X</td><td><code>σ X-Y</code></td></tr>
+      <tr><td>lone pair / radical on X</td><td>atom Y bonded to X, or the bond X–Y</td><td><code>π X-Y</code></td></tr>
+      <tr><td>bond A–B</td><td>atom A or B</td><td>a lone pair (or radical) on it</td></tr>
       <tr><td>bond A–B</td><td>bond B–C</td><td><code>π B-C</code></td></tr>
-      <tr><td>bond A–B</td><td>atom Y, neither A nor B</td><td><b>Ambiguous</b> if both A and B could bond to Y (alkene + H–Br, the Markovnikov case). The screen asks “which atom forms the bond?”.</td></tr>
+      <tr><td>bond A–B</td><td>atom Y bonded to one end (A)</td><td>the <b>1,2-shift</b> of B onto Y if one is offered; otherwise <code>π A-Y</code></td></tr>
+      <tr><td>bond A–B</td><td>atom Y bonded to neither or both</td><td>refused: point at the new bond instead</td></tr>
+      <tr><td>bond A–B</td><td>a new bond A–Y or B–Y</td><td><code>σ</code>, if offered</td></tr>
     </tbody></table></div>
-    <p><span class="tag ok">built</span> in item 7a. If exactly one of A and B is <b>bonded</b> to Y, the electrons go to that bond (π) with no menu; otherwise the menu asks. A bond picked as a source gives its π electrons first, then σ once the arrows drawn have used them.</p>
+    <p><b>New bonds offered</b> go to atoms that can take one (electron-poor, positive, with a π bond, a radical, bonded to O/S/halogen, or a transferable H). To another molecule: always. Two bonds away: only a 1,2-shift onto an electron-poor atom or one with a single bond to a leaving group (not C=O). Three bonds away: never. Four or more: a ring closure, shown when drawn near.</p>
+    <p><b>Guards:</b> the order the arrows are drawn in never matters (a test tries every order of every example step; the drawability check does the same for all content), and tests pin what common places mean (the cation in a hydride shift is the shift; the carbonyl carbon in enolate formation is the C=C π bond).</p>
     <p><b>Step kind</b> (<code>stepKind</code>): <code>polar</code>, <code>radical</code> or <code>change</code> (no arrows). The rule <code>wrong-arrow-type</code> fires when the learner's arrow type fits <b>no</b> step leaving the current state.</p>
 
     <h2 id="document">3 · Reaction file (one JSON file per reaction version)</h2>
