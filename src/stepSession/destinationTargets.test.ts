@@ -8,7 +8,12 @@ import {
 } from "../arrowNotation/curvedArrowNotation.js";
 import { graphOf } from "../attemptAssessment/preparedReaction.js";
 import { reactionScale } from "../moleculeDrawing/drawingLayout.js";
-import { type StateDrawing, drawState, drawnAtomOf } from "../moleculeDrawing/stateDrawing.js";
+import {
+  type StateDisplayFields,
+  type StateDrawing,
+  drawState,
+  drawnAtomOf,
+} from "../moleculeDrawing/stateDrawing.js";
 import type { StateGraph } from "../stateGraphs/stateGraph.js";
 import { exampleSessionReaction } from "../testSupport/exampleSessions.js";
 import {
@@ -17,6 +22,7 @@ import {
   nearestDestinationTarget,
 } from "./destinationTargets.js";
 import { newBondDestinations } from "./newBondDestinations.js";
+import { stateGraphFromMappedSmiles } from "../stateGraphs/mappedSmilesReading.js";
 
 const EXAMPLE_SLUGS = [
   "sn2-hydroxide-bromomethane",
@@ -149,5 +155,36 @@ describe("every authored arrow can be picked, in any order", () => {
         }
       }
     }
+  });
+});
+
+describe("a 1,2-shift onto a cation", () => {
+  /** A secondary cation next to a C–H (3-methylbutan-2-ol after losing water), laid out by hand. */
+  function shiftDrawing(): { drawing: StateDrawing; graph: StateGraph } {
+    const graph = stateGraphFromMappedSmiles("[CH3:1][CH+:2][C:3]([H:9])([CH3:4])[CH3:6]");
+    const mapNumberToCoordinates = {
+      "1": [-2.6, 0.75], "2": [-1.3, 0], "3": [0, 0.75], "4": [1.3, 0], "6": [0, 2.25],
+      "9": [-0.75, 1.8],
+    } as const; // prettier-ignore
+    const displayFields = { mapNumberToCoordinates } as unknown as StateDisplayFields;
+    const scale = reactionScale(graph, displayFields.mapNumberToCoordinates);
+    return { drawing: drawState(graph, displayFields, scale), graph };
+  }
+
+  test("pointing at the cation means the shift; the middle of the C–C bond means a π bond", () => {
+    const { drawing, graph } = shiftDrawing();
+    const source = parseCurvedArrow("σ C3-H9 -> σ C2-H9").source;
+    const places = destinationTargets(drawing, graph, {
+      source,
+      arrowType: "pair",
+      drawnArrows: [],
+    });
+    const cation = drawnAtomOf(drawing, 2).point;
+    expect(nearestDestinationTarget(places, cation)?.target.pickTargetId).toBe("newBond:2-9");
+    const c3 = drawnAtomOf(drawing, 3).point;
+    const bondMiddle = { x: (cation.x + c3.x) / 2, y: (cation.y + c3.y) / 2 };
+    expect(
+      formatElectronLocus(nearestDestinationTarget(places, bondMiddle)?.destination ?? source),
+    ).toBe("π C2-C3");
   });
 });

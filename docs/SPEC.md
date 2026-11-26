@@ -121,7 +121,11 @@ reactions, track `electrophilic-aromatic-substitution`, problem sets in this ord
   - **To monitor (owner, 2026-11-26):** targets that sit close together. Re-aromatisation is the known case: after the
     C–H bond is picked, the ghost for H shifting to the C⁺ ends beside that C⁺ atom, which is the usual target (π
     bond). A touch tap therefore picks the target nearest the tap (atom centre, bond or ghost midpoint) rather than
-    whichever hit area lies on top; watch learners' wrong taps on such steps once it ships.
+    whichever hit area lies on top; watch learners' wrong taps on such steps once it ships. **Resolved for 1,2-shifts
+    (2026-11-26, from 3-methylbutan-2-ol + HBr):** the hydride shift and the C=C π bond both anchored on the cation,
+    and the π bond won. Now, as in textbooks, pointing at an atom a 1,2-shift lands on means the shift, and the π
+    bond is the middle of the C–C bond. If a learner draws an E1 or re-aromatisation C–H arrow before the base arrow,
+    pointing at the cation gives the shift; once the base arrow is drawn (the H is taken), no shift is offered.
 - **Drawing (decided 2026-11-25):** every heavy atom is **labelled** with its implicit H and charge (CH₃, OH⁻) in v1;
   skeletal display may come later as a setting. **Every lone pair is drawn**, spread evenly through the free space
   round the atom (showing only the relevant ones would give the answer away). One **scale per reaction** (56 px per

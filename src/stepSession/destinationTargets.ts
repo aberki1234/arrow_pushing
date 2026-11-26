@@ -13,9 +13,10 @@
  * The nearest place is measured to its anchors: the atom; the bond's midpoint; the new bond's
  * midpoint and its far atom (the one not in the source), so pointing at the atom the electrons
  * go to picks the new bond to it, from the nearer end of the source bond. Atoms and bonds come
- * first and win a tie, so an atom that is a place itself keeps its meaning, and a tap in the
- * middle of a dashed line means that new bond even where the two are close (re-aromatisation,
- * docs/SPEC.md §3 "To monitor").
+ * first and win a tie, so an atom that is a place itself keeps its meaning (except an atom a
+ * 1,2-shift lands on: there the atom means the shift and the π bond is the bond's middle), and
+ * a tap in the middle of a dashed line means that new bond even where the two are close
+ * (re-aromatisation, docs/SPEC.md §3 "To monitor").
  */
 import type {
   AtomLabel,
@@ -171,6 +172,13 @@ function isShownNewBond(
   return isShift || drawnLength <= NEW_BOND_REACH * BOND_LENGTH_PIXELS;
 }
 
+/** The atom of a new bond that is not in the source (the one the electrons go to). */
+function farAtomOf(place: DestinationTarget, source: ElectronLocus): number {
+  const sourceAtoms = source.atoms.map((atom) => atom.mapNumber);
+  const [first = 0, second = 0] = place.target.mapNumbers;
+  return sourceAtoms.includes(first) ? second : first;
+}
+
 /** Shorter new bonds first: pointing at a far atom picks the bond from the nearer source atom. */
 function newBondLength(place: DestinationTarget): number {
   return place.newBondLine === null
@@ -204,7 +212,18 @@ export function destinationTargets(
     .filter((destination) => isShownNewBond(drawing, graph, picked.source, destination))
     .map((destination) => newBondTarget(drawing, picked, destination))
     .sort((first, second) => newBondLength(first) - newBondLength(second));
-  return [...drawnPlaces, ...newBonds];
+  // An atom a 1,2-shift lands on means the shift: as in textbooks, a shift's arrowhead points at
+  // the atom, a new π bond's at the middle of the bond (still offered there, as a bond place).
+  const shiftTargets = new Set(newBonds.map((place) => farAtomOf(place, picked.source)));
+  const keptPlaces = drawnPlaces.filter(
+    (place) =>
+      !(
+        place.target.targetKind === "atom" &&
+        place.destination.locusKind === "piBond" &&
+        shiftTargets.has(place.target.mapNumbers[0] ?? 0)
+      ),
+  );
+  return [...keptPlaces, ...newBonds];
 }
 
 /** The place nearest `point` (by its anchors), or null if none is within NEAREST_PLACE_PIXELS. */
