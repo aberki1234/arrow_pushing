@@ -1,0 +1,257 @@
+{
+  "steps": [
+    {
+      "stepKey": "enolate-formation",
+      "stepKind": "polar",
+      "toStateId": "enolate",
+      "fromStateId": "reactants",
+      "canonicalArrows": [
+        "lp O6 -> σ O6-H5",
+        "σ C4-H5 -> π C2-C4",
+        "π C2-O3 -> lp O3"
+      ],
+      "routePreference": "preferred",
+      "explanationAfterStep": "The enolate is one ion with its negative charge shared by the α-carbon and oxygen; this drawing puts it on oxygen, the major contributor. Only a small fraction of acetone is deprotonated at any moment: water (pKa 15.7) is a stronger acid than acetone (pKa about 20)."
+    },
+    {
+      "stepKey": "o-protonation",
+      "stepKind": "polar",
+      "toStateId": "enol",
+      "fromStateId": "enolate",
+      "canonicalArrows": [
+        "lp O3 -> σ O3-H9",
+        "σ O8-H9 -> lp O8"
+      ],
+      "routePreference": "preferred",
+      "explanationAfterStep": "Protonation on oxygen gives the enol and gives back hydroxide, so the base is a catalyst. In base the order is the reverse of acid catalysis: the C–H breaks first, then the oxygen gains its proton."
+    }
+  ],
+  "title": "Base-catalysed enolisation of acetone",
+  "authors": [
+    {
+      "url": null,
+      "name": "Maksim"
+    }
+  ],
+  "licence": "CC-BY-SA-4.0",
+  "subtitle": "Through the enolate: off carbon, back on oxygen",
+  "references": [
+    "Clayden, Greeves and Warren, Organic Chemistry, 2nd edition (Oxford University Press), chapter 20"
+  ],
+  "reactionSlug": "base-catalysed-enolisation-of-acetone",
+  "startStateId": "reactants",
+  "formatVersion": 1,
+  "difficultyTier": 2,
+  "stateIdToState": {
+    "enol": {
+      "caption": "prop-1-en-2-ol (the enol of acetone) + hydroxide + water",
+      "mappedSmiles": "[CH3:1][C:2]([O:3][H:9])=[CH2:4].[H:5][OH:6].[Na+:7].[OH-:8]",
+      "mapNumberToCoordinates": {
+        "1": [
+          0,
+          0
+        ],
+        "2": [
+          1.3,
+          0.75
+        ],
+        "3": [
+          1.3,
+          2.25
+        ],
+        "4": [
+          2.6,
+          0
+        ],
+        "5": [
+          1.27,
+          4.87
+        ],
+        "6": [
+          -0.03,
+          4.12
+        ],
+        "7": [
+          4.88,
+          -0.11
+        ],
+        "8": [
+          4.24,
+          -2.32
+        ],
+        "9": [
+          2.6,
+          3
+        ]
+      }
+    },
+    "enolate": {
+      "caption": "the enolate + two water molecules",
+      "hintTiers": [
+        "The enolate has negative charge on oxygen and on the α-carbon. Which end gives the enol when it takes a proton?",
+        "The enolate oxygen takes a proton from a water molecule. Two arrows.",
+        "Enolate oxygen lone pair → a hydrogen of water; that O–H bond of water → a lone pair on its oxygen."
+      ],
+      "mappedSmiles": "[CH3:1][C:2]([O-:3])=[CH2:4].[H:5][OH:6].[Na+:7].[H:9][OH:8]",
+      "learnerPrompt": "Water is the acid now. Protonate the enolate on oxygen to give the enol.",
+      "misconceptions": [
+        {
+          "severity": "plausible",
+          "arrowPattern": "* -> σ C4-H9",
+          "feedbackMessage": "Protonating the carbon gives back acetone. That does happen, and the ketone wins at equilibrium, but the question asks for the enol: put the proton on oxygen.",
+          "misconceptionId": "c-protonation",
+          "misconceptionTag": "reverse-step"
+        },
+        {
+          "severity": "wrong",
+          "arrowPattern": "* -> σ *-O8",
+          "feedbackMessage": "The oxygen of water is electron-rich. The enolate takes a proton, the δ+ hydrogen of water.",
+          "misconceptionId": "enolate-attacks-water-oxygen",
+          "misconceptionTag": "attack-electron-rich-atom"
+        }
+      ],
+      "mapNumberToCoordinates": {
+        "1": [
+          0,
+          0
+        ],
+        "2": [
+          1.3,
+          0.75
+        ],
+        "3": [
+          1.3,
+          2.25
+        ],
+        "4": [
+          2.6,
+          0
+        ],
+        "5": [
+          1.13,
+          4.75
+        ],
+        "6": [
+          -0.17,
+          4
+        ],
+        "7": [
+          -0.83,
+          6.19
+        ],
+        "8": [
+          4.89,
+          -0.16
+        ],
+        "9": [
+          6.19,
+          0.59
+        ]
+      },
+      "partialProgressMessages": [
+        {
+          "learnerArrows": [
+            "lp O3 -> σ O3-H9"
+          ],
+          "feedbackMessage": "Right: the enolate oxygen takes the proton. The hydrogen now has two bonds: break its bond to the water oxygen."
+        }
+      ]
+    },
+    "reactants": {
+      "caption": "acetone + hydroxide + water",
+      "hintTiers": [
+        "A C–H next to a C=O group is acidic (pKa about 20). Why is its conjugate base stabilised?",
+        "Hydroxide takes the drawn α-hydrogen. The C–H electrons form a C=C bond and the C=O π electrons move onto oxygen. Three arrows.",
+        "Hydroxide lone pair → the drawn α-hydrogen; that C–H bond → a π bond to the carbonyl carbon; the C=O π bond → a lone pair on the carbonyl oxygen."
+      ],
+      "mappedSmiles": "[CH3:1][C:2](=[O:3])[CH2:4][H:5].[OH-:6].[Na+:7].[H:9][OH:8]",
+      "learnerPrompt": "Hydroxide is the base. Form the enolate.",
+      "misconceptions": [
+        {
+          "severity": "plausible",
+          "arrowPattern": "lp O6 -> σ O6-C2",
+          "feedbackMessage": "Hydroxide can add to the carbonyl carbon, but the hydrate it gives is a reversible dead end. Here hydroxide acts as a base on an α-hydrogen.",
+          "misconceptionId": "hydroxide-adds",
+          "misconceptionTag": "unproductive-addition"
+        },
+        {
+          "severity": "wrong",
+          "arrowPattern": "lp O6 -> σ O6-H9",
+          "feedbackMessage": "Hydroxide taking a proton from water just swaps one hydroxide for another. Look for the acidic C–H of acetone.",
+          "misconceptionId": "hydroxide-and-water",
+          "misconceptionTag": "unproductive-proton-transfer"
+        }
+      ],
+      "mapNumberToCoordinates": {
+        "1": [
+          0,
+          0
+        ],
+        "2": [
+          1.3,
+          0.75
+        ],
+        "3": [
+          1.3,
+          2.25
+        ],
+        "4": [
+          2.6,
+          0
+        ],
+        "5": [
+          3.9,
+          0.75
+        ],
+        "6": [
+          -0.39,
+          3.78
+        ],
+        "7": [
+          5.92,
+          -0.25
+        ],
+        "8": [
+          1.32,
+          5.32
+        ],
+        "9": [
+          2.61,
+          6.07
+        ]
+      },
+      "partialProgressMessages": [
+        {
+          "learnerArrows": [
+            "lp O6 -> σ O6-H5",
+            "σ C4-H5 -> π C2-C4"
+          ],
+          "feedbackMessage": "Good: the base takes the proton and a C=C forms. The carbonyl carbon now has five bonds: move the C=O π electrons onto oxygen."
+        }
+      ]
+    }
+  },
+  "conditionsLabel": "NaOH (cat.) · H₂O · 25 °C",
+  "reactionClasses": [
+    "acid-base",
+    "carbonyl"
+  ],
+  "reactionVersion": 1,
+  "mechanismSummary": "Hydroxide removes an α-proton, giving the enolate. Water then protonates the enolate on oxygen: the enol. A hydrogen has moved from carbon to oxygen, with hydroxide regenerated. Acid and base both catalyse enolisation, in opposite orders: in acid the oxygen is protonated first; in base the α-carbon is deprotonated first. Protonation on carbon instead gives back the ketone, which is far more stable.",
+  "dailyPuzzleEligible": true,
+  "spectatorMapNumbers": [
+    7
+  ],
+  "atomRoleToMapNumbers": {
+    "base": [
+      6
+    ],
+    "alphaCarbon": [
+      4
+    ],
+    "enolateOxygen": [
+      3
+    ]
+  },
+  "previousReactionVersion": null
+}
