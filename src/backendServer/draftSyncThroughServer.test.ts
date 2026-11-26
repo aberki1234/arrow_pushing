@@ -6,6 +6,7 @@
 import { mkdtempSync, readFileSync, writeFileSync } from "node:fs";
 import { tmpdir } from "node:os";
 import { join } from "node:path";
+import { sql } from "kysely";
 import { afterAll, beforeAll, beforeEach, describe, expect, it } from "vitest";
 import { mintAccessToken } from "../reactionDatabase/accessTokens.js";
 import type { DatabaseConnection } from "../reactionDatabase/databaseTables.js";
@@ -96,6 +97,25 @@ describe("pushing a draft", () => {
     });
     writeReactionFile("Pushed twice");
     expect(await pushDraftFile(filePath, settings)).toMatchObject({ outcome: "pushed" });
+  });
+
+  it("pushes a new version of a published reaction as a draft (version 2)", async () => {
+    await pushDraftFile(writeReactionFile(), settings);
+    await sql`UPDATE arrowpush.reaction_versions SET submission_status = 'published',
+                content_hash = 'hash', published_at = now()`.execute(connection.database);
+    const nextFolder = mkdtempSync(join(tmpdir(), "draft-sync-next-"));
+    const nextPath = join(nextFolder, `${SN2_SLUG}.json`);
+    const nextDocument = {
+      ...exampleReaction("sn2-hydroxide-bromomethane.json"),
+      title: "Better hints",
+      reactionVersion: 2,
+      previousReactionVersion: 1,
+    };
+    writeFileSync(nextPath, JSON.stringify(nextDocument));
+    expect(await pushDraftFile(nextPath, settings)).toMatchObject({
+      outcome: "pushed",
+      reactionVersion: 2,
+    });
   });
 
   it("refuses to send a file with lint errors, and sends one with only warnings", async () => {

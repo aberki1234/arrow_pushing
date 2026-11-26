@@ -495,11 +495,14 @@ reactions, track `electrophilic-aromatic-substitution`, problem sets in this ord
     - **Personal access tokens:** stored hashed, revocable, with an expiry; minted by a server command
       (`create-token --user <email>`); no token page in Create until phase 2. The backend accepts
       `Authorization: Bearer <token>` beside the cookie session.
-    - **A token may only read its user's reactions and save drafts**: never submit, review, publish, start a next
-      version or change roles, whatever its user's site role. Publishing stays a person's click in Create.
+    - **A token may only read its user's reactions and save drafts**: never submit, review, publish or change roles,
+      whatever its user's site role. Publishing stays a person's click in Create. **Changed 2026-11-26 (owner):** a
+      pushed draft may start the next version of a published reaction (as Edit does) when every version is
+      published and the file builds on the newest (`previousReactionVersion`); it is a draft like any other.
     - **Draft sync** (one module, a command line on top): `check` (the linter), `push-draft <file|dir>` (refuses a
       file with lint errors; sends the content hash of the draft it last saw, and the server refuses the save when
-      the draft changed since or the slug is published), `pull-draft <slug>` (fetches the owner's edited draft to work on).
+      the draft changed since, or the slug is published and the file does not build on its newest version), `pull-draft
+      <slug>` (fetches the owner's edited draft to work on).
       The owner's edits in Create are never silently overwritten.
     - **What the assistant writes:** every learner text (prompt, hints, misconception and partial-progress
       messages, explanations, summary), the textbook `conditionsLabel` (the owner corrects it), tiers and daily

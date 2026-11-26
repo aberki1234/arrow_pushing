@@ -924,6 +924,11 @@ RDKit (RDKit.js) on every valid SMILES case and every example state (`src/chemis
      (`stateToMolfile`, `molfileToStructure`, `applyEditedStructure`, `saveStructureFromEditor`; a saved layout keeps
      the state's old centre), `reactionEditor/StructureEditorDialog.svelte`. Checked in headless Chromium on the dev
      editor: Ketcher ready in about 2 s with the state and its map numbers, Save writes the state.
+   * **10i Done 2026-11-26.** A push can propose a new version (owner, 2026-11-26): `If-None-Match: *` on PUT …/draft
+     also accepts a reaction whose versions are all published when the document's `previousReactionVersion` is the
+     newest; the server starts version n+1 (`startNextVersionIn`, one transaction with the save) and saves the file
+     into it. Built: `reactionDatabase/draftChangeCheck.ts` (`buildsOnPublished`), `reactionVersions.startNextVersionIn`;
+     tests in `draftChangeCheck.test.ts` and end to end in `backendServer/draftSyncThroughServer.test.ts`.
    * **10d** The SEAr pilot (nitronium formation, nitration of benzene, nitration of anisole with resonance steps)
      drafted and pushed; reviewed by the owner; then the rest of the batch and `content/tracks/electrophilic-aromatic-substitution.json` (renamed from `aromatic-chemistry`, 2026-11-26).
    Phase 2 (design deferred until after the batch): the MCP server at `/mcp` over the same module and tokens, and a

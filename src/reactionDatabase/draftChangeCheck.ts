@@ -7,7 +7,11 @@
  *   draft content hash  contentHashOf (canonical JSON, SHA-256) of the stored newest version's
  *                       document, as the server numbers it.
  * Rules
- *   - Expected `null`: there must be no reaction with this slug yet.
+ *   - Expected `null` ("no draft open"): there must be no reaction with this slug yet, or every
+ *     version of it is published and the document builds on the newest (its
+ *     previousReactionVersion is that version): then version n+1 is started (startNextVersion,
+ *     "Edit") and the document saved into it, so a push can propose a new version (owner,
+ *     2026-11-26). It is still only a draft: publishing stays the reviewer's.
  *   - Expected a hash: the reaction's newest version must hold a document with that hash. (A
  *     published newest version is refused by saveDraft as before, no-unpublished-version.)
  *   - Expected `undefined`: no check (Create's own saves).
@@ -20,6 +24,7 @@ import {
   findReaction,
   readReactionVersion,
   saveDraftIn,
+  startNextVersionIn,
   type WrittenVersion,
 } from "./reactionVersions.js";
 
@@ -43,6 +48,19 @@ async function newestDocumentHash(
   return contentHashOf(newest.reactionDocument);
 }
 
+/** Every version of the reaction is published and the document names the newest as its base. */
+async function buildsOnPublished(
+  transaction: ReactionDatabase,
+  reactionDocument: Record<string, unknown>,
+): Promise<boolean> {
+  const reaction = await findReaction(transaction, String(reactionDocument.reactionSlug));
+  return (
+    reaction !== undefined &&
+    reaction.newestSubmissionStatus === "published" &&
+    reactionDocument.previousReactionVersion === reaction.newestReactionVersion
+  );
+}
+
 export function saveDraftIfUnchanged(
   database: ReactionDatabase,
   reactionDocument: Record<string, unknown>,
@@ -56,7 +74,9 @@ export function saveDraftIfUnchanged(
     );
   }
   return database.transaction().execute(async (transaction) => {
-    if (expectedDraftHash !== undefined) {
+    if (expectedDraftHash === null && (await buildsOnPublished(transaction, reactionDocument))) {
+      await startNextVersionIn(transaction, reactionSlug, authorUserId);
+    } else if (expectedDraftHash !== undefined) {
       const storedHash = await newestDocumentHash(transaction, reactionSlug);
       if (storedHash !== expectedDraftHash) {
         throw new ReactionDatabaseError(

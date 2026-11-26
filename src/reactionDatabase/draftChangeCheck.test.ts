@@ -2,7 +2,8 @@
  * Tests for draftChangeCheck.ts: a draft save that names the draft it last saw is refused
  * (draft-changed) when the stored draft differs (docs/SPEC.md §6, "Drafting with an assistant").
  */
-import { afterAll, beforeAll, beforeEach, expect, it } from "vitest";
+import { sql } from "kysely";
+import { afterAll, beforeAll, beforeEach, describe, expect, it } from "vitest";
 import { contentHashOf } from "../catalogueBuilding/staticFileNaming.js";
 import { exampleReaction } from "../testSupport/reactionEdits.js";
 import {
@@ -107,4 +108,50 @@ it("saves without a check when no expectation is given (Create's own saves)", as
     undefined,
   );
   expect(written.draftContentHash).toBe(await storedDraftHash());
+});
+
+describe("a push that starts the next version of a published reaction", () => {
+  async function publishNewest(): Promise<void> {
+    await sql`UPDATE arrowpush.reaction_versions SET submission_status = 'published',
+                content_hash = 'hash', published_at = now()
+              WHERE submission_status <> 'published'`.execute(database);
+  }
+
+  function nextVersionDocument(previousReactionVersion: number): Record<string, unknown> {
+    return { ...sn2Document("Better hints"), reactionVersion: 2, previousReactionVersion };
+  }
+
+  it("starts version 2 as a draft holding the pushed document", async () => {
+    await saveDraftIfUnchanged(database, sn2Document(), ownerUserId, null);
+    await publishNewest();
+    const written = await saveDraftIfUnchanged(database, nextVersionDocument(1), ownerUserId, null);
+    expect(written).toMatchObject({ reactionVersion: 2, submissionStatus: "draft" });
+    const stored = await readReactionVersion(database, SN2_SLUG, 2);
+    expect(stored.reactionDocument.title).toBe("Better hints");
+    expect(written.draftContentHash).toBe(contentHashOf(stored.reactionDocument));
+  });
+
+  it("refuses a document that does not build on the newest published version", async () => {
+    await saveDraftIfUnchanged(database, sn2Document(), ownerUserId, null);
+    await publishNewest();
+    expect(
+      await refusalCodeOf(saveDraftIfUnchanged(database, sn2Document(), ownerUserId, null)),
+    ).toBe("draft-changed");
+    expect(
+      await refusalCodeOf(
+        saveDraftIfUnchanged(database, nextVersionDocument(3), ownerUserId, null),
+      ),
+    ).toBe("draft-changed");
+  });
+
+  it("refuses when an unpublished version is already open", async () => {
+    await saveDraftIfUnchanged(database, sn2Document(), ownerUserId, null);
+    await publishNewest();
+    await saveDraftIfUnchanged(database, nextVersionDocument(1), ownerUserId, null);
+    expect(
+      await refusalCodeOf(
+        saveDraftIfUnchanged(database, nextVersionDocument(1), ownerUserId, null),
+      ),
+    ).toBe("draft-changed");
+  });
 });

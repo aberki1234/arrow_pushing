@@ -11,8 +11,10 @@
  * Rules
  *   - A file with lint errors is never sent (warnings are fine).
  *   - A push names the draft it expects to replace: none yet (If-None-Match: *) or the remembered
- *     hash (If-Match). The server refuses with draft-changed when the stored draft differs, as
- *     after an edit in Create; pull it, then edit and push again.
+ *     hash (If-Match). "None yet" also starts the next version of a published reaction when the
+ *     file's previousReactionVersion is its newest version (draftChangeCheck.ts). The server
+ *     refuses with draft-changed when the stored draft differs, as after an edit in Create; pull
+ *     it, then edit and push again.
  *   - A pull overwrites the local file with the server's newest version of the reaction.
  */
 import { existsSync, readFileSync, writeFileSync } from "node:fs";

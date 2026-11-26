@@ -327,28 +327,37 @@ export function startNextVersion(
   reactionSlug: string,
   authorUserId: string,
 ): Promise<WrittenVersion> {
-  return database.transaction().execute(async (transaction) => {
-    await requireSiteAction(transaction, authorUserId, "createReactions");
-    const reaction = await existingReaction(transaction, reactionSlug);
-    if (reaction.newestSubmissionStatus !== "published") {
-      throw new ReactionDatabaseError(
-        "unpublished-version-exists",
-        `version ${String(reaction.newestReactionVersion)} of "${reactionSlug}" is not ` +
-          "published yet: edit that one",
-      );
-    }
-    await requireRoomForOpenDraft(transaction, authorUserId);
-    const nextVersion = reaction.newestReactionVersion + 1;
-    const authors = await authorsWith(transaction, reaction, authorUserId);
-    await insertDraftVersion(
-      transaction,
-      reaction.reactionId,
-      nextVersion,
-      { ...reaction.newestReactionDocument, authors },
-      authorUserId,
+  return database
+    .transaction()
+    .execute((transaction) => startNextVersionIn(transaction, reactionSlug, authorUserId));
+}
+
+/** startNextVersion() inside a transaction the caller holds (draftChangeCheck.ts). */
+export async function startNextVersionIn(
+  transaction: ReactionDatabase,
+  reactionSlug: string,
+  authorUserId: string,
+): Promise<WrittenVersion> {
+  await requireSiteAction(transaction, authorUserId, "createReactions");
+  const reaction = await existingReaction(transaction, reactionSlug);
+  if (reaction.newestSubmissionStatus !== "published") {
+    throw new ReactionDatabaseError(
+      "unpublished-version-exists",
+      `version ${String(reaction.newestReactionVersion)} of "${reactionSlug}" is not ` +
+        "published yet: edit that one",
     );
-    return { reactionSlug, reactionVersion: nextVersion, submissionStatus: "draft" };
-  });
+  }
+  await requireRoomForOpenDraft(transaction, authorUserId);
+  const nextVersion = reaction.newestReactionVersion + 1;
+  const authors = await authorsWith(transaction, reaction, authorUserId);
+  await insertDraftVersion(
+    transaction,
+    reaction.reactionId,
+    nextVersion,
+    { ...reaction.newestReactionDocument, authors },
+    authorUserId,
+  );
+  return { reactionSlug, reactionVersion: nextVersion, submissionStatus: "draft" };
 }
 
 type ListedFromNewest =
