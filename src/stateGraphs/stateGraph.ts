@@ -23,18 +23,21 @@
  * 6 - nonbonding - 0 - 1 = -1 gives 6 nonbonding electrons: three lone pairs.
  */
 
-/** Valence electrons of each element the content may use (main-group group number). */
+/**
+ * Valence electrons of each element the content may use: the main-group group number; the s
+ * electrons for Zn and Hg (d10 kept as a core); 3 for Ce, its usual Ce(III) state (CeCl3, Luche).
+ */
 export const ELEMENT_TO_VALENCE_ELECTRONS: ReadonlyMap<string, number> = new Map([
   ["H", 1], ["Li", 1], ["B", 3], ["C", 4], ["N", 5], ["O", 6], ["F", 7],
   ["Na", 1], ["Mg", 2], ["Al", 3], ["Si", 4], ["P", 5], ["S", 6], ["Cl", 7],
-  ["K", 1], ["Br", 7], ["I", 7],
+  ["K", 1], ["Zn", 2], ["Se", 6], ["Br", 7], ["Sn", 4], ["I", 7], ["Ce", 3], ["Hg", 2],
 ]); // prettier-ignore
 
 /** Periodic-table period of each element: it sets the most valence-shell electrons allowed. */
 export const ELEMENT_TO_PERIOD: ReadonlyMap<string, number> = new Map([
   ["H", 1], ["Li", 2], ["B", 2], ["C", 2], ["N", 2], ["O", 2], ["F", 2],
   ["Na", 3], ["Mg", 3], ["Al", 3], ["Si", 3], ["P", 3], ["S", 3], ["Cl", 3],
-  ["K", 4], ["Br", 4], ["I", 5],
+  ["K", 4], ["Zn", 4], ["Se", 4], ["Br", 4], ["Sn", 5], ["I", 5], ["Ce", 6], ["Hg", 6],
 ]); // prettier-ignore
 
 export interface StateAtom {

@@ -158,6 +158,14 @@ describe("every authored arrow can be picked, in any order", () => {
   });
 });
 
+describe("a metal cation as an electrophile", () => {
+  test("an alkene's π bond can take a new bond to Hg²⁺ (oxymercuration)", () => {
+    const graph = stateGraphFromMappedSmiles("[CH2:1]=[CH2:2].[Hg+2:3]");
+    const source = parseCurvedArrow("π C1-C2 -> σ C1-Hg3").source;
+    expect(newBondDestinations(graph, source, []).map(formatElectronLocus)).toContain("σ C1-Hg3");
+  });
+});
+
 describe("a 1,2-shift onto a cation", () => {
   /** A secondary cation next to a C–H (3-methylbutan-2-ol after losing water), laid out by hand. */
   function shiftDrawing(): { drawing: StateDrawing; graph: StateGraph } {

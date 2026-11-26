@@ -86,6 +86,12 @@ test("the maximum valence shell is a duet, an octet or expanded, by period", () 
   expect(maximumValenceShellElectrons("Br")).toBe(12);
 });
 
+test("zinc, selenium, tin, mercury and cerium have an expanded shell", () => {
+  for (const element of ["Zn", "Se", "Sn", "Hg", "Ce"]) {
+    expect(maximumValenceShellElectrons(element)).toBe(12);
+  }
+});
+
 test("stateGraphToJson sorts atoms and bonds", () => {
   const json = stateGraphToJson(phosphoniumYlide);
   expect(json.atoms[0]).toEqual(atom(1, "P", 0, 0));

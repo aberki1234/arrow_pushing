@@ -32,7 +32,7 @@ const OCTET_ELEMENTS = new Set(["B", "Al", "C", "N", "O"]);
 /** Valence electrons of the neutral atom, for formal charges. */
 const VALENCE_ELECTRONS: ReadonlyMap<string, number> = new Map([
   ["H", 1], ["B", 3], ["C", 4], ["N", 5], ["O", 6], ["F", 7], ["Al", 3], ["Si", 4], ["P", 5],
-  ["S", 6], ["Cl", 7], ["Br", 7], ["I", 7],
+  ["S", 6], ["Cl", 7], ["Zn", 2], ["Se", 6], ["Br", 7], ["Sn", 4], ["I", 7], ["Ce", 3], ["Hg", 2],
 ]); // prettier-ignore
 /** An H bonded to one of these can be passed across to a new bond. */
 const PROTON_DONOR_ELEMENTS = new Set(["N", "O", "S", "F", "Cl", "Br", "I"]);
