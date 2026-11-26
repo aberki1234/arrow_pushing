@@ -7,8 +7,9 @@
  * Places
  *   atom, bond   every atom and bond pick target that arrowPicking.ts accepts as a destination
  *   new bond     each bond of newBondDestinations.ts between tappable atoms: always to another
- *                molecule (molecules are laid out apart, so distance says nothing) and for a
- *                1,2-shift; a ring closure only within NEW_BOND_REACH bond lengths
+ *                molecule (molecules are laid out apart, so distance says nothing), to an H (a
+ *                proton passed across, however the molecule is drawn) and for a 1,2-shift; a
+ *                ring closure only within NEW_BOND_REACH bond lengths
  * The nearest place is measured to its anchors: the atom; the bond's midpoint; the new bond's
  * midpoint and its far atom (the one not in the source), so pointing at the atom the electrons
  * go to picks the new bond to it, from the nearer end of the source bond. Atoms and bonds come
@@ -135,8 +136,8 @@ function sameMolecule(graph: StateGraph, first: number, second: number): boolean
 
 /**
  * Whether a new bond is shown: both atoms tappable, and either in different molecules (however
- * far apart they are drawn: molecules are laid out apart), a 1,2-shift, or a ring closure drawn
- * within NEW_BOND_REACH bond lengths.
+ * far apart they are drawn: molecules are laid out apart), to an H, a 1,2-shift, or a ring
+ * closure drawn within NEW_BOND_REACH bond lengths.
  */
 function isShownNewBond(
   drawing: StateDrawing,
@@ -153,7 +154,8 @@ function isShownNewBond(
   if (!tappable.has(first) || !tappable.has(second)) {
     return false;
   }
-  if (!sameMolecule(graph, first, second)) {
+  const isProtonTransfer = destination.atoms.some((atom) => atom.element === "H");
+  if (!sameMolecule(graph, first, second) || isProtonTransfer) {
     return true;
   }
   const sourceAtoms = source.atoms.map((atom) => atom.mapNumber);

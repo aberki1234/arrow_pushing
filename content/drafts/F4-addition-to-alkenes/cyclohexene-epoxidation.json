@@ -115,7 +115,7 @@
       "learnerPrompt": "mCPBA transfers one oxygen to the alkene in a single step. Draw all the arrows.",
       "hintTiers": [
         "The O–O bond is weak. Which oxygen ends up in the epoxide: the one bonded to H, or the one bonded to the carbonyl carbon?",
-        "The OH oxygen bonds to both alkene carbons. Go round the ring: the O–H bond becomes one C–O bond, the C=C π bond forms the other, the O–O bond becomes a new C=O, and the old C=O takes the H. Four arrows; start with the O–H bond.",
+        "The OH oxygen bonds to both alkene carbons. Go round the ring: the O–H bond becomes one C–O bond, the C=C π bond forms the other, the O–O bond becomes a new C=O, and the old C=O takes the H. Four arrows, in any order.",
         "Arrow 1: from the O–H bond to one alkene carbon, forming a C–O bond. Arrow 2: from the C=C π bond to the same oxygen, from the other alkene carbon. Arrow 3: from the O–O bond to between the carbonyl carbon and the oxygen next to it. Arrow 4: from the C=O π bond to the H."
       ],
       "misconceptions": [

@@ -118,24 +118,35 @@ describe("the nearest place", () => {
   });
 });
 
-describe("every authored arrow can be picked", () => {
+/** Every ordering of `items`. */
+function orderings<T>(items: readonly T[]): T[][] {
+  if (items.length <= 1) {
+    return [items.slice()];
+  }
+  return items.flatMap((item, index) =>
+    orderings([...items.slice(0, index), ...items.slice(index + 1)]).map((rest) => [item, ...rest]),
+  );
+}
+
+describe("every authored arrow can be picked, in any order", () => {
   test.each(EXAMPLE_SLUGS)("%s", (slug) => {
     const reaction = exampleSessionReaction(slug);
     for (const step of reaction.steps) {
       const { drawing, graph } = drawingOf(slug, step.fromStateId);
-      const drawnArrows: CurvedArrow[] = [];
-      for (const curvedArrow of step.canonicalArrows) {
-        const places = destinationTargets(drawing, graph, {
-          source: curvedArrow.source,
-          arrowType: curvedArrow.electronsMoved === 2 ? "pair" : "fishHook",
-          drawnArrows,
-        });
-        const wanted = formatElectronLocus(curvedArrow.destination);
-        expect(
-          places.map((place) => formatElectronLocus(place.destination)),
-          `${step.stepKey}: ${formatCurvedArrow(curvedArrow)}`,
-        ).toContain(wanted);
-        drawnArrows.push(curvedArrow);
+      for (const order of orderings(step.canonicalArrows)) {
+        const drawnArrows: CurvedArrow[] = [];
+        for (const curvedArrow of order) {
+          const places = destinationTargets(drawing, graph, {
+            source: curvedArrow.source,
+            arrowType: curvedArrow.electronsMoved === 2 ? "pair" : "fishHook",
+            drawnArrows,
+          });
+          expect(
+            places.map((place) => formatElectronLocus(place.destination)),
+            `${step.stepKey}: ${order.map(formatCurvedArrow).join("; ")}`,
+          ).toContain(formatElectronLocus(curvedArrow.destination));
+          drawnArrows.push(curvedArrow);
+        }
       }
     }
   });

@@ -232,7 +232,7 @@ test("a check on Publish itself opens its folded section and focuses the field",
   });
   await fireEvent.click(screen.getByRole("button", { name: /Choose a reaction type/ }));
   await waitFor(() => {
-    expect(document.activeElement?.textContent).toBe("substitution");
+    expect(document.activeElement?.closest('[data-field="reactionClasses"]')).not.toBeNull();
   });
 });
 

@@ -100,7 +100,12 @@ reactions, track `electrophilic-aromatic-substitution`, problem sets in this ord
     bonds apart only when the receiving atom is electron-poor (the 10f rule: a 1,2-shift), never three bonds apart,
     and four or more apart when drawn near (ring closure). The receiving atom must be able to take a bond (now also
     a positively charged atom, the P⁺ of a Wittig). Two fish-hooks meeting in one new bond each see it offered.
-    A test checks that every authored arrow of the example reactions can be picked.
+    A test checks that every authored arrow of the example reactions can be picked, **in any order** (decided
+    2026-11-26 from the F1–F5 drafting: a learner never has to draw a step's arrows in one particular order). So a
+    1,2-shift is offered onto an atom bonded to a leaving group whether or not its loss is drawn yet; an atom can
+    take a second new bond in one step (the epoxide oxygen), only an H is limited to one; an acidic C–H (next to a
+    π bond or a positive atom) can take a bond; a proton passed across within one molecule is offered however it
+    is drawn.
   - **Fixes from the SEAr review (2026-11-26):** a new bond is offered only to an atom that can take one
     (electron-poor, with a π bond to give up, a radical, an H on O/N/S/halogen, or bonded to O, S or a halogen),
     so no ghosts to a methyl carbon; pointing at the **far atom** of a new bond (the acylium carbon) picks that bond,

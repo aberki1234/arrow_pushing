@@ -23,8 +23,7 @@
     ]
   },
   "spectatorMapNumbers": [
-    4,
-    9
+    4
   ],
   "abbreviatedGroups": [
     {
@@ -67,27 +66,27 @@
   "startStateId": "reactants",
   "stateIdToState": {
     "reactants": {
-      "mappedSmiles": "[H:3][CH2:2][P+:1]([C:11]1=[CH:12][CH:13]=[CH:14][CH:15]=[CH:16]1)([C:21]1=[CH:22][CH:23]=[CH:24][CH:25]=[CH:26]1)[C:31]1=[CH:32][CH:33]=[CH:34][CH:35]=[CH:36]1.[Br-:4].[Li+:9].[CH2-:5][CH2:6][CH2:7][CH3:8]",
+      "mappedSmiles": "[H:3][CH2:2][P+:1]([C:11]1=[CH:12][CH:13]=[CH:14][CH:15]=[CH:16]1)([C:21]1=[CH:22][CH:23]=[CH:24][CH:25]=[CH:26]1)[C:31]1=[CH:32][CH:33]=[CH:34][CH:35]=[CH:36]1.[Br-:4].[Li:9][CH2:5][CH2:6][CH2:7][CH3:8]",
       "caption": "methyltriphenylphosphonium bromide + butyllithium",
       "learnerPrompt": "Butyllithium is the base. Make the ylide.",
       "hintTiers": [
-        "The positive phosphorus makes the C–H bonds next to it acidic. Butyllithium is drawn as Li⁺ and the butyl anion: where are its reactive electrons?",
-        "The butyl carbon's lone pair takes a proton from the methyl group on phosphorus, and that C–H bonding pair stays on carbon. Two arrows.",
-        "Butyl carbon lone pair → new C–H bond to a proton of the methyl group; that C–H bond → lone pair on the methyl carbon."
+        "The positive phosphorus makes the C–H bonds next to it acidic. In butyllithium the C–Li bond is very polar: its electron pair belongs to carbon. Where do those electrons go?",
+        "The C–Li bonding pair takes a proton from the methyl group on phosphorus, and that C–H bonding pair stays on carbon. Two arrows.",
+        "C–Li bond → new C–H bond to a proton of the methyl group; that C–H bond → lone pair on the methyl carbon."
       ],
       "misconceptions": [
         {
           "misconceptionId": "butyl-attacks-phosphorus",
           "misconceptionTag": "attack-non-electrophile",
           "severity": "wrong",
-          "arrowPattern": "lp C5 -> P1",
+          "arrowPattern": "σ C5-Li9 -> P1",
           "feedbackMessage": "Phosphorus already has four bonds. Butyllithium acts as a base here: it takes a proton from the carbon next to P⁺."
         },
         {
           "misconceptionId": "butyl-substitutes-methyl",
           "misconceptionTag": "base-acts-as-nucleophile",
           "severity": "wrong",
-          "arrowPattern": "lp C5 -> C2",
+          "arrowPattern": "σ C5-Li9 -> C2",
           "feedbackMessage": "Triphenylphosphine is not displaced. Butyllithium takes a proton from that carbon instead."
         },
         {
@@ -101,9 +100,9 @@
       "partialProgressMessages": [
         {
           "learnerArrows": [
-            "lp C5 -> σ H3-C5"
+            "σ C5-Li9 -> σ H3-C5"
           ],
-          "feedbackMessage": "Right: the butyl carbon takes the proton. Where does the C–H bonding pair go?"
+          "feedbackMessage": "Right: the C–Li bonding pair takes the proton. Where does the C–H bonding pair go?"
         }
       ],
       "mapNumberToCoordinates": {
@@ -340,13 +339,13 @@
       "stepKind": "polar",
       "routePreference": "preferred",
       "canonicalArrows": [
-        "lp C5 -> σ H3-C5",
+        "σ C5-Li9 -> σ H3-C5",
         "σ C2-H3 -> lp C2"
       ],
       "explanationAfterStep": "The positive phosphorus stabilises the carbanion next to it, so that C–H has a pKa of about 22. Butane (pKa about 50) is a far weaker acid, so the deprotonation is complete."
     }
   ],
-  "mechanismSummary": "Butyllithium reacts as the butyl anion, a very strong base: its carbon lone pair takes a proton from the carbon next to P⁺, and the C–H bonding pair stays on that carbon. The ylide has a carbanion next to the phosphonium ion, ready to attack a carbonyl group (the Wittig reaction).",
+  "mechanismSummary": "Butyllithium is a very strong base: the electron pair of its polar C–Li bond takes a proton from the carbon next to P⁺, and the C–H bonding pair stays on that carbon. The ylide has a carbanion next to the phosphonium ion, ready to attack a carbonyl group (the Wittig reaction).",
   "references": [
     "Clayden, Greeves and Warren, Organic Chemistry, 2nd edition (Oxford University Press), chapter 11"
   ],

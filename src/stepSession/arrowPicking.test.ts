@@ -171,7 +171,8 @@ describe("possible new bonds from a bond source", () => {
 
   test("within a molecule: 1,2-shifts onto an electron-poor atom; rings from 4 bonds", () => {
     expect(newBonds(PROPYL_CATION, [2, 5])).toEqual(["σ C3-H5"]);
-    expect(newBonds(PROPYL_CHLORIDE, [2, 5])).toEqual([]);
+    // Onto a carbon losing its leaving group: offered before or after the C–Cl break is drawn.
+    expect(newBonds(PROPYL_CHLORIDE, [2, 5])).toEqual(["σ C3-H5"]);
     expect(newBonds(PROPYL_CHLORIDE, [2, 5], ["σ C3-Cl4 -> lp Cl4"])).toEqual(["σ C3-H5"]);
     const hexadiene = stateGraphFromMappedSmiles("[CH2:1]=[CH:2][CH2:3][CH2:4][CH:5]=[CH2:6]");
     // C1–C5 and C2–C6 are 4 bonds apart and C1–C6 5; C2–C5 (3 bonds) and C2–C4 (2, not
@@ -181,6 +182,37 @@ describe("possible new bonds from a bond source", () => {
 
   test("no 1,2-shift of an H a base is already taking", () => {
     expect(newBonds(PROPYL_CATION_AND_WATER, [2, 5], ["lp O6 -> σ O6-H5"])).toEqual([]);
+  });
+});
+
+describe("possible new bonds, whatever the order", () => {
+  const newBonds = (
+    graph: ReturnType<typeof stateGraphFromMappedSmiles>,
+    sourceBond: [number, number],
+    drawnArrowTexts: string[] = [],
+  ): string[] => {
+    const drawnArrows = drawnArrowTexts.map(parseCurvedArrow);
+    const source = sourceOf(tapToSourceLocus(graph, bond(...sourceBond), drawnArrows, "pair"));
+    return newBondDestinations(graph, source, drawnArrows).map(formatElectronLocus);
+  };
+
+  test("do not depend on the order the arrows are drawn in", () => {
+    // Epoxidation: after the π bond has bonded to the peroxide oxygen, the O–H pair can still
+    // form the second C–O bond to that same oxygen.
+    const peracid = stateGraphFromMappedSmiles("[CH2:1]=[CH2:2].[O:7]=[CH:8][O:9][O:10][H:11]");
+    expect(newBonds(peracid, [10, 11], ["π C1-C2 -> σ C1-O10"])).toContain("σ C2-O10");
+    // A shift onto an oxygen whose O–O bond has not been drawn breaking yet (borane oxidation).
+    const boratePeroxide = stateGraphFromMappedSmiles("[CH3:1][B-:4]([CH3:2])([CH3:3])[O:5][OH:6]");
+    expect(newBonds(boratePeroxide, [1, 4])).toContain("σ C1-O5");
+  });
+
+  test("an acidic H on carbon can take a bond; a plain C–H cannot", () => {
+    const ylideFormation = stateGraphFromMappedSmiles(
+      "[Li:4][CH3:5].[H:3][CH2:2][P+:1]([CH3:6])([CH3:7])[CH3:8]",
+    );
+    expect(newBonds(ylideFormation, [4, 5])).toContain("σ H3-C5");
+    const propane = stateGraphFromMappedSmiles("[Li:4][CH3:5].[H:3][CH2:2][CH3:6]");
+    expect(newBonds(propane, [4, 5])).not.toContain("σ H3-C5");
   });
 
   test("a lone pair has none: tapping the atom is enough", () => {

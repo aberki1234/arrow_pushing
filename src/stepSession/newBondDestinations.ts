@@ -14,8 +14,10 @@
  *     electron-poor Y (C, N or O short of an octet, or losing a σ bond to an arrow already drawn
  *     in this set).
  *   - Y three bonds away (a four-membered ring): left out. Four or more: kept (a ring closure).
- *   - Nothing from an atom a drawn arrow is already bonding to something else (a base taking
- *     the H), and no bond a drawn arrow already forms.
+ *   - Nothing from a hydrogen a drawn arrow is already bonding to something else (a base taking
+ *     it), and no bond a drawn arrow already forms. None of this depends on the order the arrows
+ *     are drawn in (a 1,2-shift is offered onto an atom bonded to a leaving group, before or after
+ *     the leaving group is drawn going).
  * A lone pair or an unpaired electron needs none: tapping the atom says which bond it forms.
  */
 import type {
@@ -92,6 +94,51 @@ function isElectronPoor(
   );
 }
 
+function bondsOf(graph: StateGraph, mapNumber: number): [string, number][] {
+  return [...graph.bondToOrder].filter(([key]) => bondKeyMapNumbers(key).includes(mapNumber));
+}
+
+function formalChargeOf(graph: StateGraph, mapNumber: number): number {
+  const atom = graph.mapNumberToAtom.get(mapNumber);
+  if (atom === undefined) {
+    return 0;
+  }
+  const bondOrderSum = bondsOf(graph, mapNumber).reduce((sum, [, order]) => sum + order, 0);
+  return (
+    (VALENCE_ELECTRONS.get(atom.element) ?? 0) -
+    atom.nonbondingElectronCount -
+    bondOrderSum -
+    atom.hydrogenCount
+  );
+}
+
+function hasPiBond(graph: StateGraph, mapNumber: number): boolean {
+  return bondsOf(graph, mapNumber).some(([, order]) => order > 1);
+}
+
+function elementOf(graph: StateGraph, mapNumber: number): string {
+  return graph.mapNumberToAtom.get(mapNumber)?.element ?? "";
+}
+
+/**
+ * Whether an H can be passed to a new bond: on O, N, S or a halogen, or an acidic C–H (its carbon
+ * next to a π bond or a positive atom: an α-H, the CH of a phosphonium salt).
+ */
+function isTransferableHydrogen(graph: StateGraph, hydrogen: number): boolean {
+  return neighboursOf(graph, hydrogen).some((carrier) => {
+    const element = elementOf(graph, carrier);
+    if (PROTON_DONOR_ELEMENTS.has(element)) {
+      return true;
+    }
+    return (
+      element === "C" &&
+      neighboursOf(graph, carrier).some(
+        (next) => next !== hydrogen && (hasPiBond(graph, next) || formalChargeOf(graph, next) > 0),
+      )
+    );
+  });
+}
+
 /** Whether `mapNumber` could take a new bond (see the module comment). */
 function canTakeBond(
   graph: StateGraph,
@@ -102,27 +149,17 @@ function canTakeBond(
   if (atom === undefined) {
     return false;
   }
-  const bonds = [...graph.bondToOrder].filter(([key]) =>
-    bondKeyMapNumbers(key).includes(mapNumber),
-  );
-  const neighbourElements = neighboursOf(graph, mapNumber).map(
-    (neighbour) => graph.mapNumberToAtom.get(neighbour)?.element ?? "",
-  );
   if (atom.element === "H") {
-    return neighbourElements.some((element) => PROTON_DONOR_ELEMENTS.has(element));
+    return isTransferableHydrogen(graph, mapNumber);
   }
-  const bondOrderSum = bonds.reduce((sum, [, order]) => sum + order, 0);
-  const formalCharge =
-    (VALENCE_ELECTRONS.get(atom.element) ?? 0) -
-    atom.nonbondingElectronCount -
-    bondOrderSum -
-    atom.hydrogenCount;
   return (
     isElectronPoor(graph, mapNumber, drawnArrows) ||
-    formalCharge > 0 ||
-    bonds.some(([, order]) => order > 1) ||
+    formalChargeOf(graph, mapNumber) > 0 ||
+    hasPiBond(graph, mapNumber) ||
     atom.nonbondingElectronCount % 2 === 1 ||
-    neighbourElements.some((element) => LEAVING_GROUP_ELEMENTS.has(element))
+    neighboursOf(graph, mapNumber).some((neighbour) =>
+      LEAVING_GROUP_ELEMENTS.has(elementOf(graph, neighbour)),
+    )
   );
 }
 
@@ -147,8 +184,13 @@ function isOffered(
     return true;
   }
   if (distance === 2) {
+    // A 1,2-shift onto an atom that is electron-poor, or will be as a leaving group goes (drawn
+    // before or after the shift: the order the arrows are drawn in does not matter).
     const isShiftOfFormer = graph.bondToOrder.has(bondKey(other, target));
-    return isShiftOfFormer && isElectronPoor(graph, target, drawnArrows);
+    const losesLeavingGroup = neighboursOf(graph, target).some(
+      (neighbour) => neighbour !== other && LEAVING_GROUP_ELEMENTS.has(elementOf(graph, neighbour)),
+    );
+    return isShiftOfFormer && (isElectronPoor(graph, target, drawnArrows) || losesLeavingGroup);
   }
   return distance >= SMALLEST_RING_CLOSURE_DISTANCE;
 }
@@ -180,7 +222,10 @@ export function newBondDestinations(
     return [];
   }
   const formed = formedBondKeys(drawnArrows);
+  // A hydrogen makes one bond: once a drawn arrow bonds it (a base taking it), it cannot also
+  // shift. A heavier atom can form a second new bond in the same step (the epoxide oxygen).
   const alreadyBonding = (mapNumber: number): boolean =>
+    elementOf(graph, mapNumber) === "H" &&
     [...formed].some((key) => bondKeyMapNumbers(key).includes(mapNumber));
   const keys = new Set<string>();
   for (const [former, other] of [

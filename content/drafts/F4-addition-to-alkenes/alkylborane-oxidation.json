@@ -271,7 +271,7 @@
       "learnerPrompt": "Now the key step: a group moves from boron to oxygen. Draw it.",
       "hintTiers": [
         "Boron is negatively charged and the O–O bond is weak. What can move onto the oxygen bonded to boron?",
-        "The O–O bond breaks and hydroxide leaves; at the same time the propyl group moves from boron to the oxygen bonded to boron, taking its bonding pair. Two arrows: draw the O–O break first.",
+        "The O–O bond breaks and hydroxide leaves; at the same time the propyl group moves from boron to the oxygen bonded to boron, taking its bonding pair. Two arrows.",
         "Arrow 1: from the O–O bond onto the outer oxygen. Arrow 2: from the B–C bond of the drawn propyl group to a new bond between that carbon and the oxygen bonded to boron."
       ],
       "misconceptions": [
