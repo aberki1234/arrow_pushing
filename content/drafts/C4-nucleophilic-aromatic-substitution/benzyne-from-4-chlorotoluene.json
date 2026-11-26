@@ -1,0 +1,632 @@
+{
+  "formatVersion": 1,
+  "reactionSlug": "benzyne-from-4-chlorotoluene",
+  "reactionVersion": 1,
+  "previousReactionVersion": null,
+  "title": "Benzyne: amination of 4-chlorotoluene",
+  "subtitle": "Elimination to an aryne, then addition at either end",
+  "reactionClasses": [
+    "aromatic substitution",
+    "elimination",
+    "addition"
+  ],
+  "difficultyTier": 3,
+  "conditionsLabel": "NaNH₂ · NH₃(l) · −33 °C",
+  "dailyPuzzleEligible": true,
+  "atomRoleToMapNumbers": {
+    "base": [
+      10
+    ],
+    "nucleophile": [
+      12
+    ],
+    "leavingGroup": [
+      8
+    ]
+  },
+  "spectatorMapNumbers": [
+    11,
+    13
+  ],
+  "startStateId": "reactants",
+  "stateIdToState": {
+    "reactants": {
+      "mappedSmiles": "[Cl:8][C:1]1=[C:2]([H:9])[CH:3]=[C:4]([CH3:7])[CH:5]=[CH:6]1.[NH2-:10].[Na+:11]",
+      "mapNumberToCoordinates": {
+        "1": [
+          1.5,
+          0
+        ],
+        "2": [
+          0.75,
+          1.3
+        ],
+        "3": [
+          -0.75,
+          1.3
+        ],
+        "4": [
+          -1.5,
+          0
+        ],
+        "5": [
+          -0.75,
+          -1.3
+        ],
+        "6": [
+          0.75,
+          -1.3
+        ],
+        "7": [
+          -3,
+          0
+        ],
+        "8": [
+          3,
+          0
+        ],
+        "9": [
+          1.5,
+          2.6
+        ],
+        "10": [
+          -0.03,
+          4.26
+        ],
+        "11": [
+          0.1,
+          6.55
+        ]
+      },
+      "caption": "4-chlorotoluene + sodium amide (in liquid ammonia)",
+      "learnerPrompt": "No nitro groups this time, and a very strong base. Draw what the amide ion does first.",
+      "hintTiers": [
+        "Without electron-withdrawing groups, addition to the ring is far too slow. The amide ion (pKa of ammonia about 35) is a very strong base: which hydrogen is most acidic?",
+        "The hydrogen next to the chlorine is the most acidic one on the ring: chlorine pulls electrons from that carbon. The amide lone pair takes the drawn hydrogen, and the C–H pair stays on carbon as an aryl anion. Two arrows.",
+        "Amide N lone pair → new bond to the drawn H next to Cl; that C–H bond → a lone pair on its carbon."
+      ],
+      "misconceptions": [
+        {
+          "misconceptionId": "snar-addition",
+          "misconceptionTag": "unactivated-ring",
+          "severity": "wrong",
+          "arrowPattern": "lp N10 -> σ N10-C1",
+          "feedbackMessage": "There is no nitro group to hold a negative charge, so addition to this ring is far too slow. The amide ion is a strong base: it takes a proton."
+        },
+        {
+          "misconceptionId": "attack-chlorine",
+          "misconceptionTag": "attack-leaving-group",
+          "severity": "wrong",
+          "arrowPattern": "lp N10 -> Cl8",
+          "feedbackMessage": "Chlorine is electron-rich. The amide ion takes a proton instead."
+        }
+      ]
+    },
+    "aryl-anion": {
+      "mappedSmiles": "[Cl:8][C:1]1=[C-:2][CH:3]=[C:4]([CH3:7])[CH:5]=[CH:6]1.[NH2:10][H:9].[Na+:11]",
+      "mapNumberToCoordinates": {
+        "1": [
+          1.5,
+          0
+        ],
+        "2": [
+          0.75,
+          1.3
+        ],
+        "3": [
+          -0.75,
+          1.3
+        ],
+        "4": [
+          -1.5,
+          0
+        ],
+        "5": [
+          -0.75,
+          -1.3
+        ],
+        "6": [
+          0.75,
+          -1.3
+        ],
+        "7": [
+          -3,
+          0
+        ],
+        "8": [
+          3,
+          0
+        ],
+        "9": [
+          1.6,
+          4.28
+        ],
+        "10": [
+          0.3,
+          3.53
+        ],
+        "11": [
+          -1.68,
+          4.69
+        ]
+      },
+      "caption": "an aryl anion, with the lone pair next to the chlorine",
+      "learnerPrompt": "Chloride leaves. Draw how benzyne forms.",
+      "hintTiers": [
+        "The lone pair sits in the ring plane, right beside the C–Cl bond. What can it push out?",
+        "The carbon lone pair forms a second π bond to the carbon bearing chlorine, and the C–Cl bond breaks onto chlorine. Two arrows.",
+        "Aryl anion lone pair → a π bond to the carbon bearing Cl; the C–Cl bond → a lone pair on chlorine."
+      ],
+      "misconceptions": [
+        {
+          "misconceptionId": "anion-takes-proton-back",
+          "misconceptionTag": "reverse-step",
+          "severity": "plausible",
+          "arrowPattern": "lp C2 -> σ C2-H9",
+          "feedbackMessage": "Taking the proton back from ammonia only returns to the start. (It does happen: the deprotonation is reversible.) Let chloride leave."
+        }
+      ],
+      "partialProgressMessages": [
+        {
+          "learnerArrows": [
+            "σ C1-Cl8 -> lp Cl8"
+          ],
+          "feedbackMessage": "Chloride does leave, but the carbon would have only two bonds. Use the lone pair next door to make a new π bond."
+        }
+      ]
+    },
+    "benzyne": {
+      "mappedSmiles": "[C:1]1#[C:2][CH:3]=[C:4]([CH3:7])[CH:5]=[CH:6]1.[NH2:10][H:9].[Cl-:8].[Na+:11]",
+      "mapNumberToCoordinates": {
+        "1": [
+          1.5,
+          0
+        ],
+        "2": [
+          0.75,
+          1.3
+        ],
+        "3": [
+          -0.75,
+          1.3
+        ],
+        "4": [
+          -1.5,
+          0
+        ],
+        "5": [
+          -0.75,
+          -1.3
+        ],
+        "6": [
+          0.75,
+          -1.3
+        ],
+        "7": [
+          -3,
+          0
+        ],
+        "8": [
+          3.8,
+          0
+        ],
+        "9": [
+          1.8,
+          4.3
+        ],
+        "10": [
+          0.5,
+          3.55
+        ],
+        "11": [
+          -1.53,
+          4.61
+        ]
+      },
+      "caption": "4-methylbenzyne: a 'triple bond' in a six-membered ring"
+    },
+    "benzyne-and-amide": {
+      "mappedSmiles": "[C:1]1#[C:2][CH:3]=[C:4]([CH3:7])[CH:5]=[CH:6]1.[NH2:10][H:9].[NH2-:12].[Na+:13]",
+      "mapNumberToCoordinates": {
+        "1": [
+          1.5,
+          0
+        ],
+        "2": [
+          0.75,
+          1.3
+        ],
+        "3": [
+          -0.75,
+          1.3
+        ],
+        "4": [
+          -1.5,
+          0
+        ],
+        "5": [
+          -0.75,
+          -1.3
+        ],
+        "6": [
+          0.75,
+          -1.3
+        ],
+        "7": [
+          -3,
+          0
+        ],
+        "9": [
+          1.35,
+          4.21
+        ],
+        "10": [
+          0.05,
+          3.46
+        ],
+        "12": [
+          -2.23,
+          3.16
+        ],
+        "13": [
+          3.8,
+          0
+        ]
+      },
+      "caption": "4-methylbenzyne + another amide ion",
+      "learnerPrompt": "The amide ion adds to benzyne. Add it to the carbon that gives the amine where the chlorine was.",
+      "hintTiers": [
+        "Benzyne's extra π bond lies in the ring plane, badly overlapped and strained: a powerful electrophile. Either end can be attacked.",
+        "The amide lone pair forms a bond to the carbon that carried chlorine, and the in-plane π pair moves onto the other carbon of the triple bond as a lone pair. Two arrows.",
+        "Amide N lone pair → new C–N bond to the carbon that carried Cl; the extra C≡C π bond → a lone pair on the other carbon."
+      ],
+      "misconceptions": [
+        {
+          "misconceptionId": "ammonia-adds",
+          "misconceptionTag": "weaker-nucleophile",
+          "severity": "plausible",
+          "arrowPattern": "lp N10 -> σ N10-C*",
+          "feedbackMessage": "Ammonia can add to benzyne too, but the amide ion is the far better nucleophile here. Use the amide ion."
+        },
+        {
+          "misconceptionId": "add-to-ring-ch",
+          "misconceptionTag": "wrong-electrophilic-carbon",
+          "severity": "wrong",
+          "arrowPattern": "lp N12 -> σ N12-C3",
+          "feedbackMessage": "That carbon is an ordinary aromatic CH. The reactive carbons are the two ends of the strained triple bond."
+        }
+      ],
+      "partialProgressMessages": [
+        {
+          "learnerArrows": [
+            "lp N12 -> σ N12-C1"
+          ],
+          "feedbackMessage": "Right carbon. It now has five bonds: move the in-plane π bond onto the other carbon."
+        }
+      ]
+    },
+    "para-anion": {
+      "mappedSmiles": "[NH2:12][C:1]1=[C-:2][CH:3]=[C:4]([CH3:7])[CH:5]=[CH:6]1.[NH2:10][H:9].[Na+:13]",
+      "mapNumberToCoordinates": {
+        "1": [
+          1.5,
+          0
+        ],
+        "2": [
+          0.75,
+          1.3
+        ],
+        "3": [
+          -0.75,
+          1.3
+        ],
+        "4": [
+          -1.5,
+          0
+        ],
+        "5": [
+          -0.75,
+          -1.3
+        ],
+        "6": [
+          0.75,
+          -1.3
+        ],
+        "7": [
+          -3,
+          0
+        ],
+        "9": [
+          1.6,
+          4.28
+        ],
+        "10": [
+          0.3,
+          3.53
+        ],
+        "12": [
+          3,
+          0
+        ],
+        "13": [
+          -1.68,
+          4.69
+        ]
+      },
+      "caption": "aryl anion, amine para to the methyl group",
+      "learnerPrompt": "Ammonia, the solvent, protonates the aryl anion.",
+      "hintTiers": [
+        "An aryl anion is a very strong base. Which species in the flask has an N–H proton to give?",
+        "The carbon lone pair takes the drawn hydrogen of ammonia, and the N–H pair stays on nitrogen. Two arrows.",
+        "Aryl anion lone pair → new C–H bond to the drawn H of ammonia; that N–H bond → a lone pair on nitrogen."
+      ]
+    },
+    "meta-anion": {
+      "mappedSmiles": "[C-:1]1=[C:2]([NH2:12])[CH:3]=[C:4]([CH3:7])[CH:5]=[CH:6]1.[NH2:10][H:9].[Na+:13]",
+      "mapNumberToCoordinates": {
+        "1": [
+          1.5,
+          0
+        ],
+        "2": [
+          0.75,
+          1.3
+        ],
+        "3": [
+          -0.75,
+          1.3
+        ],
+        "4": [
+          -1.5,
+          0
+        ],
+        "5": [
+          -0.75,
+          -1.3
+        ],
+        "6": [
+          0.75,
+          -1.3
+        ],
+        "7": [
+          -3,
+          0
+        ],
+        "9": [
+          1.5,
+          5.2
+        ],
+        "10": [
+          0.2,
+          4.45
+        ],
+        "12": [
+          1.5,
+          2.6
+        ],
+        "13": [
+          3.79,
+          -0.16
+        ]
+      },
+      "caption": "aryl anion, amine meta to the methyl group",
+      "learnerPrompt": "Ammonia, the solvent, protonates the aryl anion.",
+      "hintTiers": [
+        "An aryl anion is a very strong base. Which species in the flask has an N–H proton to give?",
+        "The carbon lone pair takes the drawn hydrogen of ammonia, and the N–H pair stays on nitrogen. Two arrows.",
+        "Aryl anion lone pair → new C–H bond to the drawn H of ammonia; that N–H bond → a lone pair on nitrogen."
+      ]
+    },
+    "p-toluidine": {
+      "mappedSmiles": "[NH2:12][C:1]1=[C:2]([H:9])[CH:3]=[C:4]([CH3:7])[CH:5]=[CH:6]1.[NH2-:10].[Na+:13]",
+      "mapNumberToCoordinates": {
+        "1": [
+          1.5,
+          0
+        ],
+        "2": [
+          0.75,
+          1.3
+        ],
+        "3": [
+          -0.75,
+          1.3
+        ],
+        "4": [
+          -1.5,
+          0
+        ],
+        "5": [
+          -0.75,
+          -1.3
+        ],
+        "6": [
+          0.75,
+          -1.3
+        ],
+        "7": [
+          -3,
+          0
+        ],
+        "9": [
+          1.5,
+          2.6
+        ],
+        "10": [
+          -0.03,
+          4.26
+        ],
+        "12": [
+          3,
+          0
+        ],
+        "13": [
+          0.1,
+          6.55
+        ]
+      },
+      "caption": "p-toluidine (4-methylaniline): the amine where the chlorine was"
+    },
+    "m-toluidine": {
+      "mappedSmiles": "[C:1]1([H:9])=[C:2]([NH2:12])[CH:3]=[C:4]([CH3:7])[CH:5]=[CH:6]1.[NH2-:10].[Na+:13]",
+      "mapNumberToCoordinates": {
+        "1": [
+          1.5,
+          0
+        ],
+        "2": [
+          0.75,
+          1.3
+        ],
+        "3": [
+          -0.75,
+          1.3
+        ],
+        "4": [
+          -1.5,
+          0
+        ],
+        "5": [
+          -0.75,
+          -1.3
+        ],
+        "6": [
+          0.75,
+          -1.3
+        ],
+        "7": [
+          -3,
+          0
+        ],
+        "9": [
+          3,
+          0
+        ],
+        "10": [
+          -0.03,
+          4.26
+        ],
+        "12": [
+          1.5,
+          2.6
+        ],
+        "13": [
+          0.1,
+          6.55
+        ]
+      },
+      "caption": "m-toluidine (3-methylaniline): the amine on the neighbouring carbon, formed in a similar amount"
+    }
+  },
+  "steps": [
+    {
+      "stepKey": "ortho-deprotonation",
+      "fromStateId": "reactants",
+      "toStateId": "aryl-anion",
+      "stepKind": "polar",
+      "routePreference": "preferred",
+      "canonicalArrows": [
+        "lp N10 -> σ N10-H9",
+        "σ C2-H9 -> lp C2"
+      ],
+      "explanationAfterStep": "The amide ion removes the proton next to chlorine, whose pull on electrons makes it the most acidic ring hydrogen. The lone pair sits in an sp² orbital in the ring plane, not in the π system."
+    },
+    {
+      "stepKey": "loss-of-chloride",
+      "fromStateId": "aryl-anion",
+      "toStateId": "benzyne",
+      "stepKind": "polar",
+      "routePreference": "preferred",
+      "canonicalArrows": [
+        "lp C2 -> π C1-C2",
+        "σ C1-Cl8 -> lp Cl8"
+      ],
+      "explanationAfterStep": "An elimination: benzyne forms. Its extra π bond is made from two sp² orbitals in the ring plane that barely overlap, so benzyne is extremely reactive and lives only briefly."
+    },
+    {
+      "stepKey": "concerted-elimination",
+      "fromStateId": "reactants",
+      "toStateId": "benzyne",
+      "stepKind": "polar",
+      "routePreference": "accepted",
+      "canonicalArrows": [
+        "lp N10 -> σ N10-H9",
+        "σ C2-H9 -> π C1-C2",
+        "σ C1-Cl8 -> lp Cl8"
+      ],
+      "explanationAfterStep": "Also correct: proton and chloride leave in one E2-like step. Deuterium-labelling experiments show that the deprotonation is fast and reversible, so the two-step route is the textbook picture."
+    },
+    {
+      "stepKey": "amide-arrives",
+      "fromStateId": "benzyne",
+      "toStateId": "benzyne-and-amide",
+      "stepKind": "change",
+      "routePreference": "preferred",
+      "addedSpecies": "[NH2-:12].[Na+:13]",
+      "removedFragmentMapNumbers": [
+        8,
+        11
+      ],
+      "caption": "Sodium chloride is left out of the drawing. Sodium amide is used in excess: another amide ion meets the benzyne."
+    },
+    {
+      "stepKey": "addition-para",
+      "fromStateId": "benzyne-and-amide",
+      "toStateId": "para-anion",
+      "stepKind": "polar",
+      "routePreference": "preferred",
+      "canonicalArrows": [
+        "lp N12 -> σ N12-C1",
+        "π C1-C2 -> lp C2"
+      ],
+      "explanationAfterStep": "The amide ion adds to one end of the triple bond; the new lone pair again sits in the ring plane. The methyl group is far away and barely affects which end is attacked."
+    },
+    {
+      "stepKey": "protonation-para",
+      "fromStateId": "para-anion",
+      "toStateId": "p-toluidine",
+      "stepKind": "polar",
+      "routePreference": "preferred",
+      "canonicalArrows": [
+        "lp C2 -> σ C2-H9",
+        "σ N10-H9 -> lp N10"
+      ],
+      "explanationAfterStep": "The amide ion is regenerated. The amine has ended up on the carbon that carried chlorine, para to the methyl group."
+    },
+    {
+      "stepKey": "addition-meta",
+      "fromStateId": "benzyne-and-amide",
+      "toStateId": "meta-anion",
+      "stepKind": "polar",
+      "routePreference": "accepted",
+      "canonicalArrows": [
+        "lp N12 -> σ N12-C2",
+        "π C1-C2 -> lp C1"
+      ],
+      "explanationAfterStep": "Also correct: the amide ion adds to the other end of the triple bond. Neither end is strongly favoured, so this route is just as important."
+    },
+    {
+      "stepKey": "protonation-meta",
+      "fromStateId": "meta-anion",
+      "toStateId": "m-toluidine",
+      "stepKind": "polar",
+      "routePreference": "accepted",
+      "canonicalArrows": [
+        "lp C1 -> σ C1-H9",
+        "σ N10-H9 -> lp N10"
+      ],
+      "explanationAfterStep": "This gives m-toluidine: the amine is on the carbon next to where chlorine was (cine substitution). Labelling one ring carbon with ¹⁴C showed this kind of scrambling and proved the benzyne mechanism."
+    }
+  ],
+  "mechanismSummary": "With no electron-withdrawing groups, SNAr is impossible. Instead the very strong base removes the proton next to chlorine, and chloride leaves: an elimination that gives benzyne, with a strained, in-plane extra π bond. An amide ion adds to either end of it and ammonia protonates the aryl anion. Attack at the carbon that carried chlorine gives p-toluidine; attack at its neighbour gives m-toluidine. Both form in similar amounts.",
+  "references": [
+    "Clayden, Greeves and Warren, Organic Chemistry, 2nd edition (Oxford University Press), chapter 22"
+  ],
+  "authors": [
+    {
+      "name": "Maksim",
+      "url": null
+    }
+  ],
+  "licence": "CC-BY-SA-4.0"
+}

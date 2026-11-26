@@ -1,0 +1,479 @@
+{
+  "formatVersion": 1,
+  "reactionSlug": "sodium-borohydride-chemoselectivity",
+  "reactionVersion": 1,
+  "previousReactionVersion": null,
+  "title": "Borohydride chemoselectivity",
+  "subtitle": "NaBH₄ reduces the ketone of a keto ester and leaves the ester alone",
+  "reactionClasses": [
+    "carbonyl",
+    "addition"
+  ],
+  "difficultyTier": 1,
+  "conditionsLabel": "NaBH₄ · MeOH · 0 °C",
+  "dailyPuzzleEligible": true,
+  "atomRoleToMapNumbers": {
+    "ketoneCarbon": [
+      2
+    ],
+    "esterCarbon": [
+      10
+    ]
+  },
+  "spectatorMapNumbers": [
+    20
+  ],
+  "startStateId": "reactants",
+  "stateIdToState": {
+    "reactants": {
+      "mappedSmiles": "[CH3:1][C:2](=[O:3])[C:4]1=[CH:5][CH:6]=[C:7]([C:10](=[O:11])[O:12][CH3:13])[CH:8]=[CH:9]1.[Na+:20].[H:22][BH3-:21].[H:24][O:23][CH3:25]",
+      "mapNumberToCoordinates": {
+        "1": [
+          3.75,
+          -1.3
+        ],
+        "2": [
+          3,
+          0
+        ],
+        "3": [
+          3.75,
+          1.3
+        ],
+        "4": [
+          1.5,
+          0
+        ],
+        "5": [
+          0.75,
+          1.3
+        ],
+        "6": [
+          -0.75,
+          1.3
+        ],
+        "7": [
+          -1.5,
+          0
+        ],
+        "8": [
+          -0.75,
+          -1.3
+        ],
+        "9": [
+          0.75,
+          -1.3
+        ],
+        "10": [
+          -3,
+          0
+        ],
+        "11": [
+          -3.75,
+          1.3
+        ],
+        "12": [
+          -3.75,
+          -1.3
+        ],
+        "13": [
+          -5.25,
+          -1.3
+        ],
+        "20": [
+          0,
+          5.8
+        ],
+        "21": [
+          0.47,
+          3.54
+        ],
+        "22": [
+          1.77,
+          4.29
+        ],
+        "23": [
+          5.36,
+          4.88
+        ],
+        "24": [
+          6.66,
+          4.13
+        ],
+        "25": [
+          4.06,
+          4.13
+        ]
+      },
+      "caption": "methyl 4-acetylbenzoate + sodium borohydride + methanol",
+      "learnerPrompt": "Borohydride delivers hydride. The molecule has two C=O groups: choose the right one.",
+      "hintTiers": [
+        "Which carbonyl carbon is more electrophilic: the ketone's, or the ester's? Think about what the OMe oxygen does to its C=O.",
+        "Hydride goes to the ketone carbonyl carbon: the B–H bonding pair makes a new C–H bond, and the ketone's C=O π pair moves onto oxygen. Two arrows.",
+        "B–H bond → new C–H bond to the ketone carbonyl carbon; ketone C=O π bond → lone pair on its oxygen."
+      ],
+      "misconceptions": [
+        {
+          "misconceptionId": "hydride-to-ester",
+          "misconceptionTag": "less-electrophilic-carbonyl",
+          "severity": "plausible",
+          "arrowPattern": "σ B21-H22 -> C10",
+          "feedbackMessage": "The ester carbonyl is a much weaker electrophile: the OMe oxygen feeds a lone pair into its C=O. NaBH₄ in methanol at 0 °C reduces esters only very slowly, so the ketone reacts and the ester survives."
+        },
+        {
+          "misconceptionId": "hydride-to-oxygen",
+          "misconceptionTag": "attack-electron-rich-atom",
+          "severity": "wrong",
+          "arrowPattern": "σ B21-H22 -> O3",
+          "feedbackMessage": "The carbonyl oxygen is electron-rich. Hydride goes to the electron-poor carbonyl carbon."
+        },
+        {
+          "misconceptionId": "bh-pair-to-boron",
+          "misconceptionTag": "electrons-toward-less-electronegative-atom",
+          "severity": "wrong",
+          "arrowPattern": "σ B21-H22 -> lp B21",
+          "feedbackMessage": "Hydrogen is more electronegative than boron: the B–H pair leaves with the hydrogen, as hydride."
+        }
+      ],
+      "partialProgressMessages": [
+        {
+          "learnerArrows": [
+            "σ B21-H22 -> σ C2-H22"
+          ],
+          "feedbackMessage": "Right carbonyl. Carbon cannot keep five bonds: move the C=O π pair onto oxygen."
+        }
+      ]
+    },
+    "alkoxide": {
+      "mappedSmiles": "[CH3:1][C:2]([H:22])([O-:3])[C:4]1=[CH:5][CH:6]=[C:7]([C:10](=[O:11])[O:12][CH3:13])[CH:8]=[CH:9]1.[Na+:20].[BH3:21].[H:24][O:23][CH3:25]",
+      "mapNumberToCoordinates": {
+        "1": [
+          3,
+          -1.5
+        ],
+        "2": [
+          3,
+          0
+        ],
+        "3": [
+          4.5,
+          0
+        ],
+        "4": [
+          1.5,
+          0
+        ],
+        "5": [
+          0.75,
+          1.3
+        ],
+        "6": [
+          -0.75,
+          1.3
+        ],
+        "7": [
+          -1.5,
+          0
+        ],
+        "8": [
+          -0.75,
+          -1.3
+        ],
+        "9": [
+          0.75,
+          -1.3
+        ],
+        "10": [
+          -3,
+          0
+        ],
+        "11": [
+          -3.75,
+          1.3
+        ],
+        "12": [
+          -3.75,
+          -1.3
+        ],
+        "13": [
+          -5.25,
+          -1.3
+        ],
+        "20": [
+          0,
+          5.25
+        ],
+        "21": [
+          1.44,
+          3.49
+        ],
+        "22": [
+          3,
+          1.5
+        ],
+        "23": [
+          4.94,
+          4.76
+        ],
+        "24": [
+          6.24,
+          4.01
+        ],
+        "25": [
+          3.65,
+          4.01
+        ]
+      },
+      "caption": "alkoxide + BH₃ + methanol",
+      "learnerPrompt": "Protonate the alkoxide.",
+      "hintTiers": [
+        "The alkoxide oxygen is a strong base. Which molecule in the flask has an O–H proton?",
+        "The alkoxide oxygen takes the O–H proton of methanol; that O–H bonding pair stays on methanol's oxygen. Two arrows.",
+        "Alkoxide oxygen lone pair → new O–H bond to methanol's proton; methanol's O–H bond → lone pair on its oxygen."
+      ],
+      "misconceptions": [
+        {
+          "misconceptionId": "alkoxide-attacks-ester",
+          "misconceptionTag": "unproductive-addition",
+          "severity": "plausible",
+          "arrowPattern": "lp O3 -> C10",
+          "feedbackMessage": "The ester is in the same molecule but far away on the ring, and an alkoxide is a much better base than nucleophile here. Methanol protonates it."
+        },
+        {
+          "misconceptionId": "methanol-attacks-borane",
+          "misconceptionTag": "wrong-order",
+          "severity": "plausible",
+          "arrowPattern": "lp O23 -> B21",
+          "feedbackMessage": "Methanol does bind BH₃ in the end, but the alkoxide is the strong base in the flask: protonate it first."
+        }
+      ]
+    },
+    "alcohol": {
+      "mappedSmiles": "[CH3:1][C:2]([H:22])([O:3][H:24])[C:4]1=[CH:5][CH:6]=[C:7]([C:10](=[O:11])[O:12][CH3:13])[CH:8]=[CH:9]1.[Na+:20].[BH3:21].[O-:23][CH3:25]",
+      "mapNumberToCoordinates": {
+        "1": [
+          3,
+          -1.5
+        ],
+        "2": [
+          3,
+          0
+        ],
+        "3": [
+          4.5,
+          0
+        ],
+        "4": [
+          1.5,
+          0
+        ],
+        "5": [
+          0.75,
+          1.3
+        ],
+        "6": [
+          -0.75,
+          1.3
+        ],
+        "7": [
+          -1.5,
+          0
+        ],
+        "8": [
+          -0.75,
+          -1.3
+        ],
+        "9": [
+          0.75,
+          -1.3
+        ],
+        "10": [
+          -3,
+          0
+        ],
+        "11": [
+          -3.75,
+          1.3
+        ],
+        "12": [
+          -3.75,
+          -1.3
+        ],
+        "13": [
+          -5.25,
+          -1.3
+        ],
+        "20": [
+          0,
+          5.25
+        ],
+        "21": [
+          -1.42,
+          3.5
+        ],
+        "22": [
+          3,
+          1.5
+        ],
+        "23": [
+          3.52,
+          4.39
+        ],
+        "24": [
+          5.25,
+          1.3
+        ],
+        "25": [
+          2.22,
+          3.64
+        ]
+      },
+      "caption": "secondary alcohol + methoxide + BH₃",
+      "learnerPrompt": "Methoxide meets the borane.",
+      "hintTiers": [
+        "BH₃ has only six electrons around boron. What does methoxide have to offer?",
+        "A methoxide lone pair makes a new bond to boron. One arrow.",
+        "Methoxide oxygen lone pair → new O–B bond."
+      ],
+      "misconceptions": [
+        {
+          "misconceptionId": "methoxide-attacks-ester",
+          "misconceptionTag": "unproductive-addition",
+          "severity": "plausible",
+          "arrowPattern": "lp O23 -> C10",
+          "feedbackMessage": "Methoxide adding to a methyl ester just gives the same methyl ester back. Boron is the electron-poor atom: bond to it."
+        }
+      ]
+    },
+    "products": {
+      "mappedSmiles": "[CH3:1][C:2]([H:22])([O:3][H:24])[C:4]1=[CH:5][CH:6]=[C:7]([C:10](=[O:11])[O:12][CH3:13])[CH:8]=[CH:9]1.[Na+:20].[BH3-:21][O:23][CH3:25]",
+      "mapNumberToCoordinates": {
+        "1": [
+          3,
+          -1.5
+        ],
+        "2": [
+          3,
+          0
+        ],
+        "3": [
+          4.5,
+          0
+        ],
+        "4": [
+          1.5,
+          0
+        ],
+        "5": [
+          0.75,
+          1.3
+        ],
+        "6": [
+          -0.75,
+          1.3
+        ],
+        "7": [
+          -1.5,
+          0
+        ],
+        "8": [
+          -0.75,
+          -1.3
+        ],
+        "9": [
+          0.75,
+          -1.3
+        ],
+        "10": [
+          -3,
+          0
+        ],
+        "11": [
+          -3.75,
+          1.3
+        ],
+        "12": [
+          -3.75,
+          -1.3
+        ],
+        "13": [
+          -5.25,
+          -1.3
+        ],
+        "20": [
+          0,
+          4.25
+        ],
+        "21": [
+          2.33,
+          3.65
+        ],
+        "22": [
+          3,
+          1.5
+        ],
+        "23": [
+          3.63,
+          4.4
+        ],
+        "24": [
+          5.25,
+          1.3
+        ],
+        "25": [
+          4.92,
+          3.65
+        ]
+      },
+      "caption": "methyl 4-(1-hydroxyethyl)benzoate + methoxyborohydride"
+    }
+  },
+  "steps": [
+    {
+      "stepKey": "hydride-transfer",
+      "fromStateId": "reactants",
+      "toStateId": "alkoxide",
+      "stepKind": "polar",
+      "routePreference": "preferred",
+      "canonicalArrows": [
+        "σ B21-H22 -> σ C2-H22",
+        "π C2-O3 -> lp O3"
+      ],
+      "explanationAfterStep": "Hydride adds to the ketone. The ester C=O is less electrophilic because the OMe lone pair is delocalised into it, so NaBH₄ leaves it alone: the reagent tells two carbonyl groups apart."
+    },
+    {
+      "stepKey": "protonation",
+      "fromStateId": "alkoxide",
+      "toStateId": "alcohol",
+      "stepKind": "polar",
+      "routePreference": "preferred",
+      "canonicalArrows": [
+        "lp O3 -> σ O3-H24",
+        "σ O23-H24 -> lp O23"
+      ],
+      "explanationAfterStep": "Methanol protonates the alkoxide: the ketone has become a secondary alcohol."
+    },
+    {
+      "stepKey": "methoxide-captures-borane",
+      "fromStateId": "alcohol",
+      "toStateId": "products",
+      "stepKind": "polar",
+      "routePreference": "preferred",
+      "canonicalArrows": [
+        "lp O23 -> σ B21-O23"
+      ],
+      "explanationAfterStep": "Methoxide bonds to BH₃. The new borohydride still has three hydrides to give, so a quarter of an equivalent of NaBH₄ is enough in principle."
+    }
+  ],
+  "mechanismSummary": "Borohydride delivers hydride to the ketone carbonyl of methyl 4-acetylbenzoate, and methanol protonates the alkoxide. The ester is untouched: its C=O is less electrophilic because the OMe lone pair is delocalised into it, and NaBH₄ is too weak a hydride donor to attack it at 0 °C. LiAlH₄ would reduce both.",
+  "references": [
+    "Clayden, Greeves and Warren, Organic Chemistry, 2nd edition (Oxford University Press), chapter 23"
+  ],
+  "authors": [
+    {
+      "name": "Maksim",
+      "url": null
+    }
+  ],
+  "licence": "CC-BY-SA-4.0"
+}

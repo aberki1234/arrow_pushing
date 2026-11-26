@@ -1,0 +1,648 @@
+{
+  "formatVersion": 1,
+  "reactionSlug": "diazotisation-of-aniline",
+  "reactionVersion": 1,
+  "previousReactionVersion": null,
+  "title": "Diazotisation of aniline",
+  "subtitle": "Aniline and NO⁺ give the benzenediazonium ion",
+  "reactionClasses": [
+    "acid-base",
+    "substitution",
+    "elimination"
+  ],
+  "difficultyTier": 3,
+  "conditionsLabel": "NaNO₂ · HCl(aq) · 0–5 °C",
+  "dailyPuzzleEligible": true,
+  "atomRoleToMapNumbers": {
+    "nucleophile": [
+      7
+    ],
+    "electrophile": [
+      8
+    ]
+  },
+  "spectatorMapNumbers": [
+    13
+  ],
+  "abbreviatedGroups": [
+    {
+      "groupLabel": "Ph",
+      "attachmentMapNumber": 1,
+      "mapNumbers": [
+        1,
+        2,
+        3,
+        4,
+        5,
+        6
+      ]
+    }
+  ],
+  "startStateId": "reactants",
+  "stateIdToState": {
+    "reactants": {
+      "mappedSmiles": "[H:10][N:7]([H:11])[C:1]1=[CH:2][CH:3]=[CH:4][CH:5]=[CH:6]1.[N:8]#[O+:9].[OH2:12].[Cl-:13]",
+      "mapNumberToCoordinates": {
+        "1": [
+          1.5,
+          0
+        ],
+        "2": [
+          0.75,
+          1.3
+        ],
+        "3": [
+          -0.75,
+          1.3
+        ],
+        "4": [
+          -1.5,
+          0
+        ],
+        "5": [
+          -0.75,
+          -1.3
+        ],
+        "6": [
+          0.75,
+          -1.3
+        ],
+        "7": [
+          3,
+          0
+        ],
+        "8": [
+          -0.48,
+          5.05
+        ],
+        "9": [
+          -0.48,
+          3.55
+        ],
+        "10": [
+          3.75,
+          -1.3
+        ],
+        "11": [
+          3.75,
+          1.3
+        ],
+        "12": [
+          1,
+          6.8
+        ],
+        "13": [
+          5.6,
+          0
+        ]
+      },
+      "caption": "aniline + nitrosonium ion + water",
+      "learnerPrompt": "Aniline attacks the nitrosonium ion.",
+      "hintTiers": [
+        "The amine nitrogen is the nucleophile. Which atom of NO⁺ is electrophilic, and where can the electrons of the triple bond go?",
+        "The amine lone pair forms a new N–N bond to the nitrogen of NO⁺, and one π bond of N≡O moves onto oxygen. Two arrows.",
+        "Amine N lone pair → new N–N bond to the nitrogen of NO⁺; one N≡O π bond → a lone pair on oxygen."
+      ],
+      "misconceptions": [
+        {
+          "misconceptionId": "attack-oxygen",
+          "misconceptionTag": "attack-wrong-atom",
+          "severity": "wrong",
+          "arrowPattern": "lp N7 -> σ N7-O9",
+          "feedbackMessage": "The formal positive charge is drawn on oxygen, but oxygen keeps its electrons tightly. Nitrogen is the electrophilic end of NO⁺ (think of the N⁺=O drawing)."
+        },
+        {
+          "misconceptionId": "water-attacks",
+          "misconceptionTag": "weaker-nucleophile",
+          "severity": "plausible",
+          "arrowPattern": "lp O12 -> σ O12-N8",
+          "feedbackMessage": "Water adding to NO⁺ only makes nitrous acid again. The amine is the better nucleophile."
+        }
+      ],
+      "partialProgressMessages": [
+        {
+          "learnerArrows": [
+            "lp N7 -> σ N7-N8"
+          ],
+          "feedbackMessage": "Right atoms. Nitrogen of NO⁺ now has five bonds: move one N≡O π pair onto oxygen."
+        }
+      ]
+    },
+    "n-nitrosoanilinium": {
+      "mappedSmiles": "[H:10][N+:7]([H:11])([N:8]=[O:9])[C:1]1=[CH:2][CH:3]=[CH:4][CH:5]=[CH:6]1.[OH2:12].[Cl-:13]",
+      "mapNumberToCoordinates": {
+        "1": [
+          1.5,
+          0
+        ],
+        "2": [
+          0.75,
+          1.3
+        ],
+        "3": [
+          -0.75,
+          1.3
+        ],
+        "4": [
+          -1.5,
+          0
+        ],
+        "5": [
+          -0.75,
+          -1.3
+        ],
+        "6": [
+          0.75,
+          -1.3
+        ],
+        "7": [
+          3,
+          0
+        ],
+        "8": [
+          4.5,
+          0
+        ],
+        "9": [
+          5.25,
+          1.3
+        ],
+        "10": [
+          3,
+          1.5
+        ],
+        "11": [
+          3,
+          -1.5
+        ],
+        "12": [
+          -0.78,
+          3.58
+        ],
+        "13": [
+          1.5,
+          4.32
+        ]
+      },
+      "caption": "N-nitrosoanilinium ion + water",
+      "learnerPrompt": "Water takes a proton from the positive nitrogen.",
+      "hintTiers": [
+        "The new N–N bond leaves the aniline nitrogen positive with two hydrogens. Which molecule is the base?",
+        "The water lone pair takes one of the drawn hydrogens on the positive nitrogen, and the N–H pair stays on nitrogen. Two arrows.",
+        "Water O lone pair → new bond to a drawn H on the positive nitrogen; that N–H bond → a lone pair on that nitrogen."
+      ],
+      "misconceptions": [
+        {
+          "misconceptionId": "n-n-breaks",
+          "misconceptionTag": "reverse-step",
+          "severity": "plausible",
+          "arrowPattern": "σ N7-N8 -> *",
+          "feedbackMessage": "Breaking the new N–N bond only returns to aniline and NO⁺. Lose a proton instead."
+        }
+      ]
+    },
+    "n-nitrosamine": {
+      "mappedSmiles": "[H:11][N:7]([N:8]=[O:9])[C:1]1=[CH:2][CH:3]=[CH:4][CH:5]=[CH:6]1.[H:10][OH2+:12].[Cl-:13]",
+      "mapNumberToCoordinates": {
+        "1": [
+          1.5,
+          0
+        ],
+        "2": [
+          0.75,
+          1.3
+        ],
+        "3": [
+          -0.75,
+          1.3
+        ],
+        "4": [
+          -1.5,
+          0
+        ],
+        "5": [
+          -0.75,
+          -1.3
+        ],
+        "6": [
+          0.75,
+          -1.3
+        ],
+        "7": [
+          3,
+          0
+        ],
+        "8": [
+          3.75,
+          1.3
+        ],
+        "9": [
+          5.25,
+          1.3
+        ],
+        "10": [
+          0.85,
+          4.29
+        ],
+        "11": [
+          3.75,
+          -1.3
+        ],
+        "12": [
+          -0.45,
+          3.54
+        ],
+        "13": [
+          -1.24,
+          5.66
+        ]
+      },
+      "caption": "N-nitrosoaniline + hydronium ion",
+      "learnerPrompt": "Proton shuffle, part 1: H₃O⁺ protonates the N-nitroso compound.",
+      "hintTiers": [
+        "The proton on the aniline nitrogen has to end up on oxygen. In acid, add a proton first. Which atom has a lone pair that gives a cation shared with the other nitrogen?",
+        "The N=O oxygen uses a lone pair to take the drawn proton from H₃O⁺, and that O–H pair stays on water's oxygen. Two arrows.",
+        "N=O oxygen lone pair → new bond to the drawn H of H₃O⁺; that O–H bond → a lone pair on water's oxygen."
+      ],
+      "misconceptions": [
+        {
+          "misconceptionId": "protonate-amine-nitrogen",
+          "misconceptionTag": "unproductive-protonation",
+          "severity": "plausible",
+          "arrowPattern": "* -> σ N7-H10",
+          "feedbackMessage": "Protonating the aniline nitrogen leads back to the N-nitrosoanilinium ion. Protonate the oxygen: the hydrogen has to end up there."
+        },
+        {
+          "misconceptionId": "protonate-nitroso-nitrogen",
+          "misconceptionTag": "unproductive-protonation",
+          "severity": "wrong",
+          "arrowPattern": "* -> σ N8-H10",
+          "feedbackMessage": "That nitrogen's lone pair is not where the proton ends up. Protonate the oxygen."
+        }
+      ]
+    },
+    "protonated-nitrosamine": {
+      "mappedSmiles": "[H:11][N:7]([N:8]=[O+:9][H:10])[C:1]1=[CH:2][CH:3]=[CH:4][CH:5]=[CH:6]1.[OH2:12].[Cl-:13]",
+      "mapNumberToCoordinates": {
+        "1": [
+          1.5,
+          0
+        ],
+        "2": [
+          0.75,
+          1.3
+        ],
+        "3": [
+          -0.75,
+          1.3
+        ],
+        "4": [
+          -1.5,
+          0
+        ],
+        "5": [
+          -0.75,
+          -1.3
+        ],
+        "6": [
+          0.75,
+          -1.3
+        ],
+        "7": [
+          3,
+          0
+        ],
+        "8": [
+          3.75,
+          1.3
+        ],
+        "9": [
+          5.25,
+          1.3
+        ],
+        "10": [
+          6,
+          2.6
+        ],
+        "11": [
+          3.75,
+          -1.3
+        ],
+        "12": [
+          0,
+          3.6
+        ],
+        "13": [
+          0,
+          5.9
+        ]
+      },
+      "caption": "O-protonated N-nitrosoaniline + water",
+      "learnerPrompt": "Proton shuffle, part 2: water removes the N–H proton and an N=N bond forms.",
+      "hintTiers": [
+        "Losing the N–H proton should leave a lone pair that can form a π bond. Where does the N=O π pair go?",
+        "Water takes the drawn hydrogen on the aniline nitrogen; that N–H pair forms an N=N π bond, and the N=O π pair moves onto oxygen. Three arrows.",
+        "Water O lone pair → new bond to the drawn H on the aniline nitrogen; that N–H bond → an N=N π bond; the N=O π bond → a lone pair on oxygen."
+      ],
+      "misconceptions": [
+        {
+          "misconceptionId": "remove-o-h",
+          "misconceptionTag": "reverse-step",
+          "severity": "plausible",
+          "arrowPattern": "lp O12 -> σ O12-H10",
+          "feedbackMessage": "Taking the O–H proton back just undoes the last step. Remove the proton on the aniline nitrogen."
+        }
+      ],
+      "partialProgressMessages": [
+        {
+          "learnerArrows": [
+            "lp O12 -> σ O12-H11",
+            "σ N7-H11 -> π N7-N8"
+          ],
+          "feedbackMessage": "Good: the N=N bond forms. Now the middle nitrogen has too many bonds: move the N=O π pair onto oxygen."
+        }
+      ]
+    },
+    "diazohydroxide": {
+      "mappedSmiles": "[N:7](=[N:8][O:9][H:10])[C:1]1=[CH:2][CH:3]=[CH:4][CH:5]=[CH:6]1.[H:11][OH2+:12].[Cl-:13]",
+      "mapNumberToCoordinates": {
+        "1": [
+          1.5,
+          0
+        ],
+        "2": [
+          0.75,
+          1.3
+        ],
+        "3": [
+          -0.75,
+          1.3
+        ],
+        "4": [
+          -1.5,
+          0
+        ],
+        "5": [
+          -0.75,
+          -1.3
+        ],
+        "6": [
+          0.75,
+          -1.3
+        ],
+        "7": [
+          3,
+          0
+        ],
+        "8": [
+          3.75,
+          -1.3
+        ],
+        "9": [
+          5.25,
+          -1.3
+        ],
+        "10": [
+          6,
+          -2.6
+        ],
+        "11": [
+          0.85,
+          4.29
+        ],
+        "12": [
+          -0.45,
+          3.54
+        ],
+        "13": [
+          -1.25,
+          5.65
+        ]
+      },
+      "caption": "a diazohydroxide (Ph–N=N–OH) + hydronium ion",
+      "learnerPrompt": "Protonate the OH group so that it can leave.",
+      "hintTiers": [
+        "As in making NO⁺, an OH group becomes a leaving group once it is protonated.",
+        "The OH oxygen takes the drawn proton from H₃O⁺, and that O–H pair stays on water's oxygen. Two arrows.",
+        "OH oxygen lone pair → new bond to the drawn H of H₃O⁺; that O–H bond → a lone pair on water's oxygen."
+      ],
+      "misconceptions": [
+        {
+          "misconceptionId": "protonate-nitrogen",
+          "misconceptionTag": "unproductive-protonation",
+          "severity": "plausible",
+          "arrowPattern": "* -> σ N*-H11",
+          "feedbackMessage": "Protonating a nitrogen creates no leaving group. Protonate the OH: it leaves as water."
+        }
+      ]
+    },
+    "protonated-diazohydroxide": {
+      "mappedSmiles": "[N:7](=[N:8][O+:9]([H:10])[H:11])[C:1]1=[CH:2][CH:3]=[CH:4][CH:5]=[CH:6]1.[OH2:12].[Cl-:13]",
+      "mapNumberToCoordinates": {
+        "1": [
+          1.5,
+          0
+        ],
+        "2": [
+          0.75,
+          1.3
+        ],
+        "3": [
+          -0.75,
+          1.3
+        ],
+        "4": [
+          -1.5,
+          0
+        ],
+        "5": [
+          -0.75,
+          -1.3
+        ],
+        "6": [
+          0.75,
+          -1.3
+        ],
+        "7": [
+          3,
+          0
+        ],
+        "8": [
+          3.75,
+          -1.3
+        ],
+        "9": [
+          5.25,
+          -1.3
+        ],
+        "10": [
+          6,
+          -2.6
+        ],
+        "11": [
+          6,
+          0
+        ],
+        "12": [
+          -1,
+          3.57
+        ],
+        "13": [
+          1.36,
+          4.25
+        ]
+      },
+      "caption": "protonated diazohydroxide + water",
+      "learnerPrompt": "Water leaves. Draw how the diazonium ion forms.",
+      "hintTiers": [
+        "The N–OH₂⁺ bond can break. Which lone pair can form a third bond between the nitrogens?",
+        "The lone pair of the nitrogen attached to the ring forms a second π bond to the other nitrogen, and the N–O bond breaks onto oxygen. Two arrows.",
+        "Lone pair of the ring nitrogen → another N–N π bond; the N–O bond → a lone pair on the water oxygen."
+      ]
+    },
+    "diazonium": {
+      "mappedSmiles": "[N+:7](#[N:8])[C:1]1=[CH:2][CH:3]=[CH:4][CH:5]=[CH:6]1.[O:9]([H:10])[H:11].[OH2:12].[Cl-:13]",
+      "mapNumberToCoordinates": {
+        "1": [
+          1.5,
+          0
+        ],
+        "2": [
+          0.75,
+          1.3
+        ],
+        "3": [
+          -0.75,
+          1.3
+        ],
+        "4": [
+          -1.5,
+          0
+        ],
+        "5": [
+          -0.75,
+          -1.3
+        ],
+        "6": [
+          0.75,
+          -1.3
+        ],
+        "7": [
+          3,
+          0
+        ],
+        "8": [
+          4.5,
+          0
+        ],
+        "9": [
+          -0.04,
+          3.46
+        ],
+        "10": [
+          1.26,
+          4.21
+        ],
+        "11": [
+          -1.34,
+          4.21
+        ],
+        "12": [
+          -2.84,
+          2.49
+        ],
+        "13": [
+          0.04,
+          6.15
+        ]
+      },
+      "caption": "benzenediazonium chloride + two water"
+    }
+  },
+  "steps": [
+    {
+      "stepKey": "n-nitrosation",
+      "fromStateId": "reactants",
+      "toStateId": "n-nitrosoanilinium",
+      "stepKind": "polar",
+      "routePreference": "preferred",
+      "canonicalArrows": [
+        "lp N7 -> σ N7-N8",
+        "π N8-O9 -> lp O9"
+      ],
+      "explanationAfterStep": "The new N–N bond. Only free aniline can do this, which is why the acid is not in huge excess: most of the amine is present as the anilinium ion, which has no lone pair."
+    },
+    {
+      "stepKey": "deprotonation",
+      "fromStateId": "n-nitrosoanilinium",
+      "toStateId": "n-nitrosamine",
+      "stepKind": "polar",
+      "routePreference": "preferred",
+      "canonicalArrows": [
+        "lp O12 -> σ O12-H10",
+        "σ N7-H10 -> lp N7"
+      ],
+      "explanationAfterStep": "Losing a proton gives a neutral N-nitrosamine. For a secondary amine the reaction stops here; a primary amine still has a hydrogen on nitrogen and goes on."
+    },
+    {
+      "stepKey": "o-protonation",
+      "fromStateId": "n-nitrosamine",
+      "toStateId": "protonated-nitrosamine",
+      "stepKind": "polar",
+      "routePreference": "preferred",
+      "canonicalArrows": [
+        "lp O9 -> σ O9-H10",
+        "σ O12-H10 -> lp O12"
+      ],
+      "explanationAfterStep": "The positive charge is shared with the aniline nitrogen through the N–N bond (draw the other resonance form)."
+    },
+    {
+      "stepKey": "tautomerisation",
+      "fromStateId": "protonated-nitrosamine",
+      "toStateId": "diazohydroxide",
+      "stepKind": "polar",
+      "routePreference": "preferred",
+      "canonicalArrows": [
+        "lp O12 -> σ O12-H11",
+        "σ N7-H11 -> π N7-N8",
+        "π N8-O9 -> lp O9"
+      ],
+      "explanationAfterStep": "The hydrogen has moved from nitrogen to oxygen in two proton transfers, and N=N has replaced N=O: a tautomer, like an enol from a ketone."
+    },
+    {
+      "stepKey": "protonation",
+      "fromStateId": "diazohydroxide",
+      "toStateId": "protonated-diazohydroxide",
+      "stepKind": "polar",
+      "routePreference": "preferred",
+      "canonicalArrows": [
+        "lp O9 -> σ O9-H11",
+        "σ O12-H11 -> lp O12"
+      ],
+      "explanationAfterStep": "Protonating the OH makes water the leaving group, as in making NO⁺."
+    },
+    {
+      "stepKey": "loss-of-water",
+      "fromStateId": "protonated-diazohydroxide",
+      "toStateId": "diazonium",
+      "stepKind": "polar",
+      "routePreference": "preferred",
+      "canonicalArrows": [
+        "lp N7 -> π N7-N8",
+        "σ N8-O9 -> lp O9"
+      ],
+      "explanationAfterStep": "The diazonium ion, Ar–N⁺≡N, linear like an alkyne. It is kept cold (0–5 °C): an aryl diazonium ion is stabilised by the ring, but on warming it loses nitrogen gas. Breaking only the N–O bond is also accepted: it is another drawing of the same ion."
+    }
+  ],
+  "mechanismSummary": "The amine nitrogen attacks the nitrosonium ion, and loss of a proton gives an N-nitrosamine. Two proton transfers move the hydrogen from nitrogen to oxygen, turning N–N=O into N=N–OH. Protonating that OH makes water a leaving group, and the ring nitrogen's lone pair forms the third N–N bond as water leaves: the aryl diazonium ion, stable only when cold.",
+  "references": [
+    "Clayden, Greeves and Warren, Organic Chemistry, 2nd edition (Oxford University Press), chapter 23"
+  ],
+  "authors": [
+    {
+      "name": "Maksim",
+      "url": null
+    }
+  ],
+  "licence": "CC-BY-SA-4.0"
+}

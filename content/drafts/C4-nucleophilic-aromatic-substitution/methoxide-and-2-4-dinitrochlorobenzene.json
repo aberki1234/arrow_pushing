@@ -1,0 +1,340 @@
+{
+  "formatVersion": 1,
+  "reactionSlug": "methoxide-and-2-4-dinitrochlorobenzene",
+  "reactionVersion": 1,
+  "previousReactionVersion": null,
+  "title": "SNAr: methoxide and 2,4-dinitrochlorobenzene",
+  "subtitle": "Addition to a Meisenheimer complex, then chloride leaves",
+  "reactionClasses": [
+    "aromatic substitution"
+  ],
+  "difficultyTier": 2,
+  "conditionsLabel": "NaOMe · MeOH · 25 °C",
+  "dailyPuzzleEligible": true,
+  "atomRoleToMapNumbers": {
+    "nucleophile": [
+      14
+    ],
+    "electrophilicCarbon": [
+      1
+    ],
+    "leavingGroup": [
+      7
+    ]
+  },
+  "spectatorMapNumbers": [
+    16
+  ],
+  "startStateId": "reactants",
+  "stateIdToState": {
+    "reactants": {
+      "mappedSmiles": "[Cl:7][C:1]1=[C:2]([N+:8](=[O:9])[O-:10])[CH:3]=[C:4]([N+:11](=[O:12])[O-:13])[CH:5]=[CH:6]1.[CH3:15][O-:14].[Na+:16]",
+      "mapNumberToCoordinates": {
+        "1": [
+          1.5,
+          0
+        ],
+        "2": [
+          0.75,
+          1.3
+        ],
+        "3": [
+          -0.75,
+          1.3
+        ],
+        "4": [
+          -1.5,
+          0
+        ],
+        "5": [
+          -0.75,
+          -1.3
+        ],
+        "6": [
+          0.75,
+          -1.3
+        ],
+        "7": [
+          3,
+          0
+        ],
+        "8": [
+          1.5,
+          2.6
+        ],
+        "9": [
+          0.75,
+          3.9
+        ],
+        "10": [
+          3,
+          2.6
+        ],
+        "11": [
+          -3,
+          0
+        ],
+        "12": [
+          -3.75,
+          1.3
+        ],
+        "13": [
+          -3.75,
+          -1.3
+        ],
+        "14": [
+          1.52,
+          6.87
+        ],
+        "15": [
+          0.22,
+          6.12
+        ],
+        "16": [
+          5.28,
+          -0.21
+        ]
+      },
+      "caption": "1-chloro-2,4-dinitrobenzene + sodium methoxide",
+      "learnerPrompt": "Methoxide adds to the ring. Draw the addition and put the negative charge on a nitro group.",
+      "hintTiers": [
+        "An arene with two nitro groups is electron-poor. Which ring carbon carries a leaving group, and where can a negative charge go once the nucleophile has added?",
+        "The methoxide oxygen forms a bond to the carbon bearing chlorine. The ring π bond to the next carbon, the one bearing a nitro group, moves out towards that nitrogen, and an N=O π pair moves onto oxygen. Three arrows.",
+        "Methoxide lone pair → new C–O bond to the carbon bearing Cl; the ring π bond from there → a π bond from the next carbon to the nitro nitrogen; one N=O π bond → a lone pair on its oxygen."
+      ],
+      "misconceptions": [
+        {
+          "misconceptionId": "one-step-substitution",
+          "misconceptionTag": "concerted-instead-of-stepwise",
+          "severity": "plausible",
+          "arrowPattern": "lp O14 -> σ O14-C1; σ C1-Cl7 -> lp Cl7",
+          "feedbackMessage": "This is how SN2 works at an sp³ carbon, but a ring carbon cannot be attacked from behind. With two nitro groups the nucleophile adds first and makes a real intermediate, the Meisenheimer complex; chloride leaves in a second step."
+        },
+        {
+          "misconceptionId": "attack-carbon-bearing-h",
+          "misconceptionTag": "no-leaving-group",
+          "severity": "plausible",
+          "arrowPattern": "lp O14 -> σ O14-C3",
+          "feedbackMessage": "Methoxide can add there, between the nitro groups, but that carbon has only a hydrogen, which cannot leave as hydride. The adduct just falls apart again. Add to the carbon bearing chlorine."
+        },
+        {
+          "misconceptionId": "attack-chlorine",
+          "misconceptionTag": "attack-leaving-group",
+          "severity": "wrong",
+          "arrowPattern": "lp O14 -> Cl7",
+          "feedbackMessage": "Chlorine is electron-rich. The electrophile is the ring carbon it is attached to."
+        }
+      ],
+      "partialProgressMessages": [
+        {
+          "learnerArrows": [
+            "lp O14 -> σ O14-C1"
+          ],
+          "feedbackMessage": "Right carbon. That carbon now has five bonds: move the ring π bond away from it."
+        }
+      ]
+    },
+    "meisenheimer-complex": {
+      "mappedSmiles": "[Cl:7][C:1]1([O:14][CH3:15])[C:2](=[N+:8]([O-:9])[O-:10])[CH:3]=[C:4]([N+:11](=[O:12])[O-:13])[CH:5]=[CH:6]1.[Na+:16]",
+      "mapNumberToCoordinates": {
+        "1": [
+          1.5,
+          0
+        ],
+        "2": [
+          0.75,
+          1.3
+        ],
+        "3": [
+          -0.75,
+          1.3
+        ],
+        "4": [
+          -1.5,
+          0
+        ],
+        "5": [
+          -0.75,
+          -1.3
+        ],
+        "6": [
+          0.75,
+          -1.3
+        ],
+        "7": [
+          2.65,
+          -0.96
+        ],
+        "8": [
+          1.5,
+          2.6
+        ],
+        "9": [
+          0.75,
+          3.9
+        ],
+        "10": [
+          3,
+          2.6
+        ],
+        "11": [
+          -3,
+          0
+        ],
+        "12": [
+          -3.75,
+          1.3
+        ],
+        "13": [
+          -3.75,
+          -1.3
+        ],
+        "14": [
+          2.65,
+          0.96
+        ],
+        "15": [
+          4.06,
+          0.45
+        ],
+        "16": [
+          -0.07,
+          6.04
+        ]
+      },
+      "caption": "the Meisenheimer complex: the charge sits on the ortho nitro group",
+      "learnerPrompt": "Chloride leaves and the ring becomes aromatic again.",
+      "hintTiers": [
+        "The ring carbon bearing chlorine is now sp³. Which group on it can leave, and where do the electrons come from to rebuild the ring?",
+        "Push back from the nitro oxygen: its lone pair re-forms N=O, the C=N π pair moves into the ring towards the carbon bearing chlorine, and the C–Cl bond breaks onto chlorine. Three arrows.",
+        "Nitro O⁻ lone pair → N=O π bond; the C=N π bond → a ring π bond to the carbon bearing Cl; the C–Cl bond → a lone pair on chlorine."
+      ],
+      "misconceptions": [
+        {
+          "misconceptionId": "methoxide-leaves",
+          "misconceptionTag": "reverse-step",
+          "severity": "plausible",
+          "arrowPattern": "σ C1-O14 -> *",
+          "feedbackMessage": "Losing methoxide just goes back to the start. Chloride is the better leaving group: let it go."
+        }
+      ],
+      "partialProgressMessages": [
+        {
+          "learnerArrows": [
+            "σ C1-Cl7 -> lp Cl7"
+          ],
+          "feedbackMessage": "Chloride does leave, but the carbon would be left with only three bonds. Bring the electrons back from the nitro group into the ring."
+        }
+      ]
+    },
+    "products": {
+      "mappedSmiles": "[CH3:15][O:14][C:1]1=[C:2]([N+:8](=[O:9])[O-:10])[CH:3]=[C:4]([N+:11](=[O:12])[O-:13])[CH:5]=[CH:6]1.[Cl-:7].[Na+:16]",
+      "mapNumberToCoordinates": {
+        "1": [
+          1.5,
+          0
+        ],
+        "2": [
+          0.75,
+          1.3
+        ],
+        "3": [
+          -0.75,
+          1.3
+        ],
+        "4": [
+          -1.5,
+          0
+        ],
+        "5": [
+          -0.75,
+          -1.3
+        ],
+        "6": [
+          0.75,
+          -1.3
+        ],
+        "7": [
+          0,
+          6.06
+        ],
+        "8": [
+          1.5,
+          2.6
+        ],
+        "9": [
+          0.75,
+          3.9
+        ],
+        "10": [
+          3,
+          2.6
+        ],
+        "11": [
+          -3,
+          0
+        ],
+        "12": [
+          -3.75,
+          1.3
+        ],
+        "13": [
+          -3.75,
+          -1.3
+        ],
+        "14": [
+          3,
+          0
+        ],
+        "15": [
+          3.75,
+          -1.3
+        ],
+        "16": [
+          -1.49,
+          4.3
+        ]
+      },
+      "caption": "2,4-dinitroanisole (1-methoxy-2,4-dinitrobenzene) + sodium chloride"
+    }
+  },
+  "steps": [
+    {
+      "stepKey": "addition",
+      "fromStateId": "reactants",
+      "toStateId": "meisenheimer-complex",
+      "stepKind": "polar",
+      "routePreference": "preferred",
+      "canonicalArrows": [
+        "lp O14 -> σ O14-C1",
+        "π C1-C2 -> π C2-N8",
+        "π N8-O9 -> lp O9"
+      ],
+      "explanationAfterStep": "Addition is the slow step: it destroys the aromatic ring. The negative charge is shared by three ring carbons, and two of them carry nitro groups, so it spreads onto the nitro oxygens (ortho and para). Without such groups the addition would be far too slow. Stopping at the ring carbon is also accepted: it is another drawing of the same anion."
+    },
+    {
+      "stepKey": "loss-of-chloride",
+      "fromStateId": "meisenheimer-complex",
+      "toStateId": "products",
+      "stepKind": "polar",
+      "routePreference": "preferred",
+      "canonicalArrows": [
+        "lp O9 -> π N8-O9",
+        "π C2-N8 -> π C1-C2",
+        "σ C1-Cl7 -> lp Cl7"
+      ],
+      "explanationAfterStep": "Chloride leaves and the ring is aromatic again: this step is fast. Addition then elimination, like a carbonyl substitution, but at an arene."
+    }
+  ],
+  "mechanismSummary": "Two nitro groups make the ring electron-poor. Methoxide adds to the carbon bearing chlorine, breaking the aromatic ring; the negative charge of this Meisenheimer complex is spread onto the nitro groups ortho and para to that carbon. Chloride then leaves and the ring is aromatic again: addition–elimination, the SNAr mechanism.",
+  "references": [
+    "Clayden, Greeves and Warren, Organic Chemistry, 2nd edition (Oxford University Press), chapter 22"
+  ],
+  "authors": [
+    {
+      "name": "Maksim",
+      "url": null
+    }
+  ],
+  "licence": "CC-BY-SA-4.0"
+}
