@@ -188,7 +188,7 @@
   "mappedSmiles": "[OH-:1].[CH3:2][Br:3].[Na+:4]",
   "mapNumberToCoordinates": { "1": [-3.0, 0.0], "2": [0.0, 0.0], "3": [1.9, 0.0], "4": [-4.5, 0.8] },
   "mapNumberToLonePairAnglesDegrees": { "1": [90, 210, 330] },   // optional
-  "bondToWedgeStyle": { "2-5": "wedge" },     // display only
+  "bondToWedgeStyle": { "2-5": "wedge" },     // the drawing; must agree with the SMILES marks (item 12)
   "annotations": [{ "text": "nucleophile", "nearMapNumber": 1 }],
   "caption": "hydroxide + bromomethane",
 
@@ -230,7 +230,7 @@
     <ol>
       <li>Every state is reachable from the start, and every step's states exist.</li>
       <li><b>No loops.</b> A reversible dead end is a <code>plausible</code> misconception, not a step.</li>
-      <li><b>Product states</b> (no step leaves them). The preferred route ends at the <b>main product</b>. Other routes rejoin it or end at an <b>alternative product</b>, reached only by accepted steps: a minor regioisomer, such as ortho beside para (revised 2026-11-26, item 10e). An alternative product needs a caption saying what it is (a warning). Only regioisomers by convention; E/Z and others wait until a reaction needs them.</li>
+      <li><b>Product states</b> (no step leaves them). The preferred route ends at the <b>main product</b>. Other routes rejoin it or end at an <b>alternative product</b>, reached only by accepted steps: a minor regioisomer, such as ortho beside para (revised 2026-11-26, item 10e). An alternative product needs a caption saying what it is (a warning). Only regioisomers by convention; E/Z and others wait until a reaction needs them. (Item 12: once states carry stereo, an alternative product may also be a stereoisomer.)</li>
       <li><b>Exactly one route made only of preferred steps.</b></li>
       <li>Two steps leaving one state must not reach resonance-equivalent states.</li>
       <li>Each step's canonical arrows and partial arrow sets reproduce its to-state.</li>
@@ -525,6 +525,14 @@ verifications(id uuid pk, identifier, value, expires_at, …)   -- the OAuth sta
           <li><span class="tag ok">done</span> <b>11b</b> The catalogue carries what the cards draw: each reaction's conditions and start state (SMILES, coordinates, wedges, abbreviated groups), and each track's showcase with its product (where the preferred route ends). Optional in the schema so the previous catalogue still reads.</li>
           <li><span class="tag ok">done</span> <b>11c</b> A drawing module for the cards in RSC / ACS document style (fixed bond length, skeletal, real sub- and superscripts, ring double bonds inside, no lone pairs), and the conditions split above / below the arrow.</li>
           <li><span class="tag ok">done</span> <b>11d</b> The pages: Learn by level, Practice and problem sets as horizontal reaction cards ending in “?”, the Home daily card with the scheme, results as tiles with “5 / 6 points”, no share text or Copy.</li>
+        </ul></li>
+      <li value="12"><b>Stereo validation</b> (decided 2026-11-26; design in <a href="stereo-validation.html">the stereo proposal</a>). Phases 1–2 now; choosing a face (a “Which product forms?” question) after a mockup.
+        <ul>
+          <li><span class="tag ok">done</span> <b>12a</b> Stereo marks (<code>@</code>, <code>@@</code>, <code>/</code>, <code>\</code>) read and written in state SMILES, kept on map numbers and checked against RDKit. Until 12b, applying arrows drops stereo, so reactions should not use marks yet.</li>
+          <li><b>12b</b> Applying arrows keeps untouched stereo; centres a step makes or changes come from the next state.</li>
+          <li><b>12c</b> Stereo-aware comparison; lint checks for wedges against marks, a stereocentre changing without arrows, and an unmarked stereocentre; the editor fills wedges.</li>
+          <li><b>12d</b> Diastereotopic atoms told apart: the anti-periplanar H of an E2 is assessed.</li>
+          <li><b>12e</b> First content: SN2, E2 and bromination drafts with stereo.</li>
         </ul></li>
     </ol>
 

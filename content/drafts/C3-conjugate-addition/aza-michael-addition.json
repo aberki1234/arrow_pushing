@@ -1,0 +1,462 @@
+{
+  "formatVersion": 1,
+  "reactionSlug": "aza-michael-addition",
+  "reactionVersion": 1,
+  "previousReactionVersion": null,
+  "title": "Aza-Michael addition",
+  "subtitle": "Diethylamine adds to the end of methyl acrylate",
+  "reactionClasses": [
+    "addition",
+    "carbonyl"
+  ],
+  "difficultyTier": 1,
+  "conditionsLabel": "Et₂NH · MeOH · 25 °C",
+  "dailyPuzzleEligible": true,
+  "atomRoleToMapNumbers": {
+    "nucleophile": [
+      1
+    ],
+    "betaCarbon": [
+      7
+    ],
+    "carbonylCarbon": [
+      9
+    ]
+  },
+  "spectatorMapNumbers": [],
+  "abbreviatedGroups": [
+    {
+      "groupLabel": "Et",
+      "attachmentMapNumber": 2,
+      "mapNumbers": [
+        2,
+        3
+      ]
+    },
+    {
+      "groupLabel": "Et",
+      "attachmentMapNumber": 4,
+      "mapNumbers": [
+        4,
+        5
+      ]
+    }
+  ],
+  "startStateId": "reactants",
+  "stateIdToState": {
+    "reactants": {
+      "mappedSmiles": "[H:6][N:1]([CH2:2][CH3:3])[CH2:4][CH3:5].[CH2:7]=[CH:8][C:9](=[O:10])[O:11][CH3:12].[H:14][O:13][CH3:15]",
+      "mapNumberToCoordinates": {
+        "1": [
+          2.6,
+          0
+        ],
+        "2": [
+          1.3,
+          0.75
+        ],
+        "3": [
+          0,
+          0
+        ],
+        "4": [
+          2.6,
+          -1.5
+        ],
+        "5": [
+          3.9,
+          -2.25
+        ],
+        "6": [
+          3.9,
+          0.75
+        ],
+        "7": [
+          0,
+          5.3
+        ],
+        "8": [
+          1.3,
+          6.05
+        ],
+        "9": [
+          2.6,
+          5.3
+        ],
+        "10": [
+          3.9,
+          6.05
+        ],
+        "11": [
+          2.6,
+          3.8
+        ],
+        "12": [
+          3.9,
+          3.05
+        ],
+        "13": [
+          7.41,
+          0.95
+        ],
+        "14": [
+          8.71,
+          0.2
+        ],
+        "15": [
+          6.11,
+          0.2
+        ]
+      },
+      "caption": "diethylamine + methyl acrylate + methanol",
+      "learnerPrompt": "Diethylamine is the nucleophile. Where does it add?",
+      "hintTiers": [
+        "Methyl acrylate is an α,β-unsaturated ester. Its C=C is pulled towards the C=O, so the far end of the C=C is electron-poor.",
+        "The nitrogen lone pair forms a new bond to the CH₂ end of the C=C. The C=C pair moves next to the carbonyl carbon, and the C=O π pair moves onto oxygen. Three arrows.",
+        "Nitrogen lone pair → new N–C bond to the terminal CH₂; C=C π bond → a π bond between its CH and the carbonyl carbon; C=O π bond → a lone pair on oxygen."
+      ],
+      "misconceptions": [
+        {
+          "misconceptionId": "amide-formation",
+          "misconceptionTag": "direct-instead-of-conjugate",
+          "severity": "plausible",
+          "arrowPattern": "lp N1 -> C9",
+          "feedbackMessage": "Amines do attack esters, but slowly. Conjugate addition to the C=C is much faster at room temperature."
+        },
+        {
+          "misconceptionId": "attack-alpha-carbon",
+          "misconceptionTag": "attack-non-electrophile",
+          "severity": "wrong",
+          "arrowPattern": "lp N1 -> σ N1-C8",
+          "feedbackMessage": "The CH next to the C=O is not electron-poor. Conjugation makes the terminal CH₂ the electrophilic end."
+        }
+      ],
+      "partialProgressMessages": [
+        {
+          "learnerArrows": [
+            "lp N1 -> σ N1-C7",
+            "π C7-C8 -> π C8-C9"
+          ],
+          "feedbackMessage": "Good: nitrogen bonds to the CH₂ and the C=C moves along. Now the carbonyl carbon has five bonds: move the C=O π pair onto oxygen."
+        }
+      ]
+    },
+    "zwitterion": {
+      "mappedSmiles": "[H:6][N+:1]([CH2:2][CH3:3])([CH2:4][CH3:5])[CH2:7][CH:8]=[C:9]([O-:10])[O:11][CH3:12].[H:14][O:13][CH3:15]",
+      "mapNumberToCoordinates": {
+        "1": [
+          2.6,
+          0
+        ],
+        "2": [
+          1.3,
+          0.75
+        ],
+        "3": [
+          0,
+          0
+        ],
+        "4": [
+          1.85,
+          -1.3
+        ],
+        "5": [
+          2.6,
+          -2.6
+        ],
+        "6": [
+          3.9,
+          -0.75
+        ],
+        "7": [
+          3.35,
+          1.3
+        ],
+        "8": [
+          4.85,
+          1.3
+        ],
+        "9": [
+          5.6,
+          2.6
+        ],
+        "10": [
+          7.1,
+          2.6
+        ],
+        "11": [
+          4.85,
+          3.9
+        ],
+        "12": [
+          5.6,
+          5.2
+        ],
+        "13": [
+          9.4,
+          0.75
+        ],
+        "14": [
+          10.7,
+          0
+        ],
+        "15": [
+          8.1,
+          0
+        ]
+      },
+      "caption": "ammonium enolate (a zwitterion) + methanol",
+      "learnerPrompt": "Methanol protonates the enolate.",
+      "hintTiers": [
+        "The ester enolate is a strong base, and methanol, the solvent, is a proton source. Which carbon takes the proton?",
+        "The O⁻ lone pair re-forms C=O, the C=C π pair takes the drawn hydrogen of methanol, and the O–H pair stays on methanol's oxygen. Three arrows.",
+        "Enolate O⁻ lone pair → C=O π bond; C=C π bond → new C–H bond to the hydrogen of methanol; that O–H bond → a lone pair on methanol's oxygen."
+      ],
+      "misconceptions": [
+        {
+          "misconceptionId": "protonate-enolate-oxygen",
+          "misconceptionTag": "enol-instead-of-keto",
+          "severity": "plausible",
+          "arrowPattern": "* -> σ O10-H14",
+          "feedbackMessage": "Protonating oxygen gives an enol, which then tautomerises. Put the proton on carbon to reach the ester directly."
+        },
+        {
+          "misconceptionId": "methanol-takes-nh",
+          "misconceptionTag": "weak-base",
+          "severity": "wrong",
+          "arrowPattern": "lp O13 -> σ O13-H6",
+          "feedbackMessage": "Methanol is far too weak a base to take a proton from an ammonium ion. The strong base here is the enolate."
+        },
+        {
+          "misconceptionId": "retro-michael",
+          "misconceptionTag": "reverse-step",
+          "severity": "plausible",
+          "arrowPattern": "σ N1-C7 -> *",
+          "feedbackMessage": "Breaking the new N–C bond reverses the addition. Protonate the enolate."
+        }
+      ],
+      "partialProgressMessages": [
+        {
+          "learnerArrows": [
+            "π C8-C9 -> σ C8-H14",
+            "σ O13-H14 -> lp O13"
+          ],
+          "feedbackMessage": "Right: carbon takes the proton. That leaves a positive carbon next to O⁻: push the O⁻ lone pair in to re-form C=O."
+        }
+      ]
+    },
+    "ammonium": {
+      "mappedSmiles": "[H:6][N+:1]([CH2:2][CH3:3])([CH2:4][CH3:5])[CH2:7][CH:8]([H:14])[C:9](=[O:10])[O:11][CH3:12].[O-:13][CH3:15]",
+      "mapNumberToCoordinates": {
+        "1": [
+          2.6,
+          0
+        ],
+        "2": [
+          1.3,
+          0.75
+        ],
+        "3": [
+          0,
+          0
+        ],
+        "4": [
+          1.85,
+          -1.3
+        ],
+        "5": [
+          2.6,
+          -2.6
+        ],
+        "6": [
+          3.9,
+          -0.75
+        ],
+        "7": [
+          3.35,
+          1.3
+        ],
+        "8": [
+          4.85,
+          1.3
+        ],
+        "9": [
+          5.6,
+          0
+        ],
+        "10": [
+          7.1,
+          0
+        ],
+        "11": [
+          4.85,
+          -1.3
+        ],
+        "12": [
+          5.6,
+          -2.6
+        ],
+        "13": [
+          1.3,
+          4.35
+        ],
+        "14": [
+          5.6,
+          2.6
+        ],
+        "15": [
+          0,
+          3.6
+        ]
+      },
+      "caption": "ammonium ester + methoxide",
+      "learnerPrompt": "Methoxide takes the proton on nitrogen.",
+      "hintTiers": [
+        "Methoxide is a base, and the ammonium ion is an acid.",
+        "The methoxide lone pair takes the hydrogen on nitrogen, and the N–H pair stays on nitrogen. Two arrows.",
+        "Methoxide lone pair → new O–H bond to the hydrogen on nitrogen; that N–H bond → a lone pair on nitrogen."
+      ],
+      "misconceptions": [
+        {
+          "misconceptionId": "methoxide-adds-to-ester",
+          "misconceptionTag": "unproductive-addition",
+          "severity": "plausible",
+          "arrowPattern": "lp O13 -> C9",
+          "feedbackMessage": "Methoxide adding to a methyl ester only swaps methoxide for methoxide. Use it as a base."
+        },
+        {
+          "misconceptionId": "take-proton-back",
+          "misconceptionTag": "reverse-step",
+          "severity": "plausible",
+          "arrowPattern": "lp O13 -> σ O13-H14",
+          "feedbackMessage": "Taking back the C–H proton reverses the last step. The acidic proton is on nitrogen."
+        }
+      ],
+      "partialProgressMessages": [
+        {
+          "learnerArrows": [
+            "lp O13 -> σ O13-H6"
+          ],
+          "feedbackMessage": "Good: methoxide takes the proton. Where does the N–H bonding pair go?"
+        }
+      ]
+    },
+    "products": {
+      "mappedSmiles": "[N:1]([CH2:2][CH3:3])([CH2:4][CH3:5])[CH2:7][CH:8]([H:14])[C:9](=[O:10])[O:11][CH3:12].[H:6][O:13][CH3:15]",
+      "mapNumberToCoordinates": {
+        "1": [
+          2.6,
+          0
+        ],
+        "2": [
+          1.3,
+          0.75
+        ],
+        "3": [
+          0,
+          0
+        ],
+        "4": [
+          3.9,
+          0.75
+        ],
+        "5": [
+          5.2,
+          0
+        ],
+        "6": [
+          10,
+          0.64
+        ],
+        "7": [
+          2.6,
+          -1.5
+        ],
+        "8": [
+          3.9,
+          -2.25
+        ],
+        "9": [
+          3.9,
+          -3.75
+        ],
+        "10": [
+          2.6,
+          -4.5
+        ],
+        "11": [
+          5.2,
+          -4.5
+        ],
+        "12": [
+          5.2,
+          -6
+        ],
+        "13": [
+          8.7,
+          1.39
+        ],
+        "14": [
+          5.2,
+          -1.5
+        ],
+        "15": [
+          7.4,
+          0.64
+        ]
+      },
+      "caption": "methyl 3-(diethylamino)propanoate + methanol"
+    }
+  },
+  "steps": [
+    {
+      "stepKey": "conjugate-addition",
+      "fromStateId": "reactants",
+      "toStateId": "zwitterion",
+      "stepKind": "polar",
+      "routePreference": "preferred",
+      "canonicalArrows": [
+        "lp N1 -> σ N1-C7",
+        "π C7-C8 -> π C8-C9",
+        "π C9-O10 -> lp O10"
+      ],
+      "explanationAfterStep": "An aza-Michael addition: the amine adds 1,4 without any base. Nitrogen becomes positive and the negative charge sits on the ester oxygen."
+    },
+    {
+      "stepKey": "carbon-protonation",
+      "fromStateId": "zwitterion",
+      "toStateId": "ammonium",
+      "stepKind": "polar",
+      "routePreference": "preferred",
+      "canonicalArrows": [
+        "lp O10 -> π C9-O10",
+        "π C8-C9 -> σ C8-H14",
+        "σ O13-H14 -> lp O13"
+      ],
+      "explanationAfterStep": "Methanol protonates the enolate on carbon. The proton on nitrogen cannot reach that carbon directly, so the solvent passes protons around."
+    },
+    {
+      "stepKey": "nitrogen-deprotonation",
+      "fromStateId": "ammonium",
+      "toStateId": "products",
+      "stepKind": "polar",
+      "routePreference": "preferred",
+      "canonicalArrows": [
+        "lp O13 -> σ O13-H6",
+        "σ N1-H6 -> lp N1"
+      ],
+      "explanationAfterStep": "Methoxide takes the proton on nitrogen and methanol is back. The product is a β-amino ester; the addition is reversible on heating (a retro-Michael)."
+    }
+  ],
+  "mechanismSummary": "The nitrogen lone pair of diethylamine adds to the terminal carbon of methyl acrylate, pushing the charge onto the ester oxygen. Methanol protonates the enolate on carbon, and methoxide then takes the proton from nitrogen. The product is the β-amino ester methyl 3-(diethylamino)propanoate.",
+  "references": [
+    "Clayden, Greeves and Warren, Organic Chemistry, 2nd edition (Oxford University Press), chapter 22"
+  ],
+  "authors": [
+    {
+      "name": "Maksim",
+      "url": null
+    }
+  ],
+  "licence": "CC-BY-SA-4.0"
+}

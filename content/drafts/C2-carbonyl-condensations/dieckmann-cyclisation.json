@@ -1,0 +1,854 @@
+{
+  "formatVersion": 1,
+  "reactionSlug": "dieckmann-cyclisation",
+  "reactionVersion": 1,
+  "previousReactionVersion": null,
+  "title": "Dieckmann cyclisation",
+  "subtitle": "An intramolecular Claisen closes a five-membered ring",
+  "reactionClasses": [
+    "carbonyl",
+    "substitution"
+  ],
+  "difficultyTier": 2,
+  "conditionsLabel": "1. NaOEt, EtOH · reflux · 2. H₃O⁺",
+  "dailyPuzzleEligible": true,
+  "atomRoleToMapNumbers": {
+    "base": [
+      17
+    ],
+    "alphaCarbon": [
+      9
+    ],
+    "electrophilicCarbon": [
+      1
+    ],
+    "leavingGroup": [
+      3
+    ]
+  },
+  "spectatorMapNumbers": [
+    20,
+    23
+  ],
+  "abbreviatedGroups": [
+    {
+      "groupLabel": "Et",
+      "attachmentMapNumber": 4,
+      "mapNumbers": [
+        4,
+        5
+      ]
+    },
+    {
+      "groupLabel": "Et",
+      "attachmentMapNumber": 13,
+      "mapNumbers": [
+        13,
+        14
+      ]
+    },
+    {
+      "groupLabel": "Et",
+      "attachmentMapNumber": 18,
+      "mapNumbers": [
+        18,
+        19
+      ]
+    }
+  ],
+  "startStateId": "reactants",
+  "stateIdToState": {
+    "reactants": {
+      "mappedSmiles": "[CH3:5][CH2:4][O:3][C:1](=[O:2])[CH2:6][CH2:7][CH2:8][C:9]([H:15])([H:16])[C:10](=[O:11])[O:12][CH2:13][CH3:14].[CH3:19][CH2:18][O-:17].[Na+:20]",
+      "mapNumberToCoordinates": {
+        "1": [
+          3.9,
+          0.75
+        ],
+        "2": [
+          3.9,
+          2.25
+        ],
+        "3": [
+          2.6,
+          0
+        ],
+        "4": [
+          1.3,
+          0.75
+        ],
+        "5": [
+          0,
+          0
+        ],
+        "6": [
+          5.2,
+          0
+        ],
+        "7": [
+          6.5,
+          0.75
+        ],
+        "8": [
+          7.79,
+          0
+        ],
+        "9": [
+          9.09,
+          0.75
+        ],
+        "10": [
+          10.39,
+          1.5
+        ],
+        "11": [
+          10.39,
+          3
+        ],
+        "12": [
+          11.69,
+          0.75
+        ],
+        "13": [
+          12.99,
+          1.5
+        ],
+        "14": [
+          14.29,
+          0.75
+        ],
+        "15": [
+          8.34,
+          2.05
+        ],
+        "16": [
+          9.84,
+          -0.55
+        ],
+        "17": [
+          2.49,
+          4.06
+        ],
+        "18": [
+          1.19,
+          4.81
+        ],
+        "19": [
+          -0.11,
+          4.06
+        ],
+        "20": [
+          -0.5,
+          6.35
+        ]
+      },
+      "caption": "diethyl adipate (diethyl hexanedioate) + sodium ethoxide",
+      "learnerPrompt": "Form an ester enolate.",
+      "hintTiers": [
+        "Both ends of the molecule are esters. Which C–H bonds are acidic?",
+        "Ethoxide takes a drawn hydrogen next to one ester group. The C–H pair forms a C=C bond to that carbonyl carbon, and its C=O π pair moves onto oxygen. Three arrows.",
+        "Ethoxide lone pair → new bond to a drawn hydrogen; that C–H bond → a π bond to the carbonyl carbon; the C=O π bond → a lone pair on the carbonyl oxygen."
+      ],
+      "misconceptions": [
+        {
+          "misconceptionId": "ethoxide-adds-to-ester",
+          "misconceptionTag": "unproductive-addition",
+          "severity": "plausible",
+          "arrowPattern": "lp O17 -> C*",
+          "feedbackMessage": "Ethoxide adding to an ethyl ester just swaps one ethoxy group for another. Here it acts as a base."
+        },
+        {
+          "misconceptionId": "pi-to-carbonyl-carbon",
+          "misconceptionTag": "pi-to-own-atom",
+          "severity": "wrong",
+          "arrowPattern": "π C10-O11 -> C10",
+          "feedbackMessage": "The C=O π electrons go to the electronegative oxygen, not onto the carbon that already shares them."
+        }
+      ],
+      "partialProgressMessages": [
+        {
+          "learnerArrows": [
+            "lp O17 -> σ O17-H15",
+            "σ C9-H15 -> π C9-C10"
+          ],
+          "feedbackMessage": "Good: ethoxide takes the proton and a C=C bond forms. Now move the C=O π pair onto oxygen."
+        }
+      ]
+    },
+    "enolate": {
+      "mappedSmiles": "[CH3:5][CH2:4][O:3][C:1](=[O:2])[CH2:6][CH2:7][CH2:8][C:9]([H:16])=[C:10]([O-:11])[O:12][CH2:13][CH3:14].[CH3:19][CH2:18][O:17][H:15].[Na+:20]",
+      "mapNumberToCoordinates": {
+        "1": [
+          1.458,
+          0.242
+        ],
+        "2": [
+          2.568,
+          1.242
+        ],
+        "3": [
+          2.568,
+          -0.758
+        ],
+        "4": [
+          3.998,
+          -0.298
+        ],
+        "5": [
+          5.108,
+          -1.298
+        ],
+        "6": [
+          0.39,
+          1.21
+        ],
+        "7": [
+          -1.03,
+          0.75
+        ],
+        "8": [
+          -1.03,
+          -0.75
+        ],
+        "9": [
+          0.39,
+          -1.21
+        ],
+        "10": [
+          -0.22,
+          -2.58
+        ],
+        "11": [
+          -1.71,
+          -2.74
+        ],
+        "12": [
+          0.67,
+          -3.8
+        ],
+        "13": [
+          0.06,
+          -5.17
+        ],
+        "14": [
+          0.94,
+          -6.38
+        ],
+        "15": [
+          10.36,
+          0.91
+        ],
+        "16": [
+          1.69,
+          -1.96
+        ],
+        "17": [
+          9.06,
+          0.16
+        ],
+        "18": [
+          7.76,
+          0.91
+        ],
+        "19": [
+          6.46,
+          0.16
+        ],
+        "20": [
+          -0.31,
+          3.4
+        ]
+      },
+      "caption": "ester enolate + ethanol",
+      "learnerPrompt": "The enolate attacks the ester at the other end of the chain.",
+      "hintTiers": [
+        "The other ester is in the same molecule. Counting the ring that would form, which carbonyl carbon is in reach?",
+        "The O⁻ lone pair re-forms C=O, the C=C π pair forms a new C–C bond to the other ester's carbonyl carbon, closing a five-membered ring, and that C=O π pair moves onto oxygen. Three arrows.",
+        "Enolate O⁻ lone pair → C=O π bond; C=C π bond → new C–C bond to the far carbonyl carbon; its C=O π bond → a lone pair on its oxygen."
+      ],
+      "misconceptions": [
+        {
+          "misconceptionId": "oxygen-attacks",
+          "misconceptionTag": "ambident-wrong-end",
+          "severity": "plausible",
+          "arrowPattern": "lp O11 -> C1",
+          "feedbackMessage": "The enolate oxygen could reach, but O-attack gets nowhere. The Dieckmann makes a C–C bond: attack with the α-carbon."
+        },
+        {
+          "misconceptionId": "attack-carbonyl-oxygen",
+          "misconceptionTag": "attack-electron-rich-atom",
+          "severity": "wrong",
+          "arrowPattern": "π C9-C10 -> O2",
+          "feedbackMessage": "The carbonyl oxygen is electron-rich. Attack the carbonyl carbon."
+        }
+      ],
+      "partialProgressMessages": [
+        {
+          "learnerArrows": [
+            "π C9-C10 -> σ C1-C9",
+            "π C1-O2 -> lp O2"
+          ],
+          "feedbackMessage": "Right bonds, but this leaves a positive carbon next to O⁻ on the enolate side. Push the O⁻ lone pair in to re-form C=O."
+        }
+      ]
+    },
+    "cyclic-intermediate": {
+      "mappedSmiles": "[CH3:5][CH2:4][O:3][C:1]1([O-:2])[CH2:6][CH2:7][CH2:8][C:9]1([H:16])[C:10](=[O:11])[O:12][CH2:13][CH3:14].[CH3:19][CH2:18][O:17][H:15].[Na+:20]",
+      "mapNumberToCoordinates": {
+        "1": [
+          1.28,
+          0
+        ],
+        "2": [
+          2.39,
+          1
+        ],
+        "3": [
+          2.39,
+          -1
+        ],
+        "4": [
+          3.82,
+          -0.54
+        ],
+        "5": [
+          4.93,
+          -1.54
+        ],
+        "6": [
+          0.39,
+          1.21
+        ],
+        "7": [
+          -1.03,
+          0.75
+        ],
+        "8": [
+          -1.03,
+          -0.75
+        ],
+        "9": [
+          0.39,
+          -1.21
+        ],
+        "10": [
+          -0.22,
+          -2.58
+        ],
+        "11": [
+          -1.71,
+          -2.74
+        ],
+        "12": [
+          0.67,
+          -3.8
+        ],
+        "13": [
+          0.06,
+          -5.17
+        ],
+        "14": [
+          0.94,
+          -6.38
+        ],
+        "15": [
+          10.36,
+          0.91
+        ],
+        "16": [
+          1.69,
+          -1.96
+        ],
+        "17": [
+          9.06,
+          0.16
+        ],
+        "18": [
+          7.76,
+          0.91
+        ],
+        "19": [
+          6.46,
+          0.16
+        ],
+        "20": [
+          -0.31,
+          3.4
+        ]
+      },
+      "caption": "cyclic tetrahedral intermediate + ethanol",
+      "learnerPrompt": "The tetrahedral intermediate collapses.",
+      "hintTiers": [
+        "The alkoxide carbon still carries an OEt group. What can leave?",
+        "The O⁻ lone pair re-forms C=O, and the ring C–OEt bond breaks onto the ethoxy oxygen. Two arrows.",
+        "O⁻ lone pair → C=O π bond; C–OEt bond → a lone pair on that oxygen (ethoxide leaves)."
+      ],
+      "misconceptions": [
+        {
+          "misconceptionId": "ring-opens",
+          "misconceptionTag": "reverse-step",
+          "severity": "plausible",
+          "arrowPattern": "σ C1-C9 -> *",
+          "feedbackMessage": "Breaking the new C–C bond just reopens the ring. Let ethoxide leave instead."
+        },
+        {
+          "misconceptionId": "ring-ch2-leaves",
+          "misconceptionTag": "poor-leaving-group",
+          "severity": "wrong",
+          "arrowPattern": "σ C1-C6 -> *",
+          "feedbackMessage": "A carbanion is a hopeless leaving group. Ethoxide leaves."
+        }
+      ],
+      "partialProgressMessages": [
+        {
+          "learnerArrows": [
+            "σ C1-O3 -> lp O3"
+          ],
+          "feedbackMessage": "Ethoxide does leave, but only when pushed. Add the arrow from the O⁻ lone pair re-forming C=O."
+        }
+      ]
+    },
+    "keto-ester": {
+      "mappedSmiles": "[O:2]=[C:1]1[CH2:6][CH2:7][CH2:8][C:9]1([H:16])[C:10](=[O:11])[O:12][CH2:13][CH3:14].[CH3:5][CH2:4][O-:3].[CH3:19][CH2:18][O:17][H:15].[Na+:20]",
+      "mapNumberToCoordinates": {
+        "1": [
+          1.28,
+          0
+        ],
+        "2": [
+          2.78,
+          0
+        ],
+        "3": [
+          7.6,
+          0.56
+        ],
+        "4": [
+          6.31,
+          1.31
+        ],
+        "5": [
+          5.01,
+          0.56
+        ],
+        "6": [
+          0.39,
+          1.21
+        ],
+        "7": [
+          -1.03,
+          0.75
+        ],
+        "8": [
+          -1.03,
+          -0.75
+        ],
+        "9": [
+          0.39,
+          -1.21
+        ],
+        "10": [
+          -0.22,
+          -2.58
+        ],
+        "11": [
+          -1.71,
+          -2.74
+        ],
+        "12": [
+          0.67,
+          -3.8
+        ],
+        "13": [
+          0.06,
+          -5.17
+        ],
+        "14": [
+          0.94,
+          -6.38
+        ],
+        "15": [
+          4.36,
+          4.25
+        ],
+        "16": [
+          1.69,
+          -1.96
+        ],
+        "17": [
+          3.06,
+          3.5
+        ],
+        "18": [
+          1.76,
+          4.25
+        ],
+        "19": [
+          0.46,
+          3.5
+        ],
+        "20": [
+          9.07,
+          -1.2
+        ]
+      },
+      "caption": "ethyl 2-oxocyclopentanecarboxylate + ethoxide + ethanol",
+      "learnerPrompt": "Ethoxide removes the most acidic proton.",
+      "hintTiers": [
+        "Which C–H now sits between two C=O groups?",
+        "Ethoxide takes the drawn ring hydrogen between the ketone and the ester. The C–H pair forms a C=C bond to the ketone carbon, and that C=O π pair moves onto oxygen. Three arrows.",
+        "Ethoxide lone pair → new bond to the drawn hydrogen; that C–H bond → a π bond to the ketone carbon; the ketone C=O π bond → a lone pair on its oxygen."
+      ],
+      "misconceptions": [
+        {
+          "misconceptionId": "ethoxide-adds-again",
+          "misconceptionTag": "unproductive-addition",
+          "severity": "plausible",
+          "arrowPattern": "lp O3 -> C*",
+          "feedbackMessage": "Ethoxide adding to a carbonyl group only runs the reaction backwards. The C–H between the two carbonyl groups (pKa about 11) is far more acidic than ethanol: take that proton."
+        }
+      ],
+      "partialProgressMessages": [
+        {
+          "learnerArrows": [
+            "lp O3 -> σ O3-H16",
+            "σ C9-H16 -> π C1-C9"
+          ],
+          "feedbackMessage": "Good: ethoxide takes the doubly activated proton. Now move the ketone C=O π pair onto oxygen."
+        }
+      ]
+    },
+    "stabilised-enolate": {
+      "mappedSmiles": "[O-:2][C:1]1=[C:9]([C:10](=[O:11])[O:12][CH2:13][CH3:14])[CH2:8][CH2:7][CH2:6]1.[CH3:5][CH2:4][O:3][H:16].[CH3:19][CH2:18][O:17][H:15].[Na+:20]",
+      "mapNumberToCoordinates": {
+        "1": [
+          1.28,
+          0
+        ],
+        "2": [
+          2.78,
+          0
+        ],
+        "3": [
+          7.85,
+          0
+        ],
+        "4": [
+          6.55,
+          0.75
+        ],
+        "5": [
+          5.26,
+          0
+        ],
+        "6": [
+          0.39,
+          -1.21
+        ],
+        "7": [
+          -1.03,
+          -0.75
+        ],
+        "8": [
+          -1.03,
+          0.75
+        ],
+        "9": [
+          0.39,
+          1.21
+        ],
+        "10": [
+          0.86,
+          2.64
+        ],
+        "11": [
+          -0.15,
+          3.75
+        ],
+        "12": [
+          2.33,
+          2.95
+        ],
+        "13": [
+          2.79,
+          4.38
+        ],
+        "14": [
+          4.26,
+          4.69
+        ],
+        "15": [
+          4.07,
+          7.4
+        ],
+        "16": [
+          9.15,
+          0.75
+        ],
+        "17": [
+          2.77,
+          6.65
+        ],
+        "18": [
+          1.47,
+          7.4
+        ],
+        "19": [
+          0.17,
+          6.65
+        ],
+        "20": [
+          -1.8,
+          7.79
+        ]
+      },
+      "caption": "the stabilised enolate + ethanol"
+    },
+    "enolate-and-acid": {
+      "mappedSmiles": "[O-:2][C:1]1=[C:9]([C:10](=[O:11])[O:12][CH2:13][CH3:14])[CH2:8][CH2:7][CH2:6]1.[Na+:20].[H:22][OH2+:21].[Cl-:23]",
+      "mapNumberToCoordinates": {
+        "1": [
+          1.28,
+          0
+        ],
+        "2": [
+          2.78,
+          0
+        ],
+        "6": [
+          0.39,
+          -1.21
+        ],
+        "7": [
+          -1.03,
+          -0.75
+        ],
+        "8": [
+          -1.03,
+          0.75
+        ],
+        "9": [
+          0.39,
+          1.21
+        ],
+        "10": [
+          0.86,
+          2.64
+        ],
+        "11": [
+          -0.15,
+          3.75
+        ],
+        "12": [
+          2.33,
+          2.95
+        ],
+        "13": [
+          2.79,
+          4.38
+        ],
+        "14": [
+          4.26,
+          4.69
+        ],
+        "20": [
+          -0.1,
+          6.04
+        ],
+        "21": [
+          5.26,
+          0
+        ],
+        "22": [
+          6.55,
+          0.75
+        ],
+        "23": [
+          0.25,
+          8.31
+        ]
+      },
+      "caption": "the stabilised enolate + H₃O⁺ (work-up)",
+      "learnerPrompt": "Acid work-up: protonate the enolate on carbon.",
+      "hintTiers": [
+        "Which atom should take the proton to give the keto ester?",
+        "The C=C π pair takes a proton from H₃O⁺, the O–H pair stays on water's oxygen, and the O⁻ lone pair re-forms C=O. Three arrows.",
+        "C=C π bond → new C–H bond to a proton of H₃O⁺; that O–H bond → a lone pair on water's oxygen; O⁻ lone pair → C=O π bond."
+      ],
+      "misconceptions": [
+        {
+          "misconceptionId": "protonate-oxygen",
+          "misconceptionTag": "enol-instead-of-keto",
+          "severity": "plausible",
+          "arrowPattern": "* -> σ O2-H22",
+          "feedbackMessage": "Protonating oxygen gives the enol, which then tautomerises. Put the proton on the ring carbon to reach the keto ester directly."
+        }
+      ],
+      "partialProgressMessages": [
+        {
+          "learnerArrows": [
+            "π C1-C9 -> σ C9-H22",
+            "σ O21-H22 -> lp O21"
+          ],
+          "feedbackMessage": "Right: the ring carbon takes the proton. That leaves a positive carbon next to O⁻: push the O⁻ lone pair in to re-form C=O."
+        }
+      ]
+    },
+    "products": {
+      "mappedSmiles": "[O:2]=[C:1]1[CH2:6][CH2:7][CH2:8][C:9]1([H:22])[C:10](=[O:11])[O:12][CH2:13][CH3:14].[OH2:21].[Na+:20].[Cl-:23]",
+      "mapNumberToCoordinates": {
+        "1": [
+          1.28,
+          0
+        ],
+        "2": [
+          2.78,
+          0
+        ],
+        "6": [
+          0.39,
+          1.21
+        ],
+        "7": [
+          -1.03,
+          0.75
+        ],
+        "8": [
+          -1.03,
+          -0.75
+        ],
+        "9": [
+          0.39,
+          -1.21
+        ],
+        "10": [
+          -0.22,
+          -2.58
+        ],
+        "11": [
+          -1.71,
+          -2.74
+        ],
+        "12": [
+          0.67,
+          -3.8
+        ],
+        "13": [
+          0.06,
+          -5.17
+        ],
+        "14": [
+          0.94,
+          -6.38
+        ],
+        "20": [
+          5.51,
+          -1.59
+        ],
+        "21": [
+          4.98,
+          0.66
+        ],
+        "22": [
+          1.69,
+          -1.96
+        ],
+        "23": [
+          7.41,
+          -0.29
+        ]
+      },
+      "caption": "ethyl 2-oxocyclopentanecarboxylate + water"
+    }
+  },
+  "steps": [
+    {
+      "stepKey": "enolate-formation",
+      "fromStateId": "reactants",
+      "toStateId": "enolate",
+      "stepKind": "polar",
+      "routePreference": "preferred",
+      "canonicalArrows": [
+        "lp O17 -> σ O17-H15",
+        "σ C9-H15 -> π C9-C10",
+        "π C10-O11 -> lp O11"
+      ],
+      "explanationAfterStep": "The molecule is symmetrical, so either end can be deprotonated: the result is the same."
+    },
+    {
+      "stepKey": "ring-closure",
+      "fromStateId": "enolate",
+      "toStateId": "cyclic-intermediate",
+      "stepKind": "polar",
+      "routePreference": "preferred",
+      "canonicalArrows": [
+        "lp O11 -> π C10-O11",
+        "π C9-C10 -> σ C1-C9",
+        "π C1-O2 -> lp O2"
+      ],
+      "explanationAfterStep": "An intramolecular Claisen: a five-membered ring closes. Five- and six-membered rings form fastest, so diethyl adipate (five-ring) and diethyl pimelate (six-ring) are the classic substrates."
+    },
+    {
+      "stepKey": "loss-of-ethoxide",
+      "fromStateId": "cyclic-intermediate",
+      "toStateId": "keto-ester",
+      "stepKind": "polar",
+      "routePreference": "preferred",
+      "canonicalArrows": [
+        "lp O2 -> π C1-O2",
+        "σ C1-O3 -> lp O3"
+      ],
+      "explanationAfterStep": "Ethoxide leaves and the ring ketone forms: a cyclic β-keto ester."
+    },
+    {
+      "stepKey": "deprotonation-drives-it",
+      "fromStateId": "keto-ester",
+      "toStateId": "stabilised-enolate",
+      "stepKind": "polar",
+      "routePreference": "preferred",
+      "canonicalArrows": [
+        "lp O3 -> σ O3-H16",
+        "σ C9-H16 -> π C1-C9",
+        "π C1-O2 -> lp O2"
+      ],
+      "explanationAfterStep": "As in every Claisen, deprotonating the β-keto ester is the downhill step that drives the reaction. It needs a proton between the two C=O groups: that is why the product has one."
+    },
+    {
+      "stepKey": "acid-work-up",
+      "fromStateId": "stabilised-enolate",
+      "toStateId": "enolate-and-acid",
+      "stepKind": "change",
+      "routePreference": "preferred",
+      "addedSpecies": "[H:22][OH2+:21].[Cl-:23]",
+      "removedFragmentMapNumbers": [
+        3,
+        17
+      ],
+      "caption": "Ethanol is left out of the drawing. Dilute aqueous acid is added at the end (work-up)."
+    },
+    {
+      "stepKey": "carbon-protonation",
+      "fromStateId": "enolate-and-acid",
+      "toStateId": "products",
+      "stepKind": "polar",
+      "routePreference": "preferred",
+      "canonicalArrows": [
+        "π C1-C9 -> σ C9-H22",
+        "σ O21-H22 -> lp O21",
+        "lp O2 -> π C1-O2"
+      ],
+      "explanationAfterStep": "The work-up gives the neutral cyclic β-keto ester."
+    }
+  ],
+  "mechanismSummary": "Ethoxide forms an enolate at one end of diethyl adipate. The enolate attacks the ester at the other end, closing a five-membered ring, and the tetrahedral intermediate loses ethoxide. Deprotonating the new β-keto ester between its two C=O groups drives the reaction; acid work-up gives ethyl 2-oxocyclopentanecarboxylate.",
+  "references": [
+    "Clayden, Greeves and Warren, Organic Chemistry, 2nd edition (Oxford University Press), chapter 26"
+  ],
+  "authors": [
+    {
+      "name": "Maksim",
+      "url": null
+    }
+  ],
+  "licence": "CC-BY-SA-4.0"
+}

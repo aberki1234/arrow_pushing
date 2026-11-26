@@ -150,8 +150,8 @@ Hydride donors, oxygen-transfer reagents and dissolving metals, by mechanism.
 - *Oxidations without metals*: Swern; Dess–Martin; Baeyer–Villiger
 - *Removing C=O*: Wolff–Kishner; Clemmensen (Zn/Hg)
 - *Chromium and dissolving metals*: Jones / PCC; Birch reduction
-- Needs: new main-group elements, transition metals, single-electron transfer
-- Note: Most of the track works now; Luche, Clemmensen, Cr oxidations and Birch each wait for a capability.
+- Needs: transition metals, single-electron transfer
+- Note: Most of the track works now (Ce and Zn are in the element table since 2026-11-26); Cr oxidations wait for transition metals and Birch for single-electron transfer.
 
 ### C6 · Rearrangements
 
@@ -171,8 +171,7 @@ Chains, selectivity and radical C–C bond formation, with fish-hook arrows.
 - *Chains*: bromination of methane (published); allylic bromination (NBS); HBr with peroxides (anti-Markovnikov)
 - *Selectivity*: chlorination vs bromination of propane (alternative products)
 - *Tin chemistry*: Barton–McCombie; radical cyclisation (Bu₃SnH, AIBN)
-- Needs: new main-group elements
-- Note: Tin needs Sn in the element table (also the v1 content list's Barton–McCombie).
+- Note: Tin (Sn) is in the element table since 2026-11-26 (also the v1 content list's Barton–McCombie).
 
 ### C8 · Pericyclic reactions I
 
@@ -239,8 +238,8 @@ Making C=C and three-membered rings with reactive intermediates.
 - *Ylides*: Horner–Wadsworth–Emmons; Corey–Chaykovsky; Julia–Kocienski; Peterson (Si)
 - *Carbenes*: dichlorocarbene cyclopropanation; Simmons–Smith (Zn); Wolff / Arndt–Eistert
 - *Hydrazones*: Bamford–Stevens; Shapiro
-- Needs: new main-group elements, transition metals, stereo validation
-- Note: Simmons–Smith needs Zn; Rh carbenoids need transition metals.
+- Needs: transition metals, stereo validation
+- Note: Zn (Simmons–Smith) is in the element table; Rh carbenoids need transition metals.
 
 ### A5 · Heterocycles
 
@@ -339,8 +338,8 @@ The Corey lactone route: Diels–Alder, Baeyer–Villiger, iodolactonisation, th
 - *Building the lactone*: cyclopentadiene + 2-chloroacrylonitrile; ketone unmasking; Baeyer–Villiger
 - *Iodolactonisation*: I₂/KI; Bu₃SnH deiodination
 - *Side chains*: HWE; Wittig
-- Needs: new main-group elements, stereo validation
-- Note: Bu₃SnH needs Sn.
+- Needs: stereo validation
+- Note: Sn (Bu₃SnH) is in the element table.
 
 ### G5 · Woodward's reserpine (1956)
 
@@ -362,14 +361,14 @@ Second wave (each marked with what it needs):
 
 | Capability | What it means | Tracks waiting on it |
 |---|---|---|
-| New main-group elements | Zn, Sn, Se, Hg, Ce, Sm… in the strict reader's element table (valence and period). Small: a table entry and tests per element. | C5, C7, A4, G4 |
+| New main-group elements | **Done 2026-11-26**: Zn, Se, Sn, Hg and Ce are in the strict reader's element table (valence and period; Ce counted as Ce(III)) and in the picking rules. Sm waits for single-electron transfer (SmI₂ only reacts by SET). | none |
 | Stereo validation | Checking wedges and E/Z in answers (deferred in SPEC §9). Until then stereochemistry is explained in text and drawn, not assessed. | F2, F3, F4, C8, A1, A2, A3, A4, A6, A8, G2, G3, G4, G5 |
 | Single-electron transfer | An electron as a reagent (Na/NH₃, Li, SmI₂, DDQ): radical anions and SET steps drawn with fish-hooks from a metal or a reagent. | C5, A7 |
 | Transition metals | Pd, Cu, Ru, Rh, Ni, Os, Cr, Ti… with an electron-counting model (oxidation state, d-electrons, 16/18-electron rule) so oxidative addition, migratory insertion and reductive elimination can be drawn and checked. | C3, C4, C5, A4, A7, A9 |
 | Excited states | hν as a step: an excited state or triplet diradical drawn as a state. | A8 |
 | Whole-mechanism mode | Several reactions joined into one run (deferred in SPEC §9); a synthesis track works without it, one step per reaction. | none yet |
 
-Suggested build order for capabilities: new main-group elements (cheap, unblocks Sn/Zn/Ce steps), then stereo
+Suggested build order for capabilities: new main-group elements (done 2026-11-26), then stereo
 validation (the most tracks), then single-electron transfer, then transition metals (a new electron-counting model).
 
 ## Authoring order

@@ -180,7 +180,14 @@ reactions, track `electrophilic-aromatic-substitution`, problem sets in this ord
 - **Chemistry conventions v1:**
   - Hydrogens that participate in a step are drawn explicitly in that step; others implicit.
   - Stereo (wedge/dash) is **stored and displayed** but **not validated** (validator checks connectivity, formal charges,
-    lone-pair/radical counts). SN2 inversion is an explanatory note. Stereo validation (CIP) is a v2 feature.
+    lone-pair/radical counts). SN2 inversion is an explanatory note. **Revised 2026-11-26 (item 12,
+    `docs/stereo-validation.md`): stereo validation is being built.** Stereo is stored as SMILES marks (`@`, `@@`,
+    `/`, `\`) in `mappedSmiles`; wedges stay the drawing and the linter checks they agree. Arrow application keeps
+    untouched stereocentres; a centre the step makes or changes takes the authored to-state's configuration.
+    Diastereotopic atoms stop being equivalent, so the syn H of an E2 is a wrong answer. Racemic outcomes: one
+    enantiomer drawn, caption "racemic". Face choice (endo/exo, Felkin) will be a **product question after the
+    arrows** ("Which product forms?", authored stereoisomeric alternatives with messages), after a mockup. Phases
+    1–2 first.
   - Reagents/conditions are labels over the reaction arrow (context, not drawable species).
   - Counterions (Na⁺, MgBr⁺) drawn faded, not validated as participants.
 
@@ -592,5 +599,5 @@ Publish stage, the review queue, the review screen (only what changed, notes) an
   the authoring order (Foundations first). The items below are settled there, track by track, when each is drafted.
 - Tracks after "Electrophilic aromatic substitution" (e.g. Zaitsev versus Hofmann, kinetic versus thermodynamic enolates) and their
   problem sets. (Problem sets themselves were scoped on 2026-11-25: §1, §2, §5 "Learn".)
-- Deferred features: whole-mechanism mode, stereo validation, learner accounts/leaderboards/sync, visual editor polish (v2).
+- Deferred features: whole-mechanism mode, stereo face choice (phase 3 of item 12), learner accounts/leaderboards/sync, visual editor polish (v2).
 - The phase-2 MCP server's detailed design (§6 "Drafting with an assistant").

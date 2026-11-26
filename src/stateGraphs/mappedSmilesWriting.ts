@@ -22,6 +22,14 @@ import {
   type StateAtom,
   type StateGraph,
 } from "./stateGraph.js";
+import {
+  canonicalNeighbourOrder,
+  directionsForRelations,
+  type DirectionSymbol,
+  hasImplicitNeighbour,
+  IMPLICIT_NEIGHBOUR,
+  markInOrder,
+} from "./stereoMarks.js";
 
 const ORDER_TO_BOND_SYMBOL: ReadonlyMap<number, string> = new Map([
   [1, ""],
@@ -91,7 +99,38 @@ function walkMolecule(
   return walk;
 }
 
-function atomText(graph: StateGraph, atom: StateAtom): string {
+/**
+ * The stereocentre's mark for the order the writer lists its neighbours (the order the reader
+ * sees): parent, an implicit H or lone pair, ring closures as written, then the children.
+ */
+function writtenMark(
+  graph: StateGraph,
+  walk: MoleculeWalk,
+  atom: StateAtom,
+  parent: number | undefined,
+): string {
+  const mark = graph.mapNumberToTetrahedralMark?.get(atom.mapNumber);
+  if (mark === undefined) {
+    return "";
+  }
+  const { mapNumber } = atom;
+  const mapped = [
+    ...(parent === undefined ? [] : [parent]),
+    ...(walk.mapNumberToRingTargets.get(mapNumber) ?? []),
+    ...(walk.mapNumberToRingSources.get(mapNumber) ?? []),
+    ...(walk.mapNumberToChildren.get(mapNumber) ?? []),
+  ];
+  const written = hasImplicitNeighbour(atom, mapped.length)
+    ? [
+        ...mapped.slice(0, parent === undefined ? 0 : 1),
+        IMPLICIT_NEIGHBOUR,
+        ...mapped.slice(parent === undefined ? 0 : 1),
+      ]
+    : mapped;
+  return markInOrder(mark, canonicalNeighbourOrder(written), written);
+}
+
+function atomText(graph: StateGraph, atom: StateAtom, mark = ""): string {
   const hydrogens =
     atom.hydrogenCount === 0
       ? ""
@@ -106,11 +145,17 @@ function atomText(graph: StateGraph, atom: StateAtom): string {
       : Math.abs(charge) === 1
         ? chargeSign
         : `${chargeSign}${String(Math.abs(charge))}`;
-  return `[${atom.element}${hydrogens}${chargeText}:${String(atom.mapNumber)}]`;
+  return `[${atom.element}${mark}${hydrogens}${chargeText}:${String(atom.mapNumber)}]`;
 }
 
-function bondSymbol(graph: StateGraph, first: number, second: number): string {
-  return ORDER_TO_BOND_SYMBOL.get(graph.bondToOrder.get(bondKey(first, second)) ?? 1) ?? "";
+function bondSymbol(
+  graph: StateGraph,
+  first: number,
+  second: number,
+  directions: ReadonlyMap<string, DirectionSymbol> = new Map(),
+): string {
+  const key = bondKey(first, second);
+  return directions.get(key) ?? ORDER_TO_BOND_SYMBOL.get(graph.bondToOrder.get(key) ?? 1) ?? "";
 }
 
 function ringNumberText(ringNumber: number): string {
@@ -120,7 +165,12 @@ function ringNumberText(ringNumber: number): string {
 }
 
 /** Write one walked molecule. Open rings are keyed "<earlier>-<later>" by map number. */
-function writeMolecule(graph: StateGraph, walk: MoleculeWalk, rootMapNumber: number): string {
+function writeMolecule(
+  graph: StateGraph,
+  walk: MoleculeWalk,
+  rootMapNumber: number,
+  directions: ReadonlyMap<string, DirectionSymbol>,
+): string {
   const openRings = new Map<string, number>();
   const takeRingNumber = (): number => {
     const inUse = new Set(openRings.values());
@@ -130,9 +180,10 @@ function writeMolecule(graph: StateGraph, walk: MoleculeWalk, rootMapNumber: num
     }
     return ringNumber;
   };
-  const write = (mapNumber: number): string => {
+  const write = (mapNumber: number, parent: number | undefined): string => {
     const atom = graph.mapNumberToAtom.get(mapNumber);
-    let text = atom === undefined ? "" : atomText(graph, atom);
+    let text =
+      atom === undefined ? "" : atomText(graph, atom, writtenMark(graph, walk, atom, parent));
     for (const target of walk.mapNumberToRingTargets.get(mapNumber) ?? []) {
       const key = `${String(target)}-${String(mapNumber)}`;
       text += `${bondSymbol(graph, target, mapNumber)}${ringNumberText(openRings.get(key) ?? 0)}`;
@@ -145,24 +196,34 @@ function writeMolecule(graph: StateGraph, walk: MoleculeWalk, rootMapNumber: num
     }
     const children = walk.mapNumberToChildren.get(mapNumber) ?? [];
     children.forEach((child, index) => {
-      const branch = `${bondSymbol(graph, mapNumber, child)}${write(child)}`;
+      const branch = `${bondSymbol(graph, mapNumber, child, directions)}${write(child, mapNumber)}`;
       text += index < children.length - 1 ? `(${branch})` : branch;
     });
     return text;
   };
-  return write(rootMapNumber);
+  return write(rootMapNumber, undefined);
 }
 
 /** The state as strict mapped SMILES (see the module comment for the order). */
 export function mappedSmilesFromStateGraph(graph: StateGraph): string {
   const mapNumberToNeighbours = neighboursOf(graph);
   const reached = new Set<number>();
-  const molecules: string[] = [];
+  const walks: [MoleculeWalk, number][] = [];
   for (const mapNumber of [...graph.mapNumberToAtom.keys()].sort(byNumber)) {
     if (!reached.has(mapNumber)) {
-      const walk = walkMolecule(mapNumber, mapNumberToNeighbours, reached);
-      molecules.push(writeMolecule(graph, walk, mapNumber));
+      walks.push([walkMolecule(mapNumber, mapNumberToNeighbours, reached), mapNumber]);
     }
   }
-  return molecules.join(".");
+  const parentOf = new Map<number, number>();
+  for (const [walk] of walks) {
+    for (const [parent, children] of walk.mapNumberToChildren) {
+      children.forEach((child) => parentOf.set(child, parent));
+    }
+  }
+  const directions = directionsForRelations(
+    graph.bondToOrder,
+    graph.bondToDoubleBondRelation ?? new Map(),
+    parentOf,
+  );
+  return walks.map(([walk, root]) => writeMolecule(graph, walk, root, directions)).join(".");
 }

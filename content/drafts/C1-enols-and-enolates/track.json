@@ -1,0 +1,108 @@
+{
+  "formatVersion": 1,
+  "trackSlug": "enols-and-enolates",
+  "title": "Enols and enolates",
+  "goal": "How a carbonyl compound becomes a nucleophile at its α-carbon, and what that nucleophile attacks.",
+  "level": "core",
+  "curriculumCode": "C1",
+  "showcaseReactionSlug": "claisen-schmidt-condensation",
+  "problemSets": [
+    {
+      "problemSetSlug": "tautomerism",
+      "title": "Tautomerism",
+      "conceptInOneLine": "A proton moves from the α-carbon to oxygen: the enol, made with acid or with base.",
+      "conceptCard": "An **enol** is a *tautomer* of its ketone: a different molecule, with a hydrogen moved from the α-carbon to oxygen and C=C in place of C=O. Unlike resonance, tautomerism breaks a C–H bond and makes an O–H bond.\n\nThe ketone is far more stable (acetone is about 1 part in 10⁸ enol), but interconversion is fast with a catalyst:\n\n- **acid**: protonate the oxygen first, then water removes the α-proton\n- **base**: remove the α-proton first (the **enolate**), then protonate the oxygen\n\nAn α-C–H is acidic (pKa about 20 for a ketone) because the enolate shares its charge with oxygen.",
+      "checkpoint": false,
+      "setItems": [
+        {
+          "reactionSlug": "acid-catalysed-enolisation-of-acetone",
+          "whyThisOne": "Acid catalysis: oxygen is protonated before the C–H breaks."
+        },
+        {
+          "reactionSlug": "base-catalysed-enolisation-of-acetone",
+          "whyThisOne": "Base catalysis: the same change in the opposite order, through the enolate."
+        }
+      ]
+    },
+    {
+      "problemSetSlug": "alpha-substitution",
+      "title": "α-Substitution",
+      "conceptInOneLine": "The enol or enolate attacks a halogen at its α-carbon; in base, a methyl ketone goes on to the haloform reaction.",
+      "conceptCard": "An enol is an alkene with an oxygen lone pair pushing into it: a good nucleophile at the **α-carbon**. It attacks Br₂ as the oxygen lone pair forms C=O⁺–H.\n\n- In **acid**, enol formation is the slow step and the reaction stops after one halogen: each halogen makes the carbonyl oxygen less basic.\n- In **base**, each halogen makes the remaining α-hydrogens *more* acidic, so a methyl group is halogenated three times. Hydroxide then adds to the C=O, and **CX₃⁻** leaves: a rare carbon leaving group. This is the *haloform reaction*.",
+      "checkpoint": false,
+      "setItems": [
+        {
+          "reactionSlug": "acid-catalysed-bromination-of-acetone",
+          "whyThisOne": "The enol as a nucleophile, and why acid stops at one bromine."
+        },
+        {
+          "reactionSlug": "haloform-cleavage",
+          "whyThisOne": "Addition–elimination with CBr₃⁻ as the leaving group."
+        }
+      ]
+    },
+    {
+      "problemSetSlug": "enolate-alkylation",
+      "title": "Enolate alkylation",
+      "conceptInOneLine": "LDA converts a ketone fully into its enolate, which attacks an alkyl halide by SN2.",
+      "conceptCard": "**LDA** (lithium diisopropylamide) is strong (pKa of its conjugate acid about 36) and too hindered to add to C=O. At −78 °C it turns a ketone completely into its lithium enolate; then the electrophile is added.\n\nThe enolate attacks a methyl or primary alkyl halide by **SN2** through its α-carbon, while the oxygen lone pair re-forms C=O.\n\nAn unsymmetrical ketone has two enolates:\n\n- the **kinetic** enolate forms faster: the less hindered proton (LDA, −78 °C, no proton source)\n- the **thermodynamic** enolate is more stable: the more substituted C=C (equilibrating conditions)",
+      "checkpoint": false,
+      "setItems": [
+        {
+          "reactionSlug": "lda-and-cyclohexanone-methylation",
+          "whyThisOne": "Full deprotonation first, then an SN2 on iodomethane."
+        },
+        {
+          "reactionSlug": "kinetic-enolate-of-2-methylcyclohexanone",
+          "whyThisOne": "Two possible enolates: which one LDA makes at −78 °C."
+        }
+      ]
+    },
+    {
+      "problemSetSlug": "aldol",
+      "title": "The aldol reaction",
+      "conceptInOneLine": "An enolate adds to a second carbonyl compound; heating with base then removes water by E1cB.",
+      "conceptCard": "With a weak base such as hydroxide, only a little enolate forms, and it attacks the carbonyl compound still present: the **aldol** reaction makes a **β-hydroxy carbonyl** compound.\n\nThe α-hydrogen of the aldol is still acidic. Its enolate can push out hydroxide by **E1cB**, giving a conjugated enone: an *aldol condensation*.\n\nA **crossed** aldol is clean when one partner has no α-hydrogens and is the better electrophile, such as benzaldehyde with acetone (the *Claisen–Schmidt* condensation).",
+      "checkpoint": false,
+      "setItems": [
+        {
+          "reactionSlug": "aldol-addition-base",
+          "whyThisOne": "The basic aldol: an enolate adds to a second aldehyde."
+        },
+        {
+          "reactionSlug": "claisen-schmidt-condensation",
+          "whyThisOne": "A crossed aldol that goes on to the conjugated enone."
+        }
+      ]
+    },
+    {
+      "problemSetSlug": "enols-and-enolates-checkpoint",
+      "title": "Checkpoint",
+      "conceptInOneLine": "Make the enol or enolate, then decide what it attacks.",
+      "conceptCard": "Reactions from every set, shuffled, names hidden until you finish. Three attempts per step.",
+      "checkpoint": true,
+      "setItems": [
+        {
+          "reactionSlug": "base-catalysed-enolisation-of-acetone",
+          "whyThisOne": "Tautomerism through the enolate."
+        },
+        {
+          "reactionSlug": "acid-catalysed-bromination-of-acetone",
+          "whyThisOne": "The enol attacks a halogen."
+        },
+        {
+          "reactionSlug": "haloform-cleavage",
+          "whyThisOne": "A carbon leaving group."
+        },
+        {
+          "reactionSlug": "kinetic-enolate-of-2-methylcyclohexanone",
+          "whyThisOne": "Choosing the enolate."
+        },
+        {
+          "reactionSlug": "claisen-schmidt-condensation",
+          "whyThisOne": "Aldol and E1cB in one sequence."
+        }
+      ]
+    }
+  ]
+}

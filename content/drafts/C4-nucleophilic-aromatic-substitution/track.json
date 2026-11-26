@@ -1,0 +1,95 @@
+{
+  "formatVersion": 1,
+  "trackSlug": "nucleophilic-aromatic-substitution",
+  "title": "Nucleophilic aromatic substitution",
+  "goal": "When an arene is attacked by a nucleophile: Meisenheimer complexes, benzyne and diazonium salts.",
+  "level": "core",
+  "curriculumCode": "C4",
+  "showcaseReactionSlug": "methoxide-and-2-4-dinitrochlorobenzene",
+  "problemSets": [
+    {
+      "problemSetSlug": "snar",
+      "title": "Addition–elimination (SNAr)",
+      "conceptInOneLine": "A nucleophile adds to an electron-poor ring, the charge sits on a nitro group, then the leaving group goes.",
+      "conceptCard": "An ordinary benzene ring is electron-rich and ignores nucleophiles. Put **nitro groups** (or other strong electron-withdrawing groups) **ortho or para** to a leaving group and the ring turns electrophilic.\n\nThe mechanism has two steps, like a substitution at a carbonyl group:\n\n- the nucleophile **adds** to the carbon bearing the leaving group; the ring loses its aromaticity and the negative charge spreads onto the nitro groups: the **Meisenheimer complex**\n- the leaving group **leaves** and the ring is aromatic again\n\nThere is no SN2 here: a ring carbon cannot be attacked from behind. A nitro group **meta** to the leaving group does not help, because the charge never reaches the carbon bearing it.\n\nThe addition is the slow step, so the best leaving group is the one that makes the ring carbon most electrophilic: **F > Cl ≈ Br > I**, the reverse of SN2.",
+      "checkpoint": false,
+      "setItems": [
+        {
+          "reactionSlug": "methoxide-and-2-4-dinitrochlorobenzene",
+          "whyThisOne": "The parent SNAr: addition to the Meisenheimer complex, then chloride leaves."
+        },
+        {
+          "reactionSlug": "dimethylamine-and-2-4-dinitrofluorobenzene",
+          "whyThisOne": "An amine, the para nitro group, and why fluoride is the best leaving group."
+        }
+      ]
+    },
+    {
+      "problemSetSlug": "benzyne",
+      "title": "Benzyne",
+      "conceptInOneLine": "With no activating groups, a very strong base eliminates HX to give benzyne, which then adds the nucleophile.",
+      "conceptCard": "Chlorobenzene does not react with nucleophiles by SNAr: nothing can hold the negative charge. A very strong base such as **NaNH₂** takes another route:\n\n- it removes the proton **next to** the halogen, and the halide leaves: an elimination giving **benzyne**\n- benzyne's extra π bond is made from two sp² orbitals in the ring plane that barely overlap, so it is strained and very electrophilic\n- the nucleophile adds to **either end** of that bond, and the aryl anion takes a proton\n\nSo the new group can end up on the carbon that carried the halogen *or on its neighbour*. With a substituent on the ring this gives **two regioisomers**; both are correct answers.",
+      "checkpoint": false,
+      "setItems": [
+        {
+          "reactionSlug": "benzyne-from-4-chlorotoluene",
+          "whyThisOne": "Elimination to benzyne, then addition at either end: two toluidines."
+        }
+      ]
+    },
+    {
+      "problemSetSlug": "diazonium-salts",
+      "title": "Diazonium salts",
+      "conceptInOneLine": "Nitrous acid turns an aniline into Ar–N₂⁺, which couples with phenols or loses N₂.",
+      "conceptCard": "Sodium nitrite and acid at 0–5 °C make the **nitrosonium ion**, NO⁺. An aniline attacks it at nitrogen; proton transfers and loss of water then give the **aryl diazonium ion**, Ar–N⁺≡N.\n\nA diazonium ion does two kinds of thing:\n\n- **keeps its nitrogens**: as a weak electrophile it attacks very electron-rich arenes such as phenoxide (**azo coupling**, giving azo dyes); see Electrophilic aromatic substitution\n- **loses them**: N₂ is a superb leaving group. Warmed in water, it leaves and the phenyl cation is trapped by water, giving a **phenol**\n\nSo an amino group, put on a ring by nitration and reduction, can be swapped for other groups. The *Sandmeyer reaction* (CuCl, CuBr, CuCN) does the same with copper; it comes later, once the trainer can draw transition metals.",
+      "checkpoint": false,
+      "setItems": [
+        {
+          "reactionSlug": "nitrosonium-ion-formation",
+          "whyThisOne": "Making the electrophile, NO⁺, from nitrous acid."
+        },
+        {
+          "reactionSlug": "diazotisation-of-aniline",
+          "whyThisOne": "N-nitrosation, proton shuffles and loss of water to Ar–N₂⁺."
+        },
+        {
+          "reactionSlug": "azo-coupling",
+          "whyThisOne": "The diazonium ion as an electrophile: an azo dye."
+        },
+        {
+          "reactionSlug": "diazonium-hydrolysis",
+          "whyThisOne": "Losing N₂: an SN1-like substitution on a ring."
+        }
+      ]
+    },
+    {
+      "problemSetSlug": "checkpoint",
+      "title": "Checkpoint",
+      "conceptInOneLine": "Five reactions from this track, shuffled, with their names hidden.",
+      "conceptCard": "Five reactions from this track, in random order and without their names. For each one, ask:\n\n- is the ring electron-poor (nitro groups ortho or para to a leaving group), or is the base very strong?\n- does the nucleophile add first, or does something leave first?\n- where does the negative (or positive) charge go?\n- which nitrogen of a diazonium ion is the electrophile, and when does N₂ leave?",
+      "checkpoint": true,
+      "setItems": [
+        {
+          "reactionSlug": "methoxide-and-2-4-dinitrochlorobenzene",
+          "whyThisOne": "Addition first, then the leaving group."
+        },
+        {
+          "reactionSlug": "benzyne-from-4-chlorotoluene",
+          "whyThisOne": "No nitro groups: elimination first."
+        },
+        {
+          "reactionSlug": "diazotisation-of-aniline",
+          "whyThisOne": "From an amine to a diazonium ion."
+        },
+        {
+          "reactionSlug": "azo-coupling",
+          "whyThisOne": "The diazonium ion keeps its nitrogens."
+        },
+        {
+          "reactionSlug": "diazonium-hydrolysis",
+          "whyThisOne": "The diazonium ion loses N₂."
+        }
+      ]
+    }
+  ]
+}

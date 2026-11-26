@@ -1,0 +1,1045 @@
+{
+  "formatVersion": 1,
+  "reactionSlug": "meerwein-ponndorf-verley-reduction",
+  "reactionVersion": 1,
+  "previousReactionVersion": null,
+  "title": "Meerwein–Ponndorf–Verley reduction",
+  "subtitle": "Aluminium isopropoxide passes a hydride from isopropanol to a ketone through a six-membered ring",
+  "reactionClasses": [
+    "carbonyl",
+    "addition"
+  ],
+  "difficultyTier": 3,
+  "conditionsLabel": "Al(OiPr)₃ · iPrOH · reflux",
+  "dailyPuzzleEligible": true,
+  "atomRoleToMapNumbers": {
+    "carbonylCarbon": [
+      2
+    ],
+    "carbonylOxygen": [
+      1
+    ],
+    "aluminium": [
+      10
+    ]
+  },
+  "spectatorMapNumbers": [],
+  "abbreviatedGroups": [
+    {
+      "groupLabel": "OiPr",
+      "attachmentMapNumber": 16,
+      "mapNumbers": [
+        16,
+        17,
+        18,
+        19
+      ]
+    },
+    {
+      "groupLabel": "OiPr",
+      "attachmentMapNumber": 40,
+      "mapNumbers": [
+        40,
+        41,
+        42,
+        43
+      ]
+    }
+  ],
+  "startStateId": "reactants",
+  "stateIdToState": {
+    "reactants": {
+      "mappedSmiles": "[O:1]=[C:2]1[CH2:3][CH2:4][CH2:5][CH2:6][CH2:7]1.[Al:10]([O:11][C:12]([H:13])([CH3:14])[CH3:15])([O:16][CH:17]([CH3:18])[CH3:19])[O:40][CH:41]([CH3:42])[CH3:43].[H:31][O:30][CH:32]([CH3:33])[CH3:34]",
+      "mapNumberToCoordinates": {
+        "1": [
+          3,
+          0
+        ],
+        "2": [
+          1.5,
+          0
+        ],
+        "3": [
+          0.75,
+          1.3
+        ],
+        "4": [
+          -0.75,
+          1.3
+        ],
+        "5": [
+          -1.5,
+          0
+        ],
+        "6": [
+          -0.75,
+          -1.3
+        ],
+        "7": [
+          0.75,
+          -1.3
+        ],
+        "10": [
+          4.3,
+          6.12
+        ],
+        "11": [
+          2.8,
+          6.12
+        ],
+        "12": [
+          2.05,
+          4.82
+        ],
+        "13": [
+          3.35,
+          4.07
+        ],
+        "14": [
+          0.75,
+          5.57
+        ],
+        "15": [
+          1.3,
+          3.52
+        ],
+        "16": [
+          5.05,
+          4.82
+        ],
+        "17": [
+          6.55,
+          4.82
+        ],
+        "18": [
+          7.3,
+          3.52
+        ],
+        "19": [
+          7.3,
+          6.12
+        ],
+        "30": [
+          7.51,
+          1.04
+        ],
+        "31": [
+          8.81,
+          1.79
+        ],
+        "32": [
+          7.51,
+          -0.46
+        ],
+        "33": [
+          6.21,
+          -1.21
+        ],
+        "34": [
+          8.81,
+          -1.21
+        ],
+        "40": [
+          5.05,
+          7.42
+        ],
+        "41": [
+          4.3,
+          8.72
+        ],
+        "42": [
+          2.8,
+          8.72
+        ],
+        "43": [
+          5.05,
+          10.02
+        ]
+      },
+      "caption": "cyclohexanone + aluminium isopropoxide + isopropanol",
+      "learnerPrompt": "Aluminium isopropoxide is a Lewis acid. Start by binding the ketone.",
+      "hintTiers": [
+        "Aluminium with three bonds has only six electrons. Which atom of the ketone can give it a lone pair?",
+        "The carbonyl oxygen makes a bond to aluminium with one of its lone pairs. One arrow.",
+        "Carbonyl oxygen lone pair → new O–Al bond."
+      ],
+      "misconceptions": [
+        {
+          "misconceptionId": "isopropoxide-adds",
+          "misconceptionTag": "unproductive-addition",
+          "severity": "plausible",
+          "arrowPattern": "lp O11 -> C2",
+          "feedbackMessage": "An isopropoxide oxygen adding to the ketone carbon gives only a hemiketal-like adduct that falls apart. Aluminium is the electron-poor atom: let the ketone oxygen bind it."
+        },
+        {
+          "misconceptionId": "isopropanol-attacks-carbonyl",
+          "misconceptionTag": "attack-weak-nucleophile",
+          "severity": "wrong",
+          "arrowPattern": "lp O30 -> C2",
+          "feedbackMessage": "Isopropanol is a weak nucleophile and its addition would only make a hemiketal. Bind the ketone to aluminium first."
+        },
+        {
+          "misconceptionId": "no-hydride-on-aluminium",
+          "misconceptionTag": "missing-hydride-source",
+          "severity": "wrong",
+          "arrowPattern": "σ Al10-* -> C2",
+          "feedbackMessage": "There is no Al–H bond here. The hydride will come from a C–H of an isopropoxide group, once the ketone is bound to aluminium."
+        }
+      ]
+    },
+    "aluminium-complex": {
+      "mappedSmiles": "[O+:1](=[C:2]1[CH2:3][CH2:4][CH2:5][CH2:6][CH2:7]1)[Al-:10]([O:11][C:12]([H:13])([CH3:14])[CH3:15])([O:16][CH:17]([CH3:18])[CH3:19])[O:40][CH:41]([CH3:42])[CH3:43].[H:31][O:30][CH:32]([CH3:33])[CH3:34]",
+      "mapNumberToCoordinates": {
+        "1": [
+          3,
+          0
+        ],
+        "2": [
+          3.75,
+          1.3
+        ],
+        "3": [
+          3,
+          2.6
+        ],
+        "4": [
+          3.75,
+          3.9
+        ],
+        "5": [
+          5.25,
+          3.9
+        ],
+        "6": [
+          6,
+          2.6
+        ],
+        "7": [
+          5.25,
+          1.3
+        ],
+        "10": [
+          3.75,
+          -1.3
+        ],
+        "11": [
+          4.5,
+          -2.6
+        ],
+        "12": [
+          3.75,
+          -3.9
+        ],
+        "13": [
+          5.05,
+          -4.65
+        ],
+        "14": [
+          2.45,
+          -3.15
+        ],
+        "15": [
+          3,
+          -5.2
+        ],
+        "16": [
+          5.05,
+          -0.55
+        ],
+        "17": [
+          6.35,
+          -1.3
+        ],
+        "18": [
+          7.65,
+          -0.55
+        ],
+        "19": [
+          6.35,
+          -2.8
+        ],
+        "30": [
+          11.05,
+          2.59
+        ],
+        "31": [
+          12.35,
+          3.34
+        ],
+        "32": [
+          11.05,
+          1.09
+        ],
+        "33": [
+          9.75,
+          0.34
+        ],
+        "34": [
+          12.35,
+          0.34
+        ],
+        "40": [
+          2.45,
+          -2.05
+        ],
+        "41": [
+          1.15,
+          -1.3
+        ],
+        "42": [
+          -0.15,
+          -2.05
+        ],
+        "43": [
+          1.15,
+          0.2
+        ]
+      },
+      "caption": "ketone bound to aluminium",
+      "learnerPrompt": "The hydride transfer: ketone and isopropoxide sit side by side on aluminium.",
+      "hintTiers": [
+        "Count round the ring: carbonyl carbon, oxygen, aluminium, isopropoxide oxygen, its C–H carbon, hydrogen. Which C–H can reach the carbonyl carbon?",
+        "Three arrows in one step: the C–H bond of the bound isopropoxide makes a new C–H bond to the carbonyl carbon, the C=O π pair goes onto oxygen, and the isopropoxide oxygen makes a C=O π bond.",
+        "Isopropoxide C–H bond → new C–H bond to the carbonyl carbon; C=O π bond → lone pair on the ketone oxygen; isopropoxide oxygen lone pair → new C=O π bond (acetone)."
+      ],
+      "misconceptions": [
+        {
+          "misconceptionId": "free-isopropanol-gives-hydride",
+          "misconceptionTag": "intermolecular-hydride",
+          "severity": "plausible",
+          "arrowPattern": "σ C32-* -> C2",
+          "feedbackMessage": "The C–H of free isopropanol is too far away and nothing pushes it. The hydride comes from the isopropoxide already on aluminium, through a six-membered ring."
+        },
+        {
+          "misconceptionId": "isopropoxide-adds-to-carbon",
+          "misconceptionTag": "unproductive-addition",
+          "severity": "plausible",
+          "arrowPattern": "lp O11 -> C2",
+          "feedbackMessage": "The isopropoxide oxygen could add to the activated carbonyl, but that is a dead end. The isopropoxide gives a hydride from its C–H instead."
+        },
+        {
+          "misconceptionId": "ketone-leaves-aluminium",
+          "misconceptionTag": "reverse-step",
+          "severity": "plausible",
+          "arrowPattern": "σ O1-Al10 -> lp O1",
+          "feedbackMessage": "That just releases the ketone again. Move a hydride onto it while it is bound."
+        }
+      ],
+      "partialProgressMessages": [
+        {
+          "learnerArrows": [
+            "σ C12-H13 -> σ C2-H13",
+            "π C2-O1 -> lp O1"
+          ],
+          "feedbackMessage": "Hydride and the C=O pair are right. The carbon that lost its hydride is now short of electrons: its oxygen gives a lone pair to make acetone's C=O."
+        }
+      ]
+    },
+    "acetone-complex": {
+      "mappedSmiles": "[C:2]1([H:13])([O:1][Al-:10]([O+:11]=[C:12]([CH3:14])[CH3:15])([O:16][CH:17]([CH3:18])[CH3:19])[O:40][CH:41]([CH3:42])[CH3:43])[CH2:3][CH2:4][CH2:5][CH2:6][CH2:7]1.[H:31][O:30][CH:32]([CH3:33])[CH3:34]",
+      "mapNumberToCoordinates": {
+        "1": [
+          2.65,
+          -0.96
+        ],
+        "2": [
+          1.5,
+          0
+        ],
+        "3": [
+          0.75,
+          1.3
+        ],
+        "4": [
+          -0.75,
+          1.3
+        ],
+        "5": [
+          -1.5,
+          0
+        ],
+        "6": [
+          -0.75,
+          -1.3
+        ],
+        "7": [
+          0.75,
+          -1.3
+        ],
+        "10": [
+          2.39,
+          -2.44
+        ],
+        "11": [
+          2.13,
+          -3.92
+        ],
+        "12": [
+          3.28,
+          -4.88
+        ],
+        "13": [
+          2.65,
+          0.96
+        ],
+        "14": [
+          3.02,
+          -6.36
+        ],
+        "15": [
+          4.69,
+          -4.37
+        ],
+        "16": [
+          3.87,
+          -2.7
+        ],
+        "17": [
+          4.83,
+          -1.55
+        ],
+        "18": [
+          6.31,
+          -1.81
+        ],
+        "19": [
+          4.32,
+          -0.14
+        ],
+        "30": [
+          1.22,
+          5.74
+        ],
+        "31": [
+          2.52,
+          6.49
+        ],
+        "32": [
+          1.22,
+          4.24
+        ],
+        "33": [
+          -0.07,
+          3.49
+        ],
+        "34": [
+          2.52,
+          3.49
+        ],
+        "40": [
+          0.91,
+          -2.18
+        ],
+        "41": [
+          -0.05,
+          -3.33
+        ],
+        "42": [
+          -1.53,
+          -3.07
+        ],
+        "43": [
+          0.46,
+          -4.74
+        ]
+      },
+      "caption": "cyclohexyl oxide and acetone on aluminium",
+      "learnerPrompt": "Acetone leaves aluminium.",
+      "hintTiers": [
+        "Which oxygen on aluminium belongs to a neutral molecule that can simply leave?",
+        "The bond from aluminium to the acetone oxygen breaks, its pair going back to that oxygen. One arrow.",
+        "O–Al bond to the acetone oxygen → lone pair on the acetone oxygen."
+      ],
+      "misconceptions": [
+        {
+          "misconceptionId": "cyclohexyl-oxide-leaves",
+          "misconceptionTag": "wrong-group-leaves",
+          "severity": "plausible",
+          "arrowPattern": "σ O1-Al10 -> lp O1",
+          "feedbackMessage": "That would release a free alkoxide anion. Acetone is neutral and leaves easily; the cyclohexyl oxide stays on aluminium until isopropanol swaps it off."
+        },
+        {
+          "misconceptionId": "hydride-goes-back",
+          "misconceptionTag": "reverse-step",
+          "severity": "plausible",
+          "arrowPattern": "σ C2-H13 -> *",
+          "feedbackMessage": "Moving the hydride back reverses the last step. Each step is reversible, but acetone is removed by distillation, which pulls the reaction forwards: let acetone go."
+        }
+      ]
+    },
+    "aluminium-alkoxide": {
+      "mappedSmiles": "[C:2]1([H:13])([O:1][Al:10]([O:16][CH:17]([CH3:18])[CH3:19])[O:40][CH:41]([CH3:42])[CH3:43])[CH2:3][CH2:4][CH2:5][CH2:6][CH2:7]1.[O:11]=[C:12]([CH3:14])[CH3:15].[H:31][O:30][CH:32]([CH3:33])[CH3:34]",
+      "mapNumberToCoordinates": {
+        "1": [
+          2.65,
+          -0.96
+        ],
+        "2": [
+          4.06,
+          -0.45
+        ],
+        "3": [
+          5.21,
+          0.51
+        ],
+        "4": [
+          6.62,
+          0
+        ],
+        "5": [
+          6.88,
+          -1.48
+        ],
+        "6": [
+          5.73,
+          -2.44
+        ],
+        "7": [
+          4.32,
+          -1.93
+        ],
+        "10": [
+          2.39,
+          -2.44
+        ],
+        "11": [
+          0.91,
+          5.1
+        ],
+        "12": [
+          0.91,
+          3.6
+        ],
+        "13": [
+          3.31,
+          0.85
+        ],
+        "14": [
+          -0.39,
+          2.85
+        ],
+        "15": [
+          2.2,
+          2.85
+        ],
+        "16": [
+          3.54,
+          -3.41
+        ],
+        "17": [
+          3.28,
+          -4.88
+        ],
+        "18": [
+          4.43,
+          -5.85
+        ],
+        "19": [
+          1.87,
+          -5.4
+        ],
+        "30": [
+          10.16,
+          2.77
+        ],
+        "31": [
+          11.45,
+          3.52
+        ],
+        "32": [
+          10.16,
+          1.27
+        ],
+        "33": [
+          8.86,
+          0.52
+        ],
+        "34": [
+          11.45,
+          0.52
+        ],
+        "40": [
+          0.98,
+          -2.95
+        ],
+        "41": [
+          -0.17,
+          -1.99
+        ],
+        "42": [
+          -1.58,
+          -2.5
+        ],
+        "43": [
+          0.09,
+          -0.51
+        ]
+      },
+      "caption": "cyclohexyl aluminium alkoxide + acetone + isopropanol",
+      "learnerPrompt": "Isopropanol, the solvent, comes in to exchange.",
+      "hintTiers": [
+        "Aluminium has six electrons again. Which molecule in large excess can give it a lone pair?",
+        "Isopropanol's oxygen makes a bond to aluminium with a lone pair. One arrow.",
+        "Isopropanol oxygen lone pair → new O–Al bond."
+      ],
+      "misconceptions": [
+        {
+          "misconceptionId": "acetone-binds-back",
+          "misconceptionTag": "reverse-step",
+          "severity": "plausible",
+          "arrowPattern": "lp O11 -> Al10",
+          "feedbackMessage": "Acetone binding again reverses the last step. Isopropanol is the solvent, in large excess, and it is acetone that is distilled off."
+        },
+        {
+          "misconceptionId": "isopropanol-attacks-acetone",
+          "misconceptionTag": "unproductive-addition",
+          "severity": "plausible",
+          "arrowPattern": "lp O30 -> C12",
+          "feedbackMessage": "That only makes a hemiketal, which falls apart. Isopropanol binds aluminium."
+        }
+      ]
+    },
+    "isopropanol-complex": {
+      "mappedSmiles": "[C:2]1([H:13])([O:1][Al-:10]([O:16][CH:17]([CH3:18])[CH3:19])([O:40][CH:41]([CH3:42])[CH3:43])[O+:30]([H:31])[CH:32]([CH3:33])[CH3:34])[CH2:3][CH2:4][CH2:5][CH2:6][CH2:7]1.[O:11]=[C:12]([CH3:14])[CH3:15]",
+      "mapNumberToCoordinates": {
+        "1": [
+          2.65,
+          -0.96
+        ],
+        "2": [
+          1.5,
+          0
+        ],
+        "3": [
+          0.75,
+          1.3
+        ],
+        "4": [
+          -0.75,
+          1.3
+        ],
+        "5": [
+          -1.5,
+          0
+        ],
+        "6": [
+          -0.75,
+          -1.3
+        ],
+        "7": [
+          0.75,
+          -1.3
+        ],
+        "10": [
+          2.39,
+          -2.44
+        ],
+        "11": [
+          1.13,
+          5.76
+        ],
+        "12": [
+          1.13,
+          4.26
+        ],
+        "13": [
+          2.65,
+          0.96
+        ],
+        "14": [
+          -0.17,
+          3.51
+        ],
+        "15": [
+          2.43,
+          3.51
+        ],
+        "16": [
+          2.13,
+          -3.92
+        ],
+        "17": [
+          3.28,
+          -4.88
+        ],
+        "18": [
+          3.02,
+          -6.36
+        ],
+        "19": [
+          4.46,
+          -4.61
+        ],
+        "30": [
+          3.87,
+          -2.7
+        ],
+        "31": [
+          4.42,
+          -3.78
+        ],
+        "32": [
+          4.83,
+          -1.55
+        ],
+        "33": [
+          6.31,
+          -1.81
+        ],
+        "34": [
+          4.32,
+          -0.14
+        ],
+        "40": [
+          0.91,
+          -2.18
+        ],
+        "41": [
+          -0.05,
+          -3.33
+        ],
+        "42": [
+          -1.53,
+          -3.07
+        ],
+        "43": [
+          0.46,
+          -4.74
+        ]
+      },
+      "caption": "isopropanol bound to aluminium + acetone",
+      "learnerPrompt": "Move the proton.",
+      "hintTiers": [
+        "The bound isopropanol is now acidic. Which oxygen on aluminium is the most basic place for its proton?",
+        "The cyclohexyl oxide oxygen takes the proton; the O–H pair stays on the isopropanol oxygen. Two arrows.",
+        "Cyclohexyl oxide oxygen lone pair → new O–H bond to the proton; the other O–H bond → lone pair on the isopropanol oxygen."
+      ],
+      "misconceptions": [
+        {
+          "misconceptionId": "isopropanol-leaves-again",
+          "misconceptionTag": "reverse-step",
+          "severity": "plausible",
+          "arrowPattern": "σ O30-Al10 -> lp O30",
+          "feedbackMessage": "That just undoes the binding. Move the proton across to the cyclohexyl oxide."
+        }
+      ]
+    },
+    "protonated-alcohol-complex": {
+      "mappedSmiles": "[C:2]1([H:13])([O+:1]([H:31])[Al-:10]([O:16][CH:17]([CH3:18])[CH3:19])([O:40][CH:41]([CH3:42])[CH3:43])[O:30][CH:32]([CH3:33])[CH3:34])[CH2:3][CH2:4][CH2:5][CH2:6][CH2:7]1.[O:11]=[C:12]([CH3:14])[CH3:15]",
+      "mapNumberToCoordinates": {
+        "1": [
+          2.65,
+          -0.96
+        ],
+        "2": [
+          1.5,
+          0
+        ],
+        "3": [
+          0.09,
+          0.51
+        ],
+        "4": [
+          -0.17,
+          1.99
+        ],
+        "5": [
+          0.98,
+          2.95
+        ],
+        "6": [
+          2.39,
+          2.44
+        ],
+        "7": [
+          2.65,
+          0.96
+        ],
+        "10": [
+          4.06,
+          -0.45
+        ],
+        "11": [
+          1.06,
+          7.37
+        ],
+        "12": [
+          1.06,
+          5.87
+        ],
+        "13": [
+          0.75,
+          -1.3
+        ],
+        "14": [
+          -0.24,
+          5.12
+        ],
+        "15": [
+          2.36,
+          5.12
+        ],
+        "16": [
+          5.47,
+          0.06
+        ],
+        "17": [
+          6.62,
+          -0.9
+        ],
+        "18": [
+          8.03,
+          -0.39
+        ],
+        "19": [
+          6.36,
+          -2.38
+        ],
+        "30": [
+          4.57,
+          -1.86
+        ],
+        "31": [
+          2.29,
+          -2.13
+        ],
+        "32": [
+          3.61,
+          -3.01
+        ],
+        "33": [
+          2.39,
+          -2.95
+        ],
+        "34": [
+          4.12,
+          -4.42
+        ],
+        "40": [
+          3.55,
+          0.96
+        ],
+        "41": [
+          4.51,
+          2.11
+        ],
+        "42": [
+          4,
+          3.52
+        ],
+        "43": [
+          5.99,
+          1.85
+        ]
+      },
+      "caption": "cyclohexanol bound to aluminium + acetone",
+      "learnerPrompt": "Release the product.",
+      "hintTiers": [
+        "Cyclohexanol is now a neutral molecule bound to aluminium. How does it leave?",
+        "The O–Al bond to the cyclohexanol oxygen breaks, its pair going to that oxygen. One arrow.",
+        "O–Al bond to the cyclohexanol oxygen → lone pair on that oxygen."
+      ],
+      "misconceptions": [
+        {
+          "misconceptionId": "new-isopropoxide-leaves",
+          "misconceptionTag": "wrong-group-leaves",
+          "severity": "wrong",
+          "arrowPattern": "σ O30-Al10 -> lp O30",
+          "feedbackMessage": "That would throw off an isopropoxide anion. Cyclohexanol is the neutral molecule that leaves."
+        }
+      ]
+    },
+    "products": {
+      "mappedSmiles": "[C:2]1([H:13])([O:1][H:31])[CH2:3][CH2:4][CH2:5][CH2:6][CH2:7]1.[Al:10]([O:16][CH:17]([CH3:18])[CH3:19])([O:40][CH:41]([CH3:42])[CH3:43])[O:30][CH:32]([CH3:33])[CH3:34].[O:11]=[C:12]([CH3:14])[CH3:15]",
+      "mapNumberToCoordinates": {
+        "1": [
+          2.65,
+          -0.96
+        ],
+        "2": [
+          1.5,
+          0
+        ],
+        "3": [
+          0.75,
+          1.3
+        ],
+        "4": [
+          -0.75,
+          1.3
+        ],
+        "5": [
+          -1.5,
+          0
+        ],
+        "6": [
+          -0.75,
+          -1.3
+        ],
+        "7": [
+          0.75,
+          -1.3
+        ],
+        "10": [
+          2.99,
+          6.54
+        ],
+        "11": [
+          6.1,
+          2.54
+        ],
+        "12": [
+          6.1,
+          1.04
+        ],
+        "13": [
+          2.65,
+          0.96
+        ],
+        "14": [
+          4.8,
+          0.29
+        ],
+        "15": [
+          7.4,
+          0.29
+        ],
+        "16": [
+          1.69,
+          5.79
+        ],
+        "17": [
+          1.69,
+          4.29
+        ],
+        "18": [
+          0.39,
+          3.54
+        ],
+        "19": [
+          2.99,
+          3.54
+        ],
+        "30": [
+          2.99,
+          8.04
+        ],
+        "31": [
+          2.39,
+          -2.44
+        ],
+        "32": [
+          1.69,
+          8.79
+        ],
+        "33": [
+          1.69,
+          10.29
+        ],
+        "34": [
+          0.39,
+          8.04
+        ],
+        "40": [
+          4.29,
+          5.79
+        ],
+        "41": [
+          5.58,
+          6.54
+        ],
+        "42": [
+          6.88,
+          5.79
+        ],
+        "43": [
+          5.58,
+          8.04
+        ]
+      },
+      "caption": "cyclohexanol + aluminium isopropoxide + acetone"
+    }
+  },
+  "steps": [
+    {
+      "stepKey": "ketone-binds-aluminium",
+      "fromStateId": "reactants",
+      "toStateId": "aluminium-complex",
+      "stepKind": "polar",
+      "routePreference": "preferred",
+      "canonicalArrows": [
+        "lp O1 -> σ O1-Al10"
+      ],
+      "explanationAfterStep": "The ketone oxygen binds aluminium. The ketone and an isopropoxide group now sit on the same metal."
+    },
+    {
+      "stepKey": "hydride-transfer",
+      "fromStateId": "aluminium-complex",
+      "toStateId": "acetone-complex",
+      "stepKind": "polar",
+      "routePreference": "preferred",
+      "canonicalArrows": [
+        "σ C12-H13 -> σ C2-H13",
+        "π C2-O1 -> lp O1",
+        "lp O11 -> π O11-C12"
+      ],
+      "explanationAfterStep": "A hydride moves from the isopropoxide carbon to the ketone carbon through a six-membered ring (C, O, Al, O, C, H). The isopropoxide becomes acetone; the ketone becomes an alkoxide on aluminium. No metal hydride is involved."
+    },
+    {
+      "stepKey": "acetone-leaves",
+      "fromStateId": "acetone-complex",
+      "toStateId": "aluminium-alkoxide",
+      "stepKind": "polar",
+      "routePreference": "preferred",
+      "canonicalArrows": [
+        "σ O11-Al10 -> lp O11"
+      ],
+      "explanationAfterStep": "Acetone leaves aluminium. Every step is reversible (run backwards it is the Oppenauer oxidation); distilling off the volatile acetone drives the reduction."
+    },
+    {
+      "stepKey": "isopropanol-binds",
+      "fromStateId": "aluminium-alkoxide",
+      "toStateId": "isopropanol-complex",
+      "stepKind": "polar",
+      "routePreference": "preferred",
+      "canonicalArrows": [
+        "lp O30 -> σ O30-Al10"
+      ],
+      "explanationAfterStep": "Isopropanol, the solvent, binds aluminium."
+    },
+    {
+      "stepKey": "proton-transfer",
+      "fromStateId": "isopropanol-complex",
+      "toStateId": "protonated-alcohol-complex",
+      "stepKind": "polar",
+      "routePreference": "preferred",
+      "canonicalArrows": [
+        "lp O1 -> σ O1-H31",
+        "σ O30-H31 -> lp O30"
+      ],
+      "explanationAfterStep": "The proton moves from the bound isopropanol to the cyclohexyl oxide oxygen: a new isopropoxide group is made on aluminium."
+    },
+    {
+      "stepKey": "alcohol-leaves",
+      "fromStateId": "protonated-alcohol-complex",
+      "toStateId": "products",
+      "stepKind": "polar",
+      "routePreference": "preferred",
+      "canonicalArrows": [
+        "σ O1-Al10 -> lp O1"
+      ],
+      "explanationAfterStep": "Cyclohexanol leaves and aluminium isopropoxide is regenerated, ready to reduce the next ketone. Overall, isopropanol has reduced cyclohexanone and been oxidised to acetone."
+    }
+  ],
+  "mechanismSummary": "Cyclohexanone binds aluminium isopropoxide through its oxygen. In a six-membered ring a hydride moves from an isopropoxide C–H to the carbonyl carbon, turning that isopropoxide into acetone. Acetone leaves (it is distilled off), isopropanol binds, a proton moves to the cyclohexyl oxide and cyclohexanol is released, regenerating Al(OiPr)₃. The reagent touches only C=O, so C=C bonds and esters survive.",
+  "references": [
+    "Clayden, Greeves and Warren, Organic Chemistry, 2nd edition (Oxford University Press), chapter 23"
+  ],
+  "authors": [
+    {
+      "name": "Maksim",
+      "url": null
+    }
+  ],
+  "licence": "CC-BY-SA-4.0"
+}

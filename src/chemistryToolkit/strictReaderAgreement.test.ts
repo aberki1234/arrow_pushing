@@ -8,6 +8,7 @@
  */
 import { beforeAll, expect, it } from "vitest";
 import { stateGraphFromMappedSmiles } from "../stateGraphs/mappedSmilesReading.js";
+import { mappedSmilesFromStateGraph } from "../stateGraphs/mappedSmilesWriting.js";
 import { bondKey, formalCharge } from "../stateGraphs/stateGraph.js";
 import {
   exampleReactionDocuments,
@@ -66,6 +67,18 @@ function rdkitReading(mappedSmiles: string): { atoms: object; bonds: object } {
     ),
   };
 }
+
+const stereoFixtureSmiles = fixtureSmiles.filter((mappedSmiles) => /[@/\\]/u.test(mappedSmiles));
+
+it.each(stereoFixtureSmiles)(
+  "RDKit finds the same stereoisomer in %s after our reader and writer (item 12a)",
+  (mappedSmiles) => {
+    const rewritten = mappedSmilesFromStateGraph(stateGraphFromMappedSmiles(mappedSmiles));
+    expect(toolkit.canonicalStereoSmiles(rewritten)).toBe(
+      toolkit.canonicalStereoSmiles(mappedSmiles),
+    );
+  },
+);
 
 it.each([...new Set([...fixtureSmiles, ...exampleStateSmiles])].sort())(
   "RDKit reads %s as our strict reader does",

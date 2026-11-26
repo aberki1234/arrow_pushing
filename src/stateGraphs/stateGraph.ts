@@ -23,18 +23,21 @@
  * 6 - nonbonding - 0 - 1 = -1 gives 6 nonbonding electrons: three lone pairs.
  */
 
-/** Valence electrons of each element the content may use (main-group group number). */
+/**
+ * Valence electrons of each element the content may use: the main-group group number; the s
+ * electrons for Zn and Hg (d10 kept as a core); 3 for Ce, its usual Ce(III) state (CeCl3, Luche).
+ */
 export const ELEMENT_TO_VALENCE_ELECTRONS: ReadonlyMap<string, number> = new Map([
   ["H", 1], ["Li", 1], ["B", 3], ["C", 4], ["N", 5], ["O", 6], ["F", 7],
   ["Na", 1], ["Mg", 2], ["Al", 3], ["Si", 4], ["P", 5], ["S", 6], ["Cl", 7],
-  ["K", 1], ["Br", 7], ["I", 7],
+  ["K", 1], ["Zn", 2], ["Se", 6], ["Br", 7], ["Sn", 4], ["I", 7], ["Ce", 3], ["Hg", 2],
 ]); // prettier-ignore
 
 /** Periodic-table period of each element: it sets the most valence-shell electrons allowed. */
 export const ELEMENT_TO_PERIOD: ReadonlyMap<string, number> = new Map([
   ["H", 1], ["Li", 2], ["B", 2], ["C", 2], ["N", 2], ["O", 2], ["F", 2],
   ["Na", 3], ["Mg", 3], ["Al", 3], ["Si", 3], ["P", 3], ["S", 3], ["Cl", 3],
-  ["K", 4], ["Br", 4], ["I", 5],
+  ["K", 4], ["Zn", 4], ["Se", 4], ["Br", 4], ["Sn", 5], ["I", 5], ["Ce", 6], ["Hg", 6],
 ]); // prettier-ignore
 
 export interface StateAtom {
@@ -46,18 +49,39 @@ export interface StateAtom {
   readonly nonbondingElectronCount: number;
 }
 
+/**
+ * A stereocentre's SMILES mark with its neighbours in canonical order (item 12a): an implicit H or
+ * lone pair first, then the mapped neighbours by ascending map number. "@": seen from the first,
+ * the others run anticlockwise; "@@": clockwise.
+ */
+export type TetrahedralMark = "@" | "@@";
+/** A stereo double bond: its two reference neighbours (stereoMarks.ts) on one side or not. */
+export type DoubleBondRelation = "cis" | "trans";
+
 /** `bondToOrder` is keyed by bondKey(): "<smaller map number>-<larger map number>". */
 export interface StateGraph {
   readonly mapNumberToAtom: ReadonlyMap<number, StateAtom>;
   readonly bondToOrder: ReadonlyMap<string, number>;
+  /** Item 12a: the marked stereocentres; absent or empty when the state has no stereo. */
+  readonly mapNumberToTetrahedralMark?: ReadonlyMap<number, TetrahedralMark>;
+  /** Item 12a: the marked double bonds, keyed by bondKey(); absent or empty when none. */
+  readonly bondToDoubleBondRelation?: ReadonlyMap<string, DoubleBondRelation>;
 }
 
-/** The fixture spelling of a state graph: atoms by map number, bonds by their two map numbers. */
+/**
+ * The fixture spelling of a state graph: atoms by map number, bonds by their two map numbers; the
+ * stereo lists only when the state has stereo.
+ */
 export interface StateGraphJson {
   readonly atoms: readonly StateAtom[];
   readonly bonds: readonly {
     readonly mapNumbers: readonly [number, number];
     readonly bondOrder: number;
+  }[];
+  readonly tetrahedralMarks?: readonly { mapNumber: number; mark: TetrahedralMark }[];
+  readonly doubleBondStereo?: readonly {
+    mapNumbers: readonly [number, number];
+    relation: DoubleBondRelation;
   }[];
 }
 
@@ -165,7 +189,18 @@ export function stateGraphToJson(graph: StateGraph): StateGraphJson {
   const bonds = [...graph.bondToOrder.entries()]
     .map(([key, bondOrder]) => ({ mapNumbers: bondKeyMapNumbers(key), bondOrder }))
     .sort((first, second) => compareBondMapNumbers(first.mapNumbers, second.mapNumbers));
-  return { atoms, bonds };
+  const tetrahedralMarks = [...(graph.mapNumberToTetrahedralMark ?? [])]
+    .sort(([first], [second]) => first - second)
+    .map(([mapNumber, mark]) => ({ mapNumber, mark }));
+  const doubleBondStereo = [...(graph.bondToDoubleBondRelation ?? [])]
+    .map(([key, relation]) => ({ mapNumbers: bondKeyMapNumbers(key), relation }))
+    .sort((first, second) => compareBondMapNumbers(first.mapNumbers, second.mapNumbers));
+  return {
+    atoms,
+    bonds,
+    ...(tetrahedralMarks.length > 0 ? { tetrahedralMarks } : {}),
+    ...(doubleBondStereo.length > 0 ? { doubleBondStereo } : {}),
+  };
 }
 
 /** True when both graphs have the same atoms, electron counts and bonds. */
