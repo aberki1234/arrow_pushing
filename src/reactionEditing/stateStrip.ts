@@ -9,7 +9,8 @@
  *   outline (mechanismOutline.ts), so the order is the mechanism panel's.
  *
  * Names
- *   "Start" for the start state, "Product" for a state no step leaves (once there are steps), and
+ *   "Start" for the start state, "Product" for the state where the preferred route ends and "Other
+ *   product" for any other state no step leaves (once there are steps), and
  *   "Intermediate N" for the others, numbered in the order the rows show them.
  */
 import { mechanismOutline, type OutlineRow } from "./mechanismOutline.js";
@@ -118,26 +119,63 @@ export function stateStripRows(document: ReactionDocument): StateStripRow[] {
   return building.rows;
 }
 
-/** stateId -> its shown name, for every state of the document. */
-export function stateDisplayNames(document: ReactionDocument): ReadonlyMap<string, string> {
+/** Where following the preferred steps from the start state stops. */
+function endOfPreferredRoute(document: ReactionDocument): string {
   const steps = stepsOf(document);
+  const passed = new Set<string>();
+  let stateId = String(document.startStateId);
+  for (;;) {
+    passed.add(stateId);
+    const preferred = steps.find(
+      (step) => step.fromStateId === stateId && step.routePreference === "preferred",
+    );
+    const nextStateId = preferred === undefined ? undefined : String(preferred.toStateId);
+    if (nextStateId === undefined || passed.has(nextStateId)) {
+      return stateId;
+    }
+    stateId = nextStateId;
+  }
+}
+
+/** Product states (no step leaves them) in strip order, the main product first. */
+function productsMainFirst(document: ReactionDocument, stateIdsInOrder: string[]): string[] {
+  const steps = stepsOf(document);
+  if (steps.length === 0) {
+    return [];
+  }
+  const products = stateIdsInOrder.filter(
+    (stateId) =>
+      stateId !== document.startStateId && !steps.some((step) => step.fromStateId === stateId),
+  );
+  const mainProduct = endOfPreferredRoute(document);
+  return products.includes(mainProduct)
+    ? [mainProduct, ...products.filter((stateId) => stateId !== mainProduct)]
+    : products;
+}
+
+/**
+ * stateId -> its shown name, for every state of the document: "Product" for the main product
+ * (where the preferred route ends), "Other product" (numbered when several) for the others.
+ */
+export function stateDisplayNames(document: ReactionDocument): ReadonlyMap<string, string> {
+  const stateIdsInOrder = stateStripRows(document).flatMap((row) =>
+    row.frames.flatMap((frame) => (frame.frameKind === "state" ? [frame.stateId] : [])),
+  );
+  const [mainProduct, ...otherProducts] = productsMainFirst(document, stateIdsInOrder);
   const stateIdToName = new Map<string, string>();
   let intermediateCount = 0;
-  for (const row of stateStripRows(document)) {
-    for (const frame of row.frames) {
-      if (frame.frameKind !== "state") {
-        continue;
-      }
-      const isProduct =
-        steps.length > 0 && !steps.some((step) => step.fromStateId === frame.stateId);
-      if (frame.stateId === document.startStateId) {
-        stateIdToName.set(frame.stateId, "Start");
-      } else if (isProduct) {
-        stateIdToName.set(frame.stateId, "Product");
-      } else {
-        intermediateCount += 1;
-        stateIdToName.set(frame.stateId, `Intermediate ${String(intermediateCount)}`);
-      }
+  for (const stateId of stateIdsInOrder) {
+    const otherPosition = otherProducts.indexOf(stateId);
+    if (stateId === document.startStateId) {
+      stateIdToName.set(stateId, "Start");
+    } else if (stateId === mainProduct) {
+      stateIdToName.set(stateId, "Product");
+    } else if (otherPosition >= 0) {
+      const number = otherProducts.length > 1 ? ` ${String(otherPosition + 1)}` : "";
+      stateIdToName.set(stateId, `Other product${number}`);
+    } else {
+      intermediateCount += 1;
+      stateIdToName.set(stateId, `Intermediate ${String(intermediateCount)}`);
     }
   }
   return stateIdToName;

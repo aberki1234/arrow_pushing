@@ -51,6 +51,23 @@
     <p>About 15 <b>polar</b> named reactions: SN1, SN2, E1, E2, aldol, Claisen, Grignard addition, Wittig, Diels–Alder, pinacol, Beckmann, Fischer esterification, Michael addition, Friedel–Crafts acylation.</p>
     <p><b>Plus a few radical entries</b>: radical bromination (initiation, propagation, termination) and Barton–McCombie. Diels–Alder needs a concerted multi-arrow step, so the model supports that from day one.</p>
     <p><b>First Learn track: “Aromatic chemistry”</b> (decided 2026-11-25), adding SEAr (electrophilic aromatic substitution) reactions. Problem set <b>“The arenium ion”</b>: bromination of benzene (FeBr₃), nitration, sulfonation, Friedel–Crafts alkylation (with its rearrangement trap), Friedel–Crafts acylation. Problem set <b>“Directing effects”</b>: nitration of anisole (ortho/para) against nitrobenzene (meta) as a contrast pair, then a halobenzene (deactivating but ortho/para). Then a checkpoint.</p>
+    <div class="card"><h3>The first SEAr batch <span class="tag ok">decided 2026-11-26</span></h3>
+      <p>About 21 reactions drafted by the assistant (<a href="#community">§6</a>, “Drafting with an assistant”), track <code>aromatic-chemistry</code>, problem sets in this order:</p>
+      <ol>
+        <li><b>Making the electrophile</b>, each its own reaction: nitronium from HNO₃/H₂SO₄; Br₂/FeBr₃; the acylium ion from RCOCl/AlCl₃; the carbocation from RCl/AlCl₃ (with the n-propyl → isopropyl rearrangement); SO₃ in H₂SO₄.</li>
+        <li><b>The arenium ion</b>: nitration, bromination, Friedel–Crafts alkylation and acylation, sulfonation of benzene.</li>
+        <li><b>Directing effects</b>: toluene, anisole, phenol (Br₂, no Lewis acid), acetanilide (ortho/para); chlorobenzene (deactivating but ortho/para); nitrobenzene, methyl benzoate or benzaldehyde (meta).</li>
+        <li><b>Predict the position</b>: bromination of acetanilide, nitration of methyl benzoate, Friedel–Crafts acylation of anisole, chlorination of toluene. New substrates, so the checkpoint tests transfer while still only reviewing earlier problem sets.</li>
+        <li><b>Checkpoint</b>, mixing reactions from sets 1–4.</li>
+      </ol>
+      <ul>
+        <li><b>Each SEAr reaction starts from the activated electrophile, its real counter-anion and the arene</b> (NO₂⁺ + HSO₄⁻ + benzene). The counter-anion (HSO₄⁻, FeBr₄⁻, AlCl₄⁻) takes the proton in the last step and gives the catalyst back. No bare H⁺ or unnamed “base”.</li>
+        <li><b>Selectivity</b> is mostly one reaction per substrate, attacking at the observed position, with the Wheland resonance argument in hints and explanations. Toluene, anisole, nitrobenzene and chlorobenzene also draw the key Wheland resonance forms as steps (polar steps moving only π bonds and lone pairs).</li>
+        <li><b>Para is the preferred route; ortho is an accepted route where it is a real product</b> (toluene, about 60:40 o:p); para only where sterics make it dominant (anisole, acetanilide). <b>Meta attack on an ortho/para director is never accepted</b>; it gets feedback.</li>
+        <li>Difficulty: 1 making the electrophile and benzene SEAr, 2 directing effects, 3 reactions with drawn resonance steps. All daily-puzzle eligible.</li>
+        <li><b>A pilot first</b>: nitronium formation, nitration of benzene, nitration of anisole (with resonance steps), reviewed by you before the rest is drafted.</li>
+        <li><b>Heteroaromatics</b> (pyrrole/furan at C2, pyridine at C3) are a second, short batch; naphthalene and indole are left out.</li>
+      </ul></div>
 
     <h2 id="interaction">3 · Interaction</h2>
     <ul>
@@ -69,7 +86,7 @@
       <p><b>Decided 2026-11-24</b> (schema pass, details in <a href="schema-design.html">schema-design.html</a>):</p>
       <ul>
         <li><b>Acceptance is by result, checked in the browser.</b> Legal, non-redundant arrows whose result matches a target state are correct, so nothing is listed for acceptance. <b>Equivalent atoms</b> (either water H, any α-H) and <b>resonance forms</b> (including the other Kekulé ring) are both handled by comparing σ skeletons. That is one quick pass, with no list of resonance forms and nothing precomputed. A result with more charged atoms than the target counts as partial progress. The next step continues from the curated drawing.</li>
-        <li><b>A mechanism is a graph of states</b> (revised 2026-11-24, replacing “no branching in v1”). Each step goes from one state to another and is <code>preferred</code> (the textbook route, used for hints and the reveal) or <code>accepted</code> (also correct). Correct routes may branch and <b>must rejoin</b> at a single product. The graph has no loops, and there is exactly one all-preferred route. Example: the Wittig, concerted [2+2] or stepwise via the betaine. A valid route the reaction doesn’t accept (e.g. O-attack) is a <code>plausible</code> misconception.</li>
+        <li><b>A mechanism is a graph of states</b> (revised 2026-11-24, replacing “no branching in v1”). Each step goes from one state to another and is <code>preferred</code> (the textbook route, used for hints and the reveal) or <code>accepted</code> (also correct). Correct routes may branch and <b>must rejoin</b> at a single product. The graph has no loops, and there is exactly one all-preferred route. <b>Revised 2026-11-26 (item 10e):</b> an accepted route may instead end at an <b>alternative product</b> (a minor regioisomer, e.g. ortho beside para); the all-preferred route ends at the main product. Reaching it is full marks; the step's explanation and the product's caption say what was made (the linter warns without a caption). Only regioisomers for now. Example: the Wittig, concerted [2+2] or stepwise via the betaine. A valid route the reaction doesn’t accept (e.g. O-attack) is a <code>plausible</code> misconception.</li>
         <li><b><code>partialArrowSets</code></b> (optional, per step) lists other complete arrow sets for that step, <b>only</b> so that “right so far” is recognised for them. It replaces the earlier “alternatives”.</li>
         <li><b>Fish-hooks need full bookkeeping:</b> H-abstraction takes 3 fish-hooks. The 2-arrow shorthand is not accepted and shows as partial progress.</li>
       </ul></div>
@@ -180,6 +197,20 @@
         </ul></li>
     </ul>
 
+    <div class="card"><h3>Drafting with an assistant <span class="tag ok">decided 2026-11-26</span></h3>
+      <p>To speed up content, an assistant drafts reactions and you only review them (and correct conditions) in Create before publishing.</p>
+      <ul>
+        <li><b>Phase 1 (build item 10):</b> the assistant (Claude Code in this repository) writes reaction files locally, lints them and pushes them to <code>create.arrowpushing.com</code> <b>as drafts owned by your account</b>.
+          <ul>
+            <li><b>Personal access tokens</b>: stored hashed, revocable, expiring; made by a server command (<code>create-token --user &lt;email&gt;</code>). No token page in Create until phase 2.</li>
+            <li><b>A token may only read its user's reactions and save drafts</b>: never submit, review, publish, start a next version or change roles. Publishing stays your click in Create.</li>
+            <li><b>Draft sync</b>: <code>check</code> (the linter), <code>push-draft</code> (refuses a file with lint errors; refused by the server if the draft changed since the assistant last saw it, or is published), <code>pull-draft</code> (fetches your edited draft to work on). Your edits in Create are never silently overwritten.</li>
+            <li><b>The assistant writes</b> every learner text (prompt, hints, wrong-answer and partial messages, explanations, summary), the textbook conditions (you correct them), tiers, daily eligibility and the track file. <b>You are the only author</b> for now; no “drafted with an assistant” mark.</li>
+          </ul></li>
+        <li><b>Phase 2 (after the SEAr batch; details later):</b> a remote <b>MCP server</b> on the same Render service (<code>/mcp</code>), same tokens, so other people's agents can draft too: format brief, check, apply arrows, pull, save draft; no publish tool; rate-limited; a token page in Create.</li>
+        <li><b>Reused:</b> the design of RetrosynthWeb's <code>refinement_mcp</code> (checking separate from saving, no confirming tool, an account's token, rate limits), not its Python code. <b>Not used:</b> synkit's <code>mechsearch</code> search (weak on SEAr, heavy Python stack). Its arrow notation matches ours, so its reviewed routes could be imported one day.</li>
+      </ul></div>
+
     <h2 id="mockups">7 · Mockups <span class="tag">done</span></h2>
     <p>Open <code>mockups/index.html</code> in a browser (plain HTML/CSS/JS, no build). Pages:</p>
     <table><thead><tr><th>Page</th><th>What it shows</th></tr></thead><tbody>
@@ -213,7 +244,8 @@
       <li>Branding beyond the name (logo, colours). The name, ArrowPush, and the domain, <code>arrowpushing.com</code>, were decided on 2026-11-26.</li>
       <li>Which reactions beyond the list above, and the order of authoring the first content set.</li>
       <li>Tracks after “Aromatic chemistry” (e.g. Zaitsev versus Hofmann, kinetic versus thermodynamic enolates) and their problem sets. Problem sets themselves were scoped on 2026-11-25 (§1, §2, §5).</li>
-      <li><b>Deferred:</b> whole-mechanism mode, stereo validation, learner accounts/leaderboards/sync, visual-editor polish, synkit-assisted drafting.</li>
+      <li><b>Deferred:</b> whole-mechanism mode, stereo validation, learner accounts/leaderboards/sync, visual-editor polish.</li>
+      <li>The phase-2 MCP server's detailed design (§6, “Drafting with an assistant”).</li>
     </ul>
   </main>
 </div>

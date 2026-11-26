@@ -58,6 +58,8 @@ Each term below means exactly one thing in the docs, the JSON and the code.
 | **done (set item)** | Its reaction has a finished run in any mode; in a checkpoint, a finished run in that checkpoint. Not the same as **mastered** (most recent run at 100%). |
 | **checkpoint** | A problem set marked `checkpoint: true` that ends a track: earlier reactions shuffled, names hidden, played in the `checkpoint` run mode with the daily rules. |
 | **run mode** | How a run is played and scored: `practice`, `daily` or `checkpoint` (§7). |
+| **access token** | A personal token (`Authorization: Bearer …`) standing for one user, stored hashed, revocable, expiring; it may only read that user's reactions and save drafts (item 10). Not a session, which a browser holds. |
+| **draft sync** | Pushing a local, lint-clean reaction file to the server as a draft (`push-draft`) and fetching a draft back (`pull-draft`), refused when the draft changed since it was last seen (item 10). |
 | **creation stage** | One of Create's four stages: `start`, `mechanism`, `teaching`, `publish` (SPEC §5 "Create"). |
 | **teaching item** | One entry of the Teaching to-do list (a state's learner prompt, hint tiers or misconceptions, a step's explanation or caption, the mechanism summary), with its need (needed / recommended / optional) and status (missing / started / done). Built from the draft's fields, not from lint. |
 | **check task** | A lint finding as Create's Publish stage shows it: plain words, the creation stage that fixes it, and its place. |
@@ -158,7 +160,7 @@ named `keyToValue`.
   "previousReactionVersion": 1,          // null for version 1
   "title": "SN2 substitution",
   "subtitle": "Hydroxide displaces bromide from bromomethane",
-  "reactionClasses": ["substitution"],   // filter facets; controlled list
+  "reactionClasses": ["substitution"],   // filter facets; controlled list (+ "aromatic substitution", item 10)
   "difficultyTier": 1,                   // 1..3, shown as ●○○ … ●●●
   "conditionsLabel": "NaOH · EtOH/H₂O · 25 °C",   // text over the reaction arrow only
   "dailyPuzzleEligible": true,
@@ -244,8 +246,10 @@ off the screen. A change step must be the only step leaving its state.
 
 1. Every state is reachable from `startStateId`, and every step's `fromStateId`/`toStateId` exists.
 2. **No cycles.** A reversible dead end (hydrate formation) is a `plausible` misconception, not a step.
-3. **Exactly one product state** (no steps leave it). Every route ends there, so **branches must rejoin**.
-   Branches that end in different products (regioisomers, E/Z) are out of scope for v1.
+3. **Product states** (no steps leave them). The preferred route ends at the **main product**. Other routes rejoin it,
+   or end at an **alternative product**, reached only by accepted steps: a minor regioisomer, such as ortho beside
+   para (revised 2026-11-26, item 10e; before, branches had to rejoin). An alternative product needs a caption saying
+   what it is (warning). Only regioisomers by authoring convention; E/Z and others wait until a reaction needs them.
 4. **Exactly one route made only of preferred steps.** At most one preferred step leaves each state.
 5. Two steps leaving one state must not reach resonance-equivalent states (up to skeleton symmetry).
 6. Each step's canonical arrows and partial arrow sets, applied to its from-state, reproduce its to-state (§4).
@@ -265,8 +269,9 @@ lint when the rest could not run):
 | `state-atoms-inconsistent`, `mapped-smiles-not-supported` | error | build item 1's atom checks, then the strict SMILES subset; stops |
 | `step-state-id-unknown` | error | rule 1 (ids); stops |
 | `duplicate-step-key` | error | step keys are unique (progress records use them) |
-| `state-unreachable`, `mechanism-has-cycle`, `not-exactly-one-product-state` | error | rules 1–3 |
-| `several-preferred-steps-leave-state`, `preferred-route-does-not-reach-product` | error | rule 4 |
+| `state-unreachable`, `mechanism-has-cycle` | error | rules 1–2 |
+| `several-preferred-steps-leave-state`, `preferred-route-does-not-reach-product` | error | rule 4 (the preferred route ends at a state no step leaves) |
+| `alternative-product-without-caption` | warning | rule 3: a product other than the main one has no caption |
 | `change-step-not-alone` | error | §3.4 |
 | `learner-prompt-missing`, `hint-tiers-missing` | error | on states with an arrow step leaving them (SPEC: ≥ 1 hint) |
 | `fewer-than-three-hint-tiers` | warning | the full conceptual / narrowing / reveal ladder |
@@ -833,6 +838,36 @@ RDKit (RDKit.js) on every valid SMILES case and every example state (`src/chemis
      `learnerSite/CheckpointRun.svelte` on the checkpoint's page (names hidden, revealed in each finished view).
      Next up links to a checkpoint go to its page; a checkpoint has no `#/learn/…/<reaction>` play route.
    Alongside: authoring the "Aromatic chemistry" reactions in the editor (SPEC §2).
+10. Drafting with an assistant (decided 2026-11-26, SPEC §2 "The first SEAr batch", §6 "Drafting with an assistant").
+   Phase 1, in parts:
+   * **10a Done 2026-11-26.** `"aromatic substitution"` added to `reactionClasses` (schema, catalogue schema, the editor's and the
+     learner site's class labels and filters, fixtures).
+   * **10b Done 2026-11-26.** Personal access tokens: a migration (`arrowpush.access_tokens`: id, user id, a name, the token's
+     SHA-256, created, expires, last used, revoked); `reactionDatabase/accessTokens.ts` (mint: the plain token
+     returned once; find the user of a token; revoke); the backend taking `Authorization: Bearer` beside the cookie
+     session for reading the user's reactions and saving drafts only (a site action that a token-authenticated
+     request never gets for anything else); the server command `create-token --user <email> [--days n]` and
+     `revoke-token`. Built: migration 0004, `reactionDatabase/accessTokens.ts`,
+     `backendServer/accessTokenRequests.ts` (the routes open to a token: GET /api/me, GET /api/reactions[/…],
+     PUT …/draft; elsewhere 403), `requireSignIn(authentication, database)`, the two commands (default name
+     "drafting", 90 days).
+   * **10c Done 2026-11-26.** Draft sync: saving a draft may name the content hash (§1, canonical JSON) of the draft the client last
+     saw, or `null` for "no unpublished version yet"; the save is refused (`draft-changed`) when the stored draft's
+     hash differs. Create's own saves leave it out and behave as now. A new module (`src/draftSync/`, logic beside a command line
+     `npx tsx src/draftSync/runFromShell.ts check|push-draft|pull-draft`; the server URL and the token from the
+     environment) that lints before pushing, remembers the hash of each draft pushed or pulled, and writes a pulled draft back to
+     `content/reactions/`. Built: `reactionDatabase/draftChangeCheck.ts` (`saveDraftIfUnchanged`, refusal
+     `draft-changed` 409; `If-None-Match: *` / `If-Match: <hash>` on PUT …/draft, which now answers
+     `draftContentHash`), `src/draftSync/` (`draftSync.ts`, `commandLine.ts`, `runFromShell.ts`); end to end in
+     `backendServer/draftSyncThroughServer.test.ts`.
+   * **10e Done 2026-11-26.** Alternative products (rule 3 revised, §3.5): `not-exactly-one-product-state` gone,
+     `alternative-product-without-caption` (warning) added in `mechanismGraphRules.ts` (`LintedState.hasCaption`);
+     Create names the main product "Product" and the others "Other product" (numbered when several;
+     `stateStrip.stateDisplayNames`). The learner side needed nothing: a run is complete at any state no step leaves.
+   * **10d** The SEAr pilot (nitronium formation, nitration of benzene, nitration of anisole with resonance steps)
+     drafted and pushed; reviewed by the owner; then the rest of the batch and `content/tracks/aromatic-chemistry.json`.
+   Phase 2 (design deferred until after the batch): the MCP server at `/mcp` over the same module and tokens, and a
+   token page in Create.
 
 ## 11. Corrections to the mockup content
 

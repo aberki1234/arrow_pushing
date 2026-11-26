@@ -89,6 +89,8 @@
       <tr><td><b>done (set item)</b></td><td>Its reaction has a finished run in any mode; in a checkpoint, a finished run in that checkpoint. Not the same as <b>mastered</b> (most recent run at 100%).</td></tr>
       <tr><td><b>checkpoint</b></td><td>The problem set that ends a track: earlier reactions shuffled, names hidden, scored by the daily rules.</td></tr>
       <tr><td><b>run mode</b></td><td>How a run is played and scored: practice, daily or checkpoint.</td></tr>
+      <tr><td><b>access token</b></td><td>A personal token (<code>Authorization: Bearer …</code>) standing for one user, stored hashed, revocable, expiring; it may only read that user's reactions and save drafts (item 10). Not a session, which a browser holds.</td></tr>
+      <tr><td><b>draft sync</b></td><td>Pushing a local, lint-clean reaction file to the server as a draft and fetching a draft back, refused when the draft changed since it was last seen (item 10).</td></tr>
           <tr><td><b>creation stage</b></td><td>One of Create's four stages: start, mechanism, teaching, publish.</td></tr>
       <tr><td><b>teaching item</b></td><td>One entry of the Teaching to-do list (a state's question, hints or wrong answers, a step's explanation or caption, the summary), marked needed / recommended / optional and missing / started / done. Built from what the draft contains, not from the checks.</td></tr>
       <tr><td><b>check task</b></td><td>A lint finding as Create's Publish stage shows it: in plain words, with the stage that fixes it.</td></tr>
@@ -161,7 +163,7 @@
   "previousReactionVersion": 1,          // null for version 1
   "title": "SN2 substitution",
   "subtitle": "Hydroxide displaces bromide from bromomethane",
-  "reactionClasses": ["substitution"],
+  "reactionClasses": ["substitution"],   // controlled list (+ "aromatic substitution", item 10)
   "difficultyTier": 1,                   // 1..3
   "conditionsLabel": "NaOH · EtOH/H₂O · 25 °C",
   "dailyPuzzleEligible": true,
@@ -225,7 +227,7 @@
     <ol>
       <li>Every state is reachable from the start, and every step's states exist.</li>
       <li><b>No loops.</b> A reversible dead end is a <code>plausible</code> misconception, not a step.</li>
-      <li><b>Exactly one product state</b>; every route ends there, so <b>branches must rejoin</b>. Branches ending in different products are out of scope for v1.</li>
+      <li><b>Product states</b> (no step leaves them). The preferred route ends at the <b>main product</b>. Other routes rejoin it or end at an <b>alternative product</b>, reached only by accepted steps: a minor regioisomer, such as ortho beside para (revised 2026-11-26, item 10e). An alternative product needs a caption saying what it is (a warning). Only regioisomers by convention; E/Z and others wait until a reaction needs them.</li>
       <li><b>Exactly one route made only of preferred steps.</b></li>
       <li>Two steps leaving one state must not reach resonance-equivalent states.</li>
       <li>Each step's canonical arrows and partial arrow sets reproduce its to-state.</li>
@@ -240,7 +242,8 @@
       <tr><td><code>state-atoms-inconsistent</code>, <code>mapped-smiles-not-supported</code> ⛔</td><td>error</td><td>atom checks from build item 1, then the strict SMILES subset</td></tr>
       <tr><td><code>step-state-id-unknown</code> ⛔</td><td>error</td><td>rule 1 (the ids)</td></tr>
       <tr><td><code>duplicate-step-key</code></td><td>error</td><td>step keys are unique (progress records use them)</td></tr>
-      <tr><td><code>state-unreachable</code>, <code>mechanism-has-cycle</code>, <code>not-exactly-one-product-state</code></td><td>error</td><td>rules 1–3</td></tr>
+      <tr><td><code>state-unreachable</code>, <code>mechanism-has-cycle</code></td><td>error</td><td>rules 1–2</td></tr>
+      <tr><td><code>alternative-product-without-caption</code></td><td>warning</td><td>rule 3: a product other than the main one has no caption</td></tr>
       <tr><td><code>several-preferred-steps-leave-state</code>, <code>preferred-route-does-not-reach-product</code></td><td>error</td><td>rule 4</td></tr>
       <tr><td><code>change-step-not-alone</code></td><td>error</td><td>a change step is the only step leaving its state</td></tr>
       <tr><td><code>learner-prompt-missing</code>, <code>hint-tiers-missing</code></td><td>error</td><td>on states where arrows are drawn (at least 1 hint)</td></tr>
@@ -492,6 +495,15 @@ verifications(id uuid pk, identifier, value, expires_at, …)   -- the OAuth sta
           <li><span class="tag ok">done</span> <b>9c</b> Checkpoints: the checkpoint run mode (daily scoring, names hidden), each run recording its checkpoint (<code>problemSetRef</code>), and attempts on the checkpoint's own page that shuffle the reactions not yet done there.</li>
         </ul>
         Alongside: authoring the “Aromatic chemistry” reactions in the editor.</li>
+      <li>Drafting with an assistant (decided 2026-11-26, <a href="spec.html#community">spec §6</a>). Phase 1, in parts:
+        <ul>
+          <li><span class="tag ok">done</span> <b>10a</b> <code>"aromatic substitution"</code> added to <code>reactionClasses</code> (the schemas, the class labels and filters in Create and the learner site, fixtures).</li>
+          <li><span class="tag ok">done</span> <b>10b</b> Personal access tokens: a table <code>arrowpush.access_tokens</code> (user, name, the token's SHA-256, created, expires, last used, revoked); minting (the plain token shown once), looking up and revoking; the server taking <code>Authorization: Bearer</code> beside the cookie session, for reading the user's reactions and saving drafts only; the server commands <code>create-token</code> and <code>revoke-token</code>.</li>
+          <li><span class="tag ok">done</span> <b>10c</b> Draft sync: a draft save may name the content hash of the draft the client last saw (or none yet) and is refused (<code>draft-changed</code>) when the stored draft differs; Create's own saves behave as now. A new module <code>src/draftSync/</code> with a command line (<code>check</code>, <code>push-draft</code>, <code>pull-draft</code>) that lints before pushing and remembers each hash.</li>
+          <li><span class="tag ok">done</span> <b>10e</b> Alternative products: the linter allows them (with a caption warning); Create calls them “Other product”. Nothing changed on the learner site: a run ends at any state no step leaves.</li>
+          <li><b>10d</b> The SEAr pilot (nitronium formation, nitration of benzene, nitration of anisole with resonance steps), pushed and reviewed by you; then the rest of the batch and the track file.</li>
+        </ul>
+        Phase 2 (designed after the batch): the MCP server at <code>/mcp</code> over the same module and tokens, and a token page in Create.</li>
     </ol>
 
     <h2 id="fixes">11 · Corrections to the mockup content</h2>

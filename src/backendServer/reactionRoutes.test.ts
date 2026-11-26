@@ -116,7 +116,12 @@ describe("a reaction's way from draft to published", () => {
   it("saves, lists, reads, publishes (starting the deploy) and edits", async () => {
     expect(await saveSn2()).toEqual({
       status: 200,
-      body: { reactionSlug: SN2_SLUG, reactionVersion: 1, submissionStatus: "draft" },
+      body: {
+        reactionSlug: SN2_SLUG,
+        reactionVersion: 1,
+        submissionStatus: "draft",
+        draftContentHash: expect.stringMatching(/^[0-9a-f]{64}$/) as unknown,
+      },
     });
     expect((await apiRequest("GET", "/api/reactions")).body).toMatchObject([
       { reactionSlug: SN2_SLUG, newestSubmissionStatus: "draft" },

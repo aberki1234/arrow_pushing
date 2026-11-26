@@ -97,6 +97,32 @@ it("names the start, the product and the intermediates in strip order", () => {
   });
 });
 
+it("names the end of the preferred route Product and other ending states Other product", () => {
+  const wittig = exampleReaction("wittig-methylenation-cyclohexanone.json");
+  const steps = wittig.steps as unknown[];
+  const twoProducts = { ...wittig, steps: steps.toSpliced(2, 1) };
+  expect(Object.fromEntries(stateDisplayNames(twoProducts))).toEqual({
+    reactants: "Start",
+    oxaphosphetane: "Intermediate 1",
+    products: "Product",
+    betaine: "Other product",
+  });
+  const threeProducts = {
+    ...twoProducts,
+    stateIdToState: {
+      ...(wittig.stateIdToState as Record<string, unknown>),
+      extra: { mappedSmiles: "[CH4:99]" },
+    },
+    steps: [
+      ...twoProducts.steps,
+      { stepKey: "x", fromStateId: "oxaphosphetane", toStateId: "extra", stepKind: "polar" },
+    ],
+  };
+  const names = Object.fromEntries(stateDisplayNames(threeProducts));
+  expect([names.betaine, names.extra].sort()).toEqual(["Other product 1", "Other product 2"]);
+  expect(names.products).toBe("Product");
+});
+
 it("calls a new draft's only state Start, not Product", () => {
   expect(Object.fromEntries(stateDisplayNames(newDraft))).toEqual({ "state-1": "Start" });
 });

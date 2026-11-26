@@ -4,6 +4,7 @@
  */
 import { serve } from "@hono/node-server";
 import { loadChemistryToolkit } from "../chemistryToolkit/chemistryToolkit.js";
+import { mintAccessToken, revokeAccessToken } from "../reactionDatabase/accessTokens.js";
 import { importReactionFiles } from "../reactionDatabase/contentImport.js";
 import type { DatabaseConnection } from "../reactionDatabase/databaseTables.js";
 import { applyMigrations } from "../reactionDatabase/migrationRunning.js";
@@ -50,6 +51,22 @@ async function importFiles(
   console.log(JSON.stringify(importSummary, null, 2));
 }
 
+/** create-token and revoke-token. The plain token is printed once and never stored. */
+async function manageAccessToken(
+  connection: DatabaseConnection,
+  command: Extract<BackendCommand, { commandName: "create-token" | "revoke-token" }>,
+): Promise<void> {
+  if (command.commandName === "revoke-token") {
+    await revokeAccessToken(connection.database, command.accessTokenId, new Date());
+    console.log(`revoked ${command.accessTokenId}`);
+    return;
+  }
+  const minted = await mintAccessToken(connection.database, { ...command, now: new Date() });
+  console.log(`token id ${minted.accessTokenId}, expires ${minted.expiresAt.toISOString()}`);
+  console.log("the token (shown once; keep it secret):");
+  console.log(minted.plainToken);
+}
+
 async function runBackendCommand(command: BackendCommand): Promise<void> {
   const settings = readServerSettings(process.env);
   const connection = newPostgresConnection(settings.databaseUrl);
@@ -63,6 +80,8 @@ async function runBackendCommand(command: BackendCommand): Promise<void> {
   try {
     if (command.commandName === "import") {
       await importFiles(connection, settings, command);
+    } else if (command.commandName !== "migrate") {
+      await manageAccessToken(connection, command);
     }
   } finally {
     await connection.close();

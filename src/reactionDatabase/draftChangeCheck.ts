@@ -1,0 +1,72 @@
+/**
+ * Saving a draft only if it is still the one the client last saw (docs/SPEC.md §6, "Drafting with
+ * an assistant"; build item 10c), so that a push from the draft-sync command line never silently
+ * overwrites an edit made in Create.
+ *
+ * Terms
+ *   draft content hash  contentHashOf (canonical JSON, SHA-256) of the stored newest version's
+ *                       document, as the server numbers it.
+ * Rules
+ *   - Expected `null`: there must be no reaction with this slug yet.
+ *   - Expected a hash: the reaction's newest version must hold a document with that hash. (A
+ *     published newest version is refused by saveDraft as before, no-unpublished-version.)
+ *   - Expected `undefined`: no check (Create's own saves).
+ *   Otherwise draft-changed, and nothing is saved. Check and save share one transaction.
+ */
+import { contentHashOf } from "../catalogueBuilding/staticFileNaming.js";
+import type { ReactionDatabase } from "./databaseTables.js";
+import { ReactionDatabaseError } from "./reactionDatabaseErrors.js";
+import {
+  findReaction,
+  readReactionVersion,
+  saveDraftIn,
+  type WrittenVersion,
+} from "./reactionVersions.js";
+
+export interface WrittenDraft extends WrittenVersion {
+  readonly draftContentHash: string;
+}
+
+async function newestDocumentHash(
+  transaction: ReactionDatabase,
+  reactionSlug: string,
+): Promise<string | null> {
+  const reaction = await findReaction(transaction, reactionSlug);
+  if (reaction === undefined) {
+    return null;
+  }
+  const newest = await readReactionVersion(
+    transaction,
+    reactionSlug,
+    reaction.newestReactionVersion,
+  );
+  return contentHashOf(newest.reactionDocument);
+}
+
+export function saveDraftIfUnchanged(
+  database: ReactionDatabase,
+  reactionDocument: Record<string, unknown>,
+  authorUserId: string,
+  expectedDraftHash: string | null | undefined,
+): Promise<WrittenDraft> {
+  const reactionSlug = reactionDocument.reactionSlug;
+  if (typeof reactionSlug !== "string" || reactionSlug === "") {
+    return Promise.reject(
+      new ReactionDatabaseError("document-has-no-slug", "the document has no reactionSlug"),
+    );
+  }
+  return database.transaction().execute(async (transaction) => {
+    if (expectedDraftHash !== undefined) {
+      const storedHash = await newestDocumentHash(transaction, reactionSlug);
+      if (storedHash !== expectedDraftHash) {
+        throw new ReactionDatabaseError(
+          "draft-changed",
+          `the draft of "${reactionSlug}" changed since it was last read: pull it first`,
+        );
+      }
+    }
+    const written = await saveDraftIn(transaction, reactionDocument, authorUserId);
+    const draftContentHash = (await newestDocumentHash(transaction, reactionSlug)) ?? "";
+    return { ...written, draftContentHash };
+  });
+}

@@ -36,6 +36,12 @@ describe("filters in the hash", () => {
     expect(practiceFiltersQuery(NO_FILTERS)).toBe("");
   });
 
+  test("a class name with a space round trips", () => {
+    const filters = parsePracticeFilters("type=aromatic+substitution");
+    expect(filters.reactionClass).toBe("aromatic substitution");
+    expect(practiceFiltersQuery(filters)).toBe("type=aromatic+substitution");
+  });
+
   test("unknown or malformed values are ignored", () => {
     expect(parsePracticeFilters("status=perfect&difficulty=9&colour=red")).toEqual(NO_FILTERS);
   });

@@ -33,7 +33,7 @@ export function createServerApplication(dependencies: ServerDependencies): Hono<
     authentication.handler(context.req.raw),
   );
   application.get("/api/sign-in-providers", (context) => context.json(signInProviders(settings)));
-  application.get("/api/me", requireSignIn(authentication), (context) => {
+  application.get("/api/me", requireSignIn(authentication, dependencies.database), (context) => {
     const { userId, displayName, siteRole } = context.get("signedInUser");
     return context.json({ userId, displayName, siteRole, siteActions: siteActionsOf(siteRole) });
   });

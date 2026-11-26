@@ -37,6 +37,33 @@ nitration, sulfonation, Friedel–Crafts alkylation (with its carbocation rearra
 Problem set **"Directing effects"**: nitration of anisole (ortho/para) against nitrobenzene (meta) as a contrast pair,
 then a halobenzene (deactivating but ortho/para). The track ends with a checkpoint.
 
+**The first SEAr batch (decided 2026-11-26; drafted by the assistant, §6 "Drafting with an assistant"):** about 21
+reactions, track `aromatic-chemistry`, problem sets in this order:
+  1. **Making the electrophile**, each its own reaction: nitronium from HNO₃/H₂SO₄; Br₂/FeBr₃; the acylium ion from
+     RCOCl/AlCl₃; the carbocation from RCl/AlCl₃ (with the n-propyl → isopropyl rearrangement); SO₃ in H₂SO₄.
+  2. **The arenium ion**: nitration, bromination, Friedel–Crafts alkylation and acylation, sulfonation of benzene.
+  3. **Directing effects**: toluene, anisole, phenol (Br₂, no Lewis acid), acetanilide (ortho/para);
+     chlorobenzene (deactivating but ortho/para); nitrobenzene, methyl benzoate or benzaldehyde (meta).
+  4. **Predict the position**: bromination of acetanilide, nitration of methyl benzoate, Friedel–Crafts acylation
+     of anisole, chlorination of toluene (new substrates, so the checkpoint can test transfer while still only
+     reviewing earlier problem sets, §5 "Learn").
+  5. **Checkpoint**, mixing reactions from sets 1–4.
+- **Each SEAr reaction starts from the activated electrophile, its real counter-anion and the arene** (NO₂⁺ + HSO₄⁻ +
+  benzene); the counter-anion (HSO₄⁻, FeBr₄⁻, AlCl₄⁻) takes the proton in the last step and regenerates the catalyst.
+  No bare H⁺ or unnamed "base".
+- **Selectivity** is mostly taught one reaction per substrate, attacking at the observed position, with the Wheland
+  resonance argument in hints and explanations. Toluene, anisole, nitrobenzene and chlorobenzene also draw the key
+  Wheland resonance forms as steps (polar steps moving only π bonds and lone pairs; there is no resonance step kind).
+- **Para is the `preferred` route; ortho is an `accepted` route where it is a real product** (toluene, ~60:40 o:p);
+  para only where sterics make it dominant (anisole, acetanilide). **Meta attack on an o/p director is never an
+  accepted route**; it is answered with feedback.
+- `difficultyTier`: 1 making the electrophile and benzene SEAr, 2 directing effects, 3 reactions with drawn resonance
+  steps. `dailyPuzzleEligible: true` for all (the checkpoint only reuses earlier reactions, so none is kept unseen).
+- **A pilot comes first**: nitronium formation, nitration of benzene, nitration of anisole (with resonance steps);
+  reviewed by the owner before the remaining reactions are drafted.
+- **Heteroaromatics** (pyrrole/furan at C2, pyridine at C3, harsh) are a second, short batch; naphthalene and indole
+  are left out.
+
 ## 3. Interaction
 
 - **Input = click/tap source, then click/tap target.** Source: lone pair, bond (σ/π) or unpaired electron.
@@ -76,7 +103,11 @@ then a halobenzene (deactivating but ortho/para). The track ends with a checkpoi
   - **A mechanism is a graph of states** (revised 2026-11-24, replacing "no branching in v1"). Each step goes from one state
     to another and is `preferred` (the textbook route, used for hints and reveal) or `accepted` (also correct). Several
     correct routes may branch from a state and **must rejoin** at a single product. The graph has no cycles, and there is
-    exactly one all-preferred route. Example: Wittig, concerted [2+2] or stepwise via the betaine. A valid route the
+    exactly one all-preferred route. **Revised 2026-11-26 (item 10e): an accepted route may instead end at an
+    alternative product** (a minor regioisomer, e.g. ortho beside para); the all-preferred route ends at the main
+    product. Reaching an alternative product is full marks (step outcomes are about the arrows); the accepted step's
+    explanation and the product's caption (the linter warns without one) say what was made; the finished view is
+    unchanged. Only regioisomers, by authoring convention (E/Z and others wait until a reaction needs them). Example: Wittig, concerted [2+2] or stepwise via the betaine. A valid route the
     reaction does not accept (e.g. O-attack) is a `plausible` misconception. Misconceptions and hints belong to the state;
     the explanation belongs to the step.
   - **`partialArrowSets`** (optional, per step) lists other complete arrow sets for that step, **only** so that
@@ -399,6 +430,32 @@ then a halobenzene (deactivating but ortho/para). The track ends with a checkpoi
       caption, explanation and details. A changed or removed text shows deletions and insertions word by word;
       a new wrong answer is drawn with its arrows when they are exact.
 
+- **Drafting with an assistant (decided 2026-11-26).** To speed up content, an assistant drafts reactions and the
+  owner only reviews them (and corrects conditions) in Create before publishing.
+  - **Phase 1 (build item 10):** the assistant (Claude Code in this repository) writes reaction files locally,
+    lints them, and pushes them to `create.arrowpushing.com` **as drafts owned by the owner's account**.
+    - **Personal access tokens:** stored hashed, revocable, with an expiry; minted by a server command
+      (`create-token --user <email>`); no token page in Create until phase 2. The backend accepts
+      `Authorization: Bearer <token>` beside the cookie session.
+    - **A token may only read its user's reactions and save drafts**: never submit, review, publish, start a next
+      version or change roles, whatever its user's site role. Publishing stays a person's click in Create.
+    - **Draft sync** (one module, a command line on top): `check` (the linter), `push-draft <file|dir>` (refuses a
+      file with lint errors; sends the content hash of the draft it last saw, and the server refuses the save when
+      the draft changed since or the slug is published), `pull-draft <slug>` (fetches the owner's edited draft to work on).
+      The owner's edits in Create are never silently overwritten.
+    - **What the assistant writes:** every learner text (prompt, hints, misconception and partial-progress
+      messages, explanations, summary), the textbook `conditionsLabel` (the owner corrects it), tiers and daily
+      eligibility, and the track file. **`authors` is the owner alone** for now; no "drafted with an assistant"
+      mark.
+  - **Phase 2 (after the SEAr batch; detailed design deferred):** a remote **MCP server** on the same Render service
+    (`/mcp`), with the same tokens, so other people's agents can draft too: a format brief, check, apply arrows,
+    pull, save draft; no publish tool; rate-limited; a token page in Create.
+  - **Reused:** the design of RetrosynthWeb's `refinement_mcp` (checking separate from saving, no confirming tool,
+    a token tied to an account, rate limits), not its Python code. **Not used:** synkit's `mechsearch` (A* search
+    trained on USPTO; weak on SEAr: a Kekulé-dependent Wheland replay bug, hand-fixed nitration and Friedel–Crafts
+    records; a heavy Python stack). Its arrow notation is the same as ours (`lp O1 -> σ O1-C2`), so its reviewed
+    routes could be imported one day.
+
 ## 7. Mockups (done 2026-11-24)
 
 Static HTML/CSS/vanilla JS in `mockups/` (no build step; open `mockups/index.html`). Clean, slightly playful; light/dark.
@@ -439,5 +496,5 @@ Publish stage, the review queue, the review screen (only what changed, notes) an
 - Which exact reactions beyond the list above; authoring order of the first content set.
 - Tracks after "Aromatic chemistry" (e.g. Zaitsev versus Hofmann, kinetic versus thermodynamic enolates) and their
   problem sets. (Problem sets themselves were scoped on 2026-11-25: §1, §2, §5 "Learn".)
-- Deferred features: whole-mechanism mode, stereo validation, learner accounts/leaderboards/sync, visual editor polish (v2),
-  synkit-assisted drafting of mechanisms.
+- Deferred features: whole-mechanism mode, stereo validation, learner accounts/leaderboards/sync, visual editor polish (v2).
+- The phase-2 MCP server's detailed design (§6 "Drafting with an assistant").

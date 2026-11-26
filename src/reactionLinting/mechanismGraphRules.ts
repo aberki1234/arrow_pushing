@@ -1,16 +1,23 @@
 /**
  * Lint rules on the mechanism graph alone (states and steps, no chemistry).
  *
- * Rules (docs/schema-design.md §3.4 and §3.5), all errors
+ * Rules (docs/schema-design.md §3.4 and §3.5), errors except where marked
  *   duplicate-step-key                      two steps share a stepKey (progress records use it)
  *   step-state-id-unknown                   a step's fromStateId or toStateId names no state
  *   state-unreachable                       no route from startStateId reaches the state (rule 1)
  *   mechanism-has-cycle                     some steps lead back to a state already passed (rule 2)
- *   not-exactly-one-product-state           the number of states with no steps leaving them is
- *                                           not 1, so some branch does not rejoin (rule 3)
  *   several-preferred-steps-leave-state     more than one preferred step leaves a state (rule 4)
  *   preferred-route-does-not-reach-product  following preferred steps from the start state stops
- *                                           before the product state (rule 4)
+ *                                           at a state that steps still leave (rule 4)
+ *   alternative-product-without-caption     (warning) a product state other than the main product
+ *                                           has no caption saying what it is (rule 3)
+ *
+ * Terms (rule 3, decided 2026-11-26, build item 10e)
+ *   product state        a state no step leaves. A reaction may have several.
+ *   main product         the product state where the route of preferred steps from the start state
+ *                        ends.
+ *   alternative product  any other product state, reached only by accepted steps (a minor
+ *                        regioisomer, such as ortho beside para).
  *   change-step-not-alone                   a change step shares its from-state with another step
  *
  * Steps
@@ -18,7 +25,7 @@
  *   mechanismGraphFindings() then checks the rest, in the order listed above.
  */
 import type { LintedReaction } from "./lintedReaction.js";
-import { type LintFinding, lintError } from "./lintFindings.js";
+import { type LintFinding, lintError, lintWarning } from "./lintFindings.js";
 
 /** step-state-id-unknown, at "/steps/<position>/fromStateId" or ".../toStateId". */
 export function unknownStateIdFindings(reaction: LintedReaction): LintFinding[] {
@@ -151,19 +158,33 @@ function productStateIds(reaction: LintedReaction): string[] {
     .map(([stateId]) => stateId);
 }
 
-function productStateFindings(reaction: LintedReaction): LintFinding[] {
+function preferredStepPositionsByState(reaction: LintedReaction): Map<string, number[]> {
+  return new Map(
+    [...stateIdToLeavingStepPositions(reaction)].map(([stateId, positions]) => [
+      stateId,
+      positions.filter((position) => reaction.steps[position]?.routePreference === "preferred"),
+    ]),
+  );
+}
+
+/** Rule 3: every alternative product says what it is, once the main product is known. */
+function alternativeProductFindings(reaction: LintedReaction): LintFinding[] {
   const productIds = productStateIds(reaction);
-  if (productIds.length === 1) {
+  const mainProductId = endOfPreferredRoute(reaction, preferredStepPositionsByState(reaction));
+  if (!productIds.includes(mainProductId)) {
     return [];
   }
-  return [
-    lintError(
-      "not-exactly-one-product-state",
-      ["stateIdToState"],
-      `${String(productIds.length)} states have no step leaving them ` +
-        `(${productIds.join(", ")}); every branch must rejoin at one product state`,
-    ),
-  ];
+  return productIds
+    .filter((stateId) => stateId !== mainProductId)
+    .filter((stateId) => reaction.stateIdToState.get(stateId)?.hasCaption !== true)
+    .map((stateId) =>
+      lintWarning(
+        "alternative-product-without-caption",
+        ["stateIdToState", stateId],
+        `state "${stateId}" is an alternative product (the preferred route ends at ` +
+          `"${mainProductId}"): give it a caption saying what it is, e.g. "ortho product (minor)"`,
+      ),
+    );
 }
 
 /** Where following the preferred steps from the start state stops. */
@@ -183,16 +204,11 @@ function endOfPreferredRoute(
 }
 
 /**
- * Rule 4: at most one preferred step per state, and the preferred route reaches the product.
- * The route is followed only when the first part holds and there is one product.
+ * Rule 4: at most one preferred step per state, and the preferred route ends at a product state.
+ * The route is followed only when the first part holds.
  */
 function preferredStepFindings(reaction: LintedReaction): LintFinding[] {
-  const stateIdToPreferredPositions = new Map(
-    [...stateIdToLeavingStepPositions(reaction)].map(([stateId, positions]) => [
-      stateId,
-      positions.filter((position) => reaction.steps[position]?.routePreference === "preferred"),
-    ]),
-  );
+  const stateIdToPreferredPositions = preferredStepPositionsByState(reaction);
   const findings = [...stateIdToPreferredPositions.values()].flatMap((positions) =>
     positions.slice(1).map((position) => {
       const step = reaction.steps[position];
@@ -204,12 +220,11 @@ function preferredStepFindings(reaction: LintedReaction): LintFinding[] {
       );
     }),
   );
-  const productIds = productStateIds(reaction);
-  if (findings.length > 0 || productIds.length !== 1) {
+  if (findings.length > 0) {
     return findings;
   }
   const routeEnd = endOfPreferredRoute(reaction, stateIdToPreferredPositions);
-  if (routeEnd === productIds[0]) {
+  if (productStateIds(reaction).includes(routeEnd)) {
     return [];
   }
   return [
@@ -246,8 +261,8 @@ export function mechanismGraphFindings(reaction: LintedReaction): LintFinding[] 
     ...duplicateStepKeyFindings(reaction),
     ...unreachableStateFindings(reaction),
     ...cycleFindings(reaction),
-    ...productStateFindings(reaction),
     ...preferredStepFindings(reaction),
+    ...alternativeProductFindings(reaction),
     ...changeStepFindings(reaction),
   ];
 }

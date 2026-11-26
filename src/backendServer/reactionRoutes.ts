@@ -11,7 +11,11 @@
  *   GET  /api/reactions/:slug                         the newest version (as one stored version)
  *   GET  /api/reactions/:slug/versions/:version       one stored version
  *   PUT  /api/reactions/:slug/draft                   body: the reaction document; its
- *                                                     reactionSlug must be :slug (400)
+ *                                                     reactionSlug must be :slug (400). With
+ *                                                     If-None-Match: * or If-Match: <hash>, refused
+ *                                                     (409 draft-changed) unless the stored draft
+ *                                                     is the one expected; answers the save and
+ *                                                     its draftContentHash
  *   POST /api/reactions/:slug/next-version            "Edit" (or "Suggest version n+1" of
  *                                                     someone else's): version n+1 as a draft
  *   POST /api/reactions/:slug/publish                 body {licenceAgreed: boolean}; answers the
@@ -24,13 +28,13 @@
 import { type Context, Hono } from "hono";
 import type { ReactionDatabase } from "../reactionDatabase/databaseTables.js";
 import { publishedVersionsForExport } from "../reactionDatabase/publishedExport.js";
+import { saveDraftIfUnchanged } from "../reactionDatabase/draftChangeCheck.js";
 import { publishDraft } from "../reactionDatabase/publishing.js";
 import { ReactionDatabaseError } from "../reactionDatabase/reactionDatabaseErrors.js";
 import {
   findReaction,
   listReactionsFor,
   readReactionVersion,
-  saveDraft,
   startNextVersion,
 } from "../reactionDatabase/reactionVersions.js";
 import { creationProgress } from "../reactionEditing/creationProgress.js";
@@ -60,6 +64,18 @@ function versionNumberFrom(versionText: string): number {
     throw new ReactionDatabaseError("version-not-found", `no version "${versionText}"`);
   }
   return Number(versionText);
+}
+
+/**
+ * The draft a save expects to replace (draftChangeCheck.ts): `If-None-Match: *` for none yet,
+ * `If-Match: <draft content hash>` (quoted or not) for that one, neither for no check.
+ */
+function expectedDraftHash(context: Context): string | null | undefined {
+  if (context.req.header("if-none-match")?.trim() === "*") {
+    return null;
+  }
+  const ifMatch = context.req.header("if-match")?.trim();
+  return ifMatch === undefined ? undefined : ifMatch.replace(/^"(.*)"$/, "$1");
 }
 
 /** Listing, reading, saving a draft and "Edit" (version n+1). */
@@ -101,7 +117,9 @@ function addVersionRoutes(routes: Hono<ServerEnvironment>, database: ReactionDat
       return context.json({ error: "the document's reactionSlug is not the address's" }, 400);
     }
     const { userId } = context.get("signedInUser");
-    return context.json(await saveDraft(database, reactionDocument, userId));
+    return context.json(
+      await saveDraftIfUnchanged(database, reactionDocument, userId, expectedDraftHash(context)),
+    );
   });
 
   routes.post("/reactions/:slug/next-version", async (context) => {
@@ -133,8 +151,8 @@ export function reactionRoutes(
   routes.get("/published-versions", async (context) =>
     context.json(await publishedVersionsForExport(dependencies.database)),
   );
-  routes.use("/reactions", requireSignIn(authentication));
-  routes.use("/reactions/*", requireSignIn(authentication));
+  routes.use("/reactions", requireSignIn(authentication, dependencies.database));
+  routes.use("/reactions/*", requireSignIn(authentication, dependencies.database));
   addVersionRoutes(routes, dependencies.database);
   addPublishRoute(routes, dependencies);
   return routes;

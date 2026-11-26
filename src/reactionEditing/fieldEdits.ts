@@ -29,6 +29,7 @@ const SLUG_PATTERN = /^[a-z0-9]+(?:-[a-z0-9]+)*$/;
 const ROLE_PATTERN = /^[a-z][A-Za-z0-9]*$/;
 export const REACTION_CLASSES = [
   "substitution",
+  "aromatic substitution",
   "elimination",
   "carbonyl",
   "pericyclic",

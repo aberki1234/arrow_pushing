@@ -20,7 +20,9 @@ export type RefusalCode =
   | "not-submitted"
   | "own-submission"
   | "user-not-found"
-  | "role-not-assignable";
+  | "role-not-assignable"
+  | "access-token-not-found"
+  | "draft-changed";
 
 export class ReactionDatabaseError extends Error {
   override readonly name = "ReactionDatabaseError";

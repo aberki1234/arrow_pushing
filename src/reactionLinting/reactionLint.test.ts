@@ -20,6 +20,7 @@ import {
 import { lintReaction } from "./reactionLint.js";
 
 const WARNING_RULE_IDS = new Set([
+  "alternative-product-without-caption",
   "fewer-than-three-hint-tiers",
   "misconception-never-fires",
   "too-many-skeleton-symmetries",
@@ -67,7 +68,7 @@ it("every rule except the symmetry cap is broken by at least one case", () => {
       "duplicate-step-key",
       "state-unreachable",
       "mechanism-has-cycle",
-      "not-exactly-one-product-state",
+      "alternative-product-without-caption",
       "several-preferred-steps-leave-state",
       "preferred-route-does-not-reach-product",
       "change-step-not-alone",

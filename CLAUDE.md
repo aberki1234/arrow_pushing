@@ -27,7 +27,9 @@ Do not change agreed decisions without asking; update `docs/SPEC.md` and `docs/s
   `reactionLinting/` (the linter, reactions and tracks; command line
   `npx tsx src/reactionLinting/runFromShell.ts lint|seed-coordinates|lint-tracks`), `catalogue/` (reading `catalogue.json`),
   `catalogueBuilding/` (the static catalogue and daily calendar: `npx tsx src/catalogueBuilding/runFromShell.ts
-  build`; `make catalogue`), `reactionDatabase/` (8c: Postgres via Kysely, schema `arrowpush`; SQL migrations,
+  build`; `make catalogue`), `draftSync/` (item 10c: pushing lint-clean reaction files to Create as drafts with an
+  access token and pulling them back: `npx tsx src/draftSync/runFromShell.ts check|push-draft|pull-draft`, settings
+  `ARROWPUSH_ACCESS_TOKEN`, `ARROWPUSH_SERVER_URL`; hashes in `.draft-sync.json`, not in git), `reactionDatabase/` (8c: Postgres via Kysely, schema `arrowpush`; SQL migrations,
   drafts, versions, publishing, export, import; tests on PGlite with `testSupport/temporaryDatabase.ts`), `moleculeDrawing/` (state → SVG primitives and pick targets, curved-arrow
   geometry), `stepSession/` (taps → arrows, a run through a reaction, scoring, snapshots, feedback text),
   `learnerProgress/` (`localStorage` progress, export / import), `dailyPuzzle/` (today's puzzle, streak, share text),

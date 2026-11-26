@@ -31,6 +31,7 @@ beforeEach(async () => {
 });
 
 const TABLE_NAMES = [
+  "access_tokens",
   "accounts",
   "reaction_versions",
   "reactions",
@@ -46,6 +47,7 @@ describe("applying the migrations", () => {
       "0001_arrowpush_tables.sql",
       "0002_read_only_role.sql",
       "0003_contributors.sql",
+      "0004_access_tokens.sql",
     ]);
     expect(await applyMigrations(connection)).toEqual([]);
   });

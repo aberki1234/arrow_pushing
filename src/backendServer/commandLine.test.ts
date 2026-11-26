@@ -25,7 +25,40 @@ describe("reading the command", () => {
       draftFilePaths: ["c.json"],
     });
   });
+});
 
+describe("reading the access token commands", () => {
+  it("reads create-token with its defaults or given name and lifetime, and revoke-token", () => {
+    expect(parseBackendCommand(["create-token", "--user", "me@example.com"])).toEqual({
+      commandName: "create-token",
+      userEmail: "me@example.com",
+      tokenName: "drafting",
+      lifetimeDays: 90,
+    });
+    expect(
+      parseBackendCommand([
+        "create-token",
+        "--days",
+        "7",
+        "--user",
+        "me@example.com",
+        "--name",
+        "laptop",
+      ]),
+    ).toEqual({
+      commandName: "create-token",
+      userEmail: "me@example.com",
+      tokenName: "laptop",
+      lifetimeDays: 7,
+    });
+    expect(parseBackendCommand(["revoke-token", "some-id"])).toEqual({
+      commandName: "revoke-token",
+      accessTokenId: "some-id",
+    });
+  });
+});
+
+describe("refusing a command", () => {
   it("refuses no command, an unknown one, extra words, and import without files", () => {
     for (const commandArguments of [
       [],
@@ -35,6 +68,12 @@ describe("reading the command", () => {
       ["import", "a.json"],
       ["import", "--published"],
       ["import", "--everything", "a.json"],
+      ["create-token"],
+      ["create-token", "--user"],
+      ["create-token", "--user", "me@example.com", "--days", "soon"],
+      ["create-token", "--user", "me@example.com", "--colour", "red"],
+      ["revoke-token"],
+      ["revoke-token", "a", "b"],
     ]) {
       expect(() => parseBackendCommand(commandArguments)).toThrow(CommandLineError);
     }

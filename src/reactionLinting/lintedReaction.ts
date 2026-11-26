@@ -18,6 +18,8 @@ export interface LintedMisconception {
 export interface LintedState {
   readonly mappedSmiles: string;
   readonly hasLearnerPrompt: boolean;
+  /** A caption with some text in it. */
+  readonly hasCaption: boolean;
   readonly hintTierCount: number;
   readonly misconceptions: readonly LintedMisconception[];
 }
@@ -102,6 +104,7 @@ function lintedState(state: DocumentRecord): LintedState {
   return {
     mappedSmiles: textAt(state, "mappedSmiles"),
     hasLearnerPrompt: "learnerPrompt" in state,
+    hasCaption: typeof state.caption === "string" && state.caption.trim() !== "",
     hintTierCount: listAt(state, "hintTiers").length,
     misconceptions: recordsAt(state, "misconceptions").map((entry) => ({
       misconceptionId: textAt(entry, "misconceptionId"),

@@ -18,11 +18,13 @@ const CODE_TO_STATUS: Record<RefusalCode, number> = {
   "reaction-not-found": 404,
   "version-not-found": 404,
   "user-not-found": 404,
+  "access-token-not-found": 404,
   "no-unpublished-version": 409,
   "unpublished-version-exists": 409,
   "too-many-open-drafts": 409,
   "not-submittable": 409,
   "not-submitted": 409,
+  "draft-changed": 409,
   "draft-has-lint-errors": 422,
   "licence-not-agreed": 422,
 };

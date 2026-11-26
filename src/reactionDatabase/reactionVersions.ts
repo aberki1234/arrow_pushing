@@ -214,14 +214,24 @@ export function saveDraft(
       new ReactionDatabaseError("document-has-no-slug", "the document has no reactionSlug"),
     );
   }
-  return database.transaction().execute(async (transaction) => {
-    await requireSiteAction(transaction, authorUserId, "createReactions");
-    const reaction = await findReaction(transaction, reactionSlug);
-    if (reaction === undefined) {
-      return createReaction(transaction, reactionSlug, reactionDocument, authorUserId);
-    }
-    return replaceDraft(transaction, reaction, reactionDocument, authorUserId);
-  });
+  return database
+    .transaction()
+    .execute((transaction) => saveDraftIn(transaction, reactionDocument, authorUserId));
+}
+
+/** saveDraft() inside a transaction the caller holds; the document must have a reactionSlug. */
+export async function saveDraftIn(
+  transaction: ReactionDatabase,
+  reactionDocument: ReactionDocument,
+  authorUserId: string,
+): Promise<WrittenVersion> {
+  await requireSiteAction(transaction, authorUserId, "createReactions");
+  const reactionSlug = String(reactionDocument.reactionSlug);
+  const reaction = await findReaction(transaction, reactionSlug);
+  if (reaction === undefined) {
+    return createReaction(transaction, reactionSlug, reactionDocument, authorUserId);
+  }
+  return replaceDraft(transaction, reaction, reactionDocument, authorUserId);
 }
 
 /** saveDraft() on an existing reaction: its unpublished version, if `authorUserId` wrote it. */

@@ -45,8 +45,9 @@ export async function newMigratedDatabase(): Promise<DatabaseConnection> {
 /** Remove every row (TRUNCATE fires no row trigger, so published versions go too). */
 export async function emptyAllTables(connection: DatabaseConnection): Promise<void> {
   await connection.runSqlScript(
-    "TRUNCATE arrowpush.reviews, arrowpush.sessions, arrowpush.accounts, " +
-      "arrowpush.verifications, arrowpush.reaction_versions, arrowpush.reactions, arrowpush.users;",
+    "TRUNCATE arrowpush.access_tokens, arrowpush.reviews, arrowpush.sessions, " +
+      "arrowpush.accounts, arrowpush.verifications, arrowpush.reaction_versions, " +
+      "arrowpush.reactions, arrowpush.users;",
   );
 }
 

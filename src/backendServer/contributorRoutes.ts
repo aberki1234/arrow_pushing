@@ -172,7 +172,7 @@ export function contributorRoutes(
 ): Hono<ServerEnvironment> {
   const routes = new Hono<ServerEnvironment>();
   for (const path of ["/reactions/*", "/review-queue", "/users", "/users/*"]) {
-    routes.use(path, requireSignIn(authentication));
+    routes.use(path, requireSignIn(authentication, dependencies.database));
   }
   addSubmitRoutes(routes, dependencies);
   addReviewRoutes(routes, dependencies);

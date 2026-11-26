@@ -118,6 +118,18 @@ export interface VerificationsTable {
   updatedAt: TimestampWithDefault;
 }
 
+/** A personal access token (accessTokens.ts): only its SHA-256 is stored. */
+export interface AccessTokensTable {
+  readonly id: Generated<string>;
+  userId: string;
+  tokenName: string;
+  tokenSha256: string;
+  createdAt: TimestampWithDefault;
+  expiresAt: Date;
+  lastUsedAt: Date | null;
+  revokedAt: Date | null;
+}
+
 export interface AppliedMigrationsTable {
   migrationName: string;
   appliedAt: TimestampWithDefault;
@@ -132,6 +144,7 @@ export interface ArrowpushTables {
   "arrowpush.sessions": SessionsTable;
   "arrowpush.accounts": AccountsTable;
   "arrowpush.verifications": VerificationsTable;
+  "arrowpush.accessTokens": AccessTokensTable;
   "arrowpush.appliedMigrations": AppliedMigrationsTable;
 }
 

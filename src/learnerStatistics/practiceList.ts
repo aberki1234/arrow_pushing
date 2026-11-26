@@ -39,7 +39,7 @@ export const NO_FILTERS: PracticeFilters = {
 };
 
 const PRACTICE_STATUSES: readonly PracticeStatus[] = ["new", "practised", "mastered"];
-const CLASS_PATTERN = /^[a-z]+(-[a-z]+)*$/;
+const CLASS_PATTERN = /^[a-z]+([ -][a-z]+)*$/;
 const MAXIMUM_DIFFICULTY_TIER = 3;
 
 /** Filters from the query after "#/practice?"; unknown or malformed values are ignored. */

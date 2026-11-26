@@ -8,3 +8,6 @@ build/
 # Local environment files
 .env
 .claude/settings.local.json
+
+# Draft sync's local record of the drafts pushed or pulled (src/draftSync/)
+.draft-sync.json

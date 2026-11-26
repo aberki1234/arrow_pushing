@@ -24,7 +24,13 @@
  */
 import { betterAuth } from "better-auth";
 import type { MiddlewareHandler } from "hono";
+import { userOfAccessToken } from "../reactionDatabase/accessTokens.js";
 import type { ReactionDatabase, SiteRole } from "../reactionDatabase/databaseTables.js";
+import {
+  ACCESS_TOKEN_REFUSAL,
+  accessTokenMayRequest,
+  bearerTokenOf,
+} from "./accessTokenRequests.js";
 import type { ServerEnvironment, SignedInUser } from "./serverDependencies.js";
 import type { ServerSettings } from "./serverSettings.js";
 
@@ -142,12 +148,28 @@ export async function signedInUserFor(
   return { userId: user.id, displayName: user.name, siteRole };
 }
 
-/** Answer 401 unless the request carries a live session; otherwise set signedInUser. */
+/**
+ * Answer 401 unless the request carries a live session or a live access token; otherwise set
+ * signedInUser. A session is looked at first. A token is accepted only on the routes of
+ * accessTokenRequests.ts (403 elsewhere).
+ */
 export function requireSignIn(
   authentication: Authentication,
+  database: ReactionDatabase,
 ): MiddlewareHandler<ServerEnvironment> {
   return async (context, next) => {
-    const signedInUser = await signedInUserFor(authentication, context.req.raw.headers);
+    const requestHeaders = context.req.raw.headers;
+    let signedInUser = await signedInUserFor(authentication, requestHeaders);
+    const bearerToken = bearerTokenOf(requestHeaders);
+    if (signedInUser === undefined && bearerToken !== undefined) {
+      signedInUser = await userOfAccessToken(database, bearerToken, new Date());
+      if (
+        signedInUser !== undefined &&
+        !accessTokenMayRequest(context.req.method, context.req.path)
+      ) {
+        return context.json({ error: ACCESS_TOKEN_REFUSAL }, 403);
+      }
+    }
     if (signedInUser === undefined) {
       return context.json({ error: "sign in first" }, 401);
     }

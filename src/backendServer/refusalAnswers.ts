@@ -3,9 +3,9 @@
  *
  *   400  document-has-no-slug, role-not-assignable
  *   403  not-allowed-to-publish, not-version-author, not-allowed, own-submission
- *   404  reaction-not-found, version-not-found, user-not-found
+ *   404  reaction-not-found, version-not-found, user-not-found, access-token-not-found
  *   409  no-unpublished-version, unpublished-version-exists, too-many-open-drafts,
- *        not-submittable, not-submitted (the reaction's state conflicts)
+ *        not-submittable, not-submitted, draft-changed (the reaction's state conflicts)
  *   422  draft-has-lint-errors, licence-not-agreed (the draft cannot be published as it is)
  */
 import type { LintFinding } from "../reactionLinting/lintFindings.js";
@@ -40,6 +40,8 @@ const REFUSAL_CODE_TO_HTTP_STATUS: Record<RefusalCode, RefusalHttpStatus> = {
   "not-submitted": 409,
   "user-not-found": 404,
   "role-not-assignable": 400,
+  "access-token-not-found": 404,
+  "draft-changed": 409,
 };
 
 export function refusalHttpStatus(refusalCode: RefusalCode): RefusalHttpStatus {

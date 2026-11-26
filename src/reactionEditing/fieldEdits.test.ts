@@ -8,10 +8,12 @@ import {
   loadChemistryToolkit,
 } from "../chemistryToolkit/chemistryToolkit.js";
 import { lintReaction } from "../reactionLinting/reactionLint.js";
+import reactionSchemaJson from "../../schema/reaction.schema.json";
 import { exampleReaction } from "../testSupport/reactionEdits.js";
 import {
   cycleWedgeStyle,
   type FieldEdit,
+  REACTION_CLASSES,
   renameState,
   renameStep,
   setReactionField,
@@ -59,6 +61,9 @@ describe("reaction fields", () => {
     expect(edited(setReactionField(sn2, "difficultyTier", 3)).difficultyTier).toBe(3);
     expect(refusalOf(setReactionField(sn2, "difficultyTier", 4))).toContain("1 to 3");
     expect(refusalOf(setReactionField(sn2, "reactionClasses", ["magic"]))).toContain("magic");
+    expect(
+      edited(setReactionField(sn2, "reactionClasses", ["aromatic substitution"])).reactionClasses,
+    ).toEqual(["aromatic substitution"]);
     expect(edited(setReactionField(sn2, "spectatorMapNumbers", [4])).spectatorMapNumbers).toEqual([
       4,
     ]);
@@ -155,5 +160,11 @@ describe("cycleWedgeStyle", () => {
 
   it("refuses a pair of atoms that are not bonded", () => {
     expect(refusalOf(cycleWedgeStyle(sn2, "reactants", [1, 3]))).toContain("bond");
+  });
+});
+
+describe("reaction classes", () => {
+  it("offers exactly the classes the reaction schema allows", () => {
+    expect([...REACTION_CLASSES]).toEqual(reactionSchemaJson.properties.reactionClasses.items.enum);
   });
 });

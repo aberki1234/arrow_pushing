@@ -11,6 +11,7 @@ const layersLowestFirst = [
   "reactionLinting",
   "catalogue",
   "catalogueBuilding",
+  "draftSync",
   "reactionDatabase",
   "moleculeDrawing",
   "stepSession",
@@ -54,8 +55,8 @@ module.exports = {
       from: { path: "^src/learnerSite/main\\.ts$" },
       to: {
         path:
-          "^src/(chemistryToolkit|reactionLinting|catalogueBuilding|reactionDatabase|reactionEditing|" +
-          "reactionEditor|editorFileServer|backendServer)/",
+          "^src/(chemistryToolkit|reactionLinting|catalogueBuilding|draftSync|reactionDatabase|" +
+          "reactionEditing|reactionEditor|editorFileServer|backendServer)/",
         reachable: true,
       },
     },
