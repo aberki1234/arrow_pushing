@@ -1,0 +1,672 @@
+{
+  "steps": [
+    {
+      "stepKey": "wolff-rearrangement",
+      "stepKind": "polar",
+      "toStateId": "ketene",
+      "fromStateId": "reactants",
+      "canonicalArrows": [
+        "σ C3-N4 -> lp N4",
+        "σ C2-C21 -> σ C3-C21",
+        "lp C3 -> π C2-C3"
+      ],
+      "routePreference": "preferred",
+      "explanationAfterStep": "N₂ leaves as the phenyl group moves to the electron-poor carbon next door, giving a ketene: the Wolff rearrangement. A diazoketone that can adopt the s-cis conformation is thought to lose N₂ and rearrange in one step."
+    },
+    {
+      "stepKey": "n2-loss",
+      "stepKind": "polar",
+      "toStateId": "acylcarbene",
+      "fromStateId": "reactants",
+      "canonicalArrows": [
+        "σ C3-N4 -> lp N4"
+      ],
+      "routePreference": "accepted",
+      "explanationAfterStep": "Also accepted: N₂ leaves first, giving a free acylcarbene. Carbenes from diazoketones (made with heat, light or a silver catalyst) can rearrange this way, and some are trapped by other reagents."
+    },
+    {
+      "stepKey": "carbene-shift",
+      "stepKind": "polar",
+      "toStateId": "ketene",
+      "fromStateId": "acylcarbene",
+      "canonicalArrows": [
+        "σ C2-C21 -> σ C3-C21",
+        "lp C3 -> π C2-C3"
+      ],
+      "routePreference": "accepted",
+      "explanationAfterStep": "The phenyl group moves into the empty orbital of the carbene, with its bonding pair: a 1,2-shift that gives the ketene."
+    },
+    {
+      "stepKey": "water-adds",
+      "stepKind": "polar",
+      "toStateId": "zwitterion",
+      "fromStateId": "ketene",
+      "canonicalArrows": [
+        "lp O6 -> σ O6-C2",
+        "π O1-C2 -> lp O1"
+      ],
+      "routePreference": "preferred",
+      "explanationAfterStep": "Water adds to the central carbon of the ketene, giving an enolate."
+    },
+    {
+      "stepKey": "proton-transfer",
+      "stepKind": "polar",
+      "toStateId": "enolate",
+      "fromStateId": "zwitterion",
+      "canonicalArrows": [
+        "lp O9 -> σ O9-H7",
+        "σ O6-H7 -> lp O6"
+      ],
+      "routePreference": "preferred",
+      "explanationAfterStep": "A second water molecule takes a proton from the positive oxygen."
+    },
+    {
+      "stepKey": "c-protonation",
+      "stepKind": "polar",
+      "toStateId": "products",
+      "fromStateId": "enolate",
+      "canonicalArrows": [
+        "π C2-C3 -> σ C3-H10",
+        "σ O9-H10 -> lp O9",
+        "lp O1 -> π O1-C2"
+      ],
+      "routePreference": "preferred",
+      "explanationAfterStep": "Protonation on carbon gives phenylacetic acid: benzoic acid has been homologated to the next acid in the series."
+    }
+  ],
+  "title": "Wolff rearrangement (Arndt–Eistert)",
+  "authors": [
+    {
+      "url": null,
+      "name": "Maksim"
+    }
+  ],
+  "licence": "CC-BY-SA-4.0",
+  "subtitle": "A diazoketone loses N₂ to a ketene, which water turns into phenylacetic acid",
+  "references": [
+    "Clayden, Greeves and Warren, Organic Chemistry, 2nd edition (Oxford University Press), chapter 38"
+  ],
+  "reactionSlug": "wolff-rearrangement",
+  "startStateId": "reactants",
+  "formatVersion": 1,
+  "difficultyTier": 3,
+  "stateIdToState": {
+    "ketene": {
+      "caption": "phenylketene, PhCH=C=O + N₂",
+      "hintTiers": [
+        "The central carbon of C=C=O is very electrophilic, like the carbon of an isocyanate. Water is the nucleophile.",
+        "The water oxygen bonds to the central carbon, and the C=O π pair moves onto oxygen. Two arrows.",
+        "Water lone pair → new bond to the central ketene carbon; C=O π bond → a lone pair on oxygen."
+      ],
+      "mappedSmiles": "[O:1]=[C:2]=[CH:3][C:21]9=[CH:22][CH:23]=[CH:24][CH:25]=[CH:26]9.[N:4]#[N:5].[H:7][O:6][H:8].[H:10][O:9][H:11]",
+      "learnerPrompt": "Water adds to the ketene.",
+      "misconceptions": [
+        {
+          "severity": "wrong",
+          "arrowPattern": "lp O* -> σ O*-C3",
+          "feedbackMessage": "The CH end of the ketene is electron-rich. Water bonds to the central carbon, between the C=C and the C=O.",
+          "misconceptionId": "water-at-ch",
+          "misconceptionTag": "wrong-electrophilic-atom"
+        },
+        {
+          "severity": "wrong",
+          "arrowPattern": "* -> N4",
+          "feedbackMessage": "N₂ is unreactive and bubbles away. Water adds to the ketene.",
+          "misconceptionId": "n2-reacts",
+          "misconceptionTag": "inert-species"
+        }
+      ],
+      "mapNumberToCoordinates": {
+        "1": [
+          4.5,
+          -2.6
+        ],
+        "2": [
+          3.75,
+          -1.3
+        ],
+        "3": [
+          3,
+          0
+        ],
+        "4": [
+          -0.45,
+          5.04
+        ],
+        "5": [
+          -0.45,
+          3.54
+        ],
+        "6": [
+          6.8,
+          0
+        ],
+        "7": [
+          8.1,
+          0.75
+        ],
+        "8": [
+          5.5,
+          0.75
+        ],
+        "9": [
+          0.66,
+          7.05
+        ],
+        "10": [
+          1.95,
+          7.8
+        ],
+        "11": [
+          -0.64,
+          7.8
+        ],
+        "21": [
+          1.5,
+          0
+        ],
+        "22": [
+          0.75,
+          1.3
+        ],
+        "23": [
+          -0.75,
+          1.3
+        ],
+        "24": [
+          -1.5,
+          0
+        ],
+        "25": [
+          -0.75,
+          -1.3
+        ],
+        "26": [
+          0.75,
+          -1.3
+        ]
+      },
+      "partialProgressMessages": [
+        {
+          "learnerArrows": [
+            "lp O6 -> σ O6-C2"
+          ],
+          "feedbackMessage": "Right: water bonds to the central carbon. That carbon now has five bonds: move the C=O π pair onto oxygen."
+        }
+      ]
+    },
+    "enolate": {
+      "caption": "the enolate of phenylacetic acid + H₃O⁺",
+      "hintTiers": [
+        "An enolate can be protonated on oxygen or on carbon. Protonation on carbon gives the carboxylic acid directly.",
+        "Three arrows: the C=C π pair takes a proton from H₃O⁺, the O–H pair stays on the water oxygen, and the O⁻ lone pair re-forms C=O.",
+        "C=C π bond → new bond from the CH carbon to an H of H₃O⁺; that O–H bond → a lone pair on the water oxygen; O⁻ lone pair → C=O π bond."
+      ],
+      "mappedSmiles": "[O-:1][C:2](=[CH:3][C:21]9=[CH:22][CH:23]=[CH:24][CH:25]=[CH:26]9)[O:6][H:8].[N:4]#[N:5].[H:7][O+:9]([H:10])[H:11]",
+      "learnerPrompt": "Protonate the enolate on carbon.",
+      "misconceptions": [
+        {
+          "severity": "plausible",
+          "arrowPattern": "lp O1 -> σ O1-H*",
+          "feedbackMessage": "Protonating oxygen gives the enediol, which tautomerises to the same acid, but that is a longer way round. Protonate the carbon.",
+          "misconceptionId": "o-protonation",
+          "misconceptionTag": "other-route"
+        },
+        {
+          "severity": "wrong",
+          "arrowPattern": "π C2-C3 -> lp C*",
+          "feedbackMessage": "Push the C=C π pair to a proton, not onto a carbon.",
+          "misconceptionId": "pi-onto-carbon",
+          "misconceptionTag": "wrong-direction"
+        }
+      ],
+      "mapNumberToCoordinates": {
+        "1": [
+          5.25,
+          -1.3
+        ],
+        "2": [
+          3.75,
+          -1.3
+        ],
+        "3": [
+          3,
+          0
+        ],
+        "4": [
+          -0.55,
+          5.05
+        ],
+        "5": [
+          -0.55,
+          3.55
+        ],
+        "6": [
+          3,
+          -2.6
+        ],
+        "7": [
+          8.85,
+          0.75
+        ],
+        "8": [
+          3.75,
+          -3.9
+        ],
+        "9": [
+          7.55,
+          0
+        ],
+        "10": [
+          6.25,
+          0.75
+        ],
+        "11": [
+          7.55,
+          -1.5
+        ],
+        "21": [
+          1.5,
+          0
+        ],
+        "22": [
+          0.75,
+          1.3
+        ],
+        "23": [
+          -0.75,
+          1.3
+        ],
+        "24": [
+          -1.5,
+          0
+        ],
+        "25": [
+          -0.75,
+          -1.3
+        ],
+        "26": [
+          0.75,
+          -1.3
+        ]
+      },
+      "partialProgressMessages": [
+        {
+          "learnerArrows": [
+            "π C2-C3 -> σ C3-H10",
+            "σ O9-H10 -> lp O9"
+          ],
+          "feedbackMessage": "Right: carbon takes the proton. The central carbon would be left with a positive charge: the O⁻ lone pair re-forms C=O."
+        }
+      ]
+    },
+    "products": {
+      "caption": "phenylacetic acid + N₂ + water",
+      "mappedSmiles": "[O:1]=[C:2]([O:6][H:8])[CH:3]([H:10])[C:21]9=[CH:22][CH:23]=[CH:24][CH:25]=[CH:26]9.[N:4]#[N:5].[H:7][O:9][H:11]",
+      "mapNumberToCoordinates": {
+        "1": [
+          5.25,
+          1.3
+        ],
+        "2": [
+          3.75,
+          1.3
+        ],
+        "3": [
+          3,
+          0
+        ],
+        "4": [
+          0,
+          6.4
+        ],
+        "5": [
+          0,
+          4.9
+        ],
+        "6": [
+          3,
+          2.6
+        ],
+        "7": [
+          10.07,
+          0.72
+        ],
+        "8": [
+          3.75,
+          3.9
+        ],
+        "9": [
+          8.77,
+          -0.03
+        ],
+        "10": [
+          3.75,
+          -1.3
+        ],
+        "11": [
+          7.47,
+          0.72
+        ],
+        "21": [
+          1.5,
+          0
+        ],
+        "22": [
+          0.75,
+          1.3
+        ],
+        "23": [
+          -0.75,
+          1.3
+        ],
+        "24": [
+          -1.5,
+          0
+        ],
+        "25": [
+          -0.75,
+          -1.3
+        ],
+        "26": [
+          0.75,
+          -1.3
+        ]
+      }
+    },
+    "reactants": {
+      "caption": "a diazoketone, PhCOCHN₂ (drawn as C⁻–N⁺≡N), in aqueous dioxane",
+      "hintTiers": [
+        "N₂ is an excellent leaving group. When it leaves, the carbon is short of electrons. Which group on the carbonyl carbon next door can move across?",
+        "Three arrows: the C–N bond breaks onto nitrogen, the phenyl moves from the carbonyl carbon to the carbon that lost N₂, and that carbon's lone pair makes a C=C bond to the carbonyl carbon.",
+        "C–N bond → a lone pair on nitrogen (N₂ leaves); bond from the carbonyl carbon to the ring → new bond from the ring carbon to the CHN₂ carbon; lone pair on that carbon → C=C π bond."
+      ],
+      "mappedSmiles": "[O:1]=[C:2]([CH-:3][N+:4]#[N:5])[C:21]9=[CH:22][CH:23]=[CH:24][CH:25]=[CH:26]9.[H:7][O:6][H:8].[H:10][O:9][H:11]",
+      "learnerPrompt": "Heat: N₂ leaves and a group moves.",
+      "misconceptions": [
+        {
+          "severity": "plausible",
+          "arrowPattern": "lp O* -> σ O*-C2",
+          "feedbackMessage": "Water adding to the ketone only gives a hydrate, which reverts. On heating the diazoketone first loses N₂.",
+          "misconceptionId": "water-adds-to-ketone",
+          "misconceptionTag": "wrong-order"
+        },
+        {
+          "severity": "wrong",
+          "arrowPattern": "σ C3-N4 -> lp C3",
+          "feedbackMessage": "N₂ leaves as a neutral molecule, taking the C–N bonding pair with it.",
+          "misconceptionId": "n2-pair-stays",
+          "misconceptionTag": "wrong-direction-of-cleavage"
+        }
+      ],
+      "mapNumberToCoordinates": {
+        "1": [
+          3.75,
+          1.3
+        ],
+        "2": [
+          3,
+          0
+        ],
+        "3": [
+          3.75,
+          -1.3
+        ],
+        "4": [
+          5.25,
+          -1.3
+        ],
+        "5": [
+          6.75,
+          -1.3
+        ],
+        "6": [
+          -0.87,
+          3.58
+        ],
+        "7": [
+          0.43,
+          4.33
+        ],
+        "8": [
+          -2.17,
+          4.33
+        ],
+        "9": [
+          1.7,
+          6.25
+        ],
+        "10": [
+          3,
+          7
+        ],
+        "11": [
+          0.4,
+          7
+        ],
+        "21": [
+          1.5,
+          0
+        ],
+        "22": [
+          0.75,
+          1.3
+        ],
+        "23": [
+          -0.75,
+          1.3
+        ],
+        "24": [
+          -1.5,
+          0
+        ],
+        "25": [
+          -0.75,
+          -1.3
+        ],
+        "26": [
+          0.75,
+          -1.3
+        ]
+      },
+      "partialProgressMessages": [
+        {
+          "learnerArrows": [
+            "σ C3-N4 -> lp N4",
+            "σ C2-C21 -> σ C3-C21"
+          ],
+          "feedbackMessage": "Right: N₂ leaves and phenyl moves. The carbonyl carbon is now short of electrons: use the lone pair on the other carbon to make a C=C bond."
+        }
+      ]
+    },
+    "zwitterion": {
+      "caption": "the water adduct: an enolate with a positive oxygen",
+      "hintTiers": [
+        "The added oxygen carries two hydrogens and a positive charge. Which base is present?",
+        "The second water takes a drawn proton from the positive oxygen; the O–H pair stays on that oxygen. Two arrows.",
+        "Second water lone pair → new bond to a drawn H on the positive oxygen; that O–H bond → a lone pair on oxygen."
+      ],
+      "mappedSmiles": "[O-:1][C:2](=[CH:3][C:21]9=[CH:22][CH:23]=[CH:24][CH:25]=[CH:26]9)[O+:6]([H:7])[H:8].[N:4]#[N:5].[H:10][O:9][H:11]",
+      "learnerPrompt": "A second water removes a proton.",
+      "misconceptions": [
+        {
+          "severity": "plausible",
+          "arrowPattern": "σ C2-O6 -> lp O6",
+          "feedbackMessage": "Losing water just returns the ketene. Remove a proton instead.",
+          "misconceptionId": "water-leaves",
+          "misconceptionTag": "reverse-step"
+        }
+      ],
+      "mapNumberToCoordinates": {
+        "1": [
+          5.25,
+          -1.3
+        ],
+        "2": [
+          3.75,
+          -1.3
+        ],
+        "3": [
+          3,
+          0
+        ],
+        "4": [
+          -0.52,
+          5.05
+        ],
+        "5": [
+          -0.52,
+          3.55
+        ],
+        "6": [
+          3,
+          -2.6
+        ],
+        "7": [
+          3.75,
+          -3.9
+        ],
+        "8": [
+          1.5,
+          -2.6
+        ],
+        "9": [
+          7.55,
+          0
+        ],
+        "10": [
+          8.85,
+          0.75
+        ],
+        "11": [
+          6.25,
+          0.75
+        ],
+        "21": [
+          1.5,
+          0
+        ],
+        "22": [
+          0.75,
+          1.3
+        ],
+        "23": [
+          -0.75,
+          1.3
+        ],
+        "24": [
+          -1.5,
+          0
+        ],
+        "25": [
+          -0.75,
+          -1.3
+        ],
+        "26": [
+          0.75,
+          -1.3
+        ]
+      }
+    },
+    "acylcarbene": {
+      "caption": "an acylcarbene + N₂",
+      "hintTiers": [
+        "The carbene carbon has an empty p orbital. A group on the next carbon can move into it.",
+        "Two arrows: the phenyl moves to the carbene carbon, and the carbene lone pair makes a C=C bond to the carbonyl carbon.",
+        "Bond from the carbonyl carbon to the ring → new bond from the ring carbon to the carbene carbon; carbene lone pair → C=C π bond."
+      ],
+      "mappedSmiles": "[O:1]=[C:2]([CH:3])[C:21]9=[CH:22][CH:23]=[CH:24][CH:25]=[CH:26]9.[N:4]#[N:5].[H:7][O:6][H:8].[H:10][O:9][H:11]",
+      "learnerPrompt": "The carbene rearranges.",
+      "misconceptions": [
+        {
+          "severity": "plausible",
+          "arrowPattern": "lp O* -> σ O*-C3",
+          "feedbackMessage": "Carbenes can insert into O–H bonds, but here the 1,2-shift is faster. Move the phenyl group.",
+          "misconceptionId": "water-traps-carbene",
+          "misconceptionTag": "wrong-order"
+        }
+      ],
+      "mapNumberToCoordinates": {
+        "1": [
+          3.75,
+          1.3
+        ],
+        "2": [
+          3,
+          0
+        ],
+        "3": [
+          3.75,
+          -1.3
+        ],
+        "4": [
+          -0.48,
+          5.05
+        ],
+        "5": [
+          -0.48,
+          3.55
+        ],
+        "6": [
+          0.68,
+          7.02
+        ],
+        "7": [
+          1.98,
+          7.77
+        ],
+        "8": [
+          -0.62,
+          7.77
+        ],
+        "9": [
+          7.31,
+          0.13
+        ],
+        "10": [
+          8.6,
+          0.88
+        ],
+        "11": [
+          6.01,
+          0.88
+        ],
+        "21": [
+          1.5,
+          0
+        ],
+        "22": [
+          0.75,
+          1.3
+        ],
+        "23": [
+          -0.75,
+          1.3
+        ],
+        "24": [
+          -1.5,
+          0
+        ],
+        "25": [
+          -0.75,
+          -1.3
+        ],
+        "26": [
+          0.75,
+          -1.3
+        ]
+      }
+    }
+  },
+  "conditionsLabel": "PhCOCHN₂ · H₂O/dioxane · heat",
+  "reactionClasses": [
+    "rearrangement",
+    "carbonyl"
+  ],
+  "reactionVersion": 1,
+  "mechanismSummary": "The diazoketone (made from benzoyl chloride and diazomethane) loses N₂ on heating, and the phenyl group moves to the carbon that lost it: the Wolff rearrangement gives phenylketene. Water adds to the ketene, and proton transfers give phenylacetic acid, one CH₂ longer than benzoic acid: the Arndt–Eistert homologation. In practice the rearrangement is usually catalysed by silver(I) (Ag₂O or silver benzoate) or driven by light; silver is not drawn here, as the app has no transition-metal steps. With an alcohol instead of water, the product is the ester.",
+  "dailyPuzzleEligible": true,
+  "spectatorMapNumbers": [],
+  "atomRoleToMapNumbers": {},
+  "previousReactionVersion": null
+}

@@ -1,0 +1,1001 @@
+{
+  "steps": [
+    {
+      "stepKey": "ester-binds-aluminium",
+      "stepKind": "polar",
+      "toStateId": "ester-bound",
+      "fromStateId": "reactants",
+      "canonicalArrows": [
+        "lp O14 -> σ O14-Al20"
+      ],
+      "routePreference": "preferred",
+      "explanationAfterStep": "The ester carbonyl oxygen binds the aluminium that already holds the alkoxide. The cis relationship of alkoxide and ester (from the endo Diels–Alder and the convex-face reduction) is what lets them meet on one metal."
+    },
+    {
+      "stepKey": "ring-closure",
+      "stepKind": "polar",
+      "toStateId": "tetrahedral",
+      "fromStateId": "ester-bound",
+      "canonicalArrows": [
+        "lp O8 -> σ O8-C13",
+        "π C13-O14 -> lp O14",
+        "σ O8-Al20 -> lp O8"
+      ],
+      "routePreference": "preferred",
+      "explanationAfterStep": "The alkoxide oxygen swaps aluminium for the activated ester carbon and closes a five-membered ring: a tetrahedral intermediate, as in any substitution at a carbonyl group. The former C=O oxygen stays on aluminium."
+    },
+    {
+      "stepKey": "methoxy-binds-aluminium",
+      "stepKind": "polar",
+      "toStateId": "methoxy-bound",
+      "fromStateId": "tetrahedral",
+      "canonicalArrows": [
+        "lp O15 -> σ O15-Al20"
+      ],
+      "routePreference": "preferred",
+      "explanationAfterStep": "Aluminium takes the methoxy oxygen, so methoxide can leave bound to the metal instead of as a free anion."
+    },
+    {
+      "stepKey": "collapse",
+      "stepKind": "polar",
+      "toStateId": "lactone-on-al",
+      "fromStateId": "methoxy-bound",
+      "canonicalArrows": [
+        "lp O14 -> π C13-O14",
+        "σ C13-O15 -> lp O15"
+      ],
+      "routePreference": "preferred",
+      "explanationAfterStep": "The tetrahedral intermediate collapses and the C–OMe bond breaks: substitution at the carbonyl group is complete."
+    },
+    {
+      "stepKey": "lactone-released",
+      "stepKind": "polar",
+      "toStateId": "products",
+      "fromStateId": "lactone-on-al",
+      "canonicalArrows": [
+        "σ O14-Al20 -> lp O14"
+      ],
+      "routePreference": "preferred",
+      "explanationAfterStep": "The γ-lactone is released. Locking the oxygen and the carboxyl carbon together in a ring holds the cis-fused system in one shape for the next steps."
+    },
+    {
+      "stepKey": "alt-collapse-first",
+      "stepKind": "polar",
+      "toStateId": "alt-collapsed",
+      "fromStateId": "tetrahedral",
+      "canonicalArrows": [
+        "lp O14 -> π C13-O14",
+        "σ C13-O15 -> lp O15"
+      ],
+      "routePreference": "accepted",
+      "explanationAfterStep": "Also correct: the intermediate can collapse first, giving a free methoxide that then binds aluminium. Binding first avoids a free alkoxide anion."
+    },
+    {
+      "stepKey": "alt-methoxide-binds",
+      "stepKind": "polar",
+      "toStateId": "lactone-on-al",
+      "fromStateId": "alt-collapsed",
+      "canonicalArrows": [
+        "lp O15 -> σ O15-Al20"
+      ],
+      "routePreference": "accepted",
+      "explanationAfterStep": "Methoxide binds aluminium; this rejoins the main route."
+    }
+  ],
+  "title": "Woodward's reserpine: closing the lactone",
+  "authors": [
+    {
+      "url": null,
+      "name": "Maksim"
+    }
+  ],
+  "licence": "CC-BY-SA-4.0",
+  "subtitle": "The alkoxide made by the MPV reduction attacks the neighbouring ester",
+  "references": [
+    "Clayden, Greeves and Warren, Organic Chemistry, 2nd edition (Oxford University Press), chapter 10 (nucleophilic substitution at the carbonyl group)",
+    "R. B. Woodward, F. E. Bader, H. Bickel, A. J. Frey and R. W. Kierstead, The total synthesis of reserpine, J. Am. Chem. Soc., 1956, 78, 2023–2025 and 2657; Tetrahedron, 1958, 2, 1–57"
+  ],
+  "reactionSlug": "woodward-lactonisation",
+  "startStateId": "reactants",
+  "formatVersion": 1,
+  "difficultyTier": 3,
+  "stateIdToState": {
+    "products": {
+      "caption": "the γ-lactone (with its free alcohol and two C=C) + MeOAl(OiPr)₂",
+      "mappedSmiles": "[CH:1]1([CH:2]=[CH:3][CH:4]2[CH:5]3[CH:6]1[CH2:9][CH:10]=[CH:11][CH:12]3[C:13]([O:8]2)=[O:14])[OH:7].[O:15]([CH3:16])[Al:20]([O:26][CH:27]([CH3:28])[CH3:29])[O:30][CH:31]([CH3:32])[CH3:33]",
+      "mapNumberToCoordinates": {
+        "1": [
+          1.75,
+          2.43
+        ],
+        "2": [
+          3.24,
+          2.27
+        ],
+        "3": [
+          3.85,
+          0.9
+        ],
+        "4": [
+          2.97,
+          -0.31
+        ],
+        "5": [
+          1.5,
+          0
+        ],
+        "6": [
+          0.75,
+          1.3
+        ],
+        "7": [
+          1.14,
+          3.8
+        ],
+        "8": [
+          3.12,
+          -1.8
+        ],
+        "9": [
+          -0.75,
+          1.3
+        ],
+        "10": [
+          -1.5,
+          0
+        ],
+        "11": [
+          -0.75,
+          -1.3
+        ],
+        "12": [
+          0.75,
+          -1.3
+        ],
+        "13": [
+          1.75,
+          -2.41
+        ],
+        "14": [
+          1.44,
+          -3.88
+        ],
+        "15": [
+          7.19,
+          0.61
+        ],
+        "16": [
+          5.89,
+          -0.14
+        ],
+        "20": [
+          8.49,
+          -0.14
+        ],
+        "26": [
+          9.79,
+          0.61
+        ],
+        "27": [
+          11.09,
+          -0.14
+        ],
+        "28": [
+          12.39,
+          0.61
+        ],
+        "29": [
+          11.09,
+          -1.64
+        ],
+        "30": [
+          8.49,
+          -1.64
+        ],
+        "31": [
+          7.19,
+          -2.39
+        ],
+        "32": [
+          7.19,
+          -3.89
+        ],
+        "33": [
+          5.89,
+          -1.64
+        ]
+      }
+    },
+    "reactants": {
+      "caption": "the MPV product: an aluminium alkoxide next to the methyl ester (the other alcohol drawn free)",
+      "hintTiers": [
+        "An ester is a weak electrophile. How did aluminium make the ketones more electrophilic in the MPV reduction?",
+        "The ester C=O oxygen gives a lone pair to the aluminium that already carries the alkoxide: a ring of atoms (a chelate) forms. One arrow.",
+        "Ester C=O oxygen lone pair → new O–Al bond to the aluminium carrying the alkoxide."
+      ],
+      "mappedSmiles": "[CH:1]1([CH:2]=[CH:3][CH:4]([CH:5]2[CH:6]1[CH2:9][CH:10]=[CH:11][CH:12]2[C:13](=[O:14])[O:15][CH3:16])[O:8][Al:20]([O:26][CH:27]([CH3:28])[CH3:29])[O:30][CH:31]([CH3:32])[CH3:33])[OH:7]",
+      "learnerPrompt": "The alkoxide on aluminium will attack the ester. First let the ester's C=O oxygen bind the same aluminium.",
+      "misconceptions": [
+        {
+          "severity": "plausible",
+          "arrowPattern": "lp O8 -> σ O8-C13",
+          "feedbackMessage": "The alkoxide oxygen does attack the ester carbon, but here it is held by aluminium and the ester is not yet activated. Bind the ester C=O to aluminium first.",
+          "misconceptionId": "alkoxide-attacks-unactivated",
+          "misconceptionTag": "other-route"
+        },
+        {
+          "severity": "wrong",
+          "arrowPattern": "lp O7 -> C13",
+          "feedbackMessage": "That OH is on the far side of the ring system and cannot reach the ester. The oxygen next to the ester-bearing carbon closes a five-membered ring.",
+          "misconceptionId": "free-oh-attacks",
+          "misconceptionTag": "wrong-nucleophile"
+        },
+        {
+          "severity": "wrong",
+          "arrowPattern": "lp O15 -> σ O15-Al20",
+          "feedbackMessage": "The C=O oxygen of an ester is its basic, Lewis-basic oxygen; the OMe lone pairs are tied up in resonance with the C=O. Bind the carbonyl oxygen.",
+          "misconceptionId": "methoxy-binds-al-first",
+          "misconceptionTag": "wrong-oxygen"
+        }
+      ],
+      "mapNumberToCoordinates": {
+        "1": [
+          1.5,
+          2.6
+        ],
+        "2": [
+          3,
+          2.6
+        ],
+        "3": [
+          3.75,
+          1.3
+        ],
+        "4": [
+          3,
+          0
+        ],
+        "5": [
+          1.5,
+          0
+        ],
+        "6": [
+          0.75,
+          1.3
+        ],
+        "7": [
+          0.75,
+          3.9
+        ],
+        "8": [
+          3.75,
+          -1.3
+        ],
+        "9": [
+          -0.75,
+          1.3
+        ],
+        "10": [
+          -1.5,
+          0
+        ],
+        "11": [
+          -0.75,
+          -1.3
+        ],
+        "12": [
+          0.75,
+          -1.3
+        ],
+        "13": [
+          1.5,
+          -2.6
+        ],
+        "14": [
+          0.75,
+          -3.9
+        ],
+        "15": [
+          3,
+          -2.6
+        ],
+        "16": [
+          3.75,
+          -3.9
+        ],
+        "20": [
+          5.25,
+          -1.3
+        ],
+        "26": [
+          6,
+          -2.6
+        ],
+        "27": [
+          7.5,
+          -2.6
+        ],
+        "28": [
+          8.25,
+          -3.9
+        ],
+        "29": [
+          8.16,
+          -1.72
+        ],
+        "30": [
+          6,
+          0
+        ],
+        "31": [
+          7.5,
+          0
+        ],
+        "32": [
+          8.25,
+          1.3
+        ],
+        "33": [
+          8.16,
+          -0.87
+        ]
+      }
+    },
+    "ester-bound": {
+      "caption": "the ester C=O bound to the aluminium that holds the alkoxide",
+      "hintTiers": [
+        "The alkoxide oxygen and the ester carbon are five atoms apart round the carbon ring. What happens to the C=O π bond when the oxygen bonds to it, and what does the oxygen give up?",
+        "The alkoxide oxygen bonds to the ester carbon, the C=O π pair goes onto the carbonyl oxygen (which stays on aluminium), and the alkoxide oxygen lets go of aluminium, keeping that pair. Three arrows.",
+        "Alkoxide oxygen lone pair → new O–C bond to the ester carbon; ester C=O π bond → lone pair on the carbonyl oxygen; alkoxide O–Al bond → lone pair on the alkoxide oxygen."
+      ],
+      "mappedSmiles": "[CH:1]1([CH:2]=[CH:3][CH:4]2[CH:5]3[CH:6]1[CH2:9][CH:10]=[CH:11][CH:12]3[C:13](=[O+:14][Al-:20]([O:8]2)([O:26][CH:27]([CH3:28])[CH3:29])[O:30][CH:31]([CH3:32])[CH3:33])[O:15][CH3:16])[OH:7]",
+      "learnerPrompt": "Now the alkoxide moves from aluminium onto the activated ester carbon.",
+      "misconceptions": [
+        {
+          "severity": "wrong",
+          "arrowPattern": "σ C13-O15 -> lp O15",
+          "feedbackMessage": "Methoxide cannot leave before something has added: the ester carbon would be left with only three bonds. Make the new C–O bond first.",
+          "misconceptionId": "ome-leaves-too-early",
+          "misconceptionTag": "leaving-group-first"
+        },
+        {
+          "severity": "plausible",
+          "arrowPattern": "σ O14-Al20 -> lp O14",
+          "feedbackMessage": "That just releases the ester again. Use the activation: let the alkoxide attack.",
+          "misconceptionId": "ester-unbinds",
+          "misconceptionTag": "reverse-step"
+        }
+      ],
+      "mapNumberToCoordinates": {
+        "1": [
+          4.118,
+          -1.106
+        ],
+        "2": [
+          3.224,
+          -2.311
+        ],
+        "3": [
+          1.734,
+          -2.139
+        ],
+        "4": [
+          1.138,
+          -0.763
+        ],
+        "5": [
+          2.032,
+          0.442
+        ],
+        "6": [
+          3.522,
+          0.27
+        ],
+        "7": [
+          5.608,
+          -1.278
+        ],
+        "8": [
+          -0.226,
+          -0.139
+        ],
+        "9": [
+          4.416,
+          1.475
+        ],
+        "10": [
+          3.819,
+          2.851
+        ],
+        "11": [
+          2.329,
+          3.023
+        ],
+        "12": [
+          1.435,
+          1.818
+        ],
+        "13": [
+          -0.054,
+          1.351
+        ],
+        "14": [
+          -1.545,
+          1.523
+        ],
+        "15": [
+          -0.118,
+          2.85
+        ],
+        "16": [
+          -1.448,
+          3.544
+        ],
+        "20": [
+          -1.716,
+          0.033
+        ],
+        "26": [
+          -1.888,
+          -1.458
+        ],
+        "27": [
+          -3.264,
+          -2.054
+        ],
+        "28": [
+          -3.436,
+          -3.544
+        ],
+        "29": [
+          -4.469,
+          -1.16
+        ],
+        "30": [
+          -3.206,
+          0.204
+        ],
+        "31": [
+          -3.803,
+          1.581
+        ],
+        "32": [
+          -5.293,
+          1.752
+        ],
+        "33": [
+          -2.909,
+          2.785
+        ]
+      },
+      "partialProgressMessages": [
+        {
+          "learnerArrows": [
+            "lp O8 -> σ O8-C13"
+          ],
+          "feedbackMessage": "Right: the alkoxide oxygen bonds to the ester carbon. That carbon now has five bonds: move the C=O π pair."
+        },
+        {
+          "learnerArrows": [
+            "lp O8 -> σ O8-C13",
+            "π C13-O14 -> lp O14"
+          ],
+          "feedbackMessage": "Nearly: the ring oxygen now has three bonds and a positive charge. It lets go of aluminium at the same time: break the O–Al bond back onto that oxygen."
+        }
+      ]
+    },
+    "tetrahedral": {
+      "caption": "the tetrahedral intermediate: the five-membered ring is closed and still carries OMe",
+      "hintTiers": [
+        "Methoxide is a poor leaving group on its own. Which Lewis acid nearby can take it?",
+        "The OMe oxygen gives a lone pair to aluminium. One arrow. (Collapsing first and binding the methoxide afterwards is also accepted.)",
+        "OMe oxygen lone pair → new O–Al bond."
+      ],
+      "mappedSmiles": "[CH:1]1([CH:2]=[CH:3][CH:4]2[CH:5]3[CH:6]1[CH2:9][CH:10]=[CH:11][CH:12]3[C:13]([O:8]2)([O:14][Al:20]([O:26][CH:27]([CH3:28])[CH3:29])[O:30][CH:31]([CH3:32])[CH3:33])[O:15][CH3:16])[OH:7]",
+      "learnerPrompt": "The tetrahedral intermediate collapses and methoxide leaves. Begin by letting the methoxy oxygen bind aluminium.",
+      "misconceptions": [
+        {
+          "severity": "plausible",
+          "arrowPattern": "σ C13-O8 -> lp O8",
+          "feedbackMessage": "Losing the ring oxygen just reverses the ring closure. Methoxide is the group that leaves.",
+          "misconceptionId": "ring-oxygen-leaves",
+          "misconceptionTag": "wrong-leaving-group"
+        }
+      ],
+      "mapNumberToCoordinates": {
+        "1": [
+          1.75,
+          2.43
+        ],
+        "2": [
+          3.24,
+          2.27
+        ],
+        "3": [
+          3.85,
+          0.9
+        ],
+        "4": [
+          2.97,
+          -0.31
+        ],
+        "5": [
+          1.5,
+          0
+        ],
+        "6": [
+          0.75,
+          1.3
+        ],
+        "7": [
+          1.14,
+          3.8
+        ],
+        "8": [
+          3.12,
+          -1.8
+        ],
+        "9": [
+          -0.75,
+          1.3
+        ],
+        "10": [
+          -1.5,
+          0
+        ],
+        "11": [
+          -0.75,
+          -1.3
+        ],
+        "12": [
+          0.75,
+          -1.3
+        ],
+        "13": [
+          1.75,
+          -2.41
+        ],
+        "14": [
+          2.5,
+          -3.71
+        ],
+        "15": [
+          0.54,
+          -3.3
+        ],
+        "16": [
+          -0.83,
+          -2.69
+        ],
+        "20": [
+          1.75,
+          -5.01
+        ],
+        "26": [
+          0.25,
+          -5.01
+        ],
+        "27": [
+          -0.5,
+          -6.31
+        ],
+        "28": [
+          -2,
+          -6.31
+        ],
+        "29": [
+          0.25,
+          -7.61
+        ],
+        "30": [
+          2.5,
+          -6.31
+        ],
+        "31": [
+          4,
+          -6.31
+        ],
+        "32": [
+          4.75,
+          -7.61
+        ],
+        "33": [
+          4.75,
+          -5.01
+        ]
+      }
+    },
+    "alt-collapsed": {
+      "caption": "collapsed first: the lactone C=O on aluminium + free methoxide",
+      "hintTiers": [
+        "Aluminium has three bonds again. Which anion can give it a lone pair?",
+        "The methoxide oxygen makes a bond to aluminium. One arrow.",
+        "Methoxide oxygen lone pair → new O–Al bond."
+      ],
+      "mappedSmiles": "[CH:1]1([CH:2]=[CH:3][CH:4]2[CH:5]3[CH:6]1[CH2:9][CH:10]=[CH:11][CH:12]3[C:13]([O:8]2)=[O+:14][Al:20]([O:26][CH:27]([CH3:28])[CH3:29])[O:30][CH:31]([CH3:32])[CH3:33])[OH:7].[O-:15][CH3:16]",
+      "learnerPrompt": "Methoxide is now free. Let it bind the aluminium.",
+      "misconceptions": [],
+      "mapNumberToCoordinates": {
+        "1": [
+          1.75,
+          2.43
+        ],
+        "2": [
+          3.24,
+          2.27
+        ],
+        "3": [
+          3.85,
+          0.9
+        ],
+        "4": [
+          2.97,
+          -0.31
+        ],
+        "5": [
+          1.5,
+          0
+        ],
+        "6": [
+          0.75,
+          1.3
+        ],
+        "7": [
+          1.14,
+          3.8
+        ],
+        "8": [
+          3.12,
+          -1.8
+        ],
+        "9": [
+          -0.75,
+          1.3
+        ],
+        "10": [
+          -1.5,
+          0
+        ],
+        "11": [
+          -0.75,
+          -1.3
+        ],
+        "12": [
+          0.75,
+          -1.3
+        ],
+        "13": [
+          1.75,
+          -2.41
+        ],
+        "14": [
+          1.44,
+          -3.88
+        ],
+        "15": [
+          8.82,
+          0.75
+        ],
+        "16": [
+          7.52,
+          0
+        ],
+        "20": [
+          2.56,
+          -4.88
+        ],
+        "26": [
+          3.98,
+          -4.42
+        ],
+        "27": [
+          5.1,
+          -5.42
+        ],
+        "28": [
+          6.52,
+          -4.96
+        ],
+        "29": [
+          4.79,
+          -6.89
+        ],
+        "30": [
+          2.24,
+          -6.35
+        ],
+        "31": [
+          0.82,
+          -6.82
+        ],
+        "32": [
+          -0.3,
+          -5.81
+        ],
+        "33": [
+          0.51,
+          -8.28
+        ]
+      }
+    },
+    "lactone-on-al": {
+      "caption": "the lactone, its C=O still bound to aluminium, which now carries methoxide",
+      "hintTiers": [
+        "The lactone C=O oxygen is positive and bound to aluminium. Which bond breaks?",
+        "The O–Al bond goes back to the carbonyl oxygen as a lone pair. One arrow.",
+        "C=O oxygen–Al bond → lone pair on the carbonyl oxygen."
+      ],
+      "mappedSmiles": "[CH:1]1([CH:2]=[CH:3][CH:4]2[CH:5]3[CH:6]1[CH2:9][CH:10]=[CH:11][CH:12]3[C:13]([O:8]2)=[O+:14][Al-:20]([O:15][CH3:16])([O:26][CH:27]([CH3:28])[CH3:29])[O:30][CH:31]([CH3:32])[CH3:33])[OH:7]",
+      "learnerPrompt": "Release the lactone from aluminium.",
+      "misconceptions": [
+        {
+          "severity": "plausible",
+          "arrowPattern": "σ O15-Al20 -> lp O15",
+          "feedbackMessage": "That frees methoxide, but leaves the lactone on aluminium. Release the lactone.",
+          "misconceptionId": "ome-leaves-al",
+          "misconceptionTag": "wrong-leaving-group"
+        }
+      ],
+      "mapNumberToCoordinates": {
+        "1": [
+          1.75,
+          2.43
+        ],
+        "2": [
+          3.24,
+          2.27
+        ],
+        "3": [
+          3.85,
+          0.9
+        ],
+        "4": [
+          2.97,
+          -0.31
+        ],
+        "5": [
+          1.5,
+          0
+        ],
+        "6": [
+          0.75,
+          1.3
+        ],
+        "7": [
+          1.14,
+          3.8
+        ],
+        "8": [
+          3.12,
+          -1.8
+        ],
+        "9": [
+          -0.75,
+          1.3
+        ],
+        "10": [
+          -1.5,
+          0
+        ],
+        "11": [
+          -0.75,
+          -1.3
+        ],
+        "12": [
+          0.75,
+          -1.3
+        ],
+        "13": [
+          1.75,
+          -2.41
+        ],
+        "14": [
+          1.44,
+          -3.88
+        ],
+        "15": [
+          3.67,
+          -5.89
+        ],
+        "16": [
+          3.36,
+          -7.36
+        ],
+        "20": [
+          2.56,
+          -4.88
+        ],
+        "26": [
+          1.55,
+          -6
+        ],
+        "27": [
+          0.09,
+          -5.69
+        ],
+        "28": [
+          -0.38,
+          -4.26
+        ],
+        "29": [
+          -0.92,
+          -6.8
+        ],
+        "30": [
+          3.56,
+          -3.77
+        ],
+        "31": [
+          5.03,
+          -4.08
+        ],
+        "32": [
+          5.49,
+          -5.51
+        ],
+        "33": [
+          6.03,
+          -2.97
+        ]
+      }
+    },
+    "methoxy-bound": {
+      "caption": "the methoxy oxygen bound to aluminium",
+      "hintTiers": [
+        "The oxygen on aluminium still has lone pairs and can push back down to make a C=O. Which bond must break?",
+        "The oxygen lone pair makes the C=O π bond; the C–OMe bond breaks with the pair going to the OMe oxygen, which stays on aluminium. Two arrows.",
+        "Oxygen lone pair → C=O π bond; C–OMe σ bond → lone pair on the methoxy oxygen."
+      ],
+      "mappedSmiles": "[CH:1]1([CH:2]=[CH:3][CH:4]2[CH:5]3[CH:6]1[CH2:9][CH:10]=[CH:11][CH:12]3[C:13]1([O:8]2)[O:14][Al-:20]([O+:15]1[CH3:16])([O:26][CH:27]([CH3:28])[CH3:29])[O:30][CH:31]([CH3:32])[CH3:33])[OH:7]",
+      "learnerPrompt": "Collapse the tetrahedral intermediate: re-form the C=O and break the C–OMe bond.",
+      "misconceptions": [
+        {
+          "severity": "plausible",
+          "arrowPattern": "σ C13-O8 -> lp O8",
+          "feedbackMessage": "Losing the ring oxygen would undo the lactone. The C–OMe bond breaks.",
+          "misconceptionId": "ring-oxygen-leaves-2",
+          "misconceptionTag": "wrong-leaving-group"
+        }
+      ],
+      "mapNumberToCoordinates": {
+        "1": [
+          1.75,
+          2.43
+        ],
+        "2": [
+          3.24,
+          2.27
+        ],
+        "3": [
+          3.85,
+          0.9
+        ],
+        "4": [
+          2.97,
+          -0.31
+        ],
+        "5": [
+          1.5,
+          0
+        ],
+        "6": [
+          0.75,
+          1.3
+        ],
+        "7": [
+          1.14,
+          3.8
+        ],
+        "8": [
+          3.12,
+          -1.8
+        ],
+        "9": [
+          -0.75,
+          1.3
+        ],
+        "10": [
+          -1.5,
+          0
+        ],
+        "11": [
+          -0.75,
+          -1.3
+        ],
+        "12": [
+          0.75,
+          -1.3
+        ],
+        "13": [
+          1.75,
+          -2.41
+        ],
+        "14": [
+          0.5,
+          -3.23
+        ],
+        "15": [
+          2.57,
+          -3.67
+        ],
+        "16": [
+          4.04,
+          -3.98
+        ],
+        "20": [
+          1.31,
+          -4.49
+        ],
+        "26": [
+          2.13,
+          -5.75
+        ],
+        "27": [
+          1.45,
+          -7.08
+        ],
+        "28": [
+          2.27,
+          -8.34
+        ],
+        "29": [
+          -0.05,
+          -7.16
+        ],
+        "30": [
+          0.05,
+          -5.31
+        ],
+        "31": [
+          -1.28,
+          -4.62
+        ],
+        "32": [
+          -2.54,
+          -5.44
+        ],
+        "33": [
+          -1.36,
+          -3.13
+        ]
+      }
+    }
+  },
+  "conditionsLabel": "Al(OiPr)₃ · iPrOH · reflux",
+  "reactionClasses": [
+    "carbonyl",
+    "substitution"
+  ],
+  "reactionVersion": 1,
+  "mechanismSummary": "After the MPV reduction, the aluminium alkoxide next to the ester closes a γ-lactone (a five-membered lactone). The ester C=O binds the aluminium that holds the alkoxide, the alkoxide moves onto the activated ester carbon to give a tetrahedral intermediate, methoxide is taken up by aluminium as the C=O re-forms, and the lactone is released. This only works because the alkoxide and the ester are cis on the folded ring system. Woodward isolated this hydroxy lactone from the MPV reaction; the stepwise picture on aluminium is a reasonable mechanism, not one he proved. The other alkoxide is drawn as the free alcohol (released by exchange with isopropanol, as in the warm-up), and the aluminium is drawn as a single molecule.",
+  "abbreviatedGroups": [
+    {
+      "groupLabel": "OiPr",
+      "mapNumbers": [
+        26,
+        27,
+        28,
+        29
+      ],
+      "attachmentMapNumber": 26
+    },
+    {
+      "groupLabel": "OiPr",
+      "mapNumbers": [
+        30,
+        31,
+        32,
+        33
+      ],
+      "attachmentMapNumber": 30
+    }
+  ],
+  "dailyPuzzleEligible": true,
+  "spectatorMapNumbers": [],
+  "atomRoleToMapNumbers": {
+    "aluminium": [
+      20
+    ]
+  },
+  "previousReactionVersion": null
+}
