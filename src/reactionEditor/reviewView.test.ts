@@ -16,6 +16,8 @@ import {
   timeAgo,
   userReactionsText,
   yourMechanisms,
+  yourMechanismsFilterCounts,
+  yourMechanismsShown,
   yourRowNote,
 } from "./reviewView.js";
 
@@ -66,6 +68,16 @@ describe("Your mechanisms and Improve a published one", () => {
       "sn2",
       "fischer",
     ]);
+  });
+
+  it("filters Your mechanisms by drafts (anything not yet published) or published", () => {
+    const mine = yourMechanisms(FILES, "me");
+    const slugs = (filter: "all" | "drafts" | "published"): (string | null | undefined)[] =>
+      yourMechanismsShown(mine, filter).map((file) => file.reactionSlug);
+    expect(slugs("all")).toEqual(["pinacol", "radical", "sn2", "fischer"]);
+    expect(slugs("drafts")).toEqual(["pinacol", "radical", "sn2"]);
+    expect(slugs("published")).toEqual(["fischer"]);
+    expect(yourMechanismsFilterCounts(mine)).toEqual({ all: 4, drafts: 3, published: 1 });
   });
 
   it("offers every published reaction to improve, naming its owner when not one's own", () => {

@@ -470,6 +470,8 @@ reactions, track `electrophilic-aromatic-substitution`, problem sets in this ord
       own submissions are left out of their queue.
     - The owner is made by the GitHub allow-list when that GitHub account is created or linked; Google
       accounts are linked to a GitHub one only when both providers verified the same email.
+    - **Your mechanisms can be filtered** (owner, 2026-11-26): All · Drafts · Published, each with its count;
+      Drafts are every row not yet published (draft, in review, changes requested).
     - Your mechanisms lists the reactions whose newest version the user wrote, and their own published ones;
       someone else's published reactions are only under "Improve a published one" ("Suggest version n").
     - An author is added to the next version's `authors` once (not if they wrote a version of it before, or

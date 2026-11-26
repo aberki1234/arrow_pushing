@@ -73,6 +73,32 @@ export function yourMechanisms(
   );
 }
 
+/** Your mechanisms' filter: everything, the ones not yet published, or the published ones. */
+export type YourMechanismsFilter = "all" | "drafts" | "published";
+
+function isPublishedRow(file: ListedReactionFile): boolean {
+  return file.newestSubmissionStatus === "published";
+}
+
+/** The rows of Your mechanisms the filter shows; drafts are every row not yet published. */
+export function yourMechanismsShown(
+  files: readonly ListedReactionFile[],
+  filter: YourMechanismsFilter,
+): ListedReactionFile[] {
+  if (filter === "all") {
+    return [...files];
+  }
+  return files.filter((file) => isPublishedRow(file) === (filter === "published"));
+}
+
+/** How many rows each filter shows, for the filter buttons. */
+export function yourMechanismsFilterCounts(
+  files: readonly ListedReactionFile[],
+): Record<YourMechanismsFilter, number> {
+  const published = files.filter(isPublishedRow).length;
+  return { all: files.length, drafts: files.length - published, published };
+}
+
 export interface ReactionToImprove {
   readonly fileName: string;
   readonly label: string;

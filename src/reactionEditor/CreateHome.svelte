@@ -10,7 +10,10 @@
     changesRequestedBanner,
     openDraftsLine,
     publishedToImprove,
+    type YourMechanismsFilter,
     yourMechanisms,
+    yourMechanismsFilterCounts,
+    yourMechanismsShown,
     yourRowNote,
   } from "./reviewView.js";
   import SignInCard from "./SignInCard.svelte";
@@ -51,9 +54,15 @@
     published: { text: "Published", pillClass: "good" },
   };
 
-  const shownFiles = $derived(
-    userId === null ? (files ?? []) : yourMechanisms(files ?? [], userId),
-  );
+  const yourFiles = $derived(userId === null ? (files ?? []) : yourMechanisms(files ?? [], userId));
+  let filter: YourMechanismsFilter = $state("all");
+  const filterCounts = $derived(yourMechanismsFilterCounts(yourFiles));
+  const shownFiles = $derived(yourMechanismsShown(yourFiles, filter));
+  const FILTERS: readonly { filter: YourMechanismsFilter; label: string }[] = [
+    { filter: "all", label: "All" },
+    { filter: "drafts", label: "Drafts" },
+    { filter: "published", label: "Published" },
+  ];
   const toImproveOptions = $derived(publishedToImprove(files ?? [], userId ?? ""));
   const banner = $derived(userId === null ? null : changesRequestedBanner(files ?? [], userId));
   const unreachableText = $derived(
@@ -144,14 +153,34 @@
     </section>
   </div>
 
-  <h2 class="mt2">Your mechanisms</h2>
+  <div class="row spread mt2">
+    <h2>Your mechanisms</h2>
+    {#if yourFiles.length > 0}
+      <div class="seg" role="group" aria-label="Show">
+        {#each FILTERS as option (option.filter)}
+          <button
+            aria-pressed={filter === option.filter}
+            onclick={() => {
+              filter = option.filter;
+            }}
+          >
+            {option.label} ({filterCounts[option.filter]})
+          </button>
+        {/each}
+      </div>
+    {/if}
+  </div>
   <section class="card flat mylist" aria-label="Your mechanisms">
     {#if files === null}
       <p class="small muted">
         {unreachableText}
       </p>
-    {:else if shownFiles.length === 0}
+    {:else if yourFiles.length === 0}
       <p class="small muted">None yet: start with New mechanism.</p>
+    {:else if shownFiles.length === 0}
+      <p class="small muted">
+        {filter === "published" ? "None published yet." : "No drafts: everything is published."}
+      </p>
     {/if}
     {#each shownFiles as file (file.fileName)}
       {@const pill = STATUS_TO_PILL[file.newestSubmissionStatus ?? "draft"]}
