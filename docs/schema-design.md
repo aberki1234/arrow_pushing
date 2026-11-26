@@ -160,7 +160,7 @@ named `keyToValue`.
   "previousReactionVersion": 1,          // null for version 1
   "title": "SN2 substitution",
   "subtitle": "Hydroxide displaces bromide from bromomethane",
-  "reactionClasses": ["substitution"],   // filter facets; controlled list (+ "aromatic substitution", item 10)
+  "reactionClasses": ["substitution"],   // filter facets; controlled list (+ "aromatic substitution", item 10; + "acid-base", "addition", 2026-11-26 for F1/F4)
   "difficultyTier": 1,                   // 1..3, shown as ●○○ … ●●●
   "conditionsLabel": "NaOH · EtOH/H₂O · 25 °C",   // text over the reaction arrow only
   "dailyPuzzleEligible": true,

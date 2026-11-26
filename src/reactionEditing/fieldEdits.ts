@@ -28,8 +28,10 @@ type JsonRecord = Readonly<Record<string, unknown>>;
 const SLUG_PATTERN = /^[a-z0-9]+(?:-[a-z0-9]+)*$/;
 const ROLE_PATTERN = /^[a-z][A-Za-z0-9]*$/;
 export const REACTION_CLASSES = [
+  "acid-base",
   "substitution",
   "aromatic substitution",
+  "addition",
   "elimination",
   "carbonyl",
   "pericyclic",

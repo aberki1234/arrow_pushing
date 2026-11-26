@@ -64,6 +64,9 @@ describe("reaction fields", () => {
     expect(
       edited(setReactionField(sn2, "reactionClasses", ["aromatic substitution"])).reactionClasses,
     ).toEqual(["aromatic substitution"]);
+    expect(
+      edited(setReactionField(sn2, "reactionClasses", ["acid-base", "addition"])).reactionClasses,
+    ).toEqual(["acid-base", "addition"]);
     expect(edited(setReactionField(sn2, "spectatorMapNumbers", [4])).spectatorMapNumbers).toEqual([
       4,
     ]);
