@@ -1,0 +1,1129 @@
+{
+  "formatVersion": 1,
+  "reactionSlug": "hexenyl-radical-cyclisation",
+  "reactionVersion": 1,
+  "previousReactionVersion": null,
+  "title": "Hexenyl radical cyclisation",
+  "subtitle": "Bu₃SnH removes bromine; the radical closes a five-membered ring onto its own alkene",
+  "reactionClasses": [
+    "radical",
+    "addition"
+  ],
+  "difficultyTier": 3,
+  "conditionsLabel": "Bu₃SnH (slow addition) · AIBN (cat.) · benzene · 80 °C",
+  "dailyPuzzleEligible": true,
+  "atomRoleToMapNumbers": {},
+  "spectatorMapNumbers": [],
+  "abbreviatedGroups": [
+    {
+      "groupLabel": "Bu",
+      "attachmentMapNumber": 13,
+      "mapNumbers": [
+        13,
+        14,
+        15,
+        16
+      ]
+    },
+    {
+      "groupLabel": "Bu",
+      "attachmentMapNumber": 17,
+      "mapNumbers": [
+        17,
+        18,
+        19,
+        20
+      ]
+    },
+    {
+      "groupLabel": "Bu",
+      "attachmentMapNumber": 21,
+      "mapNumbers": [
+        21,
+        22,
+        23,
+        24
+      ]
+    },
+    {
+      "groupLabel": "Bu",
+      "attachmentMapNumber": 27,
+      "mapNumbers": [
+        27,
+        28,
+        29,
+        30
+      ]
+    },
+    {
+      "groupLabel": "Bu",
+      "attachmentMapNumber": 31,
+      "mapNumbers": [
+        31,
+        32,
+        33,
+        34
+      ]
+    },
+    {
+      "groupLabel": "Bu",
+      "attachmentMapNumber": 35,
+      "mapNumbers": [
+        35,
+        36,
+        37,
+        38
+      ]
+    }
+  ],
+  "startStateId": "reactants",
+  "stateIdToState": {
+    "reactants": {
+      "mappedSmiles": "[CH2:1]=[CH:2][CH2:3][CH2:4][CH2:5][CH2:6][Br:7].[Sn:12]([CH2:13][CH2:14][CH2:15][CH3:16])([CH2:17][CH2:18][CH2:19][CH3:20])[CH2:21][CH2:22][CH2:23][CH3:24].[Sn:25]([H:26])([CH2:27][CH2:28][CH2:29][CH3:30])([CH2:31][CH2:32][CH2:33][CH3:34])[CH2:35][CH2:36][CH2:37][CH3:38]",
+      "mapNumberToCoordinates": {
+        "1": [
+          3.0046,
+          0.3954
+        ],
+        "2": [
+          1.7056,
+          -0.3546
+        ],
+        "3": [
+          1.7056,
+          -1.8546
+        ],
+        "4": [
+          3.0046,
+          -2.6046
+        ],
+        "5": [
+          4.3036,
+          -1.8546
+        ],
+        "6": [
+          4.3036,
+          -0.3546
+        ],
+        "7": [
+          5.6027,
+          0.3954
+        ],
+        "12": [
+          5.43,
+          6.96
+        ],
+        "13": [
+          4.13,
+          7.71
+        ],
+        "14": [
+          2.83,
+          6.96
+        ],
+        "15": [
+          1.53,
+          7.71
+        ],
+        "16": [
+          0.23,
+          6.96
+        ],
+        "17": [
+          6.73,
+          7.71
+        ],
+        "18": [
+          8.02,
+          6.96
+        ],
+        "19": [
+          9.32,
+          7.71
+        ],
+        "20": [
+          10.62,
+          6.96
+        ],
+        "21": [
+          5.43,
+          5.46
+        ],
+        "22": [
+          6.73,
+          4.71
+        ],
+        "23": [
+          6.73,
+          3.21
+        ],
+        "24": [
+          8.02,
+          2.46
+        ],
+        "25": [
+          4.98,
+          15.03
+        ],
+        "26": [
+          6.27,
+          14.28
+        ],
+        "27": [
+          3.68,
+          15.78
+        ],
+        "28": [
+          2.38,
+          15.03
+        ],
+        "29": [
+          1.08,
+          15.78
+        ],
+        "30": [
+          -0.22,
+          15.03
+        ],
+        "31": [
+          4.23,
+          13.73
+        ],
+        "32": [
+          4.98,
+          12.43
+        ],
+        "33": [
+          4.23,
+          11.13
+        ],
+        "34": [
+          4.98,
+          9.83
+        ],
+        "35": [
+          5.73,
+          16.33
+        ],
+        "36": [
+          7.23,
+          16.33
+        ],
+        "37": [
+          7.98,
+          17.63
+        ],
+        "38": [
+          9.48,
+          17.63
+        ]
+      },
+      "caption": "6-bromohex-1-ene + tributyltin radical + tributyltin hydride",
+      "learnerPrompt": "The tin radical attacks the bromoalkene. Use fish-hook arrows: each moves one electron.",
+      "hintTiers": [
+        "Tin radicals are good at removing halogen atoms: the Sn–Br bond is strong, the C–Br bond weak.",
+        "The tin radical takes the bromine atom; the C–Br bond splits evenly and leaves the unpaired electron on carbon. Three fish-hooks.",
+        "Tin's unpaired electron → new Sn–Br bond; one C–Br electron → Sn–Br; the other → the carbon."
+      ],
+      "misconceptions": [
+        {
+          "misconceptionId": "tin-attacks-carbon",
+          "misconceptionTag": "wrong-atom-transferred",
+          "severity": "wrong",
+          "arrowPattern": "rad Sn12 ~> C6",
+          "feedbackMessage": "Radicals do not substitute at carbon. Tin attacks the bromine atom and pulls it off."
+        },
+        {
+          "misconceptionId": "tin-adds-to-alkene",
+          "misconceptionTag": "reversible-addition",
+          "severity": "plausible",
+          "arrowPattern": "rad Sn12 ~> C1",
+          "feedbackMessage": "Tin radicals do add to alkenes, but reversibly. Removing bromine is fast and, because the Sn–Br bond is strong, irreversible."
+        }
+      ],
+      "partialProgressMessages": [
+        {
+          "learnerArrows": [
+            "rad Sn12 ~> σ Br7-Sn12",
+            "σ C6-Br7 ~> rad C6"
+          ],
+          "feedbackMessage": "One more fish-hook: the new Sn–Br bond needs one electron from the C–Br bond as well."
+        }
+      ]
+    },
+    "hexenyl-radical": {
+      "mappedSmiles": "[CH2:1]=[CH:2][CH2:3][CH2:4][CH2:5][CH2:6].[Sn:12]([Br:7])([CH2:13][CH2:14][CH2:15][CH3:16])([CH2:17][CH2:18][CH2:19][CH3:20])[CH2:21][CH2:22][CH2:23][CH3:24].[Sn:25]([H:26])([CH2:27][CH2:28][CH2:29][CH3:30])([CH2:31][CH2:32][CH2:33][CH3:34])[CH2:35][CH2:36][CH2:37][CH3:38]",
+      "mapNumberToCoordinates": {
+        "1": [
+          2.5528,
+          1.5984
+        ],
+        "2": [
+          1.2538,
+          0.8484
+        ],
+        "3": [
+          1.2538,
+          -0.6516
+        ],
+        "4": [
+          2.5528,
+          -1.4016
+        ],
+        "5": [
+          3.8518,
+          -0.6516
+        ],
+        "6": [
+          3.8518,
+          0.8484
+        ],
+        "7": [
+          5.1509,
+          1.5984
+        ],
+        "12": [
+          5.47,
+          6.93
+        ],
+        "13": [
+          4.17,
+          7.68
+        ],
+        "14": [
+          2.87,
+          6.93
+        ],
+        "15": [
+          1.57,
+          7.68
+        ],
+        "16": [
+          0.27,
+          6.93
+        ],
+        "17": [
+          6.76,
+          6.18
+        ],
+        "18": [
+          6.76,
+          4.68
+        ],
+        "19": [
+          8.06,
+          3.93
+        ],
+        "20": [
+          8.06,
+          2.43
+        ],
+        "21": [
+          6.22,
+          8.22
+        ],
+        "22": [
+          7.72,
+          8.22
+        ],
+        "23": [
+          8.47,
+          9.52
+        ],
+        "24": [
+          9.97,
+          9.52
+        ],
+        "25": [
+          13.83,
+          -0.09
+        ],
+        "26": [
+          15.13,
+          -0.84
+        ],
+        "27": [
+          12.53,
+          0.66
+        ],
+        "28": [
+          11.23,
+          -0.09
+        ],
+        "29": [
+          9.93,
+          0.66
+        ],
+        "30": [
+          8.63,
+          -0.09
+        ],
+        "31": [
+          13.08,
+          -1.38
+        ],
+        "32": [
+          13.83,
+          -2.68
+        ],
+        "33": [
+          13.08,
+          -3.98
+        ],
+        "34": [
+          13.83,
+          -5.28
+        ],
+        "35": [
+          14.58,
+          1.21
+        ],
+        "36": [
+          16.08,
+          1.21
+        ],
+        "37": [
+          16.83,
+          2.51
+        ],
+        "38": [
+          18.33,
+          2.51
+        ]
+      },
+      "caption": "hex-5-enyl radical + Bu₃SnBr + Bu₃SnH",
+      "learnerPrompt": "The radical finds the alkene in its own chain. Close the ring.",
+      "hintTiers": [
+        "A radical adds to an alkene; here the alkene is in the same molecule. Which ring size forms fastest?",
+        "The radical carbon bonds to the nearer alkene carbon (CH), making a five-membered ring; the unpaired electron moves to the terminal CH₂ outside the ring. Three fish-hooks.",
+        "Unpaired electron → new bond to the alkene CH carbon; one π electron → the same new bond; the other π electron → the terminal CH₂ carbon."
+      ],
+      "misconceptions": [
+        {
+          "misconceptionId": "direct-reduction",
+          "misconceptionTag": "too-early-hydrogen-transfer",
+          "severity": "plausible",
+          "arrowPattern": "rad C6 ~> H26",
+          "feedbackMessage": "Taking H from tin now would give hex-1-ene. That is what happens if Bu₃SnH is concentrated; added slowly, the dilute hydride lets the fast cyclisation (about 10⁵ s⁻¹) happen first."
+        },
+        {
+          "misconceptionId": "tin-bromide-reacts",
+          "misconceptionTag": "wrong-partner",
+          "severity": "wrong",
+          "arrowPattern": "rad C6 ~> Br7",
+          "feedbackMessage": "Taking bromine back from Bu₃SnBr reverses the first step, which the strong Sn–Br bond forbids. Look for the alkene in the radical's own chain."
+        }
+      ],
+      "partialProgressMessages": [
+        {
+          "learnerArrows": [
+            "rad C6 ~> σ C2-C6",
+            "π C1-C2 ~> rad C1"
+          ],
+          "feedbackMessage": "One more fish-hook: the new C–C bond needs one electron from the π bond as well."
+        }
+      ]
+    },
+    "cyclopentylmethyl-radical": {
+      "mappedSmiles": "[CH2:1][CH:2]1[CH2:3][CH2:4][CH2:5][CH2:6]1.[Sn:12]([Br:7])([CH2:13][CH2:14][CH2:15][CH3:16])([CH2:17][CH2:18][CH2:19][CH3:20])[CH2:21][CH2:22][CH2:23][CH3:24].[Sn:25]([H:26])([CH2:27][CH2:28][CH2:29][CH3:30])([CH2:31][CH2:32][CH2:33][CH3:34])[CH2:35][CH2:36][CH2:37][CH3:38]",
+      "mapNumberToCoordinates": {
+        "1": [
+          2.78,
+          0
+        ],
+        "2": [
+          1.28,
+          0
+        ],
+        "3": [
+          0.39,
+          1.21
+        ],
+        "4": [
+          -1.03,
+          0.75
+        ],
+        "5": [
+          -1.03,
+          -0.75
+        ],
+        "6": [
+          0.39,
+          -1.21
+        ],
+        "7": [
+          4.45,
+          5.41
+        ],
+        "12": [
+          5.2,
+          6.71
+        ],
+        "13": [
+          3.9,
+          7.46
+        ],
+        "14": [
+          2.6,
+          6.71
+        ],
+        "15": [
+          1.3,
+          7.46
+        ],
+        "16": [
+          0,
+          6.71
+        ],
+        "17": [
+          6.5,
+          5.96
+        ],
+        "18": [
+          6.5,
+          4.46
+        ],
+        "19": [
+          7.79,
+          3.71
+        ],
+        "20": [
+          7.79,
+          2.21
+        ],
+        "21": [
+          5.95,
+          8.01
+        ],
+        "22": [
+          7.45,
+          8.01
+        ],
+        "23": [
+          8.2,
+          9.31
+        ],
+        "24": [
+          9.7,
+          9.31
+        ],
+        "25": [
+          10.57,
+          -0.51
+        ],
+        "26": [
+          11.87,
+          -1.26
+        ],
+        "27": [
+          9.27,
+          0.24
+        ],
+        "28": [
+          7.98,
+          -0.51
+        ],
+        "29": [
+          6.68,
+          0.24
+        ],
+        "30": [
+          5.38,
+          -0.51
+        ],
+        "31": [
+          9.82,
+          -1.81
+        ],
+        "32": [
+          10.57,
+          -3.11
+        ],
+        "33": [
+          9.82,
+          -4.4
+        ],
+        "34": [
+          10.57,
+          -5.7
+        ],
+        "35": [
+          11.32,
+          0.79
+        ],
+        "36": [
+          12.82,
+          0.79
+        ],
+        "37": [
+          13.57,
+          2.09
+        ],
+        "38": [
+          15.07,
+          2.09
+        ]
+      },
+      "caption": "cyclopentylmethyl radical (5-exo-trig product)",
+      "learnerPrompt": "The new radical meets tributyltin hydride.",
+      "hintTiers": [
+        "The primary radical needs a partner. Which weak bond in the flask carries a hydrogen?",
+        "The radical takes the hydrogen from Bu₃SnH; the Sn–H bond splits evenly. Three fish-hooks.",
+        "Carbon's unpaired electron → new C–H bond; one Sn–H electron → C–H; the other → tin."
+      ],
+      "misconceptions": [
+        {
+          "misconceptionId": "radical-attacks-tin",
+          "misconceptionTag": "wrong-atom-transferred",
+          "severity": "wrong",
+          "arrowPattern": "rad C1 ~> Sn25",
+          "feedbackMessage": "Tin already has four bonds. The radical takes the hydrogen; tin keeps the unpaired electron."
+        },
+        {
+          "misconceptionId": "ring-opens-again",
+          "misconceptionTag": "reverse-step",
+          "severity": "plausible",
+          "arrowPattern": "σ C2-C6 ~> rad C6",
+          "feedbackMessage": "Ring opening reverses the cyclisation, but it is much slower than the closure. With Bu₃SnH present, the radical takes H."
+        }
+      ],
+      "partialProgressMessages": [
+        {
+          "learnerArrows": [
+            "rad C1 ~> σ C1-H26",
+            "σ H26-Sn25 ~> rad Sn25"
+          ],
+          "feedbackMessage": "One more fish-hook: the new C–H bond needs one electron from the Sn–H bond as well."
+        }
+      ]
+    },
+    "cyclohexyl-radical": {
+      "mappedSmiles": "[CH:2]1[CH2:1][CH2:6][CH2:5][CH2:4][CH2:3]1.[Sn:12]([Br:7])([CH2:13][CH2:14][CH2:15][CH3:16])([CH2:17][CH2:18][CH2:19][CH3:20])[CH2:21][CH2:22][CH2:23][CH3:24].[Sn:25]([H:26])([CH2:27][CH2:28][CH2:29][CH3:30])([CH2:31][CH2:32][CH2:33][CH3:34])[CH2:35][CH2:36][CH2:37][CH3:38]",
+      "mapNumberToCoordinates": {
+        "1": [
+          0.75,
+          1.3
+        ],
+        "2": [
+          1.5,
+          0
+        ],
+        "3": [
+          0.75,
+          -1.3
+        ],
+        "4": [
+          -0.75,
+          -1.3
+        ],
+        "5": [
+          -1.5,
+          0
+        ],
+        "6": [
+          -0.75,
+          1.3
+        ],
+        "7": [
+          4.45,
+          5.5
+        ],
+        "12": [
+          5.2,
+          6.8
+        ],
+        "13": [
+          3.9,
+          7.55
+        ],
+        "14": [
+          2.6,
+          6.8
+        ],
+        "15": [
+          1.3,
+          7.55
+        ],
+        "16": [
+          0,
+          6.8
+        ],
+        "17": [
+          6.5,
+          6.05
+        ],
+        "18": [
+          6.5,
+          4.55
+        ],
+        "19": [
+          7.79,
+          3.8
+        ],
+        "20": [
+          7.79,
+          2.3
+        ],
+        "21": [
+          5.95,
+          8.1
+        ],
+        "22": [
+          7.45,
+          8.1
+        ],
+        "23": [
+          8.2,
+          9.4
+        ],
+        "24": [
+          9.7,
+          9.4
+        ],
+        "25": [
+          9.31,
+          -0.74
+        ],
+        "26": [
+          10.61,
+          -1.49
+        ],
+        "27": [
+          8.02,
+          0.01
+        ],
+        "28": [
+          6.72,
+          -0.74
+        ],
+        "29": [
+          5.42,
+          0.01
+        ],
+        "30": [
+          4.12,
+          -0.74
+        ],
+        "31": [
+          8.56,
+          -2.04
+        ],
+        "32": [
+          9.31,
+          -3.33
+        ],
+        "33": [
+          8.56,
+          -4.63
+        ],
+        "34": [
+          9.31,
+          -5.93
+        ],
+        "35": [
+          10.06,
+          0.56
+        ],
+        "36": [
+          11.56,
+          0.56
+        ],
+        "37": [
+          12.31,
+          1.86
+        ],
+        "38": [
+          13.81,
+          1.86
+        ]
+      },
+      "caption": "cyclohexyl radical (6-endo-trig product, minor)",
+      "learnerPrompt": "The cyclohexyl radical meets tributyltin hydride.",
+      "hintTiers": [
+        "The radical needs a partner. Which weak bond in the flask carries a hydrogen?",
+        "The radical takes the hydrogen from Bu₃SnH; the Sn–H bond splits evenly. Three fish-hooks.",
+        "Carbon's unpaired electron → new C–H bond; one Sn–H electron → C–H; the other → tin."
+      ],
+      "misconceptions": [
+        {
+          "misconceptionId": "radical-attacks-tin-cyclohexyl",
+          "misconceptionTag": "wrong-atom-transferred",
+          "severity": "wrong",
+          "arrowPattern": "rad C2 ~> Sn25",
+          "feedbackMessage": "Tin already has four bonds. The radical takes the hydrogen; tin keeps the unpaired electron."
+        }
+      ],
+      "partialProgressMessages": [
+        {
+          "learnerArrows": [
+            "rad C2 ~> σ C2-H26",
+            "σ H26-Sn25 ~> rad Sn25"
+          ],
+          "feedbackMessage": "One more fish-hook: the new C–H bond needs one electron from the Sn–H bond as well."
+        }
+      ]
+    },
+    "methylcyclopentane": {
+      "mappedSmiles": "[CH2:1]([H:26])[CH:2]1[CH2:3][CH2:4][CH2:5][CH2:6]1.[Sn:12]([Br:7])([CH2:13][CH2:14][CH2:15][CH3:16])([CH2:17][CH2:18][CH2:19][CH3:20])[CH2:21][CH2:22][CH2:23][CH3:24].[Sn:25]([CH2:27][CH2:28][CH2:29][CH3:30])([CH2:31][CH2:32][CH2:33][CH3:34])[CH2:35][CH2:36][CH2:37][CH3:38]",
+      "mapNumberToCoordinates": {
+        "1": [
+          2.78,
+          0
+        ],
+        "2": [
+          1.28,
+          0
+        ],
+        "3": [
+          0.39,
+          1.21
+        ],
+        "4": [
+          -1.03,
+          0.75
+        ],
+        "5": [
+          -1.03,
+          -0.75
+        ],
+        "6": [
+          0.39,
+          -1.21
+        ],
+        "7": [
+          4.45,
+          5.41
+        ],
+        "12": [
+          5.2,
+          6.71
+        ],
+        "13": [
+          3.9,
+          7.46
+        ],
+        "14": [
+          2.6,
+          6.71
+        ],
+        "15": [
+          1.3,
+          7.46
+        ],
+        "16": [
+          0,
+          6.71
+        ],
+        "17": [
+          6.5,
+          5.96
+        ],
+        "18": [
+          6.5,
+          4.46
+        ],
+        "19": [
+          7.79,
+          3.71
+        ],
+        "20": [
+          7.79,
+          2.21
+        ],
+        "21": [
+          5.95,
+          8.01
+        ],
+        "22": [
+          7.45,
+          8.01
+        ],
+        "23": [
+          8.2,
+          9.31
+        ],
+        "24": [
+          9.7,
+          9.31
+        ],
+        "25": [
+          11.08,
+          -0.73
+        ],
+        "26": [
+          3.53,
+          -1.3
+        ],
+        "27": [
+          9.78,
+          0.02
+        ],
+        "28": [
+          8.48,
+          -0.73
+        ],
+        "29": [
+          7.18,
+          0.02
+        ],
+        "30": [
+          5.88,
+          -0.73
+        ],
+        "31": [
+          12.38,
+          0.02
+        ],
+        "32": [
+          13.67,
+          -0.73
+        ],
+        "33": [
+          14.97,
+          0.02
+        ],
+        "34": [
+          16.27,
+          -0.73
+        ],
+        "35": [
+          11.08,
+          -2.23
+        ],
+        "36": [
+          12.38,
+          -2.98
+        ],
+        "37": [
+          12.38,
+          -4.48
+        ],
+        "38": [
+          13.67,
+          -5.23
+        ]
+      },
+      "caption": "methylcyclopentane (about 98%) + Bu₃SnBr + Bu₃Sn• (carries the chain on)"
+    },
+    "cyclohexane": {
+      "mappedSmiles": "[CH:2]1([H:26])[CH2:1][CH2:6][CH2:5][CH2:4][CH2:3]1.[Sn:12]([Br:7])([CH2:13][CH2:14][CH2:15][CH3:16])([CH2:17][CH2:18][CH2:19][CH3:20])[CH2:21][CH2:22][CH2:23][CH3:24].[Sn:25]([CH2:27][CH2:28][CH2:29][CH3:30])([CH2:31][CH2:32][CH2:33][CH3:34])[CH2:35][CH2:36][CH2:37][CH3:38]",
+      "mapNumberToCoordinates": {
+        "1": [
+          0.75,
+          1.3
+        ],
+        "2": [
+          1.5,
+          0
+        ],
+        "3": [
+          0.75,
+          -1.3
+        ],
+        "4": [
+          -0.75,
+          -1.3
+        ],
+        "5": [
+          -1.5,
+          0
+        ],
+        "6": [
+          -0.75,
+          1.3
+        ],
+        "7": [
+          4.45,
+          5.5
+        ],
+        "12": [
+          5.2,
+          6.8
+        ],
+        "13": [
+          3.9,
+          7.55
+        ],
+        "14": [
+          2.6,
+          6.8
+        ],
+        "15": [
+          1.3,
+          7.55
+        ],
+        "16": [
+          0,
+          6.8
+        ],
+        "17": [
+          6.5,
+          6.05
+        ],
+        "18": [
+          6.5,
+          4.55
+        ],
+        "19": [
+          7.79,
+          3.8
+        ],
+        "20": [
+          7.79,
+          2.3
+        ],
+        "21": [
+          5.95,
+          8.1
+        ],
+        "22": [
+          7.45,
+          8.1
+        ],
+        "23": [
+          8.2,
+          9.4
+        ],
+        "24": [
+          9.7,
+          9.4
+        ],
+        "25": [
+          10.8,
+          -0.52
+        ],
+        "26": [
+          3,
+          0
+        ],
+        "27": [
+          9.5,
+          0.23
+        ],
+        "28": [
+          8.2,
+          -0.52
+        ],
+        "29": [
+          6.9,
+          0.23
+        ],
+        "30": [
+          5.6,
+          -0.52
+        ],
+        "31": [
+          12.1,
+          0.23
+        ],
+        "32": [
+          13.4,
+          -0.52
+        ],
+        "33": [
+          14.7,
+          0.23
+        ],
+        "34": [
+          15.99,
+          -0.52
+        ],
+        "35": [
+          10.8,
+          -2.02
+        ],
+        "36": [
+          12.1,
+          -2.77
+        ],
+        "37": [
+          12.1,
+          -4.27
+        ],
+        "38": [
+          13.4,
+          -5.02
+        ]
+      },
+      "caption": "cyclohexane: the minor product (about 2%) of 6-endo cyclisation"
+    }
+  },
+  "steps": [
+    {
+      "stepKey": "bromine-abstraction",
+      "fromStateId": "reactants",
+      "toStateId": "hexenyl-radical",
+      "stepKind": "radical",
+      "routePreference": "preferred",
+      "canonicalArrows": [
+        "rad Sn12 ~> σ Sn12-Br7",
+        "σ Br7-C6 ~> σ Sn12-Br7",
+        "σ Br7-C6 ~> rad C6"
+      ],
+      "explanationAfterStep": "Bu₃Sn• abstracts bromine: the Sn–Br bond formed is stronger than the C–Br bond broken. A primary radical is left at the end of the chain."
+    },
+    {
+      "stepKey": "five-exo-cyclisation",
+      "fromStateId": "hexenyl-radical",
+      "toStateId": "cyclopentylmethyl-radical",
+      "stepKind": "radical",
+      "routePreference": "preferred",
+      "canonicalArrows": [
+        "rad C6 ~> σ C6-C2",
+        "π C2-C1 ~> σ C6-C2",
+        "π C2-C1 ~> rad C1"
+      ],
+      "explanationAfterStep": "5-exo-trig: the radical attacks the near end of the alkene, and the new radical sits outside (exo) the five-membered ring. It is fast (about 10⁵ s⁻¹) and wins over 6-endo by about 50:1, although 6-endo would give a more stable secondary radical: in the chair-like transition state only the near alkene carbon can be reached along the line (about 107°) at which the radical must approach the π bond. Baldwin's rules allow both closures; 5-exo simply wins on rate."
+    },
+    {
+      "stepKey": "six-endo-cyclisation",
+      "fromStateId": "hexenyl-radical",
+      "toStateId": "cyclohexyl-radical",
+      "stepKind": "radical",
+      "routePreference": "accepted",
+      "canonicalArrows": [
+        "rad C6 ~> σ C6-C1",
+        "π C1-C2 ~> σ C6-C1",
+        "π C1-C2 ~> rad C2"
+      ],
+      "explanationAfterStep": "Also correct, but minor (about 2%): attack at the far end of the alkene gives a six-membered ring with the radical inside it (6-endo). The secondary radical is more stable, but the geometry of approach to the far carbon is poor, so this closure is about 50 times slower than 5-exo."
+    },
+    {
+      "stepKey": "hydrogen-transfer",
+      "fromStateId": "cyclopentylmethyl-radical",
+      "toStateId": "methylcyclopentane",
+      "stepKind": "radical",
+      "routePreference": "preferred",
+      "canonicalArrows": [
+        "rad C1 ~> σ C1-H26",
+        "σ H26-Sn25 ~> σ C1-H26",
+        "σ H26-Sn25 ~> rad Sn25"
+      ],
+      "explanationAfterStep": "The cyclised radical takes H from Bu₃SnH, giving methylcyclopentane and a new Bu₃Sn• to continue the chain."
+    },
+    {
+      "stepKey": "hydrogen-transfer-cyclohexyl",
+      "fromStateId": "cyclohexyl-radical",
+      "toStateId": "cyclohexane",
+      "stepKind": "radical",
+      "routePreference": "preferred",
+      "canonicalArrows": [
+        "rad C2 ~> σ C2-H26",
+        "σ H26-Sn25 ~> σ C2-H26",
+        "σ H26-Sn25 ~> rad Sn25"
+      ],
+      "explanationAfterStep": "The cyclohexyl radical takes H from tin in the same way, giving the minor product, cyclohexane."
+    }
+  ],
+  "mechanismSummary": "Bu₃Sn• abstracts bromine from 6-bromohex-1-ene, giving the hex-5-enyl radical. Before it meets the dilute Bu₃SnH, the radical adds to its own alkene. It closes the five-membered ring (5-exo-trig) about 50 times faster than the six-membered one (6-endo), because only the near alkene carbon can be reached along the preferred line of attack. The cyclopentylmethyl radical takes H from Bu₃SnH: methylcyclopentane, with about 2% cyclohexane. Keeping Bu₃SnH dilute stops the uncyclised radical being reduced to hex-1-ene.",
+  "references": [
+    "Clayden, Greeves and Warren, Organic Chemistry, 2nd edition (Oxford University Press), chapter 37 (Radical reactions)"
+  ],
+  "authors": [
+    {
+      "name": "Maksim",
+      "url": null
+    }
+  ],
+  "licence": "CC-BY-SA-4.0"
+}

@@ -1,0 +1,830 @@
+{
+  "formatVersion": 1,
+  "reactionSlug": "fischer-indole-synthesis-part-2",
+  "reactionVersion": 1,
+  "previousReactionVersion": null,
+  "title": "Fischer indole synthesis, part 2",
+  "subtitle": "Ring closure onto the iminium ion, then loss of ammonia, gives the indole",
+  "reactionClasses": [
+    "addition",
+    "elimination"
+  ],
+  "difficultyTier": 2,
+  "conditionsLabel": "AcOH · reflux",
+  "dailyPuzzleEligible": true,
+  "atomRoleToMapNumbers": {
+    "ringNitrogen": [
+      4
+    ]
+  },
+  "spectatorMapNumbers": [],
+  "startStateId": "reactants",
+  "stateIdToState": {
+    "reactants": {
+      "mappedSmiles": "[NH:4]([H:20])[C:5]1=[C:6]([C:1]3([H:24])[CH2:11][CH2:12][CH2:13][CH2:14][C:2]3=[NH2+:3])[CH:7]=[CH:8][CH:9]=[CH:10]1.[CH3:30][C:31](=[O:32])[O:33][H:22].[CH3:35][C:36](=[O:37])[O-:38]",
+      "mapNumberToCoordinates": {
+        "1": [
+          1.5,
+          0
+        ],
+        "2": [
+          0.75,
+          -1.3
+        ],
+        "3": [
+          1.5,
+          -2.6
+        ],
+        "4": [
+          4.32,
+          1.03
+        ],
+        "5": [
+          4.06,
+          -0.45
+        ],
+        "6": [
+          2.65,
+          -0.96
+        ],
+        "7": [
+          2.39,
+          -2.44
+        ],
+        "8": [
+          3.54,
+          -3.41
+        ],
+        "9": [
+          4.95,
+          -2.89
+        ],
+        "10": [
+          5.21,
+          -1.42
+        ],
+        "11": [
+          0.75,
+          1.3
+        ],
+        "12": [
+          -0.75,
+          1.3
+        ],
+        "13": [
+          -1.5,
+          0
+        ],
+        "14": [
+          -0.75,
+          -1.3
+        ],
+        "20": [
+          5.73,
+          1.54
+        ],
+        "22": [
+          2.43,
+          6.51
+        ],
+        "24": [
+          2.65,
+          0.96
+        ],
+        "30": [
+          -0.17,
+          3.51
+        ],
+        "31": [
+          1.13,
+          4.26
+        ],
+        "32": [
+          2.43,
+          3.51
+        ],
+        "33": [
+          1.13,
+          5.76
+        ],
+        "35": [
+          7.55,
+          0.2
+        ],
+        "36": [
+          8.85,
+          0.95
+        ],
+        "37": [
+          10.15,
+          0.2
+        ],
+        "38": [
+          8.85,
+          2.45
+        ]
+      },
+      "caption": "a 2-(2-aminophenyl)cyclohexaniminium ion + acetic acid + acetate",
+      "learnerPrompt": "The aniline nitrogen attacks the iminium carbon and closes a five-membered ring. Draw it.",
+      "hintTiers": [
+        "The NH₂ group and the C=N⁺ carbon are held close together. What ring forms if they bond?",
+        "The NH₂ lone pair forms a bond to the iminium carbon and the C=N π bond moves onto its nitrogen. Two arrows.",
+        "Aniline nitrogen lone pair → a new N–C bond to the iminium carbon; the C=N π bond → a lone pair on the iminium nitrogen."
+      ],
+      "misconceptions": [
+        {
+          "misconceptionId": "acetate-adds",
+          "misconceptionTag": "wrong-nucleophile",
+          "severity": "plausible",
+          "arrowPattern": "lp O38 -> σ O38-C2",
+          "feedbackMessage": "Acetate can add to the iminium ion, but that adduct just falls apart again. The aniline nitrogen, held right next to it, closes the ring."
+        },
+        {
+          "misconceptionId": "enamine-first",
+          "misconceptionTag": "order-of-events",
+          "severity": "plausible",
+          "arrowPattern": "lp O38 -> σ O38-H24",
+          "feedbackMessage": "Removing that proton gives an enamine, which is reversible and leads nowhere yet. Close the ring with the aniline nitrogen first."
+        }
+      ],
+      "partialProgressMessages": [
+        {
+          "learnerArrows": [
+            "lp N4 -> σ N4-C2"
+          ],
+          "feedbackMessage": "Right ring closure. That carbon now has five bonds: move the C=N π bond onto its nitrogen."
+        }
+      ]
+    },
+    "cyclic-aminal": {
+      "mappedSmiles": "[NH+:4]1([H:20])[C:5]2=[C:6]([C:1]3([H:24])[CH2:11][CH2:12][CH2:13][CH2:14][C:2]13[NH2:3])[CH:7]=[CH:8][CH:9]=[CH:10]2.[CH3:30][C:31](=[O:32])[O:33][H:22].[CH3:35][C:36](=[O:37])[O-:38]",
+      "mapNumberToCoordinates": {
+        "1": [
+          1.75,
+          2.41
+        ],
+        "2": [
+          3.12,
+          1.8
+        ],
+        "3": [
+          4.42,
+          1.05
+        ],
+        "4": [
+          2.97,
+          0.31
+        ],
+        "5": [
+          1.5,
+          0
+        ],
+        "6": [
+          0.75,
+          1.3
+        ],
+        "7": [
+          -0.75,
+          1.3
+        ],
+        "8": [
+          -1.5,
+          0
+        ],
+        "9": [
+          -0.75,
+          -1.3
+        ],
+        "10": [
+          0.75,
+          -1.3
+        ],
+        "11": [
+          1.6,
+          3.91
+        ],
+        "12": [
+          2.81,
+          4.79
+        ],
+        "13": [
+          4.18,
+          4.18
+        ],
+        "14": [
+          4.34,
+          2.69
+        ],
+        "20": [
+          4.08,
+          -0.69
+        ],
+        "22": [
+          9.02,
+          2.95
+        ],
+        "24": [
+          0.33,
+          2.88
+        ],
+        "30": [
+          6.42,
+          -0.05
+        ],
+        "31": [
+          7.72,
+          0.7
+        ],
+        "32": [
+          9.02,
+          -0.05
+        ],
+        "33": [
+          7.72,
+          2.2
+        ],
+        "35": [
+          -0.14,
+          7.06
+        ],
+        "36": [
+          1.16,
+          7.81
+        ],
+        "37": [
+          2.46,
+          7.06
+        ],
+        "38": [
+          1.16,
+          9.31
+        ]
+      },
+      "caption": "the cyclic aminal, protonated on the ring nitrogen + acetic acid + acetate",
+      "learnerPrompt": "Acetate removes a proton from the positively charged nitrogen. Draw it.",
+      "hintTiers": [
+        "Which hydrogen is now the most acidic?",
+        "Acetate takes a proton from the N⁺ in the five-membered ring. Two arrows.",
+        "Acetate O⁻ lone pair → a new O–H bond to an H on the ring N⁺; that N–H bond → a lone pair on that nitrogen."
+      ],
+      "misconceptions": [
+        {
+          "misconceptionId": "ring-opens",
+          "misconceptionTag": "reverse-step",
+          "severity": "plausible",
+          "arrowPattern": "σ C2-N4 -> *",
+          "feedbackMessage": "Breaking the new N–C bond just opens the ring again. Deprotonate the ring nitrogen."
+        }
+      ]
+    },
+    "neutral-aminal": {
+      "mappedSmiles": "[NH:4]1[C:5]2=[C:6]([C:1]3([H:24])[CH2:11][CH2:12][CH2:13][CH2:14][C:2]13[NH2:3])[CH:7]=[CH:8][CH:9]=[CH:10]2.[CH3:30][C:31](=[O:32])[O:33][H:22].[CH3:35][C:36](=[O:37])[O:38][H:20]",
+      "mapNumberToCoordinates": {
+        "1": [
+          1.75,
+          2.41
+        ],
+        "2": [
+          3.12,
+          1.8
+        ],
+        "3": [
+          4.42,
+          1.05
+        ],
+        "4": [
+          2.97,
+          0.31
+        ],
+        "5": [
+          1.5,
+          0
+        ],
+        "6": [
+          0.75,
+          1.3
+        ],
+        "7": [
+          -0.75,
+          1.3
+        ],
+        "8": [
+          -1.5,
+          0
+        ],
+        "9": [
+          -0.75,
+          -1.3
+        ],
+        "10": [
+          0.75,
+          -1.3
+        ],
+        "11": [
+          1.6,
+          3.91
+        ],
+        "12": [
+          2.81,
+          4.79
+        ],
+        "13": [
+          4.18,
+          4.18
+        ],
+        "14": [
+          4.34,
+          2.69
+        ],
+        "20": [
+          2.56,
+          10.06
+        ],
+        "22": [
+          9.01,
+          2.93
+        ],
+        "24": [
+          0.33,
+          2.88
+        ],
+        "30": [
+          6.41,
+          -0.07
+        ],
+        "31": [
+          7.71,
+          0.68
+        ],
+        "32": [
+          9.01,
+          -0.07
+        ],
+        "33": [
+          7.71,
+          2.18
+        ],
+        "35": [
+          -0.03,
+          7.06
+        ],
+        "36": [
+          1.27,
+          7.81
+        ],
+        "37": [
+          2.56,
+          7.06
+        ],
+        "38": [
+          1.27,
+          9.31
+        ]
+      },
+      "caption": "the neutral aminal + acetic acid",
+      "learnerPrompt": "Acetic acid protonates the NH₂ group. Draw it.",
+      "hintTiers": [
+        "One of the two nitrogens on the same carbon must leave. What must happen to it first?",
+        "The NH₂ nitrogen takes the acidic proton of acetic acid, turning it into NH₃⁺. Two arrows.",
+        "NH₂ lone pair → a new N–H bond to the acid hydrogen; the acid O–H bond → a lone pair on its oxygen."
+      ],
+      "misconceptions": [
+        {
+          "misconceptionId": "amide-leaves",
+          "misconceptionTag": "poor-leaving-group",
+          "severity": "wrong",
+          "arrowPattern": "σ C2-N3 -> lp N3",
+          "feedbackMessage": "NH₂⁻ is a terrible leaving group. Protonate it first, so that it leaves as neutral ammonia."
+        },
+        {
+          "misconceptionId": "protonate-ring-n",
+          "misconceptionTag": "wrong-site",
+          "severity": "plausible",
+          "arrowPattern": "lp N4 -> σ N4-H*",
+          "feedbackMessage": "Protonating the ring nitrogen only reverses the last step. The NH₂ group is the one that must leave, so protonate it."
+        }
+      ]
+    },
+    "ammonium": {
+      "mappedSmiles": "[NH:4]1[C:5]2=[C:6]([C:1]3([H:24])[CH2:11][CH2:12][CH2:13][CH2:14][C:2]13[NH2+:3][H:22])[CH:7]=[CH:8][CH:9]=[CH:10]2.[CH3:30][C:31](=[O:32])[O-:33].[CH3:35][C:36](=[O:37])[O:38][H:20]",
+      "mapNumberToCoordinates": {
+        "1": [
+          1.75,
+          2.41
+        ],
+        "2": [
+          3.12,
+          1.8
+        ],
+        "3": [
+          4.42,
+          1.05
+        ],
+        "4": [
+          2.97,
+          0.31
+        ],
+        "5": [
+          1.5,
+          0
+        ],
+        "6": [
+          0.75,
+          1.3
+        ],
+        "7": [
+          -0.75,
+          1.3
+        ],
+        "8": [
+          -1.5,
+          0
+        ],
+        "9": [
+          -0.75,
+          -1.3
+        ],
+        "10": [
+          0.75,
+          -1.3
+        ],
+        "11": [
+          1.6,
+          3.91
+        ],
+        "12": [
+          2.81,
+          4.79
+        ],
+        "13": [
+          4.18,
+          4.18
+        ],
+        "14": [
+          4.34,
+          2.69
+        ],
+        "20": [
+          2.53,
+          10.06
+        ],
+        "22": [
+          4.42,
+          -0.45
+        ],
+        "24": [
+          0.33,
+          2.88
+        ],
+        "30": [
+          6.71,
+          -0.19
+        ],
+        "31": [
+          8,
+          0.56
+        ],
+        "32": [
+          9.3,
+          -0.19
+        ],
+        "33": [
+          8,
+          2.06
+        ],
+        "35": [
+          -0.07,
+          7.06
+        ],
+        "36": [
+          1.23,
+          7.81
+        ],
+        "37": [
+          2.53,
+          7.06
+        ],
+        "38": [
+          1.23,
+          9.31
+        ]
+      },
+      "caption": "the aminal protonated on the NH₂ group + acetate",
+      "learnerPrompt": "Ammonia leaves, pushed out by the ring nitrogen. Draw it.",
+      "hintTiers": [
+        "Which lone pair can help push ammonia out?",
+        "The ring nitrogen lone pair forms a C=N π bond and the C–N bond to the NH₃⁺ group breaks onto that nitrogen. Two arrows.",
+        "Ring nitrogen lone pair → a C=N π bond to the carbon bearing NH₃⁺; that C–N bond → a lone pair on the leaving nitrogen."
+      ]
+    },
+    "indoleninium-ion": {
+      "mappedSmiles": "[NH+:4]1=[C:2]3[C:1]([H:24])([C:6]2=[C:5]1[CH:10]=[CH:9][CH:8]=[CH:7]2)[CH2:11][CH2:12][CH2:13][CH2:14]3.[CH3:30][C:31](=[O:32])[O-:33].[CH3:35][C:36](=[O:37])[O:38][H:20].[NH2:3][H:22]",
+      "mapNumberToCoordinates": {
+        "1": [
+          0.75,
+          1.3
+        ],
+        "2": [
+          1.5,
+          0
+        ],
+        "3": [
+          10.23,
+          -0.16
+        ],
+        "4": [
+          2.97,
+          0.31
+        ],
+        "5": [
+          3.12,
+          1.8
+        ],
+        "6": [
+          1.75,
+          2.41
+        ],
+        "7": [
+          1.6,
+          3.91
+        ],
+        "8": [
+          2.81,
+          4.79
+        ],
+        "9": [
+          4.18,
+          4.18
+        ],
+        "10": [
+          4.34,
+          2.69
+        ],
+        "11": [
+          -0.75,
+          1.3
+        ],
+        "12": [
+          -1.5,
+          0
+        ],
+        "13": [
+          -0.75,
+          -1.3
+        ],
+        "14": [
+          0.75,
+          -1.3
+        ],
+        "20": [
+          2.61,
+          10.06
+        ],
+        "22": [
+          11.52,
+          0.59
+        ],
+        "24": [
+          0.14,
+          2.67
+        ],
+        "30": [
+          5.34,
+          0
+        ],
+        "31": [
+          6.64,
+          0.75
+        ],
+        "32": [
+          7.94,
+          0
+        ],
+        "33": [
+          6.64,
+          2.25
+        ],
+        "35": [
+          0.02,
+          7.06
+        ],
+        "36": [
+          1.31,
+          7.81
+        ],
+        "37": [
+          2.61,
+          7.06
+        ],
+        "38": [
+          1.31,
+          9.31
+        ]
+      },
+      "caption": "an indoleninium ion + ammonia + acetate",
+      "learnerPrompt": "One more proton goes, and the indole is aromatic. Draw it.",
+      "hintTiers": [
+        "Which sp³ carbon in the five-membered ring still has a hydrogen?",
+        "Acetate takes the H on the ring-fusion carbon next to the C=N⁺ carbon; the C–H electrons form a C=C π bond and the C=N π bond moves onto nitrogen. Three arrows.",
+        "Acetate O⁻ lone pair → a new O–H bond to the H next to the C=N⁺ carbon; that C–H bond → a C=C π bond; the C=N π bond → a lone pair on nitrogen."
+      ],
+      "misconceptions": [
+        {
+          "misconceptionId": "ammonia-adds-back",
+          "misconceptionTag": "reverse-step",
+          "severity": "plausible",
+          "arrowPattern": "lp N3 -> σ N3-C2",
+          "feedbackMessage": "Ammonia adding back just reverses the last step. One proton is all that stands between this ion and an aromatic indole."
+        }
+      ],
+      "partialProgressMessages": [
+        {
+          "learnerArrows": [
+            "lp O33 -> σ O33-H24"
+          ],
+          "feedbackMessage": "Right proton. The C–H electrons now form a C=C bond, and the C=N π bond returns to nitrogen."
+        }
+      ]
+    },
+    "products": {
+      "mappedSmiles": "[NH:4]1[C:2]3=[C:1]([C:6]2=[C:5]1[CH:10]=[CH:9][CH:8]=[CH:7]2)[CH2:11][CH2:12][CH2:13][CH2:14]3.[CH3:30][C:31](=[O:32])[O:33][H:24].[CH3:35][C:36](=[O:37])[O:38][H:20].[NH2:3][H:22]",
+      "mapNumberToCoordinates": {
+        "1": [
+          0.75,
+          1.3
+        ],
+        "2": [
+          1.5,
+          0
+        ],
+        "3": [
+          10.18,
+          -0.38
+        ],
+        "4": [
+          2.97,
+          0.31
+        ],
+        "5": [
+          3.12,
+          1.8
+        ],
+        "6": [
+          1.75,
+          2.41
+        ],
+        "7": [
+          1.6,
+          3.91
+        ],
+        "8": [
+          2.81,
+          4.79
+        ],
+        "9": [
+          4.18,
+          4.18
+        ],
+        "10": [
+          4.34,
+          2.69
+        ],
+        "11": [
+          -0.75,
+          1.3
+        ],
+        "12": [
+          -1.5,
+          0
+        ],
+        "13": [
+          -0.75,
+          -1.3
+        ],
+        "14": [
+          0.75,
+          -1.3
+        ],
+        "20": [
+          2.59,
+          10.06
+        ],
+        "22": [
+          11.48,
+          0.37
+        ],
+        "24": [
+          7.94,
+          3
+        ],
+        "30": [
+          5.34,
+          0
+        ],
+        "31": [
+          6.64,
+          0.75
+        ],
+        "32": [
+          7.94,
+          0
+        ],
+        "33": [
+          6.64,
+          2.25
+        ],
+        "35": [
+          -0.01,
+          7.06
+        ],
+        "36": [
+          1.29,
+          7.81
+        ],
+        "37": [
+          2.59,
+          7.06
+        ],
+        "38": [
+          1.29,
+          9.31
+        ]
+      },
+      "caption": "1,2,3,4-tetrahydrocarbazole + ammonia + acetic acid"
+    }
+  },
+  "steps": [
+    {
+      "stepKey": "ring-closure",
+      "fromStateId": "reactants",
+      "toStateId": "cyclic-aminal",
+      "stepKind": "polar",
+      "routePreference": "preferred",
+      "canonicalArrows": [
+        "lp N4 -> σ N4-C2",
+        "π C2-N3 -> lp N3"
+      ],
+      "explanationAfterStep": "The aniline nitrogen adds to the iminium ion, as an amine adds to a carbonyl group, closing a five-membered ring."
+    },
+    {
+      "stepKey": "nitrogen-deprotonation",
+      "fromStateId": "cyclic-aminal",
+      "toStateId": "neutral-aminal",
+      "stepKind": "polar",
+      "routePreference": "preferred",
+      "canonicalArrows": [
+        "lp O38 -> σ O38-H20",
+        "σ N4-H20 -> lp N4"
+      ],
+      "explanationAfterStep": "Acetate removes a proton from the ring nitrogen, freeing its lone pair."
+    },
+    {
+      "stepKey": "amine-protonation",
+      "fromStateId": "neutral-aminal",
+      "toStateId": "ammonium",
+      "stepKind": "polar",
+      "routePreference": "preferred",
+      "canonicalArrows": [
+        "lp N3 -> σ N3-H22",
+        "σ O33-H22 -> lp O33"
+      ],
+      "explanationAfterStep": "Protonating the NH₂ group turns it into a good leaving group: neutral ammonia."
+    },
+    {
+      "stepKey": "loss-of-ammonia",
+      "fromStateId": "ammonium",
+      "toStateId": "indoleninium-ion",
+      "stepKind": "polar",
+      "routePreference": "preferred",
+      "canonicalArrows": [
+        "lp N4 -> π C2-N4",
+        "σ C2-N3 -> lp N3"
+      ],
+      "explanationAfterStep": "The ring nitrogen lone pair pushes out ammonia; in acid the ammonia ends up as ammonium acetate. This is the step that gives the synthesis its overall result: one nitrogen of the hydrazine is lost."
+    },
+    {
+      "stepKey": "aromatisation",
+      "fromStateId": "indoleninium-ion",
+      "toStateId": "products",
+      "stepKind": "polar",
+      "routePreference": "preferred",
+      "canonicalArrows": [
+        "lp O33 -> σ O33-H24",
+        "σ C1-H24 -> π C1-C2",
+        "π C2-N4 -> lp N4"
+      ],
+      "explanationAfterStep": "Losing the last proton makes the five-membered ring aromatic: an indole, here 1,2,3,4-tetrahydrocarbazole."
+    }
+  ],
+  "mechanismSummary": "After the [3,3]-rearrangement (Part 1), the aniline NH₂ group adds to the iminium carbon and closes a five-membered ring. Proton transfers through acetic acid turn the other nitrogen into an NH₃⁺ group, which the ring nitrogen lone pair pushes out as ammonia. Loss of the last C–H proton gives the aromatic indole: 1,2,3,4-tetrahydrocarbazole.",
+  "references": [
+    "Clayden, Greeves and Warren, Organic Chemistry, 2nd edition (Oxford University Press), chapter 30"
+  ],
+  "authors": [
+    {
+      "name": "Maksim",
+      "url": null
+    }
+  ],
+  "licence": "CC-BY-SA-4.0"
+}

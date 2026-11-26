@@ -1,0 +1,894 @@
+{
+  "formatVersion": 1,
+  "reactionSlug": "tbaf-deprotection",
+  "reactionVersion": 1,
+  "previousReactionVersion": null,
+  "title": "TBAF removes a TBS group",
+  "subtitle": "Fluoride attacks silicon: a five-coordinate silicate releases the alkoxide",
+  "reactionClasses": [
+    "substitution"
+  ],
+  "difficultyTier": 2,
+  "conditionsLabel": "1. Bu₄N⁺ F⁻ (TBAF) · THF · 25 °C · 2. aq. NH₄Cl",
+  "dailyPuzzleEligible": true,
+  "atomRoleToMapNumbers": {
+    "silicon": [
+      10
+    ],
+    "fluoride": [
+      40
+    ],
+    "leavingOxygen": [
+      1
+    ]
+  },
+  "spectatorMapNumbers": [
+    41,
+    42,
+    43,
+    44,
+    45,
+    46,
+    47,
+    48,
+    49,
+    50,
+    51,
+    52,
+    53,
+    54,
+    55,
+    56,
+    57
+  ],
+  "abbreviatedGroups": [
+    {
+      "groupLabel": "t-Bu",
+      "attachmentMapNumber": 13,
+      "mapNumbers": [
+        13,
+        14,
+        15,
+        16
+      ]
+    },
+    {
+      "groupLabel": "Bu",
+      "attachmentMapNumber": 42,
+      "mapNumbers": [
+        42,
+        43,
+        44,
+        45
+      ]
+    },
+    {
+      "groupLabel": "Bu",
+      "attachmentMapNumber": 46,
+      "mapNumbers": [
+        46,
+        47,
+        48,
+        49
+      ]
+    },
+    {
+      "groupLabel": "Bu",
+      "attachmentMapNumber": 50,
+      "mapNumbers": [
+        50,
+        51,
+        52,
+        53
+      ]
+    },
+    {
+      "groupLabel": "Bu",
+      "attachmentMapNumber": 54,
+      "mapNumbers": [
+        54,
+        55,
+        56,
+        57
+      ]
+    }
+  ],
+  "startStateId": "reactants",
+  "stateIdToState": {
+    "reactants": {
+      "mappedSmiles": "[CH3:6][CH:4]([OH:5])[CH2:3][CH2:2][O:1][Si:10]([CH3:11])([CH3:12])[C:13]([CH3:14])([CH3:15])[CH3:16].[F-:40].[N+:41]([CH2:42][CH2:43][CH2:44][CH3:45])([CH2:46][CH2:47][CH2:48][CH3:49])([CH2:50][CH2:51][CH2:52][CH3:53])[CH2:54][CH2:55][CH2:56][CH3:57]",
+      "mapNumberToCoordinates": {
+        "1": [
+          5.2,
+          0
+        ],
+        "2": [
+          3.9,
+          0.75
+        ],
+        "3": [
+          2.6,
+          0
+        ],
+        "4": [
+          1.3,
+          0.75
+        ],
+        "5": [
+          1.3,
+          2.25
+        ],
+        "6": [
+          0,
+          0
+        ],
+        "10": [
+          6.5,
+          0.75
+        ],
+        "11": [
+          7.25,
+          -0.55
+        ],
+        "12": [
+          5.75,
+          2.05
+        ],
+        "13": [
+          7.79,
+          1.5
+        ],
+        "14": [
+          7.04,
+          2.8
+        ],
+        "15": [
+          8.54,
+          0.2
+        ],
+        "16": [
+          9.09,
+          2.25
+        ],
+        "40": [
+          10.82,
+          -0.14
+        ],
+        "41": [
+          5.22,
+          9.46
+        ],
+        "42": [
+          3.92,
+          10.21
+        ],
+        "43": [
+          2.62,
+          9.46
+        ],
+        "44": [
+          1.32,
+          10.21
+        ],
+        "45": [
+          0.02,
+          9.46
+        ],
+        "46": [
+          6.52,
+          8.71
+        ],
+        "47": [
+          6.52,
+          7.21
+        ],
+        "48": [
+          7.82,
+          6.46
+        ],
+        "49": [
+          7.82,
+          4.96
+        ],
+        "50": [
+          5.97,
+          10.76
+        ],
+        "51": [
+          7.47,
+          10.76
+        ],
+        "52": [
+          8.22,
+          12.06
+        ],
+        "53": [
+          9.72,
+          12.06
+        ],
+        "54": [
+          4.47,
+          8.16
+        ],
+        "55": [
+          5.22,
+          6.86
+        ],
+        "56": [
+          4.47,
+          5.56
+        ],
+        "57": [
+          5.22,
+          4.26
+        ]
+      },
+      "caption": "the TBS ether + tetrabutylammonium fluoride (TBAF) in THF",
+      "learnerPrompt": "Fluoride attacks the silyl ether. Draw the first step.",
+      "hintTiers": [
+        "Fluoride is small and hard, and the Si–F bond is one of the strongest single bonds known. Which atom does fluoride attack?",
+        "A fluoride lone pair forms a new bond to silicon. Silicon can take a fifth group, so nothing needs to leave yet. One arrow.",
+        "Fluoride lone pair → new F–Si bond."
+      ],
+      "misconceptions": [
+        {
+          "misconceptionId": "fluoride-attacks-carbon",
+          "misconceptionTag": "wrong-electrophile",
+          "severity": "wrong",
+          "arrowPattern": "lp F40 -> C2",
+          "feedbackMessage": "SN2 at the CH₂ would need a silyloxide to leave from carbon, a poor leaving group. Silicon is the target: it is larger, more electropositive, and can take a fifth group."
+        }
+      ]
+    },
+    "silicate": {
+      "mappedSmiles": "[CH3:6][CH:4]([OH:5])[CH2:3][CH2:2][O:1][Si-:10]([F:40])([CH3:11])([CH3:12])[C:13]([CH3:14])([CH3:15])[CH3:16].[N+:41]([CH2:42][CH2:43][CH2:44][CH3:45])([CH2:46][CH2:47][CH2:48][CH3:49])([CH2:50][CH2:51][CH2:52][CH3:53])[CH2:54][CH2:55][CH2:56][CH3:57]",
+      "mapNumberToCoordinates": {
+        "1": [
+          5.2,
+          0
+        ],
+        "2": [
+          3.9,
+          0.75
+        ],
+        "3": [
+          2.6,
+          0
+        ],
+        "4": [
+          1.3,
+          0.75
+        ],
+        "5": [
+          1.3,
+          2.25
+        ],
+        "6": [
+          0,
+          0
+        ],
+        "10": [
+          6.5,
+          0.75
+        ],
+        "11": [
+          7.11,
+          2.12
+        ],
+        "12": [
+          5.38,
+          1.75
+        ],
+        "13": [
+          6.81,
+          -0.72
+        ],
+        "14": [
+          8.27,
+          -0.41
+        ],
+        "15": [
+          5.34,
+          -1.03
+        ],
+        "16": [
+          7.12,
+          -2.18
+        ],
+        "40": [
+          7.99,
+          0.59
+        ],
+        "41": [
+          5.25,
+          9.24
+        ],
+        "42": [
+          3.95,
+          9.99
+        ],
+        "43": [
+          2.65,
+          9.24
+        ],
+        "44": [
+          1.35,
+          9.99
+        ],
+        "45": [
+          0.05,
+          9.24
+        ],
+        "46": [
+          6.55,
+          8.49
+        ],
+        "47": [
+          6.55,
+          6.99
+        ],
+        "48": [
+          7.85,
+          6.24
+        ],
+        "49": [
+          7.85,
+          4.74
+        ],
+        "50": [
+          6,
+          10.54
+        ],
+        "51": [
+          7.5,
+          10.54
+        ],
+        "52": [
+          8.25,
+          11.83
+        ],
+        "53": [
+          9.75,
+          11.83
+        ],
+        "54": [
+          4.5,
+          7.94
+        ],
+        "55": [
+          5.25,
+          6.64
+        ],
+        "56": [
+          4.5,
+          5.34
+        ],
+        "57": [
+          5.25,
+          4.04
+        ]
+      },
+      "caption": "a five-coordinate fluorosilicate",
+      "learnerPrompt": "The five-coordinate silicate loses one group.",
+      "hintTiers": [
+        "Silicon now carries five groups and a negative charge. Which group is the best leaving group: a carbon group, fluoride, or the alkoxide?",
+        "The Si–O bond breaks and its pair goes to oxygen: an alkoxide leaves. One arrow.",
+        "Si–O bond → a lone pair on the oxygen of the butanol chain."
+      ],
+      "misconceptions": [
+        {
+          "misconceptionId": "fluoride-leaves-again",
+          "misconceptionTag": "reverse-step",
+          "severity": "plausible",
+          "arrowPattern": "σ F40-Si10 -> lp F40",
+          "feedbackMessage": "Losing fluoride just goes back. The Si–F bond (about 570 kJ mol⁻¹) is much stronger than Si–O (about 450 kJ mol⁻¹), so the alkoxide leaves."
+        },
+        {
+          "misconceptionId": "alkyl-leaves",
+          "misconceptionTag": "carbanion-leaving-group",
+          "severity": "wrong",
+          "arrowPattern": "σ Si10-C* -> lp C*",
+          "feedbackMessage": "A carbanion is a hopeless leaving group. The alkoxide oxygen leaves: it can hold the negative charge."
+        }
+      ]
+    },
+    "alkoxide": {
+      "mappedSmiles": "[CH3:6][CH:4]([OH:5])[CH2:3][CH2:2][O-:1].[F:40][Si:10]([CH3:11])([CH3:12])[C:13]([CH3:14])([CH3:15])[CH3:16].[N+:41]([CH2:42][CH2:43][CH2:44][CH3:45])([CH2:46][CH2:47][CH2:48][CH3:49])([CH2:50][CH2:51][CH2:52][CH3:53])[CH2:54][CH2:55][CH2:56][CH3:57]",
+      "mapNumberToCoordinates": {
+        "1": [
+          5.2,
+          0
+        ],
+        "2": [
+          3.9,
+          0.75
+        ],
+        "3": [
+          2.6,
+          0
+        ],
+        "4": [
+          1.3,
+          0.75
+        ],
+        "5": [
+          1.3,
+          2.25
+        ],
+        "6": [
+          0,
+          0
+        ],
+        "10": [
+          1.18,
+          6.63
+        ],
+        "11": [
+          -0.12,
+          5.88
+        ],
+        "12": [
+          2.48,
+          7.38
+        ],
+        "13": [
+          1.93,
+          5.33
+        ],
+        "14": [
+          3.23,
+          6.08
+        ],
+        "15": [
+          0.63,
+          4.58
+        ],
+        "16": [
+          2.68,
+          4.03
+        ],
+        "40": [
+          0.43,
+          7.93
+        ],
+        "41": [
+          12.68,
+          -0.2
+        ],
+        "42": [
+          11.38,
+          0.55
+        ],
+        "43": [
+          10.08,
+          -0.2
+        ],
+        "44": [
+          8.78,
+          0.55
+        ],
+        "45": [
+          7.48,
+          -0.2
+        ],
+        "46": [
+          13.98,
+          -0.95
+        ],
+        "47": [
+          13.98,
+          -2.45
+        ],
+        "48": [
+          15.27,
+          -3.2
+        ],
+        "49": [
+          15.27,
+          -4.7
+        ],
+        "50": [
+          13.43,
+          1.1
+        ],
+        "51": [
+          14.93,
+          1.1
+        ],
+        "52": [
+          15.68,
+          2.4
+        ],
+        "53": [
+          17.18,
+          2.4
+        ],
+        "54": [
+          11.93,
+          -1.5
+        ],
+        "55": [
+          12.68,
+          -2.8
+        ],
+        "56": [
+          11.93,
+          -4.1
+        ],
+        "57": [
+          12.68,
+          -5.4
+        ]
+      },
+      "caption": "tetrabutylammonium alkoxide + TBSF"
+    },
+    "alkoxide-and-workup": {
+      "mappedSmiles": "[CH3:6][CH:4]([OH:5])[CH2:3][CH2:2][O-:1].[F:40][Si:10]([CH3:11])([CH3:12])[C:13]([CH3:14])([CH3:15])[CH3:16].[N+:41]([CH2:42][CH2:43][CH2:44][CH3:45])([CH2:46][CH2:47][CH2:48][CH3:49])([CH2:50][CH2:51][CH2:52][CH3:53])[CH2:54][CH2:55][CH2:56][CH3:57].[H:61][NH3+:60].[Cl-:62]",
+      "mapNumberToCoordinates": {
+        "1": [
+          5.2,
+          0
+        ],
+        "2": [
+          3.9,
+          0.75
+        ],
+        "3": [
+          2.6,
+          0
+        ],
+        "4": [
+          1.3,
+          0.75
+        ],
+        "5": [
+          1.3,
+          2.25
+        ],
+        "6": [
+          0,
+          0
+        ],
+        "10": [
+          1.18,
+          6.63
+        ],
+        "11": [
+          -0.12,
+          5.88
+        ],
+        "12": [
+          2.48,
+          7.38
+        ],
+        "13": [
+          1.93,
+          5.33
+        ],
+        "14": [
+          3.23,
+          6.08
+        ],
+        "15": [
+          0.63,
+          4.58
+        ],
+        "16": [
+          2.68,
+          4.03
+        ],
+        "40": [
+          0.43,
+          7.93
+        ],
+        "41": [
+          12.68,
+          -0.2
+        ],
+        "42": [
+          11.38,
+          0.55
+        ],
+        "43": [
+          10.08,
+          -0.2
+        ],
+        "44": [
+          8.78,
+          0.55
+        ],
+        "45": [
+          7.48,
+          -0.2
+        ],
+        "46": [
+          13.98,
+          -0.95
+        ],
+        "47": [
+          13.98,
+          -2.45
+        ],
+        "48": [
+          15.27,
+          -3.2
+        ],
+        "49": [
+          15.27,
+          -4.7
+        ],
+        "50": [
+          13.43,
+          1.1
+        ],
+        "51": [
+          14.93,
+          1.1
+        ],
+        "52": [
+          15.68,
+          2.4
+        ],
+        "53": [
+          17.18,
+          2.4
+        ],
+        "54": [
+          11.93,
+          -1.5
+        ],
+        "55": [
+          12.68,
+          -2.8
+        ],
+        "56": [
+          11.93,
+          -4.1
+        ],
+        "57": [
+          12.68,
+          -5.4
+        ],
+        "60": [
+          -0.63,
+          9.97
+        ],
+        "61": [
+          0.67,
+          10.72
+        ],
+        "62": [
+          -2.35,
+          8.45
+        ]
+      },
+      "caption": "alkoxide + aqueous ammonium chloride",
+      "learnerPrompt": "Protonate the alkoxide.",
+      "hintTiers": [
+        "The alkoxide is a strong base. Which species in the work-up can give it a proton?",
+        "The alkoxide oxygen takes a proton from the ammonium ion, and the N–H pair stays on nitrogen. Two arrows.",
+        "Alkoxide lone pair → new O–H bond to the ammonium proton; N–H bond → a lone pair on nitrogen."
+      ],
+      "misconceptions": [
+        {
+          "misconceptionId": "alkoxide-attacks-silicon",
+          "misconceptionTag": "reverse-step",
+          "severity": "plausible",
+          "arrowPattern": "lp O1 -> Si10",
+          "feedbackMessage": "The alkoxide could attack TBSF again, but fluoride is the poorer leaving group from silicon. Protonation in the work-up ends the reaction."
+        }
+      ]
+    },
+    "products": {
+      "mappedSmiles": "[CH3:6][CH:4]([OH:5])[CH2:3][CH2:2][O:1][H:61].[F:40][Si:10]([CH3:11])([CH3:12])[C:13]([CH3:14])([CH3:15])[CH3:16].[N+:41]([CH2:42][CH2:43][CH2:44][CH3:45])([CH2:46][CH2:47][CH2:48][CH3:49])([CH2:50][CH2:51][CH2:52][CH3:53])[CH2:54][CH2:55][CH2:56][CH3:57].[NH3:60].[Cl-:62]",
+      "mapNumberToCoordinates": {
+        "1": [
+          5.2,
+          0
+        ],
+        "2": [
+          3.9,
+          0.75
+        ],
+        "3": [
+          2.6,
+          0
+        ],
+        "4": [
+          1.3,
+          0.75
+        ],
+        "5": [
+          1.3,
+          2.25
+        ],
+        "6": [
+          0,
+          0
+        ],
+        "10": [
+          1.04,
+          6.75
+        ],
+        "11": [
+          -0.26,
+          6
+        ],
+        "12": [
+          2.34,
+          7.5
+        ],
+        "13": [
+          1.79,
+          5.45
+        ],
+        "14": [
+          3.09,
+          6.2
+        ],
+        "15": [
+          0.49,
+          4.7
+        ],
+        "16": [
+          2.54,
+          4.15
+        ],
+        "40": [
+          0.29,
+          8.05
+        ],
+        "41": [
+          13.8,
+          -0.16
+        ],
+        "42": [
+          12.5,
+          0.59
+        ],
+        "43": [
+          11.2,
+          -0.16
+        ],
+        "44": [
+          9.9,
+          0.59
+        ],
+        "45": [
+          8.6,
+          -0.16
+        ],
+        "46": [
+          15.1,
+          -0.91
+        ],
+        "47": [
+          15.1,
+          -2.41
+        ],
+        "48": [
+          16.4,
+          -3.16
+        ],
+        "49": [
+          16.4,
+          -4.66
+        ],
+        "50": [
+          14.55,
+          1.13
+        ],
+        "51": [
+          16.05,
+          1.13
+        ],
+        "52": [
+          16.8,
+          2.43
+        ],
+        "53": [
+          18.3,
+          2.43
+        ],
+        "54": [
+          13.05,
+          -1.46
+        ],
+        "55": [
+          13.8,
+          -2.76
+        ],
+        "56": [
+          13.05,
+          -4.06
+        ],
+        "57": [
+          13.8,
+          -5.36
+        ],
+        "60": [
+          -1.11,
+          9.87
+        ],
+        "61": [
+          6.5,
+          0.75
+        ],
+        "62": [
+          1.08,
+          10.7
+        ]
+      },
+      "caption": "butane-1,3-diol + TBSF + ammonia + tetrabutylammonium chloride"
+    }
+  },
+  "steps": [
+    {
+      "stepKey": "fluoride-adds-to-silicon",
+      "fromStateId": "reactants",
+      "toStateId": "silicate",
+      "stepKind": "polar",
+      "routePreference": "preferred",
+      "canonicalArrows": [
+        "lp F40 -> σ F40-Si10"
+      ],
+      "explanationAfterStep": "Fluoride adds to silicon: a five-coordinate, negatively charged silicate, roughly trigonal bipyramidal. Silicon can do this because it is large and its σ* orbitals are low in energy; a carbon with five bonds would only be a transition state."
+    },
+    {
+      "stepKey": "alkoxide-leaves",
+      "fromStateId": "silicate",
+      "toStateId": "alkoxide",
+      "stepKind": "polar",
+      "routePreference": "preferred",
+      "canonicalArrows": [
+        "σ O1-Si10 -> lp O1"
+      ],
+      "explanationAfterStep": "The alkoxide leaves from the silicate. The new Si–F bond is about 120 kJ mol⁻¹ stronger than the Si–O bond broken: that is the driving force."
+    },
+    {
+      "stepKey": "concerted-substitution",
+      "fromStateId": "reactants",
+      "toStateId": "alkoxide",
+      "stepKind": "polar",
+      "routePreference": "accepted",
+      "canonicalArrows": [
+        "lp F40 -> σ F40-Si10",
+        "σ O1-Si10 -> lp O1"
+      ],
+      "explanationAfterStep": "Also accepted: substitution at silicon drawn in one step. Whether the five-coordinate silicate is an intermediate or only a transition state depends on the groups on silicon; with fluoride it is usually drawn as an intermediate."
+    },
+    {
+      "stepKey": "workup",
+      "fromStateId": "alkoxide",
+      "toStateId": "alkoxide-and-workup",
+      "stepKind": "change",
+      "routePreference": "preferred",
+      "addedSpecies": "[H:61][NH3+:60].[Cl-:62]",
+      "caption": "Aqueous ammonium chloride work-up"
+    },
+    {
+      "stepKey": "protonation",
+      "fromStateId": "alkoxide-and-workup",
+      "toStateId": "products",
+      "stepKind": "polar",
+      "routePreference": "preferred",
+      "canonicalArrows": [
+        "lp O1 -> σ O1-H61",
+        "σ N60-H61 -> lp N60"
+      ],
+      "explanationAfterStep": "The alkoxide takes a proton: the diol is free again. In the dry THF solution before work-up the alkoxide is quite basic, which is why TBAF is sometimes buffered with acetic acid for base-sensitive molecules."
+    }
+  ],
+  "mechanismSummary": "Fluoride from TBAF adds to the silicon of the TBS ether, giving a five-coordinate fluorosilicate. The alkoxide leaves, and an aqueous ammonium chloride work-up protonates it. The very strong Si–F bond (about 570 kJ mol⁻¹, against about 450 kJ mol⁻¹ for Si–O) drives the reaction. Fluoride removes silyl ethers and leaves almost every other group alone, so a TBS group can be taken off without touching esters, acetals or carbamates. Acid also removes TBS ethers, more slowly than THP or MOM acetals.",
+  "references": [
+    "Clayden, Greeves and Warren, Organic Chemistry, 2nd edition (Oxford University Press), chapter 23",
+    "Wuts, Greene's Protective Groups in Organic Synthesis, 5th edition (Wiley), chapter 2 (silyl ethers)"
+  ],
+  "authors": [
+    {
+      "name": "Maksim",
+      "url": null
+    }
+  ],
+  "licence": "CC-BY-SA-4.0"
+}

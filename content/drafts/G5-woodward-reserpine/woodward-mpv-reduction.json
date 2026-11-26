@@ -1,0 +1,2606 @@
+{
+  "formatVersion": 1,
+  "reactionSlug": "woodward-mpv-reduction",
+  "reactionVersion": 1,
+  "previousReactionVersion": null,
+  "title": "Woodward's reserpine: MPV reduction",
+  "subtitle": "Aluminium isopropoxide reduces both ketones and leaves the C=C bonds alone",
+  "reactionClasses": [
+    "carbonyl",
+    "addition"
+  ],
+  "difficultyTier": 3,
+  "conditionsLabel": "Al(OiPr)₃ · iPrOH · reflux",
+  "dailyPuzzleEligible": true,
+  "atomRoleToMapNumbers": {
+    "aluminium": [
+      20,
+      40
+    ]
+  },
+  "spectatorMapNumbers": [],
+  "abbreviatedGroups": [
+    {
+      "groupLabel": "CO₂Me",
+      "attachmentMapNumber": 13,
+      "mapNumbers": [
+        13,
+        14,
+        15,
+        16
+      ]
+    },
+    {
+      "groupLabel": "OiPr",
+      "attachmentMapNumber": 26,
+      "mapNumbers": [
+        26,
+        27,
+        28,
+        29
+      ]
+    },
+    {
+      "groupLabel": "OiPr",
+      "attachmentMapNumber": 30,
+      "mapNumbers": [
+        30,
+        31,
+        32,
+        33
+      ]
+    },
+    {
+      "groupLabel": "OiPr",
+      "attachmentMapNumber": 46,
+      "mapNumbers": [
+        46,
+        47,
+        48,
+        49
+      ]
+    },
+    {
+      "groupLabel": "OiPr",
+      "attachmentMapNumber": 50,
+      "mapNumbers": [
+        50,
+        51,
+        52,
+        53
+      ]
+    }
+  ],
+  "startStateId": "reactants",
+  "stateIdToState": {
+    "reactants": {
+      "mappedSmiles": "[C:1]1([CH:2]=[CH:3][C:4]([CH:5]2[CH:6]1[CH2:9][CH:10]=[CH:11][CH:12]2[C:13](=[O:14])[O:15][CH3:16])=[O:8])=[O:7].[Al:20]([O:21][C:22]([H:23])([CH3:24])[CH3:25])([O:26][CH:27]([CH3:28])[CH3:29])[O:30][CH:31]([CH3:32])[CH3:33].[Al:40]([O:41][C:42]([H:43])([CH3:44])[CH3:45])([O:46][CH:47]([CH3:48])[CH3:49])[O:50][CH:51]([CH3:52])[CH3:53]",
+      "mapNumberToCoordinates": {
+        "1": [
+          1.5,
+          2.6
+        ],
+        "2": [
+          3,
+          2.6
+        ],
+        "3": [
+          3.75,
+          1.3
+        ],
+        "4": [
+          3,
+          0
+        ],
+        "5": [
+          1.5,
+          0
+        ],
+        "6": [
+          0.75,
+          1.3
+        ],
+        "7": [
+          0.75,
+          3.9
+        ],
+        "8": [
+          3.75,
+          -1.3
+        ],
+        "9": [
+          -0.75,
+          1.3
+        ],
+        "10": [
+          -1.5,
+          0
+        ],
+        "11": [
+          -0.75,
+          -1.3
+        ],
+        "12": [
+          0.75,
+          -1.3
+        ],
+        "13": [
+          1.5,
+          -2.6
+        ],
+        "14": [
+          0.75,
+          -3.9
+        ],
+        "15": [
+          3,
+          -2.6
+        ],
+        "16": [
+          3.75,
+          -3.9
+        ],
+        "20": [
+          9.58,
+          -0.63
+        ],
+        "21": [
+          8.08,
+          -0.63
+        ],
+        "22": [
+          7.33,
+          -1.93
+        ],
+        "23": [
+          8.63,
+          -2.68
+        ],
+        "24": [
+          6.03,
+          -1.18
+        ],
+        "25": [
+          6.58,
+          -3.22
+        ],
+        "26": [
+          10.33,
+          -1.93
+        ],
+        "27": [
+          11.83,
+          -1.93
+        ],
+        "28": [
+          12.58,
+          -3.22
+        ],
+        "29": [
+          12.58,
+          -0.63
+        ],
+        "30": [
+          10.33,
+          0.67
+        ],
+        "31": [
+          9.58,
+          1.97
+        ],
+        "32": [
+          8.08,
+          1.97
+        ],
+        "33": [
+          10.33,
+          3.27
+        ],
+        "40": [
+          3.86,
+          8.79
+        ],
+        "41": [
+          2.36,
+          8.79
+        ],
+        "42": [
+          1.61,
+          7.49
+        ],
+        "43": [
+          2.91,
+          6.74
+        ],
+        "44": [
+          0.31,
+          8.24
+        ],
+        "45": [
+          0.86,
+          6.19
+        ],
+        "46": [
+          4.61,
+          7.49
+        ],
+        "47": [
+          6.11,
+          7.49
+        ],
+        "48": [
+          6.86,
+          6.19
+        ],
+        "49": [
+          6.86,
+          8.79
+        ],
+        "50": [
+          4.61,
+          10.09
+        ],
+        "51": [
+          3.86,
+          11.39
+        ],
+        "52": [
+          2.36,
+          11.39
+        ],
+        "53": [
+          4.61,
+          12.69
+        ]
+      },
+      "caption": "the Diels–Alder adduct + aluminium isopropoxide (two molecules shown)",
+      "learnerPrompt": "Both ketones are reduced by aluminium isopropoxide. Start by binding the ketone next to the ring carbon that carries the ester.",
+      "hintTiers": [
+        "Aluminium with three bonds has only six electrons. Which atom of a ketone can give it a lone pair?",
+        "A ketone oxygen makes a bond to aluminium with one of its lone pairs. One arrow.",
+        "The oxygen of the ketone nearer the ester → new O–Al bond to either aluminium."
+      ],
+      "misconceptions": [
+        {
+          "misconceptionId": "no-al-hydride",
+          "misconceptionTag": "missing-hydride-source",
+          "severity": "wrong",
+          "arrowPattern": "σ Al*-* -> C*",
+          "feedbackMessage": "There is no Al–H bond. The hydride will come from a C–H of an isopropoxide group, once the ketone is bound to aluminium."
+        },
+        {
+          "misconceptionId": "isopropoxide-adds",
+          "misconceptionTag": "unproductive-addition",
+          "severity": "plausible",
+          "arrowPattern": "lp O* -> C*",
+          "feedbackMessage": "An isopropoxide oxygen adding to the ketone carbon only gives a hemiketal-like adduct that falls apart. Aluminium is the electron-poor atom: let a ketone oxygen bind it."
+        }
+      ]
+    },
+    "first-bound": {
+      "mappedSmiles": "[C:1]1([CH:2]=[CH:3][C:4]([CH:5]2[CH:6]1[CH2:9][CH:10]=[CH:11][CH:12]2[C:13](=[O:14])[O:15][CH3:16])=[O+:8][Al-:20]([O:21][C:22]([H:23])([CH3:24])[CH3:25])([O:26][CH:27]([CH3:28])[CH3:29])[O:30][CH:31]([CH3:32])[CH3:33])=[O:7].[Al:40]([O:41][C:42]([H:43])([CH3:44])[CH3:45])([O:46][CH:47]([CH3:48])[CH3:49])[O:50][CH:51]([CH3:52])[CH3:53]",
+      "mapNumberToCoordinates": {
+        "1": [
+          1.5,
+          2.6
+        ],
+        "2": [
+          3,
+          2.6
+        ],
+        "3": [
+          3.75,
+          1.3
+        ],
+        "4": [
+          3,
+          0
+        ],
+        "5": [
+          1.5,
+          0
+        ],
+        "6": [
+          0.75,
+          1.3
+        ],
+        "7": [
+          0.75,
+          3.899
+        ],
+        "8": [
+          3.75,
+          -1.299
+        ],
+        "9": [
+          -0.75,
+          1.3
+        ],
+        "10": [
+          -1.5,
+          0
+        ],
+        "11": [
+          -0.75,
+          -1.3
+        ],
+        "12": [
+          0.75,
+          -1.3
+        ],
+        "13": [
+          1.5,
+          -2.6
+        ],
+        "14": [
+          0.75,
+          -3.9
+        ],
+        "15": [
+          3,
+          -2.6
+        ],
+        "16": [
+          3.75,
+          -3.9
+        ],
+        "20": [
+          5.165,
+          -1.752
+        ],
+        "21": [
+          6.278,
+          -0.88
+        ],
+        "22": [
+          6.112,
+          0.41
+        ],
+        "23": [
+          4.904,
+          0.002
+        ],
+        "24": [
+          6.972,
+          1.639
+        ],
+        "25": [
+          5.362,
+          1.709
+        ],
+        "26": [
+          5.915,
+          -3.051
+        ],
+        "27": [
+          6.776,
+          -4.28
+        ],
+        "28": [
+          7.636,
+          -5.509
+        ],
+        "29": [
+          8.005,
+          -3.42
+        ],
+        "30": [
+          6.643,
+          -2.013
+        ],
+        "31": [
+          8.052,
+          -1.5
+        ],
+        "32": [
+          9.351,
+          -0.75
+        ],
+        "33": [
+          7.792,
+          -0.023
+        ],
+        "40": [
+          15.914,
+          0.1
+        ],
+        "41": [
+          17.101,
+          1.016
+        ],
+        "42": [
+          18.488,
+          0.446
+        ],
+        "43": [
+          19.876,
+          -0.123
+        ],
+        "44": [
+          19.058,
+          1.834
+        ],
+        "45": [
+          17.919,
+          -0.941
+        ],
+        "46": [
+          14.526,
+          0.669
+        ],
+        "47": [
+          13.339,
+          -0.247
+        ],
+        "48": [
+          11.951,
+          0.323
+        ],
+        "49": [
+          13.539,
+          -1.734
+        ],
+        "50": [
+          16.114,
+          -1.387
+        ],
+        "51": [
+          17.501,
+          -1.957
+        ],
+        "52": [
+          18.689,
+          -1.04
+        ],
+        "53": [
+          17.702,
+          -3.443
+        ]
+      },
+      "caption": "the ketone next to the ester bound to aluminium",
+      "learnerPrompt": "The hydride transfer: the ketone and an isopropoxide sit side by side on aluminium.",
+      "hintTiers": [
+        "Count round the ring: carbonyl carbon, its oxygen, aluminium, the isopropoxide oxygen, that oxygen's C–H carbon, hydrogen. The hydrogen can reach the carbonyl carbon through this six-membered ring.",
+        "Three arrows in one step: the C–H bond of the drawn isopropoxide becomes a new C–H bond to the bound carbonyl carbon, the C=O π pair goes onto oxygen, and the isopropoxide oxygen makes a C=O π bond (acetone).",
+        "Isopropoxide C–H bond → new C–H bond to the carbonyl carbon; C=O π bond → lone pair on the ketone oxygen; isopropoxide oxygen lone pair → new C=O π bond."
+      ],
+      "misconceptions": [
+        {
+          "misconceptionId": "conjugate-hydride-2-23",
+          "misconceptionTag": "conjugate-reduction",
+          "severity": "wrong",
+          "arrowPattern": "σ C*-H23 -> σ C2-H23",
+          "feedbackMessage": "The MPV reduction delivers hydride only to the carbonyl carbon, through the six-membered ring on aluminium. The C=C bonds survive; that is why Woodward chose it."
+        },
+        {
+          "misconceptionId": "ketone-leaves-8",
+          "misconceptionTag": "reverse-step",
+          "severity": "plausible",
+          "arrowPattern": "σ O8-Al20 -> lp O8",
+          "feedbackMessage": "That just releases the ketone again. Move a hydride onto it while it is bound."
+        }
+      ]
+    },
+    "first-reduced": {
+      "mappedSmiles": "[C:1]1([CH:2]=[CH:3][C:4]([CH:5]2[CH:6]1[CH2:9][CH:10]=[CH:11][CH:12]2[C:13](=[O:14])[O:15][CH3:16])([O:8][Al-:20]([O+:21]=[C:22]([CH3:24])[CH3:25])([O:26][CH:27]([CH3:28])[CH3:29])[O:30][CH:31]([CH3:32])[CH3:33])[H:23])=[O:7].[Al:40]([O:41][C:42]([H:43])([CH3:44])[CH3:45])([O:46][CH:47]([CH3:48])[CH3:49])[O:50][CH:51]([CH3:52])[CH3:53]",
+      "mapNumberToCoordinates": {
+        "1": [
+          1.5,
+          2.6
+        ],
+        "2": [
+          3,
+          2.6
+        ],
+        "3": [
+          3.75,
+          1.3
+        ],
+        "4": [
+          3,
+          0
+        ],
+        "5": [
+          1.5,
+          0
+        ],
+        "6": [
+          0.75,
+          1.3
+        ],
+        "7": [
+          0.75,
+          3.899
+        ],
+        "8": [
+          3.75,
+          -1.299
+        ],
+        "9": [
+          -0.75,
+          1.3
+        ],
+        "10": [
+          -1.5,
+          0
+        ],
+        "11": [
+          -0.75,
+          -1.3
+        ],
+        "12": [
+          0.75,
+          -1.3
+        ],
+        "13": [
+          1.5,
+          -2.6
+        ],
+        "14": [
+          0.75,
+          -3.9
+        ],
+        "15": [
+          3,
+          -2.6
+        ],
+        "16": [
+          3.75,
+          -3.9
+        ],
+        "20": [
+          5.25,
+          -1.299
+        ],
+        "21": [
+          6.75,
+          -1.299
+        ],
+        "22": [
+          8.25,
+          -1.299
+        ],
+        "23": [
+          2.25,
+          1.299
+        ],
+        "24": [
+          9.75,
+          -1.299
+        ],
+        "25": [
+          8.25,
+          0.201
+        ],
+        "26": [
+          5.38,
+          -2.794
+        ],
+        "27": [
+          6.344,
+          -3.943
+        ],
+        "28": [
+          7.309,
+          -5.092
+        ],
+        "29": [
+          7.644,
+          -3.193
+        ],
+        "30": [
+          5.38,
+          0.195
+        ],
+        "31": [
+          6.13,
+          1.494
+        ],
+        "32": [
+          6.764,
+          2.854
+        ],
+        "33": [
+          5.07,
+          2.555
+        ],
+        "40": [
+          16.312,
+          0.308
+        ],
+        "41": [
+          17.499,
+          1.225
+        ],
+        "42": [
+          18.887,
+          0.655
+        ],
+        "43": [
+          20.274,
+          0.085
+        ],
+        "44": [
+          19.457,
+          2.042
+        ],
+        "45": [
+          18.317,
+          -0.733
+        ],
+        "46": [
+          14.924,
+          0.878
+        ],
+        "47": [
+          13.737,
+          -0.039
+        ],
+        "48": [
+          12.35,
+          0.531
+        ],
+        "49": [
+          13.937,
+          -1.525
+        ],
+        "50": [
+          16.512,
+          -1.178
+        ],
+        "51": [
+          17.9,
+          -1.748
+        ],
+        "52": [
+          19.087,
+          -0.832
+        ],
+        "53": [
+          18.1,
+          -3.235
+        ]
+      },
+      "caption": "the first alkoxide on aluminium, with acetone still bound",
+      "learnerPrompt": "Release the acetone.",
+      "hintTiers": [
+        "The isopropoxide that gave its hydride is now acetone, still sitting on aluminium through its oxygen. What happens to it?",
+        "Acetone leaves aluminium: the O–Al bond goes back to the acetone oxygen. One arrow.",
+        "O–Al bond of the bound acetone → lone pair on the acetone oxygen."
+      ],
+      "misconceptions": [
+        {
+          "misconceptionId": "alkoxide-leaves-first",
+          "misconceptionTag": "wrong-leaving-group",
+          "severity": "plausible",
+          "arrowPattern": "σ O8-Al20 -> lp O8",
+          "feedbackMessage": "Breaking that bond makes a free alkoxide and leaves the acetone on the metal. The weakly bound acetone (a neutral ketone) is the one that leaves."
+        }
+      ]
+    },
+    "first-alkoxide": {
+      "mappedSmiles": "[C:1]1([CH:2]=[CH:3][C:4]([CH:5]2[CH:6]1[CH2:9][CH:10]=[CH:11][CH:12]2[C:13](=[O:14])[O:15][CH3:16])([O:8][Al:20]([O:26][CH:27]([CH3:28])[CH3:29])[O:30][CH:31]([CH3:32])[CH3:33])[H:23])=[O:7].[O:21]=[C:22]([CH3:24])[CH3:25].[Al:40]([O:41][C:42]([H:43])([CH3:44])[CH3:45])([O:46][CH:47]([CH3:48])[CH3:49])[O:50][CH:51]([CH3:52])[CH3:53]",
+      "mapNumberToCoordinates": {
+        "1": [
+          1.5,
+          2.6
+        ],
+        "2": [
+          3,
+          2.6
+        ],
+        "3": [
+          3.75,
+          1.3
+        ],
+        "4": [
+          3,
+          0
+        ],
+        "5": [
+          1.5,
+          0
+        ],
+        "6": [
+          0.75,
+          1.3
+        ],
+        "7": [
+          0.75,
+          3.899
+        ],
+        "8": [
+          3.75,
+          -1.299
+        ],
+        "9": [
+          -0.75,
+          1.3
+        ],
+        "10": [
+          -1.5,
+          0
+        ],
+        "11": [
+          -0.75,
+          -1.3
+        ],
+        "12": [
+          0.75,
+          -1.3
+        ],
+        "13": [
+          1.5,
+          -2.6
+        ],
+        "14": [
+          0.75,
+          -3.9
+        ],
+        "15": [
+          3,
+          -2.6
+        ],
+        "16": [
+          3.75,
+          -3.9
+        ],
+        "20": [
+          5.25,
+          -1.299
+        ],
+        "21": [
+          13.649,
+          0.529
+        ],
+        "22": [
+          13.649,
+          -0.971
+        ],
+        "23": [
+          2.25,
+          1.299
+        ],
+        "24": [
+          12.35,
+          -1.721
+        ],
+        "25": [
+          14.948,
+          -1.721
+        ],
+        "26": [
+          6.75,
+          -1.299
+        ],
+        "27": [
+          8.25,
+          -1.299
+        ],
+        "28": [
+          9.75,
+          -1.299
+        ],
+        "29": [
+          8.25,
+          0.201
+        ],
+        "30": [
+          5.38,
+          -2.794
+        ],
+        "31": [
+          6.344,
+          -3.943
+        ],
+        "32": [
+          7.309,
+          -5.092
+        ],
+        "33": [
+          7.644,
+          -3.193
+        ],
+        "40": [
+          21.51,
+          0.308
+        ],
+        "41": [
+          22.697,
+          1.225
+        ],
+        "42": [
+          24.085,
+          0.655
+        ],
+        "43": [
+          25.472,
+          0.085
+        ],
+        "44": [
+          24.655,
+          2.042
+        ],
+        "45": [
+          23.515,
+          -0.733
+        ],
+        "46": [
+          20.122,
+          0.878
+        ],
+        "47": [
+          18.935,
+          -0.039
+        ],
+        "48": [
+          17.548,
+          0.531
+        ],
+        "49": [
+          19.135,
+          -1.525
+        ],
+        "50": [
+          21.71,
+          -1.178
+        ],
+        "51": [
+          23.098,
+          -1.748
+        ],
+        "52": [
+          24.285,
+          -0.832
+        ],
+        "53": [
+          23.298,
+          -3.235
+        ]
+      },
+      "caption": "the first ketone reduced: an aluminium alkoxide, + acetone",
+      "learnerPrompt": "Bind the second ketone to a fresh molecule of aluminium isopropoxide.",
+      "hintTiers": [
+        "Aluminium with three bonds has only six electrons. Which atom of a ketone can give it a lone pair?",
+        "A ketone oxygen makes a bond to aluminium with one of its lone pairs. One arrow.",
+        "The second ketone oxygen lone pair → new O–Al bond to the aluminium of the free Al(OiPr)₃."
+      ],
+      "misconceptions": [
+        {
+          "misconceptionId": "isopropoxide-adds-second",
+          "misconceptionTag": "unproductive-addition",
+          "severity": "plausible",
+          "arrowPattern": "lp O* -> C*",
+          "feedbackMessage": "An oxygen adding to the ketone carbon only gives a hemiketal-like adduct that falls apart. Aluminium is the electron-poor atom: let the ketone oxygen bind it."
+        },
+        {
+          "misconceptionId": "no-al-hydride-second",
+          "misconceptionTag": "missing-hydride-source",
+          "severity": "wrong",
+          "arrowPattern": "σ Al*-* -> C*",
+          "feedbackMessage": "There is no Al–H bond. The hydride will come from a C–H of an isopropoxide group, once the ketone is bound to aluminium."
+        },
+        {
+          "misconceptionId": "reuse-first-aluminium",
+          "misconceptionTag": "other-route",
+          "severity": "plausible",
+          "arrowPattern": "lp O7 -> σ O7-Al20",
+          "feedbackMessage": "That aluminium could reduce it too, but it now carries the first alkoxide. Use the fresh Al(OiPr)₃ molecule, which still has the isopropoxide drawn ready to give its hydride."
+        }
+      ]
+    },
+    "second-bound": {
+      "mappedSmiles": "[C:1]1([CH:2]=[CH:3][C:4]([CH:5]2[CH:6]1[CH2:9][CH:10]=[CH:11][CH:12]2[C:13](=[O:14])[O:15][CH3:16])([O:8][Al:20]([O:26][CH:27]([CH3:28])[CH3:29])[O:30][CH:31]([CH3:32])[CH3:33])[H:23])=[O+:7][Al-:40]([O:41][C:42]([H:43])([CH3:44])[CH3:45])([O:46][CH:47]([CH3:48])[CH3:49])[O:50][CH:51]([CH3:52])[CH3:53].[O:21]=[C:22]([CH3:24])[CH3:25]",
+      "mapNumberToCoordinates": {
+        "1": [
+          1.5,
+          2.6
+        ],
+        "2": [
+          3,
+          2.6
+        ],
+        "3": [
+          3.75,
+          1.3
+        ],
+        "4": [
+          3,
+          0
+        ],
+        "5": [
+          1.5,
+          0
+        ],
+        "6": [
+          0.75,
+          1.3
+        ],
+        "7": [
+          0.75,
+          3.899
+        ],
+        "8": [
+          3.75,
+          -1.299
+        ],
+        "9": [
+          -0.75,
+          1.3
+        ],
+        "10": [
+          -1.5,
+          0
+        ],
+        "11": [
+          -0.75,
+          -1.3
+        ],
+        "12": [
+          0.75,
+          -1.3
+        ],
+        "13": [
+          1.5,
+          -2.6
+        ],
+        "14": [
+          0.75,
+          -3.9
+        ],
+        "15": [
+          3,
+          -2.6
+        ],
+        "16": [
+          3.75,
+          -3.9
+        ],
+        "20": [
+          5.25,
+          -1.299
+        ],
+        "21": [
+          13.649,
+          2.794
+        ],
+        "22": [
+          13.649,
+          1.294
+        ],
+        "23": [
+          2.25,
+          1.299
+        ],
+        "24": [
+          12.35,
+          0.544
+        ],
+        "25": [
+          14.948,
+          0.544
+        ],
+        "26": [
+          6.75,
+          -1.299
+        ],
+        "27": [
+          8.25,
+          -1.299
+        ],
+        "28": [
+          9.75,
+          -1.299
+        ],
+        "29": [
+          8.25,
+          0.201
+        ],
+        "30": [
+          5.38,
+          -2.794
+        ],
+        "31": [
+          6.344,
+          -3.943
+        ],
+        "32": [
+          7.309,
+          -5.092
+        ],
+        "33": [
+          7.644,
+          -3.193
+        ],
+        "40": [
+          1.067,
+          5.352
+        ],
+        "41": [
+          2.38,
+          5.878
+        ],
+        "42": [
+          3.412,
+          5.089
+        ],
+        "43": [
+          2.454,
+          4.247
+        ],
+        "44": [
+          4.907,
+          5.219
+        ],
+        "45": [
+          3.925,
+          6.498
+        ],
+        "46": [
+          -0.082,
+          6.316
+        ],
+        "47": [
+          -1.231,
+          7.28
+        ],
+        "48": [
+          -2.38,
+          8.244
+        ],
+        "49": [
+          -0.267,
+          8.429
+        ],
+        "50": [
+          -0.343,
+          4.839
+        ],
+        "51": [
+          -1.752,
+          4.326
+        ],
+        "52": [
+          -3.162,
+          3.813
+        ],
+        "53": [
+          -2.386,
+          5.685
+        ]
+      },
+      "caption": "the other ketone bound to aluminium",
+      "learnerPrompt": "The hydride transfer: the ketone and an isopropoxide sit side by side on aluminium.",
+      "hintTiers": [
+        "Count round the ring: carbonyl carbon, its oxygen, aluminium, the isopropoxide oxygen, that oxygen's C–H carbon, hydrogen. The hydrogen can reach the carbonyl carbon through this six-membered ring.",
+        "Three arrows in one step: the C–H bond of the drawn isopropoxide becomes a new C–H bond to the bound carbonyl carbon, the C=O π pair goes onto oxygen, and the isopropoxide oxygen makes a C=O π bond (acetone).",
+        "Isopropoxide C–H bond → new C–H bond to the carbonyl carbon; C=O π bond → lone pair on the ketone oxygen; isopropoxide oxygen lone pair → new C=O π bond."
+      ],
+      "misconceptions": [
+        {
+          "misconceptionId": "conjugate-hydride-3-43",
+          "misconceptionTag": "conjugate-reduction",
+          "severity": "wrong",
+          "arrowPattern": "σ C*-H43 -> σ C3-H43",
+          "feedbackMessage": "The MPV reduction delivers hydride only to the carbonyl carbon, through the six-membered ring on aluminium. The C=C bonds survive; that is why Woodward chose it."
+        },
+        {
+          "misconceptionId": "ketone-leaves-7",
+          "misconceptionTag": "reverse-step",
+          "severity": "plausible",
+          "arrowPattern": "σ O7-Al40 -> lp O7",
+          "feedbackMessage": "That just releases the ketone again. Move a hydride onto it while it is bound."
+        }
+      ]
+    },
+    "second-reduced": {
+      "mappedSmiles": "[C:1]1([CH:2]=[CH:3][C:4]([CH:5]2[CH:6]1[CH2:9][CH:10]=[CH:11][CH:12]2[C:13](=[O:14])[O:15][CH3:16])([O:8][Al:20]([O:26][CH:27]([CH3:28])[CH3:29])[O:30][CH:31]([CH3:32])[CH3:33])[H:23])([O:7][Al-:40]([O+:41]=[C:42]([CH3:44])[CH3:45])([O:46][CH:47]([CH3:48])[CH3:49])[O:50][CH:51]([CH3:52])[CH3:53])[H:43].[O:21]=[C:22]([CH3:24])[CH3:25]",
+      "mapNumberToCoordinates": {
+        "1": [
+          1.5,
+          2.6
+        ],
+        "2": [
+          3,
+          2.6
+        ],
+        "3": [
+          3.75,
+          1.3
+        ],
+        "4": [
+          3,
+          0
+        ],
+        "5": [
+          1.5,
+          0
+        ],
+        "6": [
+          0.75,
+          1.3
+        ],
+        "7": [
+          0.75,
+          3.899
+        ],
+        "8": [
+          3.75,
+          -1.299
+        ],
+        "9": [
+          -0.75,
+          1.3
+        ],
+        "10": [
+          -1.5,
+          0
+        ],
+        "11": [
+          -0.75,
+          -1.3
+        ],
+        "12": [
+          0.75,
+          -1.3
+        ],
+        "13": [
+          1.5,
+          -2.6
+        ],
+        "14": [
+          0.75,
+          -3.9
+        ],
+        "15": [
+          3,
+          -2.6
+        ],
+        "16": [
+          3.75,
+          -3.9
+        ],
+        "20": [
+          5.25,
+          -1.299
+        ],
+        "21": [
+          13.649,
+          3.127
+        ],
+        "22": [
+          13.649,
+          1.627
+        ],
+        "23": [
+          2.25,
+          1.299
+        ],
+        "24": [
+          12.35,
+          0.877
+        ],
+        "25": [
+          14.948,
+          0.877
+        ],
+        "26": [
+          6.75,
+          -1.299
+        ],
+        "27": [
+          8.25,
+          -1.299
+        ],
+        "28": [
+          9.75,
+          -1.299
+        ],
+        "29": [
+          8.25,
+          0.201
+        ],
+        "30": [
+          5.38,
+          -2.794
+        ],
+        "31": [
+          6.344,
+          -3.943
+        ],
+        "32": [
+          7.309,
+          -5.092
+        ],
+        "33": [
+          7.644,
+          -3.193
+        ],
+        "40": [
+          0.0,
+          5.198
+        ],
+        "41": [
+          -0.75,
+          6.497
+        ],
+        "42": [
+          -1.5,
+          7.796
+        ],
+        "43": [
+          0.0,
+          2.6
+        ],
+        "44": [
+          -2.25,
+          9.095
+        ],
+        "45": [
+          -0.201,
+          8.546
+        ],
+        "46": [
+          1.299,
+          5.948
+        ],
+        "47": [
+          2.598,
+          6.698
+        ],
+        "48": [
+          3.898,
+          7.448
+        ],
+        "49": [
+          3.348,
+          5.399
+        ],
+        "50": [
+          -1.299,
+          4.448
+        ],
+        "51": [
+          -2.598,
+          3.698
+        ],
+        "52": [
+          -3.897,
+          2.948
+        ],
+        "53": [
+          -3.348,
+          4.997
+        ]
+      },
+      "caption": "the second alkoxide on aluminium, with acetone still bound",
+      "learnerPrompt": "Release the acetone.",
+      "hintTiers": [
+        "The isopropoxide that gave its hydride is now acetone, still sitting on aluminium through its oxygen. What happens to it?",
+        "Acetone leaves aluminium: the O–Al bond goes back to the acetone oxygen. One arrow.",
+        "O–Al bond of the bound acetone → lone pair on the acetone oxygen."
+      ],
+      "misconceptions": [
+        {
+          "misconceptionId": "alkoxide-leaves-second",
+          "misconceptionTag": "wrong-leaving-group",
+          "severity": "plausible",
+          "arrowPattern": "σ O7-Al40 -> lp O7",
+          "feedbackMessage": "Breaking that bond makes a free alkoxide and leaves the acetone on the metal. The weakly bound acetone is the one that leaves."
+        }
+      ]
+    },
+    "products": {
+      "mappedSmiles": "[C:1]1([CH:2]=[CH:3][C:4]([CH:5]2[CH:6]1[CH2:9][CH:10]=[CH:11][CH:12]2[C:13](=[O:14])[O:15][CH3:16])([O:8][Al:20]([O:26][CH:27]([CH3:28])[CH3:29])[O:30][CH:31]([CH3:32])[CH3:33])[H:23])([O:7][Al:40]([O:46][CH:47]([CH3:48])[CH3:49])[O:50][CH:51]([CH3:52])[CH3:53])[H:43].[O:21]=[C:22]([CH3:24])[CH3:25].[O:41]=[C:42]([CH3:44])[CH3:45]",
+      "mapNumberToCoordinates": {
+        "1": [
+          1.5,
+          2.6
+        ],
+        "2": [
+          3,
+          2.6
+        ],
+        "3": [
+          3.75,
+          1.3
+        ],
+        "4": [
+          3,
+          0
+        ],
+        "5": [
+          1.5,
+          0
+        ],
+        "6": [
+          0.75,
+          1.3
+        ],
+        "7": [
+          0.75,
+          3.899
+        ],
+        "8": [
+          3.75,
+          -1.299
+        ],
+        "9": [
+          -0.75,
+          1.3
+        ],
+        "10": [
+          -1.5,
+          0
+        ],
+        "11": [
+          -0.75,
+          -1.3
+        ],
+        "12": [
+          0.75,
+          -1.3
+        ],
+        "13": [
+          1.5,
+          -2.6
+        ],
+        "14": [
+          0.75,
+          -3.9
+        ],
+        "15": [
+          3,
+          -2.6
+        ],
+        "16": [
+          3.75,
+          -3.9
+        ],
+        "20": [
+          5.25,
+          -1.299
+        ],
+        "21": [
+          13.649,
+          3.127
+        ],
+        "22": [
+          13.649,
+          1.627
+        ],
+        "23": [
+          2.25,
+          1.299
+        ],
+        "24": [
+          12.35,
+          0.877
+        ],
+        "25": [
+          14.948,
+          0.877
+        ],
+        "26": [
+          6.75,
+          -1.299
+        ],
+        "27": [
+          8.25,
+          -1.299
+        ],
+        "28": [
+          9.75,
+          -1.299
+        ],
+        "29": [
+          8.25,
+          0.201
+        ],
+        "30": [
+          5.38,
+          -2.794
+        ],
+        "31": [
+          6.344,
+          -3.943
+        ],
+        "32": [
+          7.309,
+          -5.092
+        ],
+        "33": [
+          7.644,
+          -3.193
+        ],
+        "40": [
+          0.0,
+          5.198
+        ],
+        "41": [
+          18.847,
+          3.127
+        ],
+        "42": [
+          18.847,
+          1.627
+        ],
+        "43": [
+          0.0,
+          2.6
+        ],
+        "44": [
+          17.548,
+          0.877
+        ],
+        "45": [
+          20.146,
+          0.877
+        ],
+        "46": [
+          -0.75,
+          6.497
+        ],
+        "47": [
+          -1.5,
+          7.796
+        ],
+        "48": [
+          -2.25,
+          9.095
+        ],
+        "49": [
+          -0.201,
+          8.546
+        ],
+        "50": [
+          1.299,
+          5.948
+        ],
+        "51": [
+          2.598,
+          6.698
+        ],
+        "52": [
+          3.898,
+          7.448
+        ],
+        "53": [
+          3.348,
+          5.399
+        ]
+      },
+      "caption": "the diol as two aluminium alkoxides + two acetone"
+    },
+    "alt-first-bound": {
+      "mappedSmiles": "[C:1]1([CH:2]=[CH:3][C:4]([CH:5]2[CH:6]1[CH2:9][CH:10]=[CH:11][CH:12]2[C:13](=[O:14])[O:15][CH3:16])=[O:8])=[O+:7][Al-:40]([O:41][C:42]([H:43])([CH3:44])[CH3:45])([O:46][CH:47]([CH3:48])[CH3:49])[O:50][CH:51]([CH3:52])[CH3:53].[Al:20]([O:21][C:22]([H:23])([CH3:24])[CH3:25])([O:26][CH:27]([CH3:28])[CH3:29])[O:30][CH:31]([CH3:32])[CH3:33]",
+      "mapNumberToCoordinates": {
+        "1": [
+          1.5,
+          2.6
+        ],
+        "2": [
+          3,
+          2.6
+        ],
+        "3": [
+          3.75,
+          1.3
+        ],
+        "4": [
+          3,
+          0
+        ],
+        "5": [
+          1.5,
+          0
+        ],
+        "6": [
+          0.75,
+          1.3
+        ],
+        "7": [
+          0.75,
+          3.899
+        ],
+        "8": [
+          3.75,
+          -1.299
+        ],
+        "9": [
+          -0.75,
+          1.3
+        ],
+        "10": [
+          -1.5,
+          0
+        ],
+        "11": [
+          -0.75,
+          -1.3
+        ],
+        "12": [
+          0.75,
+          -1.3
+        ],
+        "13": [
+          1.5,
+          -2.6
+        ],
+        "14": [
+          0.75,
+          -3.9
+        ],
+        "15": [
+          3,
+          -2.6
+        ],
+        "16": [
+          3.75,
+          -3.9
+        ],
+        "20": [
+          11.469,
+          3.169
+        ],
+        "21": [
+          12.656,
+          4.086
+        ],
+        "22": [
+          14.044,
+          3.516
+        ],
+        "23": [
+          15.431,
+          2.946
+        ],
+        "24": [
+          14.614,
+          4.903
+        ],
+        "25": [
+          13.474,
+          2.128
+        ],
+        "26": [
+          10.081,
+          3.739
+        ],
+        "27": [
+          8.894,
+          2.822
+        ],
+        "28": [
+          7.507,
+          3.392
+        ],
+        "29": [
+          9.094,
+          1.336
+        ],
+        "30": [
+          11.669,
+          1.682
+        ],
+        "31": [
+          13.057,
+          1.112
+        ],
+        "32": [
+          14.244,
+          2.029
+        ],
+        "33": [
+          13.257,
+          -0.374
+        ],
+        "40": [
+          1.067,
+          5.352
+        ],
+        "41": [
+          2.38,
+          5.878
+        ],
+        "42": [
+          3.412,
+          5.089
+        ],
+        "43": [
+          2.454,
+          4.247
+        ],
+        "44": [
+          4.907,
+          5.219
+        ],
+        "45": [
+          3.925,
+          6.498
+        ],
+        "46": [
+          -0.082,
+          6.316
+        ],
+        "47": [
+          -1.231,
+          7.28
+        ],
+        "48": [
+          -2.38,
+          8.244
+        ],
+        "49": [
+          -0.267,
+          8.429
+        ],
+        "50": [
+          -0.343,
+          4.839
+        ],
+        "51": [
+          -1.752,
+          4.326
+        ],
+        "52": [
+          -3.162,
+          3.813
+        ],
+        "53": [
+          -2.386,
+          5.685
+        ]
+      },
+      "caption": "the ketone far from the ester bound to aluminium",
+      "learnerPrompt": "The hydride transfer: the ketone and an isopropoxide sit side by side on aluminium.",
+      "hintTiers": [
+        "Count round the ring: carbonyl carbon, its oxygen, aluminium, the isopropoxide oxygen, that oxygen's C–H carbon, hydrogen. The hydrogen can reach the carbonyl carbon through this six-membered ring.",
+        "Three arrows in one step: the C–H bond of the drawn isopropoxide becomes a new C–H bond to the bound carbonyl carbon, the C=O π pair goes onto oxygen, and the isopropoxide oxygen makes a C=O π bond (acetone).",
+        "Isopropoxide C–H bond → new C–H bond to the carbonyl carbon; C=O π bond → lone pair on the ketone oxygen; isopropoxide oxygen lone pair → new C=O π bond."
+      ],
+      "misconceptions": [
+        {
+          "misconceptionId": "conjugate-hydride-3-43-alt-first-bound",
+          "misconceptionTag": "conjugate-reduction",
+          "severity": "wrong",
+          "arrowPattern": "σ C*-H43 -> σ C3-H43",
+          "feedbackMessage": "The MPV reduction delivers hydride only to the carbonyl carbon, through the six-membered ring on aluminium. The C=C bonds survive; that is why Woodward chose it."
+        }
+      ]
+    },
+    "alt-first-reduced": {
+      "mappedSmiles": "[C:1]1([CH:2]=[CH:3][C:4]([CH:5]2[CH:6]1[CH2:9][CH:10]=[CH:11][CH:12]2[C:13](=[O:14])[O:15][CH3:16])=[O:8])([O:7][Al-:40]([O+:41]=[C:42]([CH3:44])[CH3:45])([O:46][CH:47]([CH3:48])[CH3:49])[O:50][CH:51]([CH3:52])[CH3:53])[H:43].[Al:20]([O:21][C:22]([H:23])([CH3:24])[CH3:25])([O:26][CH:27]([CH3:28])[CH3:29])[O:30][CH:31]([CH3:32])[CH3:33]",
+      "mapNumberToCoordinates": {
+        "1": [
+          1.5,
+          2.6
+        ],
+        "2": [
+          3,
+          2.6
+        ],
+        "3": [
+          3.75,
+          1.3
+        ],
+        "4": [
+          3,
+          0
+        ],
+        "5": [
+          1.5,
+          0
+        ],
+        "6": [
+          0.75,
+          1.3
+        ],
+        "7": [
+          0.75,
+          3.899
+        ],
+        "8": [
+          3.75,
+          -1.299
+        ],
+        "9": [
+          -0.75,
+          1.3
+        ],
+        "10": [
+          -1.5,
+          0
+        ],
+        "11": [
+          -0.75,
+          -1.3
+        ],
+        "12": [
+          0.75,
+          -1.3
+        ],
+        "13": [
+          1.5,
+          -2.6
+        ],
+        "14": [
+          0.75,
+          -3.9
+        ],
+        "15": [
+          3,
+          -2.6
+        ],
+        "16": [
+          3.75,
+          -3.9
+        ],
+        "20": [
+          10.46,
+          3.502
+        ],
+        "21": [
+          11.647,
+          4.419
+        ],
+        "22": [
+          13.035,
+          3.849
+        ],
+        "23": [
+          14.422,
+          3.279
+        ],
+        "24": [
+          13.605,
+          5.236
+        ],
+        "25": [
+          12.465,
+          2.461
+        ],
+        "26": [
+          9.072,
+          4.072
+        ],
+        "27": [
+          7.885,
+          3.155
+        ],
+        "28": [
+          6.498,
+          3.725
+        ],
+        "29": [
+          8.085,
+          1.669
+        ],
+        "30": [
+          10.66,
+          2.015
+        ],
+        "31": [
+          12.048,
+          1.446
+        ],
+        "32": [
+          13.235,
+          2.362
+        ],
+        "33": [
+          12.248,
+          -0.041
+        ],
+        "40": [
+          0.0,
+          5.198
+        ],
+        "41": [
+          -0.75,
+          6.497
+        ],
+        "42": [
+          -1.5,
+          7.796
+        ],
+        "43": [
+          0.0,
+          2.6
+        ],
+        "44": [
+          -2.25,
+          9.095
+        ],
+        "45": [
+          -0.201,
+          8.546
+        ],
+        "46": [
+          1.299,
+          5.948
+        ],
+        "47": [
+          2.598,
+          6.698
+        ],
+        "48": [
+          3.898,
+          7.448
+        ],
+        "49": [
+          3.348,
+          5.399
+        ],
+        "50": [
+          -1.299,
+          4.448
+        ],
+        "51": [
+          -2.598,
+          3.698
+        ],
+        "52": [
+          -3.897,
+          2.948
+        ],
+        "53": [
+          -3.348,
+          4.997
+        ]
+      },
+      "caption": "that alkoxide on aluminium, with acetone still bound",
+      "learnerPrompt": "Release the acetone.",
+      "hintTiers": [
+        "The isopropoxide that gave its hydride is now acetone, still sitting on aluminium through its oxygen. What happens to it?",
+        "Acetone leaves aluminium: the O–Al bond goes back to the acetone oxygen. One arrow.",
+        "O–Al bond of the bound acetone → lone pair on the acetone oxygen."
+      ],
+      "misconceptions": []
+    },
+    "alt-first-alkoxide": {
+      "mappedSmiles": "[C:1]1([CH:2]=[CH:3][C:4]([CH:5]2[CH:6]1[CH2:9][CH:10]=[CH:11][CH:12]2[C:13](=[O:14])[O:15][CH3:16])=[O:8])([O:7][Al:40]([O:46][CH:47]([CH3:48])[CH3:49])[O:50][CH:51]([CH3:52])[CH3:53])[H:43].[Al:20]([O:21][C:22]([H:23])([CH3:24])[CH3:25])([O:26][CH:27]([CH3:28])[CH3:29])[O:30][CH:31]([CH3:32])[CH3:33].[O:41]=[C:42]([CH3:44])[CH3:45]",
+      "mapNumberToCoordinates": {
+        "1": [
+          1.5,
+          2.6
+        ],
+        "2": [
+          3,
+          2.6
+        ],
+        "3": [
+          3.75,
+          1.3
+        ],
+        "4": [
+          3,
+          0
+        ],
+        "5": [
+          1.5,
+          0
+        ],
+        "6": [
+          0.75,
+          1.3
+        ],
+        "7": [
+          0.75,
+          3.899
+        ],
+        "8": [
+          3.75,
+          -1.299
+        ],
+        "9": [
+          -0.75,
+          1.3
+        ],
+        "10": [
+          -1.5,
+          0
+        ],
+        "11": [
+          -0.75,
+          -1.3
+        ],
+        "12": [
+          0.75,
+          -1.3
+        ],
+        "13": [
+          1.5,
+          -2.6
+        ],
+        "14": [
+          0.75,
+          -3.9
+        ],
+        "15": [
+          3,
+          -2.6
+        ],
+        "16": [
+          3.75,
+          -3.9
+        ],
+        "20": [
+          10.46,
+          3.502
+        ],
+        "21": [
+          11.647,
+          4.419
+        ],
+        "22": [
+          13.035,
+          3.849
+        ],
+        "23": [
+          14.422,
+          3.279
+        ],
+        "24": [
+          13.605,
+          5.236
+        ],
+        "25": [
+          12.465,
+          2.461
+        ],
+        "26": [
+          9.072,
+          4.072
+        ],
+        "27": [
+          7.885,
+          3.155
+        ],
+        "28": [
+          6.498,
+          3.725
+        ],
+        "29": [
+          8.085,
+          1.669
+        ],
+        "30": [
+          10.66,
+          2.015
+        ],
+        "31": [
+          12.048,
+          1.446
+        ],
+        "32": [
+          13.235,
+          2.362
+        ],
+        "33": [
+          12.248,
+          -0.041
+        ],
+        "40": [
+          0.0,
+          5.198
+        ],
+        "41": [
+          18.321,
+          3.723
+        ],
+        "42": [
+          18.321,
+          2.223
+        ],
+        "43": [
+          0.0,
+          2.6
+        ],
+        "44": [
+          17.022,
+          1.473
+        ],
+        "45": [
+          19.62,
+          1.473
+        ],
+        "46": [
+          -0.75,
+          6.497
+        ],
+        "47": [
+          -1.5,
+          7.796
+        ],
+        "48": [
+          -2.25,
+          9.095
+        ],
+        "49": [
+          -0.201,
+          8.546
+        ],
+        "50": [
+          1.299,
+          5.948
+        ],
+        "51": [
+          2.598,
+          6.698
+        ],
+        "52": [
+          3.898,
+          7.448
+        ],
+        "53": [
+          3.348,
+          5.399
+        ]
+      },
+      "caption": "one ketone reduced: an aluminium alkoxide, + acetone",
+      "learnerPrompt": "Bind the remaining ketone to a fresh molecule of aluminium isopropoxide.",
+      "hintTiers": [
+        "Aluminium with three bonds has only six electrons. Which atom of a ketone can give it a lone pair?",
+        "A ketone oxygen makes a bond to aluminium with one of its lone pairs. One arrow.",
+        "The remaining ketone oxygen lone pair → new O–Al bond to the aluminium of the free Al(OiPr)₃."
+      ],
+      "misconceptions": [
+        {
+          "misconceptionId": "isopropoxide-adds-remaining",
+          "misconceptionTag": "unproductive-addition",
+          "severity": "plausible",
+          "arrowPattern": "lp O* -> C*",
+          "feedbackMessage": "An oxygen adding to the ketone carbon only gives a hemiketal-like adduct that falls apart. Aluminium is the electron-poor atom: let the ketone oxygen bind it."
+        },
+        {
+          "misconceptionId": "no-al-hydride-remaining",
+          "misconceptionTag": "missing-hydride-source",
+          "severity": "wrong",
+          "arrowPattern": "σ Al*-* -> C*",
+          "feedbackMessage": "There is no Al–H bond. The hydride will come from a C–H of an isopropoxide group, once the ketone is bound to aluminium."
+        }
+      ]
+    },
+    "alt-second-bound": {
+      "mappedSmiles": "[C:1]1([CH:2]=[CH:3][C:4]([CH:5]2[CH:6]1[CH2:9][CH:10]=[CH:11][CH:12]2[C:13](=[O:14])[O:15][CH3:16])=[O+:8][Al-:20]([O:21][C:22]([H:23])([CH3:24])[CH3:25])([O:26][CH:27]([CH3:28])[CH3:29])[O:30][CH:31]([CH3:32])[CH3:33])([O:7][Al:40]([O:46][CH:47]([CH3:48])[CH3:49])[O:50][CH:51]([CH3:52])[CH3:53])[H:43].[O:41]=[C:42]([CH3:44])[CH3:45]",
+      "mapNumberToCoordinates": {
+        "1": [
+          1.5,
+          2.6
+        ],
+        "2": [
+          3,
+          2.6
+        ],
+        "3": [
+          3.75,
+          1.3
+        ],
+        "4": [
+          3,
+          0
+        ],
+        "5": [
+          1.5,
+          0
+        ],
+        "6": [
+          0.75,
+          1.3
+        ],
+        "7": [
+          0.75,
+          3.899
+        ],
+        "8": [
+          3.75,
+          -1.299
+        ],
+        "9": [
+          -0.75,
+          1.3
+        ],
+        "10": [
+          -1.5,
+          0
+        ],
+        "11": [
+          -0.75,
+          -1.3
+        ],
+        "12": [
+          0.75,
+          -1.3
+        ],
+        "13": [
+          1.5,
+          -2.6
+        ],
+        "14": [
+          0.75,
+          -3.9
+        ],
+        "15": [
+          3,
+          -2.6
+        ],
+        "16": [
+          3.75,
+          -3.9
+        ],
+        "20": [
+          5.165,
+          -1.752
+        ],
+        "21": [
+          6.278,
+          -0.88
+        ],
+        "22": [
+          6.112,
+          0.41
+        ],
+        "23": [
+          4.904,
+          0.002
+        ],
+        "24": [
+          6.972,
+          1.639
+        ],
+        "25": [
+          5.362,
+          1.709
+        ],
+        "26": [
+          5.915,
+          -3.051
+        ],
+        "27": [
+          6.776,
+          -4.28
+        ],
+        "28": [
+          7.636,
+          -5.509
+        ],
+        "29": [
+          8.005,
+          -3.42
+        ],
+        "30": [
+          6.643,
+          -2.013
+        ],
+        "31": [
+          8.052,
+          -1.5
+        ],
+        "32": [
+          9.351,
+          -0.75
+        ],
+        "33": [
+          7.792,
+          -0.023
+        ],
+        "40": [
+          0.0,
+          5.198
+        ],
+        "41": [
+          13.25,
+          2.918
+        ],
+        "42": [
+          13.25,
+          1.418
+        ],
+        "43": [
+          0.0,
+          2.6
+        ],
+        "44": [
+          11.951,
+          0.668
+        ],
+        "45": [
+          14.549,
+          0.668
+        ],
+        "46": [
+          -0.75,
+          6.497
+        ],
+        "47": [
+          -1.5,
+          7.796
+        ],
+        "48": [
+          -2.25,
+          9.095
+        ],
+        "49": [
+          -0.201,
+          8.546
+        ],
+        "50": [
+          1.299,
+          5.948
+        ],
+        "51": [
+          2.598,
+          6.698
+        ],
+        "52": [
+          3.898,
+          7.448
+        ],
+        "53": [
+          3.348,
+          5.399
+        ]
+      },
+      "caption": "the ketone next to the ester bound to aluminium",
+      "learnerPrompt": "The hydride transfer: the ketone and an isopropoxide sit side by side on aluminium.",
+      "hintTiers": [
+        "Count round the ring: carbonyl carbon, its oxygen, aluminium, the isopropoxide oxygen, that oxygen's C–H carbon, hydrogen. The hydrogen can reach the carbonyl carbon through this six-membered ring.",
+        "Three arrows in one step: the C–H bond of the drawn isopropoxide becomes a new C–H bond to the bound carbonyl carbon, the C=O π pair goes onto oxygen, and the isopropoxide oxygen makes a C=O π bond (acetone).",
+        "Isopropoxide C–H bond → new C–H bond to the carbonyl carbon; C=O π bond → lone pair on the ketone oxygen; isopropoxide oxygen lone pair → new C=O π bond."
+      ],
+      "misconceptions": [
+        {
+          "misconceptionId": "conjugate-hydride-2-23-alt-second-bound",
+          "misconceptionTag": "conjugate-reduction",
+          "severity": "wrong",
+          "arrowPattern": "σ C*-H23 -> σ C2-H23",
+          "feedbackMessage": "The MPV reduction delivers hydride only to the carbonyl carbon, through the six-membered ring on aluminium. The C=C bonds survive; that is why Woodward chose it."
+        }
+      ]
+    },
+    "alt-second-reduced": {
+      "mappedSmiles": "[C:1]1([CH:2]=[CH:3][C:4]([CH:5]2[CH:6]1[CH2:9][CH:10]=[CH:11][CH:12]2[C:13](=[O:14])[O:15][CH3:16])([O:8][Al-:20]([O+:21]=[C:22]([CH3:24])[CH3:25])([O:26][CH:27]([CH3:28])[CH3:29])[O:30][CH:31]([CH3:32])[CH3:33])[H:23])([O:7][Al:40]([O:46][CH:47]([CH3:48])[CH3:49])[O:50][CH:51]([CH3:52])[CH3:53])[H:43].[O:41]=[C:42]([CH3:44])[CH3:45]",
+      "mapNumberToCoordinates": {
+        "1": [
+          1.5,
+          2.6
+        ],
+        "2": [
+          3,
+          2.6
+        ],
+        "3": [
+          3.75,
+          1.3
+        ],
+        "4": [
+          3,
+          0
+        ],
+        "5": [
+          1.5,
+          0
+        ],
+        "6": [
+          0.75,
+          1.3
+        ],
+        "7": [
+          0.75,
+          3.899
+        ],
+        "8": [
+          3.75,
+          -1.299
+        ],
+        "9": [
+          -0.75,
+          1.3
+        ],
+        "10": [
+          -1.5,
+          0
+        ],
+        "11": [
+          -0.75,
+          -1.3
+        ],
+        "12": [
+          0.75,
+          -1.3
+        ],
+        "13": [
+          1.5,
+          -2.6
+        ],
+        "14": [
+          0.75,
+          -3.9
+        ],
+        "15": [
+          3,
+          -2.6
+        ],
+        "16": [
+          3.75,
+          -3.9
+        ],
+        "20": [
+          5.25,
+          -1.299
+        ],
+        "21": [
+          6.75,
+          -1.299
+        ],
+        "22": [
+          8.25,
+          -1.299
+        ],
+        "23": [
+          2.25,
+          1.299
+        ],
+        "24": [
+          9.75,
+          -1.299
+        ],
+        "25": [
+          8.25,
+          0.201
+        ],
+        "26": [
+          5.38,
+          -2.794
+        ],
+        "27": [
+          6.344,
+          -3.943
+        ],
+        "28": [
+          7.309,
+          -5.092
+        ],
+        "29": [
+          7.644,
+          -3.193
+        ],
+        "30": [
+          5.38,
+          0.195
+        ],
+        "31": [
+          6.13,
+          1.494
+        ],
+        "32": [
+          6.764,
+          2.854
+        ],
+        "33": [
+          5.07,
+          2.555
+        ],
+        "40": [
+          0.0,
+          5.198
+        ],
+        "41": [
+          13.649,
+          3.127
+        ],
+        "42": [
+          13.649,
+          1.627
+        ],
+        "43": [
+          0.0,
+          2.6
+        ],
+        "44": [
+          12.35,
+          0.877
+        ],
+        "45": [
+          14.948,
+          0.877
+        ],
+        "46": [
+          -0.75,
+          6.497
+        ],
+        "47": [
+          -1.5,
+          7.796
+        ],
+        "48": [
+          -2.25,
+          9.095
+        ],
+        "49": [
+          -0.201,
+          8.546
+        ],
+        "50": [
+          1.299,
+          5.948
+        ],
+        "51": [
+          2.598,
+          6.698
+        ],
+        "52": [
+          3.898,
+          7.448
+        ],
+        "53": [
+          3.348,
+          5.399
+        ]
+      },
+      "caption": "the second alkoxide on aluminium, with acetone still bound",
+      "learnerPrompt": "Release the acetone.",
+      "hintTiers": [
+        "The isopropoxide that gave its hydride is now acetone, still sitting on aluminium through its oxygen. What happens to it?",
+        "Acetone leaves aluminium: the O–Al bond goes back to the acetone oxygen. One arrow.",
+        "O–Al bond of the bound acetone → lone pair on the acetone oxygen."
+      ],
+      "misconceptions": []
+    }
+  },
+  "steps": [
+    {
+      "stepKey": "bind-first-ketone",
+      "fromStateId": "reactants",
+      "toStateId": "first-bound",
+      "stepKind": "polar",
+      "routePreference": "preferred",
+      "canonicalArrows": [
+        "lp O8 -> σ O8-Al20"
+      ],
+      "explanationAfterStep": "The ketone oxygen binds aluminium, which activates the C=O and holds it next to an isopropoxide group."
+    },
+    {
+      "stepKey": "first-hydride-transfer",
+      "fromStateId": "first-bound",
+      "toStateId": "first-reduced",
+      "stepKind": "polar",
+      "routePreference": "preferred",
+      "canonicalArrows": [
+        "σ C22-H23 -> σ C4-H23",
+        "π C4-O8 -> lp O8",
+        "lp O21 -> π O21-C22"
+      ],
+      "explanationAfterStep": "A hydride moves from the isopropoxide carbon to the carbonyl carbon through a six-membered ring (C, O, Al, O, C, H): no metal hydride is involved. The isopropoxide becomes acetone. On the folded cis-fused rings the hydride arrives from the open convex face, so the new OH points into the concave face (stereochemistry is explained, not yet checked)."
+    },
+    {
+      "stepKey": "first-acetone-leaves",
+      "fromStateId": "first-reduced",
+      "toStateId": "first-alkoxide",
+      "stepKind": "polar",
+      "routePreference": "preferred",
+      "canonicalArrows": [
+        "σ O21-Al20 -> lp O21"
+      ],
+      "explanationAfterStep": "Acetone leaves aluminium. Every step is reversible; distilling off the volatile acetone drives the reduction."
+    },
+    {
+      "stepKey": "bind-second-ketone",
+      "fromStateId": "first-alkoxide",
+      "toStateId": "second-bound",
+      "stepKind": "polar",
+      "routePreference": "preferred",
+      "canonicalArrows": [
+        "lp O7 -> σ O7-Al40"
+      ],
+      "explanationAfterStep": "The ketone oxygen binds aluminium, which activates the C=O and holds it next to an isopropoxide group."
+    },
+    {
+      "stepKey": "second-hydride-transfer",
+      "fromStateId": "second-bound",
+      "toStateId": "second-reduced",
+      "stepKind": "polar",
+      "routePreference": "preferred",
+      "canonicalArrows": [
+        "σ C42-H43 -> σ C1-H43",
+        "π C1-O7 -> lp O7",
+        "lp O41 -> π O41-C42"
+      ],
+      "explanationAfterStep": "The same six-membered-ring hydride transfer reduces the second ketone. Both C=C bonds are untouched: MPV reduction is selective for C=O."
+    },
+    {
+      "stepKey": "second-acetone-leaves",
+      "fromStateId": "second-reduced",
+      "toStateId": "products",
+      "stepKind": "polar",
+      "routePreference": "preferred",
+      "canonicalArrows": [
+        "σ O41-Al40 -> lp O41"
+      ],
+      "explanationAfterStep": "Both ketones are now aluminium alkoxides. The one next to the ester is perfectly placed to attack it: the next problem."
+    },
+    {
+      "stepKey": "alt-bind-other-ketone",
+      "fromStateId": "reactants",
+      "toStateId": "alt-first-bound",
+      "stepKind": "polar",
+      "routePreference": "accepted",
+      "canonicalArrows": [
+        "lp O7 -> σ O7-Al40"
+      ],
+      "explanationAfterStep": "Also correct: the two ketones can be reduced in either order. This route reduces the ketone far from the ester first."
+    },
+    {
+      "stepKey": "alt-first-hydride-transfer",
+      "fromStateId": "alt-first-bound",
+      "toStateId": "alt-first-reduced",
+      "stepKind": "polar",
+      "routePreference": "accepted",
+      "canonicalArrows": [
+        "σ C42-H43 -> σ C1-H43",
+        "π C1-O7 -> lp O7",
+        "lp O41 -> π O41-C42"
+      ],
+      "explanationAfterStep": "A hydride moves from the isopropoxide carbon to the carbonyl carbon through a six-membered ring (C, O, Al, O, C, H): no metal hydride is involved. The isopropoxide becomes acetone. On the folded cis-fused rings the hydride arrives from the open convex face, so the new OH points into the concave face (stereochemistry is explained, not yet checked)."
+    },
+    {
+      "stepKey": "alt-first-acetone-leaves",
+      "fromStateId": "alt-first-reduced",
+      "toStateId": "alt-first-alkoxide",
+      "stepKind": "polar",
+      "routePreference": "accepted",
+      "canonicalArrows": [
+        "σ O41-Al40 -> lp O41"
+      ],
+      "explanationAfterStep": "Acetone leaves aluminium. Every step is reversible; distilling off the volatile acetone drives the reduction."
+    },
+    {
+      "stepKey": "alt-bind-second-ketone",
+      "fromStateId": "alt-first-alkoxide",
+      "toStateId": "alt-second-bound",
+      "stepKind": "polar",
+      "routePreference": "accepted",
+      "canonicalArrows": [
+        "lp O8 -> σ O8-Al20"
+      ],
+      "explanationAfterStep": "The ketone oxygen binds aluminium, which activates the C=O and holds it next to an isopropoxide group."
+    },
+    {
+      "stepKey": "alt-second-hydride-transfer",
+      "fromStateId": "alt-second-bound",
+      "toStateId": "alt-second-reduced",
+      "stepKind": "polar",
+      "routePreference": "accepted",
+      "canonicalArrows": [
+        "σ C22-H23 -> σ C4-H23",
+        "π C4-O8 -> lp O8",
+        "lp O21 -> π O21-C22"
+      ],
+      "explanationAfterStep": "The same six-membered-ring hydride transfer reduces the ketone next to the ester."
+    },
+    {
+      "stepKey": "alt-second-acetone-leaves",
+      "fromStateId": "alt-second-reduced",
+      "toStateId": "products",
+      "stepKind": "polar",
+      "routePreference": "accepted",
+      "canonicalArrows": [
+        "σ O21-Al20 -> lp O21"
+      ],
+      "explanationAfterStep": "Both ketones are now aluminium alkoxides, the same result as the other order."
+    }
+  ],
+  "mechanismSummary": "Aluminium isopropoxide reduces both ketones of the Diels–Alder adduct, one after the other, by the Meerwein–Ponndorf–Verley mechanism: each ketone binds aluminium, a hydride moves from an isopropoxide C–H to the carbonyl carbon through a six-membered ring, and acetone leaves. The order does not matter. The C=C bonds and the ester survive. On the folded cis-fused rings both hydrides arrive from the convex face, so both new oxygens point into the concave face, the one next to the ester on the same side as the ester (explained, not yet checked by the app). Two Al(OiPr)₃ molecules are drawn for clarity; in the flask it is a cluster used in excess, and isopropanol is the solvent.",
+  "references": [
+    "Clayden, Greeves and Warren, Organic Chemistry, 2nd edition (Oxford University Press), chapter 23 (chemoselectivity: the Meerwein–Ponndorf–Verley reduction)",
+    "R. B. Woodward, F. E. Bader, H. Bickel, A. J. Frey and R. W. Kierstead, The total synthesis of reserpine, J. Am. Chem. Soc., 1956, 78, 2023–2025 and 2657; Tetrahedron, 1958, 2, 1–57"
+  ],
+  "authors": [
+    {
+      "name": "Maksim",
+      "url": null
+    }
+  ],
+  "licence": "CC-BY-SA-4.0"
+}

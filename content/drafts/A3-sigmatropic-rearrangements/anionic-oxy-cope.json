@@ -1,0 +1,474 @@
+{
+  "formatVersion": 1,
+  "reactionSlug": "anionic-oxy-cope",
+  "reactionVersion": 1,
+  "previousReactionVersion": null,
+  "title": "Anionic oxy-Cope rearrangement",
+  "subtitle": "A potassium alkoxide speeds a [3,3] shift by up to 10¹⁷ times and gives an enolate",
+  "reactionClasses": [
+    "pericyclic",
+    "rearrangement",
+    "acid-base"
+  ],
+  "difficultyTier": 2,
+  "conditionsLabel": "KH, 18-crown-6, THF, room temperature · then aqueous NH₄Cl",
+  "dailyPuzzleEligible": true,
+  "atomRoleToMapNumbers": {
+    "base": [
+      22
+    ],
+    "alkoxideOxygen": [
+      7
+    ],
+    "breakingBond": [
+      3,
+      4
+    ],
+    "dieneEnds": [
+      1,
+      6
+    ],
+    "acid": [
+      24
+    ]
+  },
+  "spectatorMapNumbers": [
+    21
+  ],
+  "startStateId": "alcohol",
+  "stateIdToState": {
+    "alcohol": {
+      "mappedSmiles": "[CH2:1]=[CH:2][C:3]([O:7][H:20])([CH3:8])[CH2:4][CH:5]=[CH2:6].[K+:21].[H-:22]",
+      "mapNumberToCoordinates": {
+        "1": [
+          -1.0,
+          -1.76
+        ],
+        "2": [
+          0.35,
+          -1.11
+        ],
+        "3": [
+          0.47,
+          0.39
+        ],
+        "4": [
+          -0.77,
+          1.24
+        ],
+        "5": [
+          -2.13,
+          0.59
+        ],
+        "6": [
+          -2.24,
+          -0.91
+        ],
+        "7": [
+          1.92,
+          0.02
+        ],
+        "8": [
+          1.08,
+          1.76
+        ],
+        "20": [
+          2.32,
+          -1.43
+        ],
+        "21": [
+          4.92,
+          0.0
+        ],
+        "22": [
+          7.52,
+          0.0
+        ]
+      },
+      "caption": "3-methylhexa-1,5-dien-3-ol and potassium hydride (18-crown-6 in THF, not drawn)",
+      "learnerPrompt": "Potassium hydride is added to the alcohol. Draw the first step.",
+      "hintTiers": [
+        "KH is a base: H⁻ is a strong base and a very poor nucleophile. What is the most acidic hydrogen here?",
+        "Hydride takes the O–H proton: hydrogen gas and a potassium alkoxide. Two arrows.",
+        "Arrow 1: from the hydride lone pair to the hydrogen on oxygen. Arrow 2: from the O–H bond onto oxygen."
+      ],
+      "misconceptions": [
+        {
+          "misconceptionId": "hydride-adds-to-alkene",
+          "misconceptionTag": "hydride-as-nucleophile",
+          "severity": "wrong",
+          "arrowPattern": "lp H22 -> σ H22-C*",
+          "feedbackMessage": "Potassium hydride does not deliver hydride to carbon: it is a base. It removes the O–H proton, and hydrogen gas bubbles away."
+        }
+      ],
+      "partialProgressMessages": [
+        {
+          "learnerArrows": [
+            "lp H22 -> σ H22-H20"
+          ],
+          "feedbackMessage": "Right: hydride takes the proton. Now let the O–H pair stay on oxygen. One more arrow."
+        }
+      ]
+    },
+    "alkoxide": {
+      "mappedSmiles": "[CH2:1]=[CH:2][C:3]([O-:7])([CH3:8])[CH2:4][CH:5]=[CH2:6].[K+:21].[H:20][H:22]",
+      "mapNumberToCoordinates": {
+        "1": [
+          -1.0,
+          -1.76
+        ],
+        "2": [
+          0.35,
+          -1.11
+        ],
+        "3": [
+          0.47,
+          0.39
+        ],
+        "4": [
+          -0.77,
+          1.24
+        ],
+        "5": [
+          -2.13,
+          0.59
+        ],
+        "6": [
+          -2.24,
+          -0.91
+        ],
+        "7": [
+          1.92,
+          0.02
+        ],
+        "8": [
+          1.08,
+          1.76
+        ],
+        "20": [
+          7.12,
+          0.0
+        ],
+        "21": [
+          4.52,
+          0.0
+        ],
+        "22": [
+          8.62,
+          -0.0
+        ]
+      },
+      "caption": "the potassium alkoxide and hydrogen gas"
+    },
+    "curled-alkoxide": {
+      "mappedSmiles": "[CH2:1]=[CH:2][C:3]([O-:7])([CH3:8])[CH2:4][CH:5]=[CH2:6].[K+:21]",
+      "mapNumberToCoordinates": {
+        "1": [
+          -1.0,
+          -1.76
+        ],
+        "2": [
+          0.35,
+          -1.11
+        ],
+        "3": [
+          0.47,
+          0.39
+        ],
+        "4": [
+          -0.77,
+          1.24
+        ],
+        "5": [
+          -2.13,
+          0.59
+        ],
+        "6": [
+          -2.24,
+          -0.91
+        ],
+        "7": [
+          1.92,
+          0.02
+        ],
+        "8": [
+          1.08,
+          1.76
+        ],
+        "21": [
+          4.52,
+          0.0
+        ]
+      },
+      "caption": "the alkoxide, drawn curled so its two alkene ends meet",
+      "learnerPrompt": "At room temperature the alkoxide rearranges within minutes. Draw the single step.",
+      "hintTiers": [
+        "Number the 1,5-diene from one alkene end: 1=2–3–4–5=6, with the oxygen on carbon 3. Six atoms, six electrons, one step.",
+        "The σ bond between the oxygen-bearing carbon and its CH₂ neighbour breaks, the two alkene CH₂ ends bond together, and both π bonds move one place inwards. Three arrows. The O⁻ itself does not need an arrow.",
+        "Arrow 1: from the vinyl C=C π bond (next to the oxygen-bearing carbon) to a new bond between the two terminal CH₂ groups. Arrow 2: from the bond between the oxygen-bearing carbon and its CH₂ neighbour to the bond between the oxygen-bearing carbon and the vinyl CH. Arrow 3: from the other C=C π bond to the bond between its CH and the CH₂ that lost the σ bond."
+      ],
+      "misconceptions": [
+        {
+          "misconceptionId": "fragmentation",
+          "misconceptionTag": "stepwise-ionisation",
+          "severity": "wrong",
+          "arrowPattern": "σ C3-C4 -> lp C4",
+          "feedbackMessage": "Breaking that C–C bond onto carbon would give an allyl anion and a ketone. In the oxy-Cope the bond breaks only as the new C–C bond forms, in one cyclic step, and the pair goes into the new C=C."
+        },
+        {
+          "misconceptionId": "wrong-sigma-breaks",
+          "misconceptionTag": "wrong-bond-breaks",
+          "severity": "wrong",
+          "arrowPattern": "σ C2-C3 -> *",
+          "feedbackMessage": "That bond is next to a C=C. In a [3,3] shift the bond that breaks is the central one of the 1,5-diene: between the oxygen-bearing carbon and its CH₂ neighbour."
+        }
+      ],
+      "partialProgressMessages": [
+        {
+          "learnerArrows": [
+            "π C1-C2 -> σ C1-C6",
+            "σ C3-C4 -> π C2-C3"
+          ],
+          "feedbackMessage": "Two of three. The CH₂ at the other end has bonded but still has its π bond: that π pair moves inwards to the CH₂ that lost the σ bond."
+        }
+      ]
+    },
+    "enolate": {
+      "mappedSmiles": "[O-:7][C:3]([CH3:8])=[CH:2][CH2:1][CH2:6][CH:5]=[CH2:4].[K+:21]",
+      "mapNumberToCoordinates": {
+        "1": [
+          -1.0,
+          -1.76
+        ],
+        "2": [
+          0.35,
+          -1.11
+        ],
+        "3": [
+          0.47,
+          0.39
+        ],
+        "4": [
+          -0.77,
+          1.24
+        ],
+        "5": [
+          -2.13,
+          0.59
+        ],
+        "6": [
+          -2.24,
+          -0.91
+        ],
+        "7": [
+          1.92,
+          0.02
+        ],
+        "8": [
+          1.08,
+          1.76
+        ],
+        "21": [
+          4.52,
+          0.0
+        ]
+      },
+      "caption": "the potassium enolate of hept-6-en-2-one"
+    },
+    "enolate-and-ammonium-chloride": {
+      "mappedSmiles": "[O-:7][C:3]([CH3:8])=[CH:2][CH2:1][CH2:6][CH:5]=[CH2:4].[K+:21].[H:23][NH3+:24].[Cl-:25]",
+      "mapNumberToCoordinates": {
+        "1": [
+          -1.0,
+          -1.76
+        ],
+        "2": [
+          0.35,
+          -1.11
+        ],
+        "3": [
+          0.47,
+          0.39
+        ],
+        "4": [
+          -0.77,
+          1.24
+        ],
+        "5": [
+          -2.13,
+          0.59
+        ],
+        "6": [
+          -2.24,
+          -0.91
+        ],
+        "7": [
+          1.92,
+          0.02
+        ],
+        "8": [
+          1.08,
+          1.76
+        ],
+        "21": [
+          4.52,
+          0.0
+        ],
+        "23": [
+          8.62,
+          -0.0
+        ],
+        "24": [
+          7.12,
+          0.0
+        ],
+        "25": [
+          11.22,
+          0.0
+        ]
+      },
+      "caption": "the enolate with aqueous ammonium chloride",
+      "learnerPrompt": "Ammonium chloride is a weak acid. Protonate the enolate to give the ketone.",
+      "hintTiers": [
+        "An enolate can be protonated on oxygen or on carbon. Which gives the stable product directly?",
+        "The C=C π bond takes the proton on carbon, and the oxygen lone pair re-forms the C=O. Three arrows.",
+        "Arrow 1: from the enolate C=C π bond to a hydrogen of the ammonium ion. Arrow 2: from that N–H bond onto nitrogen. Arrow 3: from a lone pair on oxygen to its bond with carbon (it becomes C=O)."
+      ],
+      "partialProgressMessages": [
+        {
+          "learnerArrows": [
+            "lp O7 -> σ O7-H23",
+            "σ N24-H23 -> lp N24"
+          ],
+          "feedbackMessage": "That gives the enol, a real intermediate if the proton goes to oxygen first, but it soon tautomerises. Here protonate on carbon to reach the ketone in one step."
+        }
+      ]
+    },
+    "ketone": {
+      "mappedSmiles": "[O:7]=[C:3]([CH3:8])[CH:2]([H:23])[CH2:1][CH2:6][CH:5]=[CH2:4].[K+:21].[NH3:24].[Cl-:25]",
+      "mapNumberToCoordinates": {
+        "1": [
+          -0.41,
+          -0.48
+        ],
+        "2": [
+          0.85,
+          0.34
+        ],
+        "3": [
+          2.19,
+          -0.34
+        ],
+        "4": [
+          -4.34,
+          0.05
+        ],
+        "5": [
+          -3.0,
+          -0.63
+        ],
+        "6": [
+          -1.75,
+          0.19
+        ],
+        "7": [
+          2.27,
+          -1.84
+        ],
+        "8": [
+          3.44,
+          0.48
+        ],
+        "21": [
+          6.04,
+          0.0
+        ],
+        "23": [
+          0.76,
+          1.84
+        ],
+        "24": [
+          8.64,
+          0.0
+        ],
+        "25": [
+          11.24,
+          0.0
+        ]
+      },
+      "caption": "hept-6-en-2-one"
+    }
+  },
+  "steps": [
+    {
+      "stepKey": "deprotonation",
+      "fromStateId": "alcohol",
+      "toStateId": "alkoxide",
+      "stepKind": "polar",
+      "routePreference": "preferred",
+      "canonicalArrows": [
+        "lp H22 -> σ H22-H20",
+        "σ O7-H20 -> lp O7"
+      ],
+      "explanationAfterStep": "An irreversible deprotonation: hydrogen gas escapes. 18-crown-6 wraps round the potassium ion and pulls it away from the oxygen, leaving a 'naked', highly reactive alkoxide."
+    },
+    {
+      "stepKey": "hydrogen-escapes",
+      "fromStateId": "alkoxide",
+      "toStateId": "curled-alkoxide",
+      "stepKind": "change",
+      "routePreference": "preferred",
+      "removedFragmentMapNumbers": [
+        20
+      ],
+      "caption": "Hydrogen gas bubbles out of the solution."
+    },
+    {
+      "stepKey": "three-three-shift",
+      "fromStateId": "curled-alkoxide",
+      "toStateId": "enolate",
+      "stepKind": "polar",
+      "routePreference": "preferred",
+      "canonicalArrows": [
+        "π C1-C2 -> σ C1-C6",
+        "σ C3-C4 -> π C2-C3",
+        "π C5-C6 -> π C4-C5"
+      ],
+      "explanationAfterStep": "A Cope rearrangement of the alkoxide. The O⁻ pushes electron density into the breaking C–C bond and weakens it, so the reaction runs at room temperature instead of 200 °C or more: Evans measured rate increases of 10¹⁰ to 10¹⁷. The product is an enolate, so the reaction is irreversible. The transition state is chair-like, as in every Cope rearrangement. The app does not check stereochemistry yet, so the drawings carry no wedges and no E/Z marks."
+    },
+    {
+      "stepKey": "ammonium-chloride-added",
+      "fromStateId": "enolate",
+      "toStateId": "enolate-and-ammonium-chloride",
+      "stepKind": "change",
+      "routePreference": "preferred",
+      "addedSpecies": "[H:23][NH3+:24].[Cl-:25]",
+      "caption": "Aqueous ammonium chloride is added at the end."
+    },
+    {
+      "stepKey": "protonation",
+      "fromStateId": "enolate-and-ammonium-chloride",
+      "toStateId": "ketone",
+      "stepKind": "polar",
+      "routePreference": "preferred",
+      "canonicalArrows": [
+        "π C2-C3 -> σ C2-H23",
+        "σ N24-H23 -> lp N24",
+        "lp O7 -> π C3-O7"
+      ],
+      "explanationAfterStep": "Protonation on carbon gives the ketone. The neutral oxy-Cope (heating the alcohol itself) gives the enol, which tautomerises to the same ketone."
+    }
+  ],
+  "mechanismSummary": "The oxy-Cope rearrangement is a Cope rearrangement of a 1,5-diene carrying OH on carbon 3. Converted to its potassium alkoxide (KH, with 18-crown-6 to hold the potassium ion away), it rearranges up to 10¹⁷ times faster, at or below room temperature: the anionic oxy-Cope. The [3,3] shift goes through a chair-like transition state and gives an enolate, so it is irreversible; work-up gives a δ,ε-unsaturated ketone. With 1,2-divinylcycloalkanols it expands a ring by four carbons. The app does not check stereochemistry yet, so the drawings carry no wedges and no E/Z marks.",
+  "references": [
+    "Clayden, Greeves and Warren, Organic Chemistry, 2nd edition (Oxford University Press), chapter 35",
+    "D. A. Evans and A. M. Golob, J. Am. Chem. Soc., 1975, 97, 4765"
+  ],
+  "authors": [
+    {
+      "name": "Maksim",
+      "url": null
+    }
+  ],
+  "licence": "CC-BY-SA-4.0"
+}

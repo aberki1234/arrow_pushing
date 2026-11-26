@@ -1,0 +1,460 @@
+{
+  "formatVersion": 1,
+  "reactionSlug": "dichlorocarbene-cyclopropanation",
+  "reactionVersion": 1,
+  "previousReactionVersion": null,
+  "title": "Dichlorocarbene cyclopropanation",
+  "subtitle": "Chloroform and tert-butoxide make :CCl₂, which adds to cyclohexene",
+  "reactionClasses": [
+    "elimination",
+    "addition"
+  ],
+  "difficultyTier": 2,
+  "conditionsLabel": "CHCl₃ · KOtBu · pentane · 0 °C",
+  "dailyPuzzleEligible": true,
+  "atomRoleToMapNumbers": {},
+  "spectatorMapNumbers": [
+    11
+  ],
+  "abbreviatedGroups": [
+    {
+      "groupLabel": "tBu",
+      "attachmentMapNumber": 7,
+      "mapNumbers": [
+        7,
+        8,
+        9,
+        10
+      ]
+    }
+  ],
+  "startStateId": "reactants",
+  "stateIdToState": {
+    "reactants": {
+      "mappedSmiles": "[H:2][C:1]([Cl:3])([Cl:4])[Cl:5].[O-:6][C:7]([CH3:8])([CH3:9])[CH3:10].[K+:11].[CH:12]1=[CH:13][CH2:14][CH2:15][CH2:16][CH2:17]1",
+      "mapNumberToCoordinates": {
+        "1": [
+          4,
+          0
+        ],
+        "2": [
+          5.5,
+          0
+        ],
+        "3": [
+          2.5,
+          0
+        ],
+        "4": [
+          4,
+          1.5
+        ],
+        "5": [
+          4,
+          -1.5
+        ],
+        "6": [
+          0.43,
+          5.05
+        ],
+        "7": [
+          1.18,
+          3.75
+        ],
+        "8": [
+          -0.12,
+          3
+        ],
+        "9": [
+          2.48,
+          4.5
+        ],
+        "10": [
+          1.93,
+          2.45
+        ],
+        "11": [
+          -0.65,
+          7.08
+        ],
+        "12": [
+          -0.1,
+          -0.45
+        ],
+        "13": [
+          -0.85,
+          0.85
+        ],
+        "14": [
+          -2.35,
+          0.85
+        ],
+        "15": [
+          -3.1,
+          -0.45
+        ],
+        "16": [
+          -2.35,
+          -1.75
+        ],
+        "17": [
+          -0.85,
+          -1.75
+        ]
+      },
+      "caption": "chloroform + potassium tert-butoxide + cyclohexene",
+      "learnerPrompt": "tert-Butoxide is a strong base. What does it do to chloroform?",
+      "hintTiers": [
+        "Three chlorines pull electron density from carbon, so the C–H of chloroform is unusually acidic (pKa about 24).",
+        "tert-Butoxide takes the proton of chloroform; the C–H pair stays on carbon. Two arrows.",
+        "tert-Butoxide lone pair → new bond to the chloroform H; that C–H bond → a lone pair on carbon."
+      ],
+      "misconceptions": [
+        {
+          "misconceptionId": "sn2-on-chloroform",
+          "misconceptionTag": "substitution-instead",
+          "severity": "wrong",
+          "arrowPattern": "lp O6 -> σ O6-C1",
+          "feedbackMessage": "Three chlorines crowd the back of the carbon, and tert-butoxide is bulky: no SN2. It removes the acidic proton instead."
+        },
+        {
+          "misconceptionId": "e2-cyclohexene",
+          "misconceptionTag": "wrong-substrate",
+          "severity": "wrong",
+          "arrowPattern": "lp O6 -> C12",
+          "feedbackMessage": "Cyclohexene has no leaving group and no acidic proton. The base reacts with chloroform."
+        }
+      ],
+      "partialProgressMessages": [
+        {
+          "learnerArrows": [
+            "lp O6 -> σ O6-H2"
+          ],
+          "feedbackMessage": "Right: the base takes the proton. Now the C–H pair must stay on carbon."
+        }
+      ]
+    },
+    "trichloromethanide": {
+      "mappedSmiles": "[C-:1]([Cl:3])([Cl:4])[Cl:5].[H:2][O:6][C:7]([CH3:8])([CH3:9])[CH3:10].[K+:11].[CH:12]1=[CH:13][CH2:14][CH2:15][CH2:16][CH2:17]1",
+      "mapNumberToCoordinates": {
+        "1": [
+          3.8,
+          0
+        ],
+        "2": [
+          0.94,
+          6.78
+        ],
+        "3": [
+          5.1,
+          0.75
+        ],
+        "4": [
+          2.5,
+          0.75
+        ],
+        "5": [
+          3.8,
+          -1.5
+        ],
+        "6": [
+          0.19,
+          5.48
+        ],
+        "7": [
+          0.94,
+          4.18
+        ],
+        "8": [
+          -0.36,
+          3.43
+        ],
+        "9": [
+          2.24,
+          4.93
+        ],
+        "10": [
+          1.69,
+          2.88
+        ],
+        "11": [
+          7.27,
+          0
+        ],
+        "12": [
+          0.38,
+          -0.15
+        ],
+        "13": [
+          -0.37,
+          1.15
+        ],
+        "14": [
+          -1.87,
+          1.15
+        ],
+        "15": [
+          -2.62,
+          -0.15
+        ],
+        "16": [
+          -1.87,
+          -1.45
+        ],
+        "17": [
+          -0.37,
+          -1.45
+        ]
+      },
+      "caption": "the trichloromethyl anion + tert-butanol + cyclohexene",
+      "learnerPrompt": "α-Elimination: the anion loses chloride.",
+      "hintTiers": [
+        "The anion has a lone pair on carbon and a leaving group on that same carbon. What leaves?",
+        "One arrow: a C–Cl bond breaks, and the pair goes to chlorine.",
+        "C–Cl bond → a lone pair on chlorine (chloride leaves)."
+      ],
+      "misconceptions": [
+        {
+          "misconceptionId": "anion-adds-to-alkene",
+          "misconceptionTag": "unactivated-alkene",
+          "severity": "wrong",
+          "arrowPattern": "lp C1 -> C12",
+          "feedbackMessage": "A plain alkene is electron-rich: a carbanion does not add to it. First the anion loses chloride."
+        },
+        {
+          "misconceptionId": "reprotonate",
+          "misconceptionTag": "reverse-step",
+          "severity": "plausible",
+          "arrowPattern": "lp C1 -> σ C1-H2",
+          "feedbackMessage": "Taking the proton back just gives chloroform again. Let the anion lose chloride."
+        }
+      ]
+    },
+    "dichlorocarbene": {
+      "mappedSmiles": "[C:1]([Cl:3])[Cl:4].[Cl-:5].[H:2][O:6][C:7]([CH3:8])([CH3:9])[CH3:10].[K+:11].[CH:12]1=[CH:13][CH2:14][CH2:15][CH2:16][CH2:17]1",
+      "mapNumberToCoordinates": {
+        "1": [
+          3.8,
+          0
+        ],
+        "2": [
+          0.9,
+          6.76
+        ],
+        "3": [
+          5.1,
+          0.75
+        ],
+        "4": [
+          2.5,
+          0.75
+        ],
+        "5": [
+          7.18,
+          -0.23
+        ],
+        "6": [
+          0.15,
+          5.46
+        ],
+        "7": [
+          0.9,
+          4.16
+        ],
+        "8": [
+          -0.4,
+          3.41
+        ],
+        "9": [
+          2.2,
+          4.91
+        ],
+        "10": [
+          1.65,
+          2.86
+        ],
+        "11": [
+          -0.48,
+          8.58
+        ],
+        "12": [
+          0.44,
+          -0.18
+        ],
+        "13": [
+          -0.31,
+          1.11
+        ],
+        "14": [
+          -1.81,
+          1.11
+        ],
+        "15": [
+          -2.56,
+          -0.18
+        ],
+        "16": [
+          -1.81,
+          -1.48
+        ],
+        "17": [
+          -0.31,
+          -1.48
+        ]
+      },
+      "caption": "dichlorocarbene (:CCl₂) + chloride + cyclohexene",
+      "learnerPrompt": "The carbene adds to the alkene.",
+      "hintTiers": [
+        "A singlet carbene has a lone pair and an empty p orbital on the same carbon. It can make two bonds at once.",
+        "Two arrows: the C=C π pair bonds to the carbene carbon, and the carbene lone pair bonds to the other alkene carbon.",
+        "C=C π bond → new bond from one alkene carbon to the carbene carbon; carbene lone pair → new bond to the other alkene carbon."
+      ],
+      "misconceptions": [
+        {
+          "misconceptionId": "chloride-returns",
+          "misconceptionTag": "reverse-step",
+          "severity": "plausible",
+          "arrowPattern": "lp Cl5 -> σ Cl5-C1",
+          "feedbackMessage": "Chloride adding back gives the trichloromethyl anion again. The carbene reacts with the alkene."
+        },
+        {
+          "misconceptionId": "pi-onto-carbon",
+          "misconceptionTag": "wrong-direction",
+          "severity": "wrong",
+          "arrowPattern": "π C12-C13 -> lp C*",
+          "feedbackMessage": "The alkene π pair is not pushed onto one of its own carbons. It forms a bond to the empty orbital of the carbene."
+        }
+      ],
+      "partialProgressMessages": [
+        {
+          "learnerArrows": [
+            "π C12-C13 -> σ C1-C12"
+          ],
+          "feedbackMessage": "Right: the π bond attacks the empty orbital of the carbene. The other alkene carbon would be left as a cation: the carbene lone pair bonds to it at the same time."
+        }
+      ]
+    },
+    "products": {
+      "mappedSmiles": "[Cl:3][C:1]1([Cl:4])[CH:12]2[CH2:17][CH2:16][CH2:15][CH2:14][CH:13]21.[Cl-:5].[H:2][O:6][C:7]([CH3:8])([CH3:9])[CH3:10].[K+:11]",
+      "mapNumberToCoordinates": {
+        "1": [
+          2.25,
+          -1.3
+        ],
+        "2": [
+          1.36,
+          7.01
+        ],
+        "3": [
+          3.66,
+          -0.79
+        ],
+        "4": [
+          2.51,
+          -2.78
+        ],
+        "5": [
+          5.75,
+          0.16
+        ],
+        "6": [
+          0.61,
+          5.72
+        ],
+        "7": [
+          1.36,
+          4.42
+        ],
+        "8": [
+          0.07,
+          3.67
+        ],
+        "9": [
+          2.66,
+          5.17
+        ],
+        "10": [
+          2.11,
+          3.12
+        ],
+        "11": [
+          7.32,
+          -1.46
+        ],
+        "12": [
+          1.5,
+          0
+        ],
+        "13": [
+          0.75,
+          -1.3
+        ],
+        "14": [
+          -0.75,
+          -1.3
+        ],
+        "15": [
+          -1.5,
+          0
+        ],
+        "16": [
+          -0.75,
+          1.3
+        ],
+        "17": [
+          0.75,
+          1.3
+        ]
+      },
+      "caption": "7,7-dichlorobicyclo[4.1.0]heptane + KCl + tert-butanol"
+    }
+  },
+  "steps": [
+    {
+      "stepKey": "deprotonation",
+      "fromStateId": "reactants",
+      "toStateId": "trichloromethanide",
+      "stepKind": "polar",
+      "routePreference": "preferred",
+      "canonicalArrows": [
+        "lp O6 -> σ O6-H2",
+        "σ C1-H2 -> lp C1"
+      ],
+      "explanationAfterStep": "The three chlorines stabilise the negative charge by induction."
+    },
+    {
+      "stepKey": "alpha-elimination",
+      "fromStateId": "trichloromethanide",
+      "toStateId": "dichlorocarbene",
+      "stepKind": "polar",
+      "routePreference": "preferred",
+      "canonicalArrows": [
+        "σ C1-Cl5 -> lp Cl5"
+      ],
+      "explanationAfterStep": "Chloride leaves from the carbon that carries the lone pair: an α-elimination (1,1-elimination). The product, dichlorocarbene, is a neutral carbon with only two bonds and six electrons: a lone pair in an sp² orbital and an empty p orbital (a singlet carbene). The chlorine lone pairs feed the empty p orbital, so :CCl₂ is one of the more stable carbenes."
+    },
+    {
+      "stepKey": "cyclopropanation",
+      "fromStateId": "dichlorocarbene",
+      "toStateId": "products",
+      "stepKind": "polar",
+      "routePreference": "preferred",
+      "canonicalArrows": [
+        "π C12-C13 -> σ C1-C12",
+        "lp C1 -> σ C1-C13"
+      ],
+      "explanationAfterStep": "Both new bonds form in one step (a cheletropic addition), so the alkene geometry is kept: a cis-alkene gives a cis-disubstituted cyclopropane. The app does not check stereochemistry yet."
+    }
+  ],
+  "mechanismSummary": "tert-Butoxide removes the acidic proton of chloroform. The trichloromethyl anion loses chloride from the same carbon (α-elimination) to give dichlorocarbene, a singlet carbene. It adds to the alkene in one step, forming both C–C bonds at once, so the alkene geometry is kept in the cyclopropane. The same carbene is made on a large scale from CHCl₃ and 50% NaOH(aq) with a phase-transfer catalyst.",
+  "references": [
+    "Clayden, Greeves and Warren, Organic Chemistry, 2nd edition (Oxford University Press), chapter 38"
+  ],
+  "authors": [
+    {
+      "name": "Maksim",
+      "url": null
+    }
+  ],
+  "licence": "CC-BY-SA-4.0"
+}

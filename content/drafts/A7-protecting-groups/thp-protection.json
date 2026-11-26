@@ -1,0 +1,618 @@
+{
+  "formatVersion": 1,
+  "reactionSlug": "thp-protection",
+  "reactionVersion": 1,
+  "previousReactionVersion": null,
+  "title": "THP protection of an alcohol",
+  "subtitle": "An alcohol adds to protonated dihydropyran: a THP acetal",
+  "reactionClasses": [
+    "addition"
+  ],
+  "difficultyTier": 2,
+  "conditionsLabel": "DHP · TsOH (cat.) · CH₂Cl₂ · 25 °C",
+  "dailyPuzzleEligible": true,
+  "atomRoleToMapNumbers": {
+    "acid": [
+      20
+    ],
+    "alcoholOxygen": [
+      11
+    ]
+  },
+  "spectatorMapNumbers": [],
+  "abbreviatedGroups": [
+    {
+      "groupLabel": "Tol",
+      "attachmentMapNumber": 25,
+      "mapNumbers": [
+        25,
+        26,
+        27,
+        28,
+        29,
+        30,
+        31
+      ]
+    },
+    {
+      "groupLabel": "Cy",
+      "attachmentMapNumber": 13,
+      "mapNumbers": [
+        13,
+        14,
+        15,
+        16,
+        17,
+        18
+      ]
+    }
+  ],
+  "startStateId": "reactants",
+  "stateIdToState": {
+    "reactants": {
+      "mappedSmiles": "[O:1]1[CH:2]=[CH:3][CH2:4][CH2:5][CH2:6]1.[H:12][O:11][CH:13]2[CH2:14][CH2:15][CH2:16][CH2:17][CH2:18]2.[H:22][O:20][S:21](=[O:23])(=[O:24])[C:25]1=[CH:26][CH:27]=[C:28]([CH3:31])[CH:29]=[CH:30]1",
+      "mapNumberToCoordinates": {
+        "1": [
+          1.5,
+          0
+        ],
+        "2": [
+          0.75,
+          1.3
+        ],
+        "3": [
+          -0.75,
+          1.3
+        ],
+        "4": [
+          -1.5,
+          0
+        ],
+        "5": [
+          -0.75,
+          -1.3
+        ],
+        "6": [
+          0.75,
+          -1.3
+        ],
+        "11": [
+          3.31,
+          4.86
+        ],
+        "12": [
+          4.06,
+          3.56
+        ],
+        "13": [
+          1.81,
+          4.86
+        ],
+        "14": [
+          1.06,
+          6.16
+        ],
+        "15": [
+          -0.44,
+          6.16
+        ],
+        "16": [
+          -1.19,
+          4.86
+        ],
+        "17": [
+          -0.44,
+          3.56
+        ],
+        "18": [
+          1.06,
+          3.56
+        ],
+        "20": [
+          11.3,
+          0.02
+        ],
+        "21": [
+          9.8,
+          0.02
+        ],
+        "22": [
+          12.05,
+          1.32
+        ],
+        "23": [
+          9.8,
+          -1.48
+        ],
+        "24": [
+          9.8,
+          1.52
+        ],
+        "25": [
+          8.3,
+          0.02
+        ],
+        "26": [
+          7.55,
+          1.32
+        ],
+        "27": [
+          6.05,
+          1.32
+        ],
+        "28": [
+          5.3,
+          0.02
+        ],
+        "29": [
+          6.05,
+          -1.28
+        ],
+        "30": [
+          7.55,
+          -1.28
+        ],
+        "31": [
+          3.8,
+          0.02
+        ]
+      },
+      "caption": "dihydropyran (DHP) + cyclohexanol + toluenesulfonic acid (catalytic)",
+      "learnerPrompt": "The enol ether is protonated first. Draw that step.",
+      "hintTiers": [
+        "DHP is an enol ether: the ring oxygen pushes electrons into the C=C bond. At which carbon does the C=C bond take a proton, so that the cation formed is next to the oxygen?",
+        "The C=C π bond takes the acid proton at the carbon away from oxygen, and the oxygen lone pair forms C=O⁺ with the other carbon; the O–H pair of the acid stays on its oxygen. Three arrows (two also count: a carbocation drawing of the same ion).",
+        "Ring oxygen lone pair → C=O π bond; C=C π bond → new C–H bond to the acid proton, on the carbon two away from oxygen; acid O–H bond → a lone pair on the sulfonate oxygen."
+      ],
+      "misconceptions": [
+        {
+          "misconceptionId": "protonate-carbon-next-to-oxygen",
+          "misconceptionTag": "wrong-regiochemistry",
+          "severity": "wrong",
+          "arrowPattern": "π C2-C3 -> σ C2-H22",
+          "feedbackMessage": "Protonating the carbon bonded to oxygen leaves the cation on the far carbon, with no oxygen to stabilise it. Put the proton on the carbon away from oxygen, so the cation sits next to the oxygen lone pair."
+        },
+        {
+          "misconceptionId": "protonate-ring-oxygen",
+          "misconceptionTag": "unproductive-protonation",
+          "severity": "plausible",
+          "arrowPattern": "lp O1 -> σ O1-H22",
+          "feedbackMessage": "Protonating the ring oxygen ties up the lone pair that should stabilise the cation, and leads nowhere. The enol ether reacts at carbon."
+        },
+        {
+          "misconceptionId": "alcohol-attacks-alkene",
+          "misconceptionTag": "nucleophile-before-activation",
+          "severity": "wrong",
+          "arrowPattern": "lp O11 -> C2",
+          "feedbackMessage": "An electron-rich enol ether does not react with a neutral alcohol. Make it electrophilic first: protonate it."
+        }
+      ]
+    },
+    "oxocarbenium": {
+      "mappedSmiles": "[O+:1]1=[CH:2][CH:3]([H:22])[CH2:4][CH2:5][CH2:6]1.[H:12][O:11][CH:13]2[CH2:14][CH2:15][CH2:16][CH2:17][CH2:18]2.[O-:20][S:21](=[O:23])(=[O:24])[C:25]1=[CH:26][CH:27]=[C:28]([CH3:31])[CH:29]=[CH:30]1",
+      "mapNumberToCoordinates": {
+        "1": [
+          1.5,
+          0
+        ],
+        "2": [
+          0.75,
+          1.3
+        ],
+        "3": [
+          -0.75,
+          1.3
+        ],
+        "4": [
+          -1.5,
+          0
+        ],
+        "5": [
+          -0.75,
+          -1.3
+        ],
+        "6": [
+          0.75,
+          -1.3
+        ],
+        "11": [
+          8.29,
+          -0.14
+        ],
+        "12": [
+          9.04,
+          -1.44
+        ],
+        "13": [
+          6.79,
+          -0.14
+        ],
+        "14": [
+          6.04,
+          1.16
+        ],
+        "15": [
+          4.54,
+          1.16
+        ],
+        "16": [
+          3.79,
+          -0.14
+        ],
+        "17": [
+          4.54,
+          -1.44
+        ],
+        "18": [
+          6.04,
+          -1.44
+        ],
+        "20": [
+          4.71,
+          5.96
+        ],
+        "21": [
+          3.21,
+          5.96
+        ],
+        "22": [
+          -1.5,
+          2.6
+        ],
+        "23": [
+          3.21,
+          4.46
+        ],
+        "24": [
+          3.21,
+          7.46
+        ],
+        "25": [
+          1.71,
+          5.96
+        ],
+        "26": [
+          0.96,
+          7.26
+        ],
+        "27": [
+          -0.54,
+          7.26
+        ],
+        "28": [
+          -1.29,
+          5.96
+        ],
+        "29": [
+          -0.54,
+          4.66
+        ],
+        "30": [
+          0.96,
+          4.66
+        ],
+        "31": [
+          -2.79,
+          5.96
+        ]
+      },
+      "caption": "the oxocarbenium ion + cyclohexanol + tosylate",
+      "learnerPrompt": "The alcohol adds to the oxocarbenium ion.",
+      "hintTiers": [
+        "The positive carbon is bonded to the ring oxygen. Which nucleophile in the flask adds to it?",
+        "The cyclohexanol oxygen bonds to the C=O⁺ carbon, and the C=O⁺ π pair moves onto the ring oxygen. Two arrows.",
+        "Cyclohexanol oxygen lone pair → new O–C bond to the C=O⁺ carbon; C=O⁺ π bond → a lone pair on the ring oxygen."
+      ],
+      "misconceptions": [
+        {
+          "misconceptionId": "tosylate-adds",
+          "misconceptionTag": "weak-nucleophile",
+          "severity": "plausible",
+          "arrowPattern": "lp O20 -> σ O20-C2",
+          "feedbackMessage": "Tosylate is a very weak nucleophile, and a covalent tosylate here would just ionise again. The alcohol adds."
+        },
+        {
+          "misconceptionId": "tosylate-removes-proton",
+          "misconceptionTag": "reverse-step",
+          "severity": "plausible",
+          "arrowPattern": "lp O20 -> H22",
+          "feedbackMessage": "Removing that proton just returns to dihydropyran. Let the alcohol add to the cation."
+        }
+      ],
+      "partialProgressMessages": [
+        {
+          "learnerArrows": [
+            "lp O11 -> σ O11-C2"
+          ],
+          "feedbackMessage": "Right nucleophile and right carbon. That carbon would then have five bonds: move the C=O⁺ π pair onto the ring oxygen."
+        }
+      ]
+    },
+    "protonated-acetal": {
+      "mappedSmiles": "[O:1]1[CH:2]([O+:11]([H:12])[CH:13]2[CH2:14][CH2:15][CH2:16][CH2:17][CH2:18]2)[CH:3]([H:22])[CH2:4][CH2:5][CH2:6]1.[O-:20][S:21](=[O:23])(=[O:24])[C:25]1=[CH:26][CH:27]=[C:28]([CH3:31])[CH:29]=[CH:30]1",
+      "mapNumberToCoordinates": {
+        "1": [
+          3,
+          2.6
+        ],
+        "2": [
+          3.75,
+          1.3
+        ],
+        "3": [
+          5.25,
+          1.3
+        ],
+        "4": [
+          6,
+          2.6
+        ],
+        "5": [
+          5.25,
+          3.9
+        ],
+        "6": [
+          3.75,
+          3.9
+        ],
+        "11": [
+          3,
+          0
+        ],
+        "12": [
+          3.75,
+          -1.3
+        ],
+        "13": [
+          1.5,
+          0
+        ],
+        "14": [
+          0.75,
+          1.3
+        ],
+        "15": [
+          -0.75,
+          1.3
+        ],
+        "16": [
+          -1.5,
+          0
+        ],
+        "17": [
+          -0.75,
+          -1.3
+        ],
+        "18": [
+          0.75,
+          -1.3
+        ],
+        "20": [
+          4.19,
+          7.4
+        ],
+        "21": [
+          2.69,
+          7.4
+        ],
+        "22": [
+          6,
+          0
+        ],
+        "23": [
+          2.69,
+          5.9
+        ],
+        "24": [
+          2.69,
+          8.9
+        ],
+        "25": [
+          1.19,
+          7.4
+        ],
+        "26": [
+          0.44,
+          8.7
+        ],
+        "27": [
+          -1.06,
+          8.7
+        ],
+        "28": [
+          -1.81,
+          7.4
+        ],
+        "29": [
+          -1.06,
+          6.1
+        ],
+        "30": [
+          0.44,
+          6.1
+        ],
+        "31": [
+          -3.31,
+          7.4
+        ]
+      },
+      "caption": "the protonated acetal + tosylate",
+      "learnerPrompt": "Regenerate the acid catalyst.",
+      "hintTiers": [
+        "The new acetal oxygen carries a proton and a positive charge. What takes the proton?",
+        "Tosylate takes the O–H proton back, and the O–H pair stays on the acetal oxygen. Two arrows.",
+        "Tosylate oxygen lone pair → new O–H bond; O–H bond → a lone pair on the acetal oxygen."
+      ],
+      "misconceptions": [
+        {
+          "misconceptionId": "acetal-falls-apart",
+          "misconceptionTag": "reverse-step",
+          "severity": "plausible",
+          "arrowPattern": "σ C2-O11 -> lp O11",
+          "feedbackMessage": "That is the reverse step: the protonated acetal losing cyclohexanol. It happens in aqueous acid when THP is removed, but here tosylate takes the proton and the acetal is stable."
+        }
+      ]
+    },
+    "products": {
+      "mappedSmiles": "[O:1]1[CH:2]([O:11][CH:13]2[CH2:14][CH2:15][CH2:16][CH2:17][CH2:18]2)[CH:3]([H:22])[CH2:4][CH2:5][CH2:6]1.[H:12][O:20][S:21](=[O:23])(=[O:24])[C:25]1=[CH:26][CH:27]=[C:28]([CH3:31])[CH:29]=[CH:30]1",
+      "mapNumberToCoordinates": {
+        "1": [
+          5.25,
+          -1.3
+        ],
+        "2": [
+          3.75,
+          -1.3
+        ],
+        "3": [
+          3,
+          -2.6
+        ],
+        "4": [
+          3.75,
+          -3.9
+        ],
+        "5": [
+          5.25,
+          -3.9
+        ],
+        "6": [
+          6,
+          -2.6
+        ],
+        "11": [
+          3,
+          0
+        ],
+        "12": [
+          5.06,
+          6.18
+        ],
+        "13": [
+          1.5,
+          0
+        ],
+        "14": [
+          0.75,
+          1.3
+        ],
+        "15": [
+          -0.75,
+          1.3
+        ],
+        "16": [
+          -1.5,
+          0
+        ],
+        "17": [
+          -0.75,
+          -1.3
+        ],
+        "18": [
+          0.75,
+          -1.3
+        ],
+        "20": [
+          4.31,
+          4.88
+        ],
+        "21": [
+          2.81,
+          4.88
+        ],
+        "22": [
+          1.5,
+          -2.6
+        ],
+        "23": [
+          2.81,
+          3.38
+        ],
+        "24": [
+          2.81,
+          6.38
+        ],
+        "25": [
+          1.31,
+          4.88
+        ],
+        "26": [
+          0.56,
+          6.18
+        ],
+        "27": [
+          -0.94,
+          6.18
+        ],
+        "28": [
+          -1.69,
+          4.88
+        ],
+        "29": [
+          -0.94,
+          3.58
+        ],
+        "30": [
+          0.56,
+          3.58
+        ],
+        "31": [
+          -3.19,
+          4.88
+        ]
+      },
+      "caption": "cyclohexyl tetrahydropyranyl ether (THP ether) + toluenesulfonic acid"
+    }
+  },
+  "steps": [
+    {
+      "stepKey": "protonation",
+      "fromStateId": "reactants",
+      "toStateId": "oxocarbenium",
+      "stepKind": "polar",
+      "routePreference": "preferred",
+      "canonicalArrows": [
+        "lp O1 -> π O1-C2",
+        "π C2-C3 -> σ C3-H22",
+        "σ O20-H22 -> lp O20"
+      ],
+      "explanationAfterStep": "The enol ether takes a proton on carbon: the ring oxygen lone pair stabilises the cation as an oxocarbenium ion. This is the same cation as in acetal formation from a carbonyl compound, reached from an alkene instead."
+    },
+    {
+      "stepKey": "alcohol-adds",
+      "fromStateId": "oxocarbenium",
+      "toStateId": "protonated-acetal",
+      "stepKind": "polar",
+      "routePreference": "preferred",
+      "canonicalArrows": [
+        "lp O11 -> σ O11-C2",
+        "π C2-O1 -> lp O1"
+      ],
+      "explanationAfterStep": "The alcohol adds to the oxocarbenium carbon. The carbon it bonds to becomes a new stereogenic centre, so a chiral alcohol gives a mixture of diastereomers: the main drawback of THP. The app does not check stereochemistry yet."
+    },
+    {
+      "stepKey": "deprotonation",
+      "fromStateId": "protonated-acetal",
+      "toStateId": "products",
+      "stepKind": "polar",
+      "routePreference": "preferred",
+      "canonicalArrows": [
+        "lp O20 -> σ O20-H12",
+        "σ O11-H12 -> lp O11"
+      ],
+      "explanationAfterStep": "Tosylate takes the proton back, so the acid is a catalyst. The product is an acetal: stable to base, organometallics and hydride reagents, but removed by aqueous acid or acidic methanol, by the reverse of these steps."
+    }
+  ],
+  "mechanismSummary": "Toluenesulfonic acid protonates dihydropyran on carbon; the ring oxygen stabilises the cation as an oxocarbenium ion. Cyclohexanol adds to it, and tosylate takes the proton back. The tetrahydropyranyl (THP) ether is an acetal: it survives strong base, Grignard reagents and LiAlH₄, and comes off with aqueous acid (or TsOH in methanol) by the reverse mechanism. A new stereogenic centre forms at the acetal carbon, so chiral alcohols give diastereomers. Pyridinium tosylate (PPTS) is a milder acid for the same job. The app does not check stereochemistry yet.",
+  "references": [
+    "Clayden, Greeves and Warren, Organic Chemistry, 2nd edition (Oxford University Press), chapter 23",
+    "Wuts, Greene's Protective Groups in Organic Synthesis, 5th edition (Wiley), chapter 2 (ethers and acetals)"
+  ],
+  "authors": [
+    {
+      "name": "Maksim",
+      "url": null
+    }
+  ],
+  "licence": "CC-BY-SA-4.0"
+}

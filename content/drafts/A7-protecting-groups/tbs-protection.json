@@ -1,0 +1,597 @@
+{
+  "formatVersion": 1,
+  "reactionSlug": "tbs-protection",
+  "reactionVersion": 1,
+  "previousReactionVersion": null,
+  "title": "TBS protection of an alcohol",
+  "subtitle": "Imidazole carries a silyl group to the primary OH of a diol",
+  "reactionClasses": [
+    "substitution"
+  ],
+  "difficultyTier": 2,
+  "conditionsLabel": "TBSCl (1 eq.) · imidazole (2 eq.) · DMF · 25 °C",
+  "dailyPuzzleEligible": true,
+  "atomRoleToMapNumbers": {
+    "silicon": [
+      10
+    ],
+    "primaryOxygen": [
+      1
+    ],
+    "secondaryOxygen": [
+      5
+    ]
+  },
+  "spectatorMapNumbers": [],
+  "abbreviatedGroups": [
+    {
+      "groupLabel": "t-Bu",
+      "attachmentMapNumber": 13,
+      "mapNumbers": [
+        13,
+        14,
+        15,
+        16
+      ]
+    }
+  ],
+  "startStateId": "reactants",
+  "stateIdToState": {
+    "reactants": {
+      "mappedSmiles": "[H:7][O:1][CH2:2][CH2:3][CH:4]([OH:5])[CH3:6].[Cl:17][Si:10]([CH3:11])([CH3:12])[C:13]([CH3:14])([CH3:15])[CH3:16].[CH:20]1=[N:21][CH:22]=[CH:23][NH:24]1.[CH:30]1=[N:31][CH:32]=[CH:33][NH:34]1",
+      "mapNumberToCoordinates": {
+        "1": [
+          5.2,
+          2.21
+        ],
+        "2": [
+          3.9,
+          2.96
+        ],
+        "3": [
+          2.6,
+          2.21
+        ],
+        "4": [
+          1.3,
+          2.96
+        ],
+        "5": [
+          1.3,
+          4.46
+        ],
+        "6": [
+          0,
+          2.21
+        ],
+        "7": [
+          6.5,
+          2.96
+        ],
+        "10": [
+          8.47,
+          -0.27
+        ],
+        "11": [
+          7.18,
+          -1.02
+        ],
+        "12": [
+          9.77,
+          0.48
+        ],
+        "13": [
+          9.22,
+          -1.57
+        ],
+        "14": [
+          10.52,
+          -0.82
+        ],
+        "15": [
+          7.93,
+          -2.32
+        ],
+        "16": [
+          9.97,
+          -2.87
+        ],
+        "17": [
+          7.72,
+          1.03
+        ],
+        "20": [
+          0.11,
+          -1.12
+        ],
+        "21": [
+          -0.77,
+          0.1
+        ],
+        "22": [
+          -2.19,
+          -0.37
+        ],
+        "23": [
+          -2.19,
+          -1.87
+        ],
+        "24": [
+          -0.77,
+          -2.33
+        ],
+        "30": [
+          4.83,
+          -0.93
+        ],
+        "31": [
+          3.95,
+          0.29
+        ],
+        "32": [
+          2.52,
+          -0.18
+        ],
+        "33": [
+          2.52,
+          -1.68
+        ],
+        "34": [
+          3.95,
+          -2.14
+        ]
+      },
+      "caption": "butane-1,3-diol + TBSCl + imidazole (two equivalents)",
+      "learnerPrompt": "Imidazole is more than a base here. Draw the first step.",
+      "hintTiers": [
+        "Silicon is a large, electron-poor atom bonded to chlorine, like the carbon of an alkyl chloride but far easier to reach. Which molecule is the best nucleophile in the flask?",
+        "The nitrogen of imidazole that has a free lone pair (the C=N nitrogen, not the N–H) attacks silicon, and the Si–Cl pair leaves with chloride. Two arrows: a substitution at silicon.",
+        "C=N nitrogen lone pair of one imidazole → new N–Si bond; Si–Cl bond → a lone pair on chlorine."
+      ],
+      "misconceptions": [
+        {
+          "misconceptionId": "alcohol-attacks-silicon-directly",
+          "misconceptionTag": "no-nucleophilic-catalysis",
+          "severity": "plausible",
+          "arrowPattern": "lp O1 -> Si10",
+          "feedbackMessage": "The alcohol can attack TBSCl directly, but only slowly. Imidazole is a better nucleophile: it reacts first and makes a silylimidazolium ion, a much more reactive silylating agent (Corey's conditions)."
+        },
+        {
+          "misconceptionId": "secondary-oh-attacks",
+          "misconceptionTag": "wrong-hydroxyl",
+          "severity": "plausible",
+          "arrowPattern": "lp O5 -> Si10",
+          "feedbackMessage": "The secondary OH is more hindered. The bulky tert-butyldimethylsilyl group goes on the primary OH much faster, so one equivalent of TBSCl protects the primary alcohol selectively."
+        },
+        {
+          "misconceptionId": "nh-nitrogen-attacks",
+          "misconceptionTag": "aromatic-lone-pair",
+          "severity": "wrong",
+          "arrowPattern": "lp N24 -> Si10",
+          "feedbackMessage": "The lone pair of the N–H nitrogen is part of the aromatic sextet of imidazole. The other nitrogen, the one in the C=N bond, has its lone pair free in the plane of the ring."
+        }
+      ],
+      "partialProgressMessages": [
+        {
+          "learnerArrows": [
+            "lp N21 -> σ N21-Si10"
+          ],
+          "feedbackMessage": "Right nucleophile and right atom. Now let the chloride leave from silicon in the same step."
+        }
+      ]
+    },
+    "silylimidazolium": {
+      "mappedSmiles": "[H:7][O:1][CH2:2][CH2:3][CH:4]([OH:5])[CH3:6].[CH:20]1=[N+:21]([Si:10]([CH3:11])([CH3:12])[C:13]([CH3:14])([CH3:15])[CH3:16])[CH:22]=[CH:23][NH:24]1.[Cl-:17].[CH:30]1=[N:31][CH:32]=[CH:33][NH:34]1",
+      "mapNumberToCoordinates": {
+        "1": [
+          5.2,
+          6.49
+        ],
+        "2": [
+          3.9,
+          7.24
+        ],
+        "3": [
+          2.6,
+          6.49
+        ],
+        "4": [
+          1.3,
+          7.24
+        ],
+        "5": [
+          1.3,
+          8.74
+        ],
+        "6": [
+          0,
+          6.49
+        ],
+        "7": [
+          6.5,
+          7.24
+        ],
+        "10": [
+          0.44,
+          1.72
+        ],
+        "11": [
+          1.87,
+          1.26
+        ],
+        "12": [
+          -0.99,
+          2.18
+        ],
+        "13": [
+          0.9,
+          3.15
+        ],
+        "14": [
+          -0.52,
+          3.61
+        ],
+        "15": [
+          2.33,
+          2.68
+        ],
+        "16": [
+          1.37,
+          4.57
+        ],
+        "17": [
+          7.06,
+          0
+        ],
+        "20": [
+          0.86,
+          -0.92
+        ],
+        "21": [
+          -0.02,
+          0.29
+        ],
+        "22": [
+          -1.45,
+          -0.17
+        ],
+        "23": [
+          -1.45,
+          -1.67
+        ],
+        "24": [
+          -0.02,
+          -2.13
+        ],
+        "30": [
+          5.45,
+          -1.62
+        ],
+        "31": [
+          4.56,
+          -0.4
+        ],
+        "32": [
+          3.14,
+          -0.87
+        ],
+        "33": [
+          3.14,
+          -2.37
+        ],
+        "34": [
+          4.56,
+          -2.83
+        ]
+      },
+      "caption": "N-silylimidazolium chloride: the active silylating agent",
+      "learnerPrompt": "The alcohol now reacts with the silylimidazolium ion.",
+      "hintTiers": [
+        "The silicon is now bonded to a positively charged nitrogen: imidazole is an excellent leaving group. Which oxygen attacks?",
+        "The oxygen of the primary OH attacks silicon, and the Si–N pair goes back to the nitrogen, leaving neutral imidazole. Two arrows.",
+        "Primary OH oxygen lone pair → new O–Si bond; Si–N bond → a lone pair on that nitrogen."
+      ],
+      "misconceptions": [
+        {
+          "misconceptionId": "secondary-oh-attacks-2",
+          "misconceptionTag": "wrong-hydroxyl",
+          "severity": "plausible",
+          "arrowPattern": "lp O5 -> Si10",
+          "feedbackMessage": "The secondary OH is more crowded, and the silicon carries a bulky tert-butyl group. The primary OH reacts much faster: that is the selectivity TBS is used for."
+        },
+        {
+          "misconceptionId": "chloride-returns",
+          "misconceptionTag": "reverse-step",
+          "severity": "plausible",
+          "arrowPattern": "lp Cl17 -> Si10",
+          "feedbackMessage": "Chloride can take silicon back, but that only returns to TBSCl. The alcohol is the nucleophile that leads to product."
+        }
+      ],
+      "partialProgressMessages": [
+        {
+          "learnerArrows": [
+            "lp O1 -> σ O1-Si10"
+          ],
+          "feedbackMessage": "Right oxygen, right atom. Silicon would then have five bonds; let imidazole leave in the same step."
+        }
+      ]
+    },
+    "silyloxonium": {
+      "mappedSmiles": "[H:7][O+:1]([Si:10]([CH3:11])([CH3:12])[C:13]([CH3:14])([CH3:15])[CH3:16])[CH2:2][CH2:3][CH:4]([OH:5])[CH3:6].[CH:20]1=[N:21][CH:22]=[CH:23][NH:24]1.[Cl-:17].[CH:30]1=[N:31][CH:32]=[CH:33][NH:34]1",
+      "mapNumberToCoordinates": {
+        "1": [
+          0.55,
+          6.11
+        ],
+        "2": [
+          -0.95,
+          6.11
+        ],
+        "3": [
+          -1.7,
+          7.41
+        ],
+        "4": [
+          -3.2,
+          7.41
+        ],
+        "5": [
+          -3.95,
+          6.11
+        ],
+        "6": [
+          -3.95,
+          8.71
+        ],
+        "7": [
+          1.3,
+          7.41
+        ],
+        "10": [
+          1.3,
+          4.81
+        ],
+        "11": [
+          0,
+          4.06
+        ],
+        "12": [
+          2.6,
+          5.56
+        ],
+        "13": [
+          2.05,
+          3.51
+        ],
+        "14": [
+          3.35,
+          4.26
+        ],
+        "15": [
+          0.75,
+          2.76
+        ],
+        "16": [
+          2.8,
+          2.21
+        ],
+        "17": [
+          5.58,
+          0
+        ],
+        "20": [
+          1.27,
+          -0.71
+        ],
+        "21": [
+          0.39,
+          0.5
+        ],
+        "22": [
+          -1.04,
+          0.04
+        ],
+        "23": [
+          -1.04,
+          -1.46
+        ],
+        "24": [
+          0.39,
+          -1.92
+        ],
+        "30": [
+          5.25,
+          -3.15
+        ],
+        "31": [
+          4.37,
+          -1.94
+        ],
+        "32": [
+          2.94,
+          -2.4
+        ],
+        "33": [
+          2.94,
+          -3.9
+        ],
+        "34": [
+          4.37,
+          -4.37
+        ]
+      },
+      "caption": "protonated silyl ether + imidazole + chloride",
+      "learnerPrompt": "Finish with a proton transfer.",
+      "hintTiers": [
+        "The oxygen now has three bonds and a positive charge. Which base in the flask removes its proton?",
+        "The C=N nitrogen of the second imidazole takes the proton, and the O–H pair stays on oxygen. Two arrows.",
+        "C=N nitrogen lone pair of the second imidazole → new N–H bond; O–H bond → a lone pair on oxygen."
+      ],
+      "misconceptions": [
+        {
+          "misconceptionId": "chloride-as-base",
+          "misconceptionTag": "weak-base",
+          "severity": "plausible",
+          "arrowPattern": "lp Cl17 -> σ Cl17-H7",
+          "feedbackMessage": "Chloride is far too weak a base. Imidazole (pKaH about 7) takes the proton, ending up as imidazolium chloride."
+        }
+      ]
+    },
+    "products": {
+      "mappedSmiles": "[O:1]([Si:10]([CH3:11])([CH3:12])[C:13]([CH3:14])([CH3:15])[CH3:16])[CH2:2][CH2:3][CH:4]([OH:5])[CH3:6].[CH:20]1=[N:21][CH:22]=[CH:23][NH:24]1.[Cl-:17].[CH:30]1=[N+:31]([H:7])[CH:32]=[CH:33][NH:34]1",
+      "mapNumberToCoordinates": {
+        "1": [
+          0.55,
+          6.11
+        ],
+        "2": [
+          1.3,
+          7.41
+        ],
+        "3": [
+          0.55,
+          8.71
+        ],
+        "4": [
+          1.3,
+          10.01
+        ],
+        "5": [
+          2.8,
+          10.01
+        ],
+        "6": [
+          0.55,
+          11.31
+        ],
+        "7": [
+          3.92,
+          -1.58
+        ],
+        "10": [
+          1.3,
+          4.81
+        ],
+        "11": [
+          0,
+          4.06
+        ],
+        "12": [
+          2.6,
+          5.56
+        ],
+        "13": [
+          2.05,
+          3.51
+        ],
+        "14": [
+          3.35,
+          4.26
+        ],
+        "15": [
+          0.75,
+          2.76
+        ],
+        "16": [
+          2.8,
+          2.21
+        ],
+        "17": [
+          5.58,
+          0
+        ],
+        "20": [
+          1.11,
+          -0.69
+        ],
+        "21": [
+          0.22,
+          0.52
+        ],
+        "22": [
+          -1.2,
+          0.06
+        ],
+        "23": [
+          -1.2,
+          -1.44
+        ],
+        "24": [
+          0.22,
+          -1.9
+        ],
+        "30": [
+          4.34,
+          -4.22
+        ],
+        "31": [
+          3.46,
+          -3
+        ],
+        "32": [
+          2.03,
+          -3.47
+        ],
+        "33": [
+          2.03,
+          -4.97
+        ],
+        "34": [
+          3.46,
+          -5.43
+        ]
+      },
+      "caption": "4-(tert-butyldimethylsilyloxy)butan-2-ol + imidazole + imidazolium chloride"
+    }
+  },
+  "steps": [
+    {
+      "stepKey": "imidazole-attacks-silicon",
+      "fromStateId": "reactants",
+      "toStateId": "silylimidazolium",
+      "stepKind": "polar",
+      "routePreference": "preferred",
+      "canonicalArrows": [
+        "lp N21 -> σ N21-Si10",
+        "σ Si10-Cl17 -> lp Cl17"
+      ],
+      "explanationAfterStep": "Imidazole displaces chloride from silicon. Substitution at silicon is easy even with three groups on it: Si–C and Si–O bonds are long (about 1.9 and 1.65 Å), so the nucleophile can reach in, and silicon can briefly hold five groups. The app draws it as one step here; the next reaction shows the five-coordinate silicon on its own."
+    },
+    {
+      "stepKey": "alcohol-attacks-silicon",
+      "fromStateId": "silylimidazolium",
+      "toStateId": "silyloxonium",
+      "stepKind": "polar",
+      "routePreference": "preferred",
+      "canonicalArrows": [
+        "lp O1 -> σ O1-Si10",
+        "σ Si10-N21 -> lp N21"
+      ],
+      "explanationAfterStep": "The primary alcohol displaces imidazole: imidazole was a nucleophilic catalyst, in and out again, like DMAP in acylations. The bulky tert-butyl group on silicon makes the hindered secondary OH react much more slowly."
+    },
+    {
+      "stepKey": "deprotonation",
+      "fromStateId": "silyloxonium",
+      "toStateId": "products",
+      "stepKind": "polar",
+      "routePreference": "preferred",
+      "canonicalArrows": [
+        "lp N31 -> σ N31-H7",
+        "σ O1-H7 -> lp O1"
+      ],
+      "explanationAfterStep": "The second imidazole takes the proton: the TBS ether and imidazolium chloride. That is why two equivalents of imidazole are used."
+    }
+  ],
+  "mechanismSummary": "Imidazole attacks the silicon of tert-butyldimethylsilyl chloride and displaces chloride, giving an N-silylimidazolium ion, a much more reactive silylating agent than TBSCl itself. The primary OH of butane-1,3-diol attacks silicon and imidazole leaves again; a second imidazole removes the proton. The bulky TBS group goes on the less hindered primary OH first. TBS ethers survive base, organometallics, oxidation and mild acid, and come off with fluoride. Substitution at silicon is drawn here as one step; silicon can hold five groups for a moment, as the fluoride reaction shows.",
+  "references": [
+    "Clayden, Greeves and Warren, Organic Chemistry, 2nd edition (Oxford University Press), chapter 23",
+    "Wuts, Greene's Protective Groups in Organic Synthesis, 5th edition (Wiley), chapter 2 (silyl ethers)"
+  ],
+  "authors": [
+    {
+      "name": "Maksim",
+      "url": null
+    }
+  ],
+  "licence": "CC-BY-SA-4.0"
+}

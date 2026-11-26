@@ -1,0 +1,205 @@
+{
+  "formatVersion": 1,
+  "reactionSlug": "cyclopentadiene-and-maleic-anhydride",
+  "reactionVersion": 1,
+  "previousReactionVersion": null,
+  "title": "Cyclopentadiene and maleic anhydride",
+  "subtitle": "A fast Diels–Alder reaction, and why the endo adduct forms",
+  "reactionClasses": [
+    "pericyclic",
+    "addition"
+  ],
+  "difficultyTier": 2,
+  "conditionsLabel": "EtOAc / hexane · room temperature",
+  "dailyPuzzleEligible": true,
+  "atomRoleToMapNumbers": {
+    "diene": [
+      1,
+      2,
+      3,
+      4
+    ],
+    "dienophile": [
+      6,
+      7
+    ],
+    "bridge": [
+      5
+    ]
+  },
+  "spectatorMapNumbers": [],
+  "startStateId": "reactants",
+  "stateIdToState": {
+    "reactants": {
+      "mappedSmiles": "[CH2:5]1[CH:1]=[CH:2][CH:3]=[CH:4]1.[CH:6]1=[CH:7][C:8](=[O:9])[O:10][C:11]1=[O:12]",
+      "mapNumberToCoordinates": {
+        "1": [
+          -1.41,
+          1.21
+        ],
+        "2": [
+          -2.84,
+          0.75
+        ],
+        "3": [
+          -2.84,
+          -0.75
+        ],
+        "4": [
+          -1.41,
+          -1.21
+        ],
+        "5": [
+          -0.53,
+          0.0
+        ],
+        "6": [
+          1.31,
+          0.75
+        ],
+        "7": [
+          1.31,
+          -0.75
+        ],
+        "8": [
+          2.74,
+          -1.21
+        ],
+        "9": [
+          3.2,
+          -2.64
+        ],
+        "10": [
+          3.62,
+          -0.0
+        ],
+        "11": [
+          2.74,
+          1.21
+        ],
+        "12": [
+          3.2,
+          2.64
+        ]
+      },
+      "caption": "cyclopenta-1,3-diene + maleic anhydride",
+      "learnerPrompt": "Cyclopentadiene is a diene locked in the s-cis shape; maleic anhydride is a very good dienophile. Draw the cycloaddition.",
+      "hintTiers": [
+        "Which four carbons of cyclopentadiene make up the diene, and which two carbons of maleic anhydride make up the dienophile?",
+        "The two ends of the diene (the carbons next to the CH₂) each bond to one carbon of the anhydride's C=C. The diene's middle carbons become the new C=C. Three arrows.",
+        "Arrow 1: from one diene π bond to a new bond between its end carbon and an anhydride alkene carbon. Arrow 2: from the other diene π bond to the bond between the two middle diene carbons. Arrow 3: from the anhydride C=C π bond to a new bond between its other carbon and the other end of the diene."
+      ],
+      "misconceptions": [
+        {
+          "misconceptionId": "bridge-carbon-bonds",
+          "misconceptionTag": "wrong-atom-bonds",
+          "severity": "wrong",
+          "arrowPattern": "* -> σ C5-*",
+          "feedbackMessage": "The CH₂ of cyclopentadiene has no π electrons. It takes no part and becomes the one-carbon bridge of the bicyclic product."
+        },
+        {
+          "misconceptionId": "middle-carbon-bonds",
+          "misconceptionTag": "wrong-atom-bonds",
+          "severity": "wrong",
+          "arrowPattern": "* -> σ C2-*",
+          "feedbackMessage": "Only the two ends of the diene make new bonds. The middle carbons are joined by the new C=C."
+        },
+        {
+          "misconceptionId": "anhydride-carbonyl-attacked",
+          "misconceptionTag": "wrong-electrophile",
+          "severity": "wrong",
+          "arrowPattern": "* -> C8",
+          "feedbackMessage": "The anhydride's C=O groups make the C=C a good dienophile, but they are not attacked. The diene bonds to the two alkene carbons."
+        }
+      ],
+      "partialProgressMessages": [
+        {
+          "learnerArrows": [
+            "π C1-C2 -> σ C1-C6"
+          ],
+          "feedbackMessage": "Right start. Keep going round the ring: two more arrows in the same step."
+        }
+      ]
+    },
+    "product": {
+      "mappedSmiles": "[CH2:5]1[CH:1]2[CH:2]=[CH:3][CH:4]1[CH:7]3[C:8](=[O:9])[O:10][C:11](=[O:12])[CH:6]23",
+      "mapNumberToCoordinates": {
+        "1": [
+          -1.41,
+          1.21
+        ],
+        "2": [
+          -2.84,
+          0.75
+        ],
+        "3": [
+          -2.84,
+          -0.75
+        ],
+        "4": [
+          -1.41,
+          -1.21
+        ],
+        "5": [
+          -0.53,
+          0.0
+        ],
+        "6": [
+          0.01,
+          0.75
+        ],
+        "7": [
+          0.01,
+          -0.75
+        ],
+        "8": [
+          1.44,
+          -1.21
+        ],
+        "9": [
+          1.9,
+          -2.64
+        ],
+        "10": [
+          2.32,
+          -0.0
+        ],
+        "11": [
+          1.44,
+          1.21
+        ],
+        "12": [
+          1.9,
+          2.64
+        ]
+      },
+      "caption": "the bicyclic anhydride (the endo adduct; stereochemistry not drawn)"
+    }
+  },
+  "steps": [
+    {
+      "stepKey": "cycloaddition",
+      "fromStateId": "reactants",
+      "toStateId": "product",
+      "stepKind": "polar",
+      "routePreference": "preferred",
+      "canonicalArrows": [
+        "π C1-C2 -> σ C1-C6",
+        "π C3-C4 -> π C2-C3",
+        "π C6-C7 -> σ C4-C7"
+      ],
+      "explanationAfterStep": "One concerted step makes a bicyclo[2.2.1]heptene: the CH₂ becomes the bridge. The anhydride ring can sit under the new C=C (endo) or point away from it, beside the CH₂ bridge (exo). The endo adduct forms almost exclusively, although exo is more stable: in the endo transition state the C=O π orbitals sit under the diene's middle carbons and overlap with them (secondary orbital interaction), lowering its energy. Endo is the kinetic product. The app does not check stereochemistry yet, so the drawings carry no wedges."
+    }
+  ],
+  "mechanismSummary": "Cyclopentadiene is held in the s-cis shape by its ring, and the two C=O groups of maleic anhydride lower the dienophile's LUMO, so this Diels–Alder reaction is fast at room temperature. Both new σ bonds form on the same face of each partner (suprafacial), so the cis relationship of the anhydride's carbons is kept in the product. The endo rule: the electron-withdrawing groups end up under the new C=C, because secondary orbital overlap in the endo transition state makes it lower in energy than the exo one, even though the exo product is more stable. The app does not check stereochemistry yet, so the drawings carry no wedges.",
+  "references": [
+    "Clayden, Greeves and Warren, Organic Chemistry, 2nd edition (Oxford University Press), chapter 34"
+  ],
+  "authors": [
+    {
+      "name": "Maksim",
+      "url": null
+    }
+  ],
+  "licence": "CC-BY-SA-4.0"
+}

@@ -1,0 +1,1315 @@
+{
+  "formatVersion": 1,
+  "reactionSlug": "fmoc-deprotection-with-piperidine",
+  "reactionVersion": 1,
+  "previousReactionVersion": null,
+  "title": "Removing an Fmoc group with piperidine",
+  "subtitle": "An acidic C–H, an E1cB elimination, and piperidine traps dibenzofulvene",
+  "reactionClasses": [
+    "elimination",
+    "addition"
+  ],
+  "difficultyTier": 3,
+  "conditionsLabel": "piperidine (20%) · DMF · 25 °C",
+  "dailyPuzzleEligible": true,
+  "atomRoleToMapNumbers": {
+    "acidicCarbon": [
+      1
+    ],
+    "carbamateNitrogen": [
+      7
+    ]
+  },
+  "spectatorMapNumbers": [],
+  "abbreviatedGroups": [
+    {
+      "groupLabel": "CO₂Me",
+      "attachmentMapNumber": 9,
+      "mapNumbers": [
+        9,
+        12,
+        10,
+        11
+      ]
+    }
+  ],
+  "startStateId": "reactants",
+  "stateIdToState": {
+    "reactants": {
+      "mappedSmiles": "[H:2][C:1]1([CH2:3][O:4][C:5](=[O:6])[NH:7][CH2:8][C:9](=[O:12])[O:10][CH3:11])[C:13]2=[CH:14][CH:15]=[CH:16][CH:17]=[C:18]2[C:19]2=[CH:20][CH:21]=[CH:22][CH:23]=[C:24]21.[NH:30]3[CH2:31][CH2:32][CH2:33][CH2:34][CH2:35]3.[H:41][N:40]4[CH2:42][CH2:43][CH2:44][CH2:45][CH2:46]4",
+      "mapNumberToCoordinates": {
+        "1": [
+          2.97,
+          -0.31
+        ],
+        "2": [
+          3.12,
+          1.18
+        ],
+        "3": [
+          4.47,
+          -0.31
+        ],
+        "4": [
+          5.22,
+          0.99
+        ],
+        "5": [
+          6.72,
+          0.99
+        ],
+        "6": [
+          7.47,
+          -0.31
+        ],
+        "7": [
+          7.47,
+          2.29
+        ],
+        "8": [
+          8.97,
+          2.29
+        ],
+        "9": [
+          9.72,
+          3.59
+        ],
+        "10": [
+          11.22,
+          3.59
+        ],
+        "11": [
+          11.97,
+          4.88
+        ],
+        "12": [
+          8.97,
+          4.88
+        ],
+        "13": [
+          1.5,
+          0
+        ],
+        "14": [
+          0.75,
+          1.3
+        ],
+        "15": [
+          -0.75,
+          1.3
+        ],
+        "16": [
+          -1.5,
+          0
+        ],
+        "17": [
+          -0.75,
+          -1.3
+        ],
+        "18": [
+          0.75,
+          -1.3
+        ],
+        "19": [
+          1.75,
+          -2.41
+        ],
+        "20": [
+          1.6,
+          -3.91
+        ],
+        "21": [
+          2.81,
+          -4.79
+        ],
+        "22": [
+          4.18,
+          -4.18
+        ],
+        "23": [
+          4.34,
+          -2.69
+        ],
+        "24": [
+          3.12,
+          -1.8
+        ],
+        "30": [
+          1.5,
+          7.18
+        ],
+        "31": [
+          0.75,
+          8.48
+        ],
+        "32": [
+          -0.75,
+          8.48
+        ],
+        "33": [
+          -1.5,
+          7.18
+        ],
+        "34": [
+          -0.75,
+          5.88
+        ],
+        "35": [
+          0.75,
+          5.88
+        ],
+        "40": [
+          1.65,
+          12.07
+        ],
+        "41": [
+          3.15,
+          12.07
+        ],
+        "42": [
+          0.9,
+          13.37
+        ],
+        "43": [
+          -0.6,
+          13.37
+        ],
+        "44": [
+          -1.35,
+          12.07
+        ],
+        "45": [
+          -0.6,
+          10.77
+        ],
+        "46": [
+          0.9,
+          10.77
+        ]
+      },
+      "caption": "Fmoc-glycine methyl ester in 20% piperidine–DMF",
+      "learnerPrompt": "Piperidine is a base here. Draw the first step.",
+      "hintTiers": [
+        "The hydrogen on the five-membered ring carbon of the fluorene is unusually acidic (pKa about 23). Why? What would its conjugate base be?",
+        "A piperidine nitrogen takes that ring C–H proton, and the C–H pair stays on the carbon: the anion is aromatic. Two arrows.",
+        "Piperidine nitrogen lone pair → new N–H bond to the hydrogen on the five-membered ring carbon; that C–H bond → a lone pair on the carbon."
+      ],
+      "misconceptions": [
+        {
+          "misconceptionId": "piperidine-attacks-carbamate",
+          "misconceptionTag": "wrong-electrophile",
+          "severity": "plausible",
+          "arrowPattern": "lp N30 -> C5",
+          "feedbackMessage": "A carbamate C=O is a poor electrophile, and piperidine does not attack it here. The acidic C–H of the fluorene reacts first."
+        },
+        {
+          "misconceptionId": "piperidine-sn2",
+          "misconceptionTag": "wrong-electrophile",
+          "severity": "wrong",
+          "arrowPattern": "lp N30 -> C3",
+          "feedbackMessage": "A carbamate oxygen is a poor leaving group in an SN2 step. Remove the acidic proton first: the elimination that follows is easy."
+        }
+      ],
+      "partialProgressMessages": [
+        {
+          "learnerArrows": [
+            "lp N30 -> σ N30-H2"
+          ],
+          "feedbackMessage": "Right proton. Now let the C–H bonding pair stay on the carbon."
+        }
+      ]
+    },
+    "fluorenyl-anion": {
+      "mappedSmiles": "[C-:1]1([CH2:3][O:4][C:5](=[O:6])[NH:7][CH2:8][C:9](=[O:12])[O:10][CH3:11])[C:13]2=[CH:14][CH:15]=[CH:16][CH:17]=[C:18]2[C:19]2=[CH:20][CH:21]=[CH:22][CH:23]=[C:24]21.[NH+:30]3([H:2])[CH2:31][CH2:32][CH2:33][CH2:34][CH2:35]3.[H:41][N:40]4[CH2:42][CH2:43][CH2:44][CH2:45][CH2:46]4",
+      "mapNumberToCoordinates": {
+        "1": [
+          2.97,
+          -0.31
+        ],
+        "2": [
+          3,
+          5
+        ],
+        "3": [
+          4.08,
+          0.69
+        ],
+        "4": [
+          5.51,
+          0.23
+        ],
+        "5": [
+          6.62,
+          1.23
+        ],
+        "6": [
+          6.31,
+          2.7
+        ],
+        "7": [
+          8.05,
+          0.77
+        ],
+        "8": [
+          9.16,
+          1.77
+        ],
+        "9": [
+          10.59,
+          1.31
+        ],
+        "10": [
+          11.71,
+          2.31
+        ],
+        "11": [
+          13.13,
+          1.85
+        ],
+        "12": [
+          10.9,
+          -0.16
+        ],
+        "13": [
+          1.5,
+          0
+        ],
+        "14": [
+          0.75,
+          1.3
+        ],
+        "15": [
+          -0.75,
+          1.3
+        ],
+        "16": [
+          -1.5,
+          0
+        ],
+        "17": [
+          -0.75,
+          -1.3
+        ],
+        "18": [
+          0.75,
+          -1.3
+        ],
+        "19": [
+          1.75,
+          -2.41
+        ],
+        "20": [
+          1.6,
+          -3.91
+        ],
+        "21": [
+          2.81,
+          -4.79
+        ],
+        "22": [
+          4.18,
+          -4.18
+        ],
+        "23": [
+          4.34,
+          -2.69
+        ],
+        "24": [
+          3.12,
+          -1.8
+        ],
+        "30": [
+          1.5,
+          5
+        ],
+        "31": [
+          0.75,
+          6.3
+        ],
+        "32": [
+          -0.75,
+          6.3
+        ],
+        "33": [
+          -1.5,
+          5
+        ],
+        "34": [
+          -0.75,
+          3.7
+        ],
+        "35": [
+          0.75,
+          3.7
+        ],
+        "40": [
+          1.5,
+          9.9
+        ],
+        "41": [
+          3,
+          9.9
+        ],
+        "42": [
+          0.75,
+          11.2
+        ],
+        "43": [
+          -0.75,
+          11.2
+        ],
+        "44": [
+          -1.5,
+          9.9
+        ],
+        "45": [
+          -0.75,
+          8.6
+        ],
+        "46": [
+          0.75,
+          8.6
+        ]
+      },
+      "caption": "the fluorenyl anion + piperidinium",
+      "learnerPrompt": "The anion pushes out the leaving group.",
+      "hintTiers": [
+        "The negative carbon is next to a CH₂ that carries the carbamate oxygen. What kind of elimination follows a carbanion?",
+        "The carbanion lone pair forms a C=C bond to the CH₂, and the CH₂–O bond breaks, its pair going to oxygen: an E1cB elimination. Two arrows.",
+        "Ring carbon lone pair → C=C π bond to the CH₂; CH₂–O bond → a lone pair on that oxygen."
+      ],
+      "misconceptions": [
+        {
+          "misconceptionId": "anion-reprotonated",
+          "misconceptionTag": "reverse-step",
+          "severity": "plausible",
+          "arrowPattern": "lp C1 -> H2",
+          "feedbackMessage": "Taking the proton back just returns to the start. The anion expels the carbamate."
+        }
+      ]
+    },
+    "dibenzofulvene": {
+      "mappedSmiles": "[C:1]1(=[CH2:3])[C:13]2=[CH:14][CH:15]=[CH:16][CH:17]=[C:18]2[C:19]2=[CH:20][CH:21]=[CH:22][CH:23]=[C:24]21.[O-:4][C:5](=[O:6])[NH:7][CH2:8][C:9](=[O:12])[O:10][CH3:11].[NH+:30]3([H:2])[CH2:31][CH2:32][CH2:33][CH2:34][CH2:35]3.[H:41][N:40]4[CH2:42][CH2:43][CH2:44][CH2:45][CH2:46]4",
+      "mapNumberToCoordinates": {
+        "1": [
+          2.97,
+          -0.31
+        ],
+        "2": [
+          10.82,
+          0.25
+        ],
+        "3": [
+          4.08,
+          0.69
+        ],
+        "4": [
+          7.79,
+          7.4
+        ],
+        "5": [
+          6.5,
+          8.15
+        ],
+        "6": [
+          6.5,
+          9.65
+        ],
+        "7": [
+          5.2,
+          7.4
+        ],
+        "8": [
+          3.9,
+          8.15
+        ],
+        "9": [
+          2.6,
+          7.4
+        ],
+        "10": [
+          1.3,
+          8.15
+        ],
+        "11": [
+          0,
+          7.4
+        ],
+        "12": [
+          2.6,
+          5.9
+        ],
+        "13": [
+          1.5,
+          0
+        ],
+        "14": [
+          0.75,
+          1.3
+        ],
+        "15": [
+          -0.75,
+          1.3
+        ],
+        "16": [
+          -1.5,
+          0
+        ],
+        "17": [
+          -0.75,
+          -1.3
+        ],
+        "18": [
+          0.75,
+          -1.3
+        ],
+        "19": [
+          1.75,
+          -2.41
+        ],
+        "20": [
+          1.6,
+          -3.91
+        ],
+        "21": [
+          2.81,
+          -4.79
+        ],
+        "22": [
+          4.18,
+          -4.18
+        ],
+        "23": [
+          4.34,
+          -2.69
+        ],
+        "24": [
+          3.12,
+          -1.8
+        ],
+        "30": [
+          9.32,
+          0.25
+        ],
+        "31": [
+          8.57,
+          1.55
+        ],
+        "32": [
+          7.07,
+          1.55
+        ],
+        "33": [
+          6.32,
+          0.25
+        ],
+        "34": [
+          7.07,
+          -1.05
+        ],
+        "35": [
+          8.57,
+          -1.05
+        ],
+        "40": [
+          -1.03,
+          4.65
+        ],
+        "41": [
+          0.47,
+          4.65
+        ],
+        "42": [
+          -1.78,
+          5.95
+        ],
+        "43": [
+          -3.28,
+          5.95
+        ],
+        "44": [
+          -4.03,
+          4.65
+        ],
+        "45": [
+          -3.28,
+          3.35
+        ],
+        "46": [
+          -1.78,
+          3.35
+        ]
+      },
+      "caption": "dibenzofulvene + carbamate anion + piperidinium",
+      "learnerPrompt": "Piperidine traps the dibenzofulvene.",
+      "hintTiers": [
+        "Dibenzofulvene is a reactive Michael acceptor. Which end of its C=C bond does a nucleophile attack so that the aromatic anion forms again?",
+        "The nitrogen of the second piperidine bonds to the CH₂ end, and the C=C π pair moves onto the ring carbon. Two arrows.",
+        "Second piperidine nitrogen lone pair → new N–C bond to the CH₂; C=C π bond → a lone pair on the ring carbon."
+      ],
+      "misconceptions": [
+        {
+          "misconceptionId": "attack-ring-carbon",
+          "misconceptionTag": "wrong-end",
+          "severity": "wrong",
+          "arrowPattern": "lp N40 -> C1",
+          "feedbackMessage": "Attack at the ring carbon would put the negative charge on the CH₂, with nothing to stabilise it. Attack the CH₂: the charge then goes onto the ring carbon, as the aromatic fluorenyl anion."
+        },
+        {
+          "misconceptionId": "carbamate-protonated-first",
+          "misconceptionTag": "other-order",
+          "severity": "plausible",
+          "arrowPattern": "lp N7 -> H2",
+          "feedbackMessage": "That proton transfer also happens: the carbamate loses CO₂ while the dibenzofulvene is being trapped, in no fixed order. This reaction traps the dibenzofulvene first; try that."
+        }
+      ]
+    },
+    "adduct-zwitterion": {
+      "mappedSmiles": "[C-:1]1([CH2:3][N+:40]4([H:41])[CH2:42][CH2:43][CH2:44][CH2:45][CH2:46]4)[C:13]2=[CH:14][CH:15]=[CH:16][CH:17]=[C:18]2[C:19]2=[CH:20][CH:21]=[CH:22][CH:23]=[C:24]21.[O-:4][C:5](=[O:6])[NH:7][CH2:8][C:9](=[O:12])[O:10][CH3:11].[NH+:30]3([H:2])[CH2:31][CH2:32][CH2:33][CH2:34][CH2:35]3",
+      "mapNumberToCoordinates": {
+        "1": [
+          2.97,
+          -0.31
+        ],
+        "2": [
+          2.84,
+          4.86
+        ],
+        "3": [
+          4.08,
+          0.69
+        ],
+        "4": [
+          18.16,
+          0.12
+        ],
+        "5": [
+          16.86,
+          0.87
+        ],
+        "6": [
+          16.86,
+          2.37
+        ],
+        "7": [
+          15.56,
+          0.12
+        ],
+        "8": [
+          14.26,
+          0.87
+        ],
+        "9": [
+          12.97,
+          0.12
+        ],
+        "10": [
+          11.67,
+          0.87
+        ],
+        "11": [
+          10.37,
+          0.12
+        ],
+        "12": [
+          12.97,
+          -1.38
+        ],
+        "13": [
+          1.5,
+          0
+        ],
+        "14": [
+          0.75,
+          1.3
+        ],
+        "15": [
+          -0.75,
+          1.3
+        ],
+        "16": [
+          -1.5,
+          0
+        ],
+        "17": [
+          -0.75,
+          -1.3
+        ],
+        "18": [
+          0.75,
+          -1.3
+        ],
+        "19": [
+          1.75,
+          -2.41
+        ],
+        "20": [
+          1.6,
+          -3.91
+        ],
+        "21": [
+          2.81,
+          -4.79
+        ],
+        "22": [
+          4.18,
+          -4.18
+        ],
+        "23": [
+          4.34,
+          -2.69
+        ],
+        "24": [
+          3.12,
+          -1.8
+        ],
+        "30": [
+          1.34,
+          4.86
+        ],
+        "31": [
+          0.59,
+          6.16
+        ],
+        "32": [
+          -0.91,
+          6.16
+        ],
+        "33": [
+          -1.66,
+          4.86
+        ],
+        "34": [
+          -0.91,
+          3.56
+        ],
+        "35": [
+          0.59,
+          3.56
+        ],
+        "40": [
+          5.51,
+          0.23
+        ],
+        "41": [
+          4.8,
+          -1.1
+        ],
+        "42": [
+          5.72,
+          1.71
+        ],
+        "43": [
+          7.11,
+          2.28
+        ],
+        "44": [
+          8.29,
+          1.35
+        ],
+        "45": [
+          8.08,
+          -0.13
+        ],
+        "46": [
+          6.69,
+          -0.7
+        ]
+      },
+      "caption": "the piperidine adduct (as its zwitterion) + carbamate + piperidinium",
+      "learnerPrompt": "Put a proton on the carbanion.",
+      "hintTiers": [
+        "The fluorenyl carbanion is a base. Which acid in the flask can give it a proton?",
+        "The ring carbon lone pair takes a proton from the piperidinium ion, and the N–H pair stays on that nitrogen. Two arrows.",
+        "Ring carbon lone pair → new C–H bond to a piperidinium proton; that N–H bond → a lone pair on the piperidinium nitrogen."
+      ],
+      "misconceptions": [
+        {
+          "misconceptionId": "adduct-falls-apart",
+          "misconceptionTag": "reverse-step",
+          "severity": "plausible",
+          "arrowPattern": "σ N40-C3 -> lp N40",
+          "feedbackMessage": "Losing piperidine again just gives back dibenzofulvene. Protonate the carbanion so the adduct stays."
+        }
+      ]
+    },
+    "adduct": {
+      "mappedSmiles": "[H:2][C:1]1([CH2:3][N+:40]4([H:41])[CH2:42][CH2:43][CH2:44][CH2:45][CH2:46]4)[C:13]2=[CH:14][CH:15]=[CH:16][CH:17]=[C:18]2[C:19]2=[CH:20][CH:21]=[CH:22][CH:23]=[C:24]21.[O-:4][C:5](=[O:6])[NH:7][CH2:8][C:9](=[O:12])[O:10][CH3:11].[NH:30]3[CH2:31][CH2:32][CH2:33][CH2:34][CH2:35]3",
+      "mapNumberToCoordinates": {
+        "1": [
+          2.97,
+          -0.31
+        ],
+        "2": [
+          2.94,
+          1.19
+        ],
+        "3": [
+          4.47,
+          -0.31
+        ],
+        "4": [
+          17.82,
+          0.07
+        ],
+        "5": [
+          16.52,
+          0.82
+        ],
+        "6": [
+          16.52,
+          2.32
+        ],
+        "7": [
+          15.22,
+          0.07
+        ],
+        "8": [
+          13.92,
+          0.82
+        ],
+        "9": [
+          12.62,
+          0.07
+        ],
+        "10": [
+          11.33,
+          0.82
+        ],
+        "11": [
+          10.03,
+          0.07
+        ],
+        "12": [
+          12.62,
+          -1.43
+        ],
+        "13": [
+          1.5,
+          0
+        ],
+        "14": [
+          0.75,
+          1.3
+        ],
+        "15": [
+          -0.75,
+          1.3
+        ],
+        "16": [
+          -1.5,
+          0
+        ],
+        "17": [
+          -0.75,
+          -1.3
+        ],
+        "18": [
+          0.75,
+          -1.3
+        ],
+        "19": [
+          1.75,
+          -2.41
+        ],
+        "20": [
+          1.6,
+          -3.91
+        ],
+        "21": [
+          2.81,
+          -4.79
+        ],
+        "22": [
+          4.18,
+          -4.18
+        ],
+        "23": [
+          4.34,
+          -2.69
+        ],
+        "24": [
+          3.12,
+          -1.8
+        ],
+        "30": [
+          1.5,
+          5.28
+        ],
+        "31": [
+          0.75,
+          6.58
+        ],
+        "32": [
+          -0.75,
+          6.58
+        ],
+        "33": [
+          -1.5,
+          5.28
+        ],
+        "34": [
+          -0.75,
+          3.98
+        ],
+        "35": [
+          0.75,
+          3.98
+        ],
+        "40": [
+          5.22,
+          0.99
+        ],
+        "41": [
+          3.88,
+          1.67
+        ],
+        "42": [
+          6.37,
+          0.02
+        ],
+        "43": [
+          7.78,
+          0.54
+        ],
+        "44": [
+          8.04,
+          2.01
+        ],
+        "45": [
+          6.89,
+          2.98
+        ],
+        "46": [
+          5.48,
+          2.46
+        ]
+      },
+      "caption": "protonated piperidine adduct + carbamate anion + piperidine",
+      "learnerPrompt": "The carbamate is ready to lose CO₂. First, move a proton.",
+      "hintTiers": [
+        "A carbamate loses CO₂ from the form with a proton on nitrogen. Which ammonium ion can supply it?",
+        "The carbamate nitrogen takes the N–H proton of the adduct, and that N–H pair stays on the adduct nitrogen. Two arrows.",
+        "Carbamate nitrogen lone pair → new N–H bond to the adduct's N–H proton; that N–H bond → a lone pair on the adduct nitrogen."
+      ],
+      "misconceptions": [
+        {
+          "misconceptionId": "protonate-carbamate-oxygen",
+          "misconceptionTag": "unproductive-protonation",
+          "severity": "plausible",
+          "arrowPattern": "lp O4 -> H41",
+          "feedbackMessage": "Protonating oxygen gives the carbamic acid, which is real, but CO₂ is lost from the form with the proton on nitrogen. Protonate the nitrogen."
+        }
+      ]
+    },
+    "carbamate-zwitterion": {
+      "mappedSmiles": "[H:2][C:1]1([CH2:3][N:40]4[CH2:42][CH2:43][CH2:44][CH2:45][CH2:46]4)[C:13]2=[CH:14][CH:15]=[CH:16][CH:17]=[C:18]2[C:19]2=[CH:20][CH:21]=[CH:22][CH:23]=[C:24]21.[O-:4][C:5](=[O:6])[NH+:7]([H:41])[CH2:8][C:9](=[O:12])[O:10][CH3:11].[NH:30]3[CH2:31][CH2:32][CH2:33][CH2:34][CH2:35]3",
+      "mapNumberToCoordinates": {
+        "1": [
+          2.97,
+          -0.31
+        ],
+        "2": [
+          3.12,
+          1.18
+        ],
+        "3": [
+          4.47,
+          -0.31
+        ],
+        "4": [
+          15.25,
+          -2.26
+        ],
+        "5": [
+          13.95,
+          -1.51
+        ],
+        "6": [
+          12.65,
+          -2.26
+        ],
+        "7": [
+          13.95,
+          -0.01
+        ],
+        "8": [
+          12.65,
+          0.74
+        ],
+        "9": [
+          11.36,
+          -0.01
+        ],
+        "10": [
+          10.06,
+          0.74
+        ],
+        "11": [
+          8.76,
+          -0.01
+        ],
+        "12": [
+          11.36,
+          -1.51
+        ],
+        "13": [
+          1.5,
+          0
+        ],
+        "14": [
+          0.75,
+          1.3
+        ],
+        "15": [
+          -0.75,
+          1.3
+        ],
+        "16": [
+          -1.5,
+          0
+        ],
+        "17": [
+          -0.75,
+          -1.3
+        ],
+        "18": [
+          0.75,
+          -1.3
+        ],
+        "19": [
+          1.75,
+          -2.41
+        ],
+        "20": [
+          1.6,
+          -3.91
+        ],
+        "21": [
+          2.81,
+          -4.79
+        ],
+        "22": [
+          4.18,
+          -4.18
+        ],
+        "23": [
+          4.34,
+          -2.69
+        ],
+        "24": [
+          3.12,
+          -1.8
+        ],
+        "30": [
+          1.5,
+          5.88
+        ],
+        "31": [
+          0.75,
+          7.18
+        ],
+        "32": [
+          -0.75,
+          7.18
+        ],
+        "33": [
+          -1.5,
+          5.88
+        ],
+        "34": [
+          -0.75,
+          4.59
+        ],
+        "35": [
+          0.75,
+          4.59
+        ],
+        "40": [
+          5.22,
+          0.99
+        ],
+        "41": [
+          15.25,
+          0.74
+        ],
+        "42": [
+          6.72,
+          0.99
+        ],
+        "43": [
+          7.47,
+          2.29
+        ],
+        "44": [
+          6.72,
+          3.59
+        ],
+        "45": [
+          5.22,
+          3.59
+        ],
+        "46": [
+          4.47,
+          2.29
+        ]
+      },
+      "caption": "neutral piperidine adduct + carbamate zwitterion",
+      "learnerPrompt": "Lose CO₂.",
+      "hintTiers": [
+        "The negative oxygen pushes, and the ammonium nitrogen leaves. Which bond breaks?",
+        "The O⁻ lone pair forms a second C=O bond and the C–N bond breaks, its pair going to nitrogen. Two arrows.",
+        "O⁻ lone pair → C=O π bond; C–N bond → a lone pair on nitrogen."
+      ],
+      "misconceptions": [
+        {
+          "misconceptionId": "give-proton-back",
+          "misconceptionTag": "reverse-step",
+          "severity": "plausible",
+          "arrowPattern": "σ N7-H41 -> lp N7",
+          "feedbackMessage": "That just moves the proton back. Break the C–N bond and release CO₂."
+        }
+      ]
+    },
+    "products": {
+      "mappedSmiles": "[H:2][C:1]1([CH2:3][N:40]4[CH2:42][CH2:43][CH2:44][CH2:45][CH2:46]4)[C:13]2=[CH:14][CH:15]=[CH:16][CH:17]=[C:18]2[C:19]2=[CH:20][CH:21]=[CH:22][CH:23]=[C:24]21.[O:4]=[C:5]=[O:6].[NH:7]([H:41])[CH2:8][C:9](=[O:12])[O:10][CH3:11].[NH:30]3[CH2:31][CH2:32][CH2:33][CH2:34][CH2:35]3",
+      "mapNumberToCoordinates": {
+        "1": [
+          2.97,
+          -0.31
+        ],
+        "2": [
+          3.12,
+          1.18
+        ],
+        "3": [
+          4.47,
+          -0.31
+        ],
+        "4": [
+          0,
+          11.18
+        ],
+        "5": [
+          0,
+          9.68
+        ],
+        "6": [
+          0,
+          8.18
+        ],
+        "7": [
+          13.95,
+          0.01
+        ],
+        "8": [
+          12.65,
+          0.76
+        ],
+        "9": [
+          11.36,
+          0.01
+        ],
+        "10": [
+          10.06,
+          0.76
+        ],
+        "11": [
+          8.76,
+          0.01
+        ],
+        "12": [
+          11.36,
+          -1.49
+        ],
+        "13": [
+          1.5,
+          0
+        ],
+        "14": [
+          0.75,
+          1.3
+        ],
+        "15": [
+          -0.75,
+          1.3
+        ],
+        "16": [
+          -1.5,
+          0
+        ],
+        "17": [
+          -0.75,
+          -1.3
+        ],
+        "18": [
+          0.75,
+          -1.3
+        ],
+        "19": [
+          1.75,
+          -2.41
+        ],
+        "20": [
+          1.6,
+          -3.91
+        ],
+        "21": [
+          2.81,
+          -4.79
+        ],
+        "22": [
+          4.18,
+          -4.18
+        ],
+        "23": [
+          4.34,
+          -2.69
+        ],
+        "24": [
+          3.12,
+          -1.8
+        ],
+        "30": [
+          -0.28,
+          4.86
+        ],
+        "31": [
+          -1.03,
+          6.16
+        ],
+        "32": [
+          -2.53,
+          6.16
+        ],
+        "33": [
+          -3.28,
+          4.86
+        ],
+        "34": [
+          -2.53,
+          3.56
+        ],
+        "35": [
+          -1.03,
+          3.56
+        ],
+        "40": [
+          5.22,
+          0.99
+        ],
+        "41": [
+          15.25,
+          0.76
+        ],
+        "42": [
+          6.72,
+          0.99
+        ],
+        "43": [
+          7.47,
+          2.29
+        ],
+        "44": [
+          6.72,
+          3.59
+        ],
+        "45": [
+          5.22,
+          3.59
+        ],
+        "46": [
+          4.47,
+          2.29
+        ]
+      },
+      "caption": "glycine methyl ester + CO₂ + the piperidine–dibenzofulvene adduct + piperidine"
+    }
+  },
+  "steps": [
+    {
+      "stepKey": "deprotonation",
+      "fromStateId": "reactants",
+      "toStateId": "fluorenyl-anion",
+      "stepKind": "polar",
+      "routePreference": "preferred",
+      "canonicalArrows": [
+        "lp N30 -> σ N30-H2",
+        "σ C1-H2 -> lp C1"
+      ],
+      "explanationAfterStep": "Piperidine removes the acidic fluorene C–H. The anion is aromatic: the five-membered ring carries six π electrons, like the cyclopentadienyl anion, and the charge spreads into both benzene rings."
+    },
+    {
+      "stepKey": "e1cb-elimination",
+      "fromStateId": "fluorenyl-anion",
+      "toStateId": "dibenzofulvene",
+      "stepKind": "polar",
+      "routePreference": "preferred",
+      "canonicalArrows": [
+        "lp C1 -> π C1-C3",
+        "σ C3-O4 -> lp O4"
+      ],
+      "explanationAfterStep": "The carbanion expels the carbamate from the next carbon: an E1cB elimination. Dibenzofulvene and the carbamate anion form."
+    },
+    {
+      "stepKey": "piperidine-traps",
+      "fromStateId": "dibenzofulvene",
+      "toStateId": "adduct-zwitterion",
+      "stepKind": "polar",
+      "routePreference": "preferred",
+      "canonicalArrows": [
+        "lp N40 -> σ N40-C3",
+        "π C1-C3 -> lp C1"
+      ],
+      "explanationAfterStep": "Excess piperidine adds to the CH₂ end of dibenzofulvene, a conjugate addition that re-forms the aromatic anion. Trapping matters: free dibenzofulvene would otherwise react with the newly freed amine."
+    },
+    {
+      "stepKey": "carbanion-protonated",
+      "fromStateId": "adduct-zwitterion",
+      "toStateId": "adduct",
+      "stepKind": "polar",
+      "routePreference": "preferred",
+      "canonicalArrows": [
+        "lp C1 -> σ C1-H2",
+        "σ N30-H2 -> lp N30"
+      ],
+      "explanationAfterStep": "The carbanion takes a proton from piperidinium. The first piperidine was a catalyst for the elimination; the second is used up in the adduct."
+    },
+    {
+      "stepKey": "carbamate-n-protonated",
+      "fromStateId": "adduct",
+      "toStateId": "carbamate-zwitterion",
+      "stepKind": "polar",
+      "routePreference": "preferred",
+      "canonicalArrows": [
+        "lp N7 -> σ N7-H41",
+        "σ N40-H41 -> lp N40"
+      ],
+      "explanationAfterStep": "A proton moves to the carbamate nitrogen, giving the zwitterion that can lose CO₂."
+    },
+    {
+      "stepKey": "lose-co2",
+      "fromStateId": "carbamate-zwitterion",
+      "toStateId": "products",
+      "stepKind": "polar",
+      "routePreference": "preferred",
+      "canonicalArrows": [
+        "lp O4 -> π O4-C5",
+        "σ C5-N7 -> lp N7"
+      ],
+      "explanationAfterStep": "CO₂ is lost and the free amine is ready for the next coupling. In solid-phase peptide synthesis the dibenzofulvene adduct absorbs strongly at about 300 nm, which is used to follow each deprotection."
+    }
+  ],
+  "mechanismSummary": "Piperidine removes the acidic proton at the five-membered ring carbon of the fluorenyl group; the anion is aromatic. It expels the carbamate in an E1cB elimination, giving dibenzofulvene. A second piperidine adds to the dibenzofulvene (a conjugate addition) and the carbanion is protonated. The carbamate takes a proton on nitrogen and loses CO₂, freeing the amine. The trapping and the loss of CO₂ happen in no fixed order; the app follows one. Fmoc is removed by base and survives acid, the opposite of Boc: in solid-phase peptide synthesis, Fmoc protects the α-amino group and acid-labile tert-butyl groups protect the side chains.",
+  "references": [
+    "Clayden, Greeves and Warren, Organic Chemistry, 2nd edition (Oxford University Press), chapter 23",
+    "Wuts, Greene's Protective Groups in Organic Synthesis, 5th edition (Wiley), chapter 7 (carbamates)"
+  ],
+  "authors": [
+    {
+      "name": "Maksim",
+      "url": null
+    }
+  ],
+  "licence": "CC-BY-SA-4.0"
+}

@@ -1,0 +1,1157 @@
+{
+  "formatVersion": 1,
+  "reactionSlug": "julia-kocienski-olefination",
+  "reactionVersion": 1,
+  "previousReactionVersion": null,
+  "title": "Julia–Kocienski olefination",
+  "subtitle": "A PT-sulfone and benzaldehyde give an alkene in one pot, via a Smiles rearrangement",
+  "reactionClasses": [
+    "carbonyl",
+    "aromatic substitution",
+    "rearrangement",
+    "elimination"
+  ],
+  "difficultyTier": 3,
+  "conditionsLabel": "PT-SO₂Et · KHMDS · PhCHO · DME · −60 °C → rt",
+  "dailyPuzzleEligible": true,
+  "atomRoleToMapNumbers": {},
+  "spectatorMapNumbers": [
+    21
+  ],
+  "abbreviatedGroups": [
+    {
+      "groupLabel": "Ph",
+      "attachmentMapNumber": 31,
+      "mapNumbers": [
+        31,
+        32,
+        33,
+        34,
+        35,
+        36
+      ]
+    },
+    {
+      "groupLabel": "Ph",
+      "attachmentMapNumber": 41,
+      "mapNumbers": [
+        41,
+        42,
+        43,
+        44,
+        45,
+        46
+      ]
+    },
+    {
+      "groupLabel": "TMS",
+      "attachmentMapNumber": 13,
+      "mapNumbers": [
+        13,
+        14,
+        15,
+        16
+      ]
+    },
+    {
+      "groupLabel": "TMS",
+      "attachmentMapNumber": 17,
+      "mapNumbers": [
+        17,
+        18,
+        19,
+        20
+      ]
+    }
+  ],
+  "startStateId": "reactants",
+  "stateIdToState": {
+    "reactants": {
+      "mappedSmiles": "[CH3:3][CH:1]([H:2])[S:4](=[O:5])(=[O:6])[C:7]1=[N:8][N:9]=[N:10][N:11]1[C:31]9=[CH:32][CH:33]=[CH:34][CH:35]=[CH:36]9.[N-:12]([Si:13]([CH3:14])([CH3:15])[CH3:16])[Si:17]([CH3:18])([CH3:19])[CH3:20].[K+:21].[O:23]=[CH:22][C:41]9=[CH:42][CH:43]=[CH:44][CH:45]=[CH:46]9",
+      "mapNumberToCoordinates": {
+        "1": [
+          2.95,
+          -4.07
+        ],
+        "2": [
+          1.49,
+          -4.38
+        ],
+        "3": [
+          3.96,
+          -5.18
+        ],
+        "4": [
+          3.42,
+          -2.64
+        ],
+        "5": [
+          1.99,
+          -2.18
+        ],
+        "6": [
+          4.84,
+          -3.1
+        ],
+        "7": [
+          3.88,
+          -1.21
+        ],
+        "8": [
+          5.31,
+          -0.75
+        ],
+        "9": [
+          5.31,
+          0.75
+        ],
+        "10": [
+          3.88,
+          1.21
+        ],
+        "11": [
+          3,
+          0
+        ],
+        "12": [
+          8.15,
+          2.85
+        ],
+        "13": [
+          8.9,
+          1.55
+        ],
+        "14": [
+          7.6,
+          0.8
+        ],
+        "15": [
+          10.2,
+          2.3
+        ],
+        "16": [
+          9.65,
+          0.25
+        ],
+        "17": [
+          8.9,
+          4.15
+        ],
+        "18": [
+          7.6,
+          4.9
+        ],
+        "19": [
+          10.2,
+          3.4
+        ],
+        "20": [
+          9.65,
+          5.45
+        ],
+        "21": [
+          0,
+          5.9
+        ],
+        "22": [
+          5.77,
+          8.23
+        ],
+        "23": [
+          6.52,
+          6.93
+        ],
+        "31": [
+          1.5,
+          0
+        ],
+        "32": [
+          0.75,
+          1.3
+        ],
+        "33": [
+          -0.75,
+          1.3
+        ],
+        "34": [
+          -1.5,
+          0
+        ],
+        "35": [
+          -0.75,
+          -1.3
+        ],
+        "36": [
+          0.75,
+          -1.3
+        ],
+        "41": [
+          4.27,
+          8.23
+        ],
+        "42": [
+          3.52,
+          9.53
+        ],
+        "43": [
+          2.02,
+          9.53
+        ],
+        "44": [
+          1.27,
+          8.23
+        ],
+        "45": [
+          2.02,
+          6.93
+        ],
+        "46": [
+          3.52,
+          6.93
+        ]
+      },
+      "caption": "an ethyl PT-sulfone (PT = 1-phenyltetrazol-5-yl) + KHMDS + benzaldehyde",
+      "learnerPrompt": "Deprotonate the sulfone.",
+      "hintTiers": [
+        "A sulfone stabilises a negative charge on the carbon next to it. Which base is present?",
+        "The nitrogen of KHMDS takes the drawn proton on the carbon next to sulfur; the C–H pair stays on carbon. Two arrows.",
+        "Nitrogen lone pair of KHMDS → new bond to the drawn H; that C–H bond → a lone pair on carbon."
+      ],
+      "misconceptions": [
+        {
+          "misconceptionId": "base-adds-to-aldehyde",
+          "misconceptionTag": "base-as-nucleophile",
+          "severity": "wrong",
+          "arrowPattern": "lp N12 -> σ N12-C22",
+          "feedbackMessage": "KHMDS is a bulky, non-nucleophilic base: it removes protons rather than adding to C=O."
+        }
+      ],
+      "partialProgressMessages": [
+        {
+          "learnerArrows": [
+            "lp N12 -> σ N12-H2"
+          ],
+          "feedbackMessage": "Right: the base takes the proton. Now the C–H pair stays on carbon."
+        }
+      ]
+    },
+    "sulfonyl-anion": {
+      "mappedSmiles": "[CH3:3][CH-:1][S:4](=[O:5])(=[O:6])[C:7]1=[N:8][N:9]=[N:10][N:11]1[C:31]9=[CH:32][CH:33]=[CH:34][CH:35]=[CH:36]9.[H:2][N:12]([Si:13]([CH3:14])([CH3:15])[CH3:16])[Si:17]([CH3:18])([CH3:19])[CH3:20].[K+:21].[O:23]=[CH:22][C:41]9=[CH:42][CH:43]=[CH:44][CH:45]=[CH:46]9",
+      "mapNumberToCoordinates": {
+        "1": [
+          2.95,
+          -4.07
+        ],
+        "2": [
+          10.74,
+          3.61
+        ],
+        "3": [
+          1.49,
+          -4.38
+        ],
+        "4": [
+          3.42,
+          -2.64
+        ],
+        "5": [
+          1.99,
+          -2.18
+        ],
+        "6": [
+          4.84,
+          -3.1
+        ],
+        "7": [
+          3.88,
+          -1.21
+        ],
+        "8": [
+          5.31,
+          -0.75
+        ],
+        "9": [
+          5.31,
+          0.75
+        ],
+        "10": [
+          3.88,
+          1.21
+        ],
+        "11": [
+          3,
+          0
+        ],
+        "12": [
+          9.99,
+          2.31
+        ],
+        "13": [
+          10.74,
+          1.01
+        ],
+        "14": [
+          9.44,
+          0.26
+        ],
+        "15": [
+          12.04,
+          1.76
+        ],
+        "16": [
+          11.49,
+          -0.29
+        ],
+        "17": [
+          8.49,
+          2.31
+        ],
+        "18": [
+          8.49,
+          3.81
+        ],
+        "19": [
+          8.49,
+          0.81
+        ],
+        "20": [
+          6.99,
+          2.31
+        ],
+        "21": [
+          0,
+          5.9
+        ],
+        "22": [
+          6.52,
+          7
+        ],
+        "23": [
+          7.27,
+          5.7
+        ],
+        "31": [
+          1.5,
+          0
+        ],
+        "32": [
+          0.75,
+          1.3
+        ],
+        "33": [
+          -0.75,
+          1.3
+        ],
+        "34": [
+          -1.5,
+          0
+        ],
+        "35": [
+          -0.75,
+          -1.3
+        ],
+        "36": [
+          0.75,
+          -1.3
+        ],
+        "41": [
+          5.02,
+          7
+        ],
+        "42": [
+          4.27,
+          8.3
+        ],
+        "43": [
+          2.77,
+          8.3
+        ],
+        "44": [
+          2.02,
+          7
+        ],
+        "45": [
+          2.77,
+          5.7
+        ],
+        "46": [
+          4.27,
+          5.7
+        ]
+      },
+      "caption": "the α-sulfonyl carbanion + benzaldehyde",
+      "learnerPrompt": "The anion adds to the aldehyde.",
+      "hintTiers": [
+        "The carbanion is the nucleophile. Where is the electrophile?",
+        "The carbanion bonds to the aldehyde carbon, and the C=O π pair moves onto oxygen. Two arrows.",
+        "Carbanion lone pair → new bond to the aldehyde carbon; C=O π bond → a lone pair on oxygen."
+      ],
+      "misconceptions": [
+        {
+          "misconceptionId": "pi-onto-carbon",
+          "misconceptionTag": "wrong-direction",
+          "severity": "wrong",
+          "arrowPattern": "π C22-O23 -> lp C22",
+          "feedbackMessage": "The C=O π pair goes to oxygen, not to carbon."
+        },
+        {
+          "misconceptionId": "anion-attacks-tetrazole",
+          "misconceptionTag": "wrong-electrophile",
+          "severity": "plausible",
+          "arrowPattern": "lp C1 -> σ C1-C7",
+          "feedbackMessage": "The tetrazole carbon is electrophilic, and this self-condensation is a real side reaction. That is why the aldehyde is present when the base is added. Add to the aldehyde."
+        }
+      ],
+      "partialProgressMessages": [
+        {
+          "learnerArrows": [
+            "lp C1 -> σ C1-C22"
+          ],
+          "feedbackMessage": "Right: the new C–C bond. Now move the C=O π pair onto oxygen."
+        }
+      ]
+    },
+    "alkoxide": {
+      "mappedSmiles": "[CH3:3][CH:1]([CH:22]([O-:23])[C:41]9=[CH:42][CH:43]=[CH:44][CH:45]=[CH:46]9)[S:4](=[O:5])(=[O:6])[C:7]1=[N:8][N:9]=[N:10][N:11]1[C:31]9=[CH:32][CH:33]=[CH:34][CH:35]=[CH:36]9.[H:2][N:12]([Si:13]([CH3:14])([CH3:15])[CH3:16])[Si:17]([CH3:18])([CH3:19])[CH3:20].[K+:21]",
+      "mapNumberToCoordinates": {
+        "1": [
+          3.75,
+          -1.3
+        ],
+        "2": [
+          0.92,
+          7.27
+        ],
+        "3": [
+          5.25,
+          -1.3
+        ],
+        "4": [
+          3,
+          -2.6
+        ],
+        "5": [
+          4.3,
+          -3.35
+        ],
+        "6": [
+          1.7,
+          -1.85
+        ],
+        "7": [
+          2.25,
+          -3.9
+        ],
+        "8": [
+          0.76,
+          -4.05
+        ],
+        "9": [
+          0.45,
+          -5.52
+        ],
+        "10": [
+          1.75,
+          -6.27
+        ],
+        "11": [
+          2.86,
+          -5.27
+        ],
+        "12": [
+          0.17,
+          5.97
+        ],
+        "13": [
+          0.92,
+          4.67
+        ],
+        "14": [
+          -0.38,
+          3.92
+        ],
+        "15": [
+          2.22,
+          5.42
+        ],
+        "16": [
+          1.67,
+          3.37
+        ],
+        "17": [
+          -1.33,
+          5.97
+        ],
+        "18": [
+          -1.33,
+          7.47
+        ],
+        "19": [
+          -1.33,
+          4.47
+        ],
+        "20": [
+          -2.83,
+          5.97
+        ],
+        "21": [
+          8.26,
+          0
+        ],
+        "22": [
+          3,
+          0
+        ],
+        "23": [
+          3.75,
+          1.3
+        ],
+        "31": [
+          4.33,
+          -5.58
+        ],
+        "32": [
+          4.79,
+          -7.01
+        ],
+        "33": [
+          6.26,
+          -7.32
+        ],
+        "34": [
+          7.26,
+          -6.2
+        ],
+        "35": [
+          6.8,
+          -4.78
+        ],
+        "36": [
+          5.33,
+          -4.46
+        ],
+        "41": [
+          1.5,
+          0
+        ],
+        "42": [
+          0.75,
+          1.3
+        ],
+        "43": [
+          -0.75,
+          1.3
+        ],
+        "44": [
+          -1.5,
+          0
+        ],
+        "45": [
+          -0.75,
+          -1.3
+        ],
+        "46": [
+          0.75,
+          -1.3
+        ]
+      },
+      "caption": "the β-alkoxy sulfone",
+      "learnerPrompt": "Smiles rearrangement, part 1: the alkoxide attacks the tetrazole.",
+      "hintTiers": [
+        "The tetrazole carbon attached to sulfur is very electron-poor, like an aromatic ring with nitro groups. The alkoxide can reach it through a five-membered ring.",
+        "The alkoxide oxygen bonds to the tetrazole carbon on sulfur, and the C=N π pair of that carbon moves onto nitrogen. Two arrows.",
+        "Alkoxide lone pair → new bond to the tetrazole carbon bonded to sulfur; that carbon's C=N π bond → a lone pair on nitrogen."
+      ],
+      "misconceptions": [
+        {
+          "misconceptionId": "attack-sulfur",
+          "misconceptionTag": "wrong-electrophilic-atom",
+          "severity": "wrong",
+          "arrowPattern": "lp O23 -> σ O23-S4",
+          "feedbackMessage": "The oxygen attacks the tetrazole carbon, not sulfur: nucleophilic aromatic substitution, with the sulfinate as the leaving group."
+        },
+        {
+          "misconceptionId": "retro-addition",
+          "misconceptionTag": "reverse-step",
+          "severity": "plausible",
+          "arrowPattern": "σ C1-C22 -> lp C1",
+          "feedbackMessage": "That undoes the addition. Go forward: the alkoxide attacks the tetrazole."
+        }
+      ],
+      "partialProgressMessages": [
+        {
+          "learnerArrows": [
+            "lp O23 -> σ O23-C7"
+          ],
+          "feedbackMessage": "Right: oxygen bonds to the tetrazole carbon. That carbon now has five bonds: move its C=N π pair onto nitrogen."
+        }
+      ]
+    },
+    "spiro-adduct": {
+      "mappedSmiles": "[CH3:3][CH:1]1[CH:22]([C:41]9=[CH:42][CH:43]=[CH:44][CH:45]=[CH:46]9)[O:23][C:7]2([N-:8][N:9]=[N:10][N:11]2[C:31]9=[CH:32][CH:33]=[CH:34][CH:35]=[CH:36]9)[S:4]1(=[O:5])=[O:6].[H:2][N:12]([Si:13]([CH3:14])([CH3:15])[CH3:16])[Si:17]([CH3:18])([CH3:19])[CH3:20].[K+:21]",
+      "mapNumberToCoordinates": {
+        "1": [
+          3.58,
+          -0.75
+        ],
+        "2": [
+          0.86,
+          11.68
+        ],
+        "3": [
+          4.8,
+          -1.63
+        ],
+        "4": [
+          2.16,
+          -1.21
+        ],
+        "5": [
+          2.77,
+          -2.58
+        ],
+        "6": [
+          1.08,
+          -2.26
+        ],
+        "7": [
+          1.28,
+          0
+        ],
+        "8": [
+          0.39,
+          -1.21
+        ],
+        "9": [
+          -1.03,
+          -0.75
+        ],
+        "10": [
+          -1.03,
+          0.75
+        ],
+        "11": [
+          0.39,
+          1.21
+        ],
+        "12": [
+          0.11,
+          10.38
+        ],
+        "13": [
+          0.86,
+          9.08
+        ],
+        "14": [
+          -0.43,
+          8.33
+        ],
+        "15": [
+          2.16,
+          9.83
+        ],
+        "16": [
+          1.61,
+          7.78
+        ],
+        "17": [
+          -1.39,
+          10.38
+        ],
+        "18": [
+          -1.39,
+          11.88
+        ],
+        "19": [
+          -1.39,
+          8.88
+        ],
+        "20": [
+          -2.89,
+          10.38
+        ],
+        "21": [
+          8.53,
+          -0.04
+        ],
+        "22": [
+          3.58,
+          0.75
+        ],
+        "23": [
+          2.16,
+          1.21
+        ],
+        "31": [
+          0.86,
+          2.64
+        ],
+        "32": [
+          -0.15,
+          3.75
+        ],
+        "33": [
+          0.32,
+          5.18
+        ],
+        "34": [
+          1.78,
+          5.49
+        ],
+        "35": [
+          2.79,
+          4.38
+        ],
+        "36": [
+          2.33,
+          2.95
+        ],
+        "41": [
+          4.8,
+          1.63
+        ],
+        "42": [
+          6.17,
+          1.02
+        ],
+        "43": [
+          7.38,
+          1.9
+        ],
+        "44": [
+          7.22,
+          3.4
+        ],
+        "45": [
+          5.85,
+          4.01
+        ],
+        "46": [
+          4.64,
+          3.12
+        ]
+      },
+      "caption": "a spiro adduct (an anionic intermediate, like a Meisenheimer complex)",
+      "learnerPrompt": "Smiles rearrangement, part 2: sulfur leaves the tetrazole.",
+      "hintTiers": [
+        "The nitrogen lone pair can re-form the C=N bond. Which bond to the spiro carbon then breaks?",
+        "Three arrows: the nitrogen lone pair re-forms C=N, the C–S bond breaks onto sulfur, and an S=O π pair moves onto oxygen.",
+        "Nitrogen lone pair → C=N π bond; C–S bond → a lone pair on sulfur; one S=O π bond → a lone pair on that oxygen."
+      ],
+      "misconceptions": [
+        {
+          "misconceptionId": "oxygen-leaves",
+          "misconceptionTag": "reverse-step",
+          "severity": "plausible",
+          "arrowPattern": "σ C7-O23 -> lp O23",
+          "feedbackMessage": "That goes back to the alkoxide. The sulfur leaves instead, so the tetrazole moves from sulfur to oxygen."
+        },
+        {
+          "misconceptionId": "c-n-breaks",
+          "misconceptionTag": "wrong-bond",
+          "severity": "wrong",
+          "arrowPattern": "σ C7-N11 -> *",
+          "feedbackMessage": "The tetrazole ring stays intact. Break the C–S bond."
+        }
+      ]
+    },
+    "sulfinate": {
+      "mappedSmiles": "[CH3:3][CH:1]([S:4](=[O:6])[O-:5])[CH:22]([C:41]9=[CH:42][CH:43]=[CH:44][CH:45]=[CH:46]9)[O:23][C:7]1=[N:8][N:9]=[N:10][N:11]1[C:31]9=[CH:32][CH:33]=[CH:34][CH:35]=[CH:36]9.[H:2][N:12]([Si:13]([CH3:14])([CH3:15])[CH3:16])[Si:17]([CH3:18])([CH3:19])[CH3:20].[K+:21]",
+      "mapNumberToCoordinates": {
+        "1": [
+          3.75,
+          -1.3
+        ],
+        "2": [
+          13.61,
+          3.41
+        ],
+        "3": [
+          5.25,
+          -1.3
+        ],
+        "4": [
+          3,
+          -2.6
+        ],
+        "5": [
+          3.75,
+          -3.9
+        ],
+        "6": [
+          1.5,
+          -2.6
+        ],
+        "7": [
+          5.25,
+          1.3
+        ],
+        "8": [
+          6.13,
+          0.09
+        ],
+        "9": [
+          7.56,
+          0.55
+        ],
+        "10": [
+          7.56,
+          2.05
+        ],
+        "11": [
+          6.13,
+          2.51
+        ],
+        "12": [
+          12.86,
+          2.11
+        ],
+        "13": [
+          13.61,
+          0.81
+        ],
+        "14": [
+          12.31,
+          0.06
+        ],
+        "15": [
+          14.91,
+          1.56
+        ],
+        "16": [
+          14.36,
+          -0.49
+        ],
+        "17": [
+          11.36,
+          2.11
+        ],
+        "18": [
+          11.36,
+          3.61
+        ],
+        "19": [
+          11.36,
+          0.61
+        ],
+        "20": [
+          9.86,
+          2.11
+        ],
+        "21": [
+          0,
+          7.79
+        ],
+        "22": [
+          3,
+          0
+        ],
+        "23": [
+          3.75,
+          1.3
+        ],
+        "31": [
+          5.67,
+          3.94
+        ],
+        "32": [
+          6.67,
+          5.05
+        ],
+        "33": [
+          6.21,
+          6.48
+        ],
+        "34": [
+          4.74,
+          6.79
+        ],
+        "35": [
+          3.74,
+          5.68
+        ],
+        "36": [
+          4.2,
+          4.25
+        ],
+        "41": [
+          1.5,
+          0
+        ],
+        "42": [
+          0.75,
+          1.3
+        ],
+        "43": [
+          -0.75,
+          1.3
+        ],
+        "44": [
+          -1.5,
+          0
+        ],
+        "45": [
+          -0.75,
+          -1.3
+        ],
+        "46": [
+          0.75,
+          -1.3
+        ]
+      },
+      "caption": "a β-(tetrazolyloxy) sulfinate",
+      "learnerPrompt": "Eliminate: SO₂ and the tetrazolyloxide leave together.",
+      "hintTiers": [
+        "The sulfinate can lose SO₂, and the tetrazolyl ether oxygen is now a leaving group on the next carbon. One concerted step forms the C=C bond.",
+        "Three arrows: the sulfinate O⁻ re-forms S=O, the C–S bond becomes the C=C π bond, and the C–O bond breaks onto oxygen.",
+        "Sulfinate O⁻ lone pair → S=O π bond; C–S bond → C=C π bond; C–O(tetrazolyl) bond → a lone pair on that oxygen."
+      ],
+      "misconceptions": [
+        {
+          "misconceptionId": "sulfinate-attacks",
+          "misconceptionTag": "wrong-nucleophile",
+          "severity": "wrong",
+          "arrowPattern": "lp O5 -> σ O5-C*",
+          "feedbackMessage": "The sulfinate oxygen does not attack carbon here. Let the C–S bond go as SO₂ leaves."
+        },
+        {
+          "misconceptionId": "c-s-to-sulfur",
+          "misconceptionTag": "wrong-direction-of-cleavage",
+          "severity": "wrong",
+          "arrowPattern": "σ C1-S4 -> lp S4",
+          "feedbackMessage": "SO₂ leaves as a neutral molecule: the C–S bonding pair stays with carbon and becomes the C=C π bond."
+        }
+      ],
+      "partialProgressMessages": [
+        {
+          "learnerArrows": [
+            "σ S4-C1 -> π C1-C22",
+            "σ C22-O23 -> lp O23"
+          ],
+          "feedbackMessage": "Right: the C=C bond forms and the tetrazolyloxide leaves. Sulfur would be left positive: move the O⁻ lone pair into an S=O π bond to make neutral SO₂."
+        }
+      ]
+    },
+    "products": {
+      "mappedSmiles": "[CH3:3][CH:1]=[CH:22][C:41]9=[CH:42][CH:43]=[CH:44][CH:45]=[CH:46]9.[O:5]=[S:4]=[O:6].[O-:23][C:7]1=[N:8][N:9]=[N:10][N:11]1[C:31]9=[CH:32][CH:33]=[CH:34][CH:35]=[CH:36]9.[H:2][N:12]([Si:13]([CH3:14])([CH3:15])[CH3:16])[Si:17]([CH3:18])([CH3:19])[CH3:20].[K+:21]",
+      "mapNumberToCoordinates": {
+        "1": [
+          3.75,
+          -1.3
+        ],
+        "2": [
+          13.4,
+          1.94
+        ],
+        "3": [
+          5.25,
+          -1.3
+        ],
+        "4": [
+          1.3,
+          7.99
+        ],
+        "5": [
+          0,
+          7.24
+        ],
+        "6": [
+          2.6,
+          7.24
+        ],
+        "7": [
+          7.57,
+          2.49
+        ],
+        "8": [
+          9,
+          2.95
+        ],
+        "9": [
+          9,
+          4.45
+        ],
+        "10": [
+          7.57,
+          4.92
+        ],
+        "11": [
+          6.69,
+          3.7
+        ],
+        "12": [
+          12.65,
+          0.64
+        ],
+        "13": [
+          13.4,
+          -0.66
+        ],
+        "14": [
+          12.1,
+          -1.41
+        ],
+        "15": [
+          14.7,
+          0.09
+        ],
+        "16": [
+          14.15,
+          -1.96
+        ],
+        "17": [
+          11.15,
+          0.64
+        ],
+        "18": [
+          11.15,
+          2.14
+        ],
+        "19": [
+          11.15,
+          -0.86
+        ],
+        "20": [
+          9.65,
+          0.64
+        ],
+        "21": [
+          -0.43,
+          9.49
+        ],
+        "22": [
+          3,
+          0
+        ],
+        "23": [
+          7.11,
+          1.06
+        ],
+        "31": [
+          5.19,
+          3.7
+        ],
+        "32": [
+          4.44,
+          5
+        ],
+        "33": [
+          2.94,
+          5
+        ],
+        "34": [
+          2.19,
+          3.7
+        ],
+        "35": [
+          2.94,
+          2.41
+        ],
+        "36": [
+          4.44,
+          2.41
+        ],
+        "41": [
+          1.5,
+          0
+        ],
+        "42": [
+          0.75,
+          1.3
+        ],
+        "43": [
+          -0.75,
+          1.3
+        ],
+        "44": [
+          -1.5,
+          0
+        ],
+        "45": [
+          -0.75,
+          -1.3
+        ],
+        "46": [
+          0.75,
+          -1.3
+        ]
+      },
+      "caption": "1-phenylpropene (β-methylstyrene) + SO₂ + the tetrazolyloxide"
+    }
+  },
+  "steps": [
+    {
+      "stepKey": "deprotonation",
+      "fromStateId": "reactants",
+      "toStateId": "sulfonyl-anion",
+      "stepKind": "polar",
+      "routePreference": "preferred",
+      "canonicalArrows": [
+        "lp N12 -> σ N12-H2",
+        "σ C1-H2 -> lp C1"
+      ],
+      "explanationAfterStep": "The sulfonyl group stabilises the carbanion (pKa about 30). KHMDS is added to the sulfone and the aldehyde together, so the anion meets the aldehyde at once."
+    },
+    {
+      "stepKey": "addition",
+      "fromStateId": "sulfonyl-anion",
+      "toStateId": "alkoxide",
+      "stepKind": "polar",
+      "routePreference": "preferred",
+      "canonicalArrows": [
+        "lp C1 -> σ C1-C22",
+        "π C22-O23 -> lp O23"
+      ],
+      "explanationAfterStep": "The anion adds to the aldehyde, giving a β-alkoxy sulfone."
+    },
+    {
+      "stepKey": "smiles-addition",
+      "fromStateId": "alkoxide",
+      "toStateId": "spiro-adduct",
+      "stepKind": "polar",
+      "routePreference": "preferred",
+      "canonicalArrows": [
+        "lp O23 -> σ O23-C7",
+        "π C7-N8 -> lp N8"
+      ],
+      "explanationAfterStep": "An intramolecular nucleophilic aromatic substitution begins: the alkoxide adds to the electron-poor tetrazole carbon through a five-membered ring."
+    },
+    {
+      "stepKey": "smiles-collapse",
+      "fromStateId": "spiro-adduct",
+      "toStateId": "sulfinate",
+      "stepKind": "polar",
+      "routePreference": "preferred",
+      "canonicalArrows": [
+        "lp N8 -> π C7-N8",
+        "σ C7-S4 -> lp S4",
+        "π S4-O5 -> lp O5"
+      ],
+      "explanationAfterStep": "The tetrazole has moved from sulfur to oxygen: a Smiles rearrangement. Sulfur is now a sulfinate (the drawing with the negative charge on sulfur is also accepted), and the tetrazolyl ether is a good leaving group."
+    },
+    {
+      "stepKey": "elimination",
+      "fromStateId": "sulfinate",
+      "toStateId": "products",
+      "stepKind": "polar",
+      "routePreference": "preferred",
+      "canonicalArrows": [
+        "lp O5 -> π O5-S4",
+        "σ S4-C1 -> π C1-C22",
+        "σ C22-O23 -> lp O23"
+      ],
+      "explanationAfterStep": "SO₂ and the tetrazolyloxide leave in one anti-periplanar elimination, so the alkene geometry is set by which diastereomer of the alkoxide formed. PT-sulfones usually give mainly the E-alkene. The app does not check E/Z yet."
+    }
+  ],
+  "mechanismSummary": "KHMDS deprotonates the sulfone next to sulfur, and the anion adds to benzaldehyde. The alkoxide attacks the electron-poor tetrazole carbon (a spiro intermediate), and the tetrazole moves from sulfur to oxygen: a Smiles rearrangement. The sulfinate then loses SO₂ while the tetrazolyloxide leaves from the next carbon, forming the alkene, mainly E (not checked by the app yet). The classical Julia needs a separate acylation and a sodium amalgam reduction; this version does it in one pot.",
+  "references": [
+    "Clayden, Greeves and Warren, Organic Chemistry, 2nd edition (Oxford University Press), chapter 27"
+  ],
+  "authors": [
+    {
+      "name": "Maksim",
+      "url": null
+    }
+  ],
+  "licence": "CC-BY-SA-4.0"
+}

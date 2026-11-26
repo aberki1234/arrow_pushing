@@ -1,0 +1,932 @@
+{
+  "formatVersion": 1,
+  "reactionSlug": "johnson-polyene-cyclisation",
+  "reactionVersion": 1,
+  "previousReactionVersion": null,
+  "title": "Johnson's progesterone 2: the cation–π cascade",
+  "subtitle": "Three rings in one step, ended by an alkyne",
+  "reactionClasses": [
+    "addition"
+  ],
+  "difficultyTier": 3,
+  "conditionsLabel": "TFA · ethylene carbonate · CH₂Cl₂ · −70 °C",
+  "dailyPuzzleEligible": true,
+  "atomRoleToMapNumbers": {
+    "electrophile": [
+      10
+    ],
+    "nucleophile": [
+      9
+    ]
+  },
+  "spectatorMapNumbers": [
+    31,
+    32,
+    33,
+    34,
+    36,
+    37,
+    38
+  ],
+  "abbreviatedGroups": [
+    {
+      "groupLabel": "CF3",
+      "attachmentMapNumber": 31,
+      "mapNumbers": [
+        31,
+        36,
+        37,
+        38
+      ]
+    }
+  ],
+  "startStateId": "allylic-cation",
+  "stateIdToState": {
+    "allylic-cation": {
+      "mappedSmiles": "[CH3:4][C:3]1=[C:5]([CH2:6][CH2:7][CH:8]=[CH:9][CH2:11][CH2:12][C:13]([CH3:18])=[CH:14][CH2:15][CH2:16][C:17]#[C:20][CH3:21])[C+:10]([CH3:19])[CH2:1][CH2:2]1.[O:40]=[C:41]1[O:42][CH2:43][CH2:44][O:45]1.[O-:34][C:32](=[O:33])[C:31]([F:36])([F:37])[F:38]",
+      "caption": "the allylic cation + ethylene carbonate (trifluoroacetate faded)",
+      "learnerPrompt": "The chain folds over the cation and closes three rings. Draw the cascade.",
+      "hintTiers": [
+        "Each C=C of the chain is a nucleophile held next to the cation made by the one before it. The last one is the C≡C.",
+        "The nearer chain alkene bonds to the methyl-bearing cation carbon (a six-membered ring), the next alkene bonds to the carbon that has just become positive (a second six-membered ring), and the alkyne bonds to the next cation (a five-membered ring). Three arrows, or one at a time.",
+        "Nearer C=C π bond → new bond from its far carbon to the cation carbon; trisubstituted C=C π bond → new bond from its CH carbon to the near carbon of the first alkene; one C≡C π bond → new bond from the near alkyne carbon to the methyl-bearing alkene carbon."
+      ],
+      "misconceptions": [
+        {
+          "misconceptionId": "five-membered-b-ring",
+          "misconceptionTag": "wrong-ring-size",
+          "severity": "plausible",
+          "arrowPattern": "π C8-C9 -> σ C8-C10",
+          "feedbackMessage": "Bonding the nearer alkene carbon makes a five-membered ring and leaves the new cation outside it, out of reach of the next alkene. Bond the far alkene carbon: a six-membered ring, with the positive charge where the next alkene can reach it."
+        },
+        {
+          "misconceptionId": "six-membered-d-ring",
+          "misconceptionTag": "bent-vinyl-cation",
+          "severity": "plausible",
+          "arrowPattern": "π C17-C20 -> σ C13-C20",
+          "feedbackMessage": "Bonding the far alkyne carbon would put the vinyl cation inside a six-membered ring. A vinyl cation wants to be linear, which a ring cannot allow. Bond the near alkyne carbon: the five-membered D ring forms and the linear vinyl cation sits outside it."
+        },
+        {
+          "misconceptionId": "carbonate-traps-too-early",
+          "misconceptionTag": "premature-trapping",
+          "severity": "plausible",
+          "arrowPattern": "lp O40 -> C10",
+          "feedbackMessage": "Ethylene carbonate could capture this cation, but only reversibly. The alkene folded beside it reacts first: start the cascade."
+        }
+      ],
+      "partialProgressMessages": [
+        {
+          "learnerArrows": [
+            "π C8-C9 -> σ C9-C10",
+            "π C13-C14 -> σ C8-C14"
+          ],
+          "feedbackMessage": "Two rings closed and a tertiary cation made. The alkyne is waiting next to it: one more arrow."
+        }
+      ],
+      "mapNumberToCoordinates": {
+        "1": [
+          5.75,
+          -2.9
+        ],
+        "2": [
+          7.18,
+          -2.43
+        ],
+        "3": [
+          7.18,
+          -0.93
+        ],
+        "4": [
+          8.39,
+          -0.05
+        ],
+        "5": [
+          5.75,
+          -0.47
+        ],
+        "6": [
+          5.14,
+          0.9
+        ],
+        "7": [
+          3.65,
+          1.06
+        ],
+        "8": [
+          2.77,
+          -0.16
+        ],
+        "9": [
+          3.38,
+          -1.53
+        ],
+        "10": [
+          4.87,
+          -1.68
+        ],
+        "11": [
+          2.5,
+          -2.74
+        ],
+        "12": [
+          1,
+          -2.58
+        ],
+        "13": [
+          0.39,
+          -1.21
+        ],
+        "14": [
+          1.28,
+          0
+        ],
+        "15": [
+          0.39,
+          1.21
+        ],
+        "16": [
+          -1.03,
+          0.75
+        ],
+        "17": [
+          -1.03,
+          -0.75
+        ],
+        "18": [
+          -0.61,
+          -2.33
+        ],
+        "19": [
+          4.12,
+          -2.98
+        ],
+        "20": [
+          -2.25,
+          -1.63
+        ],
+        "21": [
+          -3.467,
+          -2.508
+        ],
+        "31": [
+          20.0,
+          -0.41
+        ],
+        "32": [
+          18.7,
+          -1.16
+        ],
+        "33": [
+          17.4,
+          -0.41
+        ],
+        "34": [
+          18.7,
+          -2.66
+        ],
+        "36": [
+          21.3,
+          0.34
+        ],
+        "37": [
+          20.75,
+          -1.71
+        ],
+        "38": [
+          19.25,
+          0.89
+        ],
+        "40": [
+          14.8,
+          -0.88
+        ],
+        "41": [
+          13.3,
+          -0.88
+        ],
+        "42": [
+          12.42,
+          0.33
+        ],
+        "43": [
+          10.99,
+          -0.13
+        ],
+        "44": [
+          10.99,
+          -1.63
+        ],
+        "45": [
+          12.42,
+          -2.1
+        ]
+      }
+    },
+    "secondary-cation": {
+      "mappedSmiles": "[CH3:4][C:3]1=[C:5]2[CH2:6][CH2:7][CH+:8][CH:9]([CH2:11][CH2:12][C:13]([CH3:18])=[CH:14][CH2:15][CH2:16][C:17]#[C:20][CH3:21])[C:10]2([CH3:19])[CH2:1][CH2:2]1.[O:40]=[C:41]1[O:42][CH2:43][CH2:44][O:45]1.[O-:34][C:32](=[O:33])[C:31]([F:36])([F:37])[F:38]",
+      "caption": "the first ring closed: a secondary cation",
+      "learnerPrompt": "The next alkene catches the new cation.",
+      "hintTiers": [
+        "The positive carbon is now in the new ring. Which multiple bond is folded beside it?",
+        "The trisubstituted C=C bonds to it through its CH carbon. One arrow (or two, with the alkyne).",
+        "Trisubstituted C=C π bond → new bond from its CH carbon to the positive carbon."
+      ],
+      "misconceptions": [
+        {
+          "misconceptionId": "five-membered-c-ring",
+          "misconceptionTag": "anti-markovnikov-closure",
+          "severity": "plausible",
+          "arrowPattern": "π C13-C14 -> σ C8-C13",
+          "feedbackMessage": "That makes a five-membered ring and a secondary cation. Bond the CH end of the trisubstituted alkene: the six-membered ring forms and the cation is tertiary, on the carbon carrying the methyl group."
+        },
+        {
+          "misconceptionId": "six-membered-d-ring-early",
+          "misconceptionTag": "bent-vinyl-cation",
+          "severity": "plausible",
+          "arrowPattern": "π C17-C20 -> σ C13-C20",
+          "feedbackMessage": "Bonding the far alkyne carbon would put the vinyl cation inside a six-membered ring. A vinyl cation wants to be linear, which a ring cannot allow. Bond the near alkyne carbon: the five-membered D ring forms and the linear vinyl cation sits outside it."
+        }
+      ],
+      "mapNumberToCoordinates": {
+        "1": [
+          5.75,
+          -2.9
+        ],
+        "2": [
+          7.18,
+          -2.43
+        ],
+        "3": [
+          7.18,
+          -0.93
+        ],
+        "4": [
+          8.39,
+          -0.05
+        ],
+        "5": [
+          5.75,
+          -0.47
+        ],
+        "6": [
+          5.14,
+          0.9
+        ],
+        "7": [
+          3.65,
+          1.06
+        ],
+        "8": [
+          2.77,
+          -0.16
+        ],
+        "9": [
+          3.38,
+          -1.53
+        ],
+        "10": [
+          4.87,
+          -1.68
+        ],
+        "11": [
+          2.5,
+          -2.74
+        ],
+        "12": [
+          1,
+          -2.58
+        ],
+        "13": [
+          0.39,
+          -1.21
+        ],
+        "14": [
+          1.28,
+          0
+        ],
+        "15": [
+          0.39,
+          1.21
+        ],
+        "16": [
+          -1.03,
+          0.75
+        ],
+        "17": [
+          -1.03,
+          -0.75
+        ],
+        "18": [
+          -0.61,
+          -2.33
+        ],
+        "19": [
+          4.12,
+          -2.98
+        ],
+        "20": [
+          -2.25,
+          -1.63
+        ],
+        "21": [
+          -3.467,
+          -2.508
+        ],
+        "31": [
+          20.0,
+          -0.41
+        ],
+        "32": [
+          18.7,
+          -1.16
+        ],
+        "33": [
+          17.4,
+          -0.41
+        ],
+        "34": [
+          18.7,
+          -2.66
+        ],
+        "36": [
+          21.3,
+          0.34
+        ],
+        "37": [
+          20.75,
+          -1.71
+        ],
+        "38": [
+          19.25,
+          0.89
+        ],
+        "40": [
+          14.8,
+          -0.88
+        ],
+        "41": [
+          13.3,
+          -0.88
+        ],
+        "42": [
+          12.42,
+          0.33
+        ],
+        "43": [
+          10.99,
+          -0.13
+        ],
+        "44": [
+          10.99,
+          -1.63
+        ],
+        "45": [
+          12.42,
+          -2.1
+        ]
+      }
+    },
+    "tertiary-cation": {
+      "mappedSmiles": "[CH3:4][C:3]1=[C:5]2[CH2:6][CH2:7][CH:8]3[CH:9]([CH2:11][CH2:12][C+:13]([CH3:18])[CH:14]3[CH2:15][CH2:16][C:17]#[C:20][CH3:21])[C:10]2([CH3:19])[CH2:1][CH2:2]1.[O:40]=[C:41]1[O:42][CH2:43][CH2:44][O:45]1.[O-:34][C:32](=[O:33])[C:31]([F:36])([F:37])[F:38]",
+      "caption": "two rings closed: a tertiary cation",
+      "learnerPrompt": "The alkyne closes the last ring.",
+      "hintTiers": [
+        "The alkyne is the terminator. Which of its carbons makes a five-membered ring?",
+        "One C≡C π bond bonds its near carbon to the positive carbon. One arrow.",
+        "C≡C π bond → new bond from the near alkyne carbon to the positive carbon."
+      ],
+      "misconceptions": [
+        {
+          "misconceptionId": "six-membered-d-ring-last",
+          "misconceptionTag": "bent-vinyl-cation",
+          "severity": "plausible",
+          "arrowPattern": "π C17-C20 -> σ C13-C20",
+          "feedbackMessage": "Bonding the far alkyne carbon would put the vinyl cation inside a six-membered ring. A vinyl cation wants to be linear, which a ring cannot allow. Bond the near alkyne carbon: the five-membered D ring forms and the linear vinyl cation sits outside it."
+        },
+        {
+          "misconceptionId": "carbonate-traps-tertiary-cation",
+          "misconceptionTag": "premature-trapping",
+          "severity": "plausible",
+          "arrowPattern": "lp O40 -> C13",
+          "feedbackMessage": "Capture here would stop the cascade one ring short. The alkyne next to the cation is faster."
+        }
+      ],
+      "mapNumberToCoordinates": {
+        "1": [
+          5.75,
+          -2.9
+        ],
+        "2": [
+          7.18,
+          -2.43
+        ],
+        "3": [
+          7.18,
+          -0.93
+        ],
+        "4": [
+          8.39,
+          -0.05
+        ],
+        "5": [
+          5.75,
+          -0.47
+        ],
+        "6": [
+          5.14,
+          0.9
+        ],
+        "7": [
+          3.65,
+          1.06
+        ],
+        "8": [
+          2.77,
+          -0.16
+        ],
+        "9": [
+          3.38,
+          -1.53
+        ],
+        "10": [
+          4.87,
+          -1.68
+        ],
+        "11": [
+          2.5,
+          -2.74
+        ],
+        "12": [
+          1,
+          -2.58
+        ],
+        "13": [
+          0.39,
+          -1.21
+        ],
+        "14": [
+          1.28,
+          0
+        ],
+        "15": [
+          0.39,
+          1.21
+        ],
+        "16": [
+          -1.03,
+          0.75
+        ],
+        "17": [
+          -1.03,
+          -0.75
+        ],
+        "18": [
+          -0.61,
+          -2.33
+        ],
+        "19": [
+          4.12,
+          -2.98
+        ],
+        "20": [
+          -2.25,
+          -1.63
+        ],
+        "21": [
+          -3.467,
+          -2.508
+        ],
+        "31": [
+          20.0,
+          -0.41
+        ],
+        "32": [
+          18.7,
+          -1.16
+        ],
+        "33": [
+          17.4,
+          -0.41
+        ],
+        "34": [
+          18.7,
+          -2.66
+        ],
+        "36": [
+          21.3,
+          0.34
+        ],
+        "37": [
+          20.75,
+          -1.71
+        ],
+        "38": [
+          19.25,
+          0.89
+        ],
+        "40": [
+          14.8,
+          -0.88
+        ],
+        "41": [
+          13.3,
+          -0.88
+        ],
+        "42": [
+          12.42,
+          0.33
+        ],
+        "43": [
+          10.99,
+          -0.13
+        ],
+        "44": [
+          10.99,
+          -1.63
+        ],
+        "45": [
+          12.42,
+          -2.1
+        ]
+      }
+    },
+    "vinyl-cation": {
+      "mappedSmiles": "[CH3:4][C:3]1=[C:5]2[CH2:6][CH2:7][CH:8]3[CH:14]4[CH2:15][CH2:16][C:17](=[C+:20][CH3:21])[C:13]4([CH3:18])[CH2:12][CH2:11][CH:9]3[C:10]2([CH3:19])[CH2:1][CH2:2]1.[O:40]=[C:41]1[O:42][CH2:43][CH2:44][O:45]1.[O-:34][C:32](=[O:33])[C:31]([F:36])([F:37])[F:38]",
+      "caption": "the tetracycle: a linear vinyl cation outside the five-membered ring",
+      "learnerPrompt": "Ethylene carbonate captures the vinyl cation.",
+      "hintTiers": [
+        "The vinyl cation must be caught by a nucleophile before anything else happens to it. Ethylene carbonate is present in excess. Which of its oxygens is most nucleophilic?",
+        "The C=O oxygen's lone pair bonds to the positive carbon. One arrow.",
+        "Carbonyl oxygen lone pair of ethylene carbonate → new bond to the positive carbon."
+      ],
+      "misconceptions": [
+        {
+          "misconceptionId": "ring-oxygen-attacks",
+          "misconceptionTag": "wrong-oxygen",
+          "severity": "plausible",
+          "arrowPattern": "lp O42 -> C20",
+          "feedbackMessage": "The ring oxygens share their lone pairs with the C=O. The carbonyl oxygen is the nucleophilic one, and its adduct is a cation shared over three oxygens."
+        },
+        {
+          "misconceptionId": "attack-ring-carbon",
+          "misconceptionTag": "attack-neutral-carbon",
+          "severity": "wrong",
+          "arrowPattern": "lp O40 -> C17",
+          "feedbackMessage": "The ring carbon of the C=C is not the electrophile. Bond to the positive carbon outside the ring."
+        }
+      ],
+      "mapNumberToCoordinates": {
+        "1": [
+          5.75,
+          -2.9
+        ],
+        "2": [
+          7.18,
+          -2.43
+        ],
+        "3": [
+          7.18,
+          -0.93
+        ],
+        "4": [
+          8.39,
+          -0.05
+        ],
+        "5": [
+          5.75,
+          -0.47
+        ],
+        "6": [
+          5.14,
+          0.9
+        ],
+        "7": [
+          3.65,
+          1.06
+        ],
+        "8": [
+          2.77,
+          -0.16
+        ],
+        "9": [
+          3.38,
+          -1.53
+        ],
+        "10": [
+          4.87,
+          -1.68
+        ],
+        "11": [
+          2.5,
+          -2.74
+        ],
+        "12": [
+          1,
+          -2.58
+        ],
+        "13": [
+          0.39,
+          -1.21
+        ],
+        "14": [
+          1.28,
+          0
+        ],
+        "15": [
+          0.39,
+          1.21
+        ],
+        "16": [
+          -1.03,
+          0.75
+        ],
+        "17": [
+          -1.03,
+          -0.75
+        ],
+        "18": [
+          -0.61,
+          -2.33
+        ],
+        "19": [
+          4.12,
+          -2.98
+        ],
+        "20": [
+          -2.25,
+          -1.63
+        ],
+        "21": [
+          -3.467,
+          -2.508
+        ],
+        "31": [
+          20.0,
+          -0.41
+        ],
+        "32": [
+          18.7,
+          -1.16
+        ],
+        "33": [
+          17.4,
+          -0.41
+        ],
+        "34": [
+          18.7,
+          -2.66
+        ],
+        "36": [
+          21.3,
+          0.34
+        ],
+        "37": [
+          20.75,
+          -1.71
+        ],
+        "38": [
+          19.25,
+          0.89
+        ],
+        "40": [
+          14.8,
+          -0.885
+        ],
+        "41": [
+          13.3,
+          -0.885
+        ],
+        "42": [
+          12.42,
+          0.325
+        ],
+        "43": [
+          10.99,
+          -0.135
+        ],
+        "44": [
+          10.99,
+          -1.635
+        ],
+        "45": [
+          12.42,
+          -2.095
+        ]
+      }
+    },
+    "trapped": {
+      "mappedSmiles": "[CH3:4][C:3]1=[C:5]2[CH2:6][CH2:7][CH:8]3[CH:14]4[CH2:15][CH2:16][C:17](=[C:20]([CH3:21])[O+:40]=[C:41]5[O:42][CH2:43][CH2:44][O:45]5)[C:13]4([CH3:18])[CH2:12][CH2:11][CH:9]3[C:10]2([CH3:19])[CH2:1][CH2:2]1.[O-:34][C:32](=[O:33])[C:31]([F:36])([F:37])[F:38]",
+      "caption": "the captured cation: a dioxolanylium ion on the new D ring",
+      "mapNumberToCoordinates": {
+        "1": [
+          5.75,
+          -2.9
+        ],
+        "2": [
+          7.18,
+          -2.43
+        ],
+        "3": [
+          7.18,
+          -0.93
+        ],
+        "4": [
+          8.39,
+          -0.05
+        ],
+        "5": [
+          5.75,
+          -0.47
+        ],
+        "6": [
+          5.14,
+          0.9
+        ],
+        "7": [
+          3.65,
+          1.06
+        ],
+        "8": [
+          2.77,
+          -0.16
+        ],
+        "9": [
+          3.38,
+          -1.53
+        ],
+        "10": [
+          4.87,
+          -1.68
+        ],
+        "11": [
+          2.5,
+          -2.74
+        ],
+        "12": [
+          1,
+          -2.58
+        ],
+        "13": [
+          0.39,
+          -1.21
+        ],
+        "14": [
+          1.28,
+          0
+        ],
+        "15": [
+          0.39,
+          1.21
+        ],
+        "16": [
+          -1.03,
+          0.75
+        ],
+        "17": [
+          -1.03,
+          -0.75
+        ],
+        "18": [
+          -0.61,
+          -2.33
+        ],
+        "19": [
+          4.12,
+          -2.98
+        ],
+        "20": [
+          -2.25,
+          -1.63
+        ],
+        "21": [
+          -3.62,
+          -1.02
+        ],
+        "31": [
+          13.59,
+          -1.9
+        ],
+        "32": [
+          12.29,
+          -2.65
+        ],
+        "33": [
+          10.99,
+          -1.9
+        ],
+        "34": [
+          12.29,
+          -4.15
+        ],
+        "36": [
+          14.89,
+          -1.15
+        ],
+        "37": [
+          14.34,
+          -3.2
+        ],
+        "38": [
+          12.84,
+          -0.61
+        ],
+        "40": [
+          -2.09,
+          -3.12
+        ],
+        "41": [
+          -3.3,
+          -4.01
+        ],
+        "42": [
+          -4.73,
+          -3.54
+        ],
+        "43": [
+          -5.61,
+          -4.76
+        ],
+        "44": [
+          -4.73,
+          -5.97
+        ],
+        "45": [
+          -3.3,
+          -5.51
+        ]
+      }
+    }
+  },
+  "steps": [
+    {
+      "stepKey": "cation-pi-cascade",
+      "fromStateId": "allylic-cation",
+      "toStateId": "vinyl-cation",
+      "stepKind": "polar",
+      "routePreference": "preferred",
+      "canonicalArrows": [
+        "π C8-C9 -> σ C9-C10",
+        "π C13-C14 -> σ C8-C14",
+        "π C17-C20 -> σ C13-C17"
+      ],
+      "explanationAfterStep": "Three C–C bonds and three rings (B, C and D) in one step. The chain folds like a chair–chair, so every new ring fusion is trans and the product has the natural all-trans steroid backbone; the trans double bonds of the chain fix that geometry. The app does not check stereochemistry yet. Each closure makes the positive charge on the carbon the next π bond can reach, and the alkyne ends it with a linear vinyl cation outside the five-membered D ring."
+    },
+    {
+      "stepKey": "first-ring",
+      "fromStateId": "allylic-cation",
+      "toStateId": "secondary-cation",
+      "stepKind": "polar",
+      "routePreference": "accepted",
+      "canonicalArrows": [
+        "π C8-C9 -> σ C9-C10"
+      ],
+      "explanationAfterStep": "Correct, one ring at a time. Whether the cascade is fully concerted or a series of very fast steps is still discussed; the secondary cation would barely exist before the next alkene caught it."
+    },
+    {
+      "stepKey": "second-ring",
+      "fromStateId": "secondary-cation",
+      "toStateId": "tertiary-cation",
+      "stepKind": "polar",
+      "routePreference": "accepted",
+      "canonicalArrows": [
+        "π C13-C14 -> σ C8-C14"
+      ],
+      "explanationAfterStep": "The second six-membered ring, and the cation becomes tertiary."
+    },
+    {
+      "stepKey": "third-ring",
+      "fromStateId": "tertiary-cation",
+      "toStateId": "vinyl-cation",
+      "stepKind": "polar",
+      "routePreference": "accepted",
+      "canonicalArrows": [
+        "π C17-C20 -> σ C13-C17"
+      ],
+      "explanationAfterStep": "The alkyne terminates the cascade: a five-membered ring and a linear vinyl cation."
+    },
+    {
+      "stepKey": "vinyl-cation-capture",
+      "fromStateId": "vinyl-cation",
+      "toStateId": "trapped",
+      "stepKind": "polar",
+      "routePreference": "preferred",
+      "canonicalArrows": [
+        "lp O40 -> σ O40-C20"
+      ],
+      "explanationAfterStep": "Ethylene carbonate is a weak nucleophile that does not interfere with the cascade but catches the reactive vinyl cation at the end. In the work-up (aqueous potassium carbonate in methanol) the adduct is hydrolysed to the enol, which tautomerises to the methyl ketone: the acetyl group of progesterone."
+    }
+  ],
+  "mechanismSummary": "The allylic cation is attacked by the nearest alkene of its own chain, which makes a six-membered ring and a new cation; the next alkene catches that one, and the alkyne catches the third, closing a five-membered ring. Three rings and four new stereocentres form in one operation, all trans-fused, because the chain folds into a chair–chair shape and the trans alkenes of the chain fix the relative configuration (the app does not check stereochemistry yet). The alkyne is the terminator: it gives a linear vinyl cation outside the D ring, which ethylene carbonate captures. Work-up turns the adduct into a methyl ketone, so the tetracycle carries the C-17 acetyl group of progesterone. Johnson obtained the tetracyclic diketone in good yield, mainly with the side chain in the natural 17β position (some 17α isomer also forms).",
+  "references": [
+    "Johnson, Gravestock and McCarry, Journal of the American Chemical Society 1971, 93, 4332 (acetylenic bond participation in biogenetic-like olefinic cyclisations: dl-progesterone)",
+    "Nicolaou and Sorensen, Classics in Total Synthesis (VCH, 1996): Johnson's progesterone",
+    "Clayden, Greeves and Warren, Organic Chemistry, 2nd edition (Oxford University Press), chapter 42 (cation–alkene cyclisations in steroid biosynthesis)"
+  ],
+  "authors": [
+    {
+      "name": "Maksim",
+      "url": null
+    }
+  ],
+  "licence": "CC-BY-SA-4.0"
+}

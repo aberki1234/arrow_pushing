@@ -1,0 +1,272 @@
+{
+  "formatVersion": 1,
+  "reactionSlug": "diels-alder-regiochemistry",
+  "reactionVersion": 1,
+  "previousReactionVersion": null,
+  "title": "Regiochemistry of a Diels–Alder reaction",
+  "subtitle": "2-Methoxybutadiene and methyl acrylate: the “para” product",
+  "reactionClasses": [
+    "pericyclic",
+    "addition"
+  ],
+  "difficultyTier": 2,
+  "conditionsLabel": "toluene · heat",
+  "dailyPuzzleEligible": true,
+  "atomRoleToMapNumbers": {
+    "diene": [
+      1,
+      2,
+      3,
+      4
+    ],
+    "dienophile": [
+      5,
+      6
+    ],
+    "esterCarbon": [
+      9
+    ]
+  },
+  "spectatorMapNumbers": [],
+  "startStateId": "reactants",
+  "stateIdToState": {
+    "reactants": {
+      "mappedSmiles": "[CH2:1]=[C:2]([O:7][CH3:8])[CH:3]=[CH2:4].[CH2:5]=[CH:6][C:9](=[O:10])[O:11][CH3:12]",
+      "mapNumberToCoordinates": {
+        "1": [
+          1.5,
+          -1.24
+        ],
+        "2": [
+          2.25,
+          0.06
+        ],
+        "3": [
+          1.5,
+          1.36
+        ],
+        "4": [
+          -0.0,
+          1.36
+        ],
+        "5": [
+          -1.29,
+          -1.36
+        ],
+        "6": [
+          -2.04,
+          -0.06
+        ],
+        "7": [
+          3.75,
+          0.06
+        ],
+        "8": [
+          4.5,
+          -1.24
+        ],
+        "9": [
+          -3.54,
+          -0.06
+        ],
+        "10": [
+          -4.29,
+          1.24
+        ],
+        "11": [
+          -4.29,
+          -1.36
+        ],
+        "12": [
+          -5.79,
+          -1.36
+        ]
+      },
+      "caption": "2-methoxybuta-1,3-diene + methyl acrylate",
+      "learnerPrompt": "Both partners are unsymmetrical, so they can join two ways round. Draw the cycloaddition that gives the main product.",
+      "hintTiers": [
+        "The methoxy oxygen pushes its lone pair into the diene; the ester pulls electrons out of the acrylate. Which end of the diene is the more nucleophilic, and which carbon of the acrylate is the more electrophilic?",
+        "Imagine the methoxy lone pair pushing towards the CH₂ next to the carbon carrying OMe: that CH₂ is the nucleophilic end. It bonds to the CH₂ end of methyl acrylate, the carbon that conjugate additions attack. Three arrows, one step.",
+        "Arrow 1: from the C=C π bond carrying OMe to a new bond between its CH₂ end and the CH₂ of methyl acrylate. Arrow 2: from the other diene π bond to the bond between the two middle diene carbons. Arrow 3: from the acrylate C=C π bond to a new bond between its CH carbon (next to the ester) and the far CH₂ of the diene."
+      ],
+      "misconceptions": [
+        {
+          "misconceptionId": "middle-carbon-bonds",
+          "misconceptionTag": "wrong-atom-bonds",
+          "severity": "wrong",
+          "arrowPattern": "* -> σ C2-*",
+          "feedbackMessage": "The carbon carrying OMe is a middle carbon of the diene: it does not make a new σ bond. Only the two CH₂ ends of the diene do."
+        },
+        {
+          "misconceptionId": "middle-carbon-bonds-far",
+          "misconceptionTag": "wrong-atom-bonds",
+          "severity": "wrong",
+          "arrowPattern": "* -> σ C3-*",
+          "feedbackMessage": "Only the two CH₂ ends of the diene make new bonds; the middle carbons end up joined by the new C=C."
+        },
+        {
+          "misconceptionId": "ester-attacked",
+          "misconceptionTag": "wrong-electrophile",
+          "severity": "wrong",
+          "arrowPattern": "* -> C9",
+          "feedbackMessage": "The ester C=O takes no part. In a Diels–Alder reaction the dienophile's C=C is what the diene bonds to; the ester only makes it more reactive and decides which way round it adds."
+        }
+      ],
+      "partialProgressMessages": [
+        {
+          "learnerArrows": [
+            "π C1-C2 -> σ C1-C5"
+          ],
+          "feedbackMessage": "Right: the nucleophilic CH₂ of the diene bonds to the CH₂ end of the acrylate. Now finish the ring of moving electrons: two more arrows in the same step."
+        }
+      ]
+    },
+    "para-product": {
+      "mappedSmiles": "[CH2:1]1[C:2]([O:7][CH3:8])=[CH:3][CH2:4][CH:6]([C:9](=[O:10])[O:11][CH3:12])[CH2:5]1",
+      "mapNumberToCoordinates": {
+        "1": [
+          1.5,
+          -1.3
+        ],
+        "2": [
+          2.25,
+          0.0
+        ],
+        "3": [
+          1.5,
+          1.3
+        ],
+        "4": [
+          -0.0,
+          1.3
+        ],
+        "5": [
+          -0.0,
+          -1.3
+        ],
+        "6": [
+          -0.75,
+          0.0
+        ],
+        "7": [
+          3.75,
+          0.0
+        ],
+        "8": [
+          4.5,
+          -1.3
+        ],
+        "9": [
+          -2.25,
+          0.0
+        ],
+        "10": [
+          -3.0,
+          1.3
+        ],
+        "11": [
+          -3.0,
+          -1.3
+        ],
+        "12": [
+          -4.5,
+          -1.3
+        ]
+      },
+      "caption": "methyl 4-methoxycyclohex-3-ene-1-carboxylate (the “para” product)"
+    },
+    "meta-product": {
+      "mappedSmiles": "[CH2:1]1[C:2]([O:7][CH3:8])=[CH:3][CH2:4][CH2:5][CH:6]1[C:9](=[O:10])[O:11][CH3:12]",
+      "mapNumberToCoordinates": {
+        "1": [
+          0.53,
+          -0.39
+        ],
+        "2": [
+          1.98,
+          -0.0
+        ],
+        "3": [
+          2.37,
+          1.45
+        ],
+        "4": [
+          1.31,
+          2.51
+        ],
+        "5": [
+          -0.14,
+          2.12
+        ],
+        "6": [
+          -0.53,
+          0.67
+        ],
+        "7": [
+          3.04,
+          -1.06
+        ],
+        "8": [
+          2.65,
+          -2.51
+        ],
+        "9": [
+          -1.98,
+          0.28
+        ],
+        "10": [
+          -3.04,
+          1.34
+        ],
+        "11": [
+          -2.37,
+          -1.16
+        ],
+        "12": [
+          -3.82,
+          -1.55
+        ]
+      },
+      "caption": "methyl 3-methoxycyclohex-3-ene-1-carboxylate: the minor “meta” regioisomer"
+    }
+  },
+  "steps": [
+    {
+      "stepKey": "para-cycloaddition",
+      "fromStateId": "reactants",
+      "toStateId": "para-product",
+      "stepKind": "polar",
+      "routePreference": "preferred",
+      "canonicalArrows": [
+        "π C1-C2 -> σ C1-C5",
+        "π C3-C4 -> π C2-C3",
+        "π C5-C6 -> σ C4-C6"
+      ],
+      "explanationAfterStep": "The OMe lone pair makes the CH₂ beside it the diene's most nucleophilic end (it has the largest coefficient in the diene's HOMO), and the ester makes the acrylate's CH₂ the most electrophilic end (largest coefficient in its LUMO). Joining those two ends puts OMe and the ester 1,4 round the new ring: the “para” product. A 2-substituted diene gives “para”; a 1-substituted diene gives “ortho”."
+    },
+    {
+      "stepKey": "meta-cycloaddition",
+      "fromStateId": "reactants",
+      "toStateId": "meta-product",
+      "stepKind": "polar",
+      "routePreference": "accepted",
+      "canonicalArrows": [
+        "π C1-C2 -> σ C1-C6",
+        "π C3-C4 -> π C2-C3",
+        "π C5-C6 -> σ C4-C5"
+      ],
+      "explanationAfterStep": "Correct arrows, but this is the minor “meta” isomer: the diene's nucleophilic CH₂ has bonded to the acrylate carbon next to the ester, the less electrophilic end. Most of the product forms the other way round."
+    }
+  ],
+  "mechanismSummary": "The cycloaddition is concerted, but its transition state is unsymmetrical: the bond between the best-matched ends forms ahead of the other. The methoxy group raises the diene's HOMO and puts its largest coefficient on the neighbouring CH₂; the ester lowers the acrylate's LUMO and puts its largest coefficient on the far CH₂. Matching large with large gives the “para” (1,4) product. The enol ether in the product can later be hydrolysed to a ketone.",
+  "references": [
+    "Clayden, Greeves and Warren, Organic Chemistry, 2nd edition (Oxford University Press), chapter 34"
+  ],
+  "authors": [
+    {
+      "name": "Maksim",
+      "url": null
+    }
+  ],
+  "licence": "CC-BY-SA-4.0"
+}

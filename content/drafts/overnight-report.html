@@ -1,0 +1,89 @@
+<!doctype html>
+<html lang="en-GB">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Overnight drafting report: C6–C9, A1–A8, G1–G5 (2026-11-27)</title>
+<style>
+  body { font: 16px/1.5 system-ui, sans-serif; max-width: 60rem; margin: 2rem auto; padding: 0 1rem; color: #1d1d1f; }
+  h1 { font-size: 1.6rem; } h2 { margin-top: 2rem; border-bottom: 1px solid #ddd; padding-bottom: .2rem; }
+  table { border-collapse: collapse; width: 100%; margin: .5rem 0 1rem; font-size: .93rem; }
+  th, td { border: 1px solid #ddd; padding: .3rem .5rem; text-align: left; vertical-align: top; }
+  th { background: #f4f4f6; } code { font-size: .88em; background: #f4f4f6; padding: 0 .2em; border-radius: 3px; }
+  .ok { color: #17663a; font-weight: 600; } .warn { color: #8a5a00; font-weight: 600; }
+  @media (prefers-color-scheme: dark) { body { background: #161618; color: #e8e8ea; } th, code { background: #26262a; } th, td { border-color: #3a3a40; } .ok { color: #6fd39a; } .warn { color: #f0b54a; } }
+</style>
+</head>
+<body>
+<h1>Overnight drafting report</h1>
+<p>Every track of <code>docs/curriculum.md</code> that was not drafted yet now has a draft, except A9, which needs
+transition metals throughout. That is <strong>17 tracks and 117 new reactions</strong>; the track files also reuse
+published reactions as warm-ups (31 set items). Every folder passes the linter with 0 errors and 0 warnings. Every arrow can be
+picked, there are no map numbers in learner text, and track lint passes. All 117 reactions were pushed to Create as
+drafts. The track files are in git only: they go live once you have reviewed and published the reactions.</p>
+<p>Plan: <code>content/drafts/remaining-curriculum-plan.md</code>. Folders: <code>content/drafts/&lt;code&gt;-&lt;slug&gt;/</code>.
+Generator scripts and notes (not in git): <code>~/.claude/jobs/86d14abd/tmp/&lt;folder&gt;/</code>.</p>
+
+<h2>What was drafted</h2>
+<table>
+<tr><th>Track</th><th>New</th><th>Showcase</th><th>Left out / changed</th></tr>
+<tr><td>C6 Rearrangements</td><td>8</td><td>pinacol-rearrangement</td><td><code>isocyanate-hydrolysis</code> explained in text only</td></tr>
+<tr><td>C7 Radical reactions</td><td>7</td><td>hexenyl-radical-cyclisation</td><td>NBS + HBr → Br₂ is a change step without arrows</td></tr>
+<tr><td>C8 Pericyclic reactions I</td><td>10</td><td>cyclopentadiene-and-maleic-anhydride</td><td>none</td></tr>
+<tr><td>C9 Mechanisms in biology</td><td>6</td><td>serine-protease-acylation</td><td>Uses active-site models. NADH reduces pyruvate (lactate dehydrogenase) rather than an aldehyde. The thiamine reaction continues to the release of acetaldehyde</td></tr>
+<tr><td>A1 Stereoelectronics</td><td>8</td><td>furst-plattner-epoxide-opening</td><td>Menthyl chloride gives only menth-2-ene, so it has no alternative product. Felkin–Anh and Bürgi–Dunitz teach only through their text until stereo is checked. No glucoside model</td></tr>
+<tr><td>A2 Neighbouring groups</td><td>7</td><td>acetoxonium-participation</td><td>none</td></tr>
+<tr><td>A3 Sigmatropic rearrangements</td><td>6</td><td>anionic-oxy-cope</td><td><span class="warn">benzilic-acid-rearrangement left out</span> (can't be drawn, see below). Johnson–Claisen starts from the mixed orthoester</td></tr>
+<tr><td>A4 Ylides and carbenes</td><td>9</td><td>julia-kocienski-olefination</td><td>Simmons–Smith zinc insertion not drawn; Ag⁺ (Wolff) mentioned in text only</td></tr>
+<tr><td>A5 Heterocycles</td><td>11</td><td>gramine-synthesis</td><td>Paal–Knorr and Fischer indole are each split into <code>-part-1</code>/<code>-part-2</code>. Hantzsch has key steps only and ends at the 1,4-dihydropyridine. Furan is brominated, not nitrated</td></tr>
+<tr><td>A6 Organocatalysis</td><td>6</td><td>proline-catalysed-aldol</td><td><code>phase-transfer-alkylation</code> left out: its arrows are just a deprotonation and an SN2. Stetter starts from the Breslow intermediate</td></tr>
+<tr><td>A7 Protecting groups</td><td>9</td><td>fmoc-deprotection-with-piperidine</td><td>PMB/DDQ (needs single-electron transfer) and Cbz/H₂–Pd (needs Pd) are in the concept cards only. HATU's PF₆⁻ is not drawn</td></tr>
+<tr><td>A8 Pericyclic reactions II</td><td>6</td><td>alder-ene-reaction</td><td>[1,5]-H shift on hexa-1,3-diene, not cyclopentadiene. The 6π closure after the 8π one is text only. Photochemistry is out</td></tr>
+<tr><td>G1 Robinson's tropinone</td><td>4</td><td>tropinone-second-mannich</td><td>none</td></tr>
+<tr><td>G2 Wieland–Miescher ketone</td><td>4</td><td>wieland-miescher-aldol</td><td>Dehydration is acid-catalysed (TsOH, as in the literature), not E1cB</td></tr>
+<tr><td>G3 Johnson's progesterone</td><td>4</td><td>johnson-polyene-cyclisation</td><td>Ozonolysis is drawn on a model alkene. The cyclisation stops at the ethylene carbonate adduct</td></tr>
+<tr><td>G4 Corey's PGF₂α</td><td>7</td><td>iodolactonisation</td><td>Protecting-group steps, BBr₃, DIBAL and the Collins oxidation (Cr) are text only</td></tr>
+<tr><td>G5 Woodward's reserpine</td><td>5</td><td>bischler-napieralski-cyclisation</td><td>The C3 epimerisation only changes stereo, so it is explained only. New slug <code>woodward-lactonisation</code>. The iminium reduction was moved into the Epimerisation set</td></tr>
+<tr><td>A9 Metal-catalysed reactions</td><td>0</td><td>—</td><td><span class="warn">Not drafted</span>: the whole track needs transition metals</td></tr>
+</table>
+
+<h2>Limitations of the app that the drafting hit</h2>
+<table>
+<tr><th>Gap</th><th>Effect</th><th>Where the fix would go</th></tr>
+<tr><td><strong>Ring closures need hand-placed coordinates</strong></td><td>A new bond is offered only within about 2.1 bond lengths, and the seeded layout of an open chain is usually too far apart. C7, C8, A3, A5, A6, A8, G1–G5 lay out the states before each closure by hand on the product's ring positions. <span class="warn">Re-seeding or regenerating those states would make their arrows undrawable again.</span></td><td><code>src/stepSession/newBondDestinations.ts</code> (offer intramolecular closures by graph distance), or the editor seeding curled layouts</td></tr>
+<tr><td><strong>1,2-shift onto an atom losing N₂</strong></td><td>N is not a leaving-group element, so the shift can be drawn only after the N₂-loss arrow. Affects Curtius, Tiffeneau–Demjanov and Wolff: they fail <code>--all-orders</code> but pass in the authored order.</td><td><code>LEAVING_GROUP_ELEMENTS</code> in <code>newBondDestinations.ts</code></td></tr>
+<tr><td><strong>1,2-shift onto a carbonyl carbon</strong></td><td>Blocks the benzilic acid rearrangement (<code>cannot draw σ C1-C10 -&gt; σ C3-C10</code>): <code>isElectronPoor</code> counts only arrows with a σ source. The draft is kept in A3's script.</td><td><code>newBondDestinations.ts</code> (<code>isOffered</code>/<code>isElectronPoor</code>)</td></tr>
+<tr><td><strong>Group moving to an atom 2 bonds away / 4-membered ring closure</strong></td><td>[1,5]-H shift round cyclopentadiene: <code>cannot draw π C3-C4 -&gt; σ C4-H7</code>. 4π / bicyclo[4.2.0] closure: <code>cannot draw π C2-C3 -&gt; σ C2-C7</code>. A Lewis-acid chelate closure in G5 needed a 3-arrow equivalent.</td><td>same file</td></tr>
+<tr><td><strong>Intramolecular 1,3-proton shift</strong></td><td>Never offered when the source is a bond, so proton relays had to go through another molecule (A7 Fmoc and carbamic acids).</td><td>same file</td></tr>
+<tr><td><strong>Map numbers ≥ 100</strong></td><td><code>seed-coordinates</code> writes them as key <code>"0"</code>, which fails the schema. Renumbered below 100.</td><td>the coordinate seeder (bug)</td></tr>
+<tr><td><strong>Symmetry cap</strong></td><td>PF₆⁻ gives over 10 000 skeleton symmetries (<code>too-many-skeleton-symmetries</code>), and then equivalent atoms elsewhere stop being accepted. The anion was left undrawn.</td><td><code>attemptAssessment/skeletonSymmetry.ts</code></td></tr>
+<tr><td><strong>Stereochemistry</strong> (items 12b–12e)</td><td>Every endo, con/dis, anti, Felkin, ee and epimerisation point is in text only, each saying the app does not check it yet. Kind B gap: either H of a CH₂ counts as correct in E2.</td><td>build item 12</td></tr>
+<tr><td><strong>Transition metals, SET, excited states</strong></td><td>A9 in full; Cu/Pd/Cr/Ag/Rh steps; PMB/DDQ; [2+2] and Norrish II photochemistry.</td><td>capabilities table in <code>docs/curriculum.md</code></td></tr>
+<tr><td>Smaller ones</td><td>Bridged bicycles draw poorly in 2D (tropane, norbornene; G4 is hand-laid). No negation in misconception patterns. Implicit H can't be tapped, so they can't be the target of a misconception. No way to abbreviate a spectator counter-ion. <code>--all-orders</code> takes minutes on large states.</td><td>—</td></tr>
+</table>
+
+<h2>Please check (chemistry the drafters were not sure of)</h2>
+<ul>
+<li><strong>G4 <code>corey-ketone-unmasking</code></strong>: the route through an oxiran-2-imine is built from standard steps, not taken from a source. It is the least certain mechanism of the night.</li>
+<li><strong>G3</strong>: the trienynol substrate's structure is from memory. Check it against Johnson, JACS 1971, 93, 4332.</li>
+<li><strong>A1 Fürst–Plattner</strong>: the regiochemistry was worked out from chair geometry, not from a source.</li>
+<li><strong>A5</strong>: which nitrogen is protonated before the Fischer [3,3] step, and the Paal–Knorr order (ring closes before water is lost, following Amarnath).</li>
+<li><strong>Valid alternative step orders as "plausible" misconceptions</strong> (they cost an attempt): G1 (second Mannich order), A7 (Boc, Fmoc). Consider making them accepted routes.</li>
+<li><strong>Owner decisions</strong>: G2 dehydration (TsOH vs E1cB), C9 NADH substrate, G5 set move, C8 thermal azide–alkyne "1,4 preferred" (a teaching choice).</li>
+<li>Throughout: Clayden chapter numbers, literature yields/ee, temperatures and references were written from memory; each agent listed its own. They are worth a pass in Create.</li>
+</ul>
+
+<h2>Incident</h2>
+<p>The G5 drafting agent was stopped by an automated safety filter (<code>[bio]</code> flag, request
+<code>req_011ChRn1xNuq8YSo36DZdhHK</code>), probably a false positive. This happened after it had finished: its five files verify
+clean and were pushed. Only the end of its report was lost.</p>
+
+<h2>What remains</h2>
+<ul>
+<li>Review the 117 drafts in Create and publish. Then move each <code>track.json</code> to <code>content/tracks/&lt;slug&gt;.json</code> and mark the
+track live in <code>docs/curriculum.md</code>/<code>.html</code>.</li>
+<li>A9 and the left-out reactions above, once their capabilities exist.</li>
+<li>The drawing fixes in <code>newBondDestinations.ts</code> would make the hand-placed layouts unnecessary and would unblock benzilic acid, cyclopentadiene [1,5]-H and 4π closures.</li>
+</ul>
+</body>
+</html>

@@ -1,0 +1,611 @@
+{
+  "formatVersion": 1,
+  "reactionSlug": "mom-protection",
+  "reactionVersion": 1,
+  "previousReactionVersion": null,
+  "title": "MOM protection of an alcohol",
+  "subtitle": "The methoxymethyl cation from MOMCl alkylates an alcohol",
+  "reactionClasses": [
+    "substitution"
+  ],
+  "difficultyTier": 2,
+  "conditionsLabel": "MOMCl · i-Pr₂NEt · CH₂Cl₂ · 0 → 25 °C",
+  "dailyPuzzleEligible": true,
+  "atomRoleToMapNumbers": {
+    "alcoholOxygen": [
+      11
+    ],
+    "base": [
+      30
+    ]
+  },
+  "spectatorMapNumbers": [],
+  "abbreviatedGroups": [
+    {
+      "groupLabel": "Ph",
+      "attachmentMapNumber": 16,
+      "mapNumbers": [
+        16,
+        17,
+        18,
+        19,
+        20,
+        21
+      ]
+    },
+    {
+      "groupLabel": "i-Pr",
+      "attachmentMapNumber": 31,
+      "mapNumbers": [
+        31,
+        32,
+        33
+      ]
+    },
+    {
+      "groupLabel": "i-Pr",
+      "attachmentMapNumber": 34,
+      "mapNumbers": [
+        34,
+        35,
+        36
+      ]
+    },
+    {
+      "groupLabel": "Et",
+      "attachmentMapNumber": 37,
+      "mapNumbers": [
+        37,
+        38
+      ]
+    }
+  ],
+  "startStateId": "reactants",
+  "stateIdToState": {
+    "reactants": {
+      "mappedSmiles": "[CH3:1][O:2][CH2:3][Cl:4].[H:12][O:11][CH2:13][CH2:14][CH2:15][C:16]1=[CH:17][CH:18]=[CH:19][CH:20]=[CH:21]1.[N:30]([CH:31]([CH3:32])[CH3:33])([CH:34]([CH3:35])[CH3:36])[CH2:37][CH3:38]",
+      "mapNumberToCoordinates": {
+        "1": [
+          0,
+          2.3
+        ],
+        "2": [
+          1.3,
+          3.05
+        ],
+        "3": [
+          2.6,
+          2.3
+        ],
+        "4": [
+          3.9,
+          3.05
+        ],
+        "11": [
+          6.13,
+          -3.8
+        ],
+        "12": [
+          7.63,
+          -3.8
+        ],
+        "13": [
+          5.38,
+          -2.5
+        ],
+        "14": [
+          3.88,
+          -2.5
+        ],
+        "15": [
+          3.13,
+          -1.2
+        ],
+        "16": [
+          1.63,
+          -1.2
+        ],
+        "17": [
+          0.88,
+          0.1
+        ],
+        "18": [
+          -0.62,
+          0.1
+        ],
+        "19": [
+          -1.37,
+          -1.2
+        ],
+        "20": [
+          -0.62,
+          -2.5
+        ],
+        "21": [
+          0.88,
+          -2.5
+        ],
+        "30": [
+          1.2,
+          7.24
+        ],
+        "31": [
+          1.2,
+          5.74
+        ],
+        "32": [
+          -0.09,
+          4.99
+        ],
+        "33": [
+          2.5,
+          4.99
+        ],
+        "34": [
+          2.5,
+          7.99
+        ],
+        "35": [
+          2.5,
+          9.49
+        ],
+        "36": [
+          3.8,
+          7.24
+        ],
+        "37": [
+          -0.09,
+          7.99
+        ],
+        "38": [
+          -0.09,
+          9.49
+        ]
+      },
+      "caption": "MOMCl + 3-phenylpropan-1-ol + Hünig's base (i-Pr₂NEt)",
+      "learnerPrompt": "Chloromethyl methyl ether is a very reactive alkylating agent. Draw the first step.",
+      "hintTiers": [
+        "Chloride is on a carbon that also carries an oxygen. What can the oxygen lone pair do as chloride leaves?",
+        "The oxygen lone pair forms C=O⁺ while the C–Cl pair leaves with chloride: an oxocarbenium ion. Two arrows. (The alcohol attacking the CH₂ and pushing out chloride directly, an SN2 step, is also accepted.)",
+        "Methoxy oxygen lone pair → C=O π bond; C–Cl bond → a lone pair on chlorine."
+      ],
+      "misconceptions": [
+        {
+          "misconceptionId": "base-deprotonates-alcohol",
+          "misconceptionTag": "base-too-weak",
+          "severity": "plausible",
+          "arrowPattern": "lp N30 -> σ N30-H12",
+          "feedbackMessage": "Hünig's base (pKaH about 11) cannot remove a proton from an alcohol (pKa about 16) to any useful extent. The alcohol reacts as a neutral nucleophile; the base mops up the acid formed."
+        },
+        {
+          "misconceptionId": "base-attacks-momcl",
+          "misconceptionTag": "hindered-base",
+          "severity": "plausible",
+          "arrowPattern": "lp N30 -> C3",
+          "feedbackMessage": "Small amines are alkylated by MOMCl, but in Hünig's base the nitrogen is buried among two isopropyl groups and an ethyl group. It is a base, not a nucleophile: that is why it is chosen."
+        }
+      ],
+      "partialProgressMessages": [
+        {
+          "learnerArrows": [
+            "σ C3-Cl4 -> lp Cl4"
+          ],
+          "feedbackMessage": "Right that chloride leaves. A primary carbocation alone would be very poor: what does the neighbouring oxygen do?"
+        }
+      ]
+    },
+    "oxocarbenium": {
+      "mappedSmiles": "[CH3:1][O+:2]=[CH2:3].[Cl-:4].[H:12][O:11][CH2:13][CH2:14][CH2:15][C:16]1=[CH:17][CH:18]=[CH:19][CH:20]=[CH:21]1.[N:30]([CH:31]([CH3:32])[CH3:33])([CH:34]([CH3:35])[CH3:36])[CH2:37][CH3:38]",
+      "mapNumberToCoordinates": {
+        "1": [
+          0,
+          2.3
+        ],
+        "2": [
+          1.3,
+          3.05
+        ],
+        "3": [
+          2.6,
+          2.3
+        ],
+        "4": [
+          8.5,
+          0
+        ],
+        "11": [
+          6.39,
+          -3.84
+        ],
+        "12": [
+          7.89,
+          -3.84
+        ],
+        "13": [
+          5.64,
+          -2.54
+        ],
+        "14": [
+          4.14,
+          -2.54
+        ],
+        "15": [
+          3.39,
+          -1.24
+        ],
+        "16": [
+          1.89,
+          -1.24
+        ],
+        "17": [
+          1.14,
+          0.06
+        ],
+        "18": [
+          -0.36,
+          0.06
+        ],
+        "19": [
+          -1.11,
+          -1.24
+        ],
+        "20": [
+          -0.36,
+          -2.54
+        ],
+        "21": [
+          1.14,
+          -2.54
+        ],
+        "30": [
+          1.37,
+          7.23
+        ],
+        "31": [
+          1.37,
+          5.73
+        ],
+        "32": [
+          0.07,
+          4.98
+        ],
+        "33": [
+          2.67,
+          4.98
+        ],
+        "34": [
+          2.67,
+          7.98
+        ],
+        "35": [
+          2.67,
+          9.48
+        ],
+        "36": [
+          3.97,
+          7.23
+        ],
+        "37": [
+          0.07,
+          7.98
+        ],
+        "38": [
+          0.07,
+          9.48
+        ]
+      },
+      "caption": "methoxymethyl oxocarbenium ion + chloride",
+      "learnerPrompt": "The alcohol adds to the oxocarbenium ion.",
+      "hintTiers": [
+        "The CH₂ carbon is electron-poor. Which nucleophile adds to it?",
+        "The alcohol oxygen bonds to the CH₂ carbon, and the C=O⁺ π pair moves back onto the methoxy oxygen. Two arrows.",
+        "Alcohol oxygen lone pair → new O–C bond to the CH₂; C=O⁺ π bond → a lone pair on the methoxy oxygen."
+      ],
+      "misconceptions": [
+        {
+          "misconceptionId": "chloride-returns",
+          "misconceptionTag": "reverse-step",
+          "severity": "plausible",
+          "arrowPattern": "lp Cl4 -> C3",
+          "feedbackMessage": "Chloride adding back just re-forms MOMCl. The alcohol leads on to the product."
+        },
+        {
+          "misconceptionId": "base-adds",
+          "misconceptionTag": "hindered-base",
+          "severity": "plausible",
+          "arrowPattern": "lp N30 -> C3",
+          "feedbackMessage": "The hindered amine is a poor nucleophile even for this cation. The alcohol adds."
+        }
+      ],
+      "partialProgressMessages": [
+        {
+          "learnerArrows": [
+            "lp O11 -> σ O11-C3"
+          ],
+          "feedbackMessage": "Right: the alcohol adds to the CH₂. Now move the C=O⁺ π pair back onto the methoxy oxygen."
+        }
+      ]
+    },
+    "protonated-ether": {
+      "mappedSmiles": "[CH3:1][O:2][CH2:3][O+:11]([H:12])[CH2:13][CH2:14][CH2:15][C:16]1=[CH:17][CH:18]=[CH:19][CH:20]=[CH:21]1.[Cl-:4].[N:30]([CH:31]([CH3:32])[CH3:33])([CH:34]([CH3:35])[CH3:36])[CH2:37][CH3:38]",
+      "mapNumberToCoordinates": {
+        "1": [
+          5.25,
+          -6.5
+        ],
+        "2": [
+          6,
+          -5.2
+        ],
+        "3": [
+          5.25,
+          -3.9
+        ],
+        "4": [
+          8.5,
+          0
+        ],
+        "11": [
+          6,
+          -2.6
+        ],
+        "12": [
+          7.5,
+          -2.6
+        ],
+        "13": [
+          5.25,
+          -1.3
+        ],
+        "14": [
+          3.75,
+          -1.3
+        ],
+        "15": [
+          3,
+          0
+        ],
+        "16": [
+          1.5,
+          0
+        ],
+        "17": [
+          0.75,
+          1.3
+        ],
+        "18": [
+          -0.75,
+          1.3
+        ],
+        "19": [
+          -1.5,
+          0
+        ],
+        "20": [
+          -0.75,
+          -1.3
+        ],
+        "21": [
+          0.75,
+          -1.3
+        ],
+        "30": [
+          1.02,
+          5.78
+        ],
+        "31": [
+          1.02,
+          4.28
+        ],
+        "32": [
+          -0.28,
+          3.53
+        ],
+        "33": [
+          2.32,
+          3.53
+        ],
+        "34": [
+          2.32,
+          6.53
+        ],
+        "35": [
+          2.32,
+          8.03
+        ],
+        "36": [
+          3.62,
+          5.78
+        ],
+        "37": [
+          -0.28,
+          6.53
+        ],
+        "38": [
+          -0.28,
+          8.03
+        ]
+      },
+      "caption": "protonated MOM ether + chloride",
+      "learnerPrompt": "Remove the proton.",
+      "hintTiers": [
+        "The new oxygen carries a proton and a positive charge. Which species in the flask is the base?",
+        "The nitrogen of Hünig's base takes the proton, and the O–H pair stays on oxygen. Two arrows.",
+        "Amine nitrogen lone pair → new N–H bond; O–H bond → a lone pair on oxygen."
+      ],
+      "misconceptions": [
+        {
+          "misconceptionId": "chloride-as-base",
+          "misconceptionTag": "weak-base",
+          "severity": "plausible",
+          "arrowPattern": "lp Cl4 -> σ Cl4-H12",
+          "feedbackMessage": "Chloride is far too weak a base. The amine takes the proton and ends up as its hydrochloride salt."
+        }
+      ]
+    },
+    "products": {
+      "mappedSmiles": "[CH3:1][O:2][CH2:3][O:11][CH2:13][CH2:14][CH2:15][C:16]1=[CH:17][CH:18]=[CH:19][CH:20]=[CH:21]1.[Cl-:4].[H:12][N+:30]([CH:31]([CH3:32])[CH3:33])([CH:34]([CH3:35])[CH3:36])[CH2:37][CH3:38]",
+      "mapNumberToCoordinates": {
+        "1": [
+          9.75,
+          -3.9
+        ],
+        "2": [
+          8.25,
+          -3.9
+        ],
+        "3": [
+          7.5,
+          -2.6
+        ],
+        "4": [
+          0,
+          7.05
+        ],
+        "11": [
+          6,
+          -2.6
+        ],
+        "12": [
+          -4.18,
+          5.85
+        ],
+        "13": [
+          5.25,
+          -1.3
+        ],
+        "14": [
+          3.75,
+          -1.3
+        ],
+        "15": [
+          3,
+          0
+        ],
+        "16": [
+          1.5,
+          0
+        ],
+        "17": [
+          0.75,
+          1.3
+        ],
+        "18": [
+          -0.75,
+          1.3
+        ],
+        "19": [
+          -1.5,
+          0
+        ],
+        "20": [
+          -0.75,
+          -1.3
+        ],
+        "21": [
+          0.75,
+          -1.3
+        ],
+        "30": [
+          -4.18,
+          4.35
+        ],
+        "31": [
+          -4.18,
+          2.85
+        ],
+        "32": [
+          -5.48,
+          2.1
+        ],
+        "33": [
+          -2.88,
+          2.1
+        ],
+        "34": [
+          -5.68,
+          4.35
+        ],
+        "35": [
+          -6.43,
+          5.65
+        ],
+        "36": [
+          -6.43,
+          3.05
+        ],
+        "37": [
+          -2.68,
+          4.35
+        ],
+        "38": [
+          -1.93,
+          5.65
+        ]
+      },
+      "caption": "the MOM ether + diisopropylethylammonium chloride"
+    }
+  },
+  "steps": [
+    {
+      "stepKey": "ionisation",
+      "fromStateId": "reactants",
+      "toStateId": "oxocarbenium",
+      "stepKind": "polar",
+      "routePreference": "preferred",
+      "canonicalArrows": [
+        "lp O2 -> π O2-C3",
+        "σ C3-Cl4 -> lp Cl4"
+      ],
+      "explanationAfterStep": "The oxygen lone pair pushes chloride out: the methoxymethyl cation is an oxocarbenium ion, a carbocation with an oxygen lone pair shared into it. α-Chloro ethers ionise easily for this reason."
+    },
+    {
+      "stepKey": "alcohol-adds",
+      "fromStateId": "oxocarbenium",
+      "toStateId": "protonated-ether",
+      "stepKind": "polar",
+      "routePreference": "preferred",
+      "canonicalArrows": [
+        "lp O11 -> σ O11-C3",
+        "π C3-O2 -> lp O2"
+      ],
+      "explanationAfterStep": "The alcohol adds to the cation. The CH₂ now carries two oxygens: the MOM group is an acetal of formaldehyde."
+    },
+    {
+      "stepKey": "sn2-substitution",
+      "fromStateId": "reactants",
+      "toStateId": "protonated-ether",
+      "stepKind": "polar",
+      "routePreference": "accepted",
+      "canonicalArrows": [
+        "lp O11 -> σ O11-C3",
+        "σ C3-Cl4 -> lp Cl4"
+      ],
+      "explanationAfterStep": "Also accepted: a direct SN2 step at the CH₂. MOMCl reacts by both routes; the oxygen lone pair speeds up either one, which is why MOMCl alkylates so much faster than an ordinary primary chloride."
+    },
+    {
+      "stepKey": "deprotonation",
+      "fromStateId": "protonated-ether",
+      "toStateId": "products",
+      "stepKind": "polar",
+      "routePreference": "preferred",
+      "canonicalArrows": [
+        "lp N30 -> σ N30-H12",
+        "σ O11-H12 -> lp O11"
+      ],
+      "explanationAfterStep": "Hünig's base takes the proton. A hindered, non-nucleophilic base is needed so that it removes protons without being alkylated by MOMCl itself."
+    }
+  ],
+  "mechanismSummary": "The oxygen of chloromethyl methyl ether pushes chloride out, giving the methoxymethyl oxocarbenium ion (a direct SN2 step at the CH₂ is also accepted). The alcohol adds to it, and Hünig's base, too hindered to be alkylated, removes the proton. The MOM ether is an acetal of formaldehyde: stable to base, nucleophiles, hydrides and mild acid, removed by stronger acid (HCl in methanol). MOMCl is a carcinogen, so it is handled with care or replaced by dimethoxymethane with an acid catalyst.",
+  "references": [
+    "Clayden, Greeves and Warren, Organic Chemistry, 2nd edition (Oxford University Press), chapter 23",
+    "Wuts, Greene's Protective Groups in Organic Synthesis, 5th edition (Wiley), chapter 2 (ethers and acetals)"
+  ],
+  "authors": [
+    {
+      "name": "Maksim",
+      "url": null
+    }
+  ],
+  "licence": "CC-BY-SA-4.0"
+}

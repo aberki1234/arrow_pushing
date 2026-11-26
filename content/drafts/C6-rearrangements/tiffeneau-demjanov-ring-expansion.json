@@ -1,0 +1,278 @@
+{
+  "formatVersion": 1,
+  "reactionSlug": "tiffeneau-demjanov-ring-expansion",
+  "reactionVersion": 1,
+  "previousReactionVersion": null,
+  "title": "Tiffeneau–Demjanov ring expansion",
+  "subtitle": "A diazonium ion loses N₂ as a ring bond moves: cyclohexane to cycloheptanone",
+  "reactionClasses": [
+    "rearrangement"
+  ],
+  "difficultyTier": 2,
+  "conditionsLabel": "NaNO₂ · HCl(aq) · 0 °C → 25 °C",
+  "dailyPuzzleEligible": true,
+  "atomRoleToMapNumbers": {},
+  "spectatorMapNumbers": [
+    13
+  ],
+  "startStateId": "reactants",
+  "stateIdToState": {
+    "reactants": {
+      "mappedSmiles": "[H:12][O:1][C:2]1([CH2:8][N+:9]#[N:10])[CH2:3][CH2:4][CH2:5][CH2:6][CH2:7]1.[OH2:11].[Cl-:13]",
+      "mapNumberToCoordinates": {
+        "1": [
+          2.65,
+          -0.96
+        ],
+        "2": [
+          1.5,
+          0
+        ],
+        "3": [
+          0.75,
+          1.3
+        ],
+        "4": [
+          -0.75,
+          1.3
+        ],
+        "5": [
+          -1.5,
+          0
+        ],
+        "6": [
+          -0.75,
+          -1.3
+        ],
+        "7": [
+          0.75,
+          -1.3
+        ],
+        "8": [
+          2.65,
+          0.96
+        ],
+        "9": [
+          4.06,
+          0.45
+        ],
+        "10": [
+          5.47,
+          -0.06
+        ],
+        "11": [
+          -0.81,
+          3.59
+        ],
+        "12": [
+          2.39,
+          -2.44
+        ],
+        "13": [
+          1.47,
+          4.27
+        ]
+      },
+      "caption": "the diazonium ion from 1-(aminomethyl)cyclohexan-1-ol and nitrous acid + water",
+      "learnerPrompt": "Nitrogen leaves, and the ring grows. Draw it as one step.",
+      "hintTiers": [
+        "N₂ is the best leaving group there is, but losing it here would leave a primary cation. Which bond on the carbinol carbon can move to the CH₂ as N₂ leaves?",
+        "Three arrows: the C–N bond breaks onto nitrogen, a ring C–C bond moves from the carbinol carbon to the CH₂, and the OH lone pair makes C=O.",
+        "C–N bond → a lone pair on nitrogen (N₂ leaves); ring C–C bond of the carbinol carbon → new bond from that ring carbon to the CH₂; OH oxygen lone pair → C=O π bond."
+      ],
+      "misconceptions": [
+        {
+          "misconceptionId": "epoxide-forms",
+          "misconceptionTag": "neighbouring-oxygen-attacks",
+          "severity": "plausible",
+          "arrowPattern": "lp O1 -> σ O1-C8",
+          "feedbackMessage": "The oxygen can displace N₂ to give an epoxide, a known side product. The main reaction is the ring expansion, which makes a C=O bond."
+        },
+        {
+          "misconceptionId": "water-displaces-n2",
+          "misconceptionTag": "substitution-instead",
+          "severity": "plausible",
+          "arrowPattern": "lp O11 -> σ O11-C8",
+          "feedbackMessage": "Water could displace N₂ to give a diol, but the ring bond next door is already lined up to move: the ring expansion wins."
+        }
+      ],
+      "partialProgressMessages": [
+        {
+          "learnerArrows": [
+            "σ C8-N9 -> lp N9"
+          ],
+          "feedbackMessage": "Right that N₂ leaves, but on its own that would leave a primary carbocation. The ring C–C bond moves as N₂ goes, and the OH lone pair makes C=O."
+        }
+      ]
+    },
+    "protonated-ketone": {
+      "mappedSmiles": "[H:12][O+:1]=[C:2]1[CH2:8][CH2:3][CH2:4][CH2:5][CH2:6][CH2:7]1.[N:9]#[N:10].[OH2:11].[Cl-:13]",
+      "mapNumberToCoordinates": {
+        "1": [
+          3.23,
+          0
+        ],
+        "2": [
+          1.73,
+          0
+        ],
+        "3": [
+          -0.38,
+          1.69
+        ],
+        "4": [
+          -1.56,
+          0.75
+        ],
+        "5": [
+          -1.56,
+          -0.75
+        ],
+        "6": [
+          -0.38,
+          -1.69
+        ],
+        "7": [
+          1.08,
+          -1.35
+        ],
+        "8": [
+          1.08,
+          1.35
+        ],
+        "9": [
+          -0.29,
+          5.48
+        ],
+        "10": [
+          -0.29,
+          3.98
+        ],
+        "11": [
+          5.82,
+          0.03
+        ],
+        "12": [
+          3.98,
+          -1.3
+        ],
+        "13": [
+          1.06,
+          7.34
+        ]
+      },
+      "caption": "protonated cycloheptanone + N₂ + water",
+      "learnerPrompt": "Finish with a proton transfer.",
+      "hintTiers": [
+        "The carbonyl oxygen still carries a proton. Which base is present?",
+        "Water takes the proton; the O–H pair stays on the carbonyl oxygen. Two arrows.",
+        "Water oxygen lone pair → new bond to the drawn H; O–H bond → a lone pair on the carbonyl oxygen."
+      ],
+      "misconceptions": [
+        {
+          "misconceptionId": "chloride-as-base",
+          "misconceptionTag": "weak-base",
+          "severity": "plausible",
+          "arrowPattern": "lp Cl13 -> σ Cl13-H12",
+          "feedbackMessage": "Chloride is far too weak a base to take this proton. Water does it."
+        }
+      ]
+    },
+    "products": {
+      "mappedSmiles": "[O:1]=[C:2]1[CH2:8][CH2:3][CH2:4][CH2:5][CH2:6][CH2:7]1.[N:9]#[N:10].[H:12][OH2+:11].[Cl-:13]",
+      "mapNumberToCoordinates": {
+        "1": [
+          3.23,
+          0
+        ],
+        "2": [
+          1.73,
+          0
+        ],
+        "3": [
+          -0.38,
+          1.69
+        ],
+        "4": [
+          -1.56,
+          0.75
+        ],
+        "5": [
+          -1.56,
+          -0.75
+        ],
+        "6": [
+          -0.38,
+          -1.69
+        ],
+        "7": [
+          1.08,
+          -1.35
+        ],
+        "8": [
+          1.08,
+          1.35
+        ],
+        "9": [
+          -0.15,
+          5.47
+        ],
+        "10": [
+          -0.15,
+          3.97
+        ],
+        "11": [
+          5.52,
+          0.11
+        ],
+        "12": [
+          6.82,
+          0.86
+        ],
+        "13": [
+          0.66,
+          7.62
+        ]
+      },
+      "caption": "cycloheptanone + N₂ + hydronium chloride"
+    }
+  },
+  "steps": [
+    {
+      "stepKey": "ring-expansion",
+      "fromStateId": "reactants",
+      "toStateId": "protonated-ketone",
+      "stepKind": "polar",
+      "routePreference": "preferred",
+      "canonicalArrows": [
+        "σ C8-N9 -> lp N9",
+        "σ C2-C3 -> σ C3-C8",
+        "lp O1 -> π C2-O1"
+      ],
+      "explanationAfterStep": "As N₂ leaves, a ring C–C bond moves to the CH₂, which becomes part of the ring: six-membered becomes seven-membered. The OH lone pair makes C=O at the same time. This is a semipinacol rearrangement: as in the pinacol rearrangement, a group moves towards the leaving group and a C=O forms where it left."
+    },
+    {
+      "stepKey": "deprotonation",
+      "fromStateId": "protonated-ketone",
+      "toStateId": "products",
+      "stepKind": "polar",
+      "routePreference": "preferred",
+      "canonicalArrows": [
+        "lp O11 -> σ O11-H12",
+        "σ O1-H12 -> lp O1"
+      ],
+      "explanationAfterStep": "Water takes the proton: cycloheptanone, one carbon larger than the starting ring."
+    }
+  ],
+  "mechanismSummary": "1-(Aminomethyl)cyclohexan-1-ol is diazotised by nitrous acid (as aniline is; see Nucleophilic aromatic substitution), and the reaction starts here from the diazonium ion. N₂ leaves as a ring C–C bond moves to the CH₂ and the OH lone pair makes C=O: the ring grows by one carbon. Loss of a proton gives cycloheptanone. The first carbocation would be primary, so the shift and the loss of N₂ are drawn together.",
+  "references": [
+    "Clayden, Greeves and Warren, Organic Chemistry, 2nd edition (Oxford University Press), chapter 36"
+  ],
+  "authors": [
+    {
+      "name": "Maksim",
+      "url": null
+    }
+  ],
+  "licence": "CC-BY-SA-4.0"
+}

@@ -1,0 +1,893 @@
+{
+  "formatVersion": 1,
+  "reactionSlug": "thiamine-decarboxylation",
+  "reactionVersion": 1,
+  "previousReactionVersion": null,
+  "title": "Thiamine and pyruvate decarboxylase",
+  "subtitle": "A thiazolium ylide lets pyruvate lose CO₂",
+  "reactionClasses": [
+    "carbonyl",
+    "addition",
+    "elimination"
+  ],
+  "difficultyTier": 3,
+  "conditionsLabel": "pyruvate decarboxylase · thiamine diphosphate · pH 6",
+  "dailyPuzzleEligible": true,
+  "atomRoleToMapNumbers": {},
+  "spectatorMapNumbers": [],
+  "startStateId": "reactants",
+  "stateIdToState": {
+    "reactants": {
+      "mappedSmiles": "[C-:1]1=[N+:2]([CH3:3])[C:4]([CH3:5])=[CH:6][S:7]1.[CH3:11][C:12](=[O:13])[C:14](=[O:15])[O-:16].[H:25][N+:31]1=[CH:32][NH:33][CH:34]=[CH:35]1.[H:46][N+:41]1=[CH:42][NH:43][CH:44]=[CH:45]1",
+      "mapNumberToCoordinates": {
+        "1": [
+          1.28,
+          0
+        ],
+        "2": [
+          0.39,
+          1.21
+        ],
+        "3": [
+          0.86,
+          2.64
+        ],
+        "4": [
+          -1.03,
+          0.75
+        ],
+        "5": [
+          -2.25,
+          1.63
+        ],
+        "6": [
+          -1.03,
+          -0.75
+        ],
+        "7": [
+          0.39,
+          -1.21
+        ],
+        "11": [
+          0,
+          8.57
+        ],
+        "12": [
+          1.3,
+          9.32
+        ],
+        "13": [
+          1.3,
+          10.82
+        ],
+        "14": [
+          2.6,
+          8.57
+        ],
+        "15": [
+          3.9,
+          9.32
+        ],
+        "16": [
+          2.6,
+          7.07
+        ],
+        "25": [
+          7.3,
+          -0.19
+        ],
+        "31": [
+          5.8,
+          -0.19
+        ],
+        "32": [
+          4.92,
+          1.03
+        ],
+        "33": [
+          3.49,
+          0.56
+        ],
+        "34": [
+          3.49,
+          -0.94
+        ],
+        "35": [
+          4.92,
+          -1.4
+        ],
+        "41": [
+          -0.14,
+          5.13
+        ],
+        "42": [
+          -1.03,
+          6.35
+        ],
+        "43": [
+          -2.45,
+          5.88
+        ],
+        "44": [
+          -2.45,
+          4.38
+        ],
+        "45": [
+          -1.03,
+          3.92
+        ],
+        "46": [
+          1.36,
+          5.13
+        ]
+      },
+      "caption": "the thiamine ylide (3,4-dimethylthiazolium ylide as a model) + pyruvate + two imidazolium ions (the acidic groups of the active site)",
+      "learnerPrompt": "The ylide adds to pyruvate. Which carbonyl does it attack?",
+      "hintTiers": [
+        "The ylide carbon, between sulfur and N⁺, is a strong nucleophile. Pyruvate has a ketone and a carboxylate: which C=O is the better electrophile?",
+        "The ylide lone pair makes a bond to the ketone carbon, and the ketone C=O π pair goes onto oxygen. Two arrows.",
+        "Ylide carbon lone pair → new bond to the ketone carbon of pyruvate; ketone C=O π bond → a lone pair on its oxygen."
+      ],
+      "misconceptions": [
+        {
+          "misconceptionId": "attack-carboxylate",
+          "misconceptionTag": "wrong-electrophile",
+          "severity": "wrong",
+          "arrowPattern": "lp C1 -> C14",
+          "feedbackMessage": "A carboxylate is a very poor electrophile: it is already negative. The ketone carbon is attacked."
+        },
+        {
+          "misconceptionId": "ylide-protonated",
+          "misconceptionTag": "unproductive-proton-transfer",
+          "severity": "plausible",
+          "arrowPattern": "lp C1 -> σ C1-H25",
+          "feedbackMessage": "Protonating the ylide just gives the resting thiazolium salt. Use the ylide as a nucleophile."
+        }
+      ],
+      "partialProgressMessages": [
+        {
+          "learnerArrows": [
+            "lp C1 -> σ C1-C12"
+          ],
+          "feedbackMessage": "Right new bond, but the ketone carbon would have five bonds. Where does the C=O π pair go?"
+        }
+      ]
+    },
+    "alkoxide": {
+      "mappedSmiles": "[C:1]1([C:12]([CH3:11])([O-:13])[C:14](=[O:15])[O-:16])=[N+:2]([CH3:3])[C:4]([CH3:5])=[CH:6][S:7]1.[H:25][N+:31]1=[CH:32][NH:33][CH:34]=[CH:35]1.[H:46][N+:41]1=[CH:42][NH:43][CH:44]=[CH:45]1",
+      "mapNumberToCoordinates": {
+        "1": [
+          1.28,
+          0
+        ],
+        "2": [
+          0.39,
+          1.21
+        ],
+        "3": [
+          0.86,
+          2.64
+        ],
+        "4": [
+          -1.03,
+          0.75
+        ],
+        "5": [
+          -2.25,
+          1.63
+        ],
+        "6": [
+          -1.03,
+          -0.75
+        ],
+        "7": [
+          0.39,
+          -1.21
+        ],
+        "11": [
+          4.28,
+          0
+        ],
+        "12": [
+          2.78,
+          0
+        ],
+        "13": [
+          2.78,
+          1.5
+        ],
+        "14": [
+          2.78,
+          -1.5
+        ],
+        "15": [
+          4.08,
+          -2.25
+        ],
+        "16": [
+          1.48,
+          -2.25
+        ],
+        "25": [
+          2.58,
+          6.03
+        ],
+        "31": [
+          1.08,
+          6.03
+        ],
+        "32": [
+          0.19,
+          7.25
+        ],
+        "33": [
+          -1.23,
+          6.78
+        ],
+        "34": [
+          -1.23,
+          5.28
+        ],
+        "35": [
+          0.19,
+          4.82
+        ],
+        "41": [
+          8.75,
+          0
+        ],
+        "42": [
+          7.87,
+          1.22
+        ],
+        "43": [
+          6.44,
+          0.75
+        ],
+        "44": [
+          6.44,
+          -0.75
+        ],
+        "45": [
+          7.87,
+          -1.21
+        ],
+        "46": [
+          10.25,
+          0
+        ]
+      },
+      "caption": "the adduct: an alkoxide on the thiazolium ring",
+      "learnerPrompt": "Protonate the alkoxide.",
+      "hintTiers": [
+        "An alkoxide is a strong base. Imidazolium ions are the acids nearby.",
+        "The O⁻ lone pair takes the drawn hydrogen of an imidazolium ion, and that N–H pair stays on nitrogen. Two arrows.",
+        "Alkoxide lone pair → new bond to the drawn hydrogen of an imidazolium ion; that N–H bond → a lone pair on its nitrogen."
+      ],
+      "misconceptions": [
+        {
+          "misconceptionId": "adduct-falls-apart",
+          "misconceptionTag": "reverse-step",
+          "severity": "plausible",
+          "arrowPattern": "σ C1-C12 -> lp C1",
+          "feedbackMessage": "Losing the ylide again reverses the addition. Protonate the oxygen."
+        },
+        {
+          "misconceptionId": "decarboxylate-now",
+          "misconceptionTag": "order",
+          "severity": "plausible",
+          "arrowPattern": "σ C12-C14 -> *",
+          "feedbackMessage": "Decarboxylation comes next, but first the alkoxide is protonated: with O⁻ on the carbon, the carbanion formed would be destabilised."
+        }
+      ]
+    },
+    "lactyl": {
+      "mappedSmiles": "[C:1]1([C:12]([CH3:11])([O:13][H:25])[C:14](=[O:15])[O-:16])=[N+:2]([CH3:3])[C:4]([CH3:5])=[CH:6][S:7]1.[N:31]1=[CH:32][NH:33][CH:34]=[CH:35]1.[H:46][N+:41]1=[CH:42][NH:43][CH:44]=[CH:45]1",
+      "mapNumberToCoordinates": {
+        "1": [
+          1.28,
+          0
+        ],
+        "2": [
+          0.39,
+          1.21
+        ],
+        "3": [
+          0.86,
+          2.64
+        ],
+        "4": [
+          -1.03,
+          0.75
+        ],
+        "5": [
+          -2.25,
+          1.63
+        ],
+        "6": [
+          -1.03,
+          -0.75
+        ],
+        "7": [
+          0.39,
+          -1.21
+        ],
+        "11": [
+          4.28,
+          0
+        ],
+        "12": [
+          2.78,
+          0
+        ],
+        "13": [
+          2.78,
+          1.5
+        ],
+        "14": [
+          2.78,
+          -1.5
+        ],
+        "15": [
+          4.08,
+          -2.25
+        ],
+        "16": [
+          1.48,
+          -2.25
+        ],
+        "25": [
+          4.08,
+          2.25
+        ],
+        "31": [
+          0.91,
+          6
+        ],
+        "32": [
+          0.03,
+          7.21
+        ],
+        "33": [
+          -1.39,
+          6.75
+        ],
+        "34": [
+          -1.39,
+          5.25
+        ],
+        "35": [
+          0.03,
+          4.78
+        ],
+        "41": [
+          8.76,
+          -0.03
+        ],
+        "42": [
+          7.88,
+          1.18
+        ],
+        "43": [
+          6.45,
+          0.72
+        ],
+        "44": [
+          6.45,
+          -0.78
+        ],
+        "45": [
+          7.88,
+          -1.25
+        ],
+        "46": [
+          10.26,
+          -0.03
+        ]
+      },
+      "caption": "2-lactyl-thiamine (on the model ring) + imidazole + an imidazolium ion",
+      "learnerPrompt": "The key step: lose CO₂.",
+      "hintTiers": [
+        "The thiazolium ring is an electron sink, like the C=O of a β-keto acid. If the carboxylate leaves as CO₂, where can the C–C bonding pair go?",
+        "The carboxylate O⁻ lone pair forms the second C=O of CO₂, the C–CO₂ bonding pair forms a C=C to the ring carbon, and the ring C=N⁺ π pair goes onto nitrogen. Three arrows.",
+        "Carboxylate O⁻ lone pair → C=O π bond (CO₂ forms); C–C bond to the carboxylate carbon → π bond to the ring carbon; ring C=N⁺ π bond → a lone pair on the ring nitrogen."
+      ],
+      "misconceptions": [
+        {
+          "misconceptionId": "carbanion-left",
+          "misconceptionTag": "no-sink",
+          "severity": "wrong",
+          "arrowPattern": "σ C12-C14 -> lp C12",
+          "feedbackMessage": "A bare carbanion would be very unstable. The ring is the electron sink: send the pair into a C=C to the ring carbon."
+        },
+        {
+          "misconceptionId": "lose-oh",
+          "misconceptionTag": "wrong-leaving-group",
+          "severity": "wrong",
+          "arrowPattern": "σ C12-O13 -> *",
+          "feedbackMessage": "Hydroxide does not leave here. The carboxylate leaves as CO₂."
+        }
+      ],
+      "partialProgressMessages": [
+        {
+          "learnerArrows": [
+            "lp O16 -> π C14-O16",
+            "σ C12-C14 -> π C1-C12"
+          ],
+          "feedbackMessage": "Right so far, but the ring carbon would then have five bonds. Push the ring C=N⁺ π pair onto nitrogen."
+        }
+      ]
+    },
+    "breslow-enamine": {
+      "mappedSmiles": "[C:1]1(=[C:12]([CH3:11])[O:13][H:25])[N:2]([CH3:3])[C:4]([CH3:5])=[CH:6][S:7]1.[O:15]=[C:14]=[O:16].[N:31]1=[CH:32][NH:33][CH:34]=[CH:35]1.[H:46][N+:41]1=[CH:42][NH:43][CH:44]=[CH:45]1",
+      "mapNumberToCoordinates": {
+        "1": [
+          1.28,
+          0
+        ],
+        "2": [
+          0.39,
+          1.21
+        ],
+        "3": [
+          0.86,
+          2.64
+        ],
+        "4": [
+          -1.03,
+          0.75
+        ],
+        "5": [
+          -2.25,
+          1.63
+        ],
+        "6": [
+          -1.03,
+          -0.75
+        ],
+        "7": [
+          0.39,
+          -1.21
+        ],
+        "11": [
+          3.53,
+          -1.3
+        ],
+        "12": [
+          2.78,
+          0
+        ],
+        "13": [
+          3.53,
+          1.3
+        ],
+        "14": [
+          0,
+          8.57
+        ],
+        "15": [
+          0,
+          10.07
+        ],
+        "16": [
+          0,
+          7.07
+        ],
+        "25": [
+          5.03,
+          1.3
+        ],
+        "31": [
+          -1.51,
+          5.13
+        ],
+        "32": [
+          -2.39,
+          6.34
+        ],
+        "33": [
+          -3.82,
+          5.88
+        ],
+        "34": [
+          -3.82,
+          4.38
+        ],
+        "35": [
+          -2.39,
+          3.91
+        ],
+        "41": [
+          9.54,
+          -0.1
+        ],
+        "42": [
+          8.66,
+          1.12
+        ],
+        "43": [
+          7.23,
+          0.65
+        ],
+        "44": [
+          7.23,
+          -0.85
+        ],
+        "45": [
+          8.66,
+          -1.31
+        ],
+        "46": [
+          11.04,
+          -0.1
+        ]
+      },
+      "caption": "the Breslow intermediate (an enamine–enol, often called 'active acetaldehyde') + carbon dioxide",
+      "learnerPrompt": "Protonate the enamine on carbon.",
+      "hintTiers": [
+        "The Breslow intermediate is an enamine: the ring nitrogen lone pair pushes, and the exocyclic carbon is nucleophilic. Which acid is still there?",
+        "The ring nitrogen lone pair re-forms C=N⁺, the exocyclic C=C π pair takes the drawn hydrogen of the imidazolium ion, and that N–H pair stays on nitrogen. Three arrows.",
+        "Ring nitrogen lone pair → C=N π bond; the exocyclic C=C π bond → new bond to the drawn hydrogen of the imidazolium ion; that N–H bond → a lone pair on its nitrogen."
+      ],
+      "misconceptions": [
+        {
+          "misconceptionId": "protonate-oxygen",
+          "misconceptionTag": "wrong-site",
+          "severity": "plausible",
+          "arrowPattern": "lp O13 -> σ O13-H46",
+          "feedbackMessage": "Protonating the OH oxygen gives an oxonium ion that leads nowhere. The enamine carbon is the nucleophile."
+        },
+        {
+          "misconceptionId": "protonate-ring-carbon",
+          "misconceptionTag": "enamine-wrong-end",
+          "severity": "wrong",
+          "arrowPattern": "* -> σ C1-H46",
+          "feedbackMessage": "The ring carbon ends up as the C=N⁺ carbon again. The proton goes on the other end of the C=C, the exocyclic carbon."
+        }
+      ],
+      "partialProgressMessages": [
+        {
+          "learnerArrows": [
+            "π C1-C12 -> σ C12-H46",
+            "σ N41-H46 -> lp N41"
+          ],
+          "feedbackMessage": "Right proton, but the ring carbon would be left as a cation. Let the ring nitrogen lone pair push in."
+        }
+      ]
+    },
+    "hydroxyethyl": {
+      "mappedSmiles": "[C:1]1([C:12]([H:46])([CH3:11])[O:13][H:25])=[N+:2]([CH3:3])[C:4]([CH3:5])=[CH:6][S:7]1.[O:15]=[C:14]=[O:16].[N:31]1=[CH:32][NH:33][CH:34]=[CH:35]1.[N:41]1=[CH:42][NH:43][CH:44]=[CH:45]1",
+      "mapNumberToCoordinates": {
+        "1": [
+          1.28,
+          0
+        ],
+        "2": [
+          0.39,
+          1.21
+        ],
+        "3": [
+          0.86,
+          2.64
+        ],
+        "4": [
+          -1.03,
+          0.75
+        ],
+        "5": [
+          -2.25,
+          1.63
+        ],
+        "6": [
+          -1.03,
+          -0.75
+        ],
+        "7": [
+          0.39,
+          -1.21
+        ],
+        "11": [
+          2.78,
+          1.5
+        ],
+        "12": [
+          2.78,
+          0
+        ],
+        "13": [
+          2.78,
+          -1.5
+        ],
+        "14": [
+          0,
+          8.57
+        ],
+        "15": [
+          0,
+          10.07
+        ],
+        "16": [
+          0,
+          7.07
+        ],
+        "25": [
+          4.08,
+          -2.25
+        ],
+        "31": [
+          -1.46,
+          5.13
+        ],
+        "32": [
+          -2.34,
+          6.34
+        ],
+        "33": [
+          -3.77,
+          5.88
+        ],
+        "34": [
+          -3.77,
+          4.38
+        ],
+        "35": [
+          -2.34,
+          3.92
+        ],
+        "41": [
+          8.76,
+          -0.04
+        ],
+        "42": [
+          7.88,
+          1.17
+        ],
+        "43": [
+          6.45,
+          0.71
+        ],
+        "44": [
+          6.45,
+          -0.79
+        ],
+        "45": [
+          7.88,
+          -1.25
+        ],
+        "46": [
+          4.28,
+          0
+        ]
+      },
+      "caption": "2-(1-hydroxyethyl)-thiamine + carbon dioxide + two imidazoles",
+      "learnerPrompt": "Release acetaldehyde and the ylide.",
+      "hintTiers": [
+        "The ylide is a good leaving group, just as cyanide leaves a cyanohydrin. Which proton must go so that a C=O can form?",
+        "An imidazole takes the drawn O–H hydrogen, that O–H pair forms the C=O, and the C–C bond to the ring breaks onto the ring carbon. Three arrows.",
+        "Imidazole nitrogen lone pair → new bond to the drawn O–H hydrogen; that O–H bond → C=O π bond; the C–C bond to the ring → a lone pair on the ring carbon."
+      ],
+      "misconceptions": [
+        {
+          "misconceptionId": "hydroxide-leaves",
+          "misconceptionTag": "poor-leaving-group",
+          "severity": "wrong",
+          "arrowPattern": "σ C12-O13 -> lp O13",
+          "feedbackMessage": "Hydroxide is a poor leaving group. The thiazolium ylide leaves."
+        },
+        {
+          "misconceptionId": "remove-ch",
+          "misconceptionTag": "wrong-proton",
+          "severity": "plausible",
+          "arrowPattern": "* -> σ N31-H46",
+          "feedbackMessage": "Removing the C–H just makes the Breslow intermediate again. Remove the O–H proton."
+        }
+      ],
+      "partialProgressMessages": [
+        {
+          "learnerArrows": [
+            "σ O13-H25 -> π C12-O13",
+            "σ C1-C12 -> lp C1"
+          ],
+          "feedbackMessage": "Right bonds, but the O–H hydrogen needs somewhere to go. Which base takes it?"
+        }
+      ]
+    },
+    "products": {
+      "mappedSmiles": "[CH3:11][C:12]([H:46])=[O:13].[C-:1]1=[N+:2]([CH3:3])[C:4]([CH3:5])=[CH:6][S:7]1.[O:15]=[C:14]=[O:16].[H:25][N+:31]1=[CH:32][NH:33][CH:34]=[CH:35]1.[N:41]1=[CH:42][NH:43][CH:44]=[CH:45]1",
+      "mapNumberToCoordinates": {
+        "1": [
+          1.28,
+          0
+        ],
+        "2": [
+          0.39,
+          1.21
+        ],
+        "3": [
+          0.86,
+          2.64
+        ],
+        "4": [
+          -1.03,
+          0.75
+        ],
+        "5": [
+          -2.25,
+          1.63
+        ],
+        "6": [
+          -1.03,
+          -0.75
+        ],
+        "7": [
+          0.39,
+          -1.21
+        ],
+        "11": [
+          0,
+          7.07
+        ],
+        "12": [
+          1.3,
+          7.82
+        ],
+        "13": [
+          1.3,
+          9.32
+        ],
+        "14": [
+          7.08,
+          0
+        ],
+        "15": [
+          7.08,
+          1.5
+        ],
+        "16": [
+          7.08,
+          -1.5
+        ],
+        "25": [
+          5.88,
+          -3.53
+        ],
+        "31": [
+          4.38,
+          -3.53
+        ],
+        "32": [
+          3.5,
+          -2.32
+        ],
+        "33": [
+          2.07,
+          -2.78
+        ],
+        "34": [
+          2.07,
+          -4.28
+        ],
+        "35": [
+          3.5,
+          -4.75
+        ],
+        "41": [
+          -1.32,
+          5.11
+        ],
+        "42": [
+          -2.2,
+          6.32
+        ],
+        "43": [
+          -3.63,
+          5.86
+        ],
+        "44": [
+          -3.63,
+          4.36
+        ],
+        "45": [
+          -2.2,
+          3.9
+        ],
+        "46": [
+          2.6,
+          7.07
+        ]
+      },
+      "caption": "acetaldehyde + carbon dioxide + the ylide, ready for the next pyruvate"
+    }
+  },
+  "steps": [
+    {
+      "stepKey": "addition-to-pyruvate",
+      "fromStateId": "reactants",
+      "toStateId": "alkoxide",
+      "stepKind": "polar",
+      "routePreference": "preferred",
+      "canonicalArrows": [
+        "lp C1 -> σ C1-C12",
+        "π C12-O13 -> lp O13"
+      ],
+      "explanationAfterStep": "The ylide adds to the ketone like cyanide to a ketone. In thiamine diphosphate the ylide is made by a nearby base (the 4′-imino group of thiamine's own pyrimidine ring) removing the ring C–H."
+    },
+    {
+      "stepKey": "addition-with-protonation",
+      "fromStateId": "reactants",
+      "toStateId": "lactyl",
+      "stepKind": "polar",
+      "routePreference": "accepted",
+      "canonicalArrows": [
+        "lp C1 -> σ C1-C12",
+        "π C12-O13 -> σ O13-H25",
+        "σ N31-H25 -> lp N31"
+      ],
+      "explanationAfterStep": "Also correct, and closer to the enzyme: an acidic group protonates the oxygen as the C–C bond forms."
+    },
+    {
+      "stepKey": "alkoxide-protonation",
+      "fromStateId": "alkoxide",
+      "toStateId": "lactyl",
+      "stepKind": "polar",
+      "routePreference": "preferred",
+      "canonicalArrows": [
+        "lp O13 -> σ O13-H25",
+        "σ N31-H25 -> lp N31"
+      ],
+      "explanationAfterStep": "A proton transfer gives 2-lactyl-thiamine."
+    },
+    {
+      "stepKey": "decarboxylation",
+      "fromStateId": "lactyl",
+      "toStateId": "breslow-enamine",
+      "stepKind": "polar",
+      "routePreference": "preferred",
+      "canonicalArrows": [
+        "lp O16 -> π C14-O16",
+        "σ C12-C14 -> π C1-C12",
+        "π C1-N2 -> lp N2"
+      ],
+      "explanationAfterStep": "Pyruvate on its own cannot lose CO₂: the carbanion would be an acyl anion with nowhere to put its charge. Bonded to the ring, the pair flows into the C=N⁺: the thiazolium ring acts like the ketone of a β-keto acid. This is umpolung: the former ketone carbon is now nucleophilic."
+    },
+    {
+      "stepKey": "enamine-protonation",
+      "fromStateId": "breslow-enamine",
+      "toStateId": "hydroxyethyl",
+      "stepKind": "polar",
+      "routePreference": "preferred",
+      "canonicalArrows": [
+        "lp N2 -> π C1-N2",
+        "π C1-C12 -> σ C12-H46",
+        "σ N41-H46 -> lp N41"
+      ],
+      "explanationAfterStep": "The enamine takes a proton on carbon. In other enzymes the same intermediate attacks other electrophiles instead: lipoamide (pyruvate dehydrogenase) or a second sugar (transketolase)."
+    },
+    {
+      "stepKey": "acetaldehyde-release",
+      "fromStateId": "hydroxyethyl",
+      "toStateId": "products",
+      "stepKind": "polar",
+      "routePreference": "preferred",
+      "canonicalArrows": [
+        "lp N31 -> σ N31-H25",
+        "σ O13-H25 -> π C12-O13",
+        "σ C1-C12 -> lp C1"
+      ],
+      "explanationAfterStep": "Acetaldehyde is released and the ylide is ready for the next pyruvate. In yeast, alcohol dehydrogenase then reduces acetaldehyde to ethanol with NADH."
+    }
+  ],
+  "mechanismSummary": "Pyruvate decarboxylase (yeast fermentation) uses thiamine diphosphate. The ylide of its thiazolium ring adds to the ketone of pyruvate. Once the alkoxide is protonated, CO₂ leaves and its bonding pair flows into the ring C=N⁺, giving the Breslow intermediate, an enamine–enol. Protonation on carbon and loss of the ylide release acetaldehyde. Models: a 3,4-dimethylthiazolium ylide for thiamine (the pyrimidine on nitrogen and the diphosphate side chain take no part in the arrows and are left out), and imidazolium ions for the acidic groups of the active site.",
+  "references": [
+    "Clayden, Greeves and Warren, Organic Chemistry, 2nd edition (Oxford University Press), chapter 42",
+    "Berg, Tymoczko, Gatto and Stryer, Biochemistry (W. H. Freeman), chapter 16: glycolysis (aldolase, pyruvate decarboxylase)",
+    "Breslow, Journal of the American Chemical Society 1958, 80, 3719"
+  ],
+  "authors": [
+    {
+      "name": "Maksim",
+      "url": null
+    }
+  ],
+  "licence": "CC-BY-SA-4.0"
+}

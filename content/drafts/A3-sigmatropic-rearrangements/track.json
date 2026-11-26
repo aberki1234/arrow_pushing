@@ -1,0 +1,87 @@
+{
+  "formatVersion": 1,
+  "trackSlug": "sigmatropic-rearrangements",
+  "title": "Sigmatropic and named rearrangements",
+  "goal": "Recognise [3,3] and [2,3] shifts inside named reactions, draw their cyclic arrows and the steps that set them up, and predict where the new bond forms.",
+  "level": "advanced",
+  "curriculumCode": "A3",
+  "showcaseReactionSlug": "anionic-oxy-cope",
+  "problemSets": [
+    {
+      "problemSetSlug": "three-three-shifts",
+      "title": "[3,3] shifts",
+      "conceptInOneLine": "Make an allyl vinyl ether or a 1,5-diene in the flask, and a [3,3] shift turns it into a γ,δ-unsaturated carbonyl compound.",
+      "conceptCard": "A **[3,3]-sigmatropic shift** moves a σ bond from between atoms 1 and 1′ of two allyl pieces to between atoms 3 and 3′: three arrows round a six-membered ring, with no intermediate. The Cope (all carbon) and Claisen (oxygen at position 3) rearrangements met earlier are the parents.\n\nThe named reactions here are all about **making the substrate in the flask** and **making the shift fast**:\n\n- **Ireland–Claisen**: an allyl ester → ester enolate (LDA) → **silyl ketene acetal** (Me₃SiCl), which rearranges at room temperature\n- **Johnson–Claisen**: an allylic alcohol + triethyl orthoacetate + a trace of acid → a **ketene acetal**, which rearranges at 140 °C\n- **Anionic oxy-Cope**: an alkoxide on carbon 3 of a 1,5-diene speeds the Cope up to 10¹⁷ times and gives an **enolate**\n\nIn each, the new C–C bond forms at the **far end** of the allyl group, so the alkene moves along (an *allylic transposition*). The transition state is **chair-like**: substituents sit equatorial, which sets E-alkenes and passes the configuration of the starting material on to the new stereocentres. *The app does not check stereochemistry yet; it is explained in the text.*",
+      "checkpoint": false,
+      "setItems": [
+        {
+          "reactionSlug": "ireland-claisen-rearrangement",
+          "whyThisOne": "Enolate, silylation, then a Claisen rearrangement at room temperature."
+        },
+        {
+          "reactionSlug": "johnson-claisen-rearrangement",
+          "whyThisOne": "An orthoester and acid build the ketene acetal one proton at a time."
+        },
+        {
+          "reactionSlug": "anionic-oxy-cope",
+          "whyThisOne": "A negative oxygen makes the Cope rearrangement fast and irreversible."
+        }
+      ]
+    },
+    {
+      "problemSetSlug": "two-three-shifts",
+      "title": "[2,3] shifts",
+      "conceptInOneLine": "A lone pair next to an allyl group attacks its far end through a five-membered ring while the old bond breaks.",
+      "conceptCard": "In a **[2,3]-sigmatropic shift** an atom with a lone pair (or a carbanion) sits next to the atom that carries an allyl group. In one step:\n\n1. the lone pair bonds to the **far end** of the allyl group\n2. the C=C moves across\n3. the bond to the old allyl carbon breaks\n\nSix electrons move round **five atoms**, through an envelope-shaped transition state.\n\n- **[2,3]-Wittig**: an allyl ether carbanion (made with butyllithium) → a homoallylic alkoxide; keep it cold, or the [1,2]-Wittig takes over\n- **Mislow–Evans**: an allylic sulfoxide ⇌ an allylic sulfenate ester; a **thiophile**, P(OMe)₃, breaks the S–O bond and leaves an allylic alcohol\n\nBoth transpose the allyl group, and both pass chirality on (from carbon, or from the sulfur of a chiral sulfoxide). *The app does not check stereochemistry yet.*",
+      "checkpoint": false,
+      "setItems": [
+        {
+          "reactionSlug": "2-3-wittig-rearrangement",
+          "whyThisOne": "A carbanion bonds to the far end of the allyl group as the C–O bond breaks."
+        },
+        {
+          "reactionSlug": "mislow-evans-rearrangement",
+          "whyThisOne": "Oxygen moves from sulfur to carbon, then a phosphite pulls off the sulfur."
+        }
+      ]
+    },
+    {
+      "problemSetSlug": "aza-claisen",
+      "title": "Nitrogen in a [3,3] shift",
+      "conceptInOneLine": "An allylic imidate rearranges to an allylic amide: an allylic C–O becomes an allylic C–N.",
+      "conceptCard": "The **Overman rearrangement** is a Claisen rearrangement with nitrogen at one end of the six-atom chain (an *aza-Claisen*):\n\n1. an allylic alcohol adds to **Cl₃CCN** under a little base, giving an **allylic trichloroacetimidate** (the three chlorines make the nitrile carbon electrophilic)\n2. on heating, a [3,3] shift moves the nitrogen to the **far end** of the allyl group\n\nThe allylic C–O becomes an allylic **C–N**, with the alkene moved along. Forming the amide C=O makes it irreversible, and the chair transition state passes the configuration of a chiral alcohol on to the new C–N bond. *The app does not check stereochemistry yet.*",
+      "checkpoint": false,
+      "setItems": [
+        {
+          "reactionSlug": "overman-rearrangement",
+          "whyThisOne": "Imidate formation, then a [3,3] shift that turns an allylic alcohol into an allylic amide."
+        }
+      ]
+    },
+    {
+      "problemSetSlug": "sigmatropic-rearrangements-checkpoint",
+      "title": "Checkpoint",
+      "conceptInOneLine": "Which bond breaks, where does the new one form, and what sets the rearrangement up?",
+      "conceptCard": "Reactions from every set, shuffled, names hidden until you finish. Three attempts per step.",
+      "checkpoint": true,
+      "setItems": [
+        {
+          "reactionSlug": "johnson-claisen-rearrangement",
+          "whyThisOne": "How does an allylic alcohol become a two-carbon-longer ester?"
+        },
+        {
+          "reactionSlug": "anionic-oxy-cope",
+          "whyThisOne": "Which C–C bond breaks, and what does the alkoxide become?"
+        },
+        {
+          "reactionSlug": "2-3-wittig-rearrangement",
+          "whyThisOne": "Which end of the allyl group does the carbanion reach?"
+        },
+        {
+          "reactionSlug": "overman-rearrangement",
+          "whyThisOne": "Where does the nitrogen end up?"
+        }
+      ]
+    }
+  ]
+}

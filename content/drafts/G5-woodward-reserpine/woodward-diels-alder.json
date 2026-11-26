@@ -1,0 +1,247 @@
+{
+  "formatVersion": 1,
+  "reactionSlug": "woodward-diels-alder",
+  "reactionVersion": 1,
+  "previousReactionVersion": null,
+  "title": "Woodward's reserpine: the Diels–Alder reaction",
+  "subtitle": "Benzoquinone and methyl vinylacrylate build the cis-fused E-ring precursor",
+  "reactionClasses": [
+    "pericyclic",
+    "addition"
+  ],
+  "difficultyTier": 2,
+  "conditionsLabel": "benzene · reflux",
+  "dailyPuzzleEligible": true,
+  "atomRoleToMapNumbers": {
+    "diene": [
+      9,
+      10,
+      11,
+      12
+    ],
+    "dienophile": [
+      5,
+      6
+    ]
+  },
+  "spectatorMapNumbers": [],
+  "abbreviatedGroups": [
+    {
+      "groupLabel": "CO₂Me",
+      "attachmentMapNumber": 13,
+      "mapNumbers": [
+        13,
+        14,
+        15,
+        16
+      ]
+    }
+  ],
+  "startStateId": "reactants",
+  "stateIdToState": {
+    "reactants": {
+      "mappedSmiles": "[C:1]1([CH:2]=[CH:3][C:4]([CH:5]=[CH:6]1)=[O:8])=[O:7].[CH2:9]=[CH:10][CH:11]=[CH:12][C:13](=[O:14])[O:15][CH3:16]",
+      "mapNumberToCoordinates": {
+        "1": [
+          2.163,
+          4.056
+        ],
+        "2": [
+          3.663,
+          4.056
+        ],
+        "3": [
+          4.413,
+          2.756
+        ],
+        "4": [
+          3.663,
+          1.456
+        ],
+        "5": [
+          2.163,
+          1.456
+        ],
+        "6": [
+          1.413,
+          2.756
+        ],
+        "7": [
+          1.413,
+          5.356
+        ],
+        "8": [
+          4.413,
+          0.156
+        ],
+        "9": [
+          -0.75,
+          1.3
+        ],
+        "10": [
+          -1.5,
+          0
+        ],
+        "11": [
+          -0.75,
+          -1.3
+        ],
+        "12": [
+          0.75,
+          -1.3
+        ],
+        "13": [
+          1.5,
+          -2.6
+        ],
+        "14": [
+          0.75,
+          -3.9
+        ],
+        "15": [
+          3,
+          -2.6
+        ],
+        "16": [
+          3.75,
+          -3.9
+        ]
+      },
+      "caption": "p-benzoquinone + methyl (E)-penta-2,4-dienoate (methyl vinylacrylate)",
+      "learnerPrompt": "Woodward's first step: a Diels–Alder reaction. Draw the cycloaddition between the diene and one C=C of the quinone.",
+      "hintTiers": [
+        "The diene is the four-carbon chain with two C=C bonds; the quinone is the dienophile. Which bond of the quinone is the dienophile: a C=C or a C=O?",
+        "One C=C of the quinone, pulled electron-poor by both its C=O groups, reacts. The two ends of the diene (the CH₂ and the CH next to the ester) each make a new σ bond to one carbon of that C=C, and a new C=C appears in the middle of the diene. Three arrows, one step.",
+        "Arrow 1: the diene's CH₂=CH π bond → a new σ bond from the CH₂ to one quinone alkene carbon. Arrow 2: the other diene π bond → a π bond between the two middle diene carbons. Arrow 3: the quinone C=C π bond → a new σ bond from its other carbon to the diene carbon next to the ester."
+      ],
+      "misconceptions": [
+        {
+          "misconceptionId": "diene-adds-to-carbonyl-oxygen",
+          "misconceptionTag": "wrong-dienophile",
+          "severity": "wrong",
+          "arrowPattern": "* -> σ C*-O*",
+          "feedbackMessage": "The quinone C=O bonds take no part. The C=C between the two carbonyls is the dienophile: both C=O groups pull electrons out of it, making it very electron-poor."
+        },
+        {
+          "misconceptionId": "middle-carbon-bonds",
+          "misconceptionTag": "wrong-atom-bonds",
+          "severity": "wrong",
+          "arrowPattern": "* -> σ C10-*",
+          "feedbackMessage": "Only the two end carbons of the diene make new σ bonds. The middle two end up joined by the new C=C."
+        },
+        {
+          "misconceptionId": "middle-carbon-bonds-far",
+          "misconceptionTag": "wrong-atom-bonds",
+          "severity": "wrong",
+          "arrowPattern": "* -> σ C11-*",
+          "feedbackMessage": "Only the two end carbons of the diene make new σ bonds. The middle two end up joined by the new C=C."
+        }
+      ],
+      "partialProgressMessages": [
+        {
+          "learnerArrows": [
+            "π C9-C10 -> σ C9-C6"
+          ],
+          "feedbackMessage": "Right: the CH₂ end of the diene bonds to a quinone alkene carbon. Finish the ring of moving electrons: two more arrows in the same step."
+        }
+      ]
+    },
+    "adduct": {
+      "mappedSmiles": "[C:1]1([CH:2]=[CH:3][C:4]([CH:5]2[CH:6]1[CH2:9][CH:10]=[CH:11][CH:12]2[C:13](=[O:14])[O:15][CH3:16])=[O:8])=[O:7]",
+      "mapNumberToCoordinates": {
+        "1": [
+          1.5,
+          2.6
+        ],
+        "2": [
+          3,
+          2.6
+        ],
+        "3": [
+          3.75,
+          1.3
+        ],
+        "4": [
+          3,
+          0
+        ],
+        "5": [
+          1.5,
+          0
+        ],
+        "6": [
+          0.75,
+          1.3
+        ],
+        "7": [
+          0.75,
+          3.9
+        ],
+        "8": [
+          3.75,
+          -1.3
+        ],
+        "9": [
+          -0.75,
+          1.3
+        ],
+        "10": [
+          -1.5,
+          0
+        ],
+        "11": [
+          -0.75,
+          -1.3
+        ],
+        "12": [
+          0.75,
+          -1.3
+        ],
+        "13": [
+          1.5,
+          -2.6
+        ],
+        "14": [
+          0.75,
+          -3.9
+        ],
+        "15": [
+          3,
+          -2.6
+        ],
+        "16": [
+          3.75,
+          -3.9
+        ]
+      },
+      "caption": "the cis-fused adduct: the ester-bearing cyclohexene is the future E ring of reserpine"
+    }
+  },
+  "steps": [
+    {
+      "stepKey": "cycloaddition",
+      "fromStateId": "reactants",
+      "toStateId": "adduct",
+      "stepKind": "polar",
+      "routePreference": "preferred",
+      "canonicalArrows": [
+        "π C9-C10 -> σ C9-C6",
+        "π C11-C12 -> π C10-C11",
+        "π C5-C6 -> σ C5-C12"
+      ],
+      "explanationAfterStep": "A [4+2] cycloaddition in one concerted step: two new C–C σ bonds and a new C=C, through a six-membered ring of moving electrons. The quinone adds through its endo face, so the two new ring-fusion hydrogens and the hydrogen next to the ester end up on the same face: a cis-fused ring system with three stereocentres set in one step. The app does not check stereochemistry yet."
+    }
+  ],
+  "mechanismSummary": "Methyl (E)-penta-2,4-dienoate adds to one C=C of p-benzoquinone in a Diels–Alder reaction: three arrows, one step, two new C–C bonds. Endo addition gives a cis-fused bicyclic adduct in which the two ring-fusion hydrogens and the hydrogen next to the ester all lie on one face. Those three stereocentres become three of the five stereocentres of reserpine's E ring; Woodward used the rigid, folded shape of the cis-fused rings to control every later stereocentre (stereochemistry is explained here, not yet checked by the app).",
+  "references": [
+    "Clayden, Greeves and Warren, Organic Chemistry, 2nd edition (Oxford University Press), chapter 34 (pericyclic reactions 1: cycloadditions)",
+    "R. B. Woodward, F. E. Bader, H. Bickel, A. J. Frey and R. W. Kierstead, The total synthesis of reserpine, J. Am. Chem. Soc., 1956, 78, 2023–2025 and 2657; Tetrahedron, 1958, 2, 1–57"
+  ],
+  "authors": [
+    {
+      "name": "Maksim",
+      "url": null
+    }
+  ],
+  "licence": "CC-BY-SA-4.0"
+}

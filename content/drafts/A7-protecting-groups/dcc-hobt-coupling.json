@@ -1,0 +1,1454 @@
+{
+  "formatVersion": 1,
+  "reactionSlug": "dcc-hobt-coupling",
+  "reactionVersion": 1,
+  "previousReactionVersion": null,
+  "title": "DCC coupling with HOBt",
+  "subtitle": "HOBt catches the O-acylisourea as an active ester; the amine then forms the peptide bond",
+  "reactionClasses": [
+    "carbonyl",
+    "substitution"
+  ],
+  "difficultyTier": 3,
+  "conditionsLabel": "1. DCC · HOBt · CH₂Cl₂ · 0 °C · 2. H-Gly-OMe",
+  "dailyPuzzleEligible": true,
+  "atomRoleToMapNumbers": {
+    "acylCarbon": [
+      2
+    ],
+    "hobtOxygen": [
+      40
+    ],
+    "amineNitrogen": [
+      30
+    ],
+    "isoureaNitrogen": [
+      12
+    ]
+  },
+  "spectatorMapNumbers": [],
+  "abbreviatedGroups": [
+    {
+      "groupLabel": "Boc",
+      "attachmentMapNumber": 60,
+      "mapNumbers": [
+        60,
+        61,
+        62,
+        63,
+        64,
+        65,
+        66
+      ]
+    },
+    {
+      "groupLabel": "CO₂Me",
+      "attachmentMapNumber": 33,
+      "mapNumbers": [
+        33,
+        34,
+        35,
+        36
+      ]
+    },
+    {
+      "groupLabel": "Cy",
+      "attachmentMapNumber": 13,
+      "mapNumbers": [
+        13,
+        14,
+        15,
+        16,
+        17,
+        18
+      ]
+    },
+    {
+      "groupLabel": "Cy",
+      "attachmentMapNumber": 19,
+      "mapNumbers": [
+        19,
+        20,
+        21,
+        22,
+        23,
+        24
+      ]
+    }
+  ],
+  "startStateId": "reactants",
+  "stateIdToState": {
+    "reactants": {
+      "mappedSmiles": "[CH3:5][CH:1]([NH:6][C:60](=[O:61])[O:62][C:63]([CH3:64])([CH3:65])[CH3:66])[C:2](=[O:3])[O:4][C:11](=[N:12][CH:19]1[CH2:20][CH2:21][CH2:22][CH2:23][CH2:24]1)[NH:10][CH:13]1[CH2:14][CH2:15][CH2:16][CH2:17][CH2:18]1.[H:41][O:40][N:42]1[N:43]=[N:44][C:45]2=[CH:46][CH:47]=[CH:48][CH:49]=[C:50]12",
+      "mapNumberToCoordinates": {
+        "1": [
+          3,
+          -5.2
+        ],
+        "2": [
+          3.75,
+          -3.9
+        ],
+        "3": [
+          5.25,
+          -3.9
+        ],
+        "4": [
+          3,
+          -2.6
+        ],
+        "5": [
+          3.75,
+          -6.5
+        ],
+        "6": [
+          1.5,
+          -5.2
+        ],
+        "10": [
+          5.25,
+          -1.3
+        ],
+        "11": [
+          3.75,
+          -1.3
+        ],
+        "12": [
+          3,
+          0
+        ],
+        "13": [
+          6,
+          0
+        ],
+        "14": [
+          5.25,
+          1.3
+        ],
+        "15": [
+          6,
+          2.6
+        ],
+        "16": [
+          7.5,
+          2.6
+        ],
+        "17": [
+          8.25,
+          1.3
+        ],
+        "18": [
+          7.5,
+          0
+        ],
+        "19": [
+          1.5,
+          0
+        ],
+        "20": [
+          0.75,
+          1.3
+        ],
+        "21": [
+          -0.75,
+          1.3
+        ],
+        "22": [
+          -1.5,
+          0
+        ],
+        "23": [
+          -0.75,
+          -1.3
+        ],
+        "24": [
+          0.75,
+          -1.3
+        ],
+        "40": [
+          13.18,
+          -3.7
+        ],
+        "41": [
+          14.3,
+          -4.7
+        ],
+        "42": [
+          13.49,
+          -2.23
+        ],
+        "43": [
+          14.86,
+          -1.62
+        ],
+        "44": [
+          14.71,
+          -0.13
+        ],
+        "45": [
+          13.24,
+          0.18
+        ],
+        "46": [
+          12.49,
+          1.48
+        ],
+        "47": [
+          10.99,
+          1.48
+        ],
+        "48": [
+          10.24,
+          0.18
+        ],
+        "49": [
+          10.99,
+          -1.12
+        ],
+        "50": [
+          12.49,
+          -1.12
+        ],
+        "60": [
+          0.75,
+          -6.5
+        ],
+        "61": [
+          -0.75,
+          -6.5
+        ],
+        "62": [
+          1.5,
+          -7.79
+        ],
+        "63": [
+          0.75,
+          -9.09
+        ],
+        "64": [
+          2.05,
+          -9.84
+        ],
+        "65": [
+          -0.55,
+          -8.34
+        ],
+        "66": [
+          0,
+          -10.39
+        ]
+      },
+      "caption": "the O-acylisourea from Boc-alanine and DCC + HOBt",
+      "learnerPrompt": "HOBt is an acid as well as a nucleophile. Draw the first step.",
+      "hintTiers": [
+        "HOBt has an acidic O–H (pKa about 4.6). Which atom of the O-acylisourea is basic enough to take that proton?",
+        "The C=N nitrogen of the isourea takes the O–H proton of HOBt, and the O–H pair stays on HOBt's oxygen. Two arrows.",
+        "Isourea C=N nitrogen lone pair → new N–H bond to the HOBt proton; HOBt O–H bond → a lone pair on its oxygen."
+      ],
+      "misconceptions": [
+        {
+          "misconceptionId": "o-to-n-acyl-shift",
+          "misconceptionTag": "n-acylurea",
+          "severity": "plausible",
+          "arrowPattern": "lp N12 -> σ N12-C2",
+          "feedbackMessage": "That is the O→N acyl shift: the isourea nitrogen reaches round to the acyl carbon and gives an N-acylurea, a dead end that no longer reacts with amines. It is slow, and HOBt is added to beat it."
+        },
+        {
+          "misconceptionId": "neutral-hobt-attacks",
+          "misconceptionTag": "nucleophile-before-activation",
+          "severity": "plausible",
+          "arrowPattern": "lp O40 -> σ O40-C2",
+          "feedbackMessage": "Neutral HOBt is only a weak nucleophile. It is a fairly strong acid, so it first gives its proton to the basic isourea nitrogen: that makes a better nucleophile and a better leaving group at once."
+        }
+      ],
+      "partialProgressMessages": [
+        {
+          "learnerArrows": [
+            "lp N12 -> σ N12-H41"
+          ],
+          "feedbackMessage": "Right base and right proton. Let the O–H bonding pair stay on HOBt's oxygen."
+        }
+      ]
+    },
+    "isouronium-and-obt": {
+      "mappedSmiles": "[CH3:5][CH:1]([NH:6][C:60](=[O:61])[O:62][C:63]([CH3:64])([CH3:65])[CH3:66])[C:2](=[O:3])[O:4][C:11](=[N+:12]([H:41])[CH:19]1[CH2:20][CH2:21][CH2:22][CH2:23][CH2:24]1)[NH:10][CH:13]1[CH2:14][CH2:15][CH2:16][CH2:17][CH2:18]1.[O-:40][N:42]1[N:43]=[N:44][C:45]2=[CH:46][CH:47]=[CH:48][CH:49]=[C:50]12",
+      "mapNumberToCoordinates": {
+        "1": [
+          3,
+          5.2
+        ],
+        "2": [
+          3.75,
+          3.9
+        ],
+        "3": [
+          5.25,
+          3.9
+        ],
+        "4": [
+          3,
+          2.6
+        ],
+        "5": [
+          3.75,
+          6.5
+        ],
+        "6": [
+          1.5,
+          5.2
+        ],
+        "10": [
+          5.25,
+          1.3
+        ],
+        "11": [
+          3.75,
+          1.3
+        ],
+        "12": [
+          3,
+          0
+        ],
+        "13": [
+          6,
+          0
+        ],
+        "14": [
+          7.5,
+          0
+        ],
+        "15": [
+          8.25,
+          -1.3
+        ],
+        "16": [
+          7.5,
+          -2.6
+        ],
+        "17": [
+          6,
+          -2.6
+        ],
+        "18": [
+          5.25,
+          -1.3
+        ],
+        "19": [
+          1.5,
+          0
+        ],
+        "20": [
+          0.75,
+          1.3
+        ],
+        "21": [
+          -0.75,
+          1.3
+        ],
+        "22": [
+          -1.5,
+          0
+        ],
+        "23": [
+          -0.75,
+          -1.3
+        ],
+        "24": [
+          0.75,
+          -1.3
+        ],
+        "40": [
+          13.28,
+          -4.32
+        ],
+        "41": [
+          3.75,
+          -1.3
+        ],
+        "42": [
+          13.59,
+          -2.85
+        ],
+        "43": [
+          14.96,
+          -2.24
+        ],
+        "44": [
+          14.8,
+          -0.75
+        ],
+        "45": [
+          13.34,
+          -0.44
+        ],
+        "46": [
+          12.59,
+          0.86
+        ],
+        "47": [
+          11.09,
+          0.86
+        ],
+        "48": [
+          10.34,
+          -0.44
+        ],
+        "49": [
+          11.09,
+          -1.74
+        ],
+        "50": [
+          12.59,
+          -1.74
+        ],
+        "60": [
+          0.75,
+          6.5
+        ],
+        "61": [
+          -0.75,
+          6.5
+        ],
+        "62": [
+          1.5,
+          7.79
+        ],
+        "63": [
+          0.75,
+          9.09
+        ],
+        "64": [
+          2.05,
+          9.84
+        ],
+        "65": [
+          -0.55,
+          8.34
+        ],
+        "66": [
+          0,
+          10.39
+        ]
+      },
+      "caption": "protonated O-acylisourea + benzotriazolyl oxide (OBt⁻)",
+      "learnerPrompt": "OBt⁻ attacks the activated acid.",
+      "hintTiers": [
+        "The protonated isourea is a superb leaving group. Which carbon does the OBt⁻ oxygen attack?",
+        "The OBt⁻ oxygen bonds to the acyl carbon (the C=O carbon of alanine), and that C=O π pair moves onto oxygen. Two arrows.",
+        "OBt⁻ oxygen lone pair → new O–C bond to the acyl carbon; C=O π bond → a lone pair on the carbonyl oxygen."
+      ],
+      "misconceptions": [
+        {
+          "misconceptionId": "obt-attacks-isourea-carbon",
+          "misconceptionTag": "attack-wrong-carbon",
+          "severity": "plausible",
+          "arrowPattern": "lp O40 -> C11",
+          "feedbackMessage": "The central isourea carbon is electron-poor too, but adding there does nothing useful. The acyl carbon is the one to attack: the isourea oxygen then leaves."
+        },
+        {
+          "misconceptionId": "obt-takes-proton-back",
+          "misconceptionTag": "reverse-step",
+          "severity": "plausible",
+          "arrowPattern": "lp O40 -> H41",
+          "feedbackMessage": "That just reverses the proton transfer. Use OBt⁻ as a nucleophile."
+        }
+      ],
+      "partialProgressMessages": [
+        {
+          "learnerArrows": [
+            "lp O40 -> σ O40-C2"
+          ],
+          "feedbackMessage": "Right nucleophile and right carbon. Now move the C=O π pair onto oxygen."
+        }
+      ]
+    },
+    "tetrahedral-1": {
+      "mappedSmiles": "[CH3:5][CH:1]([NH:6][C:60](=[O:61])[O:62][C:63]([CH3:64])([CH3:65])[CH3:66])[C:2]([O-:3])([O:40][N:42]1[N:43]=[N:44][C:45]2=[CH:46][CH:47]=[CH:48][CH:49]=[C:50]12)[O:4][C:11](=[N+:12]([H:41])[CH:19]1[CH2:20][CH2:21][CH2:22][CH2:23][CH2:24]1)[NH:10][CH:13]1[CH2:14][CH2:15][CH2:16][CH2:17][CH2:18]1",
+      "mapNumberToCoordinates": {
+        "1": [
+          1.55,
+          -6
+        ],
+        "2": [
+          2.56,
+          -4.88
+        ],
+        "3": [
+          3.56,
+          -3.77
+        ],
+        "4": [
+          3.67,
+          -5.89
+        ],
+        "5": [
+          2.02,
+          -7.43
+        ],
+        "6": [
+          0.09,
+          -5.69
+        ],
+        "10": [
+          6.21,
+          -6.43
+        ],
+        "11": [
+          5.1,
+          -5.42
+        ],
+        "12": [
+          5.41,
+          -3.96
+        ],
+        "13": [
+          5.9,
+          -7.9
+        ],
+        "14": [
+          7.02,
+          -8.9
+        ],
+        "15": [
+          6.7,
+          -10.37
+        ],
+        "16": [
+          5.28,
+          -10.83
+        ],
+        "17": [
+          4.16,
+          -9.83
+        ],
+        "18": [
+          4.47,
+          -8.36
+        ],
+        "19": [
+          6.84,
+          -3.49
+        ],
+        "20": [
+          7.95,
+          -4.5
+        ],
+        "21": [
+          9.38,
+          -4.03
+        ],
+        "22": [
+          9.69,
+          -2.57
+        ],
+        "23": [
+          8.57,
+          -1.56
+        ],
+        "24": [
+          7.15,
+          -2.03
+        ],
+        "40": [
+          1.44,
+          -3.88
+        ],
+        "41": [
+          4.3,
+          -2.95
+        ],
+        "42": [
+          1.75,
+          -2.41
+        ],
+        "43": [
+          3.12,
+          -1.8
+        ],
+        "44": [
+          2.97,
+          -0.31
+        ],
+        "45": [
+          1.5,
+          0
+        ],
+        "46": [
+          0.75,
+          1.3
+        ],
+        "47": [
+          -0.75,
+          1.3
+        ],
+        "48": [
+          -1.5,
+          0
+        ],
+        "49": [
+          -0.75,
+          -1.3
+        ],
+        "50": [
+          0.75,
+          -1.3
+        ],
+        "60": [
+          -0.92,
+          -6.8
+        ],
+        "61": [
+          -2.39,
+          -6.49
+        ],
+        "62": [
+          -0.45,
+          -8.23
+        ],
+        "63": [
+          -1.46,
+          -9.34
+        ],
+        "64": [
+          -0.34,
+          -10.35
+        ],
+        "65": [
+          -2.57,
+          -8.34
+        ],
+        "66": [
+          -2.46,
+          -10.46
+        ]
+      },
+      "caption": "tetrahedral intermediate",
+      "learnerPrompt": "The tetrahedral intermediate collapses.",
+      "hintTiers": [
+        "Re-form the C=O. Which group leaves best: OBt or the protonated isourea?",
+        "The O⁻ lone pair re-forms C=O, the bond to the isourea oxygen breaks and its pair forms a C=O bond at the urea carbon, and the C=N⁺ π pair moves onto nitrogen. Three arrows: neutral dicyclohexylurea leaves.",
+        "O⁻ lone pair → C=O π bond; acyl C–O bond to the isourea oxygen → a C=O π bond at the urea carbon; C=N⁺ π bond → a lone pair on nitrogen."
+      ],
+      "misconceptions": [
+        {
+          "misconceptionId": "obt-leaves-again",
+          "misconceptionTag": "reverse-step",
+          "severity": "plausible",
+          "arrowPattern": "σ C2-O40 -> lp O40",
+          "feedbackMessage": "Losing OBt⁻ undoes the last step. Dicyclohexylurea is the better leaving group: it leaves neutral, with a very stable C=O."
+        }
+      ],
+      "partialProgressMessages": [
+        {
+          "learnerArrows": [
+            "lp O3 -> π O3-C2",
+            "σ C2-O4 -> lp O4"
+          ],
+          "feedbackMessage": "Right bond breaks. Push further: the isourea oxygen can form a C=O bond as it leaves, and the C=N⁺ π pair then moves onto nitrogen, so that neutral dicyclohexylurea leaves."
+        }
+      ]
+    },
+    "active-ester": {
+      "mappedSmiles": "[CH3:5][CH:1]([NH:6][C:60](=[O:61])[O:62][C:63]([CH3:64])([CH3:65])[CH3:66])[C:2](=[O:3])[O:40][N:42]1[N:43]=[N:44][C:45]2=[CH:46][CH:47]=[CH:48][CH:49]=[C:50]12.[O:4]=[C:11]([N:12]([H:41])[CH:19]1[CH2:20][CH2:21][CH2:22][CH2:23][CH2:24]1)[NH:10][CH:13]1[CH2:14][CH2:15][CH2:16][CH2:17][CH2:18]1",
+      "mapNumberToCoordinates": {
+        "1": [
+          2.24,
+          -6.35
+        ],
+        "2": [
+          2.56,
+          -4.88
+        ],
+        "3": [
+          3.98,
+          -4.42
+        ],
+        "4": [
+          9.69,
+          2.75
+        ],
+        "5": [
+          3.36,
+          -7.36
+        ],
+        "6": [
+          0.82,
+          -6.82
+        ],
+        "10": [
+          11.94,
+          1.46
+        ],
+        "11": [
+          10.44,
+          1.46
+        ],
+        "12": [
+          9.69,
+          0.16
+        ],
+        "13": [
+          12.69,
+          2.75
+        ],
+        "14": [
+          14.19,
+          2.75
+        ],
+        "15": [
+          14.94,
+          4.05
+        ],
+        "16": [
+          14.19,
+          5.35
+        ],
+        "17": [
+          12.69,
+          5.35
+        ],
+        "18": [
+          11.94,
+          4.05
+        ],
+        "19": [
+          8.19,
+          0.16
+        ],
+        "20": [
+          7.44,
+          1.46
+        ],
+        "21": [
+          5.94,
+          1.46
+        ],
+        "22": [
+          5.19,
+          0.16
+        ],
+        "23": [
+          5.94,
+          -1.14
+        ],
+        "24": [
+          7.44,
+          -1.14
+        ],
+        "40": [
+          1.44,
+          -3.88
+        ],
+        "41": [
+          10.44,
+          -1.14
+        ],
+        "42": [
+          1.75,
+          -2.41
+        ],
+        "43": [
+          3.12,
+          -1.8
+        ],
+        "44": [
+          2.97,
+          -0.31
+        ],
+        "45": [
+          1.5,
+          0
+        ],
+        "46": [
+          0.75,
+          1.3
+        ],
+        "47": [
+          -0.75,
+          1.3
+        ],
+        "48": [
+          -1.5,
+          0
+        ],
+        "49": [
+          -0.75,
+          -1.3
+        ],
+        "50": [
+          0.75,
+          -1.3
+        ],
+        "60": [
+          0.51,
+          -8.28
+        ],
+        "61": [
+          -0.92,
+          -8.75
+        ],
+        "62": [
+          1.62,
+          -9.29
+        ],
+        "63": [
+          1.31,
+          -10.75
+        ],
+        "64": [
+          2.78,
+          -11.07
+        ],
+        "65": [
+          -0.16,
+          -10.44
+        ],
+        "66": [
+          1,
+          -12.22
+        ]
+      },
+      "caption": "the OBt active ester + dicyclohexylurea (DCU)"
+    },
+    "active-ester-and-amine": {
+      "mappedSmiles": "[CH3:5][CH:1]([NH:6][C:60](=[O:61])[O:62][C:63]([CH3:64])([CH3:65])[CH3:66])[C:2](=[O:3])[O:40][N:42]1[N:43]=[N:44][C:45]2=[CH:46][CH:47]=[CH:48][CH:49]=[C:50]12.[NH:30]([H:31])[CH2:32][C:33](=[O:34])[O:35][CH3:36]",
+      "mapNumberToCoordinates": {
+        "1": [
+          2.24,
+          -6.35
+        ],
+        "2": [
+          2.56,
+          -4.88
+        ],
+        "3": [
+          3.98,
+          -4.42
+        ],
+        "5": [
+          3.36,
+          -7.36
+        ],
+        "6": [
+          0.82,
+          -6.82
+        ],
+        "30": [
+          10.39,
+          0.15
+        ],
+        "31": [
+          11.69,
+          0.9
+        ],
+        "32": [
+          9.09,
+          0.9
+        ],
+        "33": [
+          7.79,
+          0.15
+        ],
+        "34": [
+          7.79,
+          -1.35
+        ],
+        "35": [
+          6.49,
+          0.9
+        ],
+        "36": [
+          5.19,
+          0.15
+        ],
+        "40": [
+          1.44,
+          -3.88
+        ],
+        "42": [
+          1.75,
+          -2.41
+        ],
+        "43": [
+          3.12,
+          -1.8
+        ],
+        "44": [
+          2.97,
+          -0.31
+        ],
+        "45": [
+          1.5,
+          0
+        ],
+        "46": [
+          0.75,
+          1.3
+        ],
+        "47": [
+          -0.75,
+          1.3
+        ],
+        "48": [
+          -1.5,
+          0
+        ],
+        "49": [
+          -0.75,
+          -1.3
+        ],
+        "50": [
+          0.75,
+          -1.3
+        ],
+        "60": [
+          0.51,
+          -8.28
+        ],
+        "61": [
+          -0.92,
+          -8.75
+        ],
+        "62": [
+          1.62,
+          -9.29
+        ],
+        "63": [
+          1.31,
+          -10.75
+        ],
+        "64": [
+          2.78,
+          -11.07
+        ],
+        "65": [
+          -0.16,
+          -10.44
+        ],
+        "66": [
+          1,
+          -12.22
+        ]
+      },
+      "caption": "the OBt active ester + glycine methyl ester",
+      "learnerPrompt": "The amine attacks the active ester.",
+      "hintTiers": [
+        "An OBt ester is reactive, but much less so than the O-acylisourea, so it waits for the amine. Where does the amine attack?",
+        "The amine nitrogen bonds to the ester C=O carbon, and the C=O π pair moves onto oxygen. Two arrows.",
+        "Amine nitrogen lone pair → new N–C bond to the ester carbonyl carbon; C=O π bond → a lone pair on oxygen."
+      ],
+      "misconceptions": [
+        {
+          "misconceptionId": "amine-attacks-ring-nitrogen",
+          "misconceptionTag": "wrong-electrophile",
+          "severity": "wrong",
+          "arrowPattern": "lp N30 -> N42",
+          "feedbackMessage": "The ring nitrogen is not an electrophile. The amine attacks the ester carbonyl carbon."
+        }
+      ],
+      "partialProgressMessages": [
+        {
+          "learnerArrows": [
+            "lp N30 -> σ N30-C2"
+          ],
+          "feedbackMessage": "Right: the amine attacks the ester carbon. Now move the C=O π pair onto oxygen."
+        }
+      ]
+    },
+    "tetrahedral-2": {
+      "mappedSmiles": "[CH3:5][CH:1]([NH:6][C:60](=[O:61])[O:62][C:63]([CH3:64])([CH3:65])[CH3:66])[C:2]([O-:3])([O:40][N:42]1[N:43]=[N:44][C:45]2=[CH:46][CH:47]=[CH:48][CH:49]=[C:50]12)[NH+:30]([H:31])[CH2:32][C:33](=[O:34])[O:35][CH3:36]",
+      "mapNumberToCoordinates": {
+        "1": [
+          1.55,
+          -6
+        ],
+        "2": [
+          2.56,
+          -4.88
+        ],
+        "3": [
+          3.67,
+          -5.89
+        ],
+        "5": [
+          2.02,
+          -7.43
+        ],
+        "6": [
+          0.09,
+          -5.69
+        ],
+        "30": [
+          3.56,
+          -3.77
+        ],
+        "31": [
+          3.48,
+          -2.68
+        ],
+        "32": [
+          5.03,
+          -4.08
+        ],
+        "33": [
+          6.03,
+          -2.97
+        ],
+        "34": [
+          7.5,
+          -3.28
+        ],
+        "35": [
+          5.57,
+          -1.54
+        ],
+        "36": [
+          6.57,
+          -0.43
+        ],
+        "40": [
+          1.44,
+          -3.88
+        ],
+        "42": [
+          1.75,
+          -2.41
+        ],
+        "43": [
+          3.12,
+          -1.8
+        ],
+        "44": [
+          2.97,
+          -0.31
+        ],
+        "45": [
+          1.5,
+          0
+        ],
+        "46": [
+          0.75,
+          1.3
+        ],
+        "47": [
+          -0.75,
+          1.3
+        ],
+        "48": [
+          -1.5,
+          0
+        ],
+        "49": [
+          -0.75,
+          -1.3
+        ],
+        "50": [
+          0.75,
+          -1.3
+        ],
+        "60": [
+          -0.92,
+          -6.8
+        ],
+        "61": [
+          -2.39,
+          -6.49
+        ],
+        "62": [
+          -0.45,
+          -8.23
+        ],
+        "63": [
+          -1.46,
+          -9.34
+        ],
+        "64": [
+          -0.34,
+          -10.35
+        ],
+        "65": [
+          -2.57,
+          -8.34
+        ],
+        "66": [
+          -2.46,
+          -10.46
+        ]
+      },
+      "caption": "tetrahedral intermediate",
+      "learnerPrompt": "The tetrahedral intermediate collapses.",
+      "hintTiers": [
+        "Re-form the C=O. Which group leaves: the amine you just added, or OBt⁻?",
+        "The O⁻ lone pair re-forms C=O, and the bond to the OBt oxygen breaks. Two arrows.",
+        "O⁻ lone pair → C=O π bond; C–O bond to the OBt oxygen → a lone pair on that oxygen."
+      ],
+      "misconceptions": [
+        {
+          "misconceptionId": "amine-leaves",
+          "misconceptionTag": "reverse-step",
+          "severity": "plausible",
+          "arrowPattern": "σ C2-N30 -> lp N30",
+          "feedbackMessage": "Losing the amine undoes the addition. OBt⁻ (from an acid of pKa 4.6) is the much better leaving group."
+        }
+      ]
+    },
+    "amide-and-obt": {
+      "mappedSmiles": "[CH3:5][CH:1]([NH:6][C:60](=[O:61])[O:62][C:63]([CH3:64])([CH3:65])[CH3:66])[C:2](=[O:3])[NH+:30]([H:31])[CH2:32][C:33](=[O:34])[O:35][CH3:36].[O-:40][N:42]1[N:43]=[N:44][C:45]2=[CH:46][CH:47]=[CH:48][CH:49]=[C:50]12",
+      "mapNumberToCoordinates": {
+        "1": [
+          5.42,
+          0.75
+        ],
+        "2": [
+          6.72,
+          0
+        ],
+        "3": [
+          8.02,
+          0.75
+        ],
+        "5": [
+          4.12,
+          0
+        ],
+        "6": [
+          5.42,
+          2.25
+        ],
+        "30": [
+          6.72,
+          -1.5
+        ],
+        "31": [
+          5.42,
+          -2.25
+        ],
+        "32": [
+          8.02,
+          -2.25
+        ],
+        "33": [
+          8.02,
+          -3.75
+        ],
+        "34": [
+          9.32,
+          -4.5
+        ],
+        "35": [
+          6.72,
+          -4.5
+        ],
+        "36": [
+          6.72,
+          -6
+        ],
+        "40": [
+          0.35,
+          -4.04
+        ],
+        "42": [
+          0.66,
+          -2.57
+        ],
+        "43": [
+          2.03,
+          -1.96
+        ],
+        "44": [
+          1.88,
+          -0.47
+        ],
+        "45": [
+          0.41,
+          -0.15
+        ],
+        "46": [
+          -0.34,
+          1.14
+        ],
+        "47": [
+          -1.84,
+          1.14
+        ],
+        "48": [
+          -2.59,
+          -0.15
+        ],
+        "49": [
+          -1.84,
+          -1.45
+        ],
+        "50": [
+          -0.34,
+          -1.45
+        ],
+        "60": [
+          6.72,
+          3
+        ],
+        "61": [
+          6.72,
+          4.5
+        ],
+        "62": [
+          8.02,
+          2.25
+        ],
+        "63": [
+          9.32,
+          3
+        ],
+        "64": [
+          10.07,
+          1.7
+        ],
+        "65": [
+          8.57,
+          4.3
+        ],
+        "66": [
+          10.62,
+          3.75
+        ]
+      },
+      "caption": "protonated amide + OBt⁻",
+      "learnerPrompt": "One proton transfer finishes the coupling.",
+      "hintTiers": [
+        "The amide nitrogen carries an extra proton. Which base takes it?",
+        "OBt⁻ takes the N–H proton, and the N–H pair stays on nitrogen. Two arrows: HOBt is regenerated.",
+        "OBt⁻ oxygen lone pair → new O–H bond to the amide N–H proton; N–H bond → a lone pair on nitrogen."
+      ],
+      "misconceptions": [
+        {
+          "misconceptionId": "obt-adds-again",
+          "misconceptionTag": "reverse-step",
+          "severity": "plausible",
+          "arrowPattern": "lp O40 -> C2",
+          "feedbackMessage": "Adding back to the amide C=O undoes the last step, and amides are poor electrophiles anyway. Take the proton instead."
+        }
+      ]
+    },
+    "products": {
+      "mappedSmiles": "[CH3:5][CH:1]([NH:6][C:60](=[O:61])[O:62][C:63]([CH3:64])([CH3:65])[CH3:66])[C:2](=[O:3])[NH:30][CH2:32][C:33](=[O:34])[O:35][CH3:36].[H:31][O:40][N:42]1[N:43]=[N:44][C:45]2=[CH:46][CH:47]=[CH:48][CH:49]=[C:50]12",
+      "mapNumberToCoordinates": {
+        "1": [
+          5.42,
+          0.75
+        ],
+        "2": [
+          6.72,
+          0
+        ],
+        "3": [
+          6.72,
+          -1.5
+        ],
+        "5": [
+          4.12,
+          0
+        ],
+        "6": [
+          5.42,
+          2.25
+        ],
+        "30": [
+          8.02,
+          0.75
+        ],
+        "31": [
+          1.5,
+          -5.2
+        ],
+        "32": [
+          9.32,
+          0
+        ],
+        "33": [
+          9.32,
+          -1.5
+        ],
+        "34": [
+          8.02,
+          -2.25
+        ],
+        "35": [
+          10.62,
+          -2.25
+        ],
+        "36": [
+          10.62,
+          -3.75
+        ],
+        "40": [
+          0.38,
+          -4.19
+        ],
+        "42": [
+          0.7,
+          -2.72
+        ],
+        "43": [
+          2.07,
+          -2.11
+        ],
+        "44": [
+          1.91,
+          -0.62
+        ],
+        "45": [
+          0.44,
+          -0.31
+        ],
+        "46": [
+          -0.31,
+          0.99
+        ],
+        "47": [
+          -1.81,
+          0.99
+        ],
+        "48": [
+          -2.56,
+          -0.31
+        ],
+        "49": [
+          -1.81,
+          -1.61
+        ],
+        "50": [
+          -0.31,
+          -1.61
+        ],
+        "60": [
+          6.72,
+          3
+        ],
+        "61": [
+          6.72,
+          4.5
+        ],
+        "62": [
+          8.02,
+          2.25
+        ],
+        "63": [
+          9.32,
+          3
+        ],
+        "64": [
+          10.07,
+          1.7
+        ],
+        "65": [
+          8.57,
+          4.3
+        ],
+        "66": [
+          10.62,
+          3.75
+        ]
+      },
+      "caption": "Boc-Ala-Gly-OMe (a protected dipeptide) + HOBt"
+    }
+  },
+  "steps": [
+    {
+      "stepKey": "hobt-protonates-isourea",
+      "fromStateId": "reactants",
+      "toStateId": "isouronium-and-obt",
+      "stepKind": "polar",
+      "routePreference": "preferred",
+      "canonicalArrows": [
+        "lp N12 -> σ N12-H41",
+        "σ O40-H41 -> lp O40"
+      ],
+      "explanationAfterStep": "HOBt is acidic, and the isourea nitrogen is basic. The proton transfer gives OBt⁻, a good nucleophile, and turns the isourea into an even better leaving group."
+    },
+    {
+      "stepKey": "obt-adds",
+      "fromStateId": "isouronium-and-obt",
+      "toStateId": "tetrahedral-1",
+      "stepKind": "polar",
+      "routePreference": "preferred",
+      "canonicalArrows": [
+        "lp O40 -> σ O40-C2",
+        "π C2-O3 -> lp O3"
+      ],
+      "explanationAfterStep": "OBt⁻ adds to the acyl carbon. This intercepts the O-acylisourea quickly, before it can rearrange to an N-acylurea or cyclise to an oxazolone (the cause of racemisation)."
+    },
+    {
+      "stepKey": "dcu-leaves",
+      "fromStateId": "tetrahedral-1",
+      "toStateId": "active-ester",
+      "stepKind": "polar",
+      "routePreference": "preferred",
+      "canonicalArrows": [
+        "lp O3 -> π O3-C2",
+        "σ C2-O4 -> π O4-C11",
+        "π C11-N12 -> lp N12"
+      ],
+      "explanationAfterStep": "Dicyclohexylurea leaves, neutral, and the OBt active ester remains. Forming the strong urea C=O pays for the activation."
+    },
+    {
+      "stepKey": "amine-arrives",
+      "fromStateId": "active-ester",
+      "toStateId": "active-ester-and-amine",
+      "stepKind": "change",
+      "routePreference": "preferred",
+      "addedSpecies": "[NH:30]([H:31])[CH2:32][C:33](=[O:34])[O:35][CH3:36]",
+      "removedFragmentMapNumbers": [
+        11
+      ],
+      "caption": "Glycine methyl ester is added; dicyclohexylurea, insoluble in CH₂Cl₂, is filtered off. (In practice the amine is often there from the start, as its hydrochloride with a tertiary amine base.)"
+    },
+    {
+      "stepKey": "amine-adds",
+      "fromStateId": "active-ester-and-amine",
+      "toStateId": "tetrahedral-2",
+      "stepKind": "polar",
+      "routePreference": "preferred",
+      "canonicalArrows": [
+        "lp N30 -> σ N30-C2",
+        "π C2-O3 -> lp O3"
+      ],
+      "explanationAfterStep": "The amine adds to the active ester's C=O carbon: a tetrahedral intermediate, as in any aminolysis of an ester."
+    },
+    {
+      "stepKey": "obt-leaves",
+      "fromStateId": "tetrahedral-2",
+      "toStateId": "amide-and-obt",
+      "stepKind": "polar",
+      "routePreference": "preferred",
+      "canonicalArrows": [
+        "lp O3 -> π O3-C2",
+        "σ C2-O40 -> lp O40"
+      ],
+      "explanationAfterStep": "C=O re-forms and OBt⁻ leaves. It is a good leaving group because HOBt is a fairly strong acid."
+    },
+    {
+      "stepKey": "proton-transfer",
+      "fromStateId": "amide-and-obt",
+      "toStateId": "products",
+      "stepKind": "polar",
+      "routePreference": "preferred",
+      "canonicalArrows": [
+        "lp O40 -> σ O40-H31",
+        "σ N30-H31 -> lp N30"
+      ],
+      "explanationAfterStep": "OBt⁻ takes the proton: the dipeptide and HOBt, which can go round again. The Boc group on alanine stopped it from coupling with itself; the methyl ester protects glycine's acid."
+    }
+  ],
+  "mechanismSummary": "Boc-alanine and DCC first give the O-acylisourea, as in DCC amide coupling. HOBt gives its proton to the isourea nitrogen, and OBt⁻ adds to the acyl carbon; the intermediate expels neutral dicyclohexylurea, leaving an OBt active ester. Glycine methyl ester then adds to the ester and OBt⁻ leaves, giving the protected dipeptide Boc-Ala-Gly-OMe and HOBt again. HOBt matters because the O-acylisourea is too reactive: on its own it rearranges to an unreactive N-acylurea, or cyclises to an oxazolone whose α-hydrogen is acidic, so the amino acid racemises. The OBt ester is reactive enough to meet the amine but too mild for these side reactions. The app does not check stereochemistry yet.",
+  "references": [
+    "Clayden, Greeves and Warren, Organic Chemistry, 2nd edition (Oxford University Press), chapter 23",
+    "Montalbetti and Falque, Amide bond formation and peptide coupling, Tetrahedron 2005, 61, 10827"
+  ],
+  "authors": [
+    {
+      "name": "Maksim",
+      "url": null
+    }
+  ],
+  "licence": "CC-BY-SA-4.0"
+}

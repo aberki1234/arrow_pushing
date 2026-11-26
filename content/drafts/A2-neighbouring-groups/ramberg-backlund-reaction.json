@@ -1,0 +1,316 @@
+{
+  "formatVersion": 1,
+  "reactionSlug": "ramberg-backlund-reaction",
+  "reactionVersion": 1,
+  "previousReactionVersion": null,
+  "title": "Ramberg–Bäcklund reaction",
+  "subtitle": "An α-chloro sulfone and base: an episulfone loses SO₂ to give an alkene",
+  "reactionClasses": [
+    "rearrangement",
+    "pericyclic"
+  ],
+  "difficultyTier": 3,
+  "conditionsLabel": "KOH · H₂O · reflux",
+  "dailyPuzzleEligible": true,
+  "atomRoleToMapNumbers": {},
+  "spectatorMapNumbers": [
+    11
+  ],
+  "startStateId": "reactants",
+  "stateIdToState": {
+    "reactants": {
+      "mappedSmiles": "[CH3:1][CH:2]([Cl:3])[S:4](=[O:5])(=[O:6])[CH:7]([CH3:9])[H:8].[OH-:10].[K+:11]",
+      "mapNumberToCoordinates": {
+        "1": [
+          0,
+          0
+        ],
+        "2": [
+          1.3,
+          0.75
+        ],
+        "3": [
+          1.3,
+          2.25
+        ],
+        "4": [
+          2.6,
+          0
+        ],
+        "5": [
+          3.35,
+          1.3
+        ],
+        "6": [
+          1.85,
+          -1.3
+        ],
+        "7": [
+          3.9,
+          -0.75
+        ],
+        "8": [
+          3.9,
+          -2.25
+        ],
+        "9": [
+          5.2,
+          0
+        ],
+        "10": [
+          -0.41,
+          3.77
+        ],
+        "11": [
+          7.5,
+          0
+        ]
+      },
+      "caption": "1-chloroethyl ethyl sulfone + potassium hydroxide",
+      "learnerPrompt": "Make a carbanion that can reach the C–Cl carbon.",
+      "hintTiers": [
+        "A sulfonyl group makes the hydrogens next to it acidic. The carbanion you want must be able to attack the carbon carrying chlorine, so which side of the sulfone should lose a proton?",
+        "Hydroxide takes the drawn hydrogen on the side without chlorine; the C–H pair stays on that carbon. Two arrows.",
+        "Hydroxide lone pair → new bond to the drawn H; that C–H bond → a lone pair on its carbon."
+      ],
+      "misconceptions": [
+        {
+          "misconceptionId": "hydroxide-sn2",
+          "misconceptionTag": "substitution-instead",
+          "severity": "wrong",
+          "arrowPattern": "lp O10 -> σ O10-C2",
+          "feedbackMessage": "Halides next to a sulfonyl group are very poor at SN2 reactions with external nucleophiles. Hydroxide acts as a base here."
+        }
+      ]
+    },
+    "carbanion": {
+      "mappedSmiles": "[CH3:1][CH:2]([Cl:3])[S:4](=[O:5])(=[O:6])[CH-:7][CH3:9].[H:8][OH:10].[K+:11]",
+      "mapNumberToCoordinates": {
+        "1": [
+          0,
+          0
+        ],
+        "2": [
+          1.3,
+          0.75
+        ],
+        "3": [
+          1.3,
+          2.25
+        ],
+        "4": [
+          2.6,
+          0
+        ],
+        "5": [
+          3.35,
+          1.3
+        ],
+        "6": [
+          1.85,
+          -1.3
+        ],
+        "7": [
+          3.9,
+          -0.75
+        ],
+        "8": [
+          7.32,
+          0.88
+        ],
+        "9": [
+          3.9,
+          -2.25
+        ],
+        "10": [
+          6.02,
+          0.13
+        ],
+        "11": [
+          -0.38,
+          3.79
+        ]
+      },
+      "caption": "the α-sulfonyl carbanion + water",
+      "learnerPrompt": "The carbanion displaces chloride. Draw the ring closure.",
+      "hintTiers": [
+        "The carbanion and the C–Cl carbon are both bonded to sulfur. If they bond to each other, how big is the ring?",
+        "The carbanion bonds to the carbon carrying chlorine, and the C–Cl pair leaves with chloride. Two arrows: a three-membered ring with sulfur in it.",
+        "Carbanion lone pair → new bond to the carbon carrying chlorine; C–Cl bond → a lone pair on chlorine."
+      ],
+      "misconceptions": [
+        {
+          "misconceptionId": "carbanion-reprotonated",
+          "misconceptionTag": "reverse-step",
+          "severity": "plausible",
+          "arrowPattern": "lp C7 -> σ C7-H8",
+          "feedbackMessage": "Taking the proton back from water just returns to the start. The carbanion has a better reaction inside the molecule."
+        }
+      ]
+    },
+    "episulfone": {
+      "mappedSmiles": "[CH3:1][CH:2]1[S:4](=[O:5])(=[O:6])[CH:7]1[CH3:9].[Cl-:3].[H:8][OH:10].[K+:11]",
+      "mapNumberToCoordinates": {
+        "1": [
+          2.37,
+          0
+        ],
+        "2": [
+          0.87,
+          0
+        ],
+        "3": [
+          4.66,
+          -0.06
+        ],
+        "4": [
+          -0.43,
+          0.75
+        ],
+        "5": [
+          -1.91,
+          1.01
+        ],
+        "6": [
+          0.08,
+          2.16
+        ],
+        "7": [
+          -0.43,
+          -0.75
+        ],
+        "8": [
+          1.58,
+          5.18
+        ],
+        "9": [
+          -1.18,
+          -2.05
+        ],
+        "10": [
+          0.28,
+          4.43
+        ],
+        "11": [
+          4.72,
+          2.24
+        ]
+      },
+      "caption": "the episulfone (a thiirane 1,1-dioxide) + chloride",
+      "learnerPrompt": "The episulfone falls apart. Draw the loss of sulfur dioxide.",
+      "hintTiers": [
+        "The three-membered ring is strained, and SO₂ is a very stable gas. Which two bonds break, and where does the C=C bond form?",
+        "Both C–S bonds break: the pair of one becomes the new C=C π bond and the pair of the other stays on sulfur, as SO₂ leaves. Two arrows.",
+        "One C–S bond → C=C π bond between the two ring carbons; the other C–S bond → a lone pair on sulfur."
+      ],
+      "misconceptions": [
+        {
+          "misconceptionId": "hydroxide-opens-ring",
+          "misconceptionTag": "wrong-reagent",
+          "severity": "wrong",
+          "arrowPattern": "lp O10 -> σ O10-C*",
+          "feedbackMessage": "No nucleophile is needed: the strained episulfone breaks up on its own, losing SO₂."
+        }
+      ]
+    },
+    "products": {
+      "mappedSmiles": "[CH3:1][CH:2]=[CH:7][CH3:9].[O:5]=[S:4]=[O:6].[Cl-:3].[H:8][OH:10].[K+:11]",
+      "mapNumberToCoordinates": {
+        "1": [
+          0,
+          0
+        ],
+        "2": [
+          1.3,
+          0.75
+        ],
+        "3": [
+          6.01,
+          -0.14
+        ],
+        "4": [
+          0.86,
+          3.59
+        ],
+        "5": [
+          -0.43,
+          2.84
+        ],
+        "6": [
+          2.16,
+          2.84
+        ],
+        "7": [
+          2.6,
+          0
+        ],
+        "8": [
+          0.72,
+          6.1
+        ],
+        "9": [
+          3.9,
+          0.75
+        ],
+        "10": [
+          -0.58,
+          5.35
+        ],
+        "11": [
+          -2.28,
+          6.89
+        ]
+      },
+      "caption": "but-2-ene + sulfur dioxide + potassium chloride + water"
+    }
+  },
+  "steps": [
+    {
+      "stepKey": "deprotonation",
+      "fromStateId": "reactants",
+      "toStateId": "carbanion",
+      "stepKind": "polar",
+      "routePreference": "preferred",
+      "canonicalArrows": [
+        "lp O10 -> σ O10-H8",
+        "σ C7-H8 -> lp C7"
+      ],
+      "explanationAfterStep": "Hydroxide removes a proton next to the sulfonyl group, on the side without chlorine. (Deprotonation on the chlorine side also happens, but that carbanion cannot cyclise and is simply reprotonated.)"
+    },
+    {
+      "stepKey": "ring-closure",
+      "fromStateId": "carbanion",
+      "toStateId": "episulfone",
+      "stepKind": "polar",
+      "routePreference": "preferred",
+      "canonicalArrows": [
+        "lp C7 -> σ C2-C7",
+        "σ C2-Cl3 -> lp Cl3"
+      ],
+      "explanationAfterStep": "The carbanion displaces chloride inside the molecule, an intramolecular SN2 reaction: a three-membered episulfone forms."
+    },
+    {
+      "stepKey": "loss-of-sulfur-dioxide",
+      "fromStateId": "episulfone",
+      "toStateId": "products",
+      "stepKind": "polar",
+      "routePreference": "preferred",
+      "canonicalArrows": [
+        "σ C2-S4 -> π C2-C7",
+        "σ S4-C7 -> lp S4"
+      ],
+      "explanationAfterStep": "Both C–S bonds break in one step (a cheletropic extrusion): SO₂ leaves and the C=C bond forms where the ring was. With aqueous hydroxide the Z-alkene is often the major isomer. The app does not check E/Z geometry yet."
+    }
+  ],
+  "mechanismSummary": "Hydroxide removes a proton next to the sulfonyl group on the side without chlorine. The carbanion displaces chloride inside the molecule, giving a three-membered episulfone. This loses SO₂ in one concerted step, and a C=C bond forms where the two carbons were joined through sulfur. Overall the sulfone is cut out and the two carbons on either side become an alkene: but-2-ene.",
+  "references": [
+    "Clayden, Greeves and Warren, Organic Chemistry, 2nd edition (Oxford University Press), chapter 27"
+  ],
+  "authors": [
+    {
+      "name": "Maksim",
+      "url": null
+    }
+  ],
+  "licence": "CC-BY-SA-4.0"
+}

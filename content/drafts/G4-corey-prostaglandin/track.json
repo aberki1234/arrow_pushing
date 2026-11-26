@@ -1,0 +1,111 @@
+{
+  "formatVersion": 1,
+  "trackSlug": "corey-prostaglandin",
+  "title": "Corey's prostaglandin F₂α (1969)",
+  "goal": "Five stereocentres on a cyclopentane, set by a bicycle: how Corey made prostaglandin F₂α from cyclopentadiene.",
+  "level": "graduate",
+  "curriculumCode": "G4",
+  "showcaseReactionSlug": "iodolactonisation",
+  "problemSets": [
+    {
+      "problemSetSlug": "building-the-lactone",
+      "title": "Building the lactone",
+      "conceptInOneLine": "A Diels–Alder reaction with a ketene equivalent, then a Baeyer–Villiger, turn cyclopentadiene into a bicyclic lactone.",
+      "conceptCard": "The **prostaglandins** are hormone-like fatty acids made in almost every tissue. PGF₂α has a cyclopentane carrying **four substituents on adjacent carbons**, two side chains and two OH groups, with five stereocentres in all. In 1969 E. J. Corey made it by a route still taught as a model of *stereocontrol*: build a rigid **bicycle**, where the shape decides which face reacts, then cut it open.\n\n- **Diels–Alder**: 5-(methoxymethyl)cyclopentadiene and 2-chloroacrylonitrile give a bicyclo[2.2.1]heptene. The dienophile adds to the face away from the CH₂OMe group.\n- **Ketene equivalent**: ketene would give the ketone directly, but it does [2+2] reactions instead. The carbon carrying Cl and CN is converted into a C=O by hydroxide: the CN is a removable handle.\n- **Baeyer–Villiger**: mCPBA inserts an oxygen next to the ketone. The more substituted bridgehead carbon migrates, with **retention of configuration**, so the bicycle becomes a lactone without losing any stereochemistry.\n\nThe unmasking route drawn here (hydroxide adds to the nitrile; a neighbouring O⁻ replaces the chloride; the cyanohydrin loses cyanide) is a reasonable model built from textbook steps; the detailed pathway in KOH/DMSO has not been settled by experiment.\n\nThe app does not check stereochemistry yet: the problems ask for the arrows, and the text explains the faces.",
+      "checkpoint": false,
+      "setItems": [
+        {
+          "reactionSlug": "baeyer-villiger-oxidation",
+          "whyThisOne": "Warm-up: the Baeyer–Villiger on cyclohexanone, without a bicycle."
+        },
+        {
+          "reactionSlug": "corey-diels-alder",
+          "whyThisOne": "One concerted step builds the bicycle and sets the first stereocentres."
+        },
+        {
+          "reactionSlug": "corey-ketone-unmasking",
+          "whyThisOne": "Hydroxide turns C(Cl)CN into C=O: the ketene equivalent pays off."
+        },
+        {
+          "reactionSlug": "corey-baeyer-villiger",
+          "whyThisOne": "Which carbon migrates? The bridgehead, with retention."
+        }
+      ]
+    },
+    {
+      "problemSetSlug": "iodolactonisation",
+      "title": "Iodolactonisation",
+      "conceptInOneLine": "Iodine and an internal carboxylate add anti across the ring C=C, then a tin radical chain removes the iodine.",
+      "conceptCard": "Aqueous NaOH opens the bicyclic lactone to a **cyclopentene** carrying CH₂CO₂⁻, OH and CH₂OMe, all fixed on the faces set by the bicycle. Two stereocentres are still missing.\n\n**Iodolactonisation** (I₂ in aqueous KI, NaHCO₃):\n\n- the C=C attacks iodine; an **iodonium ion** forms on the face away from the carboxylate\n- the carboxylate opens it from the **opposite face** (anti addition), closing a **five-membered lactone**\n- the result is a cis-fused γ-lactone: the oxygen that will become a ring OH of the prostaglandin is now on the right face\n\nThe iodine was only a handle. After protecting the free OH as an acetate, Corey removed it with **tributyltin hydride** and a little **AIBN**: a radical chain in which Bu₃Sn• takes the iodine atom and the carbon radical takes a hydrogen atom from Bu₃SnH. Half-arrows (fish-hooks) move one electron each.\n\nStereochemistry is explained here; the app does not check it yet.",
+      "checkpoint": false,
+      "setItems": [
+        {
+          "reactionSlug": "cyclohexene-bromination",
+          "whyThisOne": "Warm-up: a bromonium ion opened anti by bromide."
+        },
+        {
+          "reactionSlug": "iodolactonisation",
+          "whyThisOne": "The same anti addition, with the nucleophile built into the molecule."
+        },
+        {
+          "reactionSlug": "tin-hydride-deiodination",
+          "whyThisOne": "A radical chain swaps iodine for hydrogen."
+        }
+      ]
+    },
+    {
+      "problemSetSlug": "side-chains",
+      "title": "Side chains",
+      "conceptInOneLine": "A Horner–Wadsworth–Emmons reaction adds the lower chain as an (E)-enone; a Wittig reaction adds the upper chain as a (Z)-alkene.",
+      "conceptCard": "After deiodination, BBr₃ removed the methyl ether and Collins oxidation (CrO₃·pyridine, not drawn) gave **Corey's aldehyde**, an intermediate still made industrially for prostaglandin drugs. The two side chains are added with phosphorus reagents, and each gives a different alkene geometry.\n\n- **Horner–Wadsworth–Emmons**: a phosphonate anion, stabilised by a ketone, adds reversibly to the aldehyde. The reaction passes through the less crowded oxaphosphetane and gives the **(E)-enone**. The by-product, a dimethyl phosphate salt, washes out with water.\n- Between the two (not drawn): reduction of the enone ketone to the allylic alcohol, removal of the acetate, THP protection of both OH groups, and DIBAL reduction of the lactone to a **lactol**.\n- **Wittig**: the lactol is a masked aldehyde. With base its ring opens, and an **unstabilised ylide** under salt-free conditions forms the oxaphosphetane fast and irreversibly with the two chains cis: the **(Z)-alkene** of the upper chain. Removing the THP groups gives PGF₂α.\n\nBoth reactions end the same way: a four-membered P–C–C–O ring falls apart to a C=C and a strong P=O.",
+      "checkpoint": false,
+      "setItems": [
+        {
+          "reactionSlug": "wittig-methylenation-cyclohexanone",
+          "whyThisOne": "Warm-up: the plain Wittig reaction and its oxaphosphetane."
+        },
+        {
+          "reactionSlug": "corey-horner-wadsworth-emmons",
+          "whyThisOne": "A stabilised phosphonate anion and an (E)-enone."
+        },
+        {
+          "reactionSlug": "corey-wittig",
+          "whyThisOne": "A masked aldehyde and an unstabilised ylide: the (Z)-alkene."
+        }
+      ]
+    },
+    {
+      "problemSetSlug": "checkpoint",
+      "title": "Checkpoint",
+      "conceptInOneLine": "Corey's synthesis, step by step, shuffled with the names hidden.",
+      "conceptCard": "The reactions of this track in random order and without their names. For each one, ask:\n\n- is it polar, pericyclic or radical: full arrows, a ring of arrows, or half-arrows?\n- which group is the electrophile, and is there a more reactive one in the same molecule?\n- for a ring closure or a rearrangement: which atoms end up bonded, and what size of ring forms?\n- which face reacts, and why (told in the text: the app does not check it yet)?",
+      "checkpoint": true,
+      "setItems": [
+        {
+          "reactionSlug": "corey-diels-alder",
+          "whyThisOne": "Building the bicycle."
+        },
+        {
+          "reactionSlug": "corey-baeyer-villiger",
+          "whyThisOne": "Inserting the oxygen."
+        },
+        {
+          "reactionSlug": "iodolactonisation",
+          "whyThisOne": "Anti addition and ring closure."
+        },
+        {
+          "reactionSlug": "tin-hydride-deiodination",
+          "whyThisOne": "The radical chain."
+        },
+        {
+          "reactionSlug": "corey-horner-wadsworth-emmons",
+          "whyThisOne": "The (E)-enone."
+        },
+        {
+          "reactionSlug": "corey-wittig",
+          "whyThisOne": "The (Z)-alkene."
+        }
+      ]
+    }
+  ]
+}

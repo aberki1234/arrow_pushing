@@ -1,0 +1,491 @@
+{
+  "formatVersion": 1,
+  "reactionSlug": "wieland-miescher-michael",
+  "reactionVersion": 1,
+  "previousReactionVersion": null,
+  "title": "Wieland–Miescher ketone 1: Michael addition",
+  "subtitle": "A 1,3-dione adds to methyl vinyl ketone",
+  "reactionClasses": [
+    "carbonyl",
+    "addition"
+  ],
+  "difficultyTier": 2,
+  "conditionsLabel": "MVK · KOH (cat.) · MeOH · reflux",
+  "dailyPuzzleEligible": true,
+  "atomRoleToMapNumbers": {
+    "base": [
+      20
+    ],
+    "nucleophile": [
+      3
+    ],
+    "electrophile": [
+      10
+    ]
+  },
+  "spectatorMapNumbers": [
+    21
+  ],
+  "startStateId": "reactants",
+  "stateIdToState": {
+    "reactants": {
+      "mappedSmiles": "[O:2]=[C:1]1[C:3]([CH3:4])([H:15])[C:5](=[O:6])[CH2:7][CH2:8][CH2:9]1.[CH2:10]=[CH:11][C:12](=[O:13])[CH3:14].[OH-:20].[K+:21]",
+      "caption": "2-methylcyclohexane-1,3-dione + methyl vinyl ketone + potassium hydroxide",
+      "learnerPrompt": "Hydroxide makes the nucleophile. Which proton does it take?",
+      "hintTiers": [
+        "The hydrogen between the two ring C=O groups is unusually acidic (pKa about 5): its anion is shared by both oxygens.",
+        "Hydroxide takes the drawn hydrogen on the ring carbon carrying the methyl group. The C–H pair forms a C=C bond to one carbonyl carbon, and that C=O π pair moves onto oxygen. Three arrows.",
+        "Hydroxide lone pair → new bond to the drawn hydrogen; that C–H bond → a π bond to a ring carbonyl carbon; that C=O π bond → a lone pair on its oxygen."
+      ],
+      "misconceptions": [
+        {
+          "misconceptionId": "hydroxide-adds-to-ring-ketone",
+          "misconceptionTag": "unproductive-addition",
+          "severity": "plausible",
+          "arrowPattern": "lp O20 -> C1",
+          "feedbackMessage": "Hydroxide adding to a ketone is reversible and leads nowhere here. The dione has a very acidic C–H: take that proton."
+        },
+        {
+          "misconceptionId": "hydroxide-adds-to-enone",
+          "misconceptionTag": "wrong-nucleophile",
+          "severity": "plausible",
+          "arrowPattern": "lp O20 -> C10",
+          "feedbackMessage": "Hydroxide could add to the enone, but the far more acidic dione is deprotonated first. Make the dione enolate."
+        },
+        {
+          "misconceptionId": "hydroxide-takes-mvk-methyl-h",
+          "misconceptionTag": "less-acidic-proton",
+          "severity": "plausible",
+          "arrowPattern": "lp O20 -> C14",
+          "feedbackMessage": "The methyl hydrogens of methyl vinyl ketone (pKa about 20) are far less acidic than the C–H between two C=O groups (pKa about 5)."
+        }
+      ],
+      "partialProgressMessages": [
+        {
+          "learnerArrows": [
+            "lp O20 -> σ O20-H15",
+            "σ C3-H15 -> π C1-C3"
+          ],
+          "feedbackMessage": "Good: hydroxide takes the proton and a C=C bond forms. Now move the C=O π pair onto oxygen."
+        }
+      ],
+      "mapNumberToCoordinates": {
+        "1": [
+          1.5,
+          0
+        ],
+        "2": [
+          3,
+          0
+        ],
+        "3": [
+          0.75,
+          1.3
+        ],
+        "4": [
+          2.16,
+          1.81
+        ],
+        "5": [
+          -0.75,
+          1.3
+        ],
+        "6": [
+          -1.5,
+          2.6
+        ],
+        "7": [
+          -1.5,
+          0
+        ],
+        "8": [
+          -0.75,
+          -1.3
+        ],
+        "9": [
+          0.75,
+          -1.3
+        ],
+        "10": [
+          0.1,
+          5.55
+        ],
+        "11": [
+          1.4,
+          6.3
+        ],
+        "12": [
+          2.7,
+          5.55
+        ],
+        "13": [
+          2.7,
+          4.05
+        ],
+        "14": [
+          4,
+          6.3
+        ],
+        "15": [
+          0.49,
+          2.78
+        ],
+        "20": [
+          5.27,
+          -0.26
+        ],
+        "21": [
+          5.51,
+          2.03
+        ]
+      }
+    },
+    "enolate": {
+      "mappedSmiles": "[O-:2][C:1]1=[C:3]([CH3:4])[C:5](=[O:6])[CH2:7][CH2:8][CH2:9]1.[CH2:10]=[CH:11][C:12](=[O:13])[CH3:14].[H:15][OH:20].[K+:21]",
+      "caption": "the dione enolate + methyl vinyl ketone + water",
+      "learnerPrompt": "The enolate adds to methyl vinyl ketone (Michael addition).",
+      "hintTiers": [
+        "Methyl vinyl ketone has two electrophilic carbons. A soft, stabilised enolate adds to the far end of the C=C.",
+        "The O⁻ lone pair re-forms C=O, the enolate C=C pair makes a new bond to the CH₂ end of the alkene, the alkene π pair moves towards the carbonyl, and the C=O π pair goes onto oxygen. Four arrows.",
+        "Enolate O⁻ lone pair → C=O π bond; enolate C=C π bond → new bond to the CH₂ end of the enone; enone C=C π bond → a π bond between the middle carbon and the carbonyl carbon; enone C=O π bond → a lone pair on its oxygen."
+      ],
+      "misconceptions": [
+        {
+          "misconceptionId": "oxygen-attacks",
+          "misconceptionTag": "ambident-wrong-end",
+          "severity": "plausible",
+          "arrowPattern": "lp O2 -> C10",
+          "feedbackMessage": "Attack through oxygen gives an enol ether that falls apart again. The productive C–C bond comes from the enolate carbon."
+        },
+        {
+          "misconceptionId": "direct-addition",
+          "misconceptionTag": "1-2-addition",
+          "severity": "plausible",
+          "arrowPattern": "π C1-C3 -> C12",
+          "feedbackMessage": "Adding to the carbonyl carbon (1,2-addition) is reversible for a stabilised enolate. The far end of the C=C is the soft electrophile: conjugate addition."
+        },
+        {
+          "misconceptionId": "attack-middle-carbon",
+          "misconceptionTag": "wrong-electrophilic-carbon",
+          "severity": "wrong",
+          "arrowPattern": "π C1-C3 -> C11",
+          "feedbackMessage": "The middle alkene carbon is not electrophilic. The positive end of the enone is the CH₂ carbon, two atoms from the C=O."
+        }
+      ],
+      "partialProgressMessages": [
+        {
+          "learnerArrows": [
+            "π C1-C3 -> σ C3-C10",
+            "π C10-C11 -> π C11-C12",
+            "π C12-O13 -> lp O13"
+          ],
+          "feedbackMessage": "Right bonds, but the ring carbonyl carbon is left short of electrons. Push the O⁻ lone pair in to re-form its C=O."
+        }
+      ],
+      "mapNumberToCoordinates": {
+        "1": [
+          1.5,
+          0
+        ],
+        "2": [
+          3,
+          0
+        ],
+        "3": [
+          0.75,
+          1.3
+        ],
+        "4": [
+          1.5,
+          2.6
+        ],
+        "5": [
+          -0.75,
+          1.3
+        ],
+        "6": [
+          -1.5,
+          2.6
+        ],
+        "7": [
+          -1.5,
+          0
+        ],
+        "8": [
+          -0.75,
+          -1.3
+        ],
+        "9": [
+          0.75,
+          -1.3
+        ],
+        "10": [
+          0.31,
+          5.91
+        ],
+        "11": [
+          1.61,
+          6.66
+        ],
+        "12": [
+          2.91,
+          5.91
+        ],
+        "13": [
+          2.91,
+          4.41
+        ],
+        "14": [
+          4.21,
+          6.66
+        ],
+        "15": [
+          6.6,
+          0.69
+        ],
+        "20": [
+          5.3,
+          -0.06
+        ],
+        "21": [
+          7.73,
+          -1.28
+        ]
+      }
+    },
+    "new-enolate": {
+      "mappedSmiles": "[O:2]=[C:1]1[C:3]([CH3:4])([CH2:10][CH:11]=[C:12]([O-:13])[CH3:14])[C:5](=[O:6])[CH2:7][CH2:8][CH2:9]1.[H:15][OH:20].[K+:21]",
+      "caption": "the new enolate + water",
+      "learnerPrompt": "Water gives back its proton.",
+      "hintTiers": [
+        "The new enolate is much more basic than the dione enolate. Water can protonate it.",
+        "Protonate on carbon to give the ketone: the O⁻ lone pair re-forms C=O, the C=C pair takes the drawn hydrogen of water, and the O–H pair stays on water's oxygen. Three arrows.",
+        "Enolate O⁻ lone pair → C=O π bond; C=C π bond → new bond from the carbon next to the CH₂ to the drawn hydrogen of water; water's O–H bond → a lone pair on its oxygen."
+      ],
+      "misconceptions": [
+        {
+          "misconceptionId": "retro-michael",
+          "misconceptionTag": "reverse-step",
+          "severity": "plausible",
+          "arrowPattern": "σ C3-C10 -> *",
+          "feedbackMessage": "Breaking the new C–C bond just reverses the Michael addition. Protonate the enolate."
+        },
+        {
+          "misconceptionId": "oxygen-protonation",
+          "misconceptionTag": "enol-not-ketone",
+          "severity": "plausible",
+          "arrowPattern": "lp O13 -> σ O13-H15",
+          "feedbackMessage": "Protonating oxygen gives the enol, which then tautomerises. Protonate carbon to reach the ketone directly."
+        }
+      ],
+      "partialProgressMessages": [
+        {
+          "learnerArrows": [
+            "π C11-C12 -> σ C11-H15",
+            "σ O20-H15 -> lp O20"
+          ],
+          "feedbackMessage": "Right bonds, but this leaves a positive carbon next to O⁻. Push the O⁻ lone pair in to re-form C=O."
+        }
+      ],
+      "mapNumberToCoordinates": {
+        "1": [
+          1.5,
+          0
+        ],
+        "2": [
+          3,
+          0
+        ],
+        "3": [
+          0.75,
+          1.3
+        ],
+        "4": [
+          0.49,
+          2.78
+        ],
+        "5": [
+          -0.75,
+          1.3
+        ],
+        "6": [
+          -1.5,
+          2.6
+        ],
+        "7": [
+          -1.5,
+          0
+        ],
+        "8": [
+          -0.75,
+          -1.3
+        ],
+        "9": [
+          0.75,
+          -1.3
+        ],
+        "10": [
+          2.16,
+          1.81
+        ],
+        "11": [
+          2.42,
+          3.29
+        ],
+        "12": [
+          3.83,
+          3.8
+        ],
+        "13": [
+          4.98,
+          2.84
+        ],
+        "14": [
+          4.09,
+          5.28
+        ],
+        "15": [
+          7.28,
+          0.75
+        ],
+        "20": [
+          5.98,
+          0
+        ],
+        "21": [
+          0,
+          6.28
+        ]
+      }
+    },
+    "products": {
+      "mappedSmiles": "[O:2]=[C:1]1[C:3]([CH3:4])([CH2:10][CH:11]([H:15])[C:12](=[O:13])[CH3:14])[C:5](=[O:6])[CH2:7][CH2:8][CH2:9]1.[OH-:20].[K+:21]",
+      "caption": "2-methyl-2-(3-oxobutyl)cyclohexane-1,3-dione (the triketone) + hydroxide",
+      "mapNumberToCoordinates": {
+        "1": [
+          1.5,
+          0
+        ],
+        "2": [
+          3,
+          0
+        ],
+        "3": [
+          0.75,
+          1.3
+        ],
+        "4": [
+          0.49,
+          2.78
+        ],
+        "5": [
+          -0.75,
+          1.3
+        ],
+        "6": [
+          -1.5,
+          2.6
+        ],
+        "7": [
+          -1.5,
+          0
+        ],
+        "8": [
+          -0.75,
+          -1.3
+        ],
+        "9": [
+          0.75,
+          -1.3
+        ],
+        "10": [
+          2.16,
+          1.81
+        ],
+        "11": [
+          2.42,
+          3.29
+        ],
+        "12": [
+          1.27,
+          4.25
+        ],
+        "13": [
+          -0.14,
+          3.74
+        ],
+        "14": [
+          1.53,
+          5.73
+        ],
+        "15": [
+          3.83,
+          3.8
+        ],
+        "20": [
+          5.26,
+          -0.2
+        ],
+        "21": [
+          7.43,
+          0.56
+        ]
+      }
+    }
+  },
+  "steps": [
+    {
+      "stepKey": "dione-deprotonation",
+      "fromStateId": "reactants",
+      "toStateId": "enolate",
+      "stepKind": "polar",
+      "routePreference": "preferred",
+      "canonicalArrows": [
+        "lp O20 -> σ O20-H15",
+        "σ C3-H15 -> π C1-C3",
+        "π C1-O2 -> lp O2"
+      ],
+      "explanationAfterStep": "The anion of a 1,3-dione is shared by two oxygens, so only a catalytic amount of hydroxide is needed and the dione stays deprotonated in preference to everything else in the flask."
+    },
+    {
+      "stepKey": "michael-addition",
+      "fromStateId": "enolate",
+      "toStateId": "new-enolate",
+      "stepKind": "polar",
+      "routePreference": "preferred",
+      "canonicalArrows": [
+        "lp O2 -> π C1-O2",
+        "π C1-C3 -> σ C3-C10",
+        "π C10-C11 -> π C11-C12",
+        "π C12-O13 -> lp O13"
+      ],
+      "explanationAfterStep": "Conjugate addition builds the quaternary carbon: it now carries the methyl group, both ring carbonyls and the new side chain. The charge moves onto the enone's oxygen."
+    },
+    {
+      "stepKey": "carbon-protonation",
+      "fromStateId": "new-enolate",
+      "toStateId": "products",
+      "stepKind": "polar",
+      "routePreference": "preferred",
+      "canonicalArrows": [
+        "lp O13 -> π C12-O13",
+        "π C11-C12 -> σ C11-H15",
+        "σ O20-H15 -> lp O20"
+      ],
+      "explanationAfterStep": "The ketone enolate (pKa about 20) is far more basic than the dione anion, so water protonates it and hydroxide is returned: the base is a catalyst."
+    }
+  ],
+  "mechanismSummary": "Hydroxide removes the very acidic C–H between the two carbonyl groups of 2-methylcyclohexane-1,3-dione. The delocalised enolate adds to the far end of methyl vinyl ketone, building a quaternary carbon, and water protonates the new enolate on carbon, returning hydroxide. The product, 2-methyl-2-(3-oxobutyl)cyclohexane-1,3-dione, is the triketone that closes the second ring. Its two ring carbonyls are mirror images of each other: which one is attacked next decides the hand of the product.",
+  "references": [
+    "Clayden, Greeves and Warren, Organic Chemistry, 2nd edition (Oxford University Press), chapter 26 (conjugate addition, Robinson annulation)",
+    "Wieland and Miescher, Helvetica Chimica Acta 1950, 33, 2215",
+    "Ramachandran and Newman, Organic Syntheses 1961, 41, 38 (the triketone and the racemic ketone)"
+  ],
+  "authors": [
+    {
+      "name": "Maksim",
+      "url": null
+    }
+  ],
+  "licence": "CC-BY-SA-4.0"
+}

@@ -1,0 +1,514 @@
+{
+  "formatVersion": 1,
+  "reactionSlug": "johnson-allylic-cation",
+  "reactionVersion": 1,
+  "previousReactionVersion": null,
+  "title": "Johnson's progesterone 1: the allylic cation",
+  "subtitle": "Acid turns a tertiary allylic alcohol into the initiating cation",
+  "reactionClasses": [
+    "substitution",
+    "acid-base"
+  ],
+  "difficultyTier": 2,
+  "conditionsLabel": "TFA · ethylene carbonate · CH₂Cl₂ · −70 °C",
+  "dailyPuzzleEligible": true,
+  "atomRoleToMapNumbers": {
+    "acid": [
+      35
+    ],
+    "leavingGroup": [
+      22
+    ]
+  },
+  "spectatorMapNumbers": [],
+  "abbreviatedGroups": [
+    {
+      "groupLabel": "CF3",
+      "attachmentMapNumber": 31,
+      "mapNumbers": [
+        31,
+        36,
+        37,
+        38
+      ]
+    }
+  ],
+  "startStateId": "reactants",
+  "stateIdToState": {
+    "reactants": {
+      "mappedSmiles": "[CH3:4][C:3]1=[C:5]([CH2:6][CH2:7][CH:8]=[CH:9][CH2:11][CH2:12][C:13]([CH3:18])=[CH:14][CH2:15][CH2:16][C:17]#[C:20][CH3:21])[C:10]([CH3:19])([OH:22])[CH2:1][CH2:2]1.[H:35][O:34][C:32](=[O:33])[C:31]([F:36])([F:37])[F:38]",
+      "caption": "the trienynol (a tertiary allylic alcohol) + trifluoroacetic acid",
+      "learnerPrompt": "Trifluoroacetic acid starts the cascade. Where does its proton go?",
+      "hintTiers": [
+        "A cation must be made without touching the three multiple bonds of the chain: they are the nucleophiles of the next stage. Which atom is the most basic?",
+        "The OH oxygen takes the acid's drawn hydrogen, and the acid's O–H pair stays on its oxygen as trifluoroacetate. Two arrows.",
+        "Hydroxyl oxygen lone pair → new bond to the acid hydrogen; the acid O–H bond → a lone pair on its oxygen."
+      ],
+      "misconceptions": [
+        {
+          "misconceptionId": "multiple-bond-protonated",
+          "misconceptionTag": "protonate-alkene",
+          "severity": "plausible",
+          "arrowPattern": "π C*-C* -> H35",
+          "feedbackMessage": "Protonating a C=C or the C≡C would make a cation in the wrong place and use up a nucleophile the cascade needs. The OH oxygen is the most basic site: protonate it."
+        },
+        {
+          "misconceptionId": "hydroxide-leaves",
+          "misconceptionTag": "poor-leaving-group",
+          "severity": "wrong",
+          "arrowPattern": "σ C10-O22 -> lp O22",
+          "feedbackMessage": "Hydroxide is a poor leaving group. Protonate the OH first, so that water leaves."
+        },
+        {
+          "misconceptionId": "trifluoroacetate-oxygen-attacks",
+          "misconceptionTag": "wrong-nucleophile",
+          "severity": "wrong",
+          "arrowPattern": "lp O33 -> C10",
+          "feedbackMessage": "Trifluoroacetic acid is the acid here, not a nucleophile. Use its O–H proton."
+        }
+      ],
+      "partialProgressMessages": [
+        {
+          "learnerArrows": [
+            "lp O22 -> σ O22-H35"
+          ],
+          "feedbackMessage": "Good: the OH oxygen takes the proton. Where does the acid's O–H bonding pair go?"
+        }
+      ],
+      "mapNumberToCoordinates": {
+        "1": [
+          -1.03,
+          -0.75
+        ],
+        "2": [
+          0.39,
+          -1.21
+        ],
+        "3": [
+          1.28,
+          0
+        ],
+        "4": [
+          2.78,
+          0
+        ],
+        "5": [
+          0.39,
+          1.21
+        ],
+        "6": [
+          0.86,
+          2.64
+        ],
+        "7": [
+          -0.15,
+          3.75
+        ],
+        "8": [
+          0.32,
+          5.18
+        ],
+        "9": [
+          -0.69,
+          6.3
+        ],
+        "10": [
+          -1.03,
+          0.75
+        ],
+        "11": [
+          -0.22,
+          7.72
+        ],
+        "12": [
+          -1.23,
+          8.84
+        ],
+        "13": [
+          -0.76,
+          10.26
+        ],
+        "14": [
+          -1.77,
+          11.38
+        ],
+        "15": [
+          -1.3,
+          12.81
+        ],
+        "16": [
+          -2.31,
+          13.92
+        ],
+        "17": [
+          -1.84,
+          15.35
+        ],
+        "18": [
+          0.7,
+          10.58
+        ],
+        "19": [
+          -2.52,
+          0.59
+        ],
+        "20": [
+          -1.38,
+          16.77
+        ],
+        "21": [
+          -0.92,
+          18.2
+        ],
+        "22": [
+          -1.34,
+          2.22
+        ],
+        "31": [
+          7.58,
+          -0.55
+        ],
+        "32": [
+          6.28,
+          -1.3
+        ],
+        "33": [
+          4.98,
+          -0.55
+        ],
+        "34": [
+          6.28,
+          -2.8
+        ],
+        "35": [
+          4.98,
+          -3.55
+        ],
+        "36": [
+          8.88,
+          0.2
+        ],
+        "37": [
+          8.33,
+          -1.85
+        ],
+        "38": [
+          6.83,
+          0.75
+        ]
+      }
+    },
+    "oxonium": {
+      "mappedSmiles": "[CH3:4][C:3]1=[C:5]([CH2:6][CH2:7][CH:8]=[CH:9][CH2:11][CH2:12][C:13]([CH3:18])=[CH:14][CH2:15][CH2:16][C:17]#[C:20][CH3:21])[C:10]([CH3:19])([OH+:22][H:35])[CH2:1][CH2:2]1.[O-:34][C:32](=[O:33])[C:31]([F:36])([F:37])[F:38]",
+      "caption": "the protonated alcohol (an oxonium ion) + trifluoroacetate",
+      "learnerPrompt": "Make the cation.",
+      "hintTiers": [
+        "Water is now a good leaving group. The carbon it leaves is tertiary and next to a C=C bond.",
+        "The C–O bond breaks and both electrons go to oxygen: water leaves. One arrow.",
+        "The C–O bond → a lone pair on the oxygen of water."
+      ],
+      "misconceptions": [
+        {
+          "misconceptionId": "trifluoroacetate-sn2",
+          "misconceptionTag": "sn2-at-tertiary-carbon",
+          "severity": "wrong",
+          "arrowPattern": "lp O34 -> C10",
+          "feedbackMessage": "A tertiary carbon is too crowded for backside attack, and trifluoroacetate is a very weak nucleophile. Let water leave on its own (SN1-like)."
+        },
+        {
+          "misconceptionId": "alkene-pushes-water-out",
+          "misconceptionTag": "premature-cyclisation",
+          "severity": "plausible",
+          "arrowPattern": "π C8-C9 -> C10",
+          "feedbackMessage": "The ring closure comes next, from the free cation. First let water leave."
+        }
+      ],
+      "mapNumberToCoordinates": {
+        "1": [
+          -1.03,
+          -0.75
+        ],
+        "2": [
+          0.39,
+          -1.21
+        ],
+        "3": [
+          1.28,
+          0
+        ],
+        "4": [
+          2.78,
+          0
+        ],
+        "5": [
+          0.39,
+          1.21
+        ],
+        "6": [
+          0.86,
+          2.64
+        ],
+        "7": [
+          -0.15,
+          3.75
+        ],
+        "8": [
+          0.32,
+          5.18
+        ],
+        "9": [
+          -0.69,
+          6.3
+        ],
+        "10": [
+          -1.03,
+          0.75
+        ],
+        "11": [
+          -0.22,
+          7.72
+        ],
+        "12": [
+          -1.23,
+          8.84
+        ],
+        "13": [
+          -0.76,
+          10.26
+        ],
+        "14": [
+          -1.77,
+          11.38
+        ],
+        "15": [
+          -1.3,
+          12.81
+        ],
+        "16": [
+          -2.31,
+          13.92
+        ],
+        "17": [
+          -1.84,
+          15.35
+        ],
+        "18": [
+          0.7,
+          10.58
+        ],
+        "19": [
+          -2.52,
+          0.59
+        ],
+        "20": [
+          -1.38,
+          16.77
+        ],
+        "21": [
+          -0.92,
+          18.2
+        ],
+        "22": [
+          -1.34,
+          2.22
+        ],
+        "31": [
+          7.62,
+          -0.42
+        ],
+        "32": [
+          6.32,
+          -1.17
+        ],
+        "33": [
+          5.02,
+          -0.42
+        ],
+        "34": [
+          6.32,
+          -2.67
+        ],
+        "35": [
+          -2.77,
+          2.68
+        ],
+        "36": [
+          8.91,
+          0.33
+        ],
+        "37": [
+          8.37,
+          -1.72
+        ],
+        "38": [
+          6.87,
+          0.88
+        ]
+      }
+    },
+    "products": {
+      "mappedSmiles": "[CH3:4][C:3]1=[C:5]([CH2:6][CH2:7][CH:8]=[CH:9][CH2:11][CH2:12][C:13]([CH3:18])=[CH:14][CH2:15][CH2:16][C:17]#[C:20][CH3:21])[C+:10]([CH3:19])[CH2:1][CH2:2]1.[H:35][OH:22].[O-:34][C:32](=[O:33])[C:31]([F:36])([F:37])[F:38]",
+      "caption": "the allylic cation + water + trifluoroacetate",
+      "mapNumberToCoordinates": {
+        "1": [
+          -1.03,
+          -0.75
+        ],
+        "2": [
+          0.39,
+          -1.21
+        ],
+        "3": [
+          1.28,
+          0
+        ],
+        "4": [
+          2.78,
+          0
+        ],
+        "5": [
+          0.39,
+          1.21
+        ],
+        "6": [
+          0.86,
+          2.64
+        ],
+        "7": [
+          -0.15,
+          3.75
+        ],
+        "8": [
+          0.32,
+          5.18
+        ],
+        "9": [
+          -0.69,
+          6.3
+        ],
+        "10": [
+          -1.03,
+          0.75
+        ],
+        "11": [
+          -0.22,
+          7.72
+        ],
+        "12": [
+          -1.23,
+          8.84
+        ],
+        "13": [
+          -0.76,
+          10.26
+        ],
+        "14": [
+          -1.77,
+          11.38
+        ],
+        "15": [
+          -1.3,
+          12.81
+        ],
+        "16": [
+          -2.31,
+          13.92
+        ],
+        "17": [
+          -1.84,
+          15.35
+        ],
+        "18": [
+          0.7,
+          10.58
+        ],
+        "19": [
+          -2.25,
+          1.63
+        ],
+        "20": [
+          -1.38,
+          16.77
+        ],
+        "21": [
+          -0.92,
+          18.2
+        ],
+        "22": [
+          8.67,
+          0
+        ],
+        "31": [
+          5.94,
+          -2.5
+        ],
+        "32": [
+          4.64,
+          -3.25
+        ],
+        "33": [
+          3.34,
+          -2.5
+        ],
+        "34": [
+          4.64,
+          -4.75
+        ],
+        "35": [
+          9.97,
+          0.75
+        ],
+        "36": [
+          7.24,
+          -1.75
+        ],
+        "37": [
+          6.69,
+          -3.8
+        ],
+        "38": [
+          5.19,
+          -1.2
+        ]
+      }
+    }
+  },
+  "steps": [
+    {
+      "stepKey": "hydroxyl-protonation",
+      "fromStateId": "reactants",
+      "toStateId": "oxonium",
+      "stepKind": "polar",
+      "routePreference": "preferred",
+      "canonicalArrows": [
+        "lp O22 -> σ O22-H35",
+        "σ O34-H35 -> lp O34"
+      ],
+      "explanationAfterStep": "Trifluoroacetic acid (pKa about 0.5) is strong enough to protonate the alcohol in dichloromethane. The C=C and C≡C bonds are far less basic and are left alone."
+    },
+    {
+      "stepKey": "loss-of-water",
+      "fromStateId": "oxonium",
+      "toStateId": "products",
+      "stepKind": "polar",
+      "routePreference": "preferred",
+      "canonicalArrows": [
+        "σ C10-O22 -> lp O22"
+      ],
+      "explanationAfterStep": "Water leaves from a tertiary carbon next to a C=C: the cation is tertiary at both ends and allylic, so the positive charge is shared by the two methyl-bearing ring carbons. The ring is symmetrical, so both ends are the same, and the chain hangs from the middle carbon."
+    }
+  ],
+  "mechanismSummary": "W. S. Johnson's progesterone synthesis (1971) builds three rings in one step from an open chain, as nature makes lanosterol from squalene oxide. The cascade needs a cation to start it, the *initiator*. Johnson used a 1,3-dimethylcyclopent-2-en-1-ol carrying the chain at the middle carbon of the alkene: trifluoroacetic acid protonates the OH and water leaves. The cation is tertiary and allylic, shared equally by the two methyl-bearing carbons, so it forms quickly at −70 °C without any other carbon of the chain being protonated. The alkenes of the chain are the nucleophiles of the next stage.",
+  "references": [
+    "Johnson, Gravestock and McCarry, Journal of the American Chemical Society 1971, 93, 4332 (acetylenic bond participation in biogenetic-like olefinic cyclisations: dl-progesterone)",
+    "Nicolaou and Sorensen, Classics in Total Synthesis (VCH, 1996): Johnson's progesterone",
+    "Clayden, Greeves and Warren, Organic Chemistry, 2nd edition (Oxford University Press), chapter 15 (SN1: allylic cations)"
+  ],
+  "authors": [
+    {
+      "name": "Maksim",
+      "url": null
+    }
+  ],
+  "licence": "CC-BY-SA-4.0"
+}

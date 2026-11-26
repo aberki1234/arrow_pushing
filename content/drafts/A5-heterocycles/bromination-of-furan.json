@@ -1,0 +1,244 @@
+{
+  "formatVersion": 1,
+  "reactionSlug": "bromination-of-furan",
+  "reactionVersion": 1,
+  "previousReactionVersion": null,
+  "title": "Bromination of furan",
+  "subtitle": "Furan attacks Br₂ at C-2 without a Lewis acid",
+  "reactionClasses": [
+    "aromatic substitution"
+  ],
+  "difficultyTier": 2,
+  "conditionsLabel": "Br₂ · 1,4-dioxane · 0 °C",
+  "dailyPuzzleEligible": true,
+  "atomRoleToMapNumbers": {
+    "nucleophilicCarbon": [
+      2
+    ]
+  },
+  "spectatorMapNumbers": [],
+  "startStateId": "reactants",
+  "stateIdToState": {
+    "reactants": {
+      "mappedSmiles": "[O:1]1[C:2]([H:6])=[CH:3][CH:4]=[CH:5]1.[Br:7][Br:8]",
+      "mapNumberToCoordinates": {
+        "1": [
+          1.28,
+          0
+        ],
+        "2": [
+          0.39,
+          1.21
+        ],
+        "3": [
+          -1.03,
+          0.75
+        ],
+        "4": [
+          -1.03,
+          -0.75
+        ],
+        "5": [
+          0.39,
+          -1.21
+        ],
+        "6": [
+          0.86,
+          2.64
+        ],
+        "7": [
+          3.58,
+          -0.03
+        ],
+        "8": [
+          4.87,
+          0.72
+        ]
+      },
+      "caption": "furan + bromine",
+      "learnerPrompt": "Furan attacks bromine. Draw the attack, and put the positive charge where every atom has an octet.",
+      "hintTiers": [
+        "Furan's oxygen lone pair is part of the aromatic sextet, so the ring is electron-rich. Which ring carbon attacks, and which bond of Br₂ breaks?",
+        "The ring π bond from the carbon next to oxygen attacks one bromine and bromide leaves. The other ring π bond and an oxygen lone pair then move to put the charge on oxygen. Four arrows (two are enough for a correct drawing).",
+        "The π bond from the carbon with the drawn H → a new bond to bromine; the Br–Br bond → a lone pair on the other bromine; the far ring π bond → the middle ring bond; an oxygen lone pair → a π bond to the far carbon next to oxygen."
+      ],
+      "misconceptions": [
+        {
+          "misconceptionId": "attack-from-c3",
+          "misconceptionTag": "wrong-ring-position",
+          "severity": "plausible",
+          "arrowPattern": "* -> σ C3-Br7",
+          "feedbackMessage": "Attack at C-3 gives a cation that the oxygen can stabilise in only one drawing. Attack next to oxygen spreads the charge over two carbons and the oxygen. Attack from the carbon next to oxygen."
+        },
+        {
+          "misconceptionId": "attack-from-c4",
+          "misconceptionTag": "wrong-ring-position",
+          "severity": "plausible",
+          "arrowPattern": "* -> σ C4-Br7",
+          "feedbackMessage": "Attack at C-3 (or C-4) gives a cation that the oxygen can stabilise in only one drawing. Attack next to oxygen spreads the charge over two carbons and the oxygen. Attack from the carbon next to oxygen."
+        },
+        {
+          "misconceptionId": "oxygen-attacks",
+          "misconceptionTag": "heteroatom-lone-pair-is-aromatic",
+          "severity": "wrong",
+          "arrowPattern": "lp O1 -> σ O1-Br7",
+          "feedbackMessage": "One oxygen lone pair is part of the aromatic sextet, and the other is held tightly by electronegative oxygen. Furan reacts at carbon."
+        }
+      ],
+      "partialProgressMessages": [
+        {
+          "learnerArrows": [
+            "π C2-C3 -> σ C2-Br7"
+          ],
+          "feedbackMessage": "Right attack. The bromine would now have two bonds: let the Br–Br bond break onto the other bromine."
+        }
+      ]
+    },
+    "oxonium-ion": {
+      "mappedSmiles": "[O+:1]1=[CH:5][CH:4]=[CH:3][C:2]1([H:6])[Br:7].[Br-:8]",
+      "mapNumberToCoordinates": {
+        "1": [
+          1.28,
+          0
+        ],
+        "2": [
+          0.39,
+          -1.21
+        ],
+        "3": [
+          -1.03,
+          -0.75
+        ],
+        "4": [
+          -1.03,
+          0.75
+        ],
+        "5": [
+          0.39,
+          1.21
+        ],
+        "6": [
+          1.69,
+          -1.96
+        ],
+        "7": [
+          -0.22,
+          -2.58
+        ],
+        "8": [
+          3.55,
+          0.22
+        ]
+      },
+      "caption": "the cation, drawn with the charge on oxygen (an oxonium ion) + bromide",
+      "learnerPrompt": "Bromide removes a proton and the ring becomes aromatic again.",
+      "hintTiers": [
+        "The ring has one sp³ carbon. What restores the aromatic ring?",
+        "Bromide takes the H on the sp³ carbon. The C–H electrons make a ring π bond, the ring π bonds shift along, and the C=O⁺ π bond goes back to oxygen. Four arrows.",
+        "Bromide lone pair → a new Br–H bond to the ring H; that C–H bond → the π bond to the next ring carbon; the ring C=C π bond → the next ring bond; the C=O π bond → a lone pair on oxygen."
+      ],
+      "misconceptions": [
+        {
+          "misconceptionId": "2-5-addition",
+          "misconceptionTag": "addition-instead-of-substitution",
+          "severity": "plausible",
+          "arrowPattern": "lp Br8 -> σ Br8-C5",
+          "feedbackMessage": "That is real chemistry for furan, which is much less aromatic than benzene: bromide (or methanol, as solvent) can add to the other carbon next to oxygen, giving a 2,5-addition product. But losing the proton restores the aromatic ring, and in dioxane the product is 2-bromofuran. Remove the proton instead."
+        }
+      ],
+      "partialProgressMessages": [
+        {
+          "learnerArrows": [
+            "lp Br8 -> σ Br8-H6"
+          ],
+          "feedbackMessage": "Right proton. Now the C–H electrons must go into the ring, and the C=O π bond back onto oxygen."
+        }
+      ]
+    },
+    "products": {
+      "mappedSmiles": "[O:1]1[C:2]([Br:7])=[CH:3][CH:4]=[CH:5]1.[H:6][Br:8]",
+      "mapNumberToCoordinates": {
+        "1": [
+          1.28,
+          0
+        ],
+        "2": [
+          0.39,
+          1.21
+        ],
+        "3": [
+          -1.03,
+          0.75
+        ],
+        "4": [
+          -1.03,
+          -0.75
+        ],
+        "5": [
+          0.39,
+          -1.21
+        ],
+        "6": [
+          4.87,
+          0.72
+        ],
+        "7": [
+          0.86,
+          2.64
+        ],
+        "8": [
+          3.58,
+          -0.03
+        ]
+      },
+      "caption": "2-bromofuran + hydrogen bromide"
+    }
+  },
+  "steps": [
+    {
+      "stepKey": "electrophilic-attack",
+      "fromStateId": "reactants",
+      "toStateId": "oxonium-ion",
+      "stepKind": "polar",
+      "routePreference": "preferred",
+      "canonicalArrows": [
+        "π C2-C3 -> σ C2-Br7",
+        "σ Br7-Br8 -> lp Br8",
+        "π C4-C5 -> π C3-C4",
+        "lp O1 -> π O1-C5"
+      ],
+      "partialArrowSets": [
+        [
+          "π C2-C3 -> σ C2-Br7",
+          "σ Br7-Br8 -> lp Br8"
+        ]
+      ],
+      "explanationAfterStep": "Furan needs no Lewis acid: Br₂ itself is electrophilic enough. Attack next to oxygen gives a cation spread over two carbons and the oxygen; the drawing with the charge on oxygen gives every atom an octet. Stopping with the charge on a ring carbon is also accepted: it is another drawing of the same cation."
+    },
+    {
+      "stepKey": "rearomatisation",
+      "fromStateId": "oxonium-ion",
+      "toStateId": "products",
+      "stepKind": "polar",
+      "routePreference": "preferred",
+      "canonicalArrows": [
+        "lp Br8 -> σ Br8-H6",
+        "σ C2-H6 -> π C2-C3",
+        "π C3-C4 -> π C4-C5",
+        "π O1-C5 -> lp O1"
+      ],
+      "explanationAfterStep": "Loss of the proton gives back the aromatic ring. Furan's aromaticity is weak, so adding a nucleophile to the cation competes; a cold, non-nucleophilic solvent such as dioxane keeps the substitution clean."
+    }
+  ],
+  "mechanismSummary": "Furan is an electron-rich aromatic ring: the oxygen lone pair is part of the sextet. It attacks bromine next to oxygen, where the cation can be drawn with the positive charge on oxygen (every atom an octet). Bromide removes the proton from the sp³ carbon and the ring becomes aromatic again: 2-bromofuran. Furan is the least aromatic of the five-membered rings, so addition across C-2 and C-5 competes in nucleophilic solvents.",
+  "references": [
+    "Clayden, Greeves and Warren, Organic Chemistry, 2nd edition (Oxford University Press), chapter 29"
+  ],
+  "authors": [
+    {
+      "name": "Maksim",
+      "url": null
+    }
+  ],
+  "licence": "CC-BY-SA-4.0"
+}

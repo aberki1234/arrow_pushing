@@ -1,0 +1,1101 @@
+{
+  "formatVersion": 1,
+  "reactionSlug": "bischler-napieralski-cyclisation",
+  "reactionVersion": 1,
+  "previousReactionVersion": null,
+  "title": "Woodward's reserpine: Bischler–Napieralski cyclisation",
+  "subtitle": "POCl₃ activates the lactam and the indole closes ring C",
+  "reactionClasses": [
+    "aromatic substitution",
+    "carbonyl"
+  ],
+  "difficultyTier": 3,
+  "conditionsLabel": "POCl₃ · reflux",
+  "dailyPuzzleEligible": true,
+  "atomRoleToMapNumbers": {
+    "nucleophilicCarbon": [
+      2
+    ],
+    "electrophilicCarbon": [
+      3
+    ]
+  },
+  "spectatorMapNumbers": [],
+  "abbreviatedGroups": [
+    {
+      "groupLabel": "CO₂Me",
+      "attachmentMapNumber": 22,
+      "mapNumbers": [
+        22,
+        23,
+        24,
+        25
+      ]
+    },
+    {
+      "groupLabel": "OMe",
+      "attachmentMapNumber": 26,
+      "mapNumbers": [
+        26,
+        27
+      ]
+    },
+    {
+      "groupLabel": "OAc",
+      "attachmentMapNumber": 28,
+      "mapNumbers": [
+        28,
+        33,
+        34,
+        35
+      ]
+    },
+    {
+      "groupLabel": "OMe",
+      "attachmentMapNumber": 36,
+      "mapNumbers": [
+        36,
+        37
+      ]
+    }
+  ],
+  "startStateId": "reactants",
+  "stateIdToState": {
+    "reactants": {
+      "mappedSmiles": "[NH:1]1[C:2](=[C:7]([CH2:6][CH2:5][N:4]2[C:3]([CH2:14][CH:15]3[CH:16]([CH:17]([CH:18]([CH2:19][CH:20]3[CH2:21]2)[O:28][C:33](=[O:34])[CH3:35])[O:26][CH3:27])[C:22](=[O:23])[O:24][CH3:25])=[O:30])[C:8]2=[CH:9][CH:10]=[C:11]([CH:12]=[C:13]12)[O:36][CH3:37])[H:38].[P:40](=[O:41])([Cl:42])([Cl:43])[Cl:44]",
+      "mapNumberToCoordinates": {
+        "1": [
+          1.75,
+          -2.41
+        ],
+        "2": [
+          3.12,
+          -1.8
+        ],
+        "3": [
+          4.49,
+          -2.41
+        ],
+        "4": [
+          5.71,
+          -1.53
+        ],
+        "5": [
+          5.55,
+          -0.04
+        ],
+        "6": [
+          4.18,
+          0.57
+        ],
+        "7": [
+          2.97,
+          -0.31
+        ],
+        "8": [
+          1.5,
+          0
+        ],
+        "9": [
+          0.75,
+          1.3
+        ],
+        "10": [
+          -0.75,
+          1.3
+        ],
+        "11": [
+          -1.5,
+          0
+        ],
+        "12": [
+          -0.75,
+          -1.3
+        ],
+        "13": [
+          0.75,
+          -1.3
+        ],
+        "14": [
+          4.65,
+          -3.91
+        ],
+        "15": [
+          6.02,
+          -4.52
+        ],
+        "16": [
+          6.18,
+          -6.01
+        ],
+        "17": [
+          7.55,
+          -6.62
+        ],
+        "18": [
+          8.76,
+          -5.74
+        ],
+        "19": [
+          8.61,
+          -4.24
+        ],
+        "20": [
+          7.24,
+          -3.63
+        ],
+        "21": [
+          7.08,
+          -2.14
+        ],
+        "22": [
+          4.96,
+          -6.89
+        ],
+        "23": [
+          5.12,
+          -8.38
+        ],
+        "24": [
+          3.59,
+          -6.28
+        ],
+        "25": [
+          2.38,
+          -7.16
+        ],
+        "26": [
+          7.71,
+          -8.11
+        ],
+        "27": [
+          9.08,
+          -8.72
+        ],
+        "28": [
+          10.13,
+          -6.35
+        ],
+        "30": [
+          3.993,
+          -3.825
+        ],
+        "33": [
+          11.35,
+          -5.46
+        ],
+        "34": [
+          11.19,
+          -3.97
+        ],
+        "35": [
+          12.72,
+          -6.07
+        ],
+        "36": [
+          -3,
+          0
+        ],
+        "37": [
+          -3.75,
+          1.3
+        ],
+        "38": [
+          2.5,
+          -2.708
+        ],
+        "40": [
+          16.619,
+          -3.71
+        ],
+        "41": [
+          15.32,
+          -4.46
+        ],
+        "42": [
+          17.918,
+          -2.96
+        ],
+        "43": [
+          17.369,
+          -5.009
+        ],
+        "44": [
+          15.869,
+          -2.411
+        ]
+      },
+      "caption": "Woodward's lactam (indole + E ring joined through nitrogen) + phosphoryl chloride",
+      "learnerPrompt": "Turn the lactam C=O into a leaving group: let its oxygen attack phosphorus.",
+      "hintTiers": [
+        "An amide oxygen is the most nucleophilic atom of an amide (think of where amides are protonated). Phosphorus in POCl₃ carries three chlorides that can leave.",
+        "The lactam oxygen bonds to phosphorus and a chloride leaves. The nitrogen lone pair can then push in to make a C=N⁺ iminium ion, with the C=O π pair moving onto oxygen. Two arrows are enough; four give the drawing used next.",
+        "Lactam oxygen lone pair → new O–P bond; P–Cl bond → lone pair on chloride; nitrogen lone pair → C=N π bond; C=O π bond → lone pair on oxygen."
+      ],
+      "misconceptions": [
+        {
+          "misconceptionId": "nitrogen-attacks-p",
+          "misconceptionTag": "wrong-nucleophile",
+          "severity": "wrong",
+          "arrowPattern": "lp N4 -> σ N4-P40",
+          "feedbackMessage": "The amide nitrogen's lone pair is tied up in resonance with the C=O, so it is not nucleophilic. The oxygen attacks."
+        },
+        {
+          "misconceptionId": "indole-nitrogen-attacks-p",
+          "misconceptionTag": "wrong-nucleophile",
+          "severity": "wrong",
+          "arrowPattern": "lp N1 -> σ N1-P40",
+          "feedbackMessage": "The indole N–H lone pair is part of the aromatic ring and is not nucleophilic. The lactam oxygen attacks phosphorus."
+        },
+        {
+          "misconceptionId": "indole-attacks-unactivated-lactam",
+          "misconceptionTag": "attack-before-activating",
+          "severity": "wrong",
+          "arrowPattern": "π C2-C7 -> σ C2-C3",
+          "feedbackMessage": "A lactam carbonyl is far too weak an electrophile for the indole. Activate it with POCl₃ first."
+        },
+        {
+          "misconceptionId": "phosphoryl-oxygen-attacks",
+          "misconceptionTag": "wrong-nucleophile",
+          "severity": "wrong",
+          "arrowPattern": "π O41-P40 -> *",
+          "feedbackMessage": "The P=O of POCl₃ is not the nucleophile here. The lactam oxygen attacks phosphorus and a chloride leaves."
+        }
+      ],
+      "partialProgressMessages": [
+        {
+          "learnerArrows": [
+            "lp O30 -> σ O30-P40",
+            "σ P40-Cl42 -> lp Cl42"
+          ],
+          "feedbackMessage": "Right: the oxygen is now on phosphorus and chloride has left. That is accepted as it stands; the nitrogen lone pair can also push in to show the iminium ion."
+        }
+      ]
+    },
+    "imidoyl-phosphate": {
+      "mappedSmiles": "[NH:1]1[C:2](=[C:7]([CH2:6][CH2:5][N+:4]2=[C:3]([CH2:14][CH:15]3[CH:16]([CH:17]([CH:18]([CH2:19][CH:20]3[CH2:21]2)[O:28][C:33](=[O:34])[CH3:35])[O:26][CH3:27])[C:22](=[O:23])[O:24][CH3:25])[O:30][P:40](=[O:41])([Cl:43])[Cl:44])[C:8]2=[CH:9][CH:10]=[C:11]([CH:12]=[C:13]12)[O:36][CH3:37])[H:38].[Cl-:42]",
+      "mapNumberToCoordinates": {
+        "1": [
+          1.75,
+          -2.41
+        ],
+        "2": [
+          3.12,
+          -1.8
+        ],
+        "3": [
+          4.49,
+          -2.41
+        ],
+        "4": [
+          5.71,
+          -1.53
+        ],
+        "5": [
+          5.55,
+          -0.04
+        ],
+        "6": [
+          4.18,
+          0.57
+        ],
+        "7": [
+          2.97,
+          -0.31
+        ],
+        "8": [
+          1.5,
+          0
+        ],
+        "9": [
+          0.75,
+          1.3
+        ],
+        "10": [
+          -0.75,
+          1.3
+        ],
+        "11": [
+          -1.5,
+          0
+        ],
+        "12": [
+          -0.75,
+          -1.3
+        ],
+        "13": [
+          0.75,
+          -1.3
+        ],
+        "14": [
+          4.65,
+          -3.91
+        ],
+        "15": [
+          6.02,
+          -4.52
+        ],
+        "16": [
+          6.18,
+          -6.01
+        ],
+        "17": [
+          7.55,
+          -6.62
+        ],
+        "18": [
+          8.76,
+          -5.74
+        ],
+        "19": [
+          8.61,
+          -4.24
+        ],
+        "20": [
+          7.24,
+          -3.63
+        ],
+        "21": [
+          7.08,
+          -2.14
+        ],
+        "22": [
+          4.96,
+          -6.89
+        ],
+        "23": [
+          5.12,
+          -8.38
+        ],
+        "24": [
+          3.59,
+          -6.28
+        ],
+        "25": [
+          2.38,
+          -7.16
+        ],
+        "26": [
+          7.71,
+          -8.11
+        ],
+        "27": [
+          9.08,
+          -8.72
+        ],
+        "28": [
+          10.13,
+          -6.35
+        ],
+        "30": [
+          3.2,
+          -3.175
+        ],
+        "33": [
+          11.35,
+          -5.46
+        ],
+        "34": [
+          11.19,
+          -3.97
+        ],
+        "35": [
+          12.72,
+          -6.07
+        ],
+        "36": [
+          -3,
+          0
+        ],
+        "37": [
+          -3.75,
+          1.3
+        ],
+        "38": [
+          2.5,
+          -2.708
+        ],
+        "40": [
+          2.062,
+          -4.152
+        ],
+        "41": [
+          0.924,
+          -5.13
+        ],
+        "42": [
+          15.32,
+          -3.71
+        ],
+        "43": [
+          0.823,
+          -3.306
+        ],
+        "44": [
+          2.712,
+          -5.504
+        ]
+      },
+      "caption": "the activated lactam: an iminium ion carrying a dichlorophosphate leaving group + chloride",
+      "learnerPrompt": "The indole closes the new six-membered ring: attack the iminium carbon.",
+      "hintTiers": [
+        "An indole is an electron-rich aromatic ring and a good nucleophile. Its 3-position is already taken by the side chain; which free carbon of the five-membered ring can reach the iminium carbon?",
+        "The indole C=C π bond makes a new bond from the free ring carbon next to the indole nitrogen to the iminium carbon, closing a six-membered ring; the C=N π pair goes back onto nitrogen. Two arrows.",
+        "Indole C=C π bond → new σ bond from the CH next to the indole N–H to the iminium carbon; C=N π bond → lone pair on nitrogen."
+      ],
+      "misconceptions": [
+        {
+          "misconceptionId": "chloride-adds",
+          "misconceptionTag": "unproductive-addition",
+          "severity": "plausible",
+          "arrowPattern": "lp Cl* -> C3",
+          "feedbackMessage": "Chloride can add to the iminium carbon (a chloroiminium species is often drawn instead), but that only swaps one leaving group for another. The new C–C bond is what the reaction makes."
+        },
+        {
+          "misconceptionId": "indole-nitrogen-attacks",
+          "misconceptionTag": "wrong-nucleophile",
+          "severity": "wrong",
+          "arrowPattern": "lp N1 -> σ N1-C3",
+          "feedbackMessage": "The indole nitrogen lone pair is part of the aromatic sextet. The indole reacts through carbon."
+        },
+        {
+          "misconceptionId": "pi-to-iminium-carbon",
+          "misconceptionTag": "pi-to-own-atom",
+          "severity": "wrong",
+          "arrowPattern": "π C3-N4 -> C3",
+          "feedbackMessage": "The C=N π electrons move towards the positive nitrogen, not onto carbon."
+        }
+      ],
+      "partialProgressMessages": [
+        {
+          "learnerArrows": [
+            "π C2-C7 -> σ C2-C3"
+          ],
+          "feedbackMessage": "Right: the indole carbon bonds to the iminium carbon. That carbon would now have five bonds: move the C=N π pair onto nitrogen."
+        }
+      ]
+    },
+    "cyclised-cation": {
+      "mappedSmiles": "[NH:1]1[C:2]2([C:3]3([N:4]([CH2:5][CH2:6][C+:7]2[C:8]2=[CH:9][CH:10]=[C:11]([CH:12]=[C:13]12)[O:36][CH3:37])[CH2:21][CH:20]1[CH:15]([CH2:14]3)[CH:16]([CH:17]([CH:18]([CH2:19]1)[O:28][C:33](=[O:34])[CH3:35])[O:26][CH3:27])[C:22](=[O:23])[O:24][CH3:25])[O:30][P:40](=[O:41])([Cl:43])[Cl:44])[H:38].[Cl-:42]",
+      "mapNumberToCoordinates": {
+        "1": [
+          1.75,
+          -2.41
+        ],
+        "2": [
+          3.12,
+          -1.8
+        ],
+        "3": [
+          4.49,
+          -2.41
+        ],
+        "4": [
+          5.71,
+          -1.53
+        ],
+        "5": [
+          5.55,
+          -0.04
+        ],
+        "6": [
+          4.18,
+          0.57
+        ],
+        "7": [
+          2.97,
+          -0.31
+        ],
+        "8": [
+          1.5,
+          0
+        ],
+        "9": [
+          0.75,
+          1.3
+        ],
+        "10": [
+          -0.75,
+          1.3
+        ],
+        "11": [
+          -1.5,
+          0
+        ],
+        "12": [
+          -0.75,
+          -1.3
+        ],
+        "13": [
+          0.75,
+          -1.3
+        ],
+        "14": [
+          4.65,
+          -3.91
+        ],
+        "15": [
+          6.02,
+          -4.52
+        ],
+        "16": [
+          6.18,
+          -6.01
+        ],
+        "17": [
+          7.55,
+          -6.62
+        ],
+        "18": [
+          8.76,
+          -5.74
+        ],
+        "19": [
+          8.61,
+          -4.24
+        ],
+        "20": [
+          7.24,
+          -3.63
+        ],
+        "21": [
+          7.08,
+          -2.14
+        ],
+        "22": [
+          4.96,
+          -6.89
+        ],
+        "23": [
+          5.12,
+          -8.38
+        ],
+        "24": [
+          3.59,
+          -6.28
+        ],
+        "25": [
+          2.38,
+          -7.16
+        ],
+        "26": [
+          7.71,
+          -8.11
+        ],
+        "27": [
+          9.08,
+          -8.72
+        ],
+        "28": [
+          10.13,
+          -6.35
+        ],
+        "30": [
+          3.2,
+          -3.175
+        ],
+        "33": [
+          11.35,
+          -5.46
+        ],
+        "34": [
+          11.19,
+          -3.97
+        ],
+        "35": [
+          12.72,
+          -6.07
+        ],
+        "36": [
+          -3,
+          0
+        ],
+        "37": [
+          -3.75,
+          1.3
+        ],
+        "38": [
+          2.5,
+          -2.708
+        ],
+        "40": [
+          2.062,
+          -4.152
+        ],
+        "41": [
+          0.924,
+          -5.13
+        ],
+        "42": [
+          15.32,
+          -3.71
+        ],
+        "43": [
+          0.823,
+          -3.306
+        ],
+        "44": [
+          2.712,
+          -5.504
+        ]
+      },
+      "caption": "the new six-membered ring is closed; the indole has lost its aromaticity and carries a positive charge",
+      "learnerPrompt": "Restore the aromatic indole: remove the proton from the carbon that just made the new bond.",
+      "hintTiers": [
+        "This is the second half of an electrophilic aromatic substitution. Which proton goes, and which base is around?",
+        "Chloride takes the proton on the ring carbon that formed the new bond; that C–H pair makes the C=C of the indole again. Two arrows.",
+        "Chloride lone pair → new Cl–H bond; that ring C–H bond → C=C π bond back to the positive carbon."
+      ],
+      "misconceptions": [
+        {
+          "misconceptionId": "phosphate-leaves-now",
+          "misconceptionTag": "order-of-steps",
+          "severity": "plausible",
+          "arrowPattern": "σ C3-O30 -> lp O30",
+          "feedbackMessage": "The phosphate does leave, but not while the ring next door is still positive: that would make a dication. Restore the aromatic indole first."
+        },
+        {
+          "misconceptionId": "chloride-adds-to-cation",
+          "misconceptionTag": "unproductive-addition",
+          "severity": "wrong",
+          "arrowPattern": "lp Cl42 -> σ Cl42-C7",
+          "feedbackMessage": "Adding chloride to the cation would leave the indole non-aromatic. Losing a proton restores the aromatic ring."
+        }
+      ],
+      "partialProgressMessages": [
+        {
+          "learnerArrows": [
+            "σ C2-H38 -> π C2-C7"
+          ],
+          "feedbackMessage": "Right C–H bond, but the proton needs a base to go to: draw chloride taking it."
+        }
+      ]
+    },
+    "aromatic-intermediate": {
+      "mappedSmiles": "[NH:1]1[C:2]2[C:3]3([N:4]([CH2:5][CH2:6][C:7]=2[C:8]2=[CH:9][CH:10]=[C:11]([CH:12]=[C:13]12)[O:36][CH3:37])[CH2:21][CH:20]1[CH:15]([CH2:14]3)[CH:16]([CH:17]([CH:18]([CH2:19]1)[O:28][C:33](=[O:34])[CH3:35])[O:26][CH3:27])[C:22](=[O:23])[O:24][CH3:25])[O:30][P:40](=[O:41])([Cl:43])[Cl:44].[H:38][Cl:42]",
+      "mapNumberToCoordinates": {
+        "1": [
+          1.75,
+          -2.41
+        ],
+        "2": [
+          3.12,
+          -1.8
+        ],
+        "3": [
+          4.49,
+          -2.41
+        ],
+        "4": [
+          5.71,
+          -1.53
+        ],
+        "5": [
+          5.55,
+          -0.04
+        ],
+        "6": [
+          4.18,
+          0.57
+        ],
+        "7": [
+          2.97,
+          -0.31
+        ],
+        "8": [
+          1.5,
+          0
+        ],
+        "9": [
+          0.75,
+          1.3
+        ],
+        "10": [
+          -0.75,
+          1.3
+        ],
+        "11": [
+          -1.5,
+          0
+        ],
+        "12": [
+          -0.75,
+          -1.3
+        ],
+        "13": [
+          0.75,
+          -1.3
+        ],
+        "14": [
+          4.65,
+          -3.91
+        ],
+        "15": [
+          6.02,
+          -4.52
+        ],
+        "16": [
+          6.18,
+          -6.01
+        ],
+        "17": [
+          7.55,
+          -6.62
+        ],
+        "18": [
+          8.76,
+          -5.74
+        ],
+        "19": [
+          8.61,
+          -4.24
+        ],
+        "20": [
+          7.24,
+          -3.63
+        ],
+        "21": [
+          7.08,
+          -2.14
+        ],
+        "22": [
+          4.96,
+          -6.89
+        ],
+        "23": [
+          5.12,
+          -8.38
+        ],
+        "24": [
+          3.59,
+          -6.28
+        ],
+        "25": [
+          2.38,
+          -7.16
+        ],
+        "26": [
+          7.71,
+          -8.11
+        ],
+        "27": [
+          9.08,
+          -8.72
+        ],
+        "28": [
+          10.13,
+          -6.35
+        ],
+        "30": [
+          3.2,
+          -3.175
+        ],
+        "33": [
+          11.35,
+          -5.46
+        ],
+        "34": [
+          11.19,
+          -3.97
+        ],
+        "35": [
+          12.72,
+          -6.07
+        ],
+        "36": [
+          -3,
+          0
+        ],
+        "37": [
+          -3.75,
+          1.3
+        ],
+        "38": [
+          16.82,
+          -3.71
+        ],
+        "40": [
+          2.062,
+          -4.152
+        ],
+        "41": [
+          0.924,
+          -5.13
+        ],
+        "42": [
+          15.32,
+          -3.71
+        ],
+        "43": [
+          0.823,
+          -3.306
+        ],
+        "44": [
+          2.712,
+          -5.504
+        ]
+      },
+      "caption": "the aromatic indole again; the ring carbon from the lactam still carries the dichlorophosphate + HCl",
+      "learnerPrompt": "The dichlorophosphate leaves, pushed out by the nitrogen lone pair.",
+      "hintTiers": [
+        "Which lone pair is next to the carbon carrying the O–P group?",
+        "The nitrogen lone pair makes a C=N π bond as the C–O bond breaks, the pair going to oxygen. Two arrows.",
+        "Nitrogen lone pair → C=N π bond; C–O bond → lone pair on the phosphate oxygen."
+      ],
+      "misconceptions": [
+        {
+          "misconceptionId": "p-o-bond-breaks",
+          "misconceptionTag": "wrong-bond-breaks",
+          "severity": "wrong",
+          "arrowPattern": "σ O30-P40 -> *",
+          "feedbackMessage": "The O–P bond stays: the whole dichlorophosphate group leaves, taking the C–O bonding pair with it."
+        },
+        {
+          "misconceptionId": "indole-n-pushes",
+          "misconceptionTag": "wrong-lone-pair",
+          "severity": "wrong",
+          "arrowPattern": "lp N1 -> *",
+          "feedbackMessage": "The indole nitrogen is not next to the carbon carrying the leaving group. The ring nitrogen next to it does the pushing."
+        }
+      ],
+      "partialProgressMessages": [
+        {
+          "learnerArrows": [
+            "σ C3-O30 -> lp O30"
+          ],
+          "feedbackMessage": "Right bond to break. Push the nitrogen lone pair in at the same time, so no carbocation forms."
+        }
+      ]
+    },
+    "products": {
+      "mappedSmiles": "[NH:1]1[C:2]2[C:3]3=[N+:4]([CH2:5][CH2:6][C:7]=2[C:8]2=[CH:9][CH:10]=[C:11]([CH:12]=[C:13]12)[O:36][CH3:37])[CH2:21][CH:20]1[CH:15]([CH2:14]3)[CH:16]([CH:17]([CH:18]([CH2:19]1)[O:28][C:33](=[O:34])[CH3:35])[O:26][CH3:27])[C:22](=[O:23])[O:24][CH3:25].[O-:30][P:40](=[O:41])([Cl:43])[Cl:44].[H:38][Cl:42]",
+      "mapNumberToCoordinates": {
+        "1": [
+          1.75,
+          -2.41
+        ],
+        "2": [
+          3.12,
+          -1.8
+        ],
+        "3": [
+          4.49,
+          -2.41
+        ],
+        "4": [
+          5.71,
+          -1.53
+        ],
+        "5": [
+          5.55,
+          -0.04
+        ],
+        "6": [
+          4.18,
+          0.57
+        ],
+        "7": [
+          2.97,
+          -0.31
+        ],
+        "8": [
+          1.5,
+          0
+        ],
+        "9": [
+          0.75,
+          1.3
+        ],
+        "10": [
+          -0.75,
+          1.3
+        ],
+        "11": [
+          -1.5,
+          0
+        ],
+        "12": [
+          -0.75,
+          -1.3
+        ],
+        "13": [
+          0.75,
+          -1.3
+        ],
+        "14": [
+          4.65,
+          -3.91
+        ],
+        "15": [
+          6.02,
+          -4.52
+        ],
+        "16": [
+          6.18,
+          -6.01
+        ],
+        "17": [
+          7.55,
+          -6.62
+        ],
+        "18": [
+          8.76,
+          -5.74
+        ],
+        "19": [
+          8.61,
+          -4.24
+        ],
+        "20": [
+          7.24,
+          -3.63
+        ],
+        "21": [
+          7.08,
+          -2.14
+        ],
+        "22": [
+          4.96,
+          -6.89
+        ],
+        "23": [
+          5.12,
+          -8.38
+        ],
+        "24": [
+          3.59,
+          -6.28
+        ],
+        "25": [
+          2.38,
+          -7.16
+        ],
+        "26": [
+          7.71,
+          -8.11
+        ],
+        "27": [
+          9.08,
+          -8.72
+        ],
+        "28": [
+          10.13,
+          -6.35
+        ],
+        "30": [
+          -0.57,
+          4.01
+        ],
+        "33": [
+          11.35,
+          -5.46
+        ],
+        "34": [
+          11.19,
+          -3.97
+        ],
+        "35": [
+          12.72,
+          -6.07
+        ],
+        "36": [
+          -3,
+          0
+        ],
+        "37": [
+          -3.75,
+          1.3
+        ],
+        "38": [
+          0.9,
+          9.08
+        ],
+        "40": [
+          0.73,
+          4.76
+        ],
+        "41": [
+          2.03,
+          5.51
+        ],
+        "42": [
+          -0.39,
+          8.33
+        ],
+        "43": [
+          1.48,
+          3.46
+        ],
+        "44": [
+          -0.02,
+          6.06
+        ]
+      },
+      "caption": "the dihydro-β-carbolinium ion: reserpine's whole pentacyclic skeleton + dichlorophosphate + HCl"
+    }
+  },
+  "steps": [
+    {
+      "stepKey": "lactam-activation",
+      "fromStateId": "reactants",
+      "toStateId": "imidoyl-phosphate",
+      "stepKind": "polar",
+      "routePreference": "preferred",
+      "canonicalArrows": [
+        "lp O30 -> σ O30-P40",
+        "σ P40-Cl42 -> lp Cl42",
+        "lp N4 -> π C3-N4",
+        "π C3-O30 -> lp O30"
+      ],
+      "explanationAfterStep": "The lactam oxygen attacks phosphorus and a chloride leaves. The product is drawn as an iminium ion, the nitrogen lone pair pushing in: the O–P(O)Cl₂ group has turned the unreactive amide C=O into an electrophilic C=N⁺ with a leaving group. A secondary amide would go on to a nitrilium ion; this lactam's nitrogen has no hydrogen, so the iminium ion itself is attacked."
+    },
+    {
+      "stepKey": "ring-closure",
+      "fromStateId": "imidoyl-phosphate",
+      "toStateId": "cyclised-cation",
+      "stepKind": "polar",
+      "routePreference": "preferred",
+      "canonicalArrows": [
+        "π C2-C7 -> σ C2-C3",
+        "π C3-N4 -> lp N4"
+      ],
+      "explanationAfterStep": "An intramolecular electrophilic aromatic substitution closes ring C, six-membered. Woodward's indole attacks directly at its free 2-position; attack at the 3-position (a spiro intermediate) followed by a shift is the alternative often discussed for indoles, and gives the same product."
+    },
+    {
+      "stepKey": "rearomatisation",
+      "fromStateId": "cyclised-cation",
+      "toStateId": "aromatic-intermediate",
+      "stepKind": "polar",
+      "routePreference": "preferred",
+      "canonicalArrows": [
+        "lp Cl42 -> σ Cl42-H38",
+        "σ C2-H38 -> π C2-C7"
+      ],
+      "explanationAfterStep": "Losing the proton restores the aromatic indole, as in every electrophilic aromatic substitution."
+    },
+    {
+      "stepKey": "phosphate-leaves",
+      "fromStateId": "aromatic-intermediate",
+      "toStateId": "products",
+      "stepKind": "polar",
+      "routePreference": "preferred",
+      "canonicalArrows": [
+        "lp N4 -> π C3-N4",
+        "σ C3-O30 -> lp O30"
+      ],
+      "explanationAfterStep": "The nitrogen lone pair pushes out dichlorophosphate and gives the conjugated iminium ion. All five rings of reserpine are now in place; the iminium carbon is not yet a stereocentre."
+    }
+  ],
+  "mechanismSummary": "Woodward's lactam joins the indole half (from 6-methoxytryptamine) to the E-ring half through its nitrogen. Phosphoryl chloride turns the lactam C=O into an iminium ion carrying a dichlorophosphate leaving group; the indole attacks it at its free 2-position (an intramolecular electrophilic aromatic substitution) to close ring C; chloride removes a proton to restore the aromatic indole; and the nitrogen pushes out dichlorophosphate to leave a dihydro-β-carbolinium ion. The E-ring substituents (CO₂Me, OMe, OAc) and the aryl OMe take no part and are drawn as labels; stereocentres are not drawn.",
+  "references": [
+    "Clayden, Greeves and Warren, Organic Chemistry, 2nd edition (Oxford University Press), chapter 30 (aromatic heterocycles 2: synthesis)",
+    "R. B. Woodward, F. E. Bader, H. Bickel, A. J. Frey and R. W. Kierstead, The total synthesis of reserpine, J. Am. Chem. Soc., 1956, 78, 2023–2025 and 2657; Tetrahedron, 1958, 2, 1–57"
+  ],
+  "authors": [
+    {
+      "name": "Maksim",
+      "url": null
+    }
+  ],
+  "licence": "CC-BY-SA-4.0"
+}

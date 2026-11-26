@@ -1,0 +1,523 @@
+{
+  "formatVersion": 1,
+  "reactionSlug": "cyclobutylmethyl-ring-expansion",
+  "reactionVersion": 1,
+  "previousReactionVersion": null,
+  "title": "Cyclobutylmethyl ring expansion",
+  "subtitle": "A carbocation next to a four-membered ring expands it to a five-membered ring",
+  "reactionClasses": [
+    "rearrangement",
+    "substitution"
+  ],
+  "difficultyTier": 3,
+  "conditionsLabel": "HBr (conc.) · heat",
+  "dailyPuzzleEligible": true,
+  "atomRoleToMapNumbers": {},
+  "spectatorMapNumbers": [],
+  "startStateId": "reactants",
+  "stateIdToState": {
+    "reactants": {
+      "mappedSmiles": "[CH3:1][C:2]([H:8])([OH:3])[CH:4]1[CH2:5][CH2:6][CH2:7]1.[H:9][Br:10]",
+      "mapNumberToCoordinates": {
+        "1": [
+          2.56,
+          -1.5
+        ],
+        "2": [
+          2.56,
+          0
+        ],
+        "3": [
+          4.06,
+          0
+        ],
+        "4": [
+          1.06,
+          0
+        ],
+        "5": [
+          0,
+          1.06
+        ],
+        "6": [
+          -1.06,
+          0
+        ],
+        "7": [
+          0,
+          -1.06
+        ],
+        "8": [
+          2.56,
+          1.5
+        ],
+        "9": [
+          1.06,
+          4.08
+        ],
+        "10": [
+          -0.24,
+          3.33
+        ]
+      },
+      "caption": "1-cyclobutylethan-1-ol + HBr",
+      "learnerPrompt": "Protonate the alcohol.",
+      "hintTiers": [
+        "The OH group has to become a leaving group. Which reagent can turn it into water?",
+        "The OH oxygen takes the proton of HBr, and the H–Br pair goes to bromine. Two arrows.",
+        "OH oxygen lone pair → new bond to the H of HBr; H–Br bond → a lone pair on bromine."
+      ],
+      "misconceptions": [
+        {
+          "misconceptionId": "bromide-displaces-oh",
+          "misconceptionTag": "poor-leaving-group",
+          "severity": "wrong",
+          "arrowPattern": "σ C2-O3 -> lp O3",
+          "feedbackMessage": "Hydroxide is a poor leaving group. Protonate the OH first."
+        }
+      ]
+    },
+    "oxonium-ion": {
+      "mappedSmiles": "[CH3:1][C:2]([H:8])([OH+:3][H:9])[CH:4]1[CH2:5][CH2:6][CH2:7]1.[Br-:10]",
+      "mapNumberToCoordinates": {
+        "1": [
+          2.56,
+          -1.5
+        ],
+        "2": [
+          2.56,
+          0
+        ],
+        "3": [
+          4.06,
+          0
+        ],
+        "4": [
+          1.06,
+          0
+        ],
+        "5": [
+          0,
+          1.06
+        ],
+        "6": [
+          -1.06,
+          0
+        ],
+        "7": [
+          0,
+          -1.06
+        ],
+        "8": [
+          2.56,
+          1.5
+        ],
+        "9": [
+          4.81,
+          1.3
+        ],
+        "10": [
+          -0.6,
+          3.27
+        ]
+      },
+      "caption": "protonated alcohol + bromide",
+      "learnerPrompt": "Water leaves.",
+      "hintTiers": [
+        "The protonated OH leaves as water. What kind of cation is left?",
+        "The C–O bond breaks and its pair goes to oxygen. One arrow.",
+        "C–O bond → a lone pair on the water oxygen, leaving a secondary carbocation next to the four-membered ring."
+      ],
+      "misconceptions": [
+        {
+          "misconceptionId": "sn2-by-bromide",
+          "misconceptionTag": "substitution-instead",
+          "severity": "plausible",
+          "arrowPattern": "lp Br10 -> σ Br10-C2",
+          "feedbackMessage": "A direct SN2 reaction would give the unrearranged bromide. Here water leaves first: the cation next to a strained ring is set up to rearrange."
+        }
+      ]
+    },
+    "secondary-cation": {
+      "mappedSmiles": "[CH3:1][C+:2]([H:8])[CH:4]1[CH2:5][CH2:6][CH2:7]1.[OH:3][H:9].[Br-:10]",
+      "mapNumberToCoordinates": {
+        "1": [
+          3.31,
+          1.3
+        ],
+        "2": [
+          2.56,
+          0
+        ],
+        "3": [
+          -0.26,
+          3.33
+        ],
+        "4": [
+          1.06,
+          0
+        ],
+        "5": [
+          0,
+          1.06
+        ],
+        "6": [
+          -1.06,
+          0
+        ],
+        "7": [
+          0,
+          -1.06
+        ],
+        "8": [
+          3.31,
+          -1.3
+        ],
+        "9": [
+          1.04,
+          4.08
+        ],
+        "10": [
+          -1.42,
+          5.29
+        ]
+      },
+      "caption": "secondary carbocation next to a cyclobutane ring",
+      "learnerPrompt": "The ring rearranges. Draw the 1,2-shift.",
+      "hintTiers": [
+        "A four-membered ring is strained (about 110 kJ mol⁻¹). Which bond next to the cation can move onto it and make the ring larger?",
+        "A C–C bond of the ring, on the carbon next to the cation, moves across to the cationic carbon. One arrow.",
+        "Ring C–C bond of the carbon next to the cation → new bond from that ring CH₂ to the cationic carbon."
+      ],
+      "misconceptions": [
+        {
+          "misconceptionId": "bromide-traps-early",
+          "misconceptionTag": "trap-cation",
+          "severity": "plausible",
+          "arrowPattern": "lp Br10 -> σ Br10-C2",
+          "feedbackMessage": "Bromide could trap this cation, but the ring expansion is faster: it relieves the strain of the four-membered ring."
+        },
+        {
+          "misconceptionId": "water-adds-back",
+          "misconceptionTag": "reverse-step",
+          "severity": "plausible",
+          "arrowPattern": "lp O3 -> σ O3-C2",
+          "feedbackMessage": "Water adding back just reverses the last step. Look at the strained ring next to the cation."
+        }
+      ]
+    },
+    "cyclopentyl-cation": {
+      "mappedSmiles": "[CH3:1][C:2]1([H:8])[CH+:4][CH2:7][CH2:6][CH2:5]1.[OH:3][H:9].[Br-:10]",
+      "mapNumberToCoordinates": {
+        "1": [
+          2.39,
+          -1
+        ],
+        "2": [
+          1.28,
+          0
+        ],
+        "3": [
+          -0.02,
+          3.44
+        ],
+        "4": [
+          0.39,
+          1.21
+        ],
+        "5": [
+          0.39,
+          -1.21
+        ],
+        "6": [
+          -1.03,
+          -0.75
+        ],
+        "7": [
+          -1.03,
+          0.75
+        ],
+        "8": [
+          2.39,
+          1
+        ],
+        "9": [
+          1.28,
+          4.19
+        ],
+        "10": [
+          4.44,
+          0
+        ]
+      },
+      "caption": "2-methylcyclopentyl cation (secondary)",
+      "learnerPrompt": "One more shift gives a tertiary cation.",
+      "hintTiers": [
+        "The cation is secondary, and the carbon next to it carries a methyl group and a hydrogen. Which shift makes the cation tertiary?",
+        "The drawn hydrogen moves with its bonding pair to the cationic carbon (a hydride shift). One arrow.",
+        "C–H bond of the methyl-bearing carbon → new bond from that H to the cationic carbon."
+      ],
+      "misconceptions": [
+        {
+          "misconceptionId": "water-adds",
+          "misconceptionTag": "trap-cation",
+          "severity": "plausible",
+          "arrowPattern": "lp O3 -> σ O3-C4",
+          "feedbackMessage": "Water could trap the cation, but there is a lot of bromide present and a shift gives a better cation first."
+        },
+        {
+          "misconceptionId": "ring-contracts",
+          "misconceptionTag": "reverse-step",
+          "severity": "plausible",
+          "arrowPattern": "σ C2-C5 -> σ C4-C5",
+          "feedbackMessage": "That shift takes the ring back to the strained four-membered ring. Look for a shift that makes the cation tertiary."
+        }
+      ]
+    },
+    "tertiary-cation": {
+      "mappedSmiles": "[CH3:1][C+:2]1[CH:4]([H:8])[CH2:7][CH2:6][CH2:5]1.[OH:3][H:9].[Br-:10]",
+      "mapNumberToCoordinates": {
+        "1": [
+          2.78,
+          0
+        ],
+        "2": [
+          1.28,
+          0
+        ],
+        "3": [
+          5.08,
+          0
+        ],
+        "4": [
+          0.39,
+          1.21
+        ],
+        "5": [
+          0.39,
+          -1.21
+        ],
+        "6": [
+          -1.03,
+          -0.75
+        ],
+        "7": [
+          -1.03,
+          0.75
+        ],
+        "8": [
+          0.86,
+          2.64
+        ],
+        "9": [
+          6.37,
+          0.75
+        ],
+        "10": [
+          -0.17,
+          4.69
+        ]
+      },
+      "caption": "1-methylcyclopentyl cation (tertiary)",
+      "learnerPrompt": "Bromide adds.",
+      "hintTiers": [
+        "The cation is now tertiary and unstrained. Which nucleophile is present?",
+        "The bromide ion uses a lone pair to bond to the cationic carbon. One arrow.",
+        "Bromide lone pair → new bond to the cationic carbon."
+      ],
+      "misconceptions": [
+        {
+          "misconceptionId": "water-adds-tertiary",
+          "misconceptionTag": "other-nucleophile",
+          "severity": "plausible",
+          "arrowPattern": "lp O3 -> σ O3-C2",
+          "feedbackMessage": "Water can add too, giving an alcohol. With concentrated HBr the bromide is drawn as the nucleophile."
+        }
+      ]
+    },
+    "products": {
+      "mappedSmiles": "[CH3:1][C:2]1([Br:10])[CH:4]([H:8])[CH2:7][CH2:6][CH2:5]1.[OH:3][H:9]",
+      "mapNumberToCoordinates": {
+        "1": [
+          2.39,
+          1
+        ],
+        "2": [
+          1.28,
+          0
+        ],
+        "3": [
+          4.45,
+          0.01
+        ],
+        "4": [
+          0.39,
+          1.21
+        ],
+        "5": [
+          0.39,
+          -1.21
+        ],
+        "6": [
+          -1.03,
+          -0.75
+        ],
+        "7": [
+          -1.03,
+          0.75
+        ],
+        "8": [
+          0.86,
+          2.64
+        ],
+        "9": [
+          5.74,
+          0.76
+        ],
+        "10": [
+          2.39,
+          -1
+        ]
+      },
+      "caption": "1-bromo-1-methylcyclopentane + water"
+    },
+    "secondary-bromide": {
+      "mappedSmiles": "[CH3:1][C:2]1([H:8])[CH:4]([Br:10])[CH2:7][CH2:6][CH2:5]1.[OH:3][H:9]",
+      "mapNumberToCoordinates": {
+        "1": [
+          2.39,
+          -1
+        ],
+        "2": [
+          1.28,
+          0
+        ],
+        "3": [
+          4.45,
+          0.01
+        ],
+        "4": [
+          0.39,
+          1.21
+        ],
+        "5": [
+          0.39,
+          -1.21
+        ],
+        "6": [
+          -1.03,
+          -0.75
+        ],
+        "7": [
+          -1.03,
+          0.75
+        ],
+        "8": [
+          2.39,
+          1
+        ],
+        "9": [
+          5.74,
+          0.76
+        ],
+        "10": [
+          0.86,
+          2.64
+        ]
+      },
+      "caption": "1-bromo-2-methylcyclopentane: a minor product, from bromide trapping the secondary cation before the hydride shift"
+    }
+  },
+  "steps": [
+    {
+      "stepKey": "protonation",
+      "fromStateId": "reactants",
+      "toStateId": "oxonium-ion",
+      "stepKind": "polar",
+      "routePreference": "preferred",
+      "canonicalArrows": [
+        "lp O3 -> σ O3-H9",
+        "σ H9-Br10 -> lp Br10"
+      ],
+      "explanationAfterStep": "The OH becomes OH₂⁺, a good leaving group."
+    },
+    {
+      "stepKey": "loss-of-water",
+      "fromStateId": "oxonium-ion",
+      "toStateId": "secondary-cation",
+      "stepKind": "polar",
+      "routePreference": "preferred",
+      "canonicalArrows": [
+        "σ C2-O3 -> lp O3"
+      ],
+      "explanationAfterStep": "Water leaves: a secondary carbocation right next to a strained four-membered ring."
+    },
+    {
+      "stepKey": "loss-of-water-with-ring-expansion",
+      "fromStateId": "oxonium-ion",
+      "toStateId": "cyclopentyl-cation",
+      "stepKind": "polar",
+      "routePreference": "accepted",
+      "canonicalArrows": [
+        "σ C2-O3 -> lp O3",
+        "σ C4-C5 -> σ C2-C5"
+      ],
+      "explanationAfterStep": "Also correct: the ring bond can move as water leaves, so the secondary cation next to the ring never has to form."
+    },
+    {
+      "stepKey": "ring-expansion",
+      "fromStateId": "secondary-cation",
+      "toStateId": "cyclopentyl-cation",
+      "stepKind": "polar",
+      "routePreference": "preferred",
+      "canonicalArrows": [
+        "σ C4-C5 -> σ C2-C5"
+      ],
+      "explanationAfterStep": "A ring C–C bond moves to the cationic carbon, which becomes part of the ring: four-membered becomes five-membered. The cation is still secondary, but most of the ring strain has gone, and that drives the shift."
+    },
+    {
+      "stepKey": "hydride-shift",
+      "fromStateId": "cyclopentyl-cation",
+      "toStateId": "tertiary-cation",
+      "stepKind": "polar",
+      "routePreference": "preferred",
+      "canonicalArrows": [
+        "σ C2-H8 -> σ C4-H8"
+      ],
+      "explanationAfterStep": "A 1,2-hydride shift turns the secondary cation into a tertiary one."
+    },
+    {
+      "stepKey": "bromide-adds",
+      "fromStateId": "tertiary-cation",
+      "toStateId": "products",
+      "stepKind": "polar",
+      "routePreference": "preferred",
+      "canonicalArrows": [
+        "lp Br10 -> σ Br10-C2"
+      ],
+      "explanationAfterStep": "Bromide traps the tertiary cation: 1-bromo-1-methylcyclopentane. With less nucleophile, loss of a proton would give 1-methylcyclopentene instead."
+    },
+    {
+      "stepKey": "bromide-adds-before-hydride-shift",
+      "fromStateId": "cyclopentyl-cation",
+      "toStateId": "secondary-bromide",
+      "stepKind": "polar",
+      "routePreference": "accepted",
+      "canonicalArrows": [
+        "lp Br10 -> σ Br10-C4"
+      ],
+      "explanationAfterStep": "Also possible, but minor: bromide can trap the secondary cation before the hydride shift, giving 1-bromo-2-methylcyclopentane."
+    }
+  ],
+  "mechanismSummary": "Protonation and loss of water give a secondary carbocation next to a cyclobutane ring. A ring C–C bond shifts onto the cation, so the ring grows from four to five atoms and most of the ring strain is released. A hydride shift then turns the secondary cyclopentyl cation into a tertiary one, which bromide traps.",
+  "references": [
+    "Clayden, Greeves and Warren, Organic Chemistry, 2nd edition (Oxford University Press), chapter 36"
+  ],
+  "authors": [
+    {
+      "name": "Maksim",
+      "url": null
+    }
+  ],
+  "licence": "CC-BY-SA-4.0"
+}

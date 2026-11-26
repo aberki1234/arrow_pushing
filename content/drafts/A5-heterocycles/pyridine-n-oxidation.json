@@ -1,0 +1,567 @@
+{
+  "formatVersion": 1,
+  "reactionSlug": "pyridine-n-oxidation",
+  "reactionVersion": 1,
+  "previousReactionVersion": null,
+  "title": "Pyridine N-oxide: formation and nitration",
+  "subtitle": "mCPBA oxidises the nitrogen; the oxide then directs nitration to C-4",
+  "reactionClasses": [
+    "aromatic substitution"
+  ],
+  "difficultyTier": 3,
+  "conditionsLabel": "mCPBA · CH₂Cl₂; then HNO₃ · H₂SO₄ · 100 °C",
+  "dailyPuzzleEligible": true,
+  "atomRoleToMapNumbers": {
+    "pyridineNitrogen": [
+      1
+    ]
+  },
+  "spectatorMapNumbers": [],
+  "abbreviatedGroups": [
+    {
+      "groupLabel": "Ar",
+      "attachmentMapNumber": 12,
+      "mapNumbers": [
+        12,
+        13,
+        14,
+        15,
+        16,
+        17,
+        18
+      ]
+    }
+  ],
+  "startStateId": "reactants",
+  "stateIdToState": {
+    "reactants": {
+      "mappedSmiles": "[N:1]1=[CH:2][CH:3]=[C:4]([H:20])[CH:5]=[CH:6]1.[O:7]=[C:8]([O:9][O:10][H:11])[C:12]1=[CH:13][C:14]([Cl:18])=[CH:15][CH:16]=[CH:17]1",
+      "mapNumberToCoordinates": {
+        "1": [
+          1.5,
+          0
+        ],
+        "2": [
+          0.75,
+          1.3
+        ],
+        "3": [
+          -0.75,
+          1.3
+        ],
+        "4": [
+          -1.5,
+          0
+        ],
+        "5": [
+          -0.75,
+          -1.3
+        ],
+        "6": [
+          0.75,
+          -1.3
+        ],
+        "7": [
+          4.37,
+          3.51
+        ],
+        "8": [
+          3.62,
+          4.81
+        ],
+        "9": [
+          4.37,
+          6.11
+        ],
+        "10": [
+          5.87,
+          6.11
+        ],
+        "11": [
+          6.62,
+          7.41
+        ],
+        "12": [
+          2.12,
+          4.81
+        ],
+        "13": [
+          1.37,
+          6.11
+        ],
+        "14": [
+          -0.13,
+          6.11
+        ],
+        "15": [
+          -0.88,
+          4.81
+        ],
+        "16": [
+          -0.13,
+          3.51
+        ],
+        "17": [
+          1.37,
+          3.51
+        ],
+        "18": [
+          -0.88,
+          7.41
+        ],
+        "20": [
+          -3,
+          0
+        ]
+      },
+      "caption": "pyridine + mCPBA (Ar = 3-chlorophenyl)",
+      "learnerPrompt": "The nitrogen lone pair attacks the peroxyacid. Draw the concerted oxygen transfer.",
+      "hintTiers": [
+        "Pyridine's lone pair is not part of the aromatic sextet: it sits in the ring plane, like an amine's. Which atom of the peroxyacid is electrophilic, and which bond is weak?",
+        "Nitrogen attacks the outer (OH) oxygen; the weak O–O bond breaks to make a new C=O; the old C=O oxygen picks up the proton, which leaves the outer oxygen. Four arrows, as in an alkene epoxidation.",
+        "Nitrogen lone pair → a new N–O bond to the OH oxygen; the O–O bond → the π bond between the inner oxygen and the carbonyl carbon; the old C=O π bond → a new O–H bond to the OH hydrogen; that O–H bond → a lone pair on the outer oxygen."
+      ],
+      "misconceptions": [
+        {
+          "misconceptionId": "attack-inner-oxygen",
+          "misconceptionTag": "attack-wrong-atom",
+          "severity": "wrong",
+          "arrowPattern": "lp N1 -> σ N1-O9",
+          "feedbackMessage": "The inner oxygen would have to break a bond to carbon. The weak bond is O–O: nitrogen attacks the outer oxygen and a carboxylic acid leaves."
+        },
+        {
+          "misconceptionId": "acid-base",
+          "misconceptionTag": "deprotonation-instead-of-addition",
+          "severity": "plausible",
+          "arrowPattern": "lp N1 -> σ N1-H11",
+          "feedbackMessage": "Pyridine is a base and would take a proton from a carboxylic acid, but a peroxyacid is weakly acidic and the salt is unproductive. The useful reaction is oxygen transfer: attack the outer oxygen."
+        },
+        {
+          "misconceptionId": "attack-carbonyl",
+          "misconceptionTag": "attack-carbonyl",
+          "severity": "plausible",
+          "arrowPattern": "lp N1 -> σ N1-C8",
+          "feedbackMessage": "Pyridine can add to an acyl group, but that adduct goes nowhere here. The weak O–O bond makes the outer oxygen the electrophile."
+        }
+      ],
+      "partialProgressMessages": [
+        {
+          "learnerArrows": [
+            "lp N1 -> σ N1-O10"
+          ],
+          "feedbackMessage": "Right atom. Now break the O–O bond to form the new C=O, and move the proton across to the old carbonyl oxygen."
+        }
+      ]
+    },
+    "n-oxide": {
+      "mappedSmiles": "[O-:10][N+:1]1=[CH:2][CH:3]=[C:4]([H:20])[CH:5]=[CH:6]1.[H:11][O:7][C:8](=[O:9])[C:12]1=[CH:13][C:14]([Cl:18])=[CH:15][CH:16]=[CH:17]1",
+      "mapNumberToCoordinates": {
+        "1": [
+          1.5,
+          0
+        ],
+        "2": [
+          0.75,
+          1.3
+        ],
+        "3": [
+          -0.75,
+          1.3
+        ],
+        "4": [
+          -1.5,
+          0
+        ],
+        "5": [
+          -0.75,
+          -1.3
+        ],
+        "6": [
+          0.75,
+          -1.3
+        ],
+        "7": [
+          4.18,
+          3.53
+        ],
+        "8": [
+          3.43,
+          4.83
+        ],
+        "9": [
+          4.18,
+          6.12
+        ],
+        "10": [
+          3,
+          0
+        ],
+        "11": [
+          5.68,
+          3.53
+        ],
+        "12": [
+          1.93,
+          4.83
+        ],
+        "13": [
+          1.18,
+          6.12
+        ],
+        "14": [
+          -0.32,
+          6.12
+        ],
+        "15": [
+          -1.07,
+          4.83
+        ],
+        "16": [
+          -0.32,
+          3.53
+        ],
+        "17": [
+          1.18,
+          3.53
+        ],
+        "18": [
+          -1.07,
+          7.42
+        ],
+        "20": [
+          -3,
+          0
+        ]
+      },
+      "caption": "pyridine N-oxide + m-chlorobenzoic acid"
+    },
+    "n-oxide-and-nitronium": {
+      "mappedSmiles": "[O-:10][N+:1]1=[CH:2][CH:3]=[C:4]([H:20])[CH:5]=[CH:6]1.[O:21]=[N+:22]=[O:23].[O-:24][S:25](=[O:26])(=[O:27])[OH:28]",
+      "mapNumberToCoordinates": {
+        "1": [
+          1.5,
+          0
+        ],
+        "2": [
+          0.75,
+          1.3
+        ],
+        "3": [
+          -0.75,
+          1.3
+        ],
+        "4": [
+          -1.5,
+          0
+        ],
+        "5": [
+          -0.75,
+          -1.3
+        ],
+        "6": [
+          0.75,
+          -1.3
+        ],
+        "10": [
+          3,
+          0
+        ],
+        "20": [
+          -3,
+          0
+        ],
+        "21": [
+          0,
+          6.47
+        ],
+        "22": [
+          0,
+          4.97
+        ],
+        "23": [
+          0,
+          3.47
+        ],
+        "24": [
+          5.29,
+          0.18
+        ],
+        "25": [
+          6.59,
+          0.93
+        ],
+        "26": [
+          7.89,
+          1.68
+        ],
+        "27": [
+          7.34,
+          -0.37
+        ],
+        "28": [
+          5.84,
+          2.23
+        ]
+      },
+      "caption": "pyridine N-oxide + nitronium ion + hydrogen sulfate",
+      "learnerPrompt": "The N-oxide attacks the nitronium ion. Draw the attack, with the oxygen lone pair pushing.",
+      "hintTiers": [
+        "Pyridine itself barely nitrates, but the N-oxide's O⁻ can push electrons into the ring. Which ring carbon can receive that push?",
+        "The O⁻ lone pair forms an N=O π bond, the C=N π bond moves along the ring, and the C=C π bond to the carbon opposite nitrogen attacks the nitronium nitrogen; an N=O π bond of the nitronium ion moves onto its oxygen. Four arrows.",
+        "Oxide lone pair → an N=O π bond; the ring C=N π bond → the next ring bond; the ring C=C π bond to the carbon opposite nitrogen → a new bond from that carbon to the nitronium N; a nitronium N=O π bond → a lone pair on that oxygen."
+      ],
+      "misconceptions": [
+        {
+          "misconceptionId": "attack-c3",
+          "misconceptionTag": "wrong-ring-position",
+          "severity": "plausible",
+          "arrowPattern": "* -> σ C3-N22",
+          "feedbackMessage": "C-3 is where pyridine itself reacts, sluggishly. In the N-oxide the oxygen pushes electrons to C-2 and C-4 only; the carbon opposite nitrogen is attacked."
+        },
+        {
+          "misconceptionId": "attack-c2",
+          "misconceptionTag": "wrong-ring-position",
+          "severity": "plausible",
+          "arrowPattern": "* -> σ C2-N22",
+          "feedbackMessage": "The oxygen activates C-2 as well, but nitration of pyridine N-oxide goes at C-4, away from the positively charged nitrogen. Attack from the carbon opposite nitrogen."
+        },
+        {
+          "misconceptionId": "o-nitration",
+          "misconceptionTag": "attack-wrong-atom",
+          "severity": "plausible",
+          "arrowPattern": "lp O10 -> σ O10-N22",
+          "feedbackMessage": "Bonding the oxygen to the nitronium ion is reversible and leads nowhere. The oxygen's job is to push electrons into the ring so that a carbon attacks."
+        }
+      ],
+      "partialProgressMessages": [
+        {
+          "learnerArrows": [
+            "π C3-C4 -> σ C4-N22"
+          ],
+          "feedbackMessage": "Right carbon. Now let the oxygen lone pair push into the ring and move an N=O π bond of the nitronium ion onto oxygen."
+        }
+      ]
+    },
+    "sigma-complex": {
+      "mappedSmiles": "[O:10]=[N+:1]1[CH:2]=[CH:3][C:4]([H:20])([N+:22](=[O:21])[O-:23])[CH:5]=[CH:6]1.[O-:24][S:25](=[O:26])(=[O:27])[OH:28]",
+      "mapNumberToCoordinates": {
+        "1": [
+          1.5,
+          0
+        ],
+        "2": [
+          0.75,
+          1.3
+        ],
+        "3": [
+          -0.75,
+          1.3
+        ],
+        "4": [
+          -1.5,
+          0
+        ],
+        "5": [
+          -0.75,
+          -1.3
+        ],
+        "6": [
+          0.75,
+          -1.3
+        ],
+        "10": [
+          3,
+          0
+        ],
+        "20": [
+          -2.65,
+          -0.96
+        ],
+        "21": [
+          -2.39,
+          2.44
+        ],
+        "22": [
+          -2.65,
+          0.96
+        ],
+        "23": [
+          -4.06,
+          0.45
+        ],
+        "24": [
+          0,
+          3.99
+        ],
+        "25": [
+          1.3,
+          4.74
+        ],
+        "26": [
+          2.6,
+          5.49
+        ],
+        "27": [
+          2.05,
+          3.44
+        ],
+        "28": [
+          0.55,
+          6.04
+        ]
+      },
+      "caption": "the σ-complex, drawn with the positive charge on the N=O group",
+      "learnerPrompt": "Hydrogen sulfate removes the proton and the ring becomes aromatic again.",
+      "hintTiers": [
+        "The ring has one sp³ carbon. Which hydrogen goes, and how do the electrons flow back to the oxygen?",
+        "Hydrogen sulfate takes the H on the sp³ carbon; the C–H electrons form a ring π bond; the ring π bond shifts to C=N; the N=O π bond returns to oxygen. Four arrows.",
+        "Hydrogen sulfate O⁻ lone pair → a new O–H bond to the ring H; that C–H bond → the π bond to the next ring carbon; the ring C=C π bond → the C=N π bond; the N=O π bond → a lone pair on oxygen."
+      ],
+      "partialProgressMessages": [
+        {
+          "learnerArrows": [
+            "lp O24 -> σ O24-H20"
+          ],
+          "feedbackMessage": "Right proton. Now send the C–H electrons into the ring and the N=O π bond back onto oxygen."
+        }
+      ]
+    },
+    "products": {
+      "mappedSmiles": "[O-:10][N+:1]1=[CH:2][CH:3]=[C:4]([N+:22](=[O:21])[O-:23])[CH:5]=[CH:6]1.[H:20][O:24][S:25](=[O:26])(=[O:27])[OH:28]",
+      "mapNumberToCoordinates": {
+        "1": [
+          1.5,
+          0
+        ],
+        "2": [
+          0.75,
+          1.3
+        ],
+        "3": [
+          -0.75,
+          1.3
+        ],
+        "4": [
+          -1.5,
+          0
+        ],
+        "5": [
+          -0.75,
+          -1.3
+        ],
+        "6": [
+          0.75,
+          -1.3
+        ],
+        "10": [
+          3,
+          0
+        ],
+        "20": [
+          2.99,
+          6.54
+        ],
+        "21": [
+          -3.75,
+          1.3
+        ],
+        "22": [
+          -3,
+          0
+        ],
+        "23": [
+          -3.75,
+          -1.3
+        ],
+        "24": [
+          2.99,
+          5.04
+        ],
+        "25": [
+          1.69,
+          4.29
+        ],
+        "26": [
+          0.39,
+          3.54
+        ],
+        "27": [
+          0.94,
+          5.59
+        ],
+        "28": [
+          2.44,
+          2.99
+        ]
+      },
+      "caption": "4-nitropyridine N-oxide + sulfuric acid"
+    }
+  },
+  "steps": [
+    {
+      "stepKey": "oxygen-transfer",
+      "fromStateId": "reactants",
+      "toStateId": "n-oxide",
+      "stepKind": "polar",
+      "routePreference": "preferred",
+      "canonicalArrows": [
+        "lp N1 -> σ N1-O10",
+        "σ O9-O10 -> π C8-O9",
+        "π C8-O7 -> σ O7-H11",
+        "σ O10-H11 -> lp O10"
+      ],
+      "explanationAfterStep": "The same concerted oxygen transfer as an alkene epoxidation, with the nitrogen lone pair as the nucleophile. The lone pair lies in the ring plane, outside the aromatic sextet, so the ring stays aromatic."
+    },
+    {
+      "stepKey": "nitrating-mixture",
+      "fromStateId": "n-oxide",
+      "toStateId": "n-oxide-and-nitronium",
+      "stepKind": "change",
+      "routePreference": "preferred",
+      "addedSpecies": "[O:21]=[N+:22]=[O:23].[O-:24][S:25](=[O:26])(=[O:27])[OH:28]",
+      "removedFragmentMapNumbers": [
+        8
+      ],
+      "caption": "Fuming HNO₃ and concentrated H₂SO₄ at 100 °C give the nitronium ion; the benzoic acid has been removed"
+    },
+    {
+      "stepKey": "attack-at-c4",
+      "fromStateId": "n-oxide-and-nitronium",
+      "toStateId": "sigma-complex",
+      "stepKind": "polar",
+      "routePreference": "preferred",
+      "canonicalArrows": [
+        "lp O10 -> π N1-O10",
+        "π N1-C2 -> π C2-C3",
+        "π C3-C4 -> σ C4-N22",
+        "π N22-O23 -> lp O23"
+      ],
+      "explanationAfterStep": "The N-oxide oxygen is an electron donor, like the OMe of anisole: it pushes electrons to C-2 and C-4, and C-4 is attacked. Pyridine itself would be protonated on nitrogen in this acid and almost inert."
+    },
+    {
+      "stepKey": "rearomatisation",
+      "fromStateId": "sigma-complex",
+      "toStateId": "products",
+      "stepKind": "polar",
+      "routePreference": "preferred",
+      "canonicalArrows": [
+        "lp O24 -> σ O24-H20",
+        "σ C4-H20 -> π C3-C4",
+        "π C2-C3 -> π N1-C2",
+        "π N1-O10 -> lp O10"
+      ],
+      "explanationAfterStep": "Loss of the proton restores the aromatic N-oxide. The oxygen can be removed afterwards (with PCl₃), so the N-oxide is a way of making 4-substituted pyridines that direct nitration cannot."
+    }
+  ],
+  "mechanismSummary": "The pyridine lone pair lies outside the aromatic sextet, so pyridine attacks mCPBA at its weak O–O bond, just as an alkene does in an epoxidation, giving pyridine N-oxide. The O⁻ of the N-oxide is a π donor: it pushes electrons into the ring at C-2 and C-4, so the N-oxide nitrates at C-4 where pyridine itself would barely react. Hydrogen sulfate removes the proton, and the oxide can later be removed with PCl₃.",
+  "references": [
+    "Clayden, Greeves and Warren, Organic Chemistry, 2nd edition (Oxford University Press), chapter 29"
+  ],
+  "authors": [
+    {
+      "name": "Maksim",
+      "url": null
+    }
+  ],
+  "licence": "CC-BY-SA-4.0"
+}

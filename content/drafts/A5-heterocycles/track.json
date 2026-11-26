@@ -1,0 +1,115 @@
+{
+  "formatVersion": 1,
+  "trackSlug": "heterocycles",
+  "title": "Heterocycles",
+  "goal": "How pyrroles, furans, indoles and pyridines react, and how their rings are built.",
+  "level": "advanced",
+  "curriculumCode": "A5",
+  "showcaseReactionSlug": "gramine-synthesis",
+  "problemSets": [
+    {
+      "problemSetSlug": "pi-excessive-rings",
+      "title": "π-Excessive rings",
+      "conceptInOneLine": "Pyrrole, furan and indole are enamines and enol ethers locked in an aromatic ring: they attack electrophiles easily.",
+      "conceptCard": "In **pyrrole** and **furan** the heteroatom gives a lone pair to the aromatic sextet: six π electrons spread over five atoms. The ring is **electron-rich**, far more nucleophilic than benzene, and reacts with weak electrophiles such as acetic anhydride or Br₂ with **no Lewis acid**.\n\nRead pyrrole as an **enamine**: the nitrogen lone pair pushes, a ring carbon attacks, and the cation ends with its charge on nitrogen (an iminium ion). Then a proton leaves and the ring is aromatic again.\n\n- Pyrrole and furan react at **C-2**, next to the heteroatom: the cation formed is spread over three atoms. Attack at C-3 gives only two.\n- **Indole** reacts at **C-3**: there the nitrogen takes the charge directly and the benzene ring is never disturbed.\n- The heteroatom's lone pair is part of the sextet, so the nitrogen of pyrrole and indole is **not** nucleophilic or basic.\n\nFuran is the least aromatic of the three, so nucleophiles can add to its cation instead of removing a proton (2,5-addition).",
+      "checkpoint": false,
+      "setItems": [
+        {
+          "reactionSlug": "acylation-of-pyrrole",
+          "whyThisOne": "Pyrrole as an enamine: attack at C-2, charge on nitrogen, no Lewis acid needed."
+        },
+        {
+          "reactionSlug": "bromination-of-furan",
+          "whyThisOne": "The same pattern with oxygen, and why furan can add instead of substituting."
+        },
+        {
+          "reactionSlug": "gramine-synthesis",
+          "whyThisOne": "Indole attacks from C-3: a Mannich reaction on a heterocycle."
+        }
+      ]
+    },
+    {
+      "problemSetSlug": "pi-deficient-rings",
+      "title": "π-Deficient rings",
+      "conceptInOneLine": "Pyridine is an electron-poor imine in a ring: nucleophiles add at C-2 and C-4, and the lone pair reacts on its own.",
+      "conceptCard": "In **pyridine** the nitrogen lone pair lies in the ring plane, **outside** the aromatic sextet. The nitrogen pulls electrons out of the ring, so pyridine behaves like a cyclic **imine**:\n\n- **Nucleophiles add** at C-2 and C-4, where the negative charge can land on nitrogen. With a leaving group there, this is an SNAr reaction, like 2,4-dinitrochlorobenzene. Without one, the Chichibabin reaction even expels **hydride**.\n- **Electrophiles** attack pyridine very slowly, and in acid its nitrogen is protonated first, which makes things worse.\n- The **lone pair** is basic and nucleophilic, like an amine's. Oxidising it gives the **N-oxide**, whose O⁻ pushes electrons back into the ring at C-2 and C-4, so the N-oxide nitrates at C-4.",
+      "checkpoint": false,
+      "setItems": [
+        {
+          "reactionSlug": "2-chloropyridine-and-methoxide",
+          "whyThisOne": "SNAr where the ring nitrogen does the job of a nitro group."
+        },
+        {
+          "reactionSlug": "chichibabin-reaction",
+          "whyThisOne": "Addition of amide, then the rare loss of hydride; H₂ drives it."
+        },
+        {
+          "reactionSlug": "pyridine-n-oxidation",
+          "whyThisOne": "The lone pair as a nucleophile, then the N-oxide as an electron donor."
+        }
+      ]
+    },
+    {
+      "problemSetSlug": "ring-synthesis",
+      "title": "Ring synthesis",
+      "conceptInOneLine": "Aromatic heterocycles are built from carbonyl compounds and amines: additions, losses of water, and aromaticity as the reward.",
+      "conceptCard": "Most heterocycles are made by **carbonyl chemistry** you already know: an amine adds to a carbonyl group, proton transfers follow, and water leaves to give an iminium ion or enamine. Closing a ring and becoming **aromatic** pulls each sequence to completion.\n\n- **Paal–Knorr**: a 1,4-dicarbonyl compound and a primary amine give a **pyrrole**. The amine adds to one carbonyl, closes the ring on the other, and two waters leave.\n- **Hantzsch**: an enamine adds to an unsaturated keto ester (a Michael addition), the nitrogen closes a six-membered ring, and water leaves, giving a **1,4-dihydropyridine**; oxidation then gives the pyridine.\n- **Fischer**: a phenylhydrazone tautomerises to an ene-hydrazine, which undergoes a **[3,3]-sigmatropic rearrangement**; the new aniline closes a ring onto an iminium ion and ammonia leaves, giving an **indole**.\n\nLong sequences are split into parts. Count the atoms: which ones end up in the ring, and which leave as water or ammonia?",
+      "checkpoint": false,
+      "setItems": [
+        {
+          "reactionSlug": "paal-knorr-pyrrole-part-1",
+          "whyThisOne": "Amine addition, proton shuttles and ring closure to a cyclic bis-hemiaminal."
+        },
+        {
+          "reactionSlug": "paal-knorr-pyrrole-part-2",
+          "whyThisOne": "Two nitrogen-assisted losses of water, then aromatisation."
+        },
+        {
+          "reactionSlug": "hantzsch-pyridine",
+          "whyThisOne": "Michael addition of an enamine and ring closure to the Hantzsch ester."
+        },
+        {
+          "reactionSlug": "fischer-indole-synthesis-part-1",
+          "whyThisOne": "Ene-hydrazine formation and the [3,3]-sigmatropic rearrangement."
+        },
+        {
+          "reactionSlug": "fischer-indole-synthesis-part-2",
+          "whyThisOne": "Ring closure onto the iminium ion and loss of ammonia give the indole."
+        }
+      ]
+    },
+    {
+      "problemSetSlug": "checkpoint",
+      "title": "Checkpoint",
+      "conceptInOneLine": "Six reactions from this track, shuffled, with their names hidden.",
+      "conceptCard": "Six reactions from this track, in random order and without their names. For each one, ask:\n\n- is the ring electron-rich (a lone pair in the sextet) or electron-poor (a pyridine-type nitrogen)?\n- which ring position reacts, and where does the charge go in the intermediate?\n- in a ring synthesis, which bond closes the ring, and what leaves: water, ammonia or a proton?",
+      "checkpoint": true,
+      "setItems": [
+        {
+          "reactionSlug": "acylation-of-pyrrole",
+          "whyThisOne": "An electron-rich ring and a weak electrophile."
+        },
+        {
+          "reactionSlug": "gramine-synthesis",
+          "whyThisOne": "Which position of indole attacks?"
+        },
+        {
+          "reactionSlug": "2-chloropyridine-and-methoxide",
+          "whyThisOne": "An electron-poor ring and a nucleophile."
+        },
+        {
+          "reactionSlug": "chichibabin-reaction",
+          "whyThisOne": "No halide: what leaves?"
+        },
+        {
+          "reactionSlug": "paal-knorr-pyrrole-part-2",
+          "whyThisOne": "From a saturated ring to an aromatic one."
+        },
+        {
+          "reactionSlug": "fischer-indole-synthesis-part-1",
+          "whyThisOne": "A sigmatropic rearrangement inside a ring synthesis."
+        }
+      ]
+    }
+  ]
+}

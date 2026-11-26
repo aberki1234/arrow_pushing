@@ -1,0 +1,467 @@
+{
+  "formatVersion": 1,
+  "reactionSlug": "curtius-rearrangement",
+  "reactionVersion": 1,
+  "previousReactionVersion": null,
+  "title": "Curtius rearrangement",
+  "subtitle": "An acyl azide loses N₂ on heating; the isocyanate is trapped by tert-butanol",
+  "reactionClasses": [
+    "rearrangement",
+    "carbonyl",
+    "addition"
+  ],
+  "difficultyTier": 2,
+  "conditionsLabel": "heat · t-BuOH (reflux)",
+  "dailyPuzzleEligible": true,
+  "atomRoleToMapNumbers": {},
+  "spectatorMapNumbers": [],
+  "abbreviatedGroups": [
+    {
+      "groupLabel": "tBu",
+      "attachmentMapNumber": 14,
+      "mapNumbers": [
+        14,
+        15,
+        16,
+        17
+      ]
+    }
+  ],
+  "startStateId": "reactants",
+  "stateIdToState": {
+    "reactants": {
+      "mappedSmiles": "[O:2]=[C:1]([N-:3][N+:4]#[N:5])[C:6]1=[CH:7][CH:8]=[CH:9][CH:10]=[CH:11]1.[H:12][O:13][C:14]([CH3:15])([CH3:16])[CH3:17]",
+      "mapNumberToCoordinates": {
+        "1": [
+          3,
+          0
+        ],
+        "2": [
+          3.75,
+          1.3
+        ],
+        "3": [
+          3.75,
+          -1.3
+        ],
+        "4": [
+          5.25,
+          -1.3
+        ],
+        "5": [
+          6.75,
+          -1.3
+        ],
+        "6": [
+          1.5,
+          0
+        ],
+        "7": [
+          0.75,
+          1.3
+        ],
+        "8": [
+          -0.75,
+          1.3
+        ],
+        "9": [
+          -1.5,
+          0
+        ],
+        "10": [
+          -0.75,
+          -1.3
+        ],
+        "11": [
+          0.75,
+          -1.3
+        ],
+        "12": [
+          1.13,
+          7.18
+        ],
+        "13": [
+          0.38,
+          5.88
+        ],
+        "14": [
+          1.13,
+          4.58
+        ],
+        "15": [
+          -0.17,
+          3.83
+        ],
+        "16": [
+          2.43,
+          5.33
+        ],
+        "17": [
+          1.88,
+          3.28
+        ]
+      },
+      "caption": "benzoyl azide (drawn as N⁻–N⁺≡N) in tert-butanol",
+      "learnerPrompt": "Heat: nitrogen gas leaves and a group moves to nitrogen.",
+      "hintTiers": [
+        "The azide can lose N₂, a very stable molecule. Which group on the carbonyl carbon can move to the nitrogen that N₂ leaves behind?",
+        "Three arrows: the N–N bond breaks onto the N₂ nitrogen, the phenyl–carbonyl bond moves to the nitrogen next to the carbonyl, and a lone pair on that nitrogen makes C=N.",
+        "N–N bond (the one to the carbonyl side) → a lone pair on the N₂ nitrogen; bond from the carbonyl carbon to the ring → new bond from the ring carbon to the nitrogen next to the carbonyl; that nitrogen's lone pair → C=N π bond."
+      ],
+      "misconceptions": [
+        {
+          "misconceptionId": "alcohol-attacks-azide",
+          "misconceptionTag": "substitution-instead",
+          "severity": "plausible",
+          "arrowPattern": "lp O13 -> σ O13-C1",
+          "feedbackMessage": "tert-Butanol is a weak, crowded nucleophile, and the acyl azide rearranges first on heating. The alcohol reacts later, with the isocyanate."
+        },
+        {
+          "misconceptionId": "phenyl-to-oxygen",
+          "misconceptionTag": "wrong-migration-terminus",
+          "severity": "wrong",
+          "arrowPattern": "σ C1-C6 -> σ C6-O2",
+          "feedbackMessage": "Oxygen keeps its C=O. The phenyl group moves to nitrogen, the atom that loses N₂."
+        }
+      ],
+      "partialProgressMessages": [
+        {
+          "learnerArrows": [
+            "σ N3-N4 -> lp N4"
+          ],
+          "feedbackMessage": "Right that N₂ leaves, but alone that gives an acyl nitrene, with nitrogen short of an octet. Under heating the phenyl group moves as N₂ goes, and a nitrogen lone pair makes C=N."
+        }
+      ]
+    },
+    "isocyanate": {
+      "mappedSmiles": "[O:2]=[C:1]=[N:3][C:6]1=[CH:7][CH:8]=[CH:9][CH:10]=[CH:11]1.[N:4]#[N:5].[H:12][O:13][C:14]([CH3:15])([CH3:16])[CH3:17]",
+      "mapNumberToCoordinates": {
+        "1": [
+          3.75,
+          -1.3
+        ],
+        "2": [
+          4.5,
+          -2.6
+        ],
+        "3": [
+          3,
+          0
+        ],
+        "4": [
+          6.52,
+          -0.08
+        ],
+        "5": [
+          6.52,
+          -1.58
+        ],
+        "6": [
+          1.5,
+          0
+        ],
+        "7": [
+          0.75,
+          1.3
+        ],
+        "8": [
+          -0.75,
+          1.3
+        ],
+        "9": [
+          -1.5,
+          0
+        ],
+        "10": [
+          -0.75,
+          -1.3
+        ],
+        "11": [
+          0.75,
+          -1.3
+        ],
+        "12": [
+          1.31,
+          7.04
+        ],
+        "13": [
+          0.56,
+          5.74
+        ],
+        "14": [
+          1.31,
+          4.45
+        ],
+        "15": [
+          0.01,
+          3.7
+        ],
+        "16": [
+          2.61,
+          5.2
+        ],
+        "17": [
+          2.06,
+          3.15
+        ]
+      },
+      "caption": "phenyl isocyanate + N₂ + tert-butanol",
+      "learnerPrompt": "tert-Butanol adds to the isocyanate.",
+      "hintTiers": [
+        "The central carbon of N=C=O is between two electronegative atoms: very electrophilic. Which nucleophile is present?",
+        "The alcohol oxygen bonds to the central carbon, and the C=N π pair moves onto nitrogen. Two arrows.",
+        "Alcohol oxygen lone pair → new bond to the isocyanate carbon; C=N π bond → a lone pair on nitrogen."
+      ],
+      "misconceptions": [
+        {
+          "misconceptionId": "alcohol-attacks-nitrogen",
+          "misconceptionTag": "wrong-electrophilic-atom",
+          "severity": "wrong",
+          "arrowPattern": "lp O13 -> σ O13-N3",
+          "feedbackMessage": "Nitrogen is not the electrophilic atom. The carbon between nitrogen and oxygen is."
+        },
+        {
+          "misconceptionId": "n2-reacts",
+          "misconceptionTag": "inert-species",
+          "severity": "wrong",
+          "arrowPattern": "* -> N4",
+          "feedbackMessage": "N₂ is unreactive: it just bubbles away. The alcohol adds to the isocyanate."
+        }
+      ],
+      "partialProgressMessages": [
+        {
+          "learnerArrows": [
+            "lp O13 -> σ O13-C1"
+          ],
+          "feedbackMessage": "Right: the oxygen bonds to the central carbon. Now carbon has five bonds: move the C=N π pair onto nitrogen."
+        }
+      ]
+    },
+    "zwitterion": {
+      "mappedSmiles": "[O:2]=[C:1]([N-:3][C:6]1=[CH:7][CH:8]=[CH:9][CH:10]=[CH:11]1)[O+:13]([H:12])[C:14]([CH3:15])([CH3:16])[CH3:17].[N:4]#[N:5]",
+      "mapNumberToCoordinates": {
+        "1": [
+          3.75,
+          -1.3
+        ],
+        "2": [
+          5.25,
+          -1.3
+        ],
+        "3": [
+          3,
+          0
+        ],
+        "4": [
+          -0.44,
+          5.04
+        ],
+        "5": [
+          -0.44,
+          3.54
+        ],
+        "6": [
+          1.5,
+          0
+        ],
+        "7": [
+          0.75,
+          1.3
+        ],
+        "8": [
+          -0.75,
+          1.3
+        ],
+        "9": [
+          -1.5,
+          0
+        ],
+        "10": [
+          -0.75,
+          -1.3
+        ],
+        "11": [
+          0.75,
+          -1.3
+        ],
+        "12": [
+          3.75,
+          -3.9
+        ],
+        "13": [
+          3,
+          -2.6
+        ],
+        "14": [
+          1.5,
+          -2.6
+        ],
+        "15": [
+          1.5,
+          -4.1
+        ],
+        "16": [
+          1.5,
+          -1.1
+        ],
+        "17": [
+          0,
+          -2.6
+        ]
+      },
+      "caption": "the adduct: positive oxygen, negative nitrogen",
+      "learnerPrompt": "Move the proton.",
+      "hintTiers": [
+        "A positive oxygen with an O–H sits next to a negative nitrogen. What makes the adduct neutral?",
+        "The nitrogen lone pair takes the proton from the positive oxygen; the O–H pair stays on oxygen. Two arrows.",
+        "Nitrogen lone pair → new bond to the drawn O–H hydrogen; that O–H bond → a lone pair on oxygen."
+      ],
+      "misconceptions": [
+        {
+          "misconceptionId": "alcohol-leaves",
+          "misconceptionTag": "reverse-step",
+          "severity": "plausible",
+          "arrowPattern": "σ C1-O13 -> lp O13",
+          "feedbackMessage": "Losing the alcohol goes back to the isocyanate. Move the proton instead."
+        }
+      ]
+    },
+    "products": {
+      "mappedSmiles": "[O:2]=[C:1]([N:3]([H:12])[C:6]1=[CH:7][CH:8]=[CH:9][CH:10]=[CH:11]1)[O:13][C:14]([CH3:15])([CH3:16])[CH3:17].[N:4]#[N:5]",
+      "mapNumberToCoordinates": {
+        "1": [
+          3.75,
+          1.3
+        ],
+        "2": [
+          5.25,
+          1.3
+        ],
+        "3": [
+          3,
+          0
+        ],
+        "4": [
+          0,
+          7.7
+        ],
+        "5": [
+          0,
+          6.2
+        ],
+        "6": [
+          1.5,
+          0
+        ],
+        "7": [
+          0.75,
+          1.3
+        ],
+        "8": [
+          -0.75,
+          1.3
+        ],
+        "9": [
+          -1.5,
+          0
+        ],
+        "10": [
+          -0.75,
+          -1.3
+        ],
+        "11": [
+          0.75,
+          -1.3
+        ],
+        "12": [
+          3.75,
+          -1.3
+        ],
+        "13": [
+          3,
+          2.6
+        ],
+        "14": [
+          3.75,
+          3.9
+        ],
+        "15": [
+          2.45,
+          4.65
+        ],
+        "16": [
+          5.05,
+          3.15
+        ],
+        "17": [
+          4.5,
+          5.2
+        ]
+      },
+      "caption": "tert-butyl N-phenylcarbamate (Boc-aniline) + N₂"
+    }
+  },
+  "steps": [
+    {
+      "stepKey": "rearrangement",
+      "fromStateId": "reactants",
+      "toStateId": "isocyanate",
+      "stepKind": "polar",
+      "routePreference": "preferred",
+      "canonicalArrows": [
+        "σ N3-N4 -> lp N4",
+        "σ C1-C6 -> σ C6-N3",
+        "lp N3 -> π N3-C1"
+      ],
+      "explanationAfterStep": "N₂ leaves as the phenyl group moves from carbon to nitrogen with its bonding pair: one concerted step, with no free nitrene. Loss of the very stable N₂ drives it. The migrating group keeps its configuration."
+    },
+    {
+      "stepKey": "alcohol-adds",
+      "fromStateId": "isocyanate",
+      "toStateId": "zwitterion",
+      "stepKind": "polar",
+      "routePreference": "preferred",
+      "canonicalArrows": [
+        "lp O13 -> σ O13-C1",
+        "π C1-N3 -> lp N3"
+      ],
+      "explanationAfterStep": "The alcohol adds to the central carbon of the isocyanate."
+    },
+    {
+      "stepKey": "concerted-addition",
+      "fromStateId": "isocyanate",
+      "toStateId": "products",
+      "stepKind": "polar",
+      "routePreference": "accepted",
+      "canonicalArrows": [
+        "lp O13 -> σ O13-C1",
+        "π C1-N3 -> σ N3-H12",
+        "σ O13-H12 -> lp O13"
+      ],
+      "explanationAfterStep": "Also correct: the proton can move to nitrogen as the oxygen adds, in one step."
+    },
+    {
+      "stepKey": "proton-transfer",
+      "fromStateId": "zwitterion",
+      "toStateId": "products",
+      "stepKind": "polar",
+      "routePreference": "preferred",
+      "canonicalArrows": [
+        "lp N3 -> σ N3-H12",
+        "σ O13-H12 -> lp O13"
+      ],
+      "explanationAfterStep": "The proton moves from oxygen to nitrogen (in practice relayed by another alcohol molecule): a carbamate. Acid removes the tert-butyl group to give aniline (see Protecting groups). With water instead of an alcohol, the isocyanate gives a carbamic acid, which loses CO₂ to give the amine directly."
+    }
+  ],
+  "mechanismSummary": "On heating, benzoyl azide loses N₂ as the phenyl group moves from the carbonyl carbon to nitrogen, in one concerted step: phenyl isocyanate. tert-Butanol, the solvent, adds to the central carbon of the isocyanate, and a proton transfer gives the carbamate. The Curtius, Hofmann and Lossen rearrangements all make an isocyanate in the same way: a group moves to an electron-poor nitrogen as a leaving group goes.",
+  "references": [
+    "Clayden, Greeves and Warren, Organic Chemistry, 2nd edition (Oxford University Press), chapter 38"
+  ],
+  "authors": [
+    {
+      "name": "Maksim",
+      "url": null
+    }
+  ],
+  "licence": "CC-BY-SA-4.0"
+}

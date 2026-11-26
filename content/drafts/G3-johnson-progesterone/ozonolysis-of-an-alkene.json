@@ -1,0 +1,579 @@
+{
+  "formatVersion": 1,
+  "reactionSlug": "ozonolysis-of-an-alkene",
+  "reactionVersion": 1,
+  "previousReactionVersion": null,
+  "title": "Ozonolysis of an alkene",
+  "subtitle": "Ozone cuts a C=C bond; dimethyl sulfide gives two ketones",
+  "reactionClasses": [
+    "pericyclic",
+    "addition"
+  ],
+  "difficultyTier": 3,
+  "conditionsLabel": "O₃ · CH₂Cl₂ · −78 °C; then Me₂S",
+  "dailyPuzzleEligible": true,
+  "atomRoleToMapNumbers": {
+    "electrophile": [
+      8
+    ],
+    "nucleophile": [
+      1
+    ]
+  },
+  "spectatorMapNumbers": [],
+  "startStateId": "reactants",
+  "stateIdToState": {
+    "reactants": {
+      "mappedSmiles": "[CH3:6][C:1]1=[C:2]([CH3:7])[CH2:3][CH2:4][CH2:5]1.[O-:8][O+:9]=[O:10]",
+      "caption": "1,2-dimethylcyclopentene + ozone",
+      "learnerPrompt": "Ozone adds across the C=C bond.",
+      "hintTiers": [
+        "Ozone is a 1,3-dipole: its two end oxygens can both bond. With an alkene it makes a five-membered ring in one step (a [3+2] cycloaddition).",
+        "The O⁻ lone pair bonds to one alkene carbon, the C=C π pair bonds the other alkene carbon to the far end oxygen, and the O=O π pair moves onto the central oxygen, which loses its positive charge. Three arrows.",
+        "O⁻ lone pair → new bond to one alkene carbon; C=C π bond → new bond from the other alkene carbon to the other end oxygen; O=O π bond → a lone pair on the central oxygen."
+      ],
+      "misconceptions": [
+        {
+          "misconceptionId": "central-oxygen-attacked",
+          "misconceptionTag": "attack-central-atom",
+          "severity": "wrong",
+          "arrowPattern": "π C1-C2 -> O9",
+          "feedbackMessage": "The central oxygen carries the positive charge but has no room for a new bond. The ends of the dipole bond to the alkene."
+        }
+      ],
+      "partialProgressMessages": [
+        {
+          "learnerArrows": [
+            "lp O8 -> σ O8-C1",
+            "π C1-C2 -> σ C2-O10"
+          ],
+          "feedbackMessage": "Both new bonds are there, but the far end oxygen would have ten electrons. Move the O=O π pair onto the central oxygen."
+        }
+      ],
+      "mapNumberToCoordinates": {
+        "1": [
+          1.28,
+          0
+        ],
+        "2": [
+          0.39,
+          1.21
+        ],
+        "3": [
+          -1.03,
+          0.75
+        ],
+        "4": [
+          -1.03,
+          -0.75
+        ],
+        "5": [
+          0.39,
+          -1.21
+        ],
+        "6": [
+          2.78,
+          0
+        ],
+        "7": [
+          0.86,
+          2.64
+        ],
+        "8": [
+          5.08,
+          -0.04
+        ],
+        "9": [
+          6.37,
+          0.71
+        ],
+        "10": [
+          7.67,
+          -0.04
+        ]
+      }
+    },
+    "molozonide": {
+      "mappedSmiles": "[CH3:6][C:1]12[O:8][O:9][O:10][C:2]2([CH3:7])[CH2:3][CH2:4][CH2:5]1",
+      "caption": "the primary ozonide (molozonide, a 1,2,3-trioxolane)",
+      "learnerPrompt": "The primary ozonide falls apart (a retro-[3+2]).",
+      "hintTiers": [
+        "The O–O–O ring is very weak. It splits into two pieces in the reverse of a cycloaddition, but along different bonds.",
+        "Break the C–C bond and one O–O bond: an oxygen lone pair forms C=O⁺, the C–C pair forms a C=O on the other carbon, and the O–O pair goes onto the middle oxygen. Three arrows.",
+        "Lone pair of one ring oxygen bonded to carbon → π bond to that carbon; the C–C bond → π bond between the other carbon and its oxygen; the O–O bond next to that oxygen → a lone pair on the middle oxygen."
+      ],
+      "misconceptions": [
+        {
+          "misconceptionId": "back-to-ozone",
+          "misconceptionTag": "reverse-step",
+          "severity": "plausible",
+          "arrowPattern": "σ C1-O8 -> *",
+          "feedbackMessage": "Breaking a C–O bond just gives back ozone and the alkene. Break the C–C bond and an O–O bond instead."
+        },
+        {
+          "misconceptionId": "oo-pair-to-outer-oxygen",
+          "misconceptionTag": "wrong-end-of-bond",
+          "severity": "wrong",
+          "arrowPattern": "σ O8-O9 -> lp O8",
+          "feedbackMessage": "The O–O pair should end on the middle oxygen, which becomes the O⁻ of the carbonyl oxide."
+        }
+      ],
+      "mapNumberToCoordinates": {
+        "1": [
+          1.28,
+          0
+        ],
+        "2": [
+          0.39,
+          -1.21
+        ],
+        "3": [
+          1.28,
+          -2.43
+        ],
+        "4": [
+          2.7,
+          -1.96
+        ],
+        "5": [
+          2.7,
+          -0.46
+        ],
+        "6": [
+          2.16,
+          1.21
+        ],
+        "7": [
+          -0.49,
+          -2.43
+        ],
+        "8": [
+          0.39,
+          1.21
+        ],
+        "9": [
+          -1.03,
+          0.75
+        ],
+        "10": [
+          -1.03,
+          -0.75
+        ]
+      }
+    },
+    "carbonyl-oxide": {
+      "mappedSmiles": "[CH3:6][C:1](=[O+:8][O-:9])[CH2:5][CH2:4][CH2:3][C:2](=[O:10])[CH3:7]",
+      "caption": "a ketone and a carbonyl oxide (the Criegee intermediate) in one chain",
+      "learnerPrompt": "The two ends of the chain recombine.",
+      "hintTiers": [
+        "The carbonyl oxide is a new 1,3-dipole, and the ketone at the other end of the chain is its dipolarophile.",
+        "The O⁻ lone pair bonds to the ketone carbon, the ketone's C=O π pair bonds its oxygen to the carbonyl oxide carbon, and the C=O⁺ π pair goes onto that oxygen. Three arrows.",
+        "O⁻ lone pair → new bond to the ketone carbon; ketone C=O π bond → new bond from its oxygen to the carbonyl oxide carbon; C=O⁺ π bond → a lone pair on its oxygen."
+      ],
+      "misconceptions": [
+        {
+          "misconceptionId": "dioxirane",
+          "misconceptionTag": "three-membered-ring",
+          "severity": "plausible",
+          "arrowPattern": "lp O9 -> C1",
+          "feedbackMessage": "That closes a three-membered dioxirane ring, a known side reaction of carbonyl oxides. Here the ketone at the other end of the chain is the partner: bond the O⁻ to the ketone carbon."
+        }
+      ],
+      "mapNumberToCoordinates": {
+        "1": [
+          1.5,
+          0
+        ],
+        "2": [
+          -0.75,
+          1.3
+        ],
+        "3": [
+          -1.5,
+          0
+        ],
+        "4": [
+          -0.75,
+          -1.3
+        ],
+        "5": [
+          0.75,
+          -1.3
+        ],
+        "6": [
+          3,
+          0
+        ],
+        "7": [
+          -1.5,
+          2.6
+        ],
+        "8": [
+          1.66,
+          1.55
+        ],
+        "9": [
+          0.36,
+          2.3
+        ],
+        "10": [
+          0.75,
+          1.3
+        ]
+      }
+    },
+    "ozonide": {
+      "mappedSmiles": "[CH3:6][C:1]12[O:8][O:9][C:2]([CH3:7])([O:10]1)[CH2:3][CH2:4][CH2:5]2",
+      "caption": "the secondary ozonide (a 1,2,4-trioxolane)",
+      "mapNumberToCoordinates": {
+        "1": [
+          1.5,
+          0
+        ],
+        "2": [
+          -0.75,
+          1.3
+        ],
+        "3": [
+          -1.5,
+          0
+        ],
+        "4": [
+          -0.75,
+          -1.3
+        ],
+        "5": [
+          0.75,
+          -1.3
+        ],
+        "6": [
+          3,
+          0
+        ],
+        "7": [
+          -1.5,
+          2.6
+        ],
+        "8": [
+          1.66,
+          1.55
+        ],
+        "9": [
+          0.36,
+          2.3
+        ],
+        "10": [
+          0.75,
+          1.3
+        ]
+      }
+    },
+    "ozonide-and-sulfide": {
+      "mappedSmiles": "[CH3:6][C:1]12[O:8][O:9][C:2]([CH3:7])([O:10]1)[CH2:3][CH2:4][CH2:5]2.[CH3:12][S:11][CH3:13]",
+      "caption": "the ozonide + dimethyl sulfide",
+      "learnerPrompt": "Dimethyl sulfide reduces the ozonide.",
+      "hintTiers": [
+        "Sulfur is a soft nucleophile, and the O–O bond is weak: the peroxide oxygen is the electrophile.",
+        "The sulfur lone pair bonds to one peroxide oxygen, and the O–O bond breaks onto the other. Two arrows.",
+        "Sulfur lone pair → new bond to one peroxide oxygen; the O–O bond → a lone pair on the other peroxide oxygen."
+      ],
+      "misconceptions": [
+        {
+          "misconceptionId": "sulfide-attacks-carbon",
+          "misconceptionTag": "wrong-electrophile",
+          "severity": "wrong",
+          "arrowPattern": "lp S11 -> C*",
+          "feedbackMessage": "The ozonide carbons are crowded and carry no leaving group. The weak O–O bond is the target: attack an oxygen of the peroxide."
+        },
+        {
+          "misconceptionId": "ether-oxygen-attacked",
+          "misconceptionTag": "wrong-oxygen",
+          "severity": "wrong",
+          "arrowPattern": "lp S11 -> O10",
+          "feedbackMessage": "The oxygen bridging the two carbons is an ether oxygen. Attack one of the two oxygens joined to each other."
+        }
+      ],
+      "partialProgressMessages": [
+        {
+          "learnerArrows": [
+            "lp S11 -> σ S11-O8"
+          ],
+          "feedbackMessage": "Good: sulfur bonds to a peroxide oxygen. Which bond breaks to make room?"
+        }
+      ],
+      "mapNumberToCoordinates": {
+        "1": [
+          1.5,
+          0
+        ],
+        "2": [
+          -0.75,
+          1.3
+        ],
+        "3": [
+          -1.5,
+          0
+        ],
+        "4": [
+          -0.75,
+          -1.3
+        ],
+        "5": [
+          0.75,
+          -1.3
+        ],
+        "6": [
+          3,
+          0
+        ],
+        "7": [
+          -1.5,
+          2.6
+        ],
+        "8": [
+          1.66,
+          1.55
+        ],
+        "9": [
+          0.36,
+          2.3
+        ],
+        "10": [
+          0.75,
+          1.3
+        ],
+        "11": [
+          1.59,
+          5.35
+        ],
+        "12": [
+          0.3,
+          4.6
+        ],
+        "13": [
+          2.89,
+          4.6
+        ]
+      }
+    },
+    "sulfonium": {
+      "mappedSmiles": "[CH3:6][C:1]1([O:8][S+:11]([CH3:12])[CH3:13])[O:10][C:2]([CH3:7])([O-:9])[CH2:3][CH2:4][CH2:5]1",
+      "caption": "an alkoxide and an alkoxysulfonium ion in one ring",
+      "learnerPrompt": "The ring falls apart into two ketones and dimethyl sulfoxide.",
+      "hintTiers": [
+        "The alkoxide is a strong push, and dimethyl sulfoxide is a good leaving group. A three-arrow fragmentation through the bridging oxygen.",
+        "The O⁻ lone pair forms C=O, the bond from that carbon to the bridging oxygen becomes a C=O π bond to the other carbon, and the C–O bond to the sulfonium oxygen breaks onto it. Three arrows.",
+        "O⁻ lone pair → π bond to its carbon; that carbon's bond to the bridging oxygen → π bond between the bridging oxygen and the other carbon; that carbon's bond to the O–S oxygen → a lone pair on that oxygen."
+      ],
+      "misconceptions": [
+        {
+          "misconceptionId": "sulfur-leaves",
+          "misconceptionTag": "wrong-leaving-group",
+          "severity": "wrong",
+          "arrowPattern": "σ O8-S11 -> *",
+          "feedbackMessage": "Breaking the O–S bond would just give the sulfide back. The C–O bond breaks: the oxygen leaves with sulfur as dimethyl sulfoxide."
+        }
+      ],
+      "mapNumberToCoordinates": {
+        "1": [
+          1.5,
+          0
+        ],
+        "2": [
+          -0.75,
+          1.3
+        ],
+        "3": [
+          -1.5,
+          0
+        ],
+        "4": [
+          -0.75,
+          -1.3
+        ],
+        "5": [
+          0.75,
+          -1.3
+        ],
+        "6": [
+          2.65,
+          0.96
+        ],
+        "7": [
+          -2.16,
+          1.81
+        ],
+        "8": [
+          2.65,
+          -0.96
+        ],
+        "9": [
+          -0.49,
+          2.78
+        ],
+        "10": [
+          0.75,
+          1.3
+        ],
+        "11": [
+          2.39,
+          -2.44
+        ],
+        "12": [
+          3.54,
+          -3.41
+        ],
+        "13": [
+          0.98,
+          -2.95
+        ]
+      }
+    },
+    "products": {
+      "mappedSmiles": "[CH3:6][C:1](=[O:10])[CH2:5][CH2:4][CH2:3][C:2](=[O:9])[CH3:7].[O-:8][S+:11]([CH3:12])[CH3:13]",
+      "caption": "heptane-2,6-dione + dimethyl sulfoxide",
+      "mapNumberToCoordinates": {
+        "1": [
+          1.3,
+          0.75
+        ],
+        "2": [
+          6.5,
+          0.75
+        ],
+        "3": [
+          5.2,
+          0
+        ],
+        "4": [
+          3.9,
+          0.75
+        ],
+        "5": [
+          2.6,
+          0
+        ],
+        "6": [
+          0,
+          0
+        ],
+        "7": [
+          7.79,
+          0
+        ],
+        "8": [
+          0.3,
+          6.75
+        ],
+        "9": [
+          6.5,
+          2.25
+        ],
+        "10": [
+          1.3,
+          2.25
+        ],
+        "11": [
+          0.3,
+          5.25
+        ],
+        "12": [
+          -1,
+          4.5
+        ],
+        "13": [
+          1.6,
+          4.5
+        ]
+      }
+    }
+  },
+  "steps": [
+    {
+      "stepKey": "ozone-cycloaddition",
+      "fromStateId": "reactants",
+      "toStateId": "molozonide",
+      "stepKind": "polar",
+      "routePreference": "preferred",
+      "canonicalArrows": [
+        "lp O8 -> σ O8-C1",
+        "π C1-C2 -> σ C2-O10",
+        "π O9-O10 -> lp O9"
+      ],
+      "explanationAfterStep": "A concerted [3+2] cycloaddition (a 1,3-dipolar cycloaddition): both C–O bonds form on the same face of the alkene. Electron-rich, highly substituted alkenes such as this one react fastest."
+    },
+    {
+      "stepKey": "retro-cycloaddition",
+      "fromStateId": "molozonide",
+      "toStateId": "carbonyl-oxide",
+      "stepKind": "polar",
+      "routePreference": "preferred",
+      "canonicalArrows": [
+        "lp O8 -> π C1-O8",
+        "σ C1-C2 -> π C2-O10",
+        "σ O9-O10 -> lp O9"
+      ],
+      "explanationAfterStep": "The primary ozonide splits into a ketone and a carbonyl oxide, the Criegee intermediate. Because the alkene was in a ring, the two pieces stay joined by a chain. The ring is symmetrical, so splitting the other way gives the same pair."
+    },
+    {
+      "stepKey": "ozonide-formation",
+      "fromStateId": "carbonyl-oxide",
+      "toStateId": "ozonide",
+      "stepKind": "polar",
+      "routePreference": "preferred",
+      "canonicalArrows": [
+        "lp O9 -> σ O9-C2",
+        "π C2-O10 -> σ O10-C1",
+        "π C1-O8 -> lp O8"
+      ],
+      "explanationAfterStep": "A second [3+2] cycloaddition, with the C=O as the partner, gives the secondary ozonide. It has one O–O bond and an oxygen bridging the two carbons."
+    },
+    {
+      "stepKey": "add-dimethyl-sulfide",
+      "fromStateId": "ozonide",
+      "toStateId": "ozonide-and-sulfide",
+      "stepKind": "change",
+      "routePreference": "preferred",
+      "addedSpecies": "[CH3:12][S:11][CH3:13]",
+      "caption": "Dimethyl sulfide is added at −78 °C and the solution is warmed: a reductive work-up."
+    },
+    {
+      "stepKey": "peroxide-reduction",
+      "fromStateId": "ozonide-and-sulfide",
+      "toStateId": "sulfonium",
+      "stepKind": "polar",
+      "routePreference": "preferred",
+      "canonicalArrows": [
+        "lp S11 -> σ S11-O8",
+        "σ O8-O9 -> lp O9"
+      ],
+      "explanationAfterStep": "Sulfur attacks the weak O–O bond. Without a reducing agent the peroxide would oxidise the products further (an oxidative work-up with H₂O₂ gives carboxylic acids from aldehydes)."
+    },
+    {
+      "stepKey": "fragmentation",
+      "fromStateId": "sulfonium",
+      "toStateId": "products",
+      "stepKind": "polar",
+      "routePreference": "preferred",
+      "canonicalArrows": [
+        "lp O9 -> π C2-O9",
+        "σ C2-O10 -> π C1-O10",
+        "σ C1-O8 -> lp O8"
+      ],
+      "explanationAfterStep": "Both carbons become ketones and the sulfur leaves as dimethyl sulfoxide. The C=C bond has been cut in two: a cyclopentene becomes a 1,5-diketone."
+    }
+  ],
+  "mechanismSummary": "Ozonolysis follows Criegee's mechanism. Ozone adds to the alkene in a [3+2] cycloaddition, giving the unstable primary ozonide. It splits in a retro-[3+2] into a ketone and a carbonyl oxide, which recombine in a second [3+2] to the secondary ozonide. Dimethyl sulfide reduces the O–O bond, and the ring fragments to two ketones and dimethyl sulfoxide. Here 1,2-dimethylcyclopentene stands in for ring A of Johnson's tetracycle: the same tetrasubstituted alkene in a five-membered ring with a methyl group on it (the B, C and D rings take no part and are left off). Cutting it turns the cyclopentene into a 1,5-diketone, ready to close a six-membered ring by an aldol.",
+  "references": [
+    "Clayden, Greeves and Warren, Organic Chemistry, 2nd edition (Oxford University Press), chapter 34 (1,3-dipolar cycloadditions: ozonolysis)",
+    "Criegee, Angewandte Chemie International Edition 1975, 14, 745 (the mechanism of ozonolysis)",
+    "Johnson, Gravestock and McCarry, Journal of the American Chemical Society 1971, 93, 4332 (acetylenic bond participation in biogenetic-like olefinic cyclisations: dl-progesterone)"
+  ],
+  "authors": [
+    {
+      "name": "Maksim",
+      "url": null
+    }
+  ],
+  "licence": "CC-BY-SA-4.0"
+}

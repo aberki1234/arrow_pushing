@@ -1,0 +1,941 @@
+{
+  "formatVersion": 1,
+  "reactionSlug": "corey-ketone-unmasking",
+  "reactionVersion": 1,
+  "previousReactionVersion": null,
+  "title": "Unmasking the ketone",
+  "subtitle": "Hydroxide turns the α-chloronitrile of the Diels–Alder adduct into a ketone",
+  "reactionClasses": [
+    "carbonyl",
+    "substitution",
+    "elimination"
+  ],
+  "difficultyTier": 3,
+  "conditionsLabel": "KOH · aqueous DMSO · room temperature",
+  "dailyPuzzleEligible": true,
+  "atomRoleToMapNumbers": {},
+  "spectatorMapNumbers": [
+    17,
+    23
+  ],
+  "startStateId": "reactants",
+  "stateIdToState": {
+    "reactants": {
+      "mappedSmiles": "[CH:4]12[CH:5]=[CH:6][CH:7]([CH:8]1[CH2:9][O:10][CH3:11])[C:2]([Cl:12])([C:13]#[N:14])[CH2:3]2.[K+:17].[O-:15][H:16].[H:19][O:18][H:20].[O-:21][H:22].[K+:23]",
+      "mapNumberToCoordinates": {
+        "2": [
+          -0.85,
+          -1.9
+        ],
+        "3": [
+          0.85,
+          -1.9
+        ],
+        "4": [
+          1.4,
+          0.0
+        ],
+        "5": [
+          0.6,
+          -0.9
+        ],
+        "6": [
+          -0.6,
+          -0.9
+        ],
+        "7": [
+          -1.4,
+          0.0
+        ],
+        "8": [
+          0.0,
+          0.9
+        ],
+        "9": [
+          0.0,
+          2.4
+        ],
+        "10": [
+          1.299,
+          3.15
+        ],
+        "11": [
+          1.299,
+          4.65
+        ],
+        "12": [
+          -2.513,
+          -2.253
+        ],
+        "13": [
+          -0.672,
+          -3.591
+        ],
+        "14": [
+          -1.886,
+          -4.472
+        ],
+        "15": [
+          9.198,
+          0.089
+        ],
+        "16": [
+          10.698,
+          0.089
+        ],
+        "17": [
+          17.398,
+          0.089
+        ],
+        "18": [
+          5.299,
+          -0.286
+        ],
+        "19": [
+          6.598,
+          0.464
+        ],
+        "20": [
+          4.0,
+          0.464
+        ],
+        "21": [
+          13.298,
+          0.089
+        ],
+        "22": [
+          14.798,
+          0.089
+        ],
+        "23": [
+          19.998,
+          0.089
+        ]
+      },
+      "caption": "the α-chloronitrile (Diels–Alder adduct) + KOH in aqueous DMSO",
+      "learnerPrompt": "Hydroxide starts the unmasking. Where does it add?",
+      "hintTiers": [
+        "The carbon carrying Cl and CN is tertiary and sits in a cage: nothing can reach the back of its C–Cl bond. Look for an electrophilic carbon that is easy to reach.",
+        "A nitrile carbon is electrophilic, like a carbonyl carbon: a nucleophile adds to it and one π bond of the C≡N moves onto nitrogen.",
+        "Hydroxide oxygen lone pair → new bond to the nitrile carbon; one C≡N π bond → lone pair on nitrogen."
+      ],
+      "misconceptions": [
+        {
+          "misconceptionId": "sn2-at-tertiary-carbon",
+          "misconceptionTag": "blocked-backside-attack",
+          "severity": "wrong",
+          "arrowPattern": "lp O15 -> σ O15-C2",
+          "feedbackMessage": "SN2 at this carbon is impossible: it is tertiary, and the bicyclic cage blocks the back of the C–Cl bond. Hydroxide adds to the nitrile carbon instead."
+        },
+        {
+          "misconceptionId": "sn1-ionisation",
+          "misconceptionTag": "unstable-cation",
+          "severity": "wrong",
+          "arrowPattern": "σ C2-Cl12 -> lp Cl12",
+          "feedbackMessage": "Chloride cannot simply leave: the cation would sit next to an electron-withdrawing nitrile. The chloride leaves later, pushed out by a neighbouring oxygen."
+        },
+        {
+          "misconceptionId": "hydroxide-on-the-ether",
+          "misconceptionTag": "wrong-electrophile",
+          "severity": "wrong",
+          "arrowPattern": "lp O15 -> σ O15-C11",
+          "feedbackMessage": "The methyl ether is a remote protecting group and takes no part. The electrophile next to the C–Cl carbon is the nitrile carbon."
+        }
+      ],
+      "partialProgressMessages": [
+        {
+          "learnerArrows": [
+            "lp O15 -> σ O15-C13"
+          ],
+          "feedbackMessage": "Right atom. Carbon would now have five bonds: one π bond of the C≡N must move onto nitrogen."
+        }
+      ]
+    },
+    "imidate-anion": {
+      "mappedSmiles": "[CH:4]12[CH:5]=[CH:6][CH:7]([CH:8]1[CH2:9][O:10][CH3:11])[C:2]([Cl:12])([C:13](=[N-:14])[O:15][H:16])[CH2:3]2.[K+:17].[H:19][O:18][H:20].[O-:21][H:22].[K+:23]",
+      "mapNumberToCoordinates": {
+        "2": [
+          -0.85,
+          -1.9
+        ],
+        "3": [
+          0.85,
+          -1.9
+        ],
+        "4": [
+          1.4,
+          0.0
+        ],
+        "5": [
+          0.6,
+          -0.9
+        ],
+        "6": [
+          -0.6,
+          -0.9
+        ],
+        "7": [
+          -1.4,
+          0.0
+        ],
+        "8": [
+          0.0,
+          0.9
+        ],
+        "9": [
+          0.0,
+          2.4
+        ],
+        "10": [
+          1.299,
+          3.15
+        ],
+        "11": [
+          1.299,
+          4.65
+        ],
+        "12": [
+          -2.513,
+          -2.253
+        ],
+        "13": [
+          -0.672,
+          -3.591
+        ],
+        "14": [
+          -1.886,
+          -4.472
+        ],
+        "15": [
+          0.698,
+          -4.201
+        ],
+        "16": [
+          0.855,
+          -5.693
+        ],
+        "17": [
+          13.298,
+          -0.521
+        ],
+        "18": [
+          5.299,
+          -0.896
+        ],
+        "19": [
+          6.598,
+          -0.146
+        ],
+        "20": [
+          4.0,
+          -0.146
+        ],
+        "21": [
+          9.198,
+          -0.521
+        ],
+        "22": [
+          10.698,
+          -0.521
+        ],
+        "23": [
+          15.898,
+          -0.521
+        ]
+      },
+      "caption": "the imidate anion: the negative charge sits on nitrogen",
+      "learnerPrompt": "The negative nitrogen is a strong base. Protonate it.",
+      "hintTiers": [
+        "An N⁻ is a much stronger base than hydroxide, and the solvent contains water.",
+        "Water gives a proton to the nitrogen and becomes hydroxide.",
+        "Nitrogen lone pair → new bond to a hydrogen of water; that O–H bond → lone pair on the water oxygen."
+      ],
+      "misconceptions": [
+        {
+          "misconceptionId": "dianion",
+          "misconceptionTag": "wrong-order",
+          "severity": "plausible",
+          "arrowPattern": "lp O21 -> σ O21-H16",
+          "feedbackMessage": "Taking the O–H proton now would make a dianion. First let the negative nitrogen take a proton from water."
+        },
+        {
+          "misconceptionId": "four-membered-proton-shift",
+          "misconceptionTag": "intramolecular-proton-shift",
+          "severity": "wrong",
+          "arrowPattern": "lp N14 -> σ N14-H16",
+          "feedbackMessage": "A proton does not hop between two atoms of one O–C=N unit: the geometry is poor. Protons move through the water around the molecule."
+        }
+      ]
+    },
+    "imidic-acid": {
+      "mappedSmiles": "[CH:4]12[CH:5]=[CH:6][CH:7]([CH:8]1[CH2:9][O:10][CH3:11])[C:2]([Cl:12])([C:13](=[N:14][H:19])[O:15][H:16])[CH2:3]2.[K+:17].[O-:18][H:20].[O-:21][H:22].[K+:23]",
+      "mapNumberToCoordinates": {
+        "2": [
+          -0.85,
+          -1.9
+        ],
+        "3": [
+          0.85,
+          -1.9
+        ],
+        "4": [
+          1.4,
+          0.0
+        ],
+        "5": [
+          0.6,
+          -0.9
+        ],
+        "6": [
+          -0.6,
+          -0.9
+        ],
+        "7": [
+          -1.4,
+          0.0
+        ],
+        "8": [
+          0.0,
+          0.9
+        ],
+        "9": [
+          0.0,
+          2.4
+        ],
+        "10": [
+          1.299,
+          3.15
+        ],
+        "11": [
+          1.299,
+          4.65
+        ],
+        "12": [
+          -2.513,
+          -2.253
+        ],
+        "13": [
+          -0.672,
+          -3.591
+        ],
+        "14": [
+          -1.886,
+          -4.472
+        ],
+        "15": [
+          0.698,
+          -4.201
+        ],
+        "16": [
+          0.855,
+          -5.693
+        ],
+        "17": [
+          12.2,
+          -0.657
+        ],
+        "18": [
+          4.0,
+          -0.657
+        ],
+        "19": [
+          -1.729,
+          -5.964
+        ],
+        "20": [
+          5.5,
+          -0.657
+        ],
+        "21": [
+          8.1,
+          -0.657
+        ],
+        "22": [
+          9.6,
+          -0.657
+        ],
+        "23": [
+          14.8,
+          -0.657
+        ]
+      },
+      "caption": "the imidic acid HO–C=NH + hydroxide",
+      "learnerPrompt": "Make the oxygen nucleophilic: remove its proton.",
+      "hintTiers": [
+        "The O–H of an imidic acid is acidic, like a carboxylic acid O–H, and hydroxide is now present.",
+        "Hydroxide takes the proton from the oxygen, leaving an O⁻ next to the C–Cl carbon.",
+        "Hydroxide lone pair → new bond to the O–H hydrogen; that O–H bond → lone pair on oxygen."
+      ],
+      "misconceptions": [
+        {
+          "misconceptionId": "reprotonate-nitrogen",
+          "misconceptionTag": "reverse-step",
+          "severity": "plausible",
+          "arrowPattern": "lp O18 -> σ O18-H19",
+          "feedbackMessage": "That only undoes the last step. Take the proton from oxygen instead, to make an alkoxide-like nucleophile."
+        },
+        {
+          "misconceptionId": "neutral-oh-attacks",
+          "misconceptionTag": "weak-nucleophile",
+          "severity": "wrong",
+          "arrowPattern": "lp O15 -> σ O15-C2",
+          "feedbackMessage": "A neutral OH is a poor nucleophile, and the oxygen would end up positive. Remove its proton first."
+        }
+      ]
+    },
+    "iminolate": {
+      "mappedSmiles": "[CH:4]12[CH:5]=[CH:6][CH:7]([CH:8]1[CH2:9][O:10][CH3:11])[C:2]([Cl:12])([C:13](=[N:14][H:19])[O-:15])[CH2:3]2.[K+:17].[H:16][O:18][H:20].[O-:21][H:22].[K+:23]",
+      "mapNumberToCoordinates": {
+        "2": [
+          -0.85,
+          -1.9
+        ],
+        "3": [
+          0.85,
+          -1.9
+        ],
+        "4": [
+          1.4,
+          0.0
+        ],
+        "5": [
+          0.6,
+          -0.9
+        ],
+        "6": [
+          -0.6,
+          -0.9
+        ],
+        "7": [
+          -1.4,
+          0.0
+        ],
+        "8": [
+          0.0,
+          0.9
+        ],
+        "9": [
+          0.0,
+          2.4
+        ],
+        "10": [
+          1.299,
+          3.15
+        ],
+        "11": [
+          1.299,
+          4.65
+        ],
+        "12": [
+          0.25,
+          -3.1
+        ],
+        "13": [
+          -1.3,
+          -3.3
+        ],
+        "14": [
+          -0.99,
+          -4.737
+        ],
+        "15": [
+          -2.2,
+          -2.5
+        ],
+        "16": [
+          6.598,
+          -0.172
+        ],
+        "17": [
+          13.298,
+          -0.547
+        ],
+        "18": [
+          5.299,
+          -0.922
+        ],
+        "19": [
+          -2.101,
+          -5.745
+        ],
+        "20": [
+          4.0,
+          -0.172
+        ],
+        "21": [
+          9.198,
+          -0.547
+        ],
+        "22": [
+          10.698,
+          -0.547
+        ],
+        "23": [
+          15.898,
+          -0.547
+        ]
+      },
+      "caption": "the iminolate: O⁻ next to the carbon carrying the chlorine",
+      "learnerPrompt": "The O⁻ and the C–Cl bond are on neighbouring carbons. Close a ring.",
+      "hintTiers": [
+        "This is like epoxide formation from a halohydrin: an O⁻ on one carbon displaces a halide from the next carbon.",
+        "The oxygen attacks the carbon carrying the chlorine from the back of the C–Cl bond; chloride leaves. A three-membered ring with oxygen forms.",
+        "Oxygen lone pair → new bond to the carbon carrying Cl; the C–Cl bond → lone pair on chlorine."
+      ],
+      "misconceptions": [
+        {
+          "misconceptionId": "nitrogen-closes",
+          "misconceptionTag": "wrong-nucleophilic-atom",
+          "severity": "wrong",
+          "arrowPattern": "lp N14 -> σ N14-C2",
+          "feedbackMessage": "The charge, and the most reactive lone pair, is on oxygen. The oxygen closes the ring."
+        },
+        {
+          "misconceptionId": "hydroxide-sn2",
+          "misconceptionTag": "blocked-backside-attack",
+          "severity": "wrong",
+          "arrowPattern": "lp O21 -> σ O21-C2",
+          "feedbackMessage": "Hydroxide still cannot reach the back of the C–Cl bond from outside the cage. Inside the molecule, the neighbouring O⁻ can."
+        }
+      ],
+      "partialProgressMessages": [
+        {
+          "learnerArrows": [
+            "lp O15 -> σ O15-C2"
+          ],
+          "feedbackMessage": "Right: the oxygen attacks. That carbon now has five bonds: the C–Cl bond must break."
+        }
+      ]
+    },
+    "iminooxirane": {
+      "mappedSmiles": "[CH:4]12[CH:5]=[CH:6][CH:7]([CH:8]1[CH2:9][O:10][CH3:11])[C:2]3([O:15][C:13]3=[N:14][H:19])[CH2:3]2.[Cl-:12].[K+:17].[H:16][O:18][H:20].[O-:21][H:22].[K+:23]",
+      "mapNumberToCoordinates": {
+        "2": [
+          -0.85,
+          -1.9
+        ],
+        "3": [
+          0.85,
+          -1.9
+        ],
+        "4": [
+          1.4,
+          0.0
+        ],
+        "5": [
+          0.6,
+          -0.9
+        ],
+        "6": [
+          -0.6,
+          -0.9
+        ],
+        "7": [
+          -1.4,
+          0.0
+        ],
+        "8": [
+          0.0,
+          0.9
+        ],
+        "9": [
+          0.0,
+          2.4
+        ],
+        "10": [
+          1.299,
+          3.15
+        ],
+        "11": [
+          1.299,
+          4.65
+        ],
+        "12": [
+          13.298,
+          -0.457
+        ],
+        "13": [
+          -1.3,
+          -3.3
+        ],
+        "14": [
+          -0.921,
+          -4.443
+        ],
+        "15": [
+          -2.2,
+          -2.5
+        ],
+        "16": [
+          6.598,
+          -0.082
+        ],
+        "17": [
+          15.898,
+          -0.457
+        ],
+        "18": [
+          5.299,
+          -0.832
+        ],
+        "19": [
+          -1.917,
+          -5.564
+        ],
+        "20": [
+          4.0,
+          -0.082
+        ],
+        "21": [
+          9.198,
+          -0.457
+        ],
+        "22": [
+          10.698,
+          -0.457
+        ],
+        "23": [
+          18.498,
+          -0.457
+        ]
+      },
+      "caption": "an oxiran-2-imine (a three-membered ring with oxygen) + chloride",
+      "learnerPrompt": "Hydroxide removes the N–H proton. What happens to the strained ring?",
+      "hintTiers": [
+        "Removing the N–H proton gives nitrogen a lone pair it can push towards carbon. The ring C–O bond is strained and can break.",
+        "In one step: hydroxide takes the N–H proton, the N–H bond becomes a second C=N π bond (a C≡N again), and the ring C–O bond breaks onto oxygen.",
+        "Hydroxide lone pair → new bond to the N–H hydrogen; the N–H bond → π bond C=N; the ring C–O bond to the C=N carbon → lone pair on oxygen."
+      ],
+      "misconceptions": [
+        {
+          "misconceptionId": "hydroxide-adds-to-imine",
+          "misconceptionTag": "slower-path",
+          "severity": "plausible",
+          "arrowPattern": "lp O21 -> σ O21-C13",
+          "feedbackMessage": "Hydroxide could add to the C=N, but removing the N–H proton and opening the strained ring is faster and leads straight on."
+        },
+        {
+          "misconceptionId": "ring-opens-to-cation",
+          "misconceptionTag": "unstable-cation",
+          "severity": "wrong",
+          "arrowPattern": "σ C2-O15 -> lp O15",
+          "feedbackMessage": "Breaking that C–O bond would leave a cation next to a C=N. Use the nitrogen: once its proton is gone it can push electrons into the ring carbon."
+        }
+      ],
+      "partialProgressMessages": [
+        {
+          "learnerArrows": [
+            "lp O21 -> σ O21-H19",
+            "σ N14-H19 -> π C13-N14"
+          ],
+          "feedbackMessage": "Good: the nitrile is re-forming. Its carbon now has five bonds: break the ring C–O bond onto oxygen."
+        }
+      ]
+    },
+    "cyanohydrin-anion": {
+      "mappedSmiles": "[CH:4]12[CH:5]=[CH:6][CH:7]([CH:8]1[CH2:9][O:10][CH3:11])[C:2]([O-:15])([C:13]#[N:14])[CH2:3]2.[Cl-:12].[K+:17].[H:16][O:18][H:20].[H:19][O:21][H:22].[K+:23]",
+      "mapNumberToCoordinates": {
+        "2": [
+          -0.85,
+          -1.9
+        ],
+        "3": [
+          0.85,
+          -1.9
+        ],
+        "4": [
+          1.4,
+          0.0
+        ],
+        "5": [
+          0.6,
+          -0.9
+        ],
+        "6": [
+          -0.6,
+          -0.9
+        ],
+        "7": [
+          -1.4,
+          0.0
+        ],
+        "8": [
+          0.0,
+          0.9
+        ],
+        "9": [
+          0.0,
+          2.4
+        ],
+        "10": [
+          1.299,
+          3.15
+        ],
+        "11": [
+          1.299,
+          4.65
+        ],
+        "12": [
+          14.396,
+          0.089
+        ],
+        "13": [
+          -0.672,
+          -3.591
+        ],
+        "14": [
+          -1.886,
+          -4.472
+        ],
+        "15": [
+          -2.513,
+          -2.253
+        ],
+        "16": [
+          6.598,
+          0.464
+        ],
+        "17": [
+          16.996,
+          0.089
+        ],
+        "18": [
+          5.299,
+          -0.286
+        ],
+        "19": [
+          11.796,
+          0.464
+        ],
+        "20": [
+          4.0,
+          0.464
+        ],
+        "21": [
+          10.497,
+          -0.286
+        ],
+        "22": [
+          9.198,
+          0.464
+        ],
+        "23": [
+          19.596,
+          0.089
+        ]
+      },
+      "caption": "the deprotonated cyanohydrin of the ketone",
+      "learnerPrompt": "The alkoxide is next to a C–CN bond. Finish the unmasking.",
+      "hintTiers": [
+        "A cyanohydrin is a ketone that has added HCN. In base the reverse is fast: the alkoxide pushes cyanide out.",
+        "The O⁻ lone pair makes a C=O π bond; the bond to the nitrile carbon breaks and cyanide leaves.",
+        "Oxygen lone pair → C=O π bond; the C–CN bond → lone pair on the nitrile carbon (cyanide)."
+      ],
+      "misconceptions": [
+        {
+          "misconceptionId": "alkyl-anion-leaves",
+          "misconceptionTag": "bad-leaving-group",
+          "severity": "wrong",
+          "arrowPattern": "σ C2-C3 -> lp C3",
+          "feedbackMessage": "A ring CH₂ cannot leave as a carbanion. Cyanide is the group that leaves: its negative charge sits on an sp carbon next to nitrogen."
+        },
+        {
+          "misconceptionId": "bridgehead-anion-leaves",
+          "misconceptionTag": "bad-leaving-group",
+          "severity": "wrong",
+          "arrowPattern": "σ C2-C7 -> lp C7",
+          "feedbackMessage": "A bridgehead carbon cannot leave as a carbanion. Cyanide leaves, a stable anion."
+        }
+      ],
+      "partialProgressMessages": [
+        {
+          "learnerArrows": [
+            "lp O15 -> π C2-O15"
+          ],
+          "feedbackMessage": "Right: the C=O forms. Now one bond from that carbon must break: which group is the best leaving group?"
+        }
+      ]
+    },
+    "products": {
+      "mappedSmiles": "[CH:4]12[CH:5]=[CH:6][CH:7]([CH:8]1[CH2:9][O:10][CH3:11])[C:2](=[O:15])[CH2:3]2.[C-:13]#[N:14].[Cl-:12].[K+:17].[H:16][O:18][H:20].[H:19][O:21][H:22].[K+:23]",
+      "mapNumberToCoordinates": {
+        "2": [
+          -0.85,
+          -1.9
+        ],
+        "3": [
+          0.85,
+          -1.9
+        ],
+        "4": [
+          1.4,
+          0.0
+        ],
+        "5": [
+          0.6,
+          -0.9
+        ],
+        "6": [
+          -0.6,
+          -0.9
+        ],
+        "7": [
+          -1.4,
+          0.0
+        ],
+        "8": [
+          0.0,
+          0.9
+        ],
+        "9": [
+          0.0,
+          2.4
+        ],
+        "10": [
+          1.299,
+          3.15
+        ],
+        "11": [
+          1.299,
+          4.65
+        ],
+        "12": [
+          18.496,
+          0.687
+        ],
+        "13": [
+          14.396,
+          0.687
+        ],
+        "14": [
+          15.896,
+          0.687
+        ],
+        "15": [
+          -1.849,
+          -3.275
+        ],
+        "16": [
+          6.598,
+          1.062
+        ],
+        "17": [
+          21.096,
+          0.687
+        ],
+        "18": [
+          5.299,
+          0.312
+        ],
+        "19": [
+          11.796,
+          1.062
+        ],
+        "20": [
+          4.0,
+          1.062
+        ],
+        "21": [
+          10.497,
+          0.312
+        ],
+        "22": [
+          9.198,
+          1.062
+        ],
+        "23": [
+          23.696,
+          0.687
+        ]
+      },
+      "caption": "bicyclo[2.2.1]hept-5-en-2-one with the CH₂OMe bridge + cyanide + chloride"
+    }
+  },
+  "steps": [
+    {
+      "stepKey": "addition-to-nitrile",
+      "fromStateId": "reactants",
+      "toStateId": "imidate-anion",
+      "stepKind": "polar",
+      "routePreference": "preferred",
+      "canonicalArrows": [
+        "lp O15 -> σ O15-C13",
+        "π C13-N14 -> lp N14"
+      ],
+      "explanationAfterStep": "Hydroxide adds to the nitrile carbon, as it would to a carbonyl carbon. One C≡N π bond moves onto nitrogen, giving an imidate anion (an aza-enolate of an amide)."
+    },
+    {
+      "stepKey": "protonate-nitrogen",
+      "fromStateId": "imidate-anion",
+      "toStateId": "imidic-acid",
+      "stepKind": "polar",
+      "routePreference": "preferred",
+      "canonicalArrows": [
+        "lp N14 -> σ N14-H19",
+        "σ O18-H19 -> lp O18"
+      ],
+      "explanationAfterStep": "Water protonates the strongly basic nitrogen. The product, HO–C=NH, is an imidic acid, the tautomer of a primary amide."
+    },
+    {
+      "stepKey": "deprotonate-oxygen",
+      "fromStateId": "imidic-acid",
+      "toStateId": "iminolate",
+      "stepKind": "polar",
+      "routePreference": "preferred",
+      "canonicalArrows": [
+        "lp O18 -> σ O18-H16",
+        "σ O15-H16 -> lp O15"
+      ],
+      "explanationAfterStep": "Hydroxide removes the O–H proton. The O⁻ now sits on the carbon next to the C–Cl carbon, ready to attack it from inside the molecule."
+    },
+    {
+      "stepKey": "ring-closure",
+      "fromStateId": "iminolate",
+      "toStateId": "iminooxirane",
+      "stepKind": "polar",
+      "routePreference": "preferred",
+      "canonicalArrows": [
+        "lp O15 -> σ O15-C2",
+        "σ C2-Cl12 -> lp Cl12"
+      ],
+      "explanationAfterStep": "An intramolecular SN2: the O⁻ displaces chloride from the neighbouring carbon, exactly as a halohydrin closes to an epoxide. Outside attack on this caged tertiary carbon is impossible; a neighbouring nucleophile held next to it succeeds."
+    },
+    {
+      "stepKey": "ring-opening",
+      "fromStateId": "iminooxirane",
+      "toStateId": "cyanohydrin-anion",
+      "stepKind": "polar",
+      "routePreference": "preferred",
+      "canonicalArrows": [
+        "lp O21 -> σ O21-H19",
+        "σ N14-H19 -> π C13-N14",
+        "σ C13-O15 -> lp O15"
+      ],
+      "explanationAfterStep": "Removing the N–H proton re-forms the C≡N, and the strained ring opens onto oxygen. The oxygen is now on the ring carbon that carried chlorine: the chlorine has been replaced by an oxygen, with the nitrile acting as a carrier."
+    },
+    {
+      "stepKey": "cyanide-leaves",
+      "fromStateId": "cyanohydrin-anion",
+      "toStateId": "products",
+      "stepKind": "polar",
+      "routePreference": "preferred",
+      "canonicalArrows": [
+        "lp O15 -> π C2-O15",
+        "σ C2-C13 -> lp C13"
+      ],
+      "explanationAfterStep": "A cyanohydrin anion falls apart to the ketone and cyanide. The carbon that carried Cl and CN is now a C=O: the 2-chloroacrylonitrile has done the job of ketene."
+    }
+  ],
+  "mechanismSummary": "Corey heated the Diels–Alder adduct with potassium hydroxide in aqueous DMSO to reveal bicyclo[2.2.1]hept-5-en-2-one. The route drawn here is a reasonable polar mechanism for this unmasking; the problem set's card says why the detailed route is a model. Hydroxide adds to the nitrile; proton transfers give an iminolate O⁻; that oxygen displaces chloride from the neighbouring carbon, closing a three-membered ring, the only way to substitute this caged tertiary carbon; removing the N–H proton opens the ring again to the cyanohydrin anion, which loses cyanide to give the ketone. Overall the carbon that carried Cl and CN becomes a C=O, so 2-chloroacrylonitrile served as a ketene equivalent. The ring-closing SN2 inverts the carbon it attacks, but the epimers of the adduct all give the same ketone (not checked by the app yet).",
+  "references": [
+    "Clayden, Greeves and Warren, Organic Chemistry, 2nd edition (Oxford University Press), chapter 34 (ketene equivalents in Diels–Alder reactions)",
+    "E. J. Corey, N. M. Weinshenker, T. K. Schaaf and W. Huber, Stereo-controlled synthesis of dl-prostaglandins F2α and E2, J. Am. Chem. Soc., 1969, 91, 5675–5677"
+  ],
+  "authors": [
+    {
+      "name": "Maksim",
+      "url": null
+    }
+  ],
+  "licence": "CC-BY-SA-4.0"
+}
