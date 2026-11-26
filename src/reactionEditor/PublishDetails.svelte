@@ -2,6 +2,7 @@
   // Publish's folded sections: More details (authors, references, daily puzzle) and Advanced
   // (spectators, atom roles for wrong-answer patterns; where the per-state and per-step
   // settings are).
+  import { suggestedDailyPuzzleEligible } from "../reactionEditing/dailyPuzzleSuggestion.js";
   import { setReactionField } from "../reactionEditing/fieldEdits.js";
   import type { ReactionDocument } from "../reactionEditing/reactionDraft.js";
   import {
@@ -17,6 +18,9 @@
   type Edit = ReturnType<typeof setReactionField>;
 
   const { document, apply }: { document: ReactionDocument; apply: (edit: Edit) => void } = $props();
+
+  // The owner's rule (docs/SPEC.md §1): only reactions that make or break a real bond.
+  const dailySuggested = $derived(suggestedDailyPuzzleEligible(document));
 
   const listOf = <Item,>(key: string): Item[] =>
     Array.isArray(document[key]) ? (document[key] as Item[]) : [];
@@ -61,6 +65,11 @@
       }}
     />
     Can be a daily puzzle
+    <span class="small muted">
+      suggested: {dailySuggested
+        ? "yes (a bond other than an O–H, N–H… forms or breaks)"
+        : "no (resonance or proton transfers only: practice and Learn)"}
+    </span>
   </label>
 </details>
 <details class="adv">

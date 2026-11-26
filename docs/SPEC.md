@@ -23,7 +23,9 @@ is a conceptual reference only: it chose "correct by choosing, not by drawing"; 
   - **Practice:** untimed, unlimited attempts, free hints; filter by type/difficulty/status; search.
   - **Which reactions go in the daily puzzle (owner, 2026-11-26):** by default only a reaction in which some step forms
     or breaks a σ bond other than an acidic X–H (X = O, N, S, a halogen): a heavy-atom σ bond, a C–H, a B–H.
-    Resonance drills and plain proton transfers are practice and Learn only (`dailyPuzzleEligible` false).
+    Resonance drills and plain proton transfers are practice and Learn only (`dailyPuzzleEligible` false). Create
+    shows this as a suggestion beside the "Can be a daily puzzle" box (`reactionEditing/dailyPuzzleSuggestion.ts`),
+    like the suggested difficulty tier; the author decides.
   - **Learn (decided 2026-11-25, item 9):** guided **tracks** of **problem sets**, each teaching one concept
     (§5 "Learn"). Practice is the library, organised by reaction; Learn is the path, organised by concept.
 
