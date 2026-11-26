@@ -1,0 +1,313 @@
+{
+  "steps": [
+    {
+      "stepKey": "bromonium-formation",
+      "stepKind": "polar",
+      "toStateId": "bromonium-ion",
+      "fromStateId": "reactants",
+      "canonicalArrows": [
+        "π C1-C2 -> σ C1-Br5",
+        "lp Br5 -> σ Br5-C2",
+        "σ Br5-Br6 -> lp Br6"
+      ],
+      "routePreference": "preferred",
+      "explanationAfterStep": "An unsymmetrical bromonium ion: the bond from bromine to the tertiary carbon is the weaker one."
+    },
+    {
+      "stepKey": "water-opens-ring",
+      "stepKind": "polar",
+      "toStateId": "oxonium",
+      "fromStateId": "bromonium-ion",
+      "canonicalArrows": [
+        "lp O7 -> σ O7-C2",
+        "σ C2-Br5 -> lp Br5"
+      ],
+      "routePreference": "preferred",
+      "explanationAfterStep": "Water attacks the tertiary carbon from the face opposite the bromine (anti addition). The transition state has a lot of cation character, so the carbon that holds positive charge best reacts."
+    },
+    {
+      "stepKey": "deprotonation",
+      "stepKind": "polar",
+      "toStateId": "product",
+      "fromStateId": "oxonium",
+      "canonicalArrows": [
+        "lp O8 -> σ O8-H9",
+        "σ O7-H9 -> lp O7"
+      ],
+      "routePreference": "preferred",
+      "explanationAfterStep": "The bromohydrin: OH on the more substituted carbon, Br on the less substituted one."
+    }
+  ],
+  "title": "Bromohydrin from 2-methylpropene",
+  "authors": [
+    {
+      "url": null,
+      "name": "Maksim"
+    }
+  ],
+  "licence": "CC-BY-SA-4.0",
+  "subtitle": "Water opens the bromonium ion",
+  "references": [
+    "Clayden, Greeves and Warren, Organic Chemistry, 2nd edition (Oxford University Press), chapter 20"
+  ],
+  "reactionSlug": "2-methylpropene-bromohydrin",
+  "startStateId": "reactants",
+  "formatVersion": 1,
+  "difficultyTier": 3,
+  "stateIdToState": {
+    "oxonium": {
+      "caption": "protonated bromohydrin (an oxonium ion)",
+      "hintTiers": [
+        "The oxygen is positive and carries two H atoms. What can take one?",
+        "A second water molecule takes a proton from the oxonium oxygen. Two arrows.",
+        "Arrow 1: from a lone pair of the free water to an H on the oxonium oxygen. Arrow 2: from that O–H bond onto the oxonium oxygen."
+      ],
+      "mappedSmiles": "[Br:5][CH2:1][C:2]([CH3:3])([CH3:4])[OH+:7][H:9].[Br-:6].[OH2:8]",
+      "learnerPrompt": "Make the neutral bromohydrin.",
+      "mapNumberToCoordinates": {
+        "1": [
+          2.6,
+          1.5
+        ],
+        "2": [
+          1.3,
+          0.75
+        ],
+        "3": [
+          0,
+          0
+        ],
+        "4": [
+          0.55,
+          2.05
+        ],
+        "5": [
+          2.6,
+          3
+        ],
+        "6": [
+          -0.14,
+          4.24
+        ],
+        "7": [
+          2.05,
+          -0.55
+        ],
+        "8": [
+          5.83,
+          -0.41
+        ],
+        "9": [
+          3.55,
+          -0.55
+        ]
+      }
+    },
+    "product": {
+      "caption": "1-bromo-2-methylpropan-2-ol + H₃O⁺ + bromide",
+      "mappedSmiles": "[Br:5][CH2:1][C:2]([CH3:3])([CH3:4])[OH:7].[Br-:6].[H:9][OH2+:8]",
+      "mapNumberToCoordinates": {
+        "1": [
+          2.6,
+          1.5
+        ],
+        "2": [
+          1.3,
+          0.75
+        ],
+        "3": [
+          0,
+          0
+        ],
+        "4": [
+          0.55,
+          2.05
+        ],
+        "5": [
+          2.6,
+          3
+        ],
+        "6": [
+          -0.13,
+          4.24
+        ],
+        "7": [
+          2.05,
+          -0.55
+        ],
+        "8": [
+          4.31,
+          -0.2
+        ],
+        "9": [
+          5.61,
+          0.55
+        ]
+      }
+    },
+    "reactants": {
+      "caption": "2-methylpropene + bromine in water",
+      "hintTiers": [
+        "As with any alkene and Br₂: what three-membered ring forms first?",
+        "The π bond attacks the near bromine, a lone pair of that bromine bonds to the other alkene carbon, and the Br–Br bond breaks. Three arrows.",
+        "Arrow 1: from the C=C π bond to the near bromine. Arrow 2: from a lone pair of that bromine to the other alkene carbon. Arrow 3: from the Br–Br bond onto the far bromine."
+      ],
+      "mappedSmiles": "[CH2:1]=[C:2]([CH3:3])[CH3:4].[Br:5][Br:6].[H:9][OH:7].[OH2:8]",
+      "learnerPrompt": "Bromine meets the alkene. Draw the first step.",
+      "misconceptions": [
+        {
+          "severity": "wrong",
+          "arrowPattern": "lp O* -> C*",
+          "feedbackMessage": "Water and the alkene are both nucleophiles. The alkene reacts with bromine first.",
+          "misconceptionId": "water-attacks-alkene",
+          "misconceptionTag": "nucleophile-attacks-nucleophile"
+        }
+      ],
+      "mapNumberToCoordinates": {
+        "1": [
+          0,
+          0
+        ],
+        "2": [
+          1.3,
+          0.75
+        ],
+        "3": [
+          2.6,
+          0
+        ],
+        "4": [
+          1.3,
+          2.25
+        ],
+        "5": [
+          0,
+          4.25
+        ],
+        "6": [
+          1.3,
+          5
+        ],
+        "7": [
+          4.89,
+          -0.16
+        ],
+        "8": [
+          -1.68,
+          2.7
+        ],
+        "9": [
+          6.19,
+          0.59
+        ]
+      },
+      "partialProgressMessages": [
+        {
+          "learnerArrows": [
+            "π C1-C2 -> σ C2-Br5",
+            "σ Br5-Br6 -> lp Br6"
+          ],
+          "feedbackMessage": "That gives an open tertiary cation. With bromine, a lone pair of the attached bromine bonds to the other carbon at the same time: a bromonium ion."
+        },
+        {
+          "learnerArrows": [
+            "π C1-C2 -> σ C1-Br5",
+            "σ Br5-Br6 -> lp Br6"
+          ],
+          "feedbackMessage": "Add one more arrow: a lone pair of the attached bromine bonds to the other alkene carbon, closing a three-membered ring."
+        }
+      ]
+    },
+    "bromonium-ion": {
+      "caption": "the bromonium ion + bromide, in water",
+      "hintTiers": [
+        "Water is the solvent, so it wins over bromide. Which ring carbon carries more positive charge?",
+        "Water attacks the more substituted (tertiary) carbon, and that C–Br bond breaks onto the bromine. Two arrows.",
+        "Arrow 1: from a water lone pair to the ring carbon bearing two methyl groups. Arrow 2: from the bond between that carbon and the ring bromine onto the bromine."
+      ],
+      "mappedSmiles": "[Br+:5]1[CH2:1][C:2]1([CH3:3])[CH3:4].[Br-:6].[H:9][OH:7].[OH2:8]",
+      "learnerPrompt": "Water opens the bromonium ion. Which carbon does it attack?",
+      "misconceptions": [
+        {
+          "severity": "wrong",
+          "arrowPattern": "lp O* -> σ O*-C1",
+          "feedbackMessage": "Not the CH₂ carbon. The bond from bromine to the tertiary carbon is longer and weaker, and that carbon carries more positive charge, so water attacks there, even though it is more hindered.",
+          "misconceptionId": "attack-at-ch2",
+          "misconceptionTag": "wrong-regiochemistry"
+        },
+        {
+          "severity": "plausible",
+          "arrowPattern": "lp Br6 -> C*",
+          "feedbackMessage": "Bromide can open the ring (giving the dibromide), but water is the solvent and vastly outnumbers bromide. Use water.",
+          "misconceptionId": "bromide-opens-ring",
+          "misconceptionTag": "wrong-nucleophile"
+        }
+      ],
+      "mapNumberToCoordinates": {
+        "1": [
+          -0.43,
+          0.75
+        ],
+        "2": [
+          -0.43,
+          -0.75
+        ],
+        "3": [
+          0.08,
+          -2.16
+        ],
+        "4": [
+          -1.91,
+          -1.01
+        ],
+        "5": [
+          0.87,
+          0
+        ],
+        "6": [
+          3.16,
+          0.06
+        ],
+        "7": [
+          0.42,
+          2.89
+        ],
+        "8": [
+          3.56,
+          2.27
+        ],
+        "9": [
+          1.72,
+          3.64
+        ]
+      },
+      "partialProgressMessages": [
+        {
+          "learnerArrows": [
+            "lp O7 -> σ O7-C2"
+          ],
+          "feedbackMessage": "Right carbon. It now has five bonds: break its bond to the ring bromine."
+        }
+      ]
+    }
+  },
+  "conditionsLabel": "Br₂ · H₂O (or NBS, H₂O/DMSO)",
+  "reactionClasses": [
+    "addition"
+  ],
+  "reactionVersion": 1,
+  "mechanismSummary": "Bromine forms a bromonium ion with the alkene. In water, water is the nucleophile in huge excess and opens the ring at the more substituted carbon, which carries more of the positive charge. A second water removes the proton: 1-bromo-2-methylpropan-2-ol, with Br on the CH₂ carbon and OH on the tertiary carbon.",
+  "dailyPuzzleEligible": true,
+  "spectatorMapNumbers": [],
+  "atomRoleToMapNumbers": {
+    "alkene": [
+      1,
+      2
+    ],
+    "bromine": [
+      5,
+      6
+    ]
+  },
+  "previousReactionVersion": null
+}
