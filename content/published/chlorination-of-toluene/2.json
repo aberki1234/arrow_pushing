@@ -1,0 +1,463 @@
+{
+  "steps": [
+    {
+      "stepKey": "para-attack",
+      "stepKind": "polar",
+      "toStateId": "para-arenium-ion",
+      "fromStateId": "reactants",
+      "canonicalArrows": [
+        "π C13-C14 -> σ C14-Cl1",
+        "σ Cl1-Cl2 -> lp Cl2"
+      ],
+      "routePreference": "preferred",
+      "explanationAfterStep": "Para attack: one resonance form puts the charge on the carbon bearing CH₃ (tertiary)."
+    },
+    {
+      "stepKey": "para-deprotonation",
+      "stepKind": "polar",
+      "toStateId": "para-product",
+      "fromStateId": "para-arenium-ion",
+      "canonicalArrows": [
+        "lp Cl2 -> σ Cl2-H17",
+        "σ C14-H17 -> π C13-C14",
+        "σ Cl2-Al3 -> lp Cl2"
+      ],
+      "routePreference": "preferred",
+      "explanationAfterStep": "4-Chlorotoluene, HCl and AlCl₃."
+    },
+    {
+      "stepKey": "ortho-attack",
+      "stepKind": "polar",
+      "toStateId": "ortho-arenium-ion",
+      "fromStateId": "reactants",
+      "canonicalArrows": [
+        "π C11-C12 -> σ C12-Cl1",
+        "σ Cl1-Cl2 -> lp Cl2"
+      ],
+      "routePreference": "accepted",
+      "explanationAfterStep": "Ortho attack is also correct: the charge lands straight on the carbon bearing CH₃."
+    },
+    {
+      "stepKey": "ortho-deprotonation",
+      "stepKind": "polar",
+      "toStateId": "ortho-product",
+      "fromStateId": "ortho-arenium-ion",
+      "canonicalArrows": [
+        "lp Cl2 -> σ Cl2-H22",
+        "σ C12-H22 -> π C11-C12",
+        "σ Cl2-Al3 -> lp Cl2"
+      ],
+      "routePreference": "accepted",
+      "explanationAfterStep": "2-Chlorotoluene."
+    }
+  ],
+  "title": "Chlorination of toluene",
+  "authors": [
+    {
+      "url": null,
+      "name": "Maksim"
+    }
+  ],
+  "licence": "CC-BY-SA-4.0",
+  "subtitle": "Predict the position",
+  "references": [
+    "Clayden, Greeves and Warren, Organic Chemistry, 2nd edition (Oxford University Press), chapter 21"
+  ],
+  "reactionSlug": "chlorination-of-toluene",
+  "startStateId": "reactants",
+  "formatVersion": 1,
+  "difficultyTier": 2,
+  "stateIdToState": {
+    "reactants": {
+      "caption": "Cl₂–AlCl₃ complex + toluene",
+      "hintTiers": [
+        "Is CH₃ a donor or a withdrawing group?",
+        "A donor (weakly): ortho/para. For para, the ring π bond to the para carbon attacks the outer chlorine and the Cl–Cl bond breaks. Two arrows.",
+        "π bond to the para carbon → new C–Cl bond to the outer chlorine; σ Cl–Cl → lone pair on the chlorine bonded to aluminium."
+      ],
+      "mappedSmiles": "[Cl:1][Cl+:2][Al-:3]([Cl:4])([Cl:5])[Cl:6].[CH3:18][C:11]1=[C:12]([H:22])[CH:13]=[C:14]([H:17])[CH:15]=[CH:16]1",
+      "learnerPrompt": "Toluene attacks the activated chlorine. Where?",
+      "misconceptions": [
+        {
+          "severity": "wrong",
+          "arrowPattern": "* -> σ C13-Cl1",
+          "feedbackMessage": "That carbon is meta to CH₃. A methyl group directs ortho/para.",
+          "misconceptionId": "meta-attack-13",
+          "misconceptionTag": "wrong-regiochemistry-meta"
+        },
+        {
+          "severity": "wrong",
+          "arrowPattern": "* -> σ C15-Cl1",
+          "feedbackMessage": "That carbon is meta to CH₃. A methyl group directs ortho/para.",
+          "misconceptionId": "meta-attack-15",
+          "misconceptionTag": "wrong-regiochemistry-meta"
+        }
+      ],
+      "mapNumberToCoordinates": {
+        "1": [
+          2.25,
+          3.8
+        ],
+        "2": [
+          1.5,
+          5.1
+        ],
+        "3": [
+          0,
+          5.1
+        ],
+        "4": [
+          -1.5,
+          5.1
+        ],
+        "5": [
+          0,
+          6.6
+        ],
+        "6": [
+          0,
+          3.6
+        ],
+        "11": [
+          1.46,
+          -0.95
+        ],
+        "12": [
+          0.71,
+          0.34
+        ],
+        "13": [
+          -0.79,
+          0.34
+        ],
+        "14": [
+          -1.54,
+          -0.95
+        ],
+        "15": [
+          -0.79,
+          -2.25
+        ],
+        "16": [
+          0.71,
+          -2.25
+        ],
+        "17": [
+          -3.04,
+          -0.95
+        ],
+        "18": [
+          2.96,
+          -0.95
+        ],
+        "22": [
+          1.46,
+          1.64
+        ]
+      },
+      "partialProgressMessages": [
+        {
+          "learnerArrows": [
+            "π C13-C14 -> σ C14-Cl1"
+          ],
+          "feedbackMessage": "Right place. Which bond of the chlorine breaks?"
+        }
+      ]
+    },
+    "para-product": {
+      "caption": "4-chlorotoluene (para product)",
+      "mappedSmiles": "[CH3:18][C:11]1=[C:12]([H:22])[CH:13]=[C:14]([Cl:1])[CH:15]=[CH:16]1.[H:17][Cl:2].[Al:3]([Cl:4])([Cl:5])[Cl:6]",
+      "mapNumberToCoordinates": {
+        "1": [
+          -3,
+          0
+        ],
+        "2": [
+          5.3,
+          0.03
+        ],
+        "3": [
+          -0.02,
+          5.76
+        ],
+        "4": [
+          1.28,
+          6.51
+        ],
+        "5": [
+          -1.32,
+          6.51
+        ],
+        "6": [
+          -0.02,
+          4.26
+        ],
+        "11": [
+          1.5,
+          0
+        ],
+        "12": [
+          0.75,
+          1.3
+        ],
+        "13": [
+          -0.75,
+          1.3
+        ],
+        "14": [
+          -1.5,
+          0
+        ],
+        "15": [
+          -0.75,
+          -1.3
+        ],
+        "16": [
+          0.75,
+          -1.3
+        ],
+        "17": [
+          6.6,
+          0.78
+        ],
+        "18": [
+          3,
+          0
+        ],
+        "22": [
+          1.5,
+          2.6
+        ]
+      }
+    },
+    "ortho-product": {
+      "caption": "2-chlorotoluene (ortho product)",
+      "mappedSmiles": "[CH3:18][C:11]1=[C:12]([Cl:1])[CH:13]=[C:14]([H:17])[CH:15]=[CH:16]1.[H:22][Cl:2].[Al:3]([Cl:4])([Cl:5])[Cl:6]",
+      "mapNumberToCoordinates": {
+        "1": [
+          1.5,
+          2.6
+        ],
+        "2": [
+          5.3,
+          0.03
+        ],
+        "3": [
+          -0.02,
+          5.76
+        ],
+        "4": [
+          1.28,
+          6.51
+        ],
+        "5": [
+          -1.32,
+          6.51
+        ],
+        "6": [
+          -0.02,
+          4.26
+        ],
+        "11": [
+          1.5,
+          0
+        ],
+        "12": [
+          0.75,
+          1.3
+        ],
+        "13": [
+          -0.75,
+          1.3
+        ],
+        "14": [
+          -1.5,
+          0
+        ],
+        "15": [
+          -0.75,
+          -1.3
+        ],
+        "16": [
+          0.75,
+          -1.3
+        ],
+        "17": [
+          -3,
+          0
+        ],
+        "18": [
+          3,
+          0
+        ],
+        "22": [
+          6.6,
+          0.78
+        ]
+      }
+    },
+    "para-arenium-ion": {
+      "caption": "arenium ion after para attack",
+      "hintTiers": [
+        "What can take the proton from the sp³ ring carbon?",
+        "A chloride of AlCl₄⁻ takes the proton, the C–H pair returns to the ring, and the Cl–Al bond breaks back to Cl. Three arrows.",
+        "A lone pair on the chlorine that was bonded to the attacked chlorine → the para H; σ C–H → a π bond to the neighbouring positive carbon; σ Cl–Al → lone pair on that chlorine."
+      ],
+      "mappedSmiles": "[CH3:18][C:11]1=[C:12]([H:22])[CH+:13][C:14]([H:17])([Cl:1])[CH:15]=[CH:16]1.[Cl:2][Al-:3]([Cl:4])([Cl:5])[Cl:6]",
+      "learnerPrompt": "Restore the aromatic ring.",
+      "misconceptions": [],
+      "mapNumberToCoordinates": {
+        "1": [
+          -2.65,
+          0.96
+        ],
+        "2": [
+          1.51,
+          5.83
+        ],
+        "3": [
+          0.01,
+          5.83
+        ],
+        "4": [
+          -1.49,
+          5.83
+        ],
+        "5": [
+          0.01,
+          7.33
+        ],
+        "6": [
+          0.01,
+          4.33
+        ],
+        "11": [
+          1.5,
+          0
+        ],
+        "12": [
+          0.75,
+          1.3
+        ],
+        "13": [
+          -0.75,
+          1.3
+        ],
+        "14": [
+          -1.5,
+          0
+        ],
+        "15": [
+          -0.75,
+          -1.3
+        ],
+        "16": [
+          0.75,
+          -1.3
+        ],
+        "17": [
+          -2.65,
+          -0.96
+        ],
+        "18": [
+          3,
+          0
+        ],
+        "22": [
+          1.5,
+          2.6
+        ]
+      }
+    },
+    "ortho-arenium-ion": {
+      "caption": "arenium ion after ortho attack",
+      "hintTiers": [
+        "What can take the proton from the sp³ ring carbon?",
+        "A chloride of AlCl₄⁻ takes the proton, the C–H pair returns to the ring, and the Cl–Al bond breaks back to Cl. Three arrows.",
+        "A lone pair on the chlorine that was bonded to the attacked chlorine → the H on the ortho carbon; σ C–H → a π bond to the positive carbon bearing CH₃; σ Cl–Al → lone pair on that chlorine."
+      ],
+      "mappedSmiles": "[CH3:18][C+:11]1[C:12]([H:22])([Cl:1])[CH:13]=[C:14]([H:17])[CH:15]=[CH:16]1.[Cl:2][Al-:3]([Cl:4])([Cl:5])[Cl:6]",
+      "learnerPrompt": "Restore the aromatic ring.",
+      "misconceptions": [],
+      "mapNumberToCoordinates": {
+        "1": [
+          2.16,
+          1.81
+        ],
+        "2": [
+          1.43,
+          6.46
+        ],
+        "3": [
+          -0.07,
+          6.46
+        ],
+        "4": [
+          -1.57,
+          6.46
+        ],
+        "5": [
+          -0.07,
+          7.96
+        ],
+        "6": [
+          -0.07,
+          4.96
+        ],
+        "11": [
+          1.5,
+          0
+        ],
+        "12": [
+          0.75,
+          1.3
+        ],
+        "13": [
+          -0.75,
+          1.3
+        ],
+        "14": [
+          -1.5,
+          0
+        ],
+        "15": [
+          -0.75,
+          -1.3
+        ],
+        "16": [
+          0.75,
+          -1.3
+        ],
+        "17": [
+          -3,
+          0
+        ],
+        "18": [
+          3,
+          0
+        ],
+        "22": [
+          0.49,
+          2.78
+        ]
+      }
+    }
+  },
+  "conditionsLabel": "Cl₂ · AlCl₃ (or FeCl₃)",
+  "reactionClasses": [
+    "aromatic substitution"
+  ],
+  "reactionVersion": 2,
+  "mechanismSummary": "CH₃ is a weak donor: ortho/para. Para is drawn as the main route; ortho also forms and is accepted. AlCl₄⁻ removes the proton, giving HCl and AlCl₃ back.",
+  "dailyPuzzleEligible": true,
+  "spectatorMapNumbers": [],
+  "atomRoleToMapNumbers": {
+    "base": [
+      2
+    ],
+    "electrophile": [
+      1
+    ]
+  },
+  "previousReactionVersion": 1
+}
