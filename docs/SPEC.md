@@ -359,7 +359,26 @@ then a halobenzene (deactivating but ortho/para). The track ends with a checkpoi
     reaction's next version, credited to both authors; the original author is not asked first. (The rule "only
     the reaction's owner saves or edits it" becomes: the author of the unpublished version saves it; anyone may
     start the next version of a published reaction, while no other unpublished version exists.)
-  - The review screen, notifications and limits are designed with a mockup next (`mockups/review.html`).
+  - **Agreed 2026-11-26 from the mockup `mockups/review.html`:**
+    - **Sign-in page** with GitHub and Google; Create gains a sub-navigation **Your mechanisms · Review (n) ·
+      Users** (Review for reviewers, Users for the owner).
+    - **Contributor:** Your mechanisms shows a banner when changes are requested and the reviewer's overall note
+      on the reaction; the Publish stage shows the reviewer's notes (each with "Go there →"), an optional note to
+      the reviewer, the licence tick and **Submit for review**. "Improve a published one" lists every published
+      reaction ("Suggest version n+1").
+    - **Review queue**, oldest first, each marked new reaction / improvement / resubmitted. **Review screen:**
+      Play as learner; by default **only what changed** against the previous published version (text with
+      deletions and insertions, a changed state as before / after drawings, a new wrong answer as its drawing;
+      a new reaction shows everything); notes pinned to a change plus an overall note; **Publish** or **Request
+      changes**.
+    - **Users page** (owner only): name, sign-in provider, reactions, joined, and a role menu Contributor /
+      Reviewer / **Blocked** (a blocked user can sign in and see their drafts but not save or submit; their
+      submissions leave the queue).
+    - **Notifications in the site only** for now (the Review count, the contributor's banner); email later.
+    - **At most 5 open drafts per contributor** (draft, submitted or changes requested).
+    - **Submitted drafts stay editable**; saving one takes it out of review (back to draft).
+    - **Review notes** clear when the contributor submits again.
+    - **A reviewer cannot review their own submission**; the owner may still publish their own directly.
 
 ## 7. Mockups (done 2026-11-24)
 
@@ -373,9 +392,9 @@ Chromium: no console errors. Emoji (💡) may render as tofu in headless only.
 **`create` (added 2026-11-26, agreed as the design of item 8d):** the Create home ("Your mechanisms") and the four
 stages (Start, Mechanism, Teaching, Publish); the SN2 step can be drawn by clicking (`#start`, `#mech`, `#teach`,
 `#publish` open a stage). It supersedes `editor.html` as the editor's design.
-**`review` (added 2026-11-26, item 8e, proposals not yet agreed):** sign-in, a contributor's Your mechanisms and
+**`review` (added 2026-11-26, item 8e):** sign-in, a contributor's Your mechanisms and
 Publish stage, the review queue, the review screen (only what changed, notes) and the owner's Users page
-(`#signin`, `#contrib`, `#submit`, `#queue`, `#review`, `#users`).
+(`#signin`, `#contrib`, `#submit`, `#queue`, `#review`, `#users`); agreed 2026-11-26.
 
 ## 8. Process rules
 
@@ -398,8 +417,6 @@ Publish stage, the review queue, the review screen (only what changed, notes) an
 - The **JSON schema**, **Postgres schema** and misconception pattern syntax: `docs/schema-design.md` (2026-11-24),
   "mostly fine" per the user; the decisions in §4 are settled, and details may still be refined.
 - Branding beyond the name (logo, colours). Name and domain decided 2026-11-26: ArrowPush, `arrowpushing.com`.
-- Contributors and reviewers (item 8e): the review screen, notifications and limits (sign-up, providers, reviewers
-  and improving others' reactions were decided 2026-11-26, §6).
 - Which exact reactions beyond the list above; authoring order of the first content set.
 - Tracks after "Aromatic chemistry" (e.g. Zaitsev versus Hofmann, kinetic versus thermodynamic enolates) and their
   problem sets. (Problem sets themselves were scoped on 2026-11-25: §1, §2, §5 "Learn".)

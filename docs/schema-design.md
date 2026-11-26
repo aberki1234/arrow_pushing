@@ -736,7 +736,7 @@ RDKit (RDKit.js) on every valid SMILES case and every example state (`src/chemis
      `<role>.<project-ref>`, Session mode (5432); both connection strings end in
      `?sslmode=verify-full&sslrootcert=deploy/supabase-root-ca.crt` (Node does not trust Supabase's root CA);
      whichever role first runs the migrations owns the tables.
-   * **8d** Create: the editor reskinned as a staged flow for the owner (decided 2026-11-26, SPEC §5 "Create";
+   * **8d Done 2026-11-26.** Create: the editor reskinned as a staged flow for the owner (decided 2026-11-26, SPEC §5 "Create";
      design `mockups/create.html`). Proposed in three parts:
      - **Part 1, decisions. Done 2026-11-26.** Built: `reactionEditing/reactionSlugs.ts` (the slug from the
        name), `stateStrip.ts` (strip rows; state names Start / Intermediate N / Product), `teachingChecklist.ts`,
@@ -767,11 +767,30 @@ RDKit (RDKit.js) on every valid SMILES case and every example state (`src/chemis
        listed → reopened, light and dark; no console errors). Planned as (`src/reactionEditor/`): Create home, the stepper and the four stages, reusing the
        learner site's header and styles and the existing components where they fit; component tests for the
        stage switching; a walkthrough in headless Chromium (new SN2 from SMILES → step → teaching → Publish).
-     - **Part 3, the domain** (the owner sets up the accounts): the learner site on `<domain>` (Cloudflare Pages)
+     - **Part 3, the domain. Done 2026-11-26** (`arrowpushing.com`: DNS moved from Porkbun to Cloudflare, the
+       learner site on Pages at the bare domain, Create on Render at `create.`; the owner signed in there and the
+       deploy workflow ran; both top bars carry the Create tab). Planned as (the owner sets up the accounts): the learner site on `<domain>` (Cloudflare Pages)
        and Create on `create.<domain>` (Render), the GitHub sign-in app's callback and the server's public
        address moved there; checked end to end.
-   * **8e** Contributors: sign-up beyond the allow-list, submit → review (play-through + diff) → changes requested
-     | published (the Create tab is already in the top bar since 2026-11-26).
+   * **8e** Contributors (decided 2026-11-26, SPEC §6; design `mockups/review.html`). Proposed in four parts:
+     - **Part 1, database and server** (TDD on PGlite): migration 0003 (site role `blocked`; `reviews.pinned_notes`
+       jsonb beside its overall `comment`; `reaction_versions.submission_note`); sign-in open to anyone as
+       `contributor`, the GitHub ids of `ALLOWED_GITHUB_USER_IDS` becoming `owner`; Google as a second provider
+       (optional settings `GOOGLE_CLIENT_ID`/`GOOGLE_CLIENT_SECRET`), one person's GitHub and Google accounts
+       linked by the same verified email; the new ownership rule (the author of the unpublished version saves
+       it; anyone starts a published reaction's next version, the server adding them to its `authors`); the
+       5-open-drafts limit; Submit (server lint, licence), saving a submitted version returning it to draft;
+       the review queue, a review (publish or request changes, never one's own), the Users page's roles; all
+       through `sitePermissions.ts` (new actions `manageUsers`, `reviewOthers`), with routes and refusals.
+     - **Part 2, decisions** (pure TypeScript): the change list between two versions of a reaction (states,
+       steps, every learner text, misconceptions, metadata) with a word-level text diff; the review notes and
+       where they point; the contributor's banner and queue labels.
+     - **Part 3, the pages:** the sign-in page, Create's sub-navigation, the contributor's Publish stage and Your
+       mechanisms, the review queue and review screen (Play as learner on the submitted version), the Users page;
+       checked in headless Chromium with a second account.
+     - **Part 4, the owner's setup:** a Google OAuth app (callback
+       `https://create.arrowpushing.com/api/auth/callback/google`), its two settings on Render, and an end-to-end
+       check: a second account submits, the owner requests changes, it is resubmitted and published.
 9. Learn: tracks and problem sets (scoped 2026-11-25, SPEC §5 "Learn", §6.1 here), before 8d. In three parts:
    * **9a Done 2026-11-26.** The track file: `schema/track.schema.json` (`src/trackFiles/`), the example track
      and lint cases, the lint checks and `lint-tracks`, compiling into `catalogue.json` (`--tracks-folder`, the
