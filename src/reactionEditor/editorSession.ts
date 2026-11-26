@@ -8,7 +8,8 @@
  *   drawArrows    taps on the selected state draw arrows; "Make step" turns them into a step
  *   moveAtoms     drag atoms to tidy the selected state's layout
  *   showHydrogen  a tap on an atom shows one of its implicit hydrogens
- *   wedges        a tap on a bond cycles its wedge style (display only)
+ *   wedges        a tap on a bond gives it the chosen wedge style (wedgeStyle; display only):
+ *                 narrow end on the more substituted atom, a second tap flips it
  * Stages (docs/SPEC.md §5, "Create"): a draft opens on the stage its progress points to
  * (reactionEditing/creationProgress.ts). Arrows are drawn on the mechanism stage, and on the
  * teaching stage while its "Common wrong answers" item is open; elsewhere the drawing only shows.
@@ -34,7 +35,7 @@ import {
   addPartialProgressMessage,
   type MisconceptionFields,
 } from "../reactionEditing/drawnAnswers.js";
-import { cycleWedgeStyle } from "../reactionEditing/fieldEdits.js";
+import { applyWedgeStyle, type WedgeStyleChoice } from "../reactionEditing/fieldEdits.js";
 import { stageOfPlace } from "../reactionEditing/checkTasks.js";
 import {
   type CreationStage,
@@ -77,6 +78,8 @@ export interface EditorSession {
    */
   readonly focusRequest: { readonly field: string; readonly requestNumber: number } | null;
   readonly mode: EditorMode;
+  /** The style a bond tapped in wedges mode is given. */
+  readonly wedgeStyle: WedgeStyleChoice;
   /** The arrows being drawn on the selected state (drawArrows mode only). */
   readonly arrowDrawing: ArrowDrawing | null;
   readonly message: EditorMessage;
@@ -136,6 +139,7 @@ export function openDraft(document: ReactionDocument, fileName: string): EditorS
     teachingItemKey: null,
     focusRequest: null,
     mode: "look",
+    wedgeStyle: "wedge",
     arrowDrawing: null,
     message: NO_MESSAGE,
   };
@@ -269,6 +273,11 @@ export function setEditorMode(session: EditorSession, mode: EditorMode): EditorS
   return withDraft({ ...session, mode }, session.history, NO_MESSAGE);
 }
 
+/** Choose the style that a bond tapped in wedges mode is given. */
+export function setWedgeStyle(session: EditorSession, wedgeStyle: WedgeStyleChoice): EditorSession {
+  return { ...session, wedgeStyle };
+}
+
 /** Change the arrows being drawn (picking, undo, arrow type: reactionEditing/arrowDrawing.ts). */
 export function updateArrowDrawing(
   session: EditorSession,
@@ -301,7 +310,12 @@ export function tapOnCanvas(session: EditorSession, tapped: TappedPlace): Editor
   if (session.mode === "wedges" && tapped.placeKind === "bond") {
     return applyDocumentEdit(
       session,
-      cycleWedgeStyle(currentDraft(session), session.selectedStateId, tapped.mapNumbers),
+      applyWedgeStyle(
+        currentDraft(session),
+        session.selectedStateId,
+        tapped.mapNumbers,
+        session.wedgeStyle,
+      ),
     );
   }
   return session;

@@ -15,6 +15,7 @@ import {
   selectState,
   selectStep,
   setEditorMode,
+  setWedgeStyle,
   tapOnCanvas,
   updateArrowDrawing,
   type EditorSession,
@@ -53,12 +54,19 @@ describe("edits through the undo history", () => {
     expect(refused.history.past).toHaveLength(0);
   });
 
-  it("cycles a bond's wedge style when a bond is tapped in wedges mode", () => {
+  it("applies the chosen wedge style to a bond tapped in wedges mode (wedge by default)", () => {
     const wedging = setEditorMode(session("sn2-hydroxide-bromomethane.json"), "wedges");
-    const tapped = tapOnCanvas(wedging, { placeKind: "bond", mapNumbers: [2, 3] });
-    expect(
-      (statesOf(currentDraft(tapped)).reactants as { bondToWedgeStyle: unknown }).bondToWedgeStyle,
-    ).toEqual({ "2-3": "wedge" });
+    expect(wedging.wedgeStyle).toBe("wedge");
+    const stylesAfterTap = (current: EditorSession): unknown =>
+      (statesOf(currentDraft(current)).reactants as { bondToWedgeStyle?: unknown })
+        .bondToWedgeStyle;
+    const wedged = tapOnCanvas(wedging, { placeKind: "bond", mapNumbers: [2, 3] });
+    expect(stylesAfterTap(wedged)).toEqual({ "2-3": "wedge" });
+    const dashed = tapOnCanvas(setWedgeStyle(wedged, "dash"), {
+      placeKind: "bond",
+      mapNumbers: [2, 3],
+    });
+    expect(stylesAfterTap(dashed)).toEqual({ "2-3": "dash" });
   });
 });
 

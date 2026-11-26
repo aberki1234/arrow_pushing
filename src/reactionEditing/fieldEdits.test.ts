@@ -11,7 +11,7 @@ import { lintReaction } from "../reactionLinting/reactionLint.js";
 import reactionSchemaJson from "../../schema/reaction.schema.json";
 import { exampleReaction } from "../testSupport/reactionEdits.js";
 import {
-  cycleWedgeStyle,
+  applyWedgeStyle,
   type FieldEdit,
   REACTION_CLASSES,
   renameState,
@@ -144,25 +144,43 @@ describe("renaming", () => {
   });
 });
 
-describe("cycleWedgeStyle", () => {
-  it("cycles plain, wedge, wedge reversed, dash, dash reversed, plain", () => {
-    const styles: unknown[] = [];
-    let document = sn2;
-    for (let tap = 0; tap < 5; tap += 1) {
-      document = edited(cycleWedgeStyle(document, "reactants", [2, 3]));
-      styles.push(stateRecord(document, "reactants").bondToWedgeStyle);
+describe("applyWedgeStyle", () => {
+  /** 2-Bromopropane: C2 carries three heavy atoms, Br3 one. */
+  const bromopropane = {
+    ...sn2,
+    stateIdToState: { reactants: { mappedSmiles: "[CH3:1][CH:2]([Br:3])[CH3:4]" } },
+  } as ReactionDocument;
+  const stylesAfter = (...styles: ("wedge" | "dash" | "plain")[]): unknown[] => {
+    const seen: unknown[] = [];
+    let document = bromopropane;
+    for (const style of styles) {
+      document = edited(applyWedgeStyle(document, "reactants", [3, 2], style));
+      seen.push(stateRecord(document, "reactants").bondToWedgeStyle);
     }
-    expect(styles).toEqual([
+    return seen;
+  };
+
+  it("puts the narrow end on the more substituted atom (the stereocentre)", () => {
+    // Tapped from the bromine's end, the narrow end still goes on C2: key "2-3".
+    expect(stylesAfter("wedge")).toEqual([{ "2-3": "wedge" }]);
+    expect(stylesAfter("dash")).toEqual([{ "2-3": "dash" }]);
+  });
+
+  it("flips a bond that already has the chosen style, changes another, removes plain", () => {
+    expect(stylesAfter("wedge", "wedge", "wedge")).toEqual([
       { "2-3": "wedge" },
       { "3-2": "wedge" },
+      { "2-3": "wedge" },
+    ]);
+    expect(stylesAfter("wedge", "dash", "plain")).toEqual([
+      { "2-3": "wedge" },
       { "2-3": "dash" },
-      { "3-2": "dash" },
       undefined,
     ]);
   });
 
   it("refuses a pair of atoms that are not bonded", () => {
-    expect(refusalOf(cycleWedgeStyle(sn2, "reactants", [1, 3]))).toContain("bond");
+    expect(refusalOf(applyWedgeStyle(sn2, "reactants", [1, 3], "wedge"))).toContain("bond");
   });
 });
 

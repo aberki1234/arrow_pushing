@@ -11,12 +11,13 @@
  *     leaving its state accepted.
  *   * A state id or step key is renamed everywhere it is named; the new name must be an unused
  *     slug.
- *   * A bond's wedge style cycles: plain, wedge, wedge reversed, dash, dash reversed, plain (the
- *     key "<a>-<b>" has its wide end at b).
+ *   * A bond's wedge style is set to the chosen one (applyWedgeStyle: narrow end on the more
+ *     substituted atom, a second tap flips it, plain removes it; it replaced the 2026-11-25
+ *     five-step cycle). Key "<a>-<b>" has its wide end at b.
  * Every edit returns a new document; the one given is not changed.
  */
 import { stateGraphFromMappedSmiles } from "../stateGraphs/mappedSmilesReading.js";
-import { bondKey } from "../stateGraphs/stateGraph.js";
+import { type StateGraph, bondKey, bondKeyMapNumbers } from "../stateGraphs/stateGraph.js";
 import { type ReactionDocument, statesOf, stepsOf } from "./reactionDraft.js";
 
 export type FieldEdit =
@@ -301,40 +302,51 @@ export function renameStep(document: ReactionDocument, oldKey: string, newKey: s
       );
 }
 
-const WEDGE_CYCLE = ["plain", "wedge", "wedgeReversed", "dash", "dashReversed"] as const;
+export type WedgeStyleChoice = "wedge" | "dash" | "plain";
 
-export function cycleWedgeStyle(
+/** Heavy (non-hydrogen) neighbours of an atom: the more, the likelier it is the stereocentre. */
+function heavyNeighbourCount(graph: StateGraph, mapNumber: number): number {
+  return [...graph.bondToOrder.keys()]
+    .map(bondKeyMapNumbers)
+    .filter((pair) => pair.includes(mapNumber))
+    .map(([first, second]) => (first === mapNumber ? second : first))
+    .filter((neighbour) => graph.mapNumberToAtom.get(neighbour)?.element !== "H").length;
+}
+
+/**
+ * Give a bond the chosen wedge style (docs/SPEC.md §5, editor; 2026-11-26): the narrow end goes on
+ * the more substituted atom (the stereocentre); a bond that already has that style flips its
+ * narrow end; "plain" removes the style. Keys are "<narrow atom>-<wide atom>".
+ */
+export function applyWedgeStyle(
   document: ReactionDocument,
   stateId: string,
   [first, second]: readonly [number, number],
+  style: WedgeStyleChoice,
 ): FieldEdit {
   const state = statesOf(document)[stateId];
   if (!isRecord(state)) {
     return refused(`no state "${stateId}"`);
   }
-  if (
-    !stateGraphFromMappedSmiles(String(state.mappedSmiles)).bondToOrder.has(bondKey(first, second))
-  ) {
+  const graph = stateGraphFromMappedSmiles(String(state.mappedSmiles));
+  if (!graph.bondToOrder.has(bondKey(first, second))) {
     return refused(`atoms ${String(first)} and ${String(second)} share no bond`);
   }
   const forward = `${String(first)}-${String(second)}`;
   const backward = `${String(second)}-${String(first)}`;
   const styles = isRecord(state.bondToWedgeStyle) ? state.bondToWedgeStyle : {};
-  const current =
-    forward in styles
-      ? String(styles[forward])
-      : backward in styles
-        ? `${String(styles[backward])}Reversed`
-        : "plain";
-  const position = WEDGE_CYCLE.findIndex((style) => style === current);
-  const next: string = WEDGE_CYCLE[(position + 1) % WEDGE_CYCLE.length] ?? "plain";
+  const currentKey = forward in styles ? forward : backward in styles ? backward : null;
   const others = Object.fromEntries(
     Object.entries(styles).filter(([key]) => key !== forward && key !== backward),
   );
-  const added =
-    next === "plain"
-      ? {}
-      : { [next.endsWith("Reversed") ? backward : forward]: next.replace("Reversed", "") };
+  let added: Record<string, string> = {};
+  if (style !== "plain") {
+    const narrowFirst = heavyNeighbourCount(graph, first) >= heavyNeighbourCount(graph, second);
+    const stereocentreKey = narrowFirst ? forward : backward;
+    const isSameStyle = currentKey !== null && styles[currentKey] === style;
+    const flippedKey = currentKey === forward ? backward : forward;
+    added = { [isSameStyle ? flippedKey : stereocentreKey]: style };
+  }
   const bondToWedgeStyle = { ...others, ...added };
   return edited(
     withState(

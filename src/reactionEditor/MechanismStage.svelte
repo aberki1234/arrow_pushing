@@ -4,6 +4,7 @@
   // step being drawn ("Make the step") or the selected step's card.
   import type { ChemistryToolkit } from "../chemistryToolkit/chemistryToolkit.js";
   import { type ArrowDrawing, setArrowType } from "../reactionEditing/arrowDrawing.js";
+  import type { WedgeStyleChoice } from "../reactionEditing/fieldEdits.js";
   import { stateDisplayNames } from "../reactionEditing/stateStrip.js";
   import { statesLeftUnreachable } from "../reactionEditing/stepDeletion.js";
   import ArrowList from "./ArrowList.svelte";
@@ -22,6 +23,7 @@
     selectState,
     selectStep,
     setEditorMode,
+    setWedgeStyle,
     updateArrowDrawing,
   } from "./editorSession.js";
   import { mappedSmilesOf } from "./editorView.js";
@@ -40,6 +42,11 @@
     toolkit: ChemistryToolkit | null;
   } = $props();
 
+  const WEDGE_STYLES: readonly { style: WedgeStyleChoice; label: string }[] = [
+    { style: "wedge", label: "▶ Wedge" },
+    { style: "dash", label: "⋯ Dash" },
+    { style: "plain", label: "— Plain" },
+  ];
   const MORE_ITEMS: readonly { label: string; hint: string; choose: () => void }[] = [
     {
       label: "Show an H",
@@ -57,7 +64,7 @@
     },
     {
       label: "Wedges and dashes",
-      hint: "tap a bond to cycle its style",
+      hint: "choose a style, then tap a bond",
       choose: () => {
         setMode("wedges");
       },
@@ -245,9 +252,24 @@
       {:else if session.mode === "showHydrogen"}
         Tap an atom to show one of its hydrogens (in every state).
       {:else if session.mode === "wedges"}
-        Tap a bond to cycle wedge, dash and plain.
+        Choose a style, then tap a bond: the narrow end goes on the more substituted atom; tap again
+        to flip it.
       {/if}
     </p>
+    {#if session.mode === "wedges"}
+      <div class="seg" role="group" aria-label="Wedge style">
+        {#each WEDGE_STYLES as option (option.style)}
+          <button
+            aria-pressed={session.wedgeStyle === option.style}
+            onclick={() => {
+              update(setWedgeStyle(session, option.style));
+            }}
+          >
+            {option.label}
+          </button>
+        {/each}
+      </div>
+    {/if}
     <StateStrip
       {document}
       selectedStateId={session.selectedStateId}
