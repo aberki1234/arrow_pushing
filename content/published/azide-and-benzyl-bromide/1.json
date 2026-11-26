@@ -1,0 +1,215 @@
+{
+  "steps": [
+    {
+      "stepKey": "substitution",
+      "stepKind": "polar",
+      "toStateId": "products",
+      "fromStateId": "reactants",
+      "canonicalArrows": [
+        "lp N1 -> σ N1-C4",
+        "σ C4-Br5 -> lp Br5"
+      ],
+      "routePreference": "preferred",
+      "explanationAfterStep": "The attacking nitrogen loses its negative charge as it forms the new bond. Benzylic carbons react quickly by SN2: the ring's π orbitals overlap with the transition state and lower its energy."
+    }
+  ],
+  "title": "Azide and benzyl bromide",
+  "authors": [
+    {
+      "url": null,
+      "name": "Maksim"
+    }
+  ],
+  "licence": "CC-BY-SA-4.0",
+  "subtitle": "SN2 at a benzylic carbon",
+  "references": [
+    "Clayden, Greeves and Warren, Organic Chemistry, 2nd edition (Oxford University Press), chapter 15"
+  ],
+  "reactionSlug": "azide-and-benzyl-bromide",
+  "startStateId": "reactants",
+  "formatVersion": 1,
+  "difficultyTier": 1,
+  "stateIdToState": {
+    "products": {
+      "caption": "benzyl azide + sodium bromide",
+      "mappedSmiles": "[N-:3]=[N+:2]=[N:1][CH2:4][C:6]1=[CH:7][CH:8]=[CH:9][CH:10]=[CH:11]1.[Br-:5].[Na+:12]",
+      "mapNumberToCoordinates": {
+        "1": [
+          3.75,
+          -1.3
+        ],
+        "2": [
+          5.25,
+          -1.3
+        ],
+        "3": [
+          6.75,
+          -1.3
+        ],
+        "4": [
+          3,
+          0
+        ],
+        "5": [
+          -0.07,
+          3.45
+        ],
+        "6": [
+          1.5,
+          0
+        ],
+        "7": [
+          0.75,
+          1.3
+        ],
+        "8": [
+          -0.75,
+          1.3
+        ],
+        "9": [
+          -1.5,
+          0
+        ],
+        "10": [
+          -0.75,
+          -1.3
+        ],
+        "11": [
+          0.75,
+          -1.3
+        ],
+        "12": [
+          -2.58,
+          2.69
+        ]
+      }
+    },
+    "reactants": {
+      "caption": "azide + benzyl bromide",
+      "hintTiers": [
+        "Azide is the nucleophile. Which of its nitrogens carries a lone pair it can use, and which carbon is electron-poor?",
+        "An end nitrogen of azide attacks the CH₂ carbon as the C–Br bond breaks. Two arrows.",
+        "Arrow 1: a lone pair on an end nitrogen of azide forms a bond to the CH₂ carbon. Arrow 2: the C–Br bond breaks, and its pair goes onto bromine."
+      ],
+      "mappedSmiles": "[N-:1]=[N+:2]=[N-:3].[Br:5][CH2:4][C:6]1=[CH:7][CH:8]=[CH:9][CH:10]=[CH:11]1.[Na+:12]",
+      "learnerPrompt": "Draw the arrows for the substitution.",
+      "misconceptions": [
+        {
+          "severity": "wrong",
+          "arrowPattern": "lp N* -> Br5",
+          "feedbackMessage": "Bromine is the leaving group. Azide attacks the δ+ carbon bonded to it.",
+          "misconceptionId": "attack-on-bromine",
+          "misconceptionTag": "attack-leaving-group"
+        },
+        {
+          "severity": "wrong",
+          "arrowPattern": "σ C4-Br5 -> lp C4",
+          "feedbackMessage": "The C–Br pair leaves with bromine, the more electronegative atom.",
+          "misconceptionId": "bond-electrons-to-carbon",
+          "misconceptionTag": "electrons-toward-less-electronegative-atom"
+        }
+      ],
+      "mapNumberToCoordinates": {
+        "1": [
+          0,
+          2.3
+        ],
+        "2": [
+          1.3,
+          3.05
+        ],
+        "3": [
+          2.6,
+          3.8
+        ],
+        "4": [
+          2.83,
+          -1.21
+        ],
+        "5": [
+          3.58,
+          -2.51
+        ],
+        "6": [
+          1.33,
+          -1.21
+        ],
+        "7": [
+          0.58,
+          0.09
+        ],
+        "8": [
+          -0.92,
+          0.09
+        ],
+        "9": [
+          -1.67,
+          -1.21
+        ],
+        "10": [
+          -0.92,
+          -2.51
+        ],
+        "11": [
+          0.58,
+          -2.51
+        ],
+        "12": [
+          -0.07,
+          4.9
+        ]
+      },
+      "partialProgressMessages": [
+        {
+          "learnerArrows": [
+            "lp N1 -> σ N1-C4"
+          ],
+          "feedbackMessage": "Octet check: carbon would now have 10 electrons. What has to leave as the nucleophile arrives?"
+        },
+        {
+          "learnerArrows": [
+            "σ C4-Br5 -> lp Br5"
+          ],
+          "feedbackMessage": "A benzylic cation could form, because the ring stabilises it. But with a strong nucleophile like azide in DMF, the concerted SN2 is faster. Bring azide in at the same time."
+        }
+      ]
+    }
+  },
+  "conditionsLabel": "NaN₃ · DMF · 25 °C",
+  "reactionClasses": [
+    "substitution"
+  ],
+  "reactionVersion": 1,
+  "mechanismSummary": "SN2 at a benzylic carbon, which is fast because the ring's π system helps stabilise the transition state. Azide is a small, strong nucleophile but a weak base. Benzyl azide can later be reduced to benzylamine: a clean route to a primary amine without over-alkylation.",
+  "abbreviatedGroups": [
+    {
+      "groupLabel": "Ph",
+      "mapNumbers": [
+        6,
+        7,
+        8,
+        9,
+        10,
+        11
+      ],
+      "attachmentMapNumber": 6
+    }
+  ],
+  "dailyPuzzleEligible": true,
+  "spectatorMapNumbers": [
+    12
+  ],
+  "atomRoleToMapNumbers": {
+    "nucleophile": [
+      1,
+      3
+    ],
+    "electrophile": [
+      4
+    ],
+    "leavingGroup": [
+      5
+    ]
+  },
+  "previousReactionVersion": null
+}
