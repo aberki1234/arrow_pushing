@@ -225,7 +225,10 @@ reactions, track `electrophilic-aromatic-substitution`, problem sets in this ord
   share of steps taken in the last 7 days that were first try, with the change from the week before. The **progress
   page** shows streak and best streak, first-try rate, mastered count, the last 28 days of dailies, mastery by type,
   the top 5 recurring misconceptions (rules by plain heading; misconceptions grouped by tag with their authored
-  message), the reaction library weakest first, and **export / import (merged) / reset**. The **practice list**
+  message), **Practise next** (since 2026-11-26, replacing the reaction library weakest first: at most 3 reactions
+  tried but not mastered, lowest mastery first, then the one practised longest ago, each with its last tiles,
+  mastery and a Practise link to the latest version; `learnerStatistics/practiseNext.ts`), and **export / import
+  (merged) / reset**. The **practice list**
   filters by type, difficulty and status (new / practised / mastered) and searches titles; filters live in the hash.
   The **home** page has today's puzzle, continue practising, mastery in brief and browse by type. The finished view
   adds "Watch out for", up to 3 related reactions (a shared class) and the mastery change.
@@ -291,8 +294,9 @@ reactions, track `electrophilic-aromatic-substitution`, problem sets in this ord
     **Next in set: …** and a link back, or **Problem set complete** with a link to the next problem set. The same
     reaction opened from Practice behaves as before.
   - **Home** gains a **Continue learning** card (last problem set touched and its Next up), beside today's puzzle
-    and above continue practising. **Progress** gains a **Tracks** section (each track's done / total and mastery,
-    problem set by problem set). The only new stored field is the last problem set touched.
+    and above continue practising. **Progress** gained a **Tracks** section (each track's done / total and mastery,
+    problem set by problem set), removed on 2026-11-26 at the owner's request: the Learn page shows the same. The
+    only new stored field is the last problem set touched.
 - **Content format:** **one JSON file per reaction version** (schema: `docs/schema-design.md`). Per reaction: metadata, a graph of
   states (atom-mapped SMILES + coordinates, learner prompt, 3 hint tiers, misconceptions) joined by steps (canonical
   arrows, route preference, optional partial arrow sets, explanation), mechanism summary, version, author, licence.

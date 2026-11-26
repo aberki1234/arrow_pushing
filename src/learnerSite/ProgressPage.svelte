@@ -1,8 +1,9 @@
 <script lang="ts">
   // The learner's progress (decided 2026-11-25, item 7c): streaks, first-try rate, mastery, the
-  // last 28 days of daily puzzles, the Learn tracks (item 9b), recurring misconceptions, the
-  // reaction library weakest first, and export / import / reset. Everything lives in this browser.
-  import { type Catalogue, catalogueTracks, localDateText } from "../catalogue/catalogueReading.js";
+  // last 28 days of daily puzzles, recurring misconceptions, the weakest reactions to practise
+  // next, and export / import / reset. Everything lives in this browser. The Tracks section and
+  // the reaction library went on 2026-11-26 (Learn and Practice show the same, at length).
+  import { type Catalogue, localDateText } from "../catalogue/catalogueReading.js";
   import { streakOn } from "../dailyPuzzle/dailyPuzzle.js";
   import {
     type LearnerProgress,
@@ -32,9 +33,8 @@
     masteryByClass,
     masteryBySlug,
   } from "../learnerStatistics/reactionMastery.js";
-  import { trackProgress } from "../learnTracks/trackProgress.js";
+  import { practiseNext } from "../learnerStatistics/practiseNext.js";
   import { browserStorage } from "./browserStorage.js";
-  import { learnHash } from "./learnView.js";
   import { loadMisconceptionInfo } from "./misconceptionLoading.js";
   import ResultTiles from "./ResultTiles.svelte";
   import { siteRouteHash } from "./siteRoutes.js";
@@ -60,22 +60,13 @@
   const recurring = $derived(recurringFeedback(progress, slugToInfo));
   const titleOf = (reactionSlug: string): string =>
     catalogue.reactions.find((entry) => entry.reactionSlug === reactionSlug)?.title ?? reactionSlug;
-  const library = $derived(
-    [...mastery.values()].sort((one, other) => one.masteryPercent - other.masteryPercent),
-  );
+  const weakest = $derived(practiseNext(mastery, catalogue));
 
   $effect(() => {
     void loadMisconceptionInfo(catalogue, misconceptionSlugsShown(progress)).then((loaded) => {
       slugToInfo = loaded;
     });
   });
-
-  function latestVersionOf(reactionSlug: string): number {
-    return (
-      catalogue.reactions.find((entry) => entry.reactionSlug === reactionSlug)
-        ?.latestReactionVersion ?? 0
-    );
-  }
 
   function save(next: LearnerProgress): void {
     progress = next;
@@ -168,33 +159,6 @@
   </section>
 </div>
 
-{#if catalogueTracks(catalogue).length > 0}
-  <section class="card flat mt" aria-labelledby="tracks-heading">
-    <h2 id="tracks-heading">Tracks</h2>
-    {#each catalogueTracks(catalogue) as track (track.trackSlug)}
-      {@const progressOfTrack = trackProgress(track, progress)}
-      <h3 class="mt">
-        <a href={learnHash(track.trackSlug)}>{track.title}</a>
-        <span class="small muted">
-          · {progressOfTrack.doneCount} of {progressOfTrack.totalCount} done · mastery
-          {progressOfTrack.masteryPercent}%
-        </span>
-      </h3>
-      {#each progressOfTrack.problemSetProgresses as entry (entry.problemSet.problemSetSlug)}
-        <div class="row spread small">
-          <a href={learnHash(track.trackSlug, entry.problemSet.problemSetSlug)}>
-            {entry.problemSet.title}
-          </a>
-          <span>{entry.doneCount} / {entry.totalCount} · {entry.masteryPercent}%</span>
-        </div>
-        <div class="bar" role="presentation">
-          <i style={`width:${String(entry.masteryPercent)}%`}></i>
-        </div>
-      {/each}
-    {/each}
-  </section>
-{/if}
-
 <section class="card flat mt" aria-labelledby="recurring-heading">
   <h2 id="recurring-heading">Your recurring misconceptions</h2>
   {#if recurring.length === 0}
@@ -225,30 +189,33 @@
   {/if}
 </section>
 
-<section class="card flat mt" aria-labelledby="library-heading">
-  <h2 id="library-heading">Reaction library, weakest first</h2>
-  {#if library.length === 0}
-    <p class="muted">Finish a reaction to see it here.</p>
+<section class="card flat mt" aria-labelledby="practise-next-heading">
+  <h2 id="practise-next-heading">Practise next</h2>
+  {#if weakest.length === 0}
+    <p class="muted">
+      Finish a reaction to see your weakest here; mastered reactions are left out.
+    </p>
   {:else}
-    <table class="t">
-      <thead><tr><th>Reaction</th><th>Last run</th><th>Mastery</th><th>Version</th></tr></thead>
-      <tbody>
-        {#each library as entry (entry.reactionSlug)}
-          {@const latest = latestVersionOf(entry.reactionSlug)}
-          <tr>
-            <td>{titleOf(entry.reactionSlug)}</td>
-            <td><ResultTiles stepResults={entry.lastRun.stepResults} small /></td>
-            <td>{entry.masteryPercent}%</td>
-            <td>
-              v{entry.lastReactionVersion}
-              {#if entry.lastReactionVersion < latest}
-                → v{latest} <span class="pill new">updated</span>
-              {/if}
-            </td>
-          </tr>
-        {/each}
-      </tbody>
-    </table>
+    <ul class="practise-next">
+      {#each weakest as entry (entry.reactionSlug)}
+        <li class="row spread">
+          <span class="row">
+            <b>{entry.title}</b>
+            <ResultTiles stepResults={entry.lastStepResults} small />
+            <span class="small muted">mastery {entry.masteryPercent}%</span>
+          </span>
+          <a
+            class="btn sm"
+            href={siteRouteHash({
+              routeName: "play",
+              reactionVersionRef: entry.reactionVersionRef,
+            })}
+          >
+            Practise
+          </a>
+        </li>
+      {/each}
+    </ul>
   {/if}
 </section>
 
