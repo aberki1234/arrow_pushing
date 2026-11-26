@@ -1,0 +1,164 @@
+{
+  "steps": [
+    {
+      "stepKey": "electrocyclisation",
+      "stepKind": "polar",
+      "toStateId": "cyclohexadiene",
+      "fromStateId": "triene",
+      "canonicalArrows": [
+        "π C1-C2 -> σ C1-C6",
+        "π C3-C4 -> π C2-C3",
+        "π C5-C6 -> π C4-C5"
+      ],
+      "routePreference": "preferred",
+      "explanationAfterStep": "A π bond at each end of the triene becomes a single σ bond between the end carbons: a 6π electrocyclic reaction. For the ends to bond, each end carbon's p orbital turns through 90°. With six electrons, heat makes them turn in opposite directions (disrotatory), so the two methyl groups of the (E,Z,E)-triene end up on the same face: cis-5,6-dimethylcyclohexa-1,3-diene. The app does not check stereochemistry yet, so the drawings carry no wedges."
+    }
+  ],
+  "title": "Electrocyclisation of a hexatriene",
+  "authors": [
+    {
+      "url": null,
+      "name": "Maksim"
+    }
+  ],
+  "licence": "CC-BY-SA-4.0",
+  "subtitle": "Octa-2,4,6-triene closes to a cyclohexadiene, disrotatory on heating",
+  "references": [
+    "Clayden, Greeves and Warren, Organic Chemistry, 2nd edition (Oxford University Press), chapter 35"
+  ],
+  "reactionSlug": "hexatriene-electrocyclisation",
+  "startStateId": "triene",
+  "formatVersion": 1,
+  "difficultyTier": 2,
+  "stateIdToState": {
+    "triene": {
+      "caption": "(2E,4Z,6E)-octa-2,4,6-triene, drawn curled so its ends meet",
+      "hintTiers": [
+        "Six π electrons in a chain of six carbons. If a σ bond forms between the two end carbons, what happens to the three π bonds?",
+        "One new σ bond between the end carbons of the triene, and the two remaining π bonds shift one place along. Three arrows.",
+        "Arrow 1: from the first C=C π bond to a new bond between the two end carbons of the triene. Arrow 2: from the middle π bond to the bond between the second and third carbons, counted from the end used in arrow 1 (it becomes a new C=C). Arrow 3: from the last π bond to the bond between the fourth and fifth carbons."
+      ],
+      "mappedSmiles": "[CH3:7][CH:1]=[CH:2][CH:3]=[CH:4][CH:5]=[CH:6][CH3:8]",
+      "learnerPrompt": "The two ends of the triene join to make a ring. Draw the single step.",
+      "misconceptions": [
+        {
+          "severity": "wrong",
+          "arrowPattern": "* -> σ C7-*",
+          "feedbackMessage": "The methyl carbons have no π electrons and take no part. The ring closes between the two carbons at the ends of the triene, the ones carrying the methyl groups.",
+          "misconceptionId": "methyl-carbon-bonds",
+          "misconceptionTag": "wrong-atom-bonds"
+        },
+        {
+          "severity": "wrong",
+          "arrowPattern": "* -> σ C1-C4",
+          "feedbackMessage": "That would make a four-membered ring and leave a π bond stranded. All six π electrons move round a ring of six carbons.",
+          "misconceptionId": "four-ring",
+          "misconceptionTag": "wrong-ring-size"
+        }
+      ],
+      "mapNumberToCoordinates": {
+        "1": [
+          -0.65,
+          -0.75
+        ],
+        "2": [
+          0.65,
+          -1.5
+        ],
+        "3": [
+          1.95,
+          -0.75
+        ],
+        "4": [
+          1.95,
+          0.75
+        ],
+        "5": [
+          0.65,
+          1.5
+        ],
+        "6": [
+          -0.65,
+          0.75
+        ],
+        "7": [
+          -1.95,
+          -1.5
+        ],
+        "8": [
+          -1.95,
+          1.5
+        ]
+      },
+      "partialProgressMessages": [
+        {
+          "learnerArrows": [
+            "π C1-C2 -> σ C1-C6"
+          ],
+          "feedbackMessage": "Right: the ends join. The carbon next to the new bond has lost its π bond, so the other two π bonds each move one place along in the same step. Two more arrows."
+        }
+      ]
+    },
+    "cyclohexadiene": {
+      "caption": "5,6-dimethylcyclohexa-1,3-diene (cis on heating)",
+      "mappedSmiles": "[CH3:7][CH:1]1[CH:2]=[CH:3][CH:4]=[CH:5][CH:6]1[CH3:8]",
+      "mapNumberToCoordinates": {
+        "1": [
+          -0.65,
+          -0.75
+        ],
+        "2": [
+          0.65,
+          -1.5
+        ],
+        "3": [
+          1.95,
+          -0.75
+        ],
+        "4": [
+          1.95,
+          0.75
+        ],
+        "5": [
+          0.65,
+          1.5
+        ],
+        "6": [
+          -0.65,
+          0.75
+        ],
+        "7": [
+          -1.95,
+          -1.5
+        ],
+        "8": [
+          -1.95,
+          1.5
+        ]
+      }
+    }
+  },
+  "conditionsLabel": "heat",
+  "reactionClasses": [
+    "pericyclic"
+  ],
+  "reactionVersion": 1,
+  "mechanismSummary": "In an electrocyclic reaction a ring forms (or opens) by making a σ bond between the ends of a conjugated π system. The direction the end groups turn is fixed by the number of electrons and by heat or light. On heating, 6π systems close disrotatory (the ends turn in opposite senses) and 4π systems open conrotatory (both the same way). So the (E,Z,E)-triene gives only the cis-dimethyl ring and the (E,Z,Z) isomer only the trans. The central C=C must be Z, or the ends could not meet. The app does not check stereochemistry yet, so the drawings carry no wedges.",
+  "dailyPuzzleEligible": true,
+  "spectatorMapNumbers": [],
+  "atomRoleToMapNumbers": {
+    "triene": [
+      1,
+      2,
+      3,
+      4,
+      5,
+      6
+    ],
+    "methyls": [
+      7,
+      8
+    ]
+  },
+  "previousReactionVersion": null
+}

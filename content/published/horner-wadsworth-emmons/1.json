@@ -1,0 +1,763 @@
+{
+  "steps": [
+    {
+      "stepKey": "deprotonation",
+      "stepKind": "polar",
+      "toStateId": "phosphonate-anion",
+      "fromStateId": "reactants",
+      "canonicalArrows": [
+        "lp H11 -> σ H6-H11",
+        "σ C5-H6 -> lp C5"
+      ],
+      "routePreference": "preferred",
+      "explanationAfterStep": "The CH₂ is flanked by P=O and C=O (pKa about 19 in DMSO), so NaH removes a proton irreversibly: H₂ bubbles off. The charge is shared with the ester oxygen; drawing the enolate is also accepted."
+    },
+    {
+      "stepKey": "addition",
+      "stepKind": "polar",
+      "toStateId": "alkoxide",
+      "fromStateId": "phosphonate-anion",
+      "canonicalArrows": [
+        "lp C5 -> σ C5-C12",
+        "π C12-O13 -> lp O13"
+      ],
+      "routePreference": "preferred",
+      "explanationAfterStep": "The stabilised anion adds to the aldehyde. This addition is reversible, which matters for the alkene geometry."
+    },
+    {
+      "stepKey": "ring-closure",
+      "stepKind": "polar",
+      "toStateId": "oxaphosphetane",
+      "fromStateId": "alkoxide",
+      "canonicalArrows": [
+        "lp O13 -> σ O13-P1",
+        "π P1-O2 -> lp O2"
+      ],
+      "routePreference": "preferred",
+      "explanationAfterStep": "The alkoxide attacks phosphorus to give a four-membered oxaphosphetane, with phosphorus briefly five-coordinate."
+    },
+    {
+      "stepKey": "cycloreversion",
+      "stepKind": "polar",
+      "toStateId": "products",
+      "fromStateId": "oxaphosphetane",
+      "canonicalArrows": [
+        "σ P1-C5 -> π C5-C12",
+        "σ C12-O13 -> π O13-P1"
+      ],
+      "routePreference": "preferred",
+      "explanationAfterStep": "The ring falls apart to the alkene and diethyl phosphate, which is water-soluble and washes out: an advantage over Ph₃P=O from the Wittig. The product is the E-alkene: because the addition is reversible, the reaction runs through the less crowded intermediate with the ester and the phenyl group apart. The app does not check E/Z yet."
+    }
+  ],
+  "title": "Horner–Wadsworth–Emmons reaction",
+  "authors": [
+    {
+      "url": null,
+      "name": "Maksim"
+    }
+  ],
+  "licence": "CC-BY-SA-4.0",
+  "subtitle": "A phosphonate anion and benzaldehyde give ethyl cinnamate",
+  "references": [
+    "Clayden, Greeves and Warren, Organic Chemistry, 2nd edition (Oxford University Press), chapter 27"
+  ],
+  "reactionSlug": "horner-wadsworth-emmons",
+  "startStateId": "reactants",
+  "formatVersion": 1,
+  "difficultyTier": 3,
+  "stateIdToState": {
+    "alkoxide": {
+      "caption": "β-alkoxy phosphonate (the addition product)",
+      "hintTiers": [
+        "Oxygen has a strong affinity for phosphorus. Which electrophilic atom is three bonds from the alkoxide?",
+        "The alkoxide oxygen bonds to phosphorus, and the P=O π pair moves onto the phosphoryl oxygen. Two arrows.",
+        "Alkoxide lone pair → new bond to phosphorus; P=O π bond → a lone pair on the phosphoryl oxygen."
+      ],
+      "mappedSmiles": "[O-:13][CH:12]([C:21]9=[CH:22][CH:23]=[CH:24][CH:25]=[CH:26]9)[CH:5]([C:7](=[O:8])[O:9][CH2:34][CH3:35])[P:1]([O:3][CH2:30][CH3:31])([O:4][CH2:32][CH3:33])=[O:2].[Na+:10].[H:6][H:11]",
+      "learnerPrompt": "The alkoxide closes a four-membered ring.",
+      "misconceptions": [
+        {
+          "severity": "wrong",
+          "arrowPattern": "lp O13 -> σ O13-C7",
+          "feedbackMessage": "Attacking the ester carbonyl would make a strained four-membered lactone and go nowhere. Oxygen bonds to phosphorus: the P–O bond is what drives the reaction.",
+          "misconceptionId": "lactone",
+          "misconceptionTag": "wrong-electrophilic-atom"
+        },
+        {
+          "severity": "plausible",
+          "arrowPattern": "σ C5-C12 -> lp C5",
+          "feedbackMessage": "The addition is reversible, but going back only returns the starting anion. Go forward: bond the oxygen to phosphorus.",
+          "misconceptionId": "retro-addition",
+          "misconceptionTag": "reverse-step"
+        }
+      ],
+      "mapNumberToCoordinates": {
+        "1": [
+          3,
+          -2.6
+        ],
+        "2": [
+          2.25,
+          -3.9
+        ],
+        "3": [
+          4.3,
+          -3.35
+        ],
+        "4": [
+          1.7,
+          -1.85
+        ],
+        "5": [
+          3.75,
+          -1.3
+        ],
+        "6": [
+          0.78,
+          6.5
+        ],
+        "7": [
+          5.25,
+          -1.3
+        ],
+        "8": [
+          6,
+          -2.6
+        ],
+        "9": [
+          6,
+          0
+        ],
+        "10": [
+          -1.01,
+          3.57
+        ],
+        "11": [
+          0.78,
+          5
+        ],
+        "12": [
+          3,
+          0
+        ],
+        "13": [
+          3.75,
+          1.3
+        ],
+        "21": [
+          1.5,
+          0
+        ],
+        "22": [
+          0.75,
+          1.3
+        ],
+        "23": [
+          -0.75,
+          1.3
+        ],
+        "24": [
+          -1.5,
+          0
+        ],
+        "25": [
+          -0.75,
+          -1.3
+        ],
+        "26": [
+          0.75,
+          -1.3
+        ],
+        "30": [
+          4.3,
+          -4.85
+        ],
+        "31": [
+          5.6,
+          -5.6
+        ],
+        "32": [
+          0.4,
+          -2.6
+        ],
+        "33": [
+          0.4,
+          -4.1
+        ],
+        "34": [
+          7.5,
+          0
+        ],
+        "35": [
+          8.25,
+          1.3
+        ]
+      }
+    },
+    "products": {
+      "caption": "ethyl cinnamate + sodium diethyl phosphate + H₂",
+      "mappedSmiles": "[CH:5]([C:7](=[O:8])[O:9][CH2:34][CH3:35])=[CH:12][C:21]9=[CH:22][CH:23]=[CH:24][CH:25]=[CH:26]9.[O-:2][P:1](=[O:13])([O:3][CH2:30][CH3:31])[O:4][CH2:32][CH3:33].[Na+:10].[H:6][H:11]",
+      "mapNumberToCoordinates": {
+        "1": [
+          3.9,
+          4.18
+        ],
+        "2": [
+          5.2,
+          4.93
+        ],
+        "3": [
+          2.6,
+          3.43
+        ],
+        "4": [
+          3.15,
+          5.48
+        ],
+        "5": [
+          3.75,
+          -1.3
+        ],
+        "6": [
+          0,
+          10
+        ],
+        "7": [
+          5.25,
+          -1.3
+        ],
+        "8": [
+          6,
+          -2.6
+        ],
+        "9": [
+          6,
+          0
+        ],
+        "10": [
+          10.12,
+          0.04
+        ],
+        "11": [
+          0,
+          8.5
+        ],
+        "12": [
+          3,
+          0
+        ],
+        "13": [
+          4.65,
+          2.88
+        ],
+        "21": [
+          1.5,
+          0
+        ],
+        "22": [
+          0.75,
+          1.3
+        ],
+        "23": [
+          -0.75,
+          1.3
+        ],
+        "24": [
+          -1.5,
+          0
+        ],
+        "25": [
+          -0.75,
+          -1.3
+        ],
+        "26": [
+          0.75,
+          -1.3
+        ],
+        "30": [
+          1.3,
+          4.18
+        ],
+        "31": [
+          0,
+          3.43
+        ],
+        "32": [
+          3.9,
+          6.78
+        ],
+        "33": [
+          3.15,
+          8.07
+        ],
+        "34": [
+          7.5,
+          0
+        ],
+        "35": [
+          8.25,
+          1.3
+        ]
+      }
+    },
+    "reactants": {
+      "caption": "triethyl phosphonoacetate + sodium hydride + benzaldehyde",
+      "hintTiers": [
+        "Which C–H is acidic? Look for a CH₂ between two groups that can stabilise a negative charge.",
+        "The hydride ion takes the drawn proton on the CH₂ between P=O and C=O; the C–H pair stays on carbon. Two arrows.",
+        "Hydride lone pair → new bond to the drawn H on the CH₂; that C–H bond → a lone pair on carbon."
+      ],
+      "mappedSmiles": "[O:2]=[P:1]([O:3][CH2:30][CH3:31])([O:4][CH2:32][CH3:33])[CH:5]([H:6])[C:7](=[O:8])[O:9][CH2:34][CH3:35].[Na+:10].[H-:11].[O:13]=[CH:12][C:21]9=[CH:22][CH:23]=[CH:24][CH:25]=[CH:26]9",
+      "learnerPrompt": "Sodium hydride is the base. Make the phosphonate anion.",
+      "misconceptions": [
+        {
+          "severity": "wrong",
+          "arrowPattern": "lp H11 -> σ H11-C12",
+          "feedbackMessage": "Sodium hydride is a base, not a hydride donor: it does not reduce aldehydes (that needs NaBH₄ or LiAlH₄). It removes the acidic proton between the P=O and the C=O.",
+          "misconceptionId": "hydride-reduces-aldehyde",
+          "misconceptionTag": "base-as-nucleophile"
+        },
+        {
+          "severity": "wrong",
+          "arrowPattern": "lp H11 -> σ H11-P1",
+          "feedbackMessage": "Hydride does not attack phosphorus here. It acts as a base on the acidic CH₂.",
+          "misconceptionId": "hydride-attacks-phosphorus",
+          "misconceptionTag": "base-as-nucleophile"
+        }
+      ],
+      "mapNumberToCoordinates": {
+        "1": [
+          3.9,
+          3.6
+        ],
+        "2": [
+          4.65,
+          2.3
+        ],
+        "3": [
+          2.6,
+          2.85
+        ],
+        "4": [
+          5.2,
+          4.35
+        ],
+        "5": [
+          3.15,
+          4.9
+        ],
+        "6": [
+          1.65,
+          4.9
+        ],
+        "7": [
+          3.9,
+          6.2
+        ],
+        "8": [
+          5.4,
+          6.2
+        ],
+        "9": [
+          3.15,
+          7.5
+        ],
+        "10": [
+          4.75,
+          0
+        ],
+        "11": [
+          7.05,
+          0
+        ],
+        "12": [
+          2.42,
+          -0.71
+        ],
+        "13": [
+          3.17,
+          -2.01
+        ],
+        "21": [
+          0.92,
+          -0.71
+        ],
+        "22": [
+          0.17,
+          0.59
+        ],
+        "23": [
+          -1.33,
+          0.59
+        ],
+        "24": [
+          -2.08,
+          -0.71
+        ],
+        "25": [
+          -1.33,
+          -2.01
+        ],
+        "26": [
+          0.17,
+          -2.01
+        ],
+        "30": [
+          1.3,
+          3.6
+        ],
+        "31": [
+          0,
+          2.85
+        ],
+        "32": [
+          6.5,
+          3.6
+        ],
+        "33": [
+          7.79,
+          4.35
+        ],
+        "34": [
+          3.9,
+          8.79
+        ],
+        "35": [
+          3.15,
+          10.09
+        ]
+      },
+      "partialProgressMessages": [
+        {
+          "learnerArrows": [
+            "lp H11 -> σ H6-H11"
+          ],
+          "feedbackMessage": "Right: hydride takes the proton. Now the C–H bonding pair must stay on carbon as the anion."
+        }
+      ]
+    },
+    "oxaphosphetane": {
+      "caption": "the oxaphosphetane (four-membered P–C–C–O ring)",
+      "hintTiers": [
+        "The ring holds a P–C bond and a C–O bond. Breaking both in a cycloreversion makes a C=C bond and a P=O bond.",
+        "Two arrows: the P–C bond becomes the C=C π bond, and the ring C–O bond becomes a P=O π bond.",
+        "P–C bond → C=C π bond; ring C–O bond → a P=O π bond to the ring oxygen."
+      ],
+      "mappedSmiles": "[O-:2][P:1]1([O:3][CH2:30][CH3:31])([O:4][CH2:32][CH3:33])[CH:5]([C:7](=[O:8])[O:9][CH2:34][CH3:35])[CH:12]([C:21]9=[CH:22][CH:23]=[CH:24][CH:25]=[CH:26]9)[O:13]1.[Na+:10].[H:6][H:11]",
+      "learnerPrompt": "The ring breaks apart into an alkene and a phosphate.",
+      "misconceptions": [
+        {
+          "severity": "plausible",
+          "arrowPattern": "σ P1-O13 -> lp O13",
+          "feedbackMessage": "That reopens the ring to the alkoxide. Break the other two ring bonds: P–C and C–O.",
+          "misconceptionId": "reopen-ring",
+          "misconceptionTag": "reverse-step"
+        },
+        {
+          "severity": "wrong",
+          "arrowPattern": "σ C5-C12 -> *",
+          "feedbackMessage": "The new C=C bond forms between those two carbons: keep their σ bond. Break the P–C and C–O bonds.",
+          "misconceptionId": "c-c-breaks",
+          "misconceptionTag": "wrong-bond"
+        }
+      ],
+      "mapNumberToCoordinates": {
+        "1": [
+          5.12,
+          0
+        ],
+        "2": [
+          5.7,
+          1.39
+        ],
+        "3": [
+          5.7,
+          -1.39
+        ],
+        "4": [
+          6.62,
+          0
+        ],
+        "5": [
+          4.06,
+          1.06
+        ],
+        "6": [
+          0.36,
+          10.7
+        ],
+        "7": [
+          4.06,
+          2.56
+        ],
+        "8": [
+          5.36,
+          3.31
+        ],
+        "9": [
+          2.76,
+          3.31
+        ],
+        "10": [
+          -0.29,
+          7
+        ],
+        "11": [
+          0.36,
+          9.2
+        ],
+        "12": [
+          3,
+          0
+        ],
+        "13": [
+          4.06,
+          -1.06
+        ],
+        "21": [
+          1.5,
+          0
+        ],
+        "22": [
+          0.75,
+          1.3
+        ],
+        "23": [
+          -0.75,
+          1.3
+        ],
+        "24": [
+          -1.5,
+          0
+        ],
+        "25": [
+          -0.75,
+          -1.3
+        ],
+        "26": [
+          0.75,
+          -1.3
+        ],
+        "30": [
+          7.18,
+          -1.58
+        ],
+        "31": [
+          7.76,
+          -2.97
+        ],
+        "32": [
+          7.37,
+          1.3
+        ],
+        "33": [
+          8.87,
+          1.3
+        ],
+        "34": [
+          2.76,
+          4.81
+        ],
+        "35": [
+          1.46,
+          5.56
+        ]
+      },
+      "partialProgressMessages": [
+        {
+          "learnerArrows": [
+            "σ P1-C5 -> π C5-C12"
+          ],
+          "feedbackMessage": "Right: the P–C bond becomes the C=C bond. That carbon now has five bonds: break the ring C–O bond onto phosphorus as P=O."
+        }
+      ]
+    },
+    "phosphonate-anion": {
+      "caption": "the phosphonate anion (sodium salt) + H₂ + benzaldehyde",
+      "hintTiers": [
+        "The carbanion is a carbon nucleophile, stabilised by both the P=O and the ester. Where is the electrophile?",
+        "The carbanion bonds to the aldehyde carbon, and the C=O π pair moves onto oxygen. Two arrows.",
+        "Carbanion lone pair → new bond to the aldehyde carbon; C=O π bond → a lone pair on the aldehyde oxygen."
+      ],
+      "mappedSmiles": "[O:2]=[P:1]([O:3][CH2:30][CH3:31])([O:4][CH2:32][CH3:33])[CH-:5][C:7](=[O:8])[O:9][CH2:34][CH3:35].[Na+:10].[H:6][H:11].[O:13]=[CH:12][C:21]9=[CH:22][CH:23]=[CH:24][CH:25]=[CH:26]9",
+      "learnerPrompt": "The anion attacks the aldehyde.",
+      "misconceptions": [
+        {
+          "severity": "wrong",
+          "arrowPattern": "π C12-O13 -> lp C12",
+          "feedbackMessage": "The C=O π pair goes to oxygen, the electronegative atom, not to carbon.",
+          "misconceptionId": "pi-onto-carbon",
+          "misconceptionTag": "wrong-direction"
+        },
+        {
+          "severity": "wrong",
+          "arrowPattern": "lp C5 -> σ C5-O13",
+          "feedbackMessage": "The aldehyde oxygen is the electron-rich end of C=O. The nucleophile bonds to carbon.",
+          "misconceptionId": "attack-oxygen",
+          "misconceptionTag": "wrong-electrophilic-atom"
+        }
+      ],
+      "mapNumberToCoordinates": {
+        "1": [
+          3.9,
+          3.6
+        ],
+        "2": [
+          4.65,
+          2.3
+        ],
+        "3": [
+          2.6,
+          2.85
+        ],
+        "4": [
+          5.2,
+          4.35
+        ],
+        "5": [
+          3.15,
+          4.9
+        ],
+        "6": [
+          6.88,
+          -0.85
+        ],
+        "7": [
+          3.9,
+          6.2
+        ],
+        "8": [
+          5.4,
+          6.2
+        ],
+        "9": [
+          3.15,
+          7.5
+        ],
+        "10": [
+          4.75,
+          0
+        ],
+        "11": [
+          6.88,
+          -2.35
+        ],
+        "12": [
+          2.41,
+          -0.7
+        ],
+        "13": [
+          3.16,
+          -2
+        ],
+        "21": [
+          0.91,
+          -0.7
+        ],
+        "22": [
+          0.16,
+          0.59
+        ],
+        "23": [
+          -1.34,
+          0.59
+        ],
+        "24": [
+          -2.09,
+          -0.7
+        ],
+        "25": [
+          -1.34,
+          -2
+        ],
+        "26": [
+          0.16,
+          -2
+        ],
+        "30": [
+          1.3,
+          3.6
+        ],
+        "31": [
+          0,
+          2.85
+        ],
+        "32": [
+          6.5,
+          3.6
+        ],
+        "33": [
+          7.79,
+          4.35
+        ],
+        "34": [
+          3.9,
+          8.79
+        ],
+        "35": [
+          3.15,
+          10.09
+        ]
+      },
+      "partialProgressMessages": [
+        {
+          "learnerArrows": [
+            "lp C5 -> σ C5-C12"
+          ],
+          "feedbackMessage": "Right: carbon bonds to carbon. The aldehyde carbon now has five bonds: move the C=O π pair onto oxygen."
+        }
+      ]
+    }
+  },
+  "conditionsLabel": "(EtO)₂P(O)CH₂CO₂Et · NaH · THF · 0 °C → rt",
+  "reactionClasses": [
+    "carbonyl",
+    "elimination"
+  ],
+  "reactionVersion": 1,
+  "mechanismSummary": "Sodium hydride removes the acidic proton between the P=O and the ester. The stabilised anion adds to benzaldehyde, the alkoxide attacks phosphorus to close an oxaphosphetane, and the ring breaks into ethyl cinnamate and diethyl phosphate. Like a Wittig with a stabilised ylide, but the anion is more nucleophilic, the by-product washes out with water, and the E-alkene is formed almost exclusively (the app does not check E/Z yet).",
+  "abbreviatedGroups": [
+    {
+      "groupLabel": "Et",
+      "mapNumbers": [
+        30,
+        31
+      ],
+      "attachmentMapNumber": 30
+    },
+    {
+      "groupLabel": "Et",
+      "mapNumbers": [
+        32,
+        33
+      ],
+      "attachmentMapNumber": 32
+    },
+    {
+      "groupLabel": "Et",
+      "mapNumbers": [
+        34,
+        35
+      ],
+      "attachmentMapNumber": 34
+    },
+    {
+      "groupLabel": "Ph",
+      "mapNumbers": [
+        21,
+        22,
+        23,
+        24,
+        25,
+        26
+      ],
+      "attachmentMapNumber": 21
+    }
+  ],
+  "dailyPuzzleEligible": true,
+  "spectatorMapNumbers": [
+    10
+  ],
+  "atomRoleToMapNumbers": {},
+  "previousReactionVersion": null
+}

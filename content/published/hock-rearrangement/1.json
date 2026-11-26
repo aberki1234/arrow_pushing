@@ -1,0 +1,869 @@
+{
+  "steps": [
+    {
+      "stepKey": "protonation",
+      "stepKind": "polar",
+      "toStateId": "protonated-hydroperoxide",
+      "fromStateId": "reactants",
+      "canonicalArrows": [
+        "lp O11 -> σ O11-H14",
+        "σ O15-H14 -> lp O15"
+      ],
+      "routePreference": "preferred",
+      "explanationAfterStep": "The terminal oxygen is protonated: it can now leave as water."
+    },
+    {
+      "stepKey": "migration",
+      "stepKind": "polar",
+      "toStateId": "oxocarbenium-ion",
+      "fromStateId": "protonated-hydroperoxide",
+      "canonicalArrows": [
+        "σ O10-O11 -> lp O11",
+        "σ C1-C7 -> σ C1-O10",
+        "lp O10 -> π O10-C7"
+      ],
+      "routePreference": "preferred",
+      "explanationAfterStep": "As water leaves, the phenyl group moves from carbon to the inner oxygen with its bonding pair, and that oxygen's lone pair stabilises the cation left on carbon. Like the Baeyer–Villiger, this inserts an oxygen next to a carbon, and phenyl migrates in preference to methyl."
+    },
+    {
+      "stepKey": "water-adds",
+      "stepKind": "polar",
+      "toStateId": "protonated-hemiketal",
+      "fromStateId": "oxocarbenium-ion",
+      "canonicalArrows": [
+        "lp O11 -> σ O11-C7",
+        "π C7-O10 -> lp O10"
+      ],
+      "routePreference": "preferred",
+      "explanationAfterStep": "Water adds to the oxocarbenium ion."
+    },
+    {
+      "stepKey": "deprotonation",
+      "stepKind": "polar",
+      "toStateId": "hemiketal",
+      "fromStateId": "protonated-hemiketal",
+      "canonicalArrows": [
+        "lp O15 -> σ O15-H14",
+        "σ O11-H14 -> lp O11"
+      ],
+      "routePreference": "preferred",
+      "explanationAfterStep": "A hemiketal: one carbon with an OH and an OPh group."
+    },
+    {
+      "stepKey": "protonation-of-aryl-oxygen",
+      "stepKind": "polar",
+      "toStateId": "protonated-aryl-ether",
+      "fromStateId": "hemiketal",
+      "canonicalArrows": [
+        "lp O10 -> σ O10-H14",
+        "σ O15-H14 -> lp O15"
+      ],
+      "routePreference": "preferred",
+      "explanationAfterStep": "Protonating the aryl oxygen makes phenol the leaving group."
+    },
+    {
+      "stepKey": "phenol-leaves",
+      "stepKind": "polar",
+      "toStateId": "protonated-acetone",
+      "fromStateId": "protonated-aryl-ether",
+      "canonicalArrows": [
+        "σ C7-O10 -> lp O10",
+        "lp O11 -> π O11-C7"
+      ],
+      "routePreference": "preferred",
+      "explanationAfterStep": "Phenol leaves, pushed out by the OH lone pair: protonated acetone."
+    },
+    {
+      "stepKey": "deprotonation-of-acetone",
+      "stepKind": "polar",
+      "toStateId": "products",
+      "fromStateId": "protonated-acetone",
+      "canonicalArrows": [
+        "lp O15 -> σ O15-H12",
+        "σ O11-H12 -> lp O11"
+      ],
+      "routePreference": "preferred",
+      "explanationAfterStep": "Acetone and phenol, and the sulfuric acid is returned: it is a catalyst."
+    }
+  ],
+  "title": "Hock rearrangement",
+  "authors": [
+    {
+      "url": null,
+      "name": "Maksim"
+    }
+  ],
+  "licence": "CC-BY-SA-4.0",
+  "subtitle": "Cumene hydroperoxide in acid gives phenol and acetone: phenyl moves from carbon to oxygen",
+  "references": [
+    "Clayden, Greeves and Warren, Organic Chemistry, 2nd edition (Oxford University Press), chapter 36"
+  ],
+  "reactionSlug": "hock-rearrangement",
+  "startStateId": "reactants",
+  "formatVersion": 1,
+  "difficultyTier": 3,
+  "stateIdToState": {
+    "products": {
+      "caption": "acetone + phenol + sulfuric acid",
+      "mappedSmiles": "[CH3:8][C:7]([CH3:9])=[O:11].[H:14][O:10][C:1]1=[CH:2][CH:3]=[CH:4][CH:5]=[CH:6]1.[H:12][O:15][S:16](=[O:17])(=[O:18])[OH:19]",
+      "mapNumberToCoordinates": {
+        "1": [
+          1.33,
+          -1.21
+        ],
+        "2": [
+          0.58,
+          0.09
+        ],
+        "3": [
+          -0.92,
+          0.09
+        ],
+        "4": [
+          -1.67,
+          -1.21
+        ],
+        "5": [
+          -0.92,
+          -2.51
+        ],
+        "6": [
+          0.58,
+          -2.51
+        ],
+        "7": [
+          1.3,
+          3.05
+        ],
+        "8": [
+          0,
+          2.3
+        ],
+        "9": [
+          2.6,
+          2.3
+        ],
+        "10": [
+          2.83,
+          -1.21
+        ],
+        "11": [
+          1.3,
+          4.55
+        ],
+        "12": [
+          7.47,
+          3.05
+        ],
+        "14": [
+          3.58,
+          -2.51
+        ],
+        "15": [
+          7.47,
+          1.55
+        ],
+        "16": [
+          6.17,
+          0.8
+        ],
+        "17": [
+          4.88,
+          0.05
+        ],
+        "18": [
+          5.42,
+          2.1
+        ],
+        "19": [
+          6.92,
+          -0.5
+        ]
+      }
+    },
+    "hemiketal": {
+      "caption": "the hemiketal of acetone and phenol + sulfuric acid",
+      "hintTiers": [
+        "A hemiketal falls apart to a ketone and an alcohol (here phenol) in acid. Which oxygen must be protonated so that phenol can leave?",
+        "The oxygen joined to the ring takes the proton of sulfuric acid; the O–H pair stays on the acid's oxygen. Two arrows.",
+        "Lone pair of the oxygen joined to the ring → new bond to the acidic proton of H₂SO₄; that O–H bond → a lone pair on the sulfuric acid oxygen."
+      ],
+      "mappedSmiles": "[CH3:8][C:7]([CH3:9])([O:10][C:1]1=[CH:2][CH:3]=[CH:4][CH:5]=[CH:6]1)[O:11][H:12].[H:14][O:15][S:16](=[O:17])(=[O:18])[OH:19]",
+      "learnerPrompt": "Protonate the oxygen that will leave.",
+      "misconceptions": [
+        {
+          "severity": "plausible",
+          "arrowPattern": "lp O11 -> σ O11-H14",
+          "feedbackMessage": "Protonating the OH would let water leave, back to the oxocarbenium ion. Protonate the oxygen on the ring: phenol leaves.",
+          "misconceptionId": "protonate-oh",
+          "misconceptionTag": "reverse-step"
+        }
+      ],
+      "mapNumberToCoordinates": {
+        "1": [
+          1.5,
+          0
+        ],
+        "2": [
+          0.75,
+          1.3
+        ],
+        "3": [
+          -0.75,
+          1.3
+        ],
+        "4": [
+          -1.5,
+          0
+        ],
+        "5": [
+          -0.75,
+          -1.3
+        ],
+        "6": [
+          0.75,
+          -1.3
+        ],
+        "7": [
+          3.75,
+          -1.3
+        ],
+        "8": [
+          2.45,
+          -2.05
+        ],
+        "9": [
+          5.05,
+          -0.55
+        ],
+        "10": [
+          3,
+          0
+        ],
+        "11": [
+          4.5,
+          -2.6
+        ],
+        "12": [
+          3.75,
+          -3.9
+        ],
+        "14": [
+          2.53,
+          6.78
+        ],
+        "15": [
+          2.53,
+          5.28
+        ],
+        "16": [
+          1.23,
+          4.53
+        ],
+        "17": [
+          -0.07,
+          3.78
+        ],
+        "18": [
+          0.48,
+          5.83
+        ],
+        "19": [
+          1.98,
+          3.23
+        ]
+      }
+    },
+    "reactants": {
+      "caption": "cumene hydroperoxide + sulfuric acid",
+      "hintTiers": [
+        "The O–O bond is weak. If one oxygen is protonated, it can leave as water. Which oxygen?",
+        "The terminal OH oxygen takes the proton of sulfuric acid; the O–H pair stays on the acid's oxygen. Two arrows.",
+        "Terminal OH oxygen lone pair → new bond to the acidic proton of H₂SO₄; that O–H bond → a lone pair on the sulfuric acid oxygen."
+      ],
+      "mappedSmiles": "[CH3:8][C:7]([CH3:9])([O:10][O:11][H:12])[C:1]1=[CH:2][CH:3]=[CH:4][CH:5]=[CH:6]1.[H:14][O:15][S:16](=[O:17])(=[O:18])[OH:19]",
+      "learnerPrompt": "Protonate the hydroperoxide so that water can leave.",
+      "misconceptions": [
+        {
+          "severity": "plausible",
+          "arrowPattern": "* -> σ O10-H14",
+          "feedbackMessage": "Protonating the inner oxygen would let hydrogen peroxide leave, giving a carbocation. The productive route protonates the terminal OH, so that water leaves and a group can move onto the inner oxygen.",
+          "misconceptionId": "protonate-inner-oxygen",
+          "misconceptionTag": "unproductive-protonation"
+        }
+      ],
+      "mapNumberToCoordinates": {
+        "1": [
+          1.5,
+          0
+        ],
+        "2": [
+          0.75,
+          1.3
+        ],
+        "3": [
+          -0.75,
+          1.3
+        ],
+        "4": [
+          -1.5,
+          0
+        ],
+        "5": [
+          -0.75,
+          -1.3
+        ],
+        "6": [
+          0.75,
+          -1.3
+        ],
+        "7": [
+          3,
+          0
+        ],
+        "8": [
+          4.5,
+          0
+        ],
+        "9": [
+          3,
+          -1.5
+        ],
+        "10": [
+          3,
+          1.5
+        ],
+        "11": [
+          4.3,
+          2.25
+        ],
+        "12": [
+          4.3,
+          3.75
+        ],
+        "14": [
+          2.6,
+          8.3
+        ],
+        "15": [
+          2.6,
+          6.8
+        ],
+        "16": [
+          1.3,
+          6.05
+        ],
+        "17": [
+          0,
+          5.3
+        ],
+        "18": [
+          0.55,
+          7.35
+        ],
+        "19": [
+          2.05,
+          4.75
+        ]
+      }
+    },
+    "oxocarbenium-ion": {
+      "caption": "an oxocarbenium ion + water + hydrogensulfate",
+      "hintTiers": [
+        "The oxocarbenium ion is like a protonated ketone with a phenyl on oxygen. Where does water attack?",
+        "The water oxygen bonds to the carbon of C=O⁺, and the C=O π pair moves onto oxygen. Two arrows.",
+        "Water oxygen lone pair → new bond to the carbon of C=O⁺; C=O π bond → a lone pair on the oxygen."
+      ],
+      "mappedSmiles": "[CH3:8][C:7]([CH3:9])=[O+:10][C:1]1=[CH:2][CH:3]=[CH:4][CH:5]=[CH:6]1.[H:12][O:11][H:14].[O-:15][S:16](=[O:17])(=[O:18])[OH:19]",
+      "learnerPrompt": "Water adds.",
+      "misconceptions": [
+        {
+          "severity": "wrong",
+          "arrowPattern": "lp O11 -> σ O11-C1",
+          "feedbackMessage": "The positive charge sits on the C=O⁺ group, not the ring. Water attacks the carbon of C=O⁺.",
+          "misconceptionId": "water-attacks-ring",
+          "misconceptionTag": "wrong-electrophilic-atom"
+        },
+        {
+          "severity": "plausible",
+          "arrowPattern": "lp O15 -> σ O15-C7",
+          "feedbackMessage": "Hydrogensulfate is a weaker nucleophile than water and its adduct leads nowhere. Draw water adding.",
+          "misconceptionId": "bisulfate-adds",
+          "misconceptionTag": "other-nucleophile"
+        }
+      ],
+      "mapNumberToCoordinates": {
+        "1": [
+          1.5,
+          0
+        ],
+        "2": [
+          0.75,
+          1.3
+        ],
+        "3": [
+          -0.75,
+          1.3
+        ],
+        "4": [
+          -1.5,
+          0
+        ],
+        "5": [
+          -0.75,
+          -1.3
+        ],
+        "6": [
+          0.75,
+          -1.3
+        ],
+        "7": [
+          3.75,
+          -1.3
+        ],
+        "8": [
+          5.25,
+          -1.3
+        ],
+        "9": [
+          3,
+          -2.6
+        ],
+        "10": [
+          3,
+          0
+        ],
+        "11": [
+          7.55,
+          0
+        ],
+        "12": [
+          8.85,
+          0.75
+        ],
+        "14": [
+          6.25,
+          0.75
+        ],
+        "15": [
+          -0.04,
+          3.72
+        ],
+        "16": [
+          1.26,
+          4.47
+        ],
+        "17": [
+          2.56,
+          5.22
+        ],
+        "18": [
+          2.01,
+          3.17
+        ],
+        "19": [
+          0.51,
+          5.77
+        ]
+      }
+    },
+    "protonated-acetone": {
+      "caption": "protonated acetone + phenol + hydrogensulfate",
+      "hintTiers": [
+        "The acetone oxygen still carries a proton. Which base is present?",
+        "Hydrogensulfate takes the proton; the O–H pair stays on the carbonyl oxygen. Two arrows.",
+        "Hydrogensulfate oxygen lone pair → new bond to the drawn H; O–H bond → a lone pair on the carbonyl oxygen."
+      ],
+      "mappedSmiles": "[CH3:8][C:7]([CH3:9])=[O+:11][H:12].[H:14][O:10][C:1]1=[CH:2][CH:3]=[CH:4][CH:5]=[CH:6]1.[O-:15][S:16](=[O:17])(=[O:18])[OH:19]",
+      "learnerPrompt": "Finish with a proton transfer.",
+      "misconceptions": [
+        {
+          "severity": "plausible",
+          "arrowPattern": "lp O10 -> σ O10-C7",
+          "feedbackMessage": "Phenol adding back undoes the last step. Remove the proton.",
+          "misconceptionId": "phenol-adds-back",
+          "misconceptionTag": "reverse-step"
+        }
+      ],
+      "mapNumberToCoordinates": {
+        "1": [
+          1.26,
+          -1.22
+        ],
+        "2": [
+          0.51,
+          0.08
+        ],
+        "3": [
+          -0.99,
+          0.08
+        ],
+        "4": [
+          -1.74,
+          -1.22
+        ],
+        "5": [
+          -0.99,
+          -2.52
+        ],
+        "6": [
+          0.51,
+          -2.52
+        ],
+        "7": [
+          1.3,
+          3.05
+        ],
+        "8": [
+          0,
+          2.3
+        ],
+        "9": [
+          2.6,
+          2.3
+        ],
+        "10": [
+          2.76,
+          -1.22
+        ],
+        "11": [
+          1.3,
+          4.55
+        ],
+        "12": [
+          2.6,
+          5.3
+        ],
+        "14": [
+          3.51,
+          -2.52
+        ],
+        "15": [
+          4.84,
+          0.03
+        ],
+        "16": [
+          6.14,
+          0.78
+        ],
+        "17": [
+          7.44,
+          1.53
+        ],
+        "18": [
+          6.89,
+          -0.52
+        ],
+        "19": [
+          5.39,
+          2.08
+        ]
+      }
+    },
+    "protonated-hemiketal": {
+      "caption": "protonated hemiketal + hydrogensulfate",
+      "hintTiers": [
+        "The new OH₂⁺ group carries a positive charge. Which base is present?",
+        "The hydrogensulfate oxygen takes one of the drawn protons; the O–H pair stays on oxygen. Two arrows.",
+        "Hydrogensulfate oxygen lone pair → new bond to a drawn H on the positive oxygen; that O–H bond → a lone pair on oxygen."
+      ],
+      "mappedSmiles": "[CH3:8][C:7]([CH3:9])([O:10][C:1]1=[CH:2][CH:3]=[CH:4][CH:5]=[CH:6]1)[O+:11]([H:12])[H:14].[O-:15][S:16](=[O:17])(=[O:18])[OH:19]",
+      "learnerPrompt": "Remove a proton from the positive oxygen.",
+      "misconceptions": [
+        {
+          "severity": "plausible",
+          "arrowPattern": "σ C7-O11 -> lp O11",
+          "feedbackMessage": "Water leaving goes straight back to the oxocarbenium ion. Remove a proton instead.",
+          "misconceptionId": "water-leaves",
+          "misconceptionTag": "reverse-step"
+        }
+      ],
+      "mapNumberToCoordinates": {
+        "1": [
+          1.5,
+          0
+        ],
+        "2": [
+          0.75,
+          1.3
+        ],
+        "3": [
+          -0.75,
+          1.3
+        ],
+        "4": [
+          -1.5,
+          0
+        ],
+        "5": [
+          -0.75,
+          -1.3
+        ],
+        "6": [
+          0.75,
+          -1.3
+        ],
+        "7": [
+          3.75,
+          -1.3
+        ],
+        "8": [
+          2.45,
+          -2.05
+        ],
+        "9": [
+          5.05,
+          -0.55
+        ],
+        "10": [
+          3,
+          0
+        ],
+        "11": [
+          4.5,
+          -2.6
+        ],
+        "12": [
+          3.75,
+          -3.9
+        ],
+        "14": [
+          6,
+          -2.6
+        ],
+        "15": [
+          -0.19,
+          3.84
+        ],
+        "16": [
+          1.11,
+          4.59
+        ],
+        "17": [
+          2.4,
+          5.34
+        ],
+        "18": [
+          1.86,
+          3.29
+        ],
+        "19": [
+          0.36,
+          5.89
+        ]
+      }
+    },
+    "protonated-aryl-ether": {
+      "caption": "hemiketal protonated on the aryl oxygen + hydrogensulfate",
+      "hintTiers": [
+        "Phenol can leave from the central carbon. Which lone pair stabilises the cation left behind?",
+        "The C–O bond to the protonated aryl oxygen breaks onto that oxygen, and the OH lone pair makes C=O⁺. Two arrows.",
+        "C–O bond to the protonated aryl oxygen → a lone pair on that oxygen; OH oxygen lone pair → C=O π bond."
+      ],
+      "mappedSmiles": "[CH3:8][C:7]([CH3:9])([O+:10]([H:14])[C:1]1=[CH:2][CH:3]=[CH:4][CH:5]=[CH:6]1)[O:11][H:12].[O-:15][S:16](=[O:17])(=[O:18])[OH:19]",
+      "learnerPrompt": "Phenol leaves.",
+      "misconceptions": [
+        {
+          "severity": "plausible",
+          "arrowPattern": "lp O15 -> σ O15-H14",
+          "feedbackMessage": "Taking the proton back undoes the last step. Let phenol leave.",
+          "misconceptionId": "deprotonate-again",
+          "misconceptionTag": "reverse-step"
+        }
+      ],
+      "mapNumberToCoordinates": {
+        "1": [
+          1.5,
+          0
+        ],
+        "2": [
+          0.75,
+          1.3
+        ],
+        "3": [
+          -0.75,
+          1.3
+        ],
+        "4": [
+          -1.5,
+          0
+        ],
+        "5": [
+          -0.75,
+          -1.3
+        ],
+        "6": [
+          0.75,
+          -1.3
+        ],
+        "7": [
+          3.75,
+          1.3
+        ],
+        "8": [
+          2.45,
+          2.05
+        ],
+        "9": [
+          5.05,
+          0.55
+        ],
+        "10": [
+          3,
+          0
+        ],
+        "11": [
+          4.5,
+          2.6
+        ],
+        "12": [
+          3.75,
+          3.9
+        ],
+        "14": [
+          3.75,
+          -1.3
+        ],
+        "15": [
+          -0.06,
+          5.88
+        ],
+        "16": [
+          1.24,
+          6.63
+        ],
+        "17": [
+          2.54,
+          7.38
+        ],
+        "18": [
+          1.99,
+          5.33
+        ],
+        "19": [
+          0.49,
+          7.93
+        ]
+      }
+    },
+    "protonated-hydroperoxide": {
+      "caption": "protonated cumene hydroperoxide + hydrogensulfate",
+      "hintTiers": [
+        "Water can leave from the inner oxygen, but an oxygen with six electrons is far too unstable. Which group on the neighbouring carbon moves onto it at the same time?",
+        "Three arrows: the O–O bond breaks onto the water oxygen, the bond from the central carbon to the benzene ring moves to the inner oxygen, and that oxygen's lone pair makes C=O⁺.",
+        "O–O bond → a lone pair on the water oxygen; bond from the central carbon to the ring → new bond from the ring carbon to the inner oxygen; inner oxygen lone pair → C=O π bond."
+      ],
+      "mappedSmiles": "[CH3:8][C:7]([CH3:9])([O:10][O+:11]([H:12])[H:14])[C:1]1=[CH:2][CH:3]=[CH:4][CH:5]=[CH:6]1.[O-:15][S:16](=[O:17])(=[O:18])[OH:19]",
+      "learnerPrompt": "The key step: a group moves from carbon to oxygen as water leaves.",
+      "misconceptions": [
+        {
+          "severity": "plausible",
+          "arrowPattern": "σ C7-C8 -> σ C8-O10",
+          "feedbackMessage": "A methyl group is the worst migrating group. Phenyl moves much faster: its π electrons help to carry the positive charge as it moves.",
+          "misconceptionId": "methyl-migrates",
+          "misconceptionTag": "migratory-aptitude"
+        },
+        {
+          "severity": "wrong",
+          "arrowPattern": "σ O10-O11 -> lp O10",
+          "feedbackMessage": "Water is the leaving group, so the O–O pair goes to the protonated oxygen.",
+          "misconceptionId": "pair-to-inner-oxygen",
+          "misconceptionTag": "wrong-direction-of-cleavage"
+        }
+      ],
+      "mapNumberToCoordinates": {
+        "1": [
+          1.5,
+          0
+        ],
+        "2": [
+          0.75,
+          1.3
+        ],
+        "3": [
+          -0.75,
+          1.3
+        ],
+        "4": [
+          -1.5,
+          0
+        ],
+        "5": [
+          -0.75,
+          -1.3
+        ],
+        "6": [
+          0.75,
+          -1.3
+        ],
+        "7": [
+          3,
+          0
+        ],
+        "8": [
+          4.5,
+          0
+        ],
+        "9": [
+          3,
+          -1.5
+        ],
+        "10": [
+          3,
+          1.5
+        ],
+        "11": [
+          4.3,
+          2.25
+        ],
+        "12": [
+          4.3,
+          3.75
+        ],
+        "14": [
+          5.6,
+          1.5
+        ],
+        "15": [
+          0,
+          5.3
+        ],
+        "16": [
+          1.3,
+          6.05
+        ],
+        "17": [
+          2.6,
+          6.8
+        ],
+        "18": [
+          2.05,
+          4.75
+        ],
+        "19": [
+          0.55,
+          7.35
+        ]
+      },
+      "partialProgressMessages": [
+        {
+          "learnerArrows": [
+            "σ O10-O11 -> lp O11",
+            "σ C1-C7 -> σ C1-O10"
+          ],
+          "feedbackMessage": "Right group, right bonds. The central carbon now has only three bonds: the oxygen lone pair makes a C=O⁺ π bond."
+        }
+      ]
+    }
+  },
+  "conditionsLabel": "H₂SO₄ (cat.) · 50–90 °C",
+  "reactionClasses": [
+    "rearrangement"
+  ],
+  "reactionVersion": 1,
+  "mechanismSummary": "The terminal oxygen of cumene hydroperoxide is protonated, and as water leaves the phenyl group moves from carbon to the inner oxygen: an oxocarbenium ion. Water adds, and proton transfers let phenol leave from the hemiketal, giving acetone. This is the last stage of the cumene process, which makes most of the world's phenol and acetone from benzene, propene and air.",
+  "dailyPuzzleEligible": true,
+  "spectatorMapNumbers": [],
+  "atomRoleToMapNumbers": {},
+  "previousReactionVersion": null
+}

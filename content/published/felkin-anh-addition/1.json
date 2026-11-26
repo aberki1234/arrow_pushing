@@ -1,0 +1,408 @@
+{
+  "steps": [
+    {
+      "stepKey": "felkin-anh-addition",
+      "stepKind": "polar",
+      "toStateId": "alkoxide",
+      "fromStateId": "reactants",
+      "canonicalArrows": [
+        "σ C1-Mg2 -> σ C1-C4",
+        "π C4-O5 -> lp O5"
+      ],
+      "routePreference": "preferred",
+      "explanationAfterStep": "The arrows are those of any Grignard addition; the selectivity is in the approach. In the reacting conformation the largest group on the stereocentre (phenyl) lies perpendicular to the C=O, where its σ* orbital lowers the energy of the π* the nucleophile fills, and anti to the incoming methyl. The methyl then approaches at the Bürgi–Dunitz angle (about 107° to the C=O) past the smallest group, hydrogen, not past the methyl group. That gives one diastereomer of the alkoxide in excess. The app does not check stereochemistry yet: the drawing shows only which atoms are bonded."
+    },
+    {
+      "caption": "Dilute aqueous acid is added once the addition is over (work-up).",
+      "stepKey": "acid-work-up",
+      "stepKind": "change",
+      "toStateId": "alkoxide-and-acid",
+      "fromStateId": "alkoxide",
+      "addedSpecies": "[H:17][OH2+:18].[Cl-:19]",
+      "routePreference": "preferred"
+    },
+    {
+      "stepKey": "protonation",
+      "stepKind": "polar",
+      "toStateId": "products",
+      "fromStateId": "alkoxide-and-acid",
+      "canonicalArrows": [
+        "lp O5 -> σ O5-H17",
+        "σ O18-H17 -> lp O18"
+      ],
+      "routePreference": "preferred",
+      "explanationAfterStep": "The alkoxide becomes the alcohol. Protonation does not touch either stereocentre, so the ratio set in the addition step is the ratio of the alcohols."
+    }
+  ],
+  "title": "Felkin–Anh addition of a Grignard reagent",
+  "authors": [
+    {
+      "url": null,
+      "name": "Maksim"
+    }
+  ],
+  "licence": "CC-BY-SA-4.0",
+  "subtitle": "A stereocentre next to C=O decides which face the nucleophile attacks",
+  "references": [
+    "Clayden, Greeves and Warren, Organic Chemistry, 2nd edition (Oxford University Press), chapter 33 (Diastereoselectivity)"
+  ],
+  "reactionSlug": "felkin-anh-addition",
+  "startStateId": "reactants",
+  "formatVersion": 1,
+  "difficultyTier": 2,
+  "stateIdToState": {
+    "alkoxide": {
+      "caption": "magnesium alkoxide: two stereocentres now, one diastereomer favoured",
+      "mappedSmiles": "[Mg+:2][Br:3].[CH3:1][CH:4]([O-:5])[CH:6]([CH3:7])[C:11]1=[CH:12][CH:13]=[CH:14][CH:15]=[CH:16]1",
+      "mapNumberToCoordinates": {
+        "1": [
+          5.9,
+          -2.59
+        ],
+        "2": [
+          0,
+          3.8
+        ],
+        "3": [
+          0,
+          2.3
+        ],
+        "4": [
+          4.4,
+          -2.59
+        ],
+        "5": [
+          3.65,
+          -3.89
+        ],
+        "6": [
+          3.65,
+          -1.29
+        ],
+        "7": [
+          4.4,
+          0.01
+        ],
+        "11": [
+          2.15,
+          -1.29
+        ],
+        "12": [
+          1.4,
+          0.01
+        ],
+        "13": [
+          -0.1,
+          0.01
+        ],
+        "14": [
+          -0.85,
+          -1.29
+        ],
+        "15": [
+          -0.1,
+          -2.59
+        ],
+        "16": [
+          1.4,
+          -2.59
+        ]
+      }
+    },
+    "products": {
+      "caption": "3-phenylbutan-2-ol: mainly the Felkin–Anh diastereomer (about 2–3 : 1) + water",
+      "mappedSmiles": "[Mg+:2][Br:3].[CH3:1][CH:4]([O:5][H:17])[CH:6]([CH3:7])[C:11]1=[CH:12][CH:13]=[CH:14][CH:15]=[CH:16]1.[OH2:18].[Cl-:19]",
+      "mapNumberToCoordinates": {
+        "1": [
+          5.31,
+          -1.45
+        ],
+        "2": [
+          0,
+          4.8
+        ],
+        "3": [
+          0,
+          3.3
+        ],
+        "4": [
+          3.81,
+          -1.45
+        ],
+        "5": [
+          3.06,
+          -2.75
+        ],
+        "6": [
+          3.06,
+          -0.15
+        ],
+        "7": [
+          3.81,
+          1.15
+        ],
+        "11": [
+          1.56,
+          -0.15
+        ],
+        "12": [
+          0.81,
+          1.15
+        ],
+        "13": [
+          -0.69,
+          1.15
+        ],
+        "14": [
+          -1.44,
+          -0.15
+        ],
+        "15": [
+          -0.69,
+          -1.45
+        ],
+        "16": [
+          0.81,
+          -1.45
+        ],
+        "17": [
+          3.81,
+          -4.05
+        ],
+        "18": [
+          -2.64,
+          2.36
+        ],
+        "19": [
+          6.95,
+          0.13
+        ]
+      }
+    },
+    "reactants": {
+      "caption": "methylmagnesium bromide + 2-phenylpropanal (one enantiomer)",
+      "hintTiers": [
+        "The C–Mg bond is polarised towards carbon: the methyl group acts as a carbanion. Which atom of the aldehyde is electron-poor?",
+        "The C–Mg bonding pair forms a new C–C bond to the carbonyl carbon, and the C=O π pair moves onto oxygen. Two arrows.",
+        "C–Mg bond → new C–C bond from the methyl carbon to the carbonyl carbon; C=O π bond → lone pair on oxygen."
+      ],
+      "mappedSmiles": "[CH3:1][Mg:2][Br:3].[O:5]=[CH:4][CH:6]([CH3:7])[C:11]1=[CH:12][CH:13]=[CH:14][CH:15]=[CH:16]1",
+      "learnerPrompt": "The Grignard reagent adds to an aldehyde next to a stereocentre. Draw the addition.",
+      "misconceptions": [
+        {
+          "severity": "wrong",
+          "arrowPattern": "σ C1-Mg2 -> O5",
+          "feedbackMessage": "The carbonyl oxygen is electron-rich. The methyl group attacks the electron-poor carbonyl carbon.",
+          "misconceptionId": "methyl-attacks-oxygen",
+          "misconceptionTag": "attack-electron-rich-atom"
+        },
+        {
+          "severity": "wrong",
+          "arrowPattern": "σ C1-Mg2 -> C6",
+          "feedbackMessage": "The stereocentre next to the carbonyl has no leaving group and is not electrophilic. It steers the attack, but the methyl group bonds to the carbonyl carbon.",
+          "misconceptionId": "methyl-attacks-stereocentre",
+          "misconceptionTag": "attack-non-electrophile"
+        },
+        {
+          "severity": "wrong",
+          "arrowPattern": "σ C1-Mg2 -> lp Mg2",
+          "feedbackMessage": "Carbon is more electronegative than magnesium: the C–Mg bonding pair goes with carbon.",
+          "misconceptionId": "c-mg-pair-to-magnesium",
+          "misconceptionTag": "electrons-toward-less-electronegative-atom"
+        }
+      ],
+      "mapNumberToCoordinates": {
+        "1": [
+          0,
+          2.3
+        ],
+        "2": [
+          1.3,
+          3.05
+        ],
+        "3": [
+          2.6,
+          3.8
+        ],
+        "4": [
+          3.85,
+          -2.49
+        ],
+        "5": [
+          5.35,
+          -2.49
+        ],
+        "6": [
+          3.1,
+          -1.2
+        ],
+        "7": [
+          3.85,
+          0.1
+        ],
+        "11": [
+          1.6,
+          -1.2
+        ],
+        "12": [
+          0.85,
+          0.1
+        ],
+        "13": [
+          -0.65,
+          0.1
+        ],
+        "14": [
+          -1.4,
+          -1.2
+        ],
+        "15": [
+          -0.65,
+          -2.49
+        ],
+        "16": [
+          0.85,
+          -2.49
+        ]
+      },
+      "partialProgressMessages": [
+        {
+          "learnerArrows": [
+            "σ C1-Mg2 -> σ C1-C4"
+          ],
+          "feedbackMessage": "Right: the methyl carbon attacks the carbonyl carbon. That carbon now has five bonds: move the C=O π pair."
+        }
+      ]
+    },
+    "alkoxide-and-acid": {
+      "caption": "magnesium alkoxide + H₃O⁺ (work-up)",
+      "hintTiers": [
+        "The alkoxide oxygen is a strong base. Which species is the acid?",
+        "The oxygen lone pair takes a proton from H₃O⁺, and that O–H bonding pair stays on water's oxygen. Two arrows.",
+        "Alkoxide oxygen lone pair → new O–H bond to a proton of H₃O⁺; that O–H bond → lone pair on water's oxygen."
+      ],
+      "mappedSmiles": "[Mg+:2][Br:3].[CH3:1][CH:4]([O-:5])[CH:6]([CH3:7])[C:11]1=[CH:12][CH:13]=[CH:14][CH:15]=[CH:16]1.[H:17][OH2+:18].[Cl-:19]",
+      "learnerPrompt": "Acid work-up: protonate the alkoxide.",
+      "misconceptions": [
+        {
+          "severity": "plausible",
+          "arrowPattern": "lp O5 -> Mg2",
+          "feedbackMessage": "In the flask the alkoxide is bound to magnesium; the acid now frees the alcohol. Protonate the oxygen.",
+          "misconceptionId": "alkoxide-binds-magnesium",
+          "misconceptionTag": "unproductive-lewis-complex"
+        }
+      ],
+      "mapNumberToCoordinates": {
+        "1": [
+          5.25,
+          -1.3
+        ],
+        "2": [
+          0,
+          5.55
+        ],
+        "3": [
+          0,
+          4.05
+        ],
+        "4": [
+          3.75,
+          -1.3
+        ],
+        "5": [
+          3,
+          -2.6
+        ],
+        "6": [
+          3,
+          0
+        ],
+        "7": [
+          3.75,
+          1.3
+        ],
+        "11": [
+          1.5,
+          0
+        ],
+        "12": [
+          0.75,
+          1.3
+        ],
+        "13": [
+          -0.75,
+          1.3
+        ],
+        "14": [
+          -1.5,
+          0
+        ],
+        "15": [
+          -0.75,
+          -1.3
+        ],
+        "16": [
+          0.75,
+          -1.3
+        ],
+        "17": [
+          -2.37,
+          2.87
+        ],
+        "18": [
+          -3.66,
+          2.12
+        ],
+        "19": [
+          7.07,
+          0.06
+        ]
+      },
+      "partialProgressMessages": [
+        {
+          "learnerArrows": [
+            "lp O5 -> σ O5-H17"
+          ],
+          "feedbackMessage": "Good: the alkoxide takes a proton from H₃O⁺. Where does the O–H bonding pair go?"
+        }
+      ]
+    }
+  },
+  "conditionsLabel": "1. MeMgBr, Et₂O, 0 °C · 2. HCl(aq)",
+  "reactionClasses": [
+    "carbonyl",
+    "addition"
+  ],
+  "reactionVersion": 1,
+  "mechanismSummary": "Methylmagnesium bromide adds to 2-phenylpropanal like any Grignard reagent: the C–Mg pair forms the new C–C bond and the C=O π pair moves onto oxygen; acid work-up gives 3-phenylbutan-2-ol. Because the aldehyde already has a stereocentre, the two faces of the C=O are different, and two diastereomers can form. The Felkin–Anh model predicts the major one: draw the conformation with the large group (phenyl) perpendicular to the C=O, and let the nucleophile come in anti to it, at the Bürgi–Dunitz angle, past the small group (H) rather than the medium one (CH₃). Cram's original experiment gave about 2 : 1 with methyl Grignard reagents. The app does not check stereochemistry yet: the drawing shows only which atoms are bonded.",
+  "abbreviatedGroups": [
+    {
+      "groupLabel": "Ph",
+      "mapNumbers": [
+        11,
+        12,
+        13,
+        14,
+        15,
+        16
+      ],
+      "attachmentMapNumber": 11
+    }
+  ],
+  "dailyPuzzleEligible": true,
+  "spectatorMapNumbers": [
+    19
+  ],
+  "atomRoleToMapNumbers": {
+    "magnesium": [
+      2
+    ],
+    "carbonylCarbon": [
+      4
+    ],
+    "carbonylOxygen": [
+      5
+    ]
+  },
+  "previousReactionVersion": null
+}
