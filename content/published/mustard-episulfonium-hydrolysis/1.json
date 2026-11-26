@@ -1,0 +1,303 @@
+{
+  "steps": [
+    {
+      "stepKey": "sulfur-participates",
+      "stepKind": "polar",
+      "toStateId": "episulfonium-ion",
+      "fromStateId": "reactants",
+      "canonicalArrows": [
+        "lp S3 -> σ S3-C5",
+        "σ C5-Cl6 -> lp Cl6"
+      ],
+      "routePreference": "preferred",
+      "explanationAfterStep": "The sulfur lone pair displaces chloride from behind, inside the same molecule: a three-membered episulfonium ion forms. Because the nucleophile is already held next to the carbon, this is much faster than any attack by water. The rate does not depend on the water at all: first-order kinetics."
+    },
+    {
+      "stepKey": "water-opens-ring",
+      "stepKind": "polar",
+      "toStateId": "protonated-alcohol",
+      "fromStateId": "episulfonium-ion",
+      "canonicalArrows": [
+        "lp O7 -> σ O7-C5",
+        "σ S3-C5 -> lp S3"
+      ],
+      "routePreference": "preferred",
+      "explanationAfterStep": "Water opens the strained, positively charged ring at a carbon. Overall chloride has been replaced by OH, but by two SN2 steps, not one. Mustard gas has two such arms: inside the body it alkylates DNA bases the same way."
+    },
+    {
+      "stepKey": "deprotonation",
+      "stepKind": "polar",
+      "toStateId": "products",
+      "fromStateId": "protonated-alcohol",
+      "canonicalArrows": [
+        "lp O9 -> σ O9-H8",
+        "σ O7-H8 -> lp O7"
+      ],
+      "routePreference": "preferred",
+      "explanationAfterStep": "A second water molecule takes the proton: 2-(ethylsulfanyl)ethanol and HCl."
+    }
+  ],
+  "title": "Hydrolysis of a sulfur mustard",
+  "authors": [
+    {
+      "url": null,
+      "name": "Maksim"
+    }
+  ],
+  "licence": "CC-BY-SA-4.0",
+  "subtitle": "A neighbouring sulfur pushes out chloride: the episulfonium ion",
+  "references": [
+    "Clayden, Greeves and Warren, Organic Chemistry, 2nd edition (Oxford University Press), chapter 36"
+  ],
+  "reactionSlug": "mustard-episulfonium-hydrolysis",
+  "startStateId": "reactants",
+  "formatVersion": 1,
+  "difficultyTier": 2,
+  "stateIdToState": {
+    "products": {
+      "caption": "2-(ethylsulfanyl)ethanol + hydronium chloride",
+      "mappedSmiles": "[CH3:1][CH2:2][S:3][CH2:4][CH2:5][OH:7].[Cl-:6].[H:8][OH2+:9]",
+      "mapNumberToCoordinates": {
+        "1": [
+          0,
+          0
+        ],
+        "2": [
+          1.3,
+          0.75
+        ],
+        "3": [
+          2.6,
+          0
+        ],
+        "4": [
+          3.9,
+          0.75
+        ],
+        "5": [
+          5.2,
+          0
+        ],
+        "6": [
+          0,
+          3.5
+        ],
+        "7": [
+          6.5,
+          0.75
+        ],
+        "8": [
+          -1.72,
+          1.47
+        ],
+        "9": [
+          -3.02,
+          0.72
+        ]
+      }
+    },
+    "reactants": {
+      "caption": "2-chloroethyl ethyl sulfide (a 'half-mustard') in water",
+      "hintTiers": [
+        "Water is a poor nucleophile, but there is a much better one inside the molecule. Which atom, two carbons away from the C–Cl bond, has lone pairs?",
+        "The sulfur uses a lone pair to bond to the carbon carrying chlorine, and the C–Cl pair leaves with chloride. Two arrows: an intramolecular SN2 that makes a three-membered ring.",
+        "Sulfur lone pair → new bond to the CH₂ carrying chlorine; C–Cl bond → a lone pair on chlorine."
+      ],
+      "mappedSmiles": "[CH3:1][CH2:2][S:3][CH2:4][CH2:5][Cl:6].[H:8][OH:7].[OH2:9]",
+      "learnerPrompt": "The sulfur gets there first. Draw the step that removes chloride.",
+      "misconceptions": [
+        {
+          "severity": "plausible",
+          "arrowPattern": "lp O7 -> σ O7-C5",
+          "feedbackMessage": "Water can displace chloride from a primary carbon, but only very slowly. Here the sulfur lone pair, held right next to the carbon, does it far faster: that is anchimeric assistance.",
+          "misconceptionId": "water-displaces-chloride",
+          "misconceptionTag": "external-nucleophile"
+        }
+      ],
+      "mapNumberToCoordinates": {
+        "1": [
+          0,
+          0
+        ],
+        "2": [
+          1.3,
+          0.75
+        ],
+        "3": [
+          2.6,
+          0
+        ],
+        "4": [
+          3.9,
+          0.75
+        ],
+        "5": [
+          5.2,
+          0
+        ],
+        "6": [
+          6.5,
+          0.75
+        ],
+        "7": [
+          0,
+          2.75
+        ],
+        "8": [
+          1.3,
+          3.5
+        ],
+        "9": [
+          -1.95,
+          1.17
+        ]
+      },
+      "partialProgressMessages": [
+        {
+          "learnerArrows": [
+            "σ C5-Cl6 -> lp Cl6"
+          ],
+          "feedbackMessage": "Right that chloride leaves, but not on its own: a primary carbocation would be needed. Which neighbouring atom pushes it out?"
+        }
+      ]
+    },
+    "episulfonium-ion": {
+      "caption": "the episulfonium (thiiranium) ion + chloride",
+      "hintTiers": [
+        "The three-membered ring is strained and carries a positive sulfur. Where can water attack to open it?",
+        "Water attacks one ring carbon, and the C–S bond breaks with its pair going back to sulfur. Two arrows: an SN2 at the ring carbon.",
+        "Water oxygen lone pair → new bond to a ring CH₂; that carbon's C–S bond → a lone pair on sulfur."
+      ],
+      "mappedSmiles": "[CH3:1][CH2:2][S+:3]1[CH2:4][CH2:5]1.[Cl-:6].[H:8][OH:7].[OH2:9]",
+      "learnerPrompt": "Water opens the three-membered ring.",
+      "misconceptions": [
+        {
+          "severity": "wrong",
+          "arrowPattern": "lp O7 -> σ O7-S3",
+          "feedbackMessage": "Sulfur already has its octet. Water attacks a ring carbon, and the ring C–S bond breaks.",
+          "misconceptionId": "water-attacks-sulfur",
+          "misconceptionTag": "attack-at-heteroatom"
+        },
+        {
+          "severity": "plausible",
+          "arrowPattern": "lp Cl6 -> σ Cl6-C5",
+          "feedbackMessage": "Chloride can open the ring again, but that just goes back to the start. In water, the water molecules win and the alcohol forms.",
+          "misconceptionId": "chloride-reopens",
+          "misconceptionTag": "reverse-step"
+        }
+      ],
+      "mapNumberToCoordinates": {
+        "1": [
+          3.12,
+          -1.3
+        ],
+        "2": [
+          2.37,
+          0
+        ],
+        "3": [
+          0.87,
+          0
+        ],
+        "4": [
+          -0.43,
+          0.75
+        ],
+        "5": [
+          -0.43,
+          -0.75
+        ],
+        "6": [
+          4.93,
+          0.07
+        ],
+        "7": [
+          -0.03,
+          3
+        ],
+        "8": [
+          1.27,
+          3.75
+        ],
+        "9": [
+          -2.25,
+          2.16
+        ]
+      }
+    },
+    "protonated-alcohol": {
+      "caption": "protonated alcohol + chloride + water",
+      "hintTiers": [
+        "The new oxygen has three bonds and a positive charge. What removes the extra proton?",
+        "A second water molecule takes the drawn proton, and the O–H pair stays on the alcohol oxygen. Two arrows.",
+        "Lone pair of the free water → new bond to the drawn H; O–H bond → a lone pair on the alcohol oxygen."
+      ],
+      "mappedSmiles": "[CH3:1][CH2:2][S:3][CH2:4][CH2:5][OH+:7][H:8].[Cl-:6].[OH2:9]",
+      "learnerPrompt": "Finish with a proton transfer.",
+      "misconceptions": [
+        {
+          "severity": "plausible",
+          "arrowPattern": "lp Cl6 -> σ Cl6-H8",
+          "feedbackMessage": "Chloride is a very weak base. A water molecule takes the proton.",
+          "misconceptionId": "chloride-as-base",
+          "misconceptionTag": "weak-base"
+        }
+      ],
+      "mapNumberToCoordinates": {
+        "1": [
+          0,
+          0
+        ],
+        "2": [
+          1.3,
+          0.75
+        ],
+        "3": [
+          2.6,
+          0
+        ],
+        "4": [
+          3.9,
+          0.75
+        ],
+        "5": [
+          5.2,
+          0
+        ],
+        "6": [
+          0,
+          2.75
+        ],
+        "7": [
+          6.5,
+          0.75
+        ],
+        "8": [
+          7.79,
+          0
+        ],
+        "9": [
+          -2.01,
+          1.02
+        ]
+      }
+    }
+  },
+  "conditionsLabel": "H₂O · 25 °C",
+  "reactionClasses": [
+    "substitution"
+  ],
+  "reactionVersion": 1,
+  "mechanismSummary": "The sulfur lone pair of 2-chloroethyl ethyl sulfide displaces chloride inside the molecule, giving a three-membered episulfonium ion. Water then opens the ring at a carbon, and loss of a proton gives the alcohol. The sulfur acts as an internal nucleophile and makes the hydrolysis far faster than for an ordinary primary alkyl chloride: anchimeric assistance. The same episulfonium ion makes mustard gas, ClCH₂CH₂SCH₂CH₂Cl, a powerful alkylating agent.",
+  "dailyPuzzleEligible": true,
+  "spectatorMapNumbers": [],
+  "atomRoleToMapNumbers": {
+    "leavingGroup": [
+      6
+    ],
+    "neighbouringGroup": [
+      3
+    ]
+  },
+  "previousReactionVersion": null
+}
