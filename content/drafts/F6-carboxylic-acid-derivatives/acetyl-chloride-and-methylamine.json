@@ -1,0 +1,409 @@
+{
+  "formatVersion": 1,
+  "reactionSlug": "acetyl-chloride-and-methylamine",
+  "reactionVersion": 1,
+  "previousReactionVersion": null,
+  "title": "Acid chloride and amine",
+  "subtitle": "Methylamine adds to acetyl chloride, chloride leaves, a second methylamine takes the proton",
+  "reactionClasses": [
+    "carbonyl",
+    "substitution"
+  ],
+  "difficultyTier": 1,
+  "conditionsLabel": "MeNH₂ (2 equiv.) · CH₂Cl₂ · 0 °C",
+  "dailyPuzzleEligible": true,
+  "atomRoleToMapNumbers": {
+    "carbonylCarbon": [
+      2
+    ],
+    "carbonylOxygen": [
+      3
+    ],
+    "nucleophile": [
+      5
+    ]
+  },
+  "spectatorMapNumbers": [],
+  "startStateId": "reactants",
+  "stateIdToState": {
+    "reactants": {
+      "mappedSmiles": "[CH3:1][C:2](=[O:3])[Cl:4].[CH3:6][NH:5][H:7].[CH3:10][NH2:9]",
+      "caption": "acetyl chloride + methylamine (2 equiv.)",
+      "learnerPrompt": "Methylamine attacks the acid chloride.",
+      "hintTiers": [
+        "Which atom of acetyl chloride is the most electron-poor? Which atom of methylamine has a lone pair?",
+        "The nitrogen lone pair forms a bond to the carbonyl carbon, and the C=O π pair moves onto oxygen. Two arrows: chloride does not leave yet.",
+        "Nitrogen lone pair → new N–C bond to the carbonyl carbon; C=O π bond → lone pair on oxygen."
+      ],
+      "misconceptions": [
+        {
+          "misconceptionId": "concerted-substitution",
+          "misconceptionTag": "concerted-substitution-at-carbonyl",
+          "severity": "plausible",
+          "arrowPattern": "lp N5 -> σ N5-C2; σ C2-Cl4 -> lp Cl4",
+          "feedbackMessage": "At a C=O carbon the nucleophile adds first: the π bond moves onto oxygen and a tetrahedral intermediate forms. Chloride leaves in the next step."
+        },
+        {
+          "misconceptionId": "amine-attacks-oxygen",
+          "misconceptionTag": "attack-electron-rich-atom",
+          "severity": "wrong",
+          "arrowPattern": "lp N5 -> O3",
+          "feedbackMessage": "The carbonyl oxygen is electron-rich. The nitrogen attacks the electron-poor carbonyl carbon."
+        },
+        {
+          "misconceptionId": "amine-attacks-chlorine",
+          "misconceptionTag": "attack-leaving-group",
+          "severity": "wrong",
+          "arrowPattern": "lp N5 -> Cl4",
+          "feedbackMessage": "Chlorine is not the electrophile. The carbon it is attached to is: attack the carbonyl carbon."
+        }
+      ],
+      "partialProgressMessages": [
+        {
+          "learnerArrows": [
+            "lp N5 -> σ N5-C2"
+          ],
+          "feedbackMessage": "Right: nitrogen attacks the carbonyl carbon. That carbon would have five bonds: move the C=O π pair onto oxygen."
+        }
+      ],
+      "mapNumberToCoordinates": {
+        "1": [
+          0,
+          0
+        ],
+        "2": [
+          1.3,
+          0.75
+        ],
+        "3": [
+          2.6,
+          0
+        ],
+        "4": [
+          1.3,
+          2.25
+        ],
+        "5": [
+          1.3,
+          4.85
+        ],
+        "6": [
+          0,
+          4.1
+        ],
+        "7": [
+          2.6,
+          4.1
+        ],
+        "9": [
+          6.19,
+          0.59
+        ],
+        "10": [
+          4.89,
+          -0.16
+        ]
+      }
+    },
+    "tetrahedral": {
+      "mappedSmiles": "[CH3:1][C:2]([O-:3])([Cl:4])[NH+:5]([CH3:6])[H:7].[CH3:10][NH2:9]",
+      "caption": "tetrahedral intermediate + methylamine",
+      "learnerPrompt": "The tetrahedral intermediate collapses.",
+      "hintTiers": [
+        "The oxygen anion can push its electrons back down to re-form C=O. Which group can carbon then lose?",
+        "Re-form the C=O π bond from an oxygen lone pair, and break the C–Cl bond with its pair going to chlorine. Two arrows.",
+        "Oxygen lone pair → C=O π bond; C–Cl bond → lone pair on chlorine."
+      ],
+      "misconceptions": [
+        {
+          "misconceptionId": "amine-leaves-again",
+          "misconceptionTag": "reverse-step",
+          "severity": "plausible",
+          "arrowPattern": "σ C2-N5 -> lp N5",
+          "feedbackMessage": "Losing methylamine just undoes the addition. Chloride is a much better leaving group: chloride leaves."
+        },
+        {
+          "misconceptionId": "methyl-leaves",
+          "misconceptionTag": "wrong-group-leaves",
+          "severity": "wrong",
+          "arrowPattern": "σ C1-C2 -> lp C1",
+          "feedbackMessage": "A methyl anion is a terrible leaving group. Of the groups on this carbon, chloride is the best one to lose."
+        }
+      ],
+      "mapNumberToCoordinates": {
+        "1": [
+          0,
+          0
+        ],
+        "2": [
+          1.3,
+          0.75
+        ],
+        "3": [
+          2.05,
+          -0.55
+        ],
+        "4": [
+          0.55,
+          2.05
+        ],
+        "5": [
+          2.6,
+          1.5
+        ],
+        "6": [
+          3.9,
+          0.75
+        ],
+        "7": [
+          2.6,
+          3
+        ],
+        "9": [
+          1.21,
+          5.01
+        ],
+        "10": [
+          -0.09,
+          4.26
+        ]
+      }
+    },
+    "protonated-amide": {
+      "mappedSmiles": "[CH3:1][C:2](=[O:3])[NH+:5]([CH3:6])[H:7].[Cl-:4].[CH3:10][NH2:9]",
+      "caption": "protonated amide + chloride + methylamine",
+      "learnerPrompt": "Remove the proton from the positive nitrogen.",
+      "hintTiers": [
+        "Which species in the flask is a base? Chloride is a very weak one.",
+        "The second methylamine uses its lone pair on the N–H proton; that N–H bonding pair stays on the amide nitrogen. Two arrows.",
+        "Lone pair of the free methylamine → new N–H bond to the proton on the positive nitrogen; that N–H bond → lone pair on the amide nitrogen."
+      ],
+      "misconceptions": [
+        {
+          "misconceptionId": "chloride-as-base",
+          "misconceptionTag": "weak-base",
+          "severity": "plausible",
+          "arrowPattern": "lp Cl4 -> H7",
+          "feedbackMessage": "Chloride is the conjugate base of HCl, a very weak base. The second equivalent of methylamine is the base here."
+        },
+        {
+          "misconceptionId": "free-amine-attacks-carbonyl",
+          "misconceptionTag": "attack-non-electrophile",
+          "severity": "plausible",
+          "arrowPattern": "lp N9 -> C2",
+          "feedbackMessage": "The amide carbonyl is a poor electrophile, and the amide is already made. Use the free methylamine as a base."
+        }
+      ],
+      "mapNumberToCoordinates": {
+        "1": [
+          0,
+          0
+        ],
+        "2": [
+          1.3,
+          0.75
+        ],
+        "3": [
+          1.3,
+          2.25
+        ],
+        "4": [
+          6.01,
+          -0.14
+        ],
+        "5": [
+          2.6,
+          0
+        ],
+        "6": [
+          2.6,
+          -1.5
+        ],
+        "7": [
+          3.9,
+          0.75
+        ],
+        "9": [
+          1.03,
+          4.68
+        ],
+        "10": [
+          -0.27,
+          3.93
+        ]
+      }
+    },
+    "neutral-tetrahedral": {
+      "mappedSmiles": "[CH3:1][C:2]([O-:3])([Cl:4])[NH:5][CH3:6].[CH3:10][NH2+:9][H:7]",
+      "caption": "tetrahedral intermediate (deprotonated) + methylammonium",
+      "learnerPrompt": "The tetrahedral intermediate collapses.",
+      "hintTiers": [
+        "The oxygen anion can re-form C=O. Which group can carbon then lose?",
+        "Re-form the C=O π bond from an oxygen lone pair, and break the C–Cl bond. Two arrows.",
+        "Oxygen lone pair → C=O π bond; C–Cl bond → lone pair on chlorine."
+      ],
+      "misconceptions": [
+        {
+          "misconceptionId": "amide-anion-leaves",
+          "misconceptionTag": "reverse-step",
+          "severity": "plausible",
+          "arrowPattern": "σ C2-N5 -> lp N5",
+          "feedbackMessage": "That would throw out the amine again. Chloride is the far better leaving group."
+        }
+      ],
+      "mapNumberToCoordinates": {
+        "1": [
+          0,
+          0
+        ],
+        "2": [
+          1.3,
+          0.75
+        ],
+        "3": [
+          2.05,
+          -0.55
+        ],
+        "4": [
+          0.55,
+          2.05
+        ],
+        "5": [
+          2.6,
+          1.5
+        ],
+        "6": [
+          2.6,
+          3
+        ],
+        "7": [
+          6.91,
+          -0.18
+        ],
+        "9": [
+          5.61,
+          0.57
+        ],
+        "10": [
+          4.31,
+          -0.18
+        ]
+      }
+    },
+    "products": {
+      "mappedSmiles": "[CH3:1][C:2](=[O:3])[NH:5][CH3:6].[Cl-:4].[CH3:10][NH2+:9][H:7]",
+      "caption": "N-methylacetamide + methylammonium chloride",
+      "mapNumberToCoordinates": {
+        "1": [
+          0,
+          0
+        ],
+        "2": [
+          1.3,
+          0.75
+        ],
+        "3": [
+          1.3,
+          2.25
+        ],
+        "4": [
+          5.92,
+          -0.25
+        ],
+        "5": [
+          2.6,
+          0
+        ],
+        "6": [
+          3.9,
+          0.75
+        ],
+        "7": [
+          2.41,
+          4.24
+        ],
+        "9": [
+          1.11,
+          4.99
+        ],
+        "10": [
+          -0.19,
+          4.24
+        ]
+      }
+    }
+  },
+  "steps": [
+    {
+      "stepKey": "addition",
+      "fromStateId": "reactants",
+      "toStateId": "tetrahedral",
+      "stepKind": "polar",
+      "routePreference": "preferred",
+      "canonicalArrows": [
+        "lp N5 -> σ N5-C2",
+        "π C2-O3 -> lp O3"
+      ],
+      "explanationAfterStep": "The amine adds to the carbonyl carbon just as nucleophiles add to aldehydes: a tetrahedral intermediate. Unlike an aldehyde, this carbon carries a leaving group."
+    },
+    {
+      "stepKey": "chloride-leaves",
+      "fromStateId": "tetrahedral",
+      "toStateId": "protonated-amide",
+      "stepKind": "polar",
+      "routePreference": "preferred",
+      "canonicalArrows": [
+        "lp O3 -> π C2-O3",
+        "σ C2-Cl4 -> lp Cl4"
+      ],
+      "explanationAfterStep": "The C=O bond re-forms and pushes out chloride, the best leaving group on that carbon. Addition, then elimination: substitution at C=O."
+    },
+    {
+      "stepKey": "deprotonation",
+      "fromStateId": "protonated-amide",
+      "toStateId": "products",
+      "stepKind": "polar",
+      "routePreference": "preferred",
+      "canonicalArrows": [
+        "lp N9 -> σ N9-H7",
+        "σ N5-H7 -> lp N5"
+      ],
+      "explanationAfterStep": "The second equivalent of methylamine is the base: it ends up as methylammonium chloride. That is why two equivalents of amine (or one plus a base such as triethylamine) are used."
+    },
+    {
+      "stepKey": "early-deprotonation",
+      "fromStateId": "tetrahedral",
+      "toStateId": "neutral-tetrahedral",
+      "stepKind": "polar",
+      "routePreference": "accepted",
+      "canonicalArrows": [
+        "lp N9 -> σ N9-H7",
+        "σ N5-H7 -> lp N5"
+      ],
+      "explanationAfterStep": "Also correct: the proton can come off nitrogen before chloride leaves. Either order gives the same amide."
+    },
+    {
+      "stepKey": "late-chloride-loss",
+      "fromStateId": "neutral-tetrahedral",
+      "toStateId": "products",
+      "stepKind": "polar",
+      "routePreference": "accepted",
+      "canonicalArrows": [
+        "lp O3 -> π C2-O3",
+        "σ C2-Cl4 -> lp Cl4"
+      ],
+      "explanationAfterStep": "The C=O bond re-forms and chloride leaves: N-methylacetamide."
+    }
+  ],
+  "mechanismSummary": "Methylamine adds to the carbonyl carbon of acetyl chloride, giving a tetrahedral intermediate. The C=O bond re-forms and chloride leaves. A second methylamine removes the proton from nitrogen, giving N-methylacetamide and methylammonium chloride.",
+  "references": [
+    "Clayden, Greeves and Warren, Organic Chemistry, 2nd edition (Oxford University Press), chapter 10"
+  ],
+  "authors": [
+    {
+      "name": "Maksim",
+      "url": null
+    }
+  ],
+  "licence": "CC-BY-SA-4.0"
+}

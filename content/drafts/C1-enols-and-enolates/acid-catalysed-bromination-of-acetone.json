@@ -1,0 +1,463 @@
+{
+  "formatVersion": 1,
+  "reactionSlug": "acid-catalysed-bromination-of-acetone",
+  "reactionVersion": 1,
+  "previousReactionVersion": null,
+  "title": "Acid-catalysed bromination of acetone",
+  "subtitle": "The enol attacks bromine",
+  "reactionClasses": [
+    "substitution",
+    "carbonyl"
+  ],
+  "difficultyTier": 3,
+  "conditionsLabel": "Br₂ · HBr (cat.) · H₂O · 25 °C",
+  "dailyPuzzleEligible": true,
+  "atomRoleToMapNumbers": {
+    "carbonylOxygen": [
+      3
+    ],
+    "alphaCarbon": [
+      4
+    ],
+    "electrophile": [
+      9
+    ],
+    "leavingGroup": [
+      10
+    ]
+  },
+  "spectatorMapNumbers": [
+    8
+  ],
+  "startStateId": "reactants",
+  "stateIdToState": {
+    "reactants": {
+      "mappedSmiles": "[CH3:1][C:2](=[O:3])[CH2:4][H:5].[H:7][OH2+:6].[Br-:8].[OH2:11].[Br:9][Br:10]",
+      "caption": "acetone + H₃O⁺ + water + bromine (Br⁻ is a spectator)",
+      "learnerPrompt": "Bromine does not react with the ketone itself. Start by protonating the ketone.",
+      "hintTiers": [
+        "Bromine needs a nucleophile, and acetone is not one. Acid catalysis turns the ketone into a nucleophile, the enol. What is its first step?",
+        "The carbonyl oxygen takes a proton from H₃O⁺. Two arrows.",
+        "Carbonyl oxygen lone pair → the hydrogen of H₃O⁺; that O–H bond → a lone pair on the oxygen of H₃O⁺."
+      ],
+      "misconceptions": [
+        {
+          "misconceptionId": "ketone-attacks-bromine",
+          "misconceptionTag": "ketone-as-nucleophile",
+          "severity": "wrong",
+          "arrowPattern": "* -> Br9",
+          "feedbackMessage": "A ketone is not nucleophilic enough to attack bromine. First make the enol: protonate the carbonyl oxygen."
+        },
+        {
+          "misconceptionId": "alpha-h-first",
+          "misconceptionTag": "deprotonate-before-activation",
+          "severity": "wrong",
+          "arrowPattern": "σ C4-H5 -> *",
+          "feedbackMessage": "The α-hydrogen of the neutral ketone is not acidic enough for water. Protonate the carbonyl oxygen first."
+        }
+      ],
+      "partialProgressMessages": [
+        {
+          "learnerArrows": [
+            "lp O3 -> σ O3-H7"
+          ],
+          "feedbackMessage": "Right start: the carbonyl oxygen takes the proton. Now break the hydrogen's bond to the oxygen of H₃O⁺."
+        }
+      ],
+      "mapNumberToCoordinates": {
+        "1": [
+          0,
+          0
+        ],
+        "2": [
+          1.3,
+          0.75
+        ],
+        "3": [
+          1.3,
+          2.25
+        ],
+        "4": [
+          2.6,
+          0
+        ],
+        "5": [
+          3.9,
+          0.75
+        ],
+        "6": [
+          0,
+          4.25
+        ],
+        "7": [
+          1.3,
+          5
+        ],
+        "8": [
+          5.92,
+          -0.25
+        ],
+        "9": [
+          7.66,
+          1.22
+        ],
+        "10": [
+          8.96,
+          1.97
+        ],
+        "11": [
+          -1.7,
+          2.72
+        ]
+      }
+    },
+    "protonated-ketone": {
+      "mappedSmiles": "[CH3:1][C:2](=[O+:3][H:7])[CH2:4][H:5].[OH2:6].[Br-:8].[OH2:11].[Br:9][Br:10]",
+      "caption": "protonated acetone + water + bromine",
+      "learnerPrompt": "Form the enol, using water as the base.",
+      "hintTiers": [
+        "The protonated carbonyl makes the α-C–H acidic. Which C–H is drawn?",
+        "Water takes the drawn α-hydrogen; the C–H electrons form a C=C bond; the C=O π electrons move onto oxygen. Three arrows.",
+        "Water lone pair → the drawn α-hydrogen; that C–H bond → a π bond to the carbonyl carbon; the C=O π bond → a lone pair on the carbonyl oxygen."
+      ],
+      "misconceptions": [
+        {
+          "misconceptionId": "water-adds-to-carbonyl",
+          "misconceptionTag": "unproductive-addition",
+          "severity": "plausible",
+          "arrowPattern": "lp O6 -> σ O6-C2",
+          "feedbackMessage": "Water can add to the carbonyl carbon, but the hydrate is a reversible dead end. Water acts as a base here."
+        },
+        {
+          "misconceptionId": "bromine-too-early",
+          "misconceptionTag": "electrophile-too-early",
+          "severity": "wrong",
+          "arrowPattern": "* -> Br9",
+          "feedbackMessage": "Nothing here is nucleophilic enough for bromine yet. Make the enol first: water removes an α-hydrogen."
+        }
+      ],
+      "partialProgressMessages": [
+        {
+          "learnerArrows": [
+            "lp O6 -> σ O6-H5",
+            "σ C4-H5 -> π C2-C4"
+          ],
+          "feedbackMessage": "Good: the C=C forms. The carbonyl carbon now has five bonds: move the C=O π electrons onto oxygen."
+        }
+      ],
+      "mapNumberToCoordinates": {
+        "1": [
+          0,
+          0
+        ],
+        "2": [
+          1.3,
+          0.75
+        ],
+        "3": [
+          1.3,
+          2.25
+        ],
+        "4": [
+          2.6,
+          0
+        ],
+        "5": [
+          3.9,
+          0.75
+        ],
+        "6": [
+          -0.07,
+          4.1
+        ],
+        "7": [
+          2.6,
+          3
+        ],
+        "8": [
+          0.1,
+          6.39
+        ],
+        "9": [
+          7.5,
+          1.23
+        ],
+        "10": [
+          8.8,
+          1.98
+        ],
+        "11": [
+          5.88,
+          -0.37
+        ]
+      }
+    },
+    "enol": {
+      "mappedSmiles": "[CH3:1][C:2]([O:3][H:7])=[CH2:4].[H:5][OH2+:6].[Br-:8].[OH2:11].[Br:9][Br:10]",
+      "caption": "the enol + H₃O⁺ + water + bromine",
+      "learnerPrompt": "The enol is the nucleophile. Attack bromine.",
+      "hintTiers": [
+        "An enol is an electron-rich alkene: the oxygen lone pair pushes electrons into the C=C bond. Which carbon is nucleophilic?",
+        "The oxygen lone pair forms C=O⁺, the C=C π electrons attack a bromine atom, and the Br–Br bond breaks onto the other bromine. Three arrows.",
+        "Enol oxygen lone pair → a π bond to its carbon; the C=C π bond → a new bond from the CH₂ carbon to bromine; the Br–Br bond → a lone pair on the far bromine."
+      ],
+      "misconceptions": [
+        {
+          "misconceptionId": "o-bromination",
+          "misconceptionTag": "ambident-wrong-end",
+          "severity": "wrong",
+          "arrowPattern": "lp O3 -> σ O3-Br*",
+          "feedbackMessage": "An O–Br bond is weak and gains nothing. The enol reacts at carbon: the oxygen lone pair pushes, the C=C π bond attacks."
+        },
+        {
+          "misconceptionId": "enol-c-protonated",
+          "misconceptionTag": "reverse-step",
+          "severity": "plausible",
+          "arrowPattern": "π C2-C4 -> σ C4-H5",
+          "feedbackMessage": "Protonating the enol on carbon gives back the protonated ketone. Bromine is the electrophile here."
+        }
+      ],
+      "partialProgressMessages": [
+        {
+          "learnerArrows": [
+            "π C2-C4 -> σ C4-Br9",
+            "σ Br9-Br10 -> lp Br10"
+          ],
+          "feedbackMessage": "Right bonds, but this leaves a carbocation next to the OH. Push the oxygen lone pair in too, to form C=O⁺–H."
+        }
+      ],
+      "mapNumberToCoordinates": {
+        "1": [
+          0,
+          0
+        ],
+        "2": [
+          1.3,
+          0.75
+        ],
+        "3": [
+          1.3,
+          2.25
+        ],
+        "4": [
+          2.6,
+          0
+        ],
+        "5": [
+          1.27,
+          4.87
+        ],
+        "6": [
+          -0.03,
+          4.12
+        ],
+        "7": [
+          2.6,
+          3
+        ],
+        "8": [
+          4.88,
+          -0.11
+        ],
+        "9": [
+          7.08,
+          0.52
+        ],
+        "10": [
+          8.38,
+          1.27
+        ],
+        "11": [
+          4.24,
+          -2.32
+        ]
+      }
+    },
+    "protonated-bromoketone": {
+      "mappedSmiles": "[CH3:1][C:2](=[O+:3][H:7])[CH2:4][Br:9].[H:5][OH2+:6].[Br-:8].[OH2:11].[Br-:10]",
+      "caption": "protonated bromoacetone + bromide + H₃O⁺ + water",
+      "learnerPrompt": "Deprotonate the oxygen to give the neutral product.",
+      "hintTiers": [
+        "The product still carries a proton on its carbonyl oxygen. Which species can take it?",
+        "A water molecule takes the proton on oxygen. Two arrows.",
+        "Water lone pair → the hydrogen on the carbonyl oxygen; that O–H bond → a lone pair on the carbonyl oxygen."
+      ],
+      "misconceptions": [
+        {
+          "misconceptionId": "bromide-adds",
+          "misconceptionTag": "unproductive-addition",
+          "severity": "plausible",
+          "arrowPattern": "lp Br10 -> σ Br10-C2",
+          "feedbackMessage": "Bromide can add to the carbonyl carbon, but that falls apart again. Remove the proton from the oxygen."
+        }
+      ],
+      "partialProgressMessages": [
+        {
+          "learnerArrows": [
+            "lp O11 -> σ O11-H7"
+          ],
+          "feedbackMessage": "Right: water takes the proton. Now break the O–H bond onto the carbonyl oxygen."
+        }
+      ],
+      "mapNumberToCoordinates": {
+        "1": [
+          0,
+          0
+        ],
+        "2": [
+          1.3,
+          0.75
+        ],
+        "3": [
+          1.3,
+          2.25
+        ],
+        "4": [
+          2.6,
+          0
+        ],
+        "5": [
+          7.28,
+          0.52
+        ],
+        "6": [
+          5.98,
+          -0.23
+        ],
+        "7": [
+          2.6,
+          3
+        ],
+        "8": [
+          0,
+          5
+        ],
+        "9": [
+          3.9,
+          0.75
+        ],
+        "10": [
+          0,
+          7.3
+        ],
+        "11": [
+          -0.9,
+          2.88
+        ]
+      }
+    },
+    "product": {
+      "mappedSmiles": "[CH3:1][C:2](=[O:3])[CH2:4][Br:9].[H:5][OH2+:6].[Br-:8].[H:7][OH2+:11].[Br-:10]",
+      "caption": "bromoacetone (1-bromopropan-2-one) + HBr (as H₃O⁺ and Br⁻)",
+      "mapNumberToCoordinates": {
+        "1": [
+          0,
+          0
+        ],
+        "2": [
+          1.3,
+          0.75
+        ],
+        "3": [
+          1.3,
+          2.25
+        ],
+        "4": [
+          2.6,
+          0
+        ],
+        "5": [
+          1.03,
+          4.67
+        ],
+        "6": [
+          -0.27,
+          3.92
+        ],
+        "7": [
+          7.32,
+          0.64
+        ],
+        "8": [
+          -0.65,
+          6.23
+        ],
+        "9": [
+          3.9,
+          0.75
+        ],
+        "10": [
+          0.99,
+          7.85
+        ],
+        "11": [
+          6.03,
+          -0.11
+        ]
+      }
+    }
+  },
+  "steps": [
+    {
+      "stepKey": "o-protonation",
+      "fromStateId": "reactants",
+      "toStateId": "protonated-ketone",
+      "stepKind": "polar",
+      "routePreference": "preferred",
+      "canonicalArrows": [
+        "lp O3 -> σ O3-H7",
+        "σ O6-H7 -> lp O6"
+      ],
+      "explanationAfterStep": "Protonation makes the carbonyl group a much stronger electron sink, ready for enolisation."
+    },
+    {
+      "stepKey": "enolisation",
+      "fromStateId": "protonated-ketone",
+      "toStateId": "enol",
+      "stepKind": "polar",
+      "routePreference": "preferred",
+      "canonicalArrows": [
+        "lp O6 -> σ O6-H5",
+        "σ C4-H5 -> π C2-C4",
+        "π C2-O3 -> lp O3"
+      ],
+      "explanationAfterStep": "This is the slow step. The rate depends on the ketone and the acid but not on bromine: chlorine, bromine and iodine all react at the same rate, the rate of enolisation."
+    },
+    {
+      "stepKey": "bromination",
+      "fromStateId": "enol",
+      "toStateId": "protonated-bromoketone",
+      "stepKind": "polar",
+      "routePreference": "preferred",
+      "canonicalArrows": [
+        "lp O3 -> π C2-O3",
+        "π C2-C4 -> σ C4-Br9",
+        "σ Br9-Br10 -> lp Br10"
+      ],
+      "explanationAfterStep": "The enol attacks bromine like an alkene, but the oxygen lone pair makes it far more nucleophilic and the cation formed is a stable protonated ketone, not a bromonium ion."
+    },
+    {
+      "stepKey": "o-deprotonation",
+      "fromStateId": "protonated-bromoketone",
+      "toStateId": "product",
+      "stepKind": "polar",
+      "routePreference": "preferred",
+      "canonicalArrows": [
+        "lp O11 -> σ O11-H7",
+        "σ O3-H7 -> lp O3"
+      ],
+      "explanationAfterStep": "The acid is given back and HBr is formed, so the reaction makes its own catalyst. It stops after one bromine: bromine on the α-carbon makes the carbonyl oxygen less basic, so the next enolisation is slower."
+    }
+  ],
+  "mechanismSummary": "Acid protonates the ketone, water removes an α-proton to give the enol, and the enol's C=C π bond attacks bromine while the oxygen lone pair forms C=O⁺–H. Water then removes that proton. Enol formation is the slow step, so the rate does not depend on the halogen. In acid the reaction stops after one halogen; in base it does not (the haloform reaction).",
+  "references": [
+    "Clayden, Greeves and Warren, Organic Chemistry, 2nd edition (Oxford University Press), chapter 20"
+  ],
+  "authors": [
+    {
+      "name": "Maksim",
+      "url": null
+    }
+  ],
+  "licence": "CC-BY-SA-4.0"
+}

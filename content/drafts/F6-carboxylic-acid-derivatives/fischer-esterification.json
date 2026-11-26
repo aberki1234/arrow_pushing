@@ -1,0 +1,642 @@
+{
+  "formatVersion": 1,
+  "reactionSlug": "fischer-esterification",
+  "reactionVersion": 1,
+  "previousReactionVersion": null,
+  "title": "Fischer esterification",
+  "subtitle": "Acetic acid and methanol give methyl acetate with sulfuric acid as the catalyst",
+  "reactionClasses": [
+    "carbonyl",
+    "substitution"
+  ],
+  "difficultyTier": 3,
+  "conditionsLabel": "MeOH (solvent) · H₂SO₄ (cat.) · reflux",
+  "dailyPuzzleEligible": true,
+  "atomRoleToMapNumbers": {
+    "carbonylCarbon": [
+      2
+    ],
+    "carbonylOxygen": [
+      3
+    ],
+    "hydroxylOxygen": [
+      4
+    ],
+    "alcoholOxygen": [
+      20
+    ]
+  },
+  "spectatorMapNumbers": [],
+  "startStateId": "reactants",
+  "stateIdToState": {
+    "reactants": {
+      "mappedSmiles": "[CH3:1][C:2](=[O:3])[OH:4].[CH3:21][O:20][H:22].[H:12][O:11][S:13](=[O:14])(=[O:15])[OH:16]",
+      "caption": "acetic acid + methanol + sulfuric acid",
+      "learnerPrompt": "Methanol is a weak nucleophile. First activate the acid.",
+      "hintTiers": [
+        "The acid catalyst makes the carbonyl group more electrophilic. Which oxygen of acetic acid is the best base?",
+        "The carbonyl oxygen takes a proton from sulfuric acid; that O–H bonding pair stays on the sulfate oxygen. Two arrows.",
+        "Carbonyl oxygen lone pair → new O–H bond to the proton of sulfuric acid; that O–H bond → lone pair on its oxygen."
+      ],
+      "misconceptions": [
+        {
+          "misconceptionId": "methanol-attacks-first",
+          "misconceptionTag": "attack-before-activation",
+          "severity": "plausible",
+          "arrowPattern": "lp O20 -> C2",
+          "feedbackMessage": "Methanol attacks a neutral carboxylic acid only very slowly. Protonate the carbonyl oxygen first."
+        },
+        {
+          "misconceptionId": "protonate-methanol",
+          "misconceptionTag": "unproductive-protonation",
+          "severity": "plausible",
+          "arrowPattern": "lp O20 -> H12",
+          "feedbackMessage": "Protonated methanol forms too, but it gets nowhere: it can no longer attack. Protonate the carbonyl oxygen of the acid."
+        }
+      ],
+      "mapNumberToCoordinates": {
+        "1": [
+          0,
+          0
+        ],
+        "2": [
+          1.3,
+          0.75
+        ],
+        "3": [
+          2.6,
+          0
+        ],
+        "4": [
+          1.3,
+          2.25
+        ],
+        "11": [
+          7.49,
+          1.63
+        ],
+        "12": [
+          7.49,
+          3.13
+        ],
+        "13": [
+          6.19,
+          0.88
+        ],
+        "14": [
+          4.89,
+          0.13
+        ],
+        "15": [
+          5.44,
+          2.18
+        ],
+        "16": [
+          6.94,
+          -0.42
+        ],
+        "20": [
+          1.3,
+          4.85
+        ],
+        "21": [
+          0,
+          4.1
+        ],
+        "22": [
+          2.6,
+          4.1
+        ]
+      }
+    },
+    "protonated-acid": {
+      "mappedSmiles": "[CH3:1][C:2](=[O+:3][H:12])[OH:4].[CH3:21][O:20][H:22].[O-:11][S:13](=[O:14])(=[O:15])[OH:16]",
+      "caption": "protonated acetic acid + methanol + hydrogen sulfate",
+      "learnerPrompt": "Methanol attacks the activated acid.",
+      "hintTiers": [
+        "The protonated carbonyl group is a strong electrophile. Which molecule is the nucleophile?",
+        "The methanol oxygen forms a bond to the carbonyl carbon, and the C=O π pair moves onto the protonated oxygen. Two arrows.",
+        "Methanol oxygen lone pair → new O–C bond to the carbonyl carbon; C=O π bond → lone pair on the protonated oxygen."
+      ],
+      "misconceptions": [
+        {
+          "misconceptionId": "pi-to-carbon",
+          "misconceptionTag": "pi-to-own-atom",
+          "severity": "wrong",
+          "arrowPattern": "π C2-O3 -> C2",
+          "feedbackMessage": "Electrons flow towards the electronegative atom. The C=O π pair moves onto oxygen."
+        },
+        {
+          "misconceptionId": "sulfate-takes-proton-back",
+          "misconceptionTag": "reverse-step",
+          "severity": "plausible",
+          "arrowPattern": "lp O11 -> H12",
+          "feedbackMessage": "That just undoes the activation. Let methanol attack the carbonyl carbon."
+        }
+      ],
+      "mapNumberToCoordinates": {
+        "1": [
+          0,
+          0
+        ],
+        "2": [
+          1.3,
+          0.75
+        ],
+        "3": [
+          2.6,
+          0
+        ],
+        "4": [
+          1.3,
+          2.25
+        ],
+        "11": [
+          6.06,
+          0
+        ],
+        "12": [
+          3.9,
+          0.75
+        ],
+        "13": [
+          7.36,
+          0.75
+        ],
+        "14": [
+          8.66,
+          1.5
+        ],
+        "15": [
+          8.11,
+          -0.55
+        ],
+        "16": [
+          6.61,
+          2.05
+        ],
+        "20": [
+          1.11,
+          4.99
+        ],
+        "21": [
+          -0.19,
+          4.24
+        ],
+        "22": [
+          2.41,
+          4.24
+        ]
+      }
+    },
+    "first-adduct": {
+      "mappedSmiles": "[CH3:1][C:2]([O:3][H:12])([OH:4])[O+:20]([CH3:21])[H:22].[O-:11][S:13](=[O:14])(=[O:15])[OH:16]",
+      "caption": "tetrahedral intermediate (protonated on the methanol oxygen) + hydrogen sulfate",
+      "learnerPrompt": "Move a proton off the positive oxygen.",
+      "hintTiers": [
+        "The oxygen from methanol carries a positive charge. Which species can take its proton?",
+        "Hydrogen sulfate uses a lone pair on that proton; the O–H bonding pair stays on the methoxy oxygen. Two arrows.",
+        "Hydrogen sulfate oxygen lone pair → new O–H bond to the proton on the positive oxygen; that O–H bond → lone pair on the methoxy oxygen."
+      ],
+      "misconceptions": [
+        {
+          "misconceptionId": "methanol-leaves-again",
+          "misconceptionTag": "reverse-step",
+          "severity": "plausible",
+          "arrowPattern": "σ C2-O20 -> lp O20",
+          "feedbackMessage": "Losing methanol just reverses the addition. Remove the proton from the positive oxygen."
+        }
+      ],
+      "mapNumberToCoordinates": {
+        "1": [
+          0,
+          0
+        ],
+        "2": [
+          1.3,
+          0.75
+        ],
+        "3": [
+          2.6,
+          1.5
+        ],
+        "4": [
+          2.05,
+          -0.55
+        ],
+        "11": [
+          4.31,
+          -0.15
+        ],
+        "12": [
+          2.6,
+          3
+        ],
+        "13": [
+          5.61,
+          0.6
+        ],
+        "14": [
+          6.91,
+          1.35
+        ],
+        "15": [
+          6.36,
+          -0.7
+        ],
+        "16": [
+          4.86,
+          1.9
+        ],
+        "20": [
+          0.55,
+          2.05
+        ],
+        "21": [
+          -0.95,
+          2.05
+        ],
+        "22": [
+          1.3,
+          3.35
+        ]
+      }
+    },
+    "tetrahedral": {
+      "mappedSmiles": "[CH3:1][C:2]([O:3][H:12])([OH:4])[O:20][CH3:21].[H:22][O:11][S:13](=[O:14])(=[O:15])[OH:16]",
+      "caption": "neutral tetrahedral intermediate + sulfuric acid",
+      "learnerPrompt": "Prepare a leaving group.",
+      "hintTiers": [
+        "Hydroxide is a poor leaving group, water a good one. What must happen to an OH group first?",
+        "An OH oxygen takes a proton from sulfuric acid; the O–H bonding pair stays on the sulfate oxygen. Two arrows.",
+        "Lone pair of an OH oxygen → new O–H bond to the proton of sulfuric acid; that O–H bond → lone pair on its oxygen."
+      ],
+      "misconceptions": [
+        {
+          "misconceptionId": "hydroxide-leaves",
+          "misconceptionTag": "heterolysis-without-help",
+          "severity": "wrong",
+          "arrowPattern": "σ C2-O4 -> lp O4",
+          "feedbackMessage": "Hydroxide is a poor leaving group and cannot form in acid. Protonate an OH group first, so that water leaves."
+        },
+        {
+          "misconceptionId": "protonate-methoxy",
+          "misconceptionTag": "unproductive-protonation",
+          "severity": "plausible",
+          "arrowPattern": "lp O20 -> H22",
+          "feedbackMessage": "Protonating the OMe oxygen lets methanol leave, which goes back to the start. Protonate an OH group."
+        }
+      ],
+      "mapNumberToCoordinates": {
+        "1": [
+          0,
+          0
+        ],
+        "2": [
+          1.3,
+          0.75
+        ],
+        "3": [
+          2.6,
+          1.5
+        ],
+        "4": [
+          2.05,
+          -0.55
+        ],
+        "11": [
+          6.85,
+          1.44
+        ],
+        "12": [
+          2.6,
+          3
+        ],
+        "13": [
+          5.55,
+          0.69
+        ],
+        "14": [
+          4.25,
+          -0.06
+        ],
+        "15": [
+          4.8,
+          1.99
+        ],
+        "16": [
+          6.3,
+          -0.61
+        ],
+        "20": [
+          0.55,
+          2.05
+        ],
+        "21": [
+          1.3,
+          3.35
+        ],
+        "22": [
+          6.85,
+          2.94
+        ]
+      }
+    },
+    "protonated-tetrahedral": {
+      "mappedSmiles": "[CH3:1][C:2]([O:3][H:12])([OH+:4][H:22])[O:20][CH3:21].[O-:11][S:13](=[O:14])(=[O:15])[OH:16]",
+      "caption": "tetrahedral intermediate protonated on an OH + hydrogen sulfate",
+      "learnerPrompt": "Water leaves.",
+      "hintTiers": [
+        "Water is now a good leaving group. Which electrons push it out?",
+        "The other OH oxygen re-forms a C=O π bond, and the C–O bond to the positive oxygen breaks. Two arrows.",
+        "OH oxygen lone pair → new C=O π bond; C–O bond to the protonated oxygen → lone pair on that oxygen."
+      ],
+      "misconceptions": [
+        {
+          "misconceptionId": "sulfate-removes-new-proton",
+          "misconceptionTag": "reverse-step",
+          "severity": "plausible",
+          "arrowPattern": "lp O11 -> H22",
+          "feedbackMessage": "That undoes the last step. The protonated OH is ready to leave as water."
+        },
+        {
+          "misconceptionId": "methoxy-leaves",
+          "misconceptionTag": "wrong-group-leaves",
+          "severity": "wrong",
+          "arrowPattern": "σ C2-O20 -> lp O20",
+          "feedbackMessage": "The OMe oxygen has no proton, so it would leave as methoxide: a poor leaving group. Water leaves."
+        }
+      ],
+      "mapNumberToCoordinates": {
+        "1": [
+          0,
+          0
+        ],
+        "2": [
+          1.3,
+          0.75
+        ],
+        "3": [
+          2.6,
+          1.5
+        ],
+        "4": [
+          2.05,
+          -0.55
+        ],
+        "11": [
+          5.81,
+          -0.14
+        ],
+        "12": [
+          2.6,
+          3
+        ],
+        "13": [
+          7.11,
+          0.61
+        ],
+        "14": [
+          8.41,
+          1.36
+        ],
+        "15": [
+          7.86,
+          -0.68
+        ],
+        "16": [
+          6.36,
+          1.91
+        ],
+        "20": [
+          0.55,
+          2.05
+        ],
+        "21": [
+          1.3,
+          3.35
+        ],
+        "22": [
+          3.55,
+          -0.55
+        ]
+      }
+    },
+    "protonated-ester": {
+      "mappedSmiles": "[CH3:1][C:2](=[O+:3][H:12])[O:20][CH3:21].[H:22][OH:4].[O-:11][S:13](=[O:14])(=[O:15])[OH:16]",
+      "caption": "protonated methyl acetate + water + hydrogen sulfate",
+      "learnerPrompt": "Give the catalyst back.",
+      "hintTiers": [
+        "The ester is protonated. Which species takes the proton?",
+        "Hydrogen sulfate uses a lone pair on the proton of the positive oxygen; that O–H bonding pair stays on the carbonyl oxygen. Two arrows.",
+        "Hydrogen sulfate oxygen lone pair → new O–H bond to the proton on the positive oxygen; that O–H bond → lone pair on the carbonyl oxygen."
+      ],
+      "misconceptions": [
+        {
+          "misconceptionId": "water-adds-back",
+          "misconceptionTag": "reverse-step",
+          "severity": "plausible",
+          "arrowPattern": "lp O4 -> C2",
+          "feedbackMessage": "Water adding again is the reverse reaction: hydrolysis. Methanol in excess pushes the equilibrium on: remove the proton."
+        }
+      ],
+      "mapNumberToCoordinates": {
+        "1": [
+          0,
+          0
+        ],
+        "2": [
+          1.3,
+          0.75
+        ],
+        "3": [
+          2.6,
+          0
+        ],
+        "4": [
+          -0.04,
+          4.11
+        ],
+        "11": [
+          6.03,
+          -0.1
+        ],
+        "12": [
+          3.9,
+          0.75
+        ],
+        "13": [
+          7.33,
+          0.65
+        ],
+        "14": [
+          8.63,
+          1.4
+        ],
+        "15": [
+          8.08,
+          -0.65
+        ],
+        "16": [
+          6.58,
+          1.95
+        ],
+        "20": [
+          1.3,
+          2.25
+        ],
+        "21": [
+          2.6,
+          3
+        ],
+        "22": [
+          1.25,
+          4.86
+        ]
+      }
+    },
+    "products": {
+      "mappedSmiles": "[CH3:1][C:2](=[O:3])[O:20][CH3:21].[H:22][OH:4].[H:12][O:11][S:13](=[O:14])(=[O:15])[OH:16]",
+      "caption": "methyl acetate + water + sulfuric acid",
+      "mapNumberToCoordinates": {
+        "1": [
+          0,
+          0
+        ],
+        "2": [
+          1.3,
+          0.75
+        ],
+        "3": [
+          2.6,
+          0
+        ],
+        "4": [
+          4.84,
+          -0.38
+        ],
+        "11": [
+          2.59,
+          7.28
+        ],
+        "12": [
+          2.59,
+          8.78
+        ],
+        "13": [
+          1.29,
+          6.53
+        ],
+        "14": [
+          -0.01,
+          5.78
+        ],
+        "15": [
+          0.54,
+          7.83
+        ],
+        "16": [
+          2.04,
+          5.23
+        ],
+        "20": [
+          1.3,
+          2.25
+        ],
+        "21": [
+          2.6,
+          3
+        ],
+        "22": [
+          6.14,
+          0.37
+        ]
+      }
+    }
+  },
+  "steps": [
+    {
+      "stepKey": "carbonyl-protonation",
+      "fromStateId": "reactants",
+      "toStateId": "protonated-acid",
+      "stepKind": "polar",
+      "routePreference": "preferred",
+      "canonicalArrows": [
+        "lp O3 -> σ O3-H12",
+        "σ O11-H12 -> lp O11"
+      ],
+      "explanationAfterStep": "Sulfuric acid protonates the carbonyl oxygen; the cation is shared between carbon and both oxygens."
+    },
+    {
+      "stepKey": "methanol-addition",
+      "fromStateId": "protonated-acid",
+      "toStateId": "first-adduct",
+      "stepKind": "polar",
+      "routePreference": "preferred",
+      "canonicalArrows": [
+        "lp O20 -> σ C2-O20",
+        "π C2-O3 -> lp O3"
+      ],
+      "explanationAfterStep": "Methanol adds to the carbonyl carbon: a tetrahedral intermediate."
+    },
+    {
+      "stepKey": "first-deprotonation",
+      "fromStateId": "first-adduct",
+      "toStateId": "tetrahedral",
+      "stepKind": "polar",
+      "routePreference": "preferred",
+      "canonicalArrows": [
+        "lp O11 -> σ O11-H22",
+        "σ O20-H22 -> lp O20"
+      ],
+      "explanationAfterStep": "Hydrogen sulfate takes the proton from the methanol oxygen and becomes sulfuric acid again."
+    },
+    {
+      "stepKey": "hydroxyl-protonation",
+      "fromStateId": "tetrahedral",
+      "toStateId": "protonated-tetrahedral",
+      "stepKind": "polar",
+      "routePreference": "preferred",
+      "canonicalArrows": [
+        "lp O4 -> σ O4-H22",
+        "σ O11-H22 -> lp O11"
+      ],
+      "explanationAfterStep": "Protonating an OH group makes water the leaving group. Either OH works: they are equivalent."
+    },
+    {
+      "stepKey": "water-leaves",
+      "fromStateId": "protonated-tetrahedral",
+      "toStateId": "protonated-ester",
+      "stepKind": "polar",
+      "routePreference": "preferred",
+      "canonicalArrows": [
+        "lp O3 -> π C2-O3",
+        "σ C2-O4 -> lp O4"
+      ],
+      "explanationAfterStep": "The other OH re-forms C=O and water leaves."
+    },
+    {
+      "stepKey": "final-deprotonation",
+      "fromStateId": "protonated-ester",
+      "toStateId": "products",
+      "stepKind": "polar",
+      "routePreference": "preferred",
+      "canonicalArrows": [
+        "lp O11 -> σ O11-H12",
+        "σ O3-H12 -> lp O3"
+      ],
+      "explanationAfterStep": "The catalyst is regenerated. Every step is reversible: methanol as solvent (or removing water) drives the equilibrium to the ester. It is the exact reverse of acid hydrolysis."
+    }
+  ],
+  "mechanismSummary": "Sulfuric acid protonates the carbonyl oxygen of acetic acid and methanol adds. Proton transfers move a proton from the methanol oxygen to an OH group, which then leaves as water while the other OH re-forms C=O. Losing the last proton gives methyl acetate and regenerates the acid. Every step is reversible; excess methanol drives it to the ester.",
+  "references": [
+    "Clayden, Greeves and Warren, Organic Chemistry, 2nd edition (Oxford University Press), chapter 10"
+  ],
+  "authors": [
+    {
+      "name": "Maksim",
+      "url": null
+    }
+  ],
+  "licence": "CC-BY-SA-4.0"
+}

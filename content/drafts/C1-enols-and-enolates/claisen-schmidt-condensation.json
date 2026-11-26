@@ -1,0 +1,716 @@
+{
+  "formatVersion": 1,
+  "reactionSlug": "claisen-schmidt-condensation",
+  "reactionVersion": 1,
+  "previousReactionVersion": null,
+  "title": "Claisen–Schmidt condensation",
+  "subtitle": "Acetone and benzaldehyde: aldol, then E1cB to benzalacetone",
+  "reactionClasses": [
+    "carbonyl",
+    "elimination"
+  ],
+  "difficultyTier": 3,
+  "conditionsLabel": "NaOH · H₂O, EtOH · 25 °C",
+  "dailyPuzzleEligible": true,
+  "atomRoleToMapNumbers": {
+    "base": [
+      6
+    ],
+    "alphaCarbon": [
+      4
+    ],
+    "enolateOxygen": [
+      3
+    ],
+    "electrophilicCarbon": [
+      8
+    ],
+    "leavingGroup": [
+      9
+    ]
+  },
+  "spectatorMapNumbers": [
+    7
+  ],
+  "abbreviatedGroups": [
+    {
+      "groupLabel": "Ph",
+      "attachmentMapNumber": 11,
+      "mapNumbers": [
+        11,
+        12,
+        13,
+        14,
+        15,
+        16
+      ]
+    }
+  ],
+  "startStateId": "reactants",
+  "stateIdToState": {
+    "reactants": {
+      "mappedSmiles": "[CH3:1][C:2](=[O:3])[CH:4]([H:5])[H:10].[OH-:6].[Na+:7].[O:9]=[CH:8][C:11]1=[CH:12][CH:13]=[CH:14][CH:15]=[CH:16]1",
+      "caption": "acetone + benzaldehyde + sodium hydroxide",
+      "learnerPrompt": "Two carbonyl compounds and a base. Which one can form an enolate? Form it.",
+      "hintTiers": [
+        "Benzaldehyde has no α-hydrogens, so it cannot form an enolate. Acetone can.",
+        "Hydroxide takes one of the drawn hydrogens of acetone; the C–H electrons form a C=C bond; the C=O π electrons move onto oxygen. Three arrows.",
+        "Hydroxide lone pair → a drawn α-hydrogen of acetone; that C–H bond → a π bond to the carbonyl carbon; the C=O π bond → a lone pair on the acetone oxygen."
+      ],
+      "misconceptions": [
+        {
+          "misconceptionId": "hydroxide-adds-to-aldehyde",
+          "misconceptionTag": "unproductive-addition",
+          "severity": "plausible",
+          "arrowPattern": "lp O6 -> σ O6-C8",
+          "feedbackMessage": "Hydroxide can add to benzaldehyde, but the hydrate is a reversible dead end. Use hydroxide as a base on acetone."
+        },
+        {
+          "misconceptionId": "hydroxide-adds-to-ketone",
+          "misconceptionTag": "unproductive-addition",
+          "severity": "plausible",
+          "arrowPattern": "lp O6 -> σ O6-C2",
+          "feedbackMessage": "Hydroxide can add to acetone's C=O, but that is reversible and leads nowhere. Hydroxide is the base here."
+        }
+      ],
+      "partialProgressMessages": [
+        {
+          "learnerArrows": [
+            "lp O6 -> σ O6-H5",
+            "σ C4-H5 -> π C2-C4"
+          ],
+          "feedbackMessage": "Good: the proton is taken and a C=C forms. The carbonyl carbon now has five bonds: move the C=O π electrons onto oxygen."
+        }
+      ],
+      "mapNumberToCoordinates": {
+        "1": [
+          0,
+          3.8
+        ],
+        "2": [
+          1.3,
+          4.55
+        ],
+        "3": [
+          1.3,
+          6.05
+        ],
+        "4": [
+          2.6,
+          3.8
+        ],
+        "5": [
+          3.9,
+          4.55
+        ],
+        "6": [
+          4.75,
+          0
+        ],
+        "7": [
+          7.05,
+          0
+        ],
+        "8": [
+          2.34,
+          -0.25
+        ],
+        "9": [
+          3.09,
+          -1.55
+        ],
+        "10": [
+          2.6,
+          2.3
+        ],
+        "11": [
+          0.84,
+          -0.25
+        ],
+        "12": [
+          0.09,
+          1.05
+        ],
+        "13": [
+          -1.41,
+          1.05
+        ],
+        "14": [
+          -2.16,
+          -0.25
+        ],
+        "15": [
+          -1.41,
+          -1.55
+        ],
+        "16": [
+          0.09,
+          -1.55
+        ]
+      }
+    },
+    "enolate": {
+      "mappedSmiles": "[CH3:1][C:2]([O-:3])=[CH:4][H:10].[H:5][OH:6].[Na+:7].[O:9]=[CH:8][C:11]1=[CH:12][CH:13]=[CH:14][CH:15]=[CH:16]1",
+      "caption": "acetone enolate + water + benzaldehyde",
+      "learnerPrompt": "The enolate attacks benzaldehyde.",
+      "hintTiers": [
+        "The enolate's α-carbon is the nucleophile. Which carbon of benzaldehyde is electrophilic?",
+        "The oxygen lone pair re-forms C=O, the C=C π electrons form a bond to the aldehyde carbon, and the aldehyde C=O π electrons move onto its oxygen. Three arrows.",
+        "Enolate oxygen lone pair → a π bond to its carbon; the C=C π bond → a new bond from the CH₂ carbon to the aldehyde carbon; the aldehyde C=O π bond → a lone pair on the aldehyde oxygen."
+      ],
+      "misconceptions": [
+        {
+          "misconceptionId": "o-attack",
+          "misconceptionTag": "ambident-wrong-end",
+          "severity": "plausible",
+          "arrowPattern": "lp O3 -> σ O3-C8",
+          "feedbackMessage": "Attack through oxygen is possible but reversible and gives nothing useful. The aldol needs the new C–C bond: the C=C π bond attacks."
+        },
+        {
+          "misconceptionId": "attack-aldehyde-oxygen",
+          "misconceptionTag": "attack-electron-rich-atom",
+          "severity": "wrong",
+          "arrowPattern": "π C2-C4 -> O9",
+          "feedbackMessage": "The carbonyl oxygen is electron-rich. The electrophile is the aldehyde carbon."
+        },
+        {
+          "misconceptionId": "enolate-c-protonated",
+          "misconceptionTag": "reverse-step",
+          "severity": "plausible",
+          "arrowPattern": "* -> σ C4-H5",
+          "feedbackMessage": "Taking the proton back from water just gives acetone again. Let the enolate attack benzaldehyde."
+        }
+      ],
+      "partialProgressMessages": [
+        {
+          "learnerArrows": [
+            "π C2-C4 -> σ C4-C8",
+            "π C8-O9 -> lp O9"
+          ],
+          "feedbackMessage": "Right bonds, but this leaves a cation next to O⁻ on the acetone side. Push the enolate oxygen lone pair in too."
+        }
+      ],
+      "mapNumberToCoordinates": {
+        "1": [
+          0,
+          2.3
+        ],
+        "2": [
+          1.3,
+          3.05
+        ],
+        "3": [
+          1.3,
+          4.55
+        ],
+        "4": [
+          2.6,
+          2.3
+        ],
+        "5": [
+          6.05,
+          0.75
+        ],
+        "6": [
+          4.75,
+          0
+        ],
+        "7": [
+          -0.39,
+          6.08
+        ],
+        "8": [
+          2.62,
+          -1.24
+        ],
+        "9": [
+          3.37,
+          -2.54
+        ],
+        "10": [
+          3.9,
+          3.05
+        ],
+        "11": [
+          1.12,
+          -1.24
+        ],
+        "12": [
+          0.37,
+          0.06
+        ],
+        "13": [
+          -1.13,
+          0.06
+        ],
+        "14": [
+          -1.88,
+          -1.24
+        ],
+        "15": [
+          -1.13,
+          -2.54
+        ],
+        "16": [
+          0.37,
+          -2.54
+        ]
+      }
+    },
+    "alkoxide": {
+      "mappedSmiles": "[CH3:1][C:2](=[O:3])[CH:4]([H:10])[CH:8]([O-:9])[C:11]1=[CH:12][CH:13]=[CH:14][CH:15]=[CH:16]1.[H:5][OH:6].[Na+:7]",
+      "caption": "the alkoxide + water",
+      "learnerPrompt": "Protonate the alkoxide.",
+      "hintTiers": [
+        "An alkoxide is a strong base. Which proton source is nearby?",
+        "The alkoxide takes a proton from water. Two arrows.",
+        "Alkoxide lone pair → the drawn hydrogen of water; that O–H bond → a lone pair on the water oxygen."
+      ],
+      "misconceptions": [
+        {
+          "misconceptionId": "retro-aldol",
+          "misconceptionTag": "reverse-step",
+          "severity": "plausible",
+          "arrowPattern": "σ C4-C8 -> *",
+          "feedbackMessage": "Breaking the new C–C bond is the retro-aldol, the reverse step. Protonate the alkoxide instead."
+        },
+        {
+          "misconceptionId": "alkoxide-attacks-water-oxygen",
+          "misconceptionTag": "attack-electron-rich-atom",
+          "severity": "wrong",
+          "arrowPattern": "lp O9 -> O6",
+          "feedbackMessage": "Both oxygens are electron-rich. The alkoxide takes the δ+ hydrogen of water."
+        }
+      ],
+      "partialProgressMessages": [
+        {
+          "learnerArrows": [
+            "lp O9 -> σ O9-H5"
+          ],
+          "feedbackMessage": "Right: the alkoxide takes the proton. Now break the O–H bond onto the water oxygen."
+        }
+      ],
+      "mapNumberToCoordinates": {
+        "1": [
+          3.75,
+          -3.9
+        ],
+        "2": [
+          3,
+          -2.6
+        ],
+        "3": [
+          1.5,
+          -2.6
+        ],
+        "4": [
+          3.75,
+          -1.3
+        ],
+        "5": [
+          0.87,
+          4.29
+        ],
+        "6": [
+          -0.43,
+          3.54
+        ],
+        "7": [
+          7.02,
+          0.14
+        ],
+        "8": [
+          3,
+          0
+        ],
+        "9": [
+          3.75,
+          1.3
+        ],
+        "10": [
+          5.25,
+          -1.3
+        ],
+        "11": [
+          1.5,
+          0
+        ],
+        "12": [
+          0.75,
+          1.3
+        ],
+        "13": [
+          -0.75,
+          1.3
+        ],
+        "14": [
+          -1.5,
+          0
+        ],
+        "15": [
+          -0.75,
+          -1.3
+        ],
+        "16": [
+          0.75,
+          -1.3
+        ]
+      }
+    },
+    "aldol": {
+      "mappedSmiles": "[CH3:1][C:2](=[O:3])[CH:4]([H:10])[CH:8]([O:9][H:5])[C:11]1=[CH:12][CH:13]=[CH:14][CH:15]=[CH:16]1.[OH-:6].[Na+:7]",
+      "caption": "4-hydroxy-4-phenylbutan-2-one (the aldol) + hydroxide",
+      "learnerPrompt": "The aldol does not stop here. Hydroxide removes a proton again: form the new enolate.",
+      "hintTiers": [
+        "The CH₂ between the C=O and the CH(OH) still has an acidic hydrogen. Why does deprotonating it lead somewhere new?",
+        "Hydroxide takes the drawn hydrogen on that CH₂; the C–H electrons form a C=C bond to the carbonyl carbon; the C=O π electrons move onto oxygen. Three arrows.",
+        "Hydroxide lone pair → the drawn hydrogen on the CH₂; that C–H bond → a π bond to the carbonyl carbon; the C=O π bond → a lone pair on the carbonyl oxygen."
+      ],
+      "misconceptions": [
+        {
+          "misconceptionId": "e2-concerted",
+          "misconceptionTag": "e2-instead-of-e1cb",
+          "severity": "wrong",
+          "arrowPattern": "σ C4-H10 -> π C4-C8",
+          "feedbackMessage": "Hydroxide is a poor leaving group, so a concerted E2 is not possible. Form the enolate first: its electrons will push hydroxide out."
+        },
+        {
+          "misconceptionId": "oh-leaves",
+          "misconceptionTag": "poor-leaving-group",
+          "severity": "wrong",
+          "arrowPattern": "σ C8-O9 -> lp O9",
+          "feedbackMessage": "Hydroxide does not leave from a neutral molecule on its own. Make the enolate first."
+        },
+        {
+          "misconceptionId": "oh-deprotonated",
+          "misconceptionTag": "unproductive-proton-transfer",
+          "severity": "plausible",
+          "arrowPattern": "lp O6 -> σ O6-H5",
+          "feedbackMessage": "Taking the proton off the OH group just goes back to the alkoxide. The productive proton is on the carbon next to the C=O."
+        }
+      ],
+      "partialProgressMessages": [
+        {
+          "learnerArrows": [
+            "lp O6 -> σ O6-H10",
+            "σ C4-H10 -> π C2-C4"
+          ],
+          "feedbackMessage": "Good: the proton is taken and a C=C forms. Now move the C=O π electrons onto oxygen."
+        }
+      ],
+      "mapNumberToCoordinates": {
+        "1": [
+          3.75,
+          -3.9
+        ],
+        "2": [
+          3,
+          -2.6
+        ],
+        "3": [
+          1.5,
+          -2.6
+        ],
+        "4": [
+          3.75,
+          -1.3
+        ],
+        "5": [
+          5.25,
+          1.3
+        ],
+        "6": [
+          -0.91,
+          3.58
+        ],
+        "7": [
+          1.41,
+          4.25
+        ],
+        "8": [
+          3,
+          0
+        ],
+        "9": [
+          3.75,
+          1.3
+        ],
+        "10": [
+          5.25,
+          -1.3
+        ],
+        "11": [
+          1.5,
+          0
+        ],
+        "12": [
+          0.75,
+          1.3
+        ],
+        "13": [
+          -0.75,
+          1.3
+        ],
+        "14": [
+          -1.5,
+          0
+        ],
+        "15": [
+          -0.75,
+          -1.3
+        ],
+        "16": [
+          0.75,
+          -1.3
+        ]
+      }
+    },
+    "aldol-enolate": {
+      "mappedSmiles": "[CH3:1][C:2]([O-:3])=[CH:4][CH:8]([O:9][H:5])[C:11]1=[CH:12][CH:13]=[CH:14][CH:15]=[CH:16]1.[H:10][OH:6].[Na+:7]",
+      "caption": "the enolate of the aldol + water",
+      "learnerPrompt": "The enolate pushes out hydroxide (E1cB).",
+      "hintTiers": [
+        "Electrons from the enolate oxygen can flow along the C=C bond towards the carbon carrying the OH group.",
+        "The oxygen lone pair re-forms C=O, the C=C π bond moves one bond along, and the C–OH bond breaks onto oxygen. Three arrows.",
+        "Enolate oxygen lone pair → a π bond to its carbon; the C=C π bond → a π bond to the carbon carrying OH; the C–OH bond → a lone pair on that oxygen."
+      ],
+      "misconceptions": [
+        {
+          "misconceptionId": "retro-aldol-from-enolate",
+          "misconceptionTag": "reverse-step",
+          "severity": "plausible",
+          "arrowPattern": "* -> σ C4-H10",
+          "feedbackMessage": "Taking the proton back just reverses the last step. Let the enolate push hydroxide out."
+        },
+        {
+          "misconceptionId": "o-attack-ring",
+          "misconceptionTag": "wrong-nucleophile-site",
+          "severity": "wrong",
+          "arrowPattern": "lp O3 -> σ O3-C8",
+          "feedbackMessage": "That would make a strained four-membered ring. The enolate's electrons flow along the C=C bond to push hydroxide out."
+        }
+      ],
+      "partialProgressMessages": [
+        {
+          "learnerArrows": [
+            "σ C8-O9 -> lp O9"
+          ],
+          "feedbackMessage": "Hydroxide does leave, but only because the enolate pushes it. Add the arrows from the enolate oxygen and the C=C bond."
+        }
+      ],
+      "mapNumberToCoordinates": {
+        "1": [
+          6,
+          -2.6
+        ],
+        "2": [
+          5.25,
+          -1.3
+        ],
+        "3": [
+          6,
+          0
+        ],
+        "4": [
+          3.75,
+          -1.3
+        ],
+        "5": [
+          5.25,
+          1.3
+        ],
+        "6": [
+          -0.85,
+          3.59
+        ],
+        "7": [
+          -0.26,
+          6.52
+        ],
+        "8": [
+          3,
+          0
+        ],
+        "9": [
+          3.75,
+          1.3
+        ],
+        "10": [
+          0.45,
+          4.34
+        ],
+        "11": [
+          1.5,
+          0
+        ],
+        "12": [
+          0.75,
+          1.3
+        ],
+        "13": [
+          -0.75,
+          1.3
+        ],
+        "14": [
+          -1.5,
+          0
+        ],
+        "15": [
+          -0.75,
+          -1.3
+        ],
+        "16": [
+          0.75,
+          -1.3
+        ]
+      }
+    },
+    "product": {
+      "mappedSmiles": "[CH3:1][C:2](=[O:3])[CH:4]=[CH:8][C:11]1=[CH:12][CH:13]=[CH:14][CH:15]=[CH:16]1.[H:5][O-:9].[H:10][OH:6].[Na+:7]",
+      "caption": "(E)-4-phenylbut-3-en-2-one (benzalacetone) + hydroxide + water",
+      "mapNumberToCoordinates": {
+        "1": [
+          6,
+          -2.6
+        ],
+        "2": [
+          5.25,
+          -1.3
+        ],
+        "3": [
+          6,
+          0
+        ],
+        "4": [
+          3.75,
+          -1.3
+        ],
+        "5": [
+          0.67,
+          4.34
+        ],
+        "6": [
+          1.57,
+          6.45
+        ],
+        "7": [
+          -1.19,
+          6.45
+        ],
+        "8": [
+          3,
+          0
+        ],
+        "9": [
+          -0.63,
+          3.59
+        ],
+        "10": [
+          2.87,
+          7.2
+        ],
+        "11": [
+          1.5,
+          0
+        ],
+        "12": [
+          0.75,
+          1.3
+        ],
+        "13": [
+          -0.75,
+          1.3
+        ],
+        "14": [
+          -1.5,
+          0
+        ],
+        "15": [
+          -0.75,
+          -1.3
+        ],
+        "16": [
+          0.75,
+          -1.3
+        ]
+      }
+    }
+  },
+  "steps": [
+    {
+      "stepKey": "enolate-formation",
+      "fromStateId": "reactants",
+      "toStateId": "enolate",
+      "stepKind": "polar",
+      "routePreference": "preferred",
+      "canonicalArrows": [
+        "lp O6 -> σ O6-H5",
+        "σ C4-H5 -> π C2-C4",
+        "π C2-O3 -> lp O3"
+      ],
+      "explanationAfterStep": "Only acetone has α-hydrogens, so only one enolate can form. That is why this crossed aldol gives one main product."
+    },
+    {
+      "stepKey": "carbon-carbon-bond-formation",
+      "fromStateId": "enolate",
+      "toStateId": "alkoxide",
+      "stepKind": "polar",
+      "routePreference": "preferred",
+      "canonicalArrows": [
+        "lp O3 -> π C2-O3",
+        "π C2-C4 -> σ C4-C8",
+        "π C8-O9 -> lp O9"
+      ],
+      "explanationAfterStep": "The enolate adds to the aldehyde rather than to another acetone: an aldehyde is more electrophilic than a ketone, and benzaldehyde is present in excess over the enolate."
+    },
+    {
+      "stepKey": "protonation",
+      "fromStateId": "alkoxide",
+      "toStateId": "aldol",
+      "stepKind": "polar",
+      "routePreference": "preferred",
+      "canonicalArrows": [
+        "lp O9 -> σ O9-H5",
+        "σ O6-H5 -> lp O6"
+      ],
+      "explanationAfterStep": "This is the aldol addition product, a β-hydroxy ketone. Hydroxide is given back."
+    },
+    {
+      "stepKey": "second-enolate-formation",
+      "fromStateId": "aldol",
+      "toStateId": "aldol-enolate",
+      "stepKind": "polar",
+      "routePreference": "preferred",
+      "canonicalArrows": [
+        "lp O6 -> σ O6-H10",
+        "σ C4-H10 -> π C2-C4",
+        "π C2-O3 -> lp O3"
+      ],
+      "explanationAfterStep": "The enolate of the aldol sits next to a carbon carrying a leaving group, which sets up E1cB."
+    },
+    {
+      "stepKey": "loss-of-hydroxide",
+      "fromStateId": "aldol-enolate",
+      "toStateId": "product",
+      "stepKind": "polar",
+      "routePreference": "preferred",
+      "canonicalArrows": [
+        "lp O3 -> π C2-O3",
+        "π C2-C4 -> π C4-C8",
+        "σ C8-O9 -> lp O9"
+      ],
+      "explanationAfterStep": "E1cB: hydroxide is a poor leaving group, but the new C=C bond is conjugated with both the C=O group and the benzene ring, so dehydration is fast and complete. The E alkene forms, with the phenyl group and the carbonyl group apart."
+    }
+  ],
+  "mechanismSummary": "Hydroxide deprotonates acetone, the only partner with α-hydrogens. The enolate adds to benzaldehyde, the better electrophile, and water protonates the alkoxide: the aldol. A second deprotonation gives an enolate that expels hydroxide by E1cB, giving (E)-benzalacetone, conjugated from the ring through the C=C to the C=O. A crossed aldol works cleanly when one partner cannot enolise and is the better electrophile.",
+  "references": [
+    "Clayden, Greeves and Warren, Organic Chemistry, 2nd edition (Oxford University Press), chapter 26"
+  ],
+  "authors": [
+    {
+      "name": "Maksim",
+      "url": null
+    }
+  ],
+  "licence": "CC-BY-SA-4.0"
+}

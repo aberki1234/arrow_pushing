@@ -1,0 +1,1020 @@
+{
+  "formatVersion": 1,
+  "reactionSlug": "dcc-amide-coupling",
+  "reactionVersion": 1,
+  "previousReactionVersion": null,
+  "title": "DCC amide coupling",
+  "subtitle": "DCC activates acetic acid; benzylamine adds and dicyclohexylurea leaves",
+  "reactionClasses": [
+    "carbonyl",
+    "substitution"
+  ],
+  "difficultyTier": 3,
+  "conditionsLabel": "1. DCC · CH₂Cl₂ · 0 °C · 2. BnNH₂",
+  "dailyPuzzleEligible": true,
+  "atomRoleToMapNumbers": {
+    "carbonylCarbon": [
+      2
+    ],
+    "carbonylOxygen": [
+      3
+    ],
+    "carbodiimideCarbon": [
+      11
+    ],
+    "amineNitrogen": [
+      30
+    ]
+  },
+  "spectatorMapNumbers": [],
+  "abbreviatedGroups": [
+    {
+      "groupLabel": "Cy",
+      "attachmentMapNumber": 13,
+      "mapNumbers": [
+        13,
+        14,
+        15,
+        16,
+        17,
+        18
+      ]
+    },
+    {
+      "groupLabel": "Cy",
+      "attachmentMapNumber": 19,
+      "mapNumbers": [
+        19,
+        20,
+        21,
+        22,
+        23,
+        24
+      ]
+    },
+    {
+      "groupLabel": "Ph",
+      "attachmentMapNumber": 33,
+      "mapNumbers": [
+        33,
+        34,
+        35,
+        36,
+        37,
+        38
+      ]
+    }
+  ],
+  "startStateId": "reactants",
+  "stateIdToState": {
+    "reactants": {
+      "mappedSmiles": "[CH3:1][C:2](=[O:3])[O:4][H:5].[N:10](=[C:11]=[N:12][CH:19]1[CH2:20][CH2:21][CH2:22][CH2:23][CH2:24]1)[CH:13]1[CH2:14][CH2:15][CH2:16][CH2:17][CH2:18]1",
+      "caption": "acetic acid + DCC (dicyclohexylcarbodiimide)",
+      "learnerPrompt": "DCC is a base as well as an electrophile. Start with a proton transfer.",
+      "hintTiers": [
+        "Acetic acid is an acid. Which atom of DCC has a lone pair that can take a proton?",
+        "A nitrogen lone pair of DCC takes the O–H proton of the acid; that O–H bonding pair stays on the acid oxygen. Two arrows.",
+        "DCC nitrogen lone pair → new N–H bond to the acid proton; acid O–H bond → lone pair on its oxygen."
+      ],
+      "misconceptions": [
+        {
+          "misconceptionId": "acid-oxygen-attacks-dcc",
+          "misconceptionTag": "attack-before-activation",
+          "severity": "plausible",
+          "arrowPattern": "lp O4 -> C11",
+          "feedbackMessage": "The neutral acid is a poor nucleophile. Proton transfer first: it makes a carboxylate and a much more electrophilic protonated DCC."
+        },
+        {
+          "misconceptionId": "carbonyl-protonates",
+          "misconceptionTag": "intramolecular-proton-shift",
+          "severity": "wrong",
+          "arrowPattern": "lp O3 -> H5",
+          "feedbackMessage": "The carbonyl oxygen of the same molecule cannot take that proton usefully. DCC's nitrogen is the base."
+        }
+      ],
+      "mapNumberToCoordinates": {
+        "1": [
+          5.5,
+          0
+        ],
+        "2": [
+          6.8,
+          0.75
+        ],
+        "3": [
+          8.1,
+          0
+        ],
+        "4": [
+          6.8,
+          2.25
+        ],
+        "5": [
+          8.1,
+          3
+        ],
+        "10": [
+          4.4,
+          -2.67
+        ],
+        "11": [
+          3.65,
+          -1.37
+        ],
+        "12": [
+          2.9,
+          -0.07
+        ],
+        "13": [
+          3.65,
+          -3.97
+        ],
+        "14": [
+          2.15,
+          -3.97
+        ],
+        "15": [
+          1.4,
+          -5.26
+        ],
+        "16": [
+          2.15,
+          -6.56
+        ],
+        "17": [
+          3.65,
+          -6.56
+        ],
+        "18": [
+          4.4,
+          -5.26
+        ],
+        "19": [
+          1.4,
+          -0.07
+        ],
+        "20": [
+          0.65,
+          1.23
+        ],
+        "21": [
+          -0.85,
+          1.23
+        ],
+        "22": [
+          -1.6,
+          -0.07
+        ],
+        "23": [
+          -0.85,
+          -1.37
+        ],
+        "24": [
+          0.65,
+          -1.37
+        ]
+      }
+    },
+    "ion-pair": {
+      "mappedSmiles": "[CH3:1][C:2](=[O:3])[O-:4].[H:5][N+:10](=[C:11]=[N:12][CH:19]1[CH2:20][CH2:21][CH2:22][CH2:23][CH2:24]1)[CH:13]1[CH2:14][CH2:15][CH2:16][CH2:17][CH2:18]1",
+      "caption": "acetate + protonated DCC",
+      "learnerPrompt": "The carboxylate attacks protonated DCC.",
+      "hintTiers": [
+        "The central carbon of protonated DCC is very electron-poor. Which atom of acetate is the nucleophile?",
+        "An acetate oxygen forms a bond to the central carbon, and the C=N π pair next to the positive nitrogen moves onto that nitrogen. Two arrows.",
+        "Acetate oxygen lone pair → new O–C bond to the central carbon; C=N⁺ π bond → lone pair on the protonated nitrogen."
+      ],
+      "misconceptions": [
+        {
+          "misconceptionId": "acetate-takes-proton-back",
+          "misconceptionTag": "reverse-step",
+          "severity": "plausible",
+          "arrowPattern": "lp O4 -> H5",
+          "feedbackMessage": "That just reverses the proton transfer. Use the carboxylate as a nucleophile."
+        },
+        {
+          "misconceptionId": "wrong-pi-bond",
+          "misconceptionTag": "electrons-toward-less-electronegative-atom",
+          "severity": "wrong",
+          "arrowPattern": "lp O4 -> σ O4-C11; π C11-N12 -> lp N12",
+          "feedbackMessage": "Moving the other C=N π pair leaves a nitrogen anion beside a positive nitrogen. Move the π pair onto the protonated nitrogen and neutralise it."
+        }
+      ],
+      "mapNumberToCoordinates": {
+        "1": [
+          0,
+          2.3
+        ],
+        "2": [
+          1.3,
+          3.05
+        ],
+        "3": [
+          2.6,
+          2.3
+        ],
+        "4": [
+          1.3,
+          4.55
+        ],
+        "5": [
+          4.45,
+          -5.19
+        ],
+        "10": [
+          5.2,
+          -3.89
+        ],
+        "11": [
+          4.45,
+          -2.59
+        ],
+        "12": [
+          3.7,
+          -1.29
+        ],
+        "13": [
+          6.7,
+          -3.89
+        ],
+        "14": [
+          7.45,
+          -5.19
+        ],
+        "15": [
+          8.95,
+          -5.19
+        ],
+        "16": [
+          9.7,
+          -3.89
+        ],
+        "17": [
+          8.95,
+          -2.59
+        ],
+        "18": [
+          7.45,
+          -2.59
+        ],
+        "19": [
+          2.2,
+          -1.29
+        ],
+        "20": [
+          1.45,
+          0.01
+        ],
+        "21": [
+          -0.05,
+          0.01
+        ],
+        "22": [
+          -0.8,
+          -1.29
+        ],
+        "23": [
+          -0.05,
+          -2.59
+        ],
+        "24": [
+          1.45,
+          -2.59
+        ]
+      }
+    },
+    "acylisourea": {
+      "mappedSmiles": "[CH3:1][C:2](=[O:3])[O:4][C:11](=[N:12][CH:19]1[CH2:20][CH2:21][CH2:22][CH2:23][CH2:24]1)[N:10]([H:5])[CH:13]1[CH2:14][CH2:15][CH2:16][CH2:17][CH2:18]1",
+      "caption": "O-acylisourea",
+      "mapNumberToCoordinates": {
+        "1": [
+          3,
+          -5.2
+        ],
+        "2": [
+          3.75,
+          -3.9
+        ],
+        "3": [
+          5.25,
+          -3.9
+        ],
+        "4": [
+          3,
+          -2.6
+        ],
+        "5": [
+          6,
+          -2.6
+        ],
+        "10": [
+          5.25,
+          -1.3
+        ],
+        "11": [
+          3.75,
+          -1.3
+        ],
+        "12": [
+          3,
+          0
+        ],
+        "13": [
+          6,
+          0
+        ],
+        "14": [
+          7.5,
+          0
+        ],
+        "15": [
+          8.25,
+          1.3
+        ],
+        "16": [
+          7.5,
+          2.6
+        ],
+        "17": [
+          6,
+          2.6
+        ],
+        "18": [
+          5.25,
+          1.3
+        ],
+        "19": [
+          1.5,
+          0
+        ],
+        "20": [
+          0.75,
+          1.3
+        ],
+        "21": [
+          -0.75,
+          1.3
+        ],
+        "22": [
+          -1.5,
+          0
+        ],
+        "23": [
+          -0.75,
+          -1.3
+        ],
+        "24": [
+          0.75,
+          -1.3
+        ]
+      }
+    },
+    "acylisourea-and-amine": {
+      "mappedSmiles": "[CH3:1][C:2](=[O:3])[O:4][C:11](=[N:12][CH:19]1[CH2:20][CH2:21][CH2:22][CH2:23][CH2:24]1)[N:10]([H:5])[CH:13]1[CH2:14][CH2:15][CH2:16][CH2:17][CH2:18]1.[NH:30]([H:31])[CH2:32][C:33]1=[CH:34][CH:35]=[CH:36][CH:37]=[CH:38]1",
+      "caption": "O-acylisourea + benzylamine",
+      "learnerPrompt": "The amine attacks the activated acid.",
+      "hintTiers": [
+        "The O-acylisourea is an ester with a very good leaving group. Where does the amine attack?",
+        "The nitrogen lone pair of benzylamine forms a bond to the acyl carbon, and that C=O π pair moves onto oxygen. Two arrows.",
+        "Benzylamine nitrogen lone pair → new N–C bond to the acyl (C=O) carbon; C=O π bond → lone pair on the carbonyl oxygen."
+      ],
+      "misconceptions": [
+        {
+          "misconceptionId": "amine-attacks-isourea-carbon",
+          "misconceptionTag": "attack-wrong-carbon",
+          "severity": "plausible",
+          "arrowPattern": "lp N30 -> C11",
+          "feedbackMessage": "That carbon is electron-poor too, but attack there only rebuilds a urea-type adduct. The amide forms at the acyl carbon."
+        },
+        {
+          "misconceptionId": "amine-takes-nh-proton",
+          "misconceptionTag": "unproductive-protonation",
+          "severity": "wrong",
+          "arrowPattern": "lp N30 -> H5",
+          "feedbackMessage": "That N–H is not acidic enough to matter here. The amine is the nucleophile: attack the C=O carbon."
+        }
+      ],
+      "partialProgressMessages": [
+        {
+          "learnerArrows": [
+            "lp N30 -> σ N30-C2"
+          ],
+          "feedbackMessage": "Right: the amine attacks the acyl carbon. Now move the C=O π pair onto oxygen."
+        }
+      ],
+      "mapNumberToCoordinates": {
+        "1": [
+          3,
+          -5.2
+        ],
+        "2": [
+          3.75,
+          -3.9
+        ],
+        "3": [
+          5.25,
+          -3.9
+        ],
+        "4": [
+          3,
+          -2.6
+        ],
+        "5": [
+          6,
+          -2.6
+        ],
+        "10": [
+          5.25,
+          -1.3
+        ],
+        "11": [
+          3.75,
+          -1.3
+        ],
+        "12": [
+          3,
+          0
+        ],
+        "13": [
+          6,
+          0
+        ],
+        "14": [
+          7.5,
+          0
+        ],
+        "15": [
+          8.25,
+          1.3
+        ],
+        "16": [
+          7.5,
+          2.6
+        ],
+        "17": [
+          6,
+          2.6
+        ],
+        "18": [
+          5.25,
+          1.3
+        ],
+        "19": [
+          1.5,
+          0
+        ],
+        "20": [
+          0.75,
+          1.3
+        ],
+        "21": [
+          -0.75,
+          1.3
+        ],
+        "22": [
+          -1.5,
+          0
+        ],
+        "23": [
+          -0.75,
+          -1.3
+        ],
+        "24": [
+          0.75,
+          -1.3
+        ],
+        "30": [
+          3.32,
+          4.56
+        ],
+        "31": [
+          4.82,
+          4.56
+        ],
+        "32": [
+          2.57,
+          5.86
+        ],
+        "33": [
+          1.07,
+          5.86
+        ],
+        "34": [
+          0.32,
+          7.16
+        ],
+        "35": [
+          -1.18,
+          7.16
+        ],
+        "36": [
+          -1.93,
+          5.86
+        ],
+        "37": [
+          -1.18,
+          4.56
+        ],
+        "38": [
+          0.32,
+          4.56
+        ]
+      }
+    },
+    "tetrahedral": {
+      "mappedSmiles": "[CH3:1][C:2]([O-:3])([O:4][C:11](=[N:12][CH:19]1[CH2:20][CH2:21][CH2:22][CH2:23][CH2:24]1)[N:10]([H:5])[CH:13]1[CH2:14][CH2:15][CH2:16][CH2:17][CH2:18]1)[NH+:30]([H:31])[CH2:32][C:33]1=[CH:34][CH:35]=[CH:36][CH:37]=[CH:38]1",
+      "caption": "tetrahedral intermediate",
+      "learnerPrompt": "The tetrahedral intermediate collapses.",
+      "hintTiers": [
+        "Re-form C=O. Which group on that carbon is the best leaving group?",
+        "The oxygen anion re-forms the C=O π bond and the bond to the isourea oxygen breaks. Two arrows.",
+        "Oxygen lone pair → C=O π bond; C–O bond to the isourea oxygen → lone pair on that oxygen."
+      ],
+      "misconceptions": [
+        {
+          "misconceptionId": "amine-leaves-again",
+          "misconceptionTag": "reverse-step",
+          "severity": "plausible",
+          "arrowPattern": "σ C2-N30 -> lp N30",
+          "feedbackMessage": "Losing the amine undoes the addition. The isourea oxygen is the good leaving group: its charge is shared with nitrogen."
+        },
+        {
+          "misconceptionId": "methyl-leaves",
+          "misconceptionTag": "wrong-group-leaves",
+          "severity": "wrong",
+          "arrowPattern": "σ C1-C2 -> lp C1",
+          "feedbackMessage": "A methyl anion is a terrible leaving group. The isourea oxygen leaves."
+        }
+      ],
+      "mapNumberToCoordinates": {
+        "1": [
+          5.05,
+          -3.15
+        ],
+        "2": [
+          3.75,
+          -3.9
+        ],
+        "3": [
+          4.5,
+          -5.2
+        ],
+        "4": [
+          3,
+          -2.6
+        ],
+        "5": [
+          6,
+          -2.6
+        ],
+        "10": [
+          5.25,
+          -1.3
+        ],
+        "11": [
+          3.75,
+          -1.3
+        ],
+        "12": [
+          3,
+          0
+        ],
+        "13": [
+          6,
+          0
+        ],
+        "14": [
+          7.5,
+          0
+        ],
+        "15": [
+          8.25,
+          1.3
+        ],
+        "16": [
+          7.5,
+          2.6
+        ],
+        "17": [
+          6,
+          2.6
+        ],
+        "18": [
+          5.25,
+          1.3
+        ],
+        "19": [
+          1.5,
+          0
+        ],
+        "20": [
+          0.75,
+          1.3
+        ],
+        "21": [
+          -0.75,
+          1.3
+        ],
+        "22": [
+          -1.5,
+          0
+        ],
+        "23": [
+          -0.75,
+          -1.3
+        ],
+        "24": [
+          0.75,
+          -1.3
+        ],
+        "30": [
+          2.45,
+          -4.65
+        ],
+        "31": [
+          1.15,
+          -3.9
+        ],
+        "32": [
+          2.45,
+          -6.15
+        ],
+        "33": [
+          1.15,
+          -6.9
+        ],
+        "34": [
+          -0.15,
+          -6.15
+        ],
+        "35": [
+          -1.45,
+          -6.9
+        ],
+        "36": [
+          -1.45,
+          -8.4
+        ],
+        "37": [
+          -0.15,
+          -9.15
+        ],
+        "38": [
+          1.15,
+          -8.4
+        ]
+      }
+    },
+    "amide-and-urea-anion": {
+      "mappedSmiles": "[CH3:1][C:2](=[O:3])[NH+:30]([H:31])[CH2:32][C:33]1=[CH:34][CH:35]=[CH:36][CH:37]=[CH:38]1.[O-:4][C:11](=[N:12][CH:19]1[CH2:20][CH2:21][CH2:22][CH2:23][CH2:24]1)[N:10]([H:5])[CH:13]1[CH2:14][CH2:15][CH2:16][CH2:17][CH2:18]1",
+      "caption": "protonated amide + isourea anion",
+      "learnerPrompt": "One proton transfer gives the two neutral products.",
+      "hintTiers": [
+        "The anion is a base. Its charge is shared between oxygen and the C=N nitrogen. Where does the proton end up in a urea?",
+        "The C=N nitrogen takes the N–H proton of the protonated amide, the C=N π pair forming that bond, while the O⁻ lone pair moves in to make C=O. Three arrows.",
+        "Oxygen lone pair → C=O π bond; C=N π bond → new N–H bond to the proton on the amide nitrogen; that N–H bond → lone pair on the amide nitrogen."
+      ],
+      "misconceptions": [
+        {
+          "misconceptionId": "oxygen-takes-proton",
+          "misconceptionTag": "unproductive-protonation",
+          "severity": "plausible",
+          "arrowPattern": "lp O4 -> H31",
+          "feedbackMessage": "Protonating oxygen gives the isourea, a less stable tautomer of the urea. In dicyclohexylurea both nitrogens carry a hydrogen and oxygen forms C=O."
+        }
+      ],
+      "partialProgressMessages": [
+        {
+          "learnerArrows": [
+            "lp N12 -> σ N12-H31",
+            "σ N30-H31 -> lp N30"
+          ],
+          "feedbackMessage": "Right proton and right nitrogen, but that leaves C=N⁺ next to O⁻. Push the oxygen lone pair in as well, and let the C=N π pair form the new N–H bond."
+        }
+      ],
+      "mapNumberToCoordinates": {
+        "1": [
+          3.75,
+          -3.9
+        ],
+        "2": [
+          3,
+          -2.6
+        ],
+        "3": [
+          1.5,
+          -2.6
+        ],
+        "4": [
+          3,
+          2.3
+        ],
+        "5": [
+          6,
+          2.3
+        ],
+        "10": [
+          5.25,
+          3.6
+        ],
+        "11": [
+          3.75,
+          3.6
+        ],
+        "12": [
+          3,
+          4.9
+        ],
+        "13": [
+          6,
+          4.9
+        ],
+        "14": [
+          7.5,
+          4.9
+        ],
+        "15": [
+          8.25,
+          6.2
+        ],
+        "16": [
+          7.5,
+          7.5
+        ],
+        "17": [
+          6,
+          7.5
+        ],
+        "18": [
+          5.25,
+          6.2
+        ],
+        "19": [
+          1.5,
+          4.9
+        ],
+        "20": [
+          0.75,
+          6.2
+        ],
+        "21": [
+          -0.75,
+          6.2
+        ],
+        "22": [
+          -1.5,
+          4.9
+        ],
+        "23": [
+          -0.75,
+          3.6
+        ],
+        "24": [
+          0.75,
+          3.6
+        ],
+        "30": [
+          3.75,
+          -1.3
+        ],
+        "31": [
+          5.25,
+          -1.3
+        ],
+        "32": [
+          3,
+          0
+        ],
+        "33": [
+          1.5,
+          0
+        ],
+        "34": [
+          0.75,
+          1.3
+        ],
+        "35": [
+          -0.75,
+          1.3
+        ],
+        "36": [
+          -1.5,
+          0
+        ],
+        "37": [
+          -0.75,
+          -1.3
+        ],
+        "38": [
+          0.75,
+          -1.3
+        ]
+      }
+    },
+    "products": {
+      "mappedSmiles": "[CH3:1][C:2](=[O:3])[NH:30][CH2:32][C:33]1=[CH:34][CH:35]=[CH:36][CH:37]=[CH:38]1.[O:4]=[C:11]([N:12]([H:31])[CH:19]1[CH2:20][CH2:21][CH2:22][CH2:23][CH2:24]1)[N:10]([H:5])[CH:13]1[CH2:14][CH2:15][CH2:16][CH2:17][CH2:18]1",
+      "caption": "N-benzylacetamide + dicyclohexylurea",
+      "mapNumberToCoordinates": {
+        "1": [
+          6,
+          -2.6
+        ],
+        "2": [
+          5.25,
+          -1.3
+        ],
+        "3": [
+          6,
+          0
+        ],
+        "4": [
+          3,
+          7.5
+        ],
+        "5": [
+          6,
+          7.5
+        ],
+        "10": [
+          5.25,
+          6.2
+        ],
+        "11": [
+          3.75,
+          6.2
+        ],
+        "12": [
+          3,
+          4.9
+        ],
+        "13": [
+          6,
+          4.9
+        ],
+        "14": [
+          5.25,
+          3.6
+        ],
+        "15": [
+          6,
+          2.3
+        ],
+        "16": [
+          7.5,
+          2.3
+        ],
+        "17": [
+          8.25,
+          3.6
+        ],
+        "18": [
+          7.5,
+          4.9
+        ],
+        "19": [
+          1.5,
+          4.9
+        ],
+        "20": [
+          0.75,
+          6.2
+        ],
+        "21": [
+          -0.75,
+          6.2
+        ],
+        "22": [
+          -1.5,
+          4.9
+        ],
+        "23": [
+          -0.75,
+          3.6
+        ],
+        "24": [
+          0.75,
+          3.6
+        ],
+        "30": [
+          3.75,
+          -1.3
+        ],
+        "31": [
+          3.75,
+          3.6
+        ],
+        "32": [
+          3,
+          0
+        ],
+        "33": [
+          1.5,
+          0
+        ],
+        "34": [
+          0.75,
+          1.3
+        ],
+        "35": [
+          -0.75,
+          1.3
+        ],
+        "36": [
+          -1.5,
+          0
+        ],
+        "37": [
+          -0.75,
+          -1.3
+        ],
+        "38": [
+          0.75,
+          -1.3
+        ]
+      }
+    }
+  },
+  "steps": [
+    {
+      "stepKey": "proton-transfer",
+      "fromStateId": "reactants",
+      "toStateId": "ion-pair",
+      "stepKind": "polar",
+      "routePreference": "preferred",
+      "canonicalArrows": [
+        "lp N10 -> σ N10-H5",
+        "σ O4-H5 -> lp O4"
+      ],
+      "explanationAfterStep": "DCC is basic at nitrogen. Protonating it makes the central carbon very electrophilic, and gives a carboxylate nucleophile."
+    },
+    {
+      "stepKey": "acylisourea-formation",
+      "fromStateId": "ion-pair",
+      "toStateId": "acylisourea",
+      "stepKind": "polar",
+      "routePreference": "preferred",
+      "canonicalArrows": [
+        "lp O4 -> σ O4-C11",
+        "π C11-N10 -> lp N10"
+      ],
+      "explanationAfterStep": "The carboxylate adds to the central carbon: the O-acylisourea. The OH of the acid has become a good leaving group."
+    },
+    {
+      "stepKey": "amine-arrives",
+      "fromStateId": "acylisourea",
+      "toStateId": "acylisourea-and-amine",
+      "stepKind": "change",
+      "routePreference": "preferred",
+      "addedSpecies": "[NH:30]([H:31])[CH2:32][C:33]1=[CH:34][CH:35]=[CH:36][CH:37]=[CH:38]1",
+      "caption": "Benzylamine is added. (Mixed with the acid at the start, it would only form a salt.)"
+    },
+    {
+      "stepKey": "amine-addition",
+      "fromStateId": "acylisourea-and-amine",
+      "toStateId": "tetrahedral",
+      "stepKind": "polar",
+      "routePreference": "preferred",
+      "canonicalArrows": [
+        "lp N30 -> σ N30-C2",
+        "π C2-O3 -> lp O3"
+      ],
+      "explanationAfterStep": "The amine adds to the acyl carbon: a tetrahedral intermediate, as with an acid chloride."
+    },
+    {
+      "stepKey": "collapse",
+      "fromStateId": "tetrahedral",
+      "toStateId": "amide-and-urea-anion",
+      "stepKind": "polar",
+      "routePreference": "preferred",
+      "canonicalArrows": [
+        "lp O3 -> π C2-O3",
+        "σ C2-O4 -> lp O4"
+      ],
+      "explanationAfterStep": "C=O re-forms and the isourea oxygen leaves. Its charge is shared with nitrogen, so it is a good leaving group."
+    },
+    {
+      "stepKey": "urea-formation",
+      "fromStateId": "amide-and-urea-anion",
+      "toStateId": "products",
+      "stepKind": "polar",
+      "routePreference": "preferred",
+      "canonicalArrows": [
+        "lp O4 -> π C11-O4",
+        "π C11-N12 -> σ N12-H31",
+        "σ N30-H31 -> lp N30"
+      ],
+      "explanationAfterStep": "One proton transfer gives the amide and dicyclohexylurea. Forming the very stable C=O of the urea pays for making the amide; the urea is insoluble and filters off."
+    }
+  ],
+  "mechanismSummary": "A DCC nitrogen takes the proton of acetic acid, and acetate adds to the central carbon of protonated DCC: an O-acylisourea, with a good leaving group in place of OH. Benzylamine adds to the acyl carbon, the intermediate collapses and the isourea anion leaves. A proton transfer gives N-benzylacetamide and dicyclohexylurea.",
+  "references": [
+    "Clayden, Greeves and Warren, Organic Chemistry, 2nd edition (Oxford University Press), chapter 10"
+  ],
+  "authors": [
+    {
+      "name": "Maksim",
+      "url": null
+    }
+  ],
+  "licence": "CC-BY-SA-4.0"
+}
