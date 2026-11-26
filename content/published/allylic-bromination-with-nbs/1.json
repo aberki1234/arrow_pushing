@@ -1,0 +1,536 @@
+{
+  "steps": [
+    {
+      "stepKey": "allylic-hydrogen-abstraction",
+      "stepKind": "radical",
+      "toStateId": "allyl-radical-hbr",
+      "fromStateId": "reactants",
+      "canonicalArrows": [
+        "rad Br8 ~> σ Br8-H7",
+        "σ H7-C3 ~> σ Br8-H7",
+        "σ H7-C3 ~> rad C3"
+      ],
+      "routePreference": "preferred",
+      "explanationAfterStep": "The allylic C–H bond (about 360 kJ mol⁻¹) is much weaker than the other C–H bonds (about 410–465), because the radical formed is delocalised over three carbons."
+    },
+    {
+      "caption": "NBS reacts with the HBr just formed (a polar reaction) to give Br₂ and succinimide.",
+      "stepKey": "nbs-makes-bromine",
+      "stepKind": "change",
+      "toStateId": "allyl-radical",
+      "fromStateId": "allyl-radical-hbr",
+      "addedSpecies": "[Br:17][Br:18].[O:20]=[C:21]1[CH2:22][CH2:23][C:24](=[O:25])[NH:26]1",
+      "routePreference": "preferred",
+      "removedFragmentMapNumbers": [
+        7,
+        9
+      ]
+    },
+    {
+      "stepKey": "allyl-resonance",
+      "stepKind": "radical",
+      "toStateId": "allyl-radical-other-form",
+      "fromStateId": "allyl-radical",
+      "canonicalArrows": [
+        "rad C3 ~> π C2-C3",
+        "π C1-C2 ~> π C2-C3",
+        "π C1-C2 ~> rad C1"
+      ],
+      "routePreference": "preferred",
+      "explanationAfterStep": "The unpaired electron is spread over both ends of the allyl unit: two resonance forms of one radical. This delocalisation is why the allylic C–H was the one broken."
+    },
+    {
+      "stepKey": "bromine-transfer",
+      "stepKind": "radical",
+      "toStateId": "products",
+      "fromStateId": "allyl-radical-other-form",
+      "canonicalArrows": [
+        "rad C1 ~> σ C1-Br17",
+        "σ Br17-Br18 ~> σ C1-Br17",
+        "σ Br17-Br18 ~> rad Br18"
+      ],
+      "routePreference": "preferred",
+      "explanationAfterStep": "Either end of the allylic radical can take the bromine; in cyclohexene both ends are equivalent, so there is one product. The new Br• abstracts the next allylic hydrogen: a chain."
+    },
+    {
+      "stepKey": "bromine-transfer-direct",
+      "stepKind": "radical",
+      "toStateId": "products",
+      "fromStateId": "allyl-radical",
+      "canonicalArrows": [
+        "rad C3 ~> σ C3-Br17",
+        "σ Br17-Br18 ~> σ C3-Br17",
+        "σ Br17-Br18 ~> rad Br18"
+      ],
+      "routePreference": "accepted",
+      "explanationAfterStep": "Also correct: the radical can take bromine at the carbon where it was drawn. The two ends are equivalent here, so the product is the same 3-bromocyclohexene."
+    }
+  ],
+  "title": "Allylic bromination with NBS",
+  "authors": [
+    {
+      "url": null,
+      "name": "Maksim"
+    }
+  ],
+  "licence": "CC-BY-SA-4.0",
+  "subtitle": "Cyclohexene and N-bromosuccinimide give 3-bromocyclohexene through an allylic radical",
+  "references": [
+    "Clayden, Greeves and Warren, Organic Chemistry, 2nd edition (Oxford University Press), chapter 37 (Radical reactions)"
+  ],
+  "reactionSlug": "allylic-bromination-with-nbs",
+  "startStateId": "reactants",
+  "formatVersion": 1,
+  "difficultyTier": 2,
+  "stateIdToState": {
+    "products": {
+      "caption": "3-bromocyclohexene + Br• (carries the chain on) + succinimide",
+      "mappedSmiles": "[CH:1]1([Br:17])[CH:2]=[CH:3][CH2:4][CH2:5][CH2:6]1.[Br:18].[O:20]=[C:21]1[CH2:22][CH2:23][C:24](=[O:25])[NH:26]1",
+      "mapNumberToCoordinates": {
+        "1": [
+          1.5,
+          0
+        ],
+        "2": [
+          0.75,
+          1.3
+        ],
+        "3": [
+          -0.75,
+          1.3
+        ],
+        "4": [
+          -1.5,
+          0
+        ],
+        "5": [
+          -0.75,
+          -1.3
+        ],
+        "6": [
+          0.75,
+          -1.3
+        ],
+        "17": [
+          3,
+          0
+        ],
+        "18": [
+          5.3,
+          0
+        ],
+        "20": [
+          2.7,
+          4.76
+        ],
+        "21": [
+          1.2,
+          4.76
+        ],
+        "22": [
+          0.31,
+          5.98
+        ],
+        "23": [
+          -1.11,
+          5.51
+        ],
+        "24": [
+          -1.11,
+          4.01
+        ],
+        "25": [
+          -2.33,
+          3.13
+        ],
+        "26": [
+          0.31,
+          3.55
+        ]
+      }
+    },
+    "reactants": {
+      "caption": "cyclohexene + bromine radical (NBS in the flask)",
+      "hintTiers": [
+        "Which C–H bond of cyclohexene is weakest? Breaking it should give the most stable radical.",
+        "The bromine radical takes an allylic hydrogen, one on the carbon next to the C=C. The C–H bond splits evenly. Three fish-hooks.",
+        "Bromine's unpaired electron → new Br–H bond; one electron of the allylic C–H bond → Br–H; the other → the allylic carbon."
+      ],
+      "mappedSmiles": "[CH:1]1=[CH:2][CH:3]([H:7])[CH2:4][CH2:5][CH2:6]1.[Br:8].[O:9]=[C:10]1[CH2:11][CH2:12][C:13](=[O:14])[N:15]1[Br:16]",
+      "learnerPrompt": "Use fish-hook arrows: each moves one electron. The bromine radical takes a hydrogen from cyclohexene.",
+      "misconceptions": [
+        {
+          "severity": "plausible",
+          "arrowPattern": "rad Br8 ~> C1",
+          "feedbackMessage": "Br• can add to the C=C, but that addition is reversible, and with so little Br₂ present the radical formed falls apart again. Abstraction of the weak allylic C–H wins.",
+          "misconceptionId": "bromine-adds-to-alkene",
+          "misconceptionTag": "radical-addition-instead"
+        },
+        {
+          "severity": "plausible",
+          "arrowPattern": "rad Br8 ~> C2",
+          "feedbackMessage": "Br• can add to the C=C, but that addition is reversible, and with so little Br₂ present the radical formed falls apart again. Abstraction of the weak allylic C–H wins.",
+          "misconceptionId": "bromine-adds-to-alkene-other-end",
+          "misconceptionTag": "radical-addition-instead"
+        },
+        {
+          "severity": "wrong",
+          "arrowPattern": "rad Br8 ~> C*",
+          "feedbackMessage": "That carbon already has four bonds. A radical abstracts a hydrogen, which can only make one bond.",
+          "misconceptionId": "bromine-bonds-to-saturated-carbon",
+          "misconceptionTag": "hypervalent-product"
+        },
+        {
+          "severity": "wrong",
+          "arrowPattern": "rad Br8 ~> Br16",
+          "feedbackMessage": "NBS is not attacked by the radical here. Its job is polar: it turns the HBr formed into Br₂. Start with the alkene's weakest C–H bond.",
+          "misconceptionId": "bromine-attacks-nbs",
+          "misconceptionTag": "wrong-partner"
+        }
+      ],
+      "mapNumberToCoordinates": {
+        "1": [
+          1.5,
+          0
+        ],
+        "2": [
+          0.75,
+          1.3
+        ],
+        "3": [
+          -0.75,
+          1.3
+        ],
+        "4": [
+          -1.5,
+          0
+        ],
+        "5": [
+          -0.75,
+          -1.3
+        ],
+        "6": [
+          0.75,
+          -1.3
+        ],
+        "7": [
+          -1.5,
+          2.6
+        ],
+        "8": [
+          0.04,
+          4.25
+        ],
+        "9": [
+          8.03,
+          -0.09
+        ],
+        "10": [
+          6.53,
+          -0.09
+        ],
+        "11": [
+          5.65,
+          1.12
+        ],
+        "12": [
+          4.22,
+          0.66
+        ],
+        "13": [
+          4.22,
+          -0.84
+        ],
+        "14": [
+          3.01,
+          -1.72
+        ],
+        "15": [
+          5.65,
+          -1.3
+        ],
+        "16": [
+          6.11,
+          -2.73
+        ]
+      },
+      "partialProgressMessages": [
+        {
+          "learnerArrows": [
+            "rad Br8 ~> σ Br8-H7",
+            "σ C3-H7 ~> rad C3"
+          ],
+          "feedbackMessage": "One electron is missing: the new H–Br bond needs two, one from Br• and one from the C–H bond."
+        }
+      ]
+    },
+    "allyl-radical": {
+      "caption": "allylic radical + Br₂ (from NBS) + succinimide",
+      "hintTiers": [
+        "A radical next to a C=C is delocalised. Which electrons can move without breaking any σ bond?",
+        "The unpaired electron pairs with one electron of the C=C π bond to make a new π bond; the other π electron ends on the far carbon. Three fish-hooks.",
+        "Unpaired electron → new π bond to its neighbour; one electron of the old π bond → the same new π bond; the other → the far end carbon."
+      ],
+      "mappedSmiles": "[CH:1]1=[CH:2][CH:3][CH2:4][CH2:5][CH2:6]1.[Br:17][Br:18].[O:20]=[C:21]1[CH2:22][CH2:23][C:24](=[O:25])[NH:26]1",
+      "learnerPrompt": "The unpaired electron is not stuck on one carbon. Draw the other resonance form of the allylic radical.",
+      "misconceptions": [
+        {
+          "severity": "wrong",
+          "arrowPattern": "rad C3 ~> C1",
+          "feedbackMessage": "Bonding the two ends of the allyl unit would make a three-membered ring. Resonance moves electrons only: the σ bonds stay put.",
+          "misconceptionId": "radical-attacks-double-bond",
+          "misconceptionTag": "wrong-arrow-pattern"
+        },
+        {
+          "severity": "plausible",
+          "arrowPattern": "π C1-C2 *> Br*",
+          "feedbackMessage": "That is how Br₂ adds to an alkene by the polar route. NBS keeps Br₂ so dilute that this addition is too slow; the radical chain wins.",
+          "misconceptionId": "polar-bromine-addition",
+          "misconceptionTag": "polar-addition-of-bromine"
+        }
+      ],
+      "mapNumberToCoordinates": {
+        "1": [
+          1.5,
+          0
+        ],
+        "2": [
+          0.75,
+          1.3
+        ],
+        "3": [
+          -0.75,
+          1.3
+        ],
+        "4": [
+          -1.5,
+          0
+        ],
+        "5": [
+          -0.75,
+          -1.3
+        ],
+        "6": [
+          0.75,
+          -1.3
+        ],
+        "17": [
+          3.79,
+          0.15
+        ],
+        "18": [
+          5.09,
+          0.9
+        ],
+        "20": [
+          2.79,
+          4.77
+        ],
+        "21": [
+          1.29,
+          4.77
+        ],
+        "22": [
+          0.41,
+          5.98
+        ],
+        "23": [
+          -1.02,
+          5.52
+        ],
+        "24": [
+          -1.02,
+          4.02
+        ],
+        "25": [
+          -2.23,
+          3.14
+        ],
+        "26": [
+          0.41,
+          3.55
+        ]
+      },
+      "partialProgressMessages": [
+        {
+          "learnerArrows": [
+            "rad C3 ~> π C2-C3",
+            "π C1-C2 ~> rad C1"
+          ],
+          "feedbackMessage": "One more fish-hook: the new π bond needs two electrons, one from the radical and one from the old π bond."
+        }
+      ]
+    },
+    "allyl-radical-hbr": {
+      "caption": "cyclohex-2-enyl (allylic) radical + HBr + NBS",
+      "mappedSmiles": "[CH:1]1=[CH:2][CH:3][CH2:4][CH2:5][CH2:6]1.[Br:8][H:7].[O:9]=[C:10]1[CH2:11][CH2:12][C:13](=[O:14])[N:15]1[Br:16]",
+      "mapNumberToCoordinates": {
+        "1": [
+          1.5,
+          0
+        ],
+        "2": [
+          0.75,
+          1.3
+        ],
+        "3": [
+          -0.75,
+          1.3
+        ],
+        "4": [
+          -1.5,
+          0
+        ],
+        "5": [
+          -0.75,
+          -1.3
+        ],
+        "6": [
+          0.75,
+          -1.3
+        ],
+        "7": [
+          5.09,
+          0.9
+        ],
+        "8": [
+          3.79,
+          0.15
+        ],
+        "9": [
+          2.83,
+          6.23
+        ],
+        "10": [
+          1.33,
+          6.23
+        ],
+        "11": [
+          0.45,
+          7.45
+        ],
+        "12": [
+          -0.98,
+          6.98
+        ],
+        "13": [
+          -0.98,
+          5.48
+        ],
+        "14": [
+          -2.19,
+          4.6
+        ],
+        "15": [
+          0.45,
+          5.02
+        ],
+        "16": [
+          0.91,
+          3.59
+        ]
+      }
+    },
+    "allyl-radical-other-form": {
+      "caption": "the other resonance form: unpaired electron on the other end",
+      "hintTiers": [
+        "The Br–Br bond is weak. Which atom does the carbon radical attack?",
+        "The carbon radical makes a bond to one bromine while the Br–Br bond splits evenly. Three fish-hooks.",
+        "Carbon's unpaired electron → new C–Br bond; one Br–Br electron → C–Br; the other → the far bromine."
+      ],
+      "mappedSmiles": "[CH:1]1[CH:2]=[CH:3][CH2:4][CH2:5][CH2:6]1.[Br:17][Br:18].[O:20]=[C:21]1[CH2:22][CH2:23][C:24](=[O:25])[NH:26]1",
+      "learnerPrompt": "The radical takes a bromine atom from Br₂.",
+      "misconceptions": [
+        {
+          "severity": "wrong",
+          "arrowPattern": "rad C1 ~> H*",
+          "feedbackMessage": "There is no HBr left on screen: NBS has turned it into Br₂. The radical reacts with Br₂.",
+          "misconceptionId": "radical-takes-hydrogen-back",
+          "misconceptionTag": "reverse-step"
+        }
+      ],
+      "mapNumberToCoordinates": {
+        "1": [
+          1.5,
+          0
+        ],
+        "2": [
+          0.75,
+          1.3
+        ],
+        "3": [
+          -0.75,
+          1.3
+        ],
+        "4": [
+          -1.5,
+          0
+        ],
+        "5": [
+          -0.75,
+          -1.3
+        ],
+        "6": [
+          0.75,
+          -1.3
+        ],
+        "17": [
+          3.79,
+          0.15
+        ],
+        "18": [
+          5.09,
+          0.9
+        ],
+        "20": [
+          2.79,
+          4.77
+        ],
+        "21": [
+          1.29,
+          4.77
+        ],
+        "22": [
+          0.41,
+          5.98
+        ],
+        "23": [
+          -1.02,
+          5.52
+        ],
+        "24": [
+          -1.02,
+          4.02
+        ],
+        "25": [
+          -2.23,
+          3.14
+        ],
+        "26": [
+          0.41,
+          3.55
+        ]
+      },
+      "partialProgressMessages": [
+        {
+          "learnerArrows": [
+            "rad C1 ~> σ Br17-C1",
+            "σ Br17-Br18 ~> rad Br18"
+          ],
+          "feedbackMessage": "One more fish-hook: the new C–Br bond needs an electron from the Br–Br bond as well."
+        }
+      ]
+    }
+  },
+  "conditionsLabel": "NBS · (PhCO₂)₂ (cat.) · CCl₄ · reflux",
+  "reactionClasses": [
+    "radical",
+    "substitution"
+  ],
+  "reactionVersion": 1,
+  "mechanismSummary": "A bromine radical abstracts an allylic hydrogen, giving a delocalised allylic radical. NBS reacts with the HBr formed to give Br₂, but only ever a little at a time. The allylic radical takes a bromine atom from Br₂, giving 3-bromocyclohexene and a new bromine radical, so the chain continues. Because Br₂ stays dilute, the polar addition of Br₂ across the C=C cannot compete.",
+  "dailyPuzzleEligible": true,
+  "spectatorMapNumbers": [],
+  "atomRoleToMapNumbers": {},
+  "previousReactionVersion": null
+}

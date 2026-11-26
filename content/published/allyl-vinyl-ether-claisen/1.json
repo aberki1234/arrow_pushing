@@ -1,0 +1,149 @@
+{
+  "steps": [
+    {
+      "stepKey": "three-three-shift",
+      "stepKind": "polar",
+      "toStateId": "aldehyde",
+      "fromStateId": "ether",
+      "canonicalArrows": [
+        "π C1-C2 -> σ C1-C6",
+        "σ O3-C4 -> π C2-O3",
+        "π C5-C6 -> π C4-C5"
+      ],
+      "routePreference": "preferred",
+      "explanationAfterStep": "A [3,3]-sigmatropic shift, just like the Cope rearrangement, but with an oxygen in the chain. The product has a C=O instead of a C=C, and a C=O π bond is much stronger than a C=C one, so this Claisen rearrangement is not an equilibrium: it runs one way, to the γ,δ-unsaturated aldehyde."
+    }
+  ],
+  "title": "Claisen rearrangement of allyl vinyl ether",
+  "authors": [
+    {
+      "url": null,
+      "name": "Maksim"
+    }
+  ],
+  "licence": "CC-BY-SA-4.0",
+  "subtitle": "A [3,3] shift turns an ether into pent-4-enal",
+  "references": [
+    "Clayden, Greeves and Warren, Organic Chemistry, 2nd edition (Oxford University Press), chapter 35"
+  ],
+  "reactionSlug": "allyl-vinyl-ether-claisen",
+  "startStateId": "ether",
+  "formatVersion": 1,
+  "difficultyTier": 2,
+  "stateIdToState": {
+    "ether": {
+      "caption": "allyl vinyl ether, drawn curled so its ends meet",
+      "hintTiers": [
+        "As in the Cope rearrangement, six electrons move round a six-membered ring. Which σ bond breaks, and which two carbons are joined?",
+        "The O–CH₂ bond to the allyl group breaks; the CH₂ end of the vinyl group bonds to the CH₂ end of the allyl group. Oxygen keeps its pair and gains a C=O. Three arrows.",
+        "Arrow 1: from the vinyl C=C π bond to a new bond between the vinyl CH₂ and the far CH₂ of the allyl group. Arrow 2: from the O–allyl σ bond to the oxygen–carbon bond of the vinyl group (it becomes C=O). Arrow 3: from the allyl C=C π bond to the bond between its CH and the CH₂ that lost oxygen."
+      ],
+      "mappedSmiles": "[CH2:1]=[CH:2][O:3][CH2:4][CH:5]=[CH2:6]",
+      "learnerPrompt": "Allyl vinyl ether rearranges on heating. It is a 1,5-diene with oxygen at position 3. Draw the single step.",
+      "misconceptions": [
+        {
+          "severity": "wrong",
+          "arrowPattern": "σ O3-C4 -> lp O3",
+          "feedbackMessage": "Breaking the O–allyl bond on its own would give an enolate and an allyl cation. In the Claisen rearrangement this bond breaks only as the new C–C bond forms, in one cyclic step with no ions.",
+          "misconceptionId": "ionisation",
+          "misconceptionTag": "stepwise-ionisation"
+        },
+        {
+          "severity": "wrong",
+          "arrowPattern": "σ C2-O3 -> *",
+          "feedbackMessage": "The O–vinyl bond stays and becomes the C=O. The bond that breaks is the one between oxygen and the allyl CH₂.",
+          "misconceptionId": "vinyl-sigma-breaks",
+          "misconceptionTag": "wrong-bond-breaks"
+        }
+      ],
+      "mapNumberToCoordinates": {
+        "1": [
+          1.5,
+          0
+        ],
+        "2": [
+          0.75,
+          1.3
+        ],
+        "3": [
+          -0.75,
+          1.3
+        ],
+        "4": [
+          -1.5,
+          0
+        ],
+        "5": [
+          -0.75,
+          -1.3
+        ],
+        "6": [
+          0.75,
+          -1.3
+        ]
+      },
+      "partialProgressMessages": [
+        {
+          "learnerArrows": [
+            "σ O3-C4 -> π C2-O3"
+          ],
+          "feedbackMessage": "Right: the O–allyl bond becomes a C=O π bond. In the same step the vinyl π bond reaches the allyl end and the allyl π bond moves across. Two more arrows."
+        }
+      ]
+    },
+    "aldehyde": {
+      "caption": "pent-4-enal",
+      "mappedSmiles": "[O:3]=[CH:2][CH2:1][CH2:6][CH:5]=[CH2:4]",
+      "mapNumberToCoordinates": {
+        "1": [
+          1.5,
+          0
+        ],
+        "2": [
+          0.75,
+          1.3
+        ],
+        "3": [
+          -0.75,
+          1.3
+        ],
+        "4": [
+          -1.5,
+          0
+        ],
+        "5": [
+          -0.75,
+          -1.3
+        ],
+        "6": [
+          0.75,
+          -1.3
+        ]
+      }
+    }
+  },
+  "conditionsLabel": "heat (about 180 °C)",
+  "reactionClasses": [
+    "pericyclic",
+    "rearrangement"
+  ],
+  "reactionVersion": 1,
+  "mechanismSummary": "The Claisen rearrangement is the oxygen version of the Cope: an allyl vinyl ether undergoes a [3,3]-sigmatropic shift through a chair-like six-membered transition state. A C–O σ bond and a C=C π bond are traded for a C–C σ bond and a C=O π bond. Forming the strong C=O makes it irreversible. The product is always a γ,δ-unsaturated carbonyl compound, a useful pattern to recognise in synthesis.",
+  "dailyPuzzleEligible": true,
+  "spectatorMapNumbers": [],
+  "atomRoleToMapNumbers": {
+    "allylGroup": [
+      4,
+      5,
+      6
+    ],
+    "vinylGroup": [
+      1,
+      2
+    ],
+    "etherOxygen": [
+      3
+    ]
+  },
+  "previousReactionVersion": null
+}

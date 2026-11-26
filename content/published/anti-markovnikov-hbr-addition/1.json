@@ -1,0 +1,584 @@
+{
+  "steps": [
+    {
+      "stepKey": "peroxide-homolysis",
+      "stepKind": "radical",
+      "toStateId": "alkoxyl-radicals",
+      "fromStateId": "reactants",
+      "canonicalArrows": [
+        "σ O4-O5 ~> rad O4",
+        "σ O4-O5 ~> rad O5"
+      ],
+      "routePreference": "preferred",
+      "explanationAfterStep": "Initiation: the weak O–O bond breaks homolytically on heating. Only a trace of peroxide is needed, because each radical starts a long chain."
+    },
+    {
+      "stepKey": "hydrogen-abstraction-from-hbr",
+      "stepKind": "radical",
+      "toStateId": "bromine-radical",
+      "fromStateId": "alkoxyl-radicals",
+      "canonicalArrows": [
+        "rad O4 ~> σ O4-H14",
+        "σ H14-Br15 ~> σ O4-H14",
+        "σ H14-Br15 ~> rad Br15"
+      ],
+      "routePreference": "preferred",
+      "explanationAfterStep": "The strong O–H bond formed pays for breaking the weak H–Br bond. Br• is the chain carrier."
+    },
+    {
+      "stepKey": "bromine-adds-to-alkene",
+      "stepKind": "radical",
+      "toStateId": "carbon-radical",
+      "fromStateId": "bromine-radical",
+      "canonicalArrows": [
+        "rad Br15 ~> σ Br15-C1",
+        "π C1-C2 ~> σ Br15-C1",
+        "π C1-C2 ~> rad C2"
+      ],
+      "routePreference": "preferred",
+      "explanationAfterStep": "Br• adds to the less substituted end, giving the more stable secondary radical. Bromine ends up on the terminal carbon: anti-Markovnikov orientation, set by radical stability, not cation stability."
+    },
+    {
+      "stepKey": "hydrogen-transfer",
+      "stepKind": "radical",
+      "toStateId": "products",
+      "fromStateId": "carbon-radical",
+      "canonicalArrows": [
+        "rad C2 ~> σ C2-H16",
+        "σ H16-Br17 ~> σ C2-H16",
+        "σ H16-Br17 ~> rad Br17"
+      ],
+      "routePreference": "preferred",
+      "explanationAfterStep": "The radical takes H from HBr and gives back Br•, which adds to the next propene. The two propagation steps repeat until the reagents run out or two radicals meet."
+    }
+  ],
+  "title": "Anti-Markovnikov addition of HBr",
+  "authors": [
+    {
+      "url": null,
+      "name": "Maksim"
+    }
+  ],
+  "licence": "CC-BY-SA-4.0",
+  "subtitle": "With a peroxide, HBr adds to propene by a radical chain and gives 1-bromopropane",
+  "references": [
+    "Clayden, Greeves and Warren, Organic Chemistry, 2nd edition (Oxford University Press), chapter 37 (Radical reactions)"
+  ],
+  "reactionSlug": "anti-markovnikov-hbr-addition",
+  "startStateId": "reactants",
+  "formatVersion": 1,
+  "difficultyTier": 2,
+  "stateIdToState": {
+    "products": {
+      "caption": "1-bromopropane + Br• (carries the chain on)",
+      "mappedSmiles": "[Br:15][CH2:1][CH:2]([H:16])[CH3:3].[CH3:7][C:6]([CH3:8])([CH3:9])[O:4][H:14].[O:5][C:10]([CH3:11])([CH3:12])[CH3:13].[Br:17]",
+      "mapNumberToCoordinates": {
+        "1": [
+          1.3,
+          2.25
+        ],
+        "2": [
+          1.3,
+          0.75
+        ],
+        "3": [
+          0,
+          0
+        ],
+        "4": [
+          5.45,
+          2.04
+        ],
+        "5": [
+          0.47,
+          7.81
+        ],
+        "6": [
+          6.2,
+          0.74
+        ],
+        "7": [
+          4.9,
+          -0.01
+        ],
+        "8": [
+          7.5,
+          1.49
+        ],
+        "9": [
+          6.95,
+          -0.56
+        ],
+        "10": [
+          1.22,
+          6.51
+        ],
+        "11": [
+          -0.08,
+          5.76
+        ],
+        "12": [
+          2.52,
+          7.26
+        ],
+        "13": [
+          1.97,
+          5.21
+        ],
+        "14": [
+          6.2,
+          3.34
+        ],
+        "15": [
+          2.6,
+          3
+        ],
+        "16": [
+          2.6,
+          0
+        ],
+        "17": [
+          8.79,
+          -1.88
+        ]
+      }
+    },
+    "reactants": {
+      "caption": "propene + HBr + a trace of di-tert-butyl peroxide",
+      "hintTiers": [
+        "Which bond in the flask is weakest? Peroxides are used as initiators for a reason.",
+        "The O–O bond (about 150 kJ mol⁻¹) breaks on heating, one electron to each oxygen. Two fish-hooks.",
+        "One O–O electron → the left oxygen; the other O–O electron → the right oxygen."
+      ],
+      "mappedSmiles": "[CH2:1]=[CH:2][CH3:3].[CH3:7][C:6]([CH3:8])([CH3:9])[O:4][O:5][C:10]([CH3:11])([CH3:12])[CH3:13].[H:14][Br:15].[H:16][Br:17]",
+      "learnerPrompt": "Initiation. Break the weakest bond with fish-hook arrows.",
+      "misconceptions": [
+        {
+          "severity": "plausible",
+          "arrowPattern": "π C1-C2 *> H*",
+          "feedbackMessage": "Without peroxide, HBr adds by the polar route: protonation gives the secondary cation and 2-bromopropane (Markovnikov). With peroxide, a faster radical chain takes over. Start it by breaking the weak O–O bond.",
+          "misconceptionId": "protonate-alkene",
+          "misconceptionTag": "polar-mechanism"
+        },
+        {
+          "severity": "wrong",
+          "arrowPattern": "σ H14-Br15 ~> *",
+          "feedbackMessage": "H–Br (about 365 kJ mol⁻¹) is far stronger than the O–O bond of a peroxide. The peroxide is the initiator.",
+          "misconceptionId": "break-h-br",
+          "misconceptionTag": "wrong-initiation"
+        }
+      ],
+      "mapNumberToCoordinates": {
+        "1": [
+          0,
+          0
+        ],
+        "2": [
+          1.3,
+          0.75
+        ],
+        "3": [
+          2.6,
+          0
+        ],
+        "4": [
+          0.45,
+          5.54
+        ],
+        "5": [
+          1.2,
+          6.84
+        ],
+        "6": [
+          1.2,
+          4.24
+        ],
+        "7": [
+          -0.09,
+          3.49
+        ],
+        "8": [
+          2.5,
+          4.99
+        ],
+        "9": [
+          1.95,
+          2.94
+        ],
+        "10": [
+          0.45,
+          8.14
+        ],
+        "11": [
+          1.75,
+          8.89
+        ],
+        "12": [
+          -0.84,
+          7.39
+        ],
+        "13": [
+          -0.3,
+          9.44
+        ],
+        "14": [
+          6.2,
+          0.81
+        ],
+        "15": [
+          4.9,
+          0.06
+        ],
+        "16": [
+          9.59,
+          0.62
+        ],
+        "17": [
+          8.29,
+          -0.13
+        ]
+      },
+      "partialProgressMessages": [
+        {
+          "learnerArrows": [
+            "σ O4-O5 ~> rad O4"
+          ],
+          "feedbackMessage": "Right so far: one electron goes to each oxygen. Draw the second fish-hook."
+        }
+      ]
+    },
+    "carbon-radical": {
+      "caption": "secondary 1-bromoprop-2-yl radical + HBr",
+      "hintTiers": [
+        "The carbon radical needs to finish its bonding. HBr has a weak bond to a hydrogen.",
+        "The carbon radical takes the hydrogen of HBr; the H–Br bond splits evenly. Three fish-hooks.",
+        "Carbon's unpaired electron → new C–H bond; one H–Br electron → C–H; the other → bromine."
+      ],
+      "mappedSmiles": "[Br:15][CH2:1][CH:2][CH3:3].[CH3:7][C:6]([CH3:8])([CH3:9])[O:4][H:14].[O:5][C:10]([CH3:11])([CH3:12])[CH3:13].[H:16][Br:17]",
+      "learnerPrompt": "Propagation, step 2: the carbon radical meets HBr.",
+      "misconceptions": [
+        {
+          "severity": "wrong",
+          "arrowPattern": "rad C2 ~> Br17",
+          "feedbackMessage": "Taking bromine would leave a hydrogen atom, H•, a very high-energy radical. The carbon radical takes the hydrogen and releases Br•.",
+          "misconceptionId": "carbon-takes-bromine",
+          "misconceptionTag": "wrong-atom-transferred"
+        },
+        {
+          "severity": "plausible",
+          "arrowPattern": "σ C1-Br15 ~> rad Br15",
+          "feedbackMessage": "Losing Br• again reverses the addition. It does happen, but with HBr present the radical is trapped by hydrogen transfer.",
+          "misconceptionId": "bromine-falls-off",
+          "misconceptionTag": "reverse-step"
+        },
+        {
+          "severity": "plausible",
+          "arrowPattern": "rad O5 ~> H*",
+          "feedbackMessage": "The other tert-butoxyl radical will do exactly that and start a second chain, but follow the radical you have just made.",
+          "misconceptionId": "second-alkoxyl-radical-carbon-stage",
+          "misconceptionTag": "follow-the-chain"
+        }
+      ],
+      "mapNumberToCoordinates": {
+        "1": [
+          2.6,
+          0
+        ],
+        "2": [
+          1.3,
+          0.75
+        ],
+        "3": [
+          0,
+          0
+        ],
+        "4": [
+          0.29,
+          5.57
+        ],
+        "5": [
+          6.64,
+          2.15
+        ],
+        "6": [
+          1.04,
+          4.28
+        ],
+        "7": [
+          -0.26,
+          3.53
+        ],
+        "8": [
+          2.34,
+          5.03
+        ],
+        "9": [
+          1.79,
+          2.98
+        ],
+        "10": [
+          7.39,
+          0.86
+        ],
+        "11": [
+          6.09,
+          0.11
+        ],
+        "12": [
+          8.69,
+          1.61
+        ],
+        "13": [
+          8.14,
+          -0.44
+        ],
+        "14": [
+          1.04,
+          6.87
+        ],
+        "15": [
+          3.9,
+          0.75
+        ],
+        "16": [
+          0.95,
+          9.44
+        ],
+        "17": [
+          -0.35,
+          8.69
+        ]
+      },
+      "partialProgressMessages": [
+        {
+          "learnerArrows": [
+            "rad C2 ~> σ C2-H16",
+            "σ Br17-H16 ~> rad Br17"
+          ],
+          "feedbackMessage": "One more fish-hook: the new C–H bond needs an electron from the H–Br bond as well."
+        }
+      ]
+    },
+    "bromine-radical": {
+      "caption": "bromine radical + propene (+ tert-butanol, the other tert-butoxyl radical, HBr)",
+      "hintTiers": [
+        "Radicals add to alkenes. Which end of propene should bromine bond to, to leave the more stable radical?",
+        "Bromine bonds to the CH₂ end; one π electron joins it, the other ends on the middle carbon, giving a secondary radical. Three fish-hooks.",
+        "Bromine's unpaired electron → new Br–C bond to the CH₂ carbon; one π electron → the same bond; the other π electron → the middle carbon."
+      ],
+      "mappedSmiles": "[CH2:1]=[CH:2][CH3:3].[CH3:7][C:6]([CH3:8])([CH3:9])[O:4][H:14].[Br:15].[O:5][C:10]([CH3:11])([CH3:12])[CH3:13].[H:16][Br:17]",
+      "learnerPrompt": "Propagation, step 1: the bromine radical adds to the C=C.",
+      "misconceptions": [
+        {
+          "severity": "plausible",
+          "arrowPattern": "rad Br15 ~> C2",
+          "feedbackMessage": "Adding to the middle carbon leaves a primary radical on the CH₂ end. Adding to the CH₂ end leaves a more stable secondary radical, and the CH₂ end is also less hindered.",
+          "misconceptionId": "bromine-adds-to-middle-carbon",
+          "misconceptionTag": "less-stable-radical"
+        },
+        {
+          "severity": "plausible",
+          "arrowPattern": "rad O5 ~> H*",
+          "feedbackMessage": "The other tert-butoxyl radical will do exactly that and start a second chain, but follow the radical you have just made.",
+          "misconceptionId": "second-alkoxyl-radical-bromine-stage",
+          "misconceptionTag": "follow-the-chain"
+        }
+      ],
+      "mapNumberToCoordinates": {
+        "1": [
+          0,
+          0
+        ],
+        "2": [
+          1.3,
+          0.75
+        ],
+        "3": [
+          2.6,
+          0
+        ],
+        "4": [
+          0.55,
+          5.52
+        ],
+        "5": [
+          5.43,
+          2.23
+        ],
+        "6": [
+          1.3,
+          4.22
+        ],
+        "7": [
+          0,
+          3.47
+        ],
+        "8": [
+          2.6,
+          4.97
+        ],
+        "9": [
+          2.05,
+          2.92
+        ],
+        "10": [
+          6.18,
+          0.93
+        ],
+        "11": [
+          4.89,
+          0.18
+        ],
+        "12": [
+          7.48,
+          1.68
+        ],
+        "13": [
+          6.93,
+          -0.37
+        ],
+        "14": [
+          1.3,
+          6.81
+        ],
+        "15": [
+          -0.75,
+          7.85
+        ],
+        "16": [
+          10.51,
+          0.08
+        ],
+        "17": [
+          9.21,
+          -0.67
+        ]
+      },
+      "partialProgressMessages": [
+        {
+          "learnerArrows": [
+            "rad Br15 ~> σ Br15-C1",
+            "π C1-C2 ~> rad C2"
+          ],
+          "feedbackMessage": "One more fish-hook: the new C–Br bond needs one electron from the π bond as well."
+        }
+      ]
+    },
+    "alkoxyl-radicals": {
+      "caption": "two tert-butoxyl radicals + propene + HBr",
+      "hintTiers": [
+        "An O–H bond is stronger than an H–Br bond. What does the oxygen radical take from HBr?",
+        "The oxygen radical takes the hydrogen of HBr; the H–Br bond splits evenly. Three fish-hooks.",
+        "Oxygen's unpaired electron → new O–H bond; one H–Br electron → O–H; the other → bromine."
+      ],
+      "mappedSmiles": "[CH2:1]=[CH:2][CH3:3].[CH3:7][C:6]([CH3:8])([CH3:9])[O:4].[O:5][C:10]([CH3:11])([CH3:12])[CH3:13].[H:14][Br:15].[H:16][Br:17]",
+      "learnerPrompt": "The alkoxyl radical makes a bromine radical from HBr.",
+      "misconceptions": [
+        {
+          "severity": "plausible",
+          "arrowPattern": "rad O* ~> C*",
+          "feedbackMessage": "Alkoxyl radicals can add to alkenes, but taking H from the weak H–Br bond is much faster. That gives Br•, which carries the chain.",
+          "misconceptionId": "alkoxyl-adds-to-alkene",
+          "misconceptionTag": "wrong-chain-carrier"
+        },
+        {
+          "severity": "wrong",
+          "arrowPattern": "rad O* ~> Br*",
+          "feedbackMessage": "Taking the bromine would leave H•, a very unstable radical, and make a weak O–Br bond. The oxygen takes the hydrogen.",
+          "misconceptionId": "alkoxyl-takes-bromine",
+          "misconceptionTag": "wrong-atom-transferred"
+        }
+      ],
+      "mapNumberToCoordinates": {
+        "1": [
+          0,
+          0
+        ],
+        "2": [
+          1.3,
+          0.75
+        ],
+        "3": [
+          2.6,
+          0
+        ],
+        "4": [
+          0.55,
+          5.52
+        ],
+        "5": [
+          5.43,
+          2.23
+        ],
+        "6": [
+          1.3,
+          4.22
+        ],
+        "7": [
+          0,
+          3.47
+        ],
+        "8": [
+          2.6,
+          4.97
+        ],
+        "9": [
+          2.05,
+          2.92
+        ],
+        "10": [
+          6.18,
+          0.93
+        ],
+        "11": [
+          4.89,
+          0.18
+        ],
+        "12": [
+          7.48,
+          1.68
+        ],
+        "13": [
+          6.93,
+          -0.37
+        ],
+        "14": [
+          0.49,
+          8.1
+        ],
+        "15": [
+          -0.81,
+          7.35
+        ],
+        "16": [
+          3.39,
+          10.47
+        ],
+        "17": [
+          2.09,
+          9.72
+        ]
+      },
+      "partialProgressMessages": [
+        {
+          "learnerArrows": [
+            "rad O4 ~> σ H14-O4",
+            "σ Br15-H14 ~> rad Br15"
+          ],
+          "feedbackMessage": "One more fish-hook: the new O–H bond needs an electron from the H–Br bond too."
+        }
+      ]
+    }
+  },
+  "conditionsLabel": "HBr · tBuOOtBu (cat.) · heat",
+  "reactionClasses": [
+    "radical",
+    "addition"
+  ],
+  "reactionVersion": 1,
+  "mechanismSummary": "A peroxide O–O bond breaks on heating. The alkoxyl radical takes H from HBr, making Br•. Br• adds to the CH₂ end of propene to give the more stable secondary radical, which takes H from HBr and releases Br• again. Bromine ends on the terminal carbon: the opposite (anti-Markovnikov) orientation to the polar addition, which goes through the more stable cation. Only HBr does this: for HCl and HI one of the propagation steps is too unfavourable.",
+  "dailyPuzzleEligible": true,
+  "spectatorMapNumbers": [],
+  "atomRoleToMapNumbers": {},
+  "previousReactionVersion": null
+}

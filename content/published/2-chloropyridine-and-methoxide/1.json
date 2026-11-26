@@ -1,0 +1,280 @@
+{
+  "steps": [
+    {
+      "stepKey": "addition",
+      "stepKind": "polar",
+      "toStateId": "anionic-adduct",
+      "fromStateId": "reactants",
+      "canonicalArrows": [
+        "lp O8 -> σ O8-C2",
+        "π N1-C2 -> lp N1"
+      ],
+      "routePreference": "preferred",
+      "explanationAfterStep": "The ring nitrogen does the job of the nitro groups in 2,4-dinitrochlorobenzene: the negative charge lands on an electronegative atom. This works only for leaving groups at C-2 and C-4; at C-3 the charge cannot reach nitrogen and substitution is very slow."
+    },
+    {
+      "stepKey": "loss-of-chloride",
+      "stepKind": "polar",
+      "toStateId": "products",
+      "fromStateId": "anionic-adduct",
+      "canonicalArrows": [
+        "lp N1 -> π N1-C2",
+        "σ C2-Cl7 -> lp Cl7"
+      ],
+      "routePreference": "preferred",
+      "explanationAfterStep": "Chloride leaves and the ring is aromatic again. Addition then elimination, exactly like substitution at an imidoyl chloride (C=N–Cl), which is what C-2 of pyridine resembles."
+    }
+  ],
+  "title": "SNAr: 2-chloropyridine and methoxide",
+  "authors": [
+    {
+      "url": null,
+      "name": "Maksim"
+    }
+  ],
+  "licence": "CC-BY-SA-4.0",
+  "subtitle": "Addition–elimination through an anion with its charge on the ring nitrogen",
+  "references": [
+    "Clayden, Greeves and Warren, Organic Chemistry, 2nd edition (Oxford University Press), chapter 29"
+  ],
+  "reactionSlug": "2-chloropyridine-and-methoxide",
+  "startStateId": "reactants",
+  "formatVersion": 1,
+  "difficultyTier": 2,
+  "stateIdToState": {
+    "products": {
+      "caption": "2-methoxypyridine + sodium chloride",
+      "mappedSmiles": "[N:1]1=[C:2]([O:8][CH3:9])[CH:3]=[CH:4][CH:5]=[CH:6]1.[Cl-:7].[Na+:10]",
+      "mapNumberToCoordinates": {
+        "1": [
+          1.5,
+          0
+        ],
+        "2": [
+          0.75,
+          1.3
+        ],
+        "3": [
+          -0.75,
+          1.3
+        ],
+        "4": [
+          -1.5,
+          0
+        ],
+        "5": [
+          -0.75,
+          -1.3
+        ],
+        "6": [
+          0.75,
+          -1.3
+        ],
+        "7": [
+          4,
+          0
+        ],
+        "8": [
+          1.5,
+          2.6
+        ],
+        "9": [
+          3,
+          2.6
+        ],
+        "10": [
+          -0.12,
+          4.2
+        ]
+      }
+    },
+    "reactants": {
+      "caption": "2-chloropyridine + sodium methoxide",
+      "hintTiers": [
+        "Pyridine's nitrogen pulls electrons out of the ring, like the oxygen of a carbonyl group. Which ring carbon carries a leaving group, and where can the negative charge go once methoxide has added?",
+        "The methoxide oxygen bonds to the carbon bearing chlorine, and the C=N π bond moves onto nitrogen, just like addition to a C=O group. Two arrows.",
+        "Methoxide lone pair → a new C–O bond to the carbon bearing Cl; the C=N π bond → a lone pair on nitrogen."
+      ],
+      "mappedSmiles": "[N:1]1=[C:2]([Cl:7])[CH:3]=[CH:4][CH:5]=[CH:6]1.[CH3:9][O-:8].[Na+:10]",
+      "learnerPrompt": "Methoxide adds to the ring. Draw the addition and put the negative charge on nitrogen.",
+      "misconceptions": [
+        {
+          "severity": "plausible",
+          "arrowPattern": "lp O8 -> σ O8-C2; σ C2-Cl7 -> lp Cl7",
+          "feedbackMessage": "This is SN2, but a ring carbon cannot be attacked from behind. Methoxide adds first and makes a real intermediate with the charge on nitrogen; chloride leaves in a second step.",
+          "misconceptionId": "one-step-substitution",
+          "misconceptionTag": "concerted-instead-of-stepwise"
+        },
+        {
+          "severity": "plausible",
+          "arrowPattern": "lp O8 -> σ O8-C4",
+          "feedbackMessage": "Methoxide could add at C-4 (the charge would also reach nitrogen), but that carbon has only a hydrogen, which cannot leave as hydride under these conditions. Add to the carbon bearing chlorine.",
+          "misconceptionId": "attack-c4",
+          "misconceptionTag": "no-leaving-group"
+        },
+        {
+          "severity": "plausible",
+          "arrowPattern": "lp O8 -> σ O8-C6",
+          "feedbackMessage": "That carbon is next to nitrogen too, but it carries only a hydrogen, which cannot leave as hydride under these conditions. Add to the carbon bearing chlorine.",
+          "misconceptionId": "attack-c6",
+          "misconceptionTag": "no-leaving-group"
+        },
+        {
+          "severity": "wrong",
+          "arrowPattern": "lp O8 -> σ O8-C3",
+          "feedbackMessage": "After addition at C-3 the negative charge can reach only carbons, never the nitrogen, so that adduct is far too unstable. Attack a carbon next to nitrogen (or opposite it).",
+          "misconceptionId": "attack-c3",
+          "misconceptionTag": "charge-cannot-reach-heteroatom"
+        },
+        {
+          "severity": "wrong",
+          "arrowPattern": "lp O8 -> Cl7",
+          "feedbackMessage": "Chlorine is electron-rich. The electrophile is the ring carbon it is attached to.",
+          "misconceptionId": "attack-chlorine",
+          "misconceptionTag": "attack-leaving-group"
+        }
+      ],
+      "mapNumberToCoordinates": {
+        "1": [
+          1.5,
+          0
+        ],
+        "2": [
+          0.75,
+          1.3
+        ],
+        "3": [
+          -0.75,
+          1.3
+        ],
+        "4": [
+          -1.5,
+          0
+        ],
+        "5": [
+          -0.75,
+          -1.3
+        ],
+        "6": [
+          0.75,
+          -1.3
+        ],
+        "7": [
+          1.5,
+          2.6
+        ],
+        "8": [
+          5.1,
+          0.75
+        ],
+        "9": [
+          3.8,
+          0
+        ],
+        "10": [
+          -0.04,
+          4.25
+        ]
+      },
+      "partialProgressMessages": [
+        {
+          "learnerArrows": [
+            "lp O8 -> σ O8-C2"
+          ],
+          "feedbackMessage": "Right carbon. That carbon now has five bonds: move the C=N π bond onto nitrogen."
+        }
+      ]
+    },
+    "anionic-adduct": {
+      "caption": "the anionic adduct: the charge sits on nitrogen",
+      "hintTiers": [
+        "The carbon bearing chlorine is now sp³. Which group on it can leave, and where do the electrons come from to rebuild the ring?",
+        "The nitrogen lone pair re-forms the C=N π bond and the C–Cl bond breaks onto chlorine. Two arrows.",
+        "Nitrogen lone pair → the C=N π bond; the C–Cl bond → a lone pair on chlorine."
+      ],
+      "mappedSmiles": "[N-:1]1[C:2]([Cl:7])([O:8][CH3:9])[CH:3]=[CH:4][CH:5]=[CH:6]1.[Na+:10]",
+      "learnerPrompt": "Chloride leaves and the ring becomes aromatic again.",
+      "misconceptions": [
+        {
+          "severity": "plausible",
+          "arrowPattern": "σ C2-O8 -> *",
+          "feedbackMessage": "Losing methoxide just goes back to the start. Chloride is the better leaving group: let it go.",
+          "misconceptionId": "methoxide-leaves",
+          "misconceptionTag": "reverse-step"
+        }
+      ],
+      "mapNumberToCoordinates": {
+        "1": [
+          1.5,
+          0
+        ],
+        "2": [
+          0.75,
+          1.3
+        ],
+        "3": [
+          -0.75,
+          1.3
+        ],
+        "4": [
+          -1.5,
+          0
+        ],
+        "5": [
+          -0.75,
+          -1.3
+        ],
+        "6": [
+          0.75,
+          -1.3
+        ],
+        "7": [
+          2.16,
+          1.81
+        ],
+        "8": [
+          0.49,
+          2.78
+        ],
+        "9": [
+          1.64,
+          3.74
+        ],
+        "10": [
+          3.76,
+          -0.21
+        ]
+      },
+      "partialProgressMessages": [
+        {
+          "learnerArrows": [
+            "σ C2-Cl7 -> lp Cl7"
+          ],
+          "feedbackMessage": "Chloride does leave, but the carbon would be left with three bonds. Bring the nitrogen lone pair back to make C=N."
+        }
+      ]
+    }
+  },
+  "conditionsLabel": "NaOMe · MeOH · reflux",
+  "reactionClasses": [
+    "aromatic substitution"
+  ],
+  "reactionVersion": 1,
+  "mechanismSummary": "Pyridine is electron-poor: its nitrogen withdraws electrons as a carbonyl oxygen does. Methoxide adds to the carbon bearing chlorine and the negative charge moves onto nitrogen. The nitrogen lone pair then pushes chloride out and the ring becomes aromatic again. Only leaving groups at C-2 and C-4 react this way, because only then can the charge reach the nitrogen.",
+  "dailyPuzzleEligible": true,
+  "spectatorMapNumbers": [
+    10
+  ],
+  "atomRoleToMapNumbers": {
+    "nucleophile": [
+      8
+    ],
+    "leavingGroup": [
+      7
+    ],
+    "electrophilicCarbon": [
+      2
+    ]
+  },
+  "previousReactionVersion": null
+}

@@ -1,0 +1,568 @@
+{
+  "steps": [
+    {
+      "stepKey": "three-three-shift",
+      "stepKind": "polar",
+      "toStateId": "dienone",
+      "fromStateId": "ether",
+      "canonicalArrows": [
+        "π C1-C2 -> σ C2-C10",
+        "σ O7-C8 -> π C1-O7",
+        "π C9-C10 -> π C8-C9"
+      ],
+      "routePreference": "preferred",
+      "explanationAfterStep": "A Claisen rearrangement with one of the ring's C=C bonds as the vinyl part. The allyl group is turned round: its far CH₂ end is now on the ortho carbon. The price is the ring's aromaticity, which is why such a high temperature is needed."
+    },
+    {
+      "stepKey": "deprotonation",
+      "stepKind": "polar",
+      "toStateId": "phenoxide",
+      "fromStateId": "dienone",
+      "canonicalArrows": [
+        "lp N20 -> σ N20-H11",
+        "σ C2-H11 -> π C1-C2",
+        "π C1-O7 -> lp O7"
+      ],
+      "routePreference": "preferred",
+      "explanationAfterStep": "Losing the proton at the ring carbon that took the allyl group turns the dienone into an aromatic phenoxide: the regained aromaticity drives this tautomerisation completely."
+    },
+    {
+      "stepKey": "o-protonation",
+      "stepKind": "polar",
+      "toStateId": "phenol",
+      "fromStateId": "phenoxide",
+      "canonicalArrows": [
+        "lp O7 -> σ O7-H11",
+        "σ N20-H11 -> lp N20"
+      ],
+      "routePreference": "preferred",
+      "explanationAfterStep": "Proton transfer to oxygen gives 2-allylphenol and returns the amine. Overall the dienone has tautomerised to the phenol, as a ketone goes to its enol, except that here the enol (the phenol) is the far more stable form."
+    }
+  ],
+  "title": "Aromatic Claisen rearrangement",
+  "authors": [
+    {
+      "url": null,
+      "name": "Maksim"
+    }
+  ],
+  "licence": "CC-BY-SA-4.0",
+  "subtitle": "Allyl phenyl ether becomes 2-allylphenol: a [3,3] shift, then the ring is made aromatic again",
+  "references": [
+    "Clayden, Greeves and Warren, Organic Chemistry, 2nd edition (Oxford University Press), chapter 35"
+  ],
+  "reactionSlug": "aromatic-claisen-rearrangement",
+  "startStateId": "ether",
+  "formatVersion": 1,
+  "difficultyTier": 3,
+  "stateIdToState": {
+    "ether": {
+      "caption": "allyl phenyl ether in N,N-diethylaniline (the solvent)",
+      "hintTiers": [
+        "Find the 1,5-diene pattern: allyl C=C, CH₂, oxygen, then a C=C of the ring. Six atoms, six electrons. Which ring carbon is at the end of the six?",
+        "The ortho ring carbon bonds to the far CH₂ of the allyl group, the O–CH₂ bond breaks, and oxygen gains a C=O. The aromatic ring is broken for now. Three arrows.",
+        "Arrow 1: from the ring C=C π bond (between the oxygen-bearing carbon and the ortho carbon) to a new bond between the ortho carbon and the far CH₂ of the allyl group. Arrow 2: from the O–allyl σ bond to the bond between oxygen and its ring carbon (it becomes C=O). Arrow 3: from the allyl C=C π bond to the bond between its CH and the CH₂ that lost oxygen."
+      ],
+      "mappedSmiles": "[O:7]([CH2:8][CH:9]=[CH2:10])[C:1]1=[C:2]([H:11])[CH:3]=[CH:4][CH:5]=[CH:6]1.[CH3:22][CH2:21][N:20]([CH2:23][CH3:24])[C:25]9=[CH:26][CH:27]=[CH:28][CH:29]=[CH:30]9",
+      "learnerPrompt": "The allyl group moves from oxygen to the ring by a [3,3] shift. Draw that step first.",
+      "misconceptions": [
+        {
+          "severity": "wrong",
+          "arrowPattern": "σ O7-C8 -> lp O7",
+          "feedbackMessage": "Breaking the O–allyl bond on its own would give a phenoxide and an allyl cation. Here the bond breaks only as the new C–C bond forms, in one cyclic step.",
+          "misconceptionId": "ionisation",
+          "misconceptionTag": "stepwise-ionisation"
+        },
+        {
+          "severity": "wrong",
+          "arrowPattern": "* -> σ C1-C10",
+          "feedbackMessage": "The carbon carrying oxygen is only four atoms round from the allyl end. Count six: oxygen, its ring carbon, the next (ortho) ring carbon, and the three allyl carbons. The new bond is to the ortho carbon.",
+          "misconceptionId": "bond-to-ipso-carbon",
+          "misconceptionTag": "wrong-ring-size"
+        },
+        {
+          "severity": "wrong",
+          "arrowPattern": "lp N20 -> *",
+          "feedbackMessage": "The amine is only the solvent for now: there is no acidic proton yet. First the allyl group moves to the ring.",
+          "misconceptionId": "base-acts-first",
+          "misconceptionTag": "nothing-to-remove"
+        }
+      ],
+      "mapNumberToCoordinates": {
+        "1": [
+          0,
+          -1.12
+        ],
+        "2": [
+          0,
+          0.38
+        ],
+        "3": [
+          -1.3,
+          1.13
+        ],
+        "4": [
+          -2.6,
+          0.38
+        ],
+        "5": [
+          -2.6,
+          -1.12
+        ],
+        "6": [
+          -1.3,
+          -1.87
+        ],
+        "7": [
+          1.3,
+          -1.88
+        ],
+        "8": [
+          2.6,
+          -1.12
+        ],
+        "9": [
+          2.6,
+          0.38
+        ],
+        "10": [
+          1.3,
+          1.13
+        ],
+        "11": [
+          0,
+          1.88
+        ],
+        "20": [
+          9.7,
+          0
+        ],
+        "21": [
+          10.45,
+          -1.3
+        ],
+        "22": [
+          11.95,
+          -1.3
+        ],
+        "23": [
+          10.45,
+          1.3
+        ],
+        "24": [
+          11.95,
+          1.3
+        ],
+        "25": [
+          8.2,
+          0
+        ],
+        "26": [
+          7.45,
+          1.3
+        ],
+        "27": [
+          5.95,
+          1.3
+        ],
+        "28": [
+          5.2,
+          0
+        ],
+        "29": [
+          5.95,
+          -1.3
+        ],
+        "30": [
+          7.45,
+          -1.3
+        ]
+      },
+      "partialProgressMessages": [
+        {
+          "learnerArrows": [
+            "π C1-C2 -> σ C2-C10"
+          ],
+          "feedbackMessage": "Right: the ortho carbon bonds to the allyl end. Now the oxygen side: the O–allyl bond gives its pair to make C=O, and the allyl π bond moves across. Two more arrows."
+        }
+      ]
+    },
+    "phenol": {
+      "caption": "2-allylphenol + N,N-diethylaniline",
+      "mappedSmiles": "[O:7]([H:11])[C:1]1=[C:2]([CH2:10][CH:9]=[CH2:8])[CH:3]=[CH:4][CH:5]=[CH:6]1.[CH3:22][CH2:21][N:20]([CH2:23][CH3:24])[C:25]9=[CH:26][CH:27]=[CH:28][CH:29]=[CH:30]9",
+      "mapNumberToCoordinates": {
+        "1": [
+          0,
+          -1.12
+        ],
+        "2": [
+          0,
+          0.38
+        ],
+        "3": [
+          -1.3,
+          1.13
+        ],
+        "4": [
+          -2.6,
+          0.38
+        ],
+        "5": [
+          -2.6,
+          -1.12
+        ],
+        "6": [
+          -1.3,
+          -1.87
+        ],
+        "7": [
+          1.3,
+          -1.88
+        ],
+        "8": [
+          2.6,
+          -1.12
+        ],
+        "9": [
+          2.6,
+          0.38
+        ],
+        "10": [
+          1.3,
+          1.13
+        ],
+        "11": [
+          0,
+          1.88
+        ],
+        "20": [
+          9.7,
+          0
+        ],
+        "21": [
+          10.45,
+          -1.3
+        ],
+        "22": [
+          11.95,
+          -1.3
+        ],
+        "23": [
+          10.45,
+          1.3
+        ],
+        "24": [
+          11.95,
+          1.3
+        ],
+        "25": [
+          8.2,
+          0
+        ],
+        "26": [
+          7.45,
+          1.3
+        ],
+        "27": [
+          5.95,
+          1.3
+        ],
+        "28": [
+          5.2,
+          0
+        ],
+        "29": [
+          5.95,
+          -1.3
+        ],
+        "30": [
+          7.45,
+          -1.3
+        ]
+      }
+    },
+    "dienone": {
+      "caption": "6-allylcyclohexa-2,4-dien-1-one, not aromatic",
+      "hintTiers": [
+        "The ring carbon that took the allyl group now has an H as well. Which proton, if removed, lets the ring become aromatic again?",
+        "The amine nitrogen takes the H from the ring carbon carrying the allyl group; that C–H pair makes a ring C=C and the C=O pair goes onto oxygen. Three arrows: a phenoxide forms.",
+        "Arrow 1: amine nitrogen lone pair to a new bond to the H on the allyl-bearing ring carbon. Arrow 2: from that C–H bond to the bond between this carbon and the carbonyl carbon. Arrow 3: from the C=O π bond to a lone pair on oxygen."
+      ],
+      "mappedSmiles": "[O:7]=[C:1]1[C:2]([H:11])([CH2:10][CH:9]=[CH2:8])[CH:3]=[CH:4][CH:5]=[CH:6]1.[CH3:22][CH2:21][N:20]([CH2:23][CH3:24])[C:25]9=[CH:26][CH:27]=[CH:28][CH:29]=[CH:30]9",
+      "learnerPrompt": "The ring has lost its aromaticity. A base can win it back: remove the right proton.",
+      "misconceptions": [
+        {
+          "severity": "plausible",
+          "arrowPattern": "σ C2-C10 -> *",
+          "feedbackMessage": "That runs the [3,3] shift backwards. The dienone is far less stable than an aromatic phenol, so it is drained away by losing a proton.",
+          "misconceptionId": "reverse-shift",
+          "misconceptionTag": "reverse-step"
+        },
+        {
+          "severity": "wrong",
+          "arrowPattern": "lp N20 -> C1",
+          "feedbackMessage": "A tertiary amine adding to the C=O leads nowhere. Use the amine as a base to remove the proton on the allyl-bearing ring carbon.",
+          "misconceptionId": "amine-adds-to-carbonyl",
+          "misconceptionTag": "wrong-electrophile"
+        }
+      ],
+      "mapNumberToCoordinates": {
+        "1": [
+          0,
+          -1.12
+        ],
+        "2": [
+          0,
+          0.38
+        ],
+        "3": [
+          -1.3,
+          1.13
+        ],
+        "4": [
+          -2.6,
+          0.38
+        ],
+        "5": [
+          -2.6,
+          -1.12
+        ],
+        "6": [
+          -1.3,
+          -1.87
+        ],
+        "7": [
+          1.3,
+          -1.88
+        ],
+        "8": [
+          2.6,
+          -1.12
+        ],
+        "9": [
+          2.6,
+          0.38
+        ],
+        "10": [
+          1.3,
+          1.13
+        ],
+        "11": [
+          0,
+          1.88
+        ],
+        "20": [
+          9.7,
+          0
+        ],
+        "21": [
+          10.45,
+          -1.3
+        ],
+        "22": [
+          11.95,
+          -1.3
+        ],
+        "23": [
+          10.45,
+          1.3
+        ],
+        "24": [
+          11.95,
+          1.3
+        ],
+        "25": [
+          8.2,
+          0
+        ],
+        "26": [
+          7.45,
+          1.3
+        ],
+        "27": [
+          5.95,
+          1.3
+        ],
+        "28": [
+          5.2,
+          0
+        ],
+        "29": [
+          5.95,
+          -1.3
+        ],
+        "30": [
+          7.45,
+          -1.3
+        ]
+      },
+      "partialProgressMessages": [
+        {
+          "learnerArrows": [
+            "lp N20 -> σ N20-H11",
+            "σ C2-H11 -> π C1-C2"
+          ],
+          "feedbackMessage": "Two of three. The carbonyl carbon would now have five bonds: its C=O π pair moves onto oxygen."
+        }
+      ]
+    },
+    "phenoxide": {
+      "caption": "2-allylphenoxide + N,N-diethylanilinium ion",
+      "hintTiers": [
+        "The ring is aromatic again. The negative charge is on oxygen, and the anilinium ion holds a proton.",
+        "Oxygen takes the proton from the anilinium ion. Two arrows.",
+        "Arrow 1: oxygen lone pair to a new bond to the N–H proton. Arrow 2: from the N–H bond to a lone pair on nitrogen."
+      ],
+      "mappedSmiles": "[O-:7][C:1]1=[C:2]([CH2:10][CH:9]=[CH2:8])[CH:3]=[CH:4][CH:5]=[CH:6]1.[CH3:22][CH2:21][N+:20]([H:11])([CH2:23][CH3:24])[C:25]9=[CH:26][CH:27]=[CH:28][CH:29]=[CH:30]9",
+      "learnerPrompt": "Finish: put the proton back where it belongs.",
+      "misconceptions": [
+        {
+          "severity": "plausible",
+          "arrowPattern": "π C1-C2 -> σ C2-H11",
+          "feedbackMessage": "That puts the proton back on the ring carbon and remakes the non-aromatic dienone. Protonate oxygen: the ring stays aromatic.",
+          "misconceptionId": "carbon-protonation",
+          "misconceptionTag": "loses-aromaticity"
+        }
+      ],
+      "mapNumberToCoordinates": {
+        "1": [
+          0,
+          -0.75
+        ],
+        "2": [
+          0,
+          0.75
+        ],
+        "3": [
+          -1.3,
+          1.5
+        ],
+        "4": [
+          -2.6,
+          0.75
+        ],
+        "5": [
+          -2.6,
+          -0.75
+        ],
+        "6": [
+          -1.3,
+          -1.5
+        ],
+        "7": [
+          1.3,
+          -1.5
+        ],
+        "8": [
+          2.6,
+          -0.75
+        ],
+        "9": [
+          2.6,
+          0.75
+        ],
+        "10": [
+          1.3,
+          1.5
+        ],
+        "11": [
+          11.2,
+          0
+        ],
+        "20": [
+          9.7,
+          0
+        ],
+        "21": [
+          9.7,
+          1.5
+        ],
+        "22": [
+          11,
+          2.25
+        ],
+        "23": [
+          9.7,
+          -1.5
+        ],
+        "24": [
+          11,
+          -2.25
+        ],
+        "25": [
+          8.2,
+          0
+        ],
+        "26": [
+          7.45,
+          1.3
+        ],
+        "27": [
+          5.95,
+          1.3
+        ],
+        "28": [
+          5.2,
+          0
+        ],
+        "29": [
+          5.95,
+          -1.3
+        ],
+        "30": [
+          7.45,
+          -1.3
+        ]
+      },
+      "partialProgressMessages": [
+        {
+          "learnerArrows": [
+            "lp O7 -> σ O7-H11"
+          ],
+          "feedbackMessage": "Right: oxygen takes the proton. The N–H bond's pair goes back to nitrogen. One more arrow."
+        }
+      ]
+    }
+  },
+  "conditionsLabel": "N,N-diethylaniline · reflux (about 215 °C)",
+  "reactionClasses": [
+    "pericyclic",
+    "rearrangement",
+    "acid-base"
+  ],
+  "reactionVersion": 1,
+  "mechanismSummary": "Heating allyl phenyl ether makes the allyl group move from oxygen to the ortho carbon by a [3,3]-sigmatropic (Claisen) shift; the allyl group is inverted on the way, so its far end becomes attached. The dienone formed is a non-aromatic keto tautomer; losing and regaining a proton (here with the amine solvent as base) gives the aromatic 2-allylphenol. If both ortho positions are blocked, the dienone undergoes a second [3,3] shift (a Cope) to put the allyl group at the para position.",
+  "abbreviatedGroups": [
+    {
+      "groupLabel": "Ph",
+      "mapNumbers": [
+        25,
+        26,
+        27,
+        28,
+        29,
+        30
+      ],
+      "attachmentMapNumber": 25
+    }
+  ],
+  "dailyPuzzleEligible": true,
+  "spectatorMapNumbers": [],
+  "atomRoleToMapNumbers": {
+    "base": [
+      20
+    ],
+    "allylGroup": [
+      8,
+      9,
+      10
+    ],
+    "etherOxygen": [
+      7
+    ],
+    "orthoCarbon": [
+      2
+    ]
+  },
+  "previousReactionVersion": null
+}
