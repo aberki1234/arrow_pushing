@@ -1,0 +1,129 @@
+{
+  "steps": [
+    {
+      "stepKey": "proton-transfer",
+      "stepKind": "polar",
+      "toStateId": "water",
+      "fromStateId": "reactants",
+      "canonicalArrows": [
+        "lp O1 -> σ O1-H3",
+        "σ H3-O4 -> lp O4"
+      ],
+      "routePreference": "preferred",
+      "explanationAfterStep": "The strongest base that can exist in water takes a proton from the strongest acid that can exist in water. Every proton transfer needs two arrows: one makes the new bond to hydrogen, one breaks the old one."
+    }
+  ],
+  "title": "Hydroxide and hydronium",
+  "authors": [
+    {
+      "url": null,
+      "name": "Maksim"
+    }
+  ],
+  "licence": "CC-BY-SA-4.0",
+  "subtitle": "Neutralisation: a proton moves from H₃O⁺ to HO⁻",
+  "references": [
+    "Clayden, Greeves and Warren, Organic Chemistry, 2nd edition (Oxford University Press), chapter 8 (Acidity, basicity and pKa)"
+  ],
+  "reactionSlug": "hydroxide-and-hydronium",
+  "startStateId": "reactants",
+  "formatVersion": 1,
+  "difficultyTier": 1,
+  "stateIdToState": {
+    "water": {
+      "caption": "two water molecules (Na⁺ and Cl⁻ are spectators)",
+      "mappedSmiles": "[H:3][OH:1].[Na+:2].[OH2:4].[Cl-:5]",
+      "mapNumberToCoordinates": {
+        "1": [
+          1,
+          0
+        ],
+        "2": [
+          -0.83,
+          1.31
+        ],
+        "3": [
+          2.3,
+          0.75
+        ],
+        "4": [
+          -1.44,
+          -0.9
+        ],
+        "5": [
+          0.85,
+          2.88
+        ]
+      }
+    },
+    "reactants": {
+      "caption": "hydroxide + hydronium (Na⁺ and Cl⁻ are spectators)",
+      "hintTiers": [
+        "Which species is electron-rich (the source of the arrow), and which carries an electron-poor hydrogen (the sink)?",
+        "A lone pair of hydroxide makes a new O–H bond. Hydrogen can hold only two electrons, so one O–H bond of H₃O⁺ breaks at the same time. Two arrows.",
+        "Arrow 1: a lone pair of hydroxide's oxygen to a hydrogen of H₃O⁺. Arrow 2: that hydrogen's old O–H bond onto the oxygen of H₃O⁺, which becomes water."
+      ],
+      "mappedSmiles": "[OH-:1].[Na+:2].[H:3][OH2+:4].[Cl-:5]",
+      "learnerPrompt": "Hydroxide meets hydronium. Draw the proton transfer.",
+      "misconceptions": [
+        {
+          "severity": "wrong",
+          "arrowPattern": "σ H3-O4 -> O1",
+          "feedbackMessage": "This arrow pushes electrons of H₃O⁺ towards hydroxide, which is already negative. Electrons flow from the electron-rich hydroxide to the proton.",
+          "misconceptionId": "arrow-from-hydronium-bond",
+          "misconceptionTag": "arrow-starts-at-electrons"
+        },
+        {
+          "severity": "wrong",
+          "arrowPattern": "lp O4 -> *",
+          "feedbackMessage": "The oxygen of H₃O⁺ carries the positive charge: it is the acid, not a source of electrons. Start from hydroxide.",
+          "misconceptionId": "hydronium-oxygen-as-base",
+          "misconceptionTag": "wrong-electron-source"
+        }
+      ],
+      "mapNumberToCoordinates": {
+        "1": [
+          0,
+          0
+        ],
+        "2": [
+          0,
+          2.3
+        ],
+        "3": [
+          3.57,
+          1.04
+        ],
+        "4": [
+          2.27,
+          0.29
+        ],
+        "5": [
+          2.22,
+          2.89
+        ]
+      },
+      "partialProgressMessages": [
+        {
+          "learnerArrows": [
+            "lp O1 -> σ O1-H3"
+          ],
+          "feedbackMessage": "Good start: the lone pair makes a new bond to the hydrogen. But that hydrogen now has two bonds, four electrons, and it can hold only two. Which bond must break, and where do its electrons go?"
+        }
+      ]
+    }
+  },
+  "conditionsLabel": "NaOH(aq) + HCl(aq) · 25 °C",
+  "reactionClasses": [
+    "acid-base"
+  ],
+  "reactionVersion": 1,
+  "mechanismSummary": "The lone pair of hydroxide, the electron source, forms a bond to a hydrogen of H₃O⁺, the sink. At the same time the old O–H bond breaks and its electrons stay on oxygen. Two water molecules form; Na⁺ and Cl⁻ only watch.",
+  "dailyPuzzleEligible": true,
+  "spectatorMapNumbers": [
+    2,
+    5
+  ],
+  "atomRoleToMapNumbers": {},
+  "previousReactionVersion": null
+}
