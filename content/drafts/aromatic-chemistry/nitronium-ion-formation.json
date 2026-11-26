@@ -1,0 +1,266 @@
+{
+  "formatVersion": 1,
+  "reactionSlug": "nitronium-ion-formation",
+  "reactionVersion": 1,
+  "previousReactionVersion": null,
+  "title": "Making the nitronium ion",
+  "subtitle": "Sulfuric acid turns nitric acid into NO₂⁺",
+  "reactionClasses": [
+    "aromatic substitution"
+  ],
+  "difficultyTier": 1,
+  "conditionsLabel": "conc. HNO₃ · conc. H₂SO₄",
+  "dailyPuzzleEligible": true,
+  "atomRoleToMapNumbers": {
+    "acidicProton": [
+      6
+    ],
+    "leavingOxygen": [
+      4
+    ]
+  },
+  "spectatorMapNumbers": [],
+  "startStateId": "acids",
+  "stateIdToState": {
+    "acids": {
+      "mappedSmiles": "[O:1]=[N+:2]([O-:3])[O:4][H:5].[H:6][O:7][S:8](=[O:9])(=[O:10])[OH:11]",
+      "caption": "nitric acid + sulfuric acid",
+      "learnerPrompt": "Sulfuric acid is the stronger acid. Protonate nitric acid where it will help a leaving group form.",
+      "hintTiers": [
+        "Which oxygen of nitric acid, once protonated, could leave as a neutral molecule?",
+        "Protonate the OH oxygen: it then carries H₂O⁺, a good leaving group. Two arrows: a lone pair takes the proton, and the O–H bond of H₂SO₄ breaks.",
+        "O4 lone pair → H6 (new O4–H6 bond); O7–H6 σ bond → lone pair on O7."
+      ],
+      "misconceptions": [
+        {
+          "misconceptionId": "nitric-acid-protonates-sulfuric",
+          "misconceptionTag": "acid-base-direction",
+          "severity": "wrong",
+          "arrowPattern": "lp O9 -> H5",
+          "feedbackMessage": "Sulfuric acid is the stronger acid (pKa about −3 against −1.4), so it gives its proton to nitric acid, not the other way round."
+        },
+        {
+          "misconceptionId": "protonate-n-o-oxygen",
+          "misconceptionTag": "unproductive-protonation",
+          "severity": "plausible",
+          "arrowPattern": "lp O1 -> H6",
+          "feedbackMessage": "That oxygen can be protonated, but it gives no leaving group. Protonate the OH, so water can leave."
+        }
+      ],
+      "partialProgressMessages": [
+        {
+          "learnerArrows": [
+            "lp O4 -> σ O4-H6"
+          ],
+          "feedbackMessage": "Good: O4 takes the proton. H6 now has two bonds: which bond of sulfuric acid must break?"
+        }
+      ],
+      "mapNumberToCoordinates": {
+        "1": [
+          1.3,
+          0.75
+        ],
+        "2": [
+          0,
+          0
+        ],
+        "3": [
+          -1.3,
+          0.75
+        ],
+        "4": [
+          0,
+          -1.5
+        ],
+        "5": [
+          -1.3,
+          -2.25
+        ],
+        "6": [
+          4.9,
+          3
+        ],
+        "7": [
+          4.9,
+          1.5
+        ],
+        "8": [
+          3.6,
+          0.75
+        ],
+        "9": [
+          2.3,
+          0
+        ],
+        "10": [
+          2.85,
+          2.05
+        ],
+        "11": [
+          4.35,
+          -0.55
+        ]
+      }
+    },
+    "protonated-nitric-acid": {
+      "mappedSmiles": "[O:1]=[N+:2]([O-:3])[O+:4]([H:5])[H:6].[O-:7][S:8](=[O:9])(=[O:10])[OH:11]",
+      "caption": "protonated nitric acid + hydrogen sulfate",
+      "learnerPrompt": "Water leaves. Draw how the nitronium ion forms.",
+      "hintTiers": [
+        "Losing water from nitrogen would leave it short of electrons. Which neighbouring atom can donate a pair to nitrogen as it goes?",
+        "The O⁻ lone pair forms a second N=O π bond while the N–O bond to the H₂O⁺ breaks. Two arrows, at the same time.",
+        "O3 lone pair → π N2–O3; σ N2–O4 → lone pair on O4."
+      ],
+      "misconceptions": [
+        {
+          "misconceptionId": "hydrogen-sulfate-attacks-nitrogen",
+          "misconceptionTag": "attack-before-ionising",
+          "severity": "wrong",
+          "arrowPattern": "lp O7 -> N2",
+          "feedbackMessage": "Hydrogen sulfate is a very weak nucleophile, and attacking nitrogen gives nothing useful. Let water leave first."
+        }
+      ],
+      "partialProgressMessages": [
+        {
+          "learnerArrows": [
+            "σ N2-O4 -> lp O4"
+          ],
+          "feedbackMessage": "Water leaves, but this leaves N⁺ with only six electrons. Which lone pair can move in to form a second N=O?"
+        }
+      ],
+      "mapNumberToCoordinates": {
+        "1": [
+          1.3,
+          0.75
+        ],
+        "2": [
+          0,
+          0
+        ],
+        "3": [
+          -1.3,
+          0.75
+        ],
+        "4": [
+          0,
+          -1.5
+        ],
+        "5": [
+          -1.3,
+          -2.25
+        ],
+        "6": [
+          1.3,
+          -2.25
+        ],
+        "7": [
+          2.3,
+          0
+        ],
+        "8": [
+          3.6,
+          0.75
+        ],
+        "9": [
+          4.9,
+          1.5
+        ],
+        "10": [
+          4.35,
+          -0.55
+        ],
+        "11": [
+          2.85,
+          2.05
+        ]
+      }
+    },
+    "nitronium": {
+      "mappedSmiles": "[O:1]=[N+:2]=[O:3].[H:5][O:4][H:6].[O-:7][S:8](=[O:9])(=[O:10])[OH:11]",
+      "caption": "nitronium ion + water + hydrogen sulfate",
+      "mapNumberToCoordinates": {
+        "1": [
+          0,
+          1.5
+        ],
+        "2": [
+          0,
+          0
+        ],
+        "3": [
+          0,
+          -1.5
+        ],
+        "4": [
+          0,
+          2.5
+        ],
+        "5": [
+          1.3,
+          3.25
+        ],
+        "6": [
+          -1.3,
+          3.25
+        ],
+        "7": [
+          1,
+          0
+        ],
+        "8": [
+          2.3,
+          0.75
+        ],
+        "9": [
+          3.6,
+          1.5
+        ],
+        "10": [
+          3.05,
+          -0.55
+        ],
+        "11": [
+          1.55,
+          2.05
+        ]
+      }
+    }
+  },
+  "steps": [
+    {
+      "stepKey": "protonation",
+      "fromStateId": "acids",
+      "toStateId": "protonated-nitric-acid",
+      "stepKind": "polar",
+      "routePreference": "preferred",
+      "canonicalArrows": [
+        "lp O4 -> σ O4-H6",
+        "σ H6-O7 -> lp O7"
+      ],
+      "explanationAfterStep": "Protonating the OH turns it into H₂O⁺, a good leaving group. (In concentrated acid, the water is protonated in turn by a second H₂SO₄.)"
+    },
+    {
+      "stepKey": "loss-of-water",
+      "fromStateId": "protonated-nitric-acid",
+      "toStateId": "nitronium",
+      "stepKind": "polar",
+      "routePreference": "preferred",
+      "canonicalArrows": [
+        "lp O3 -> π N2-O3",
+        "σ N2-O4 -> lp O4"
+      ],
+      "explanationAfterStep": "NO₂⁺ is linear, O=N⁺=O, and isoelectronic with CO₂. Its nitrogen is the electrophilic atom that the arene attacks."
+    }
+  ],
+  "mechanismSummary": "Sulfuric acid, the stronger acid, protonates the OH of nitric acid. Water then leaves as the O⁻ lone pair forms a second N=O bond, giving the linear nitronium ion, NO₂⁺: the electrophile of nitration.",
+  "references": [
+    "Clayden, Greeves and Warren, Organic Chemistry, 2nd edition (Oxford University Press), chapter 21"
+  ],
+  "authors": [
+    {
+      "name": "Maksim",
+      "url": null
+    }
+  ],
+  "licence": "CC-BY-SA-4.0"
+}
