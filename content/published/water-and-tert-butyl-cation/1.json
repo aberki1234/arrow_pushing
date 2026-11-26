@@ -1,0 +1,229 @@
+{
+  "steps": [
+    {
+      "stepKey": "water-attacks",
+      "stepKind": "polar",
+      "toStateId": "oxonium",
+      "fromStateId": "reactants",
+      "canonicalArrows": [
+        "lp O1 -> σ O1-C2"
+      ],
+      "routePreference": "preferred",
+      "explanationAfterStep": "Water is a weak nucleophile, but a carbocation is a very strong electrophile. Oxygen now shares one of its pairs and has three bonds, so it carries the positive charge."
+    },
+    {
+      "stepKey": "deprotonation",
+      "stepKind": "polar",
+      "toStateId": "product",
+      "fromStateId": "oxonium",
+      "canonicalArrows": [
+        "lp O6 -> σ O6-H8",
+        "σ O1-H8 -> lp O1"
+      ],
+      "routePreference": "preferred",
+      "explanationAfterStep": "The oxonium ion is a strong acid, about as strong as H₃O⁺, and water is everywhere. After the proton transfer the positive charge sits on the new H₃O⁺."
+    }
+  ],
+  "title": "Water and the tert-butyl cation",
+  "authors": [
+    {
+      "url": null,
+      "name": "Maksim"
+    }
+  ],
+  "licence": "CC-BY-SA-4.0",
+  "subtitle": "Water adds to the cation, then a second water takes a proton",
+  "references": [
+    "Clayden, Greeves and Warren, Organic Chemistry, 2nd edition (Oxford University Press), chapter 5 (Organic reactions)"
+  ],
+  "reactionSlug": "water-and-tert-butyl-cation",
+  "startStateId": "reactants",
+  "formatVersion": 1,
+  "difficultyTier": 1,
+  "stateIdToState": {
+    "oxonium": {
+      "caption": "tert-butyloxonium ion",
+      "hintTiers": [
+        "Which hydrogens are acidic now? Look for the positively charged atom.",
+        "A second water takes one of the hydrogens on the positive oxygen. A proton transfer always needs two arrows.",
+        "Arrow 1: a lone pair of the free water to a hydrogen on the positive oxygen. Arrow 2: that O–H bond onto the positive oxygen, which becomes neutral."
+      ],
+      "mappedSmiles": "[H:8][OH+:1][C:2]([CH3:3])([CH3:4])[CH3:5].[OH2:6].[Cl-:7]",
+      "learnerPrompt": "The oxygen now has three bonds and a positive charge. Use a second water molecule to make it neutral.",
+      "misconceptions": [
+        {
+          "severity": "plausible",
+          "arrowPattern": "lp Cl7 -> σ Cl7-H8",
+          "feedbackMessage": "Chloride is a far weaker base than water (HCl is a strong acid), so the proton ends up on water, as H₃O⁺.",
+          "misconceptionId": "chloride-deprotonates",
+          "misconceptionTag": "weaker-base"
+        },
+        {
+          "severity": "wrong",
+          "arrowPattern": "σ O1-H8 -> lp H8",
+          "feedbackMessage": "The bond breaks towards the more electronegative atom. Hydrogen leaves as H⁺, with no electrons; the bonding pair stays on the other atom.",
+          "misconceptionId": "oxonium-bond-to-hydrogen",
+          "misconceptionTag": "bond-breaks-wrong-way"
+        },
+        {
+          "severity": "plausible",
+          "arrowPattern": "σ O1-C2 -> lp O1",
+          "feedbackMessage": "Losing water just goes back to the cation you started from. Remove a proton instead.",
+          "misconceptionId": "water-leaves-again",
+          "misconceptionTag": "reverse-step"
+        }
+      ],
+      "mapNumberToCoordinates": {
+        "1": [
+          0.55,
+          2.05
+        ],
+        "2": [
+          1.3,
+          0.75
+        ],
+        "3": [
+          0,
+          0
+        ],
+        "4": [
+          2.6,
+          1.5
+        ],
+        "5": [
+          2.05,
+          -0.55
+        ],
+        "6": [
+          4.32,
+          -0.37
+        ],
+        "7": [
+          6.1,
+          1.09
+        ],
+        "8": [
+          1.3,
+          3.35
+        ]
+      },
+      "partialProgressMessages": [
+        {
+          "learnerArrows": [
+            "lp O6 -> σ O6-H8"
+          ],
+          "feedbackMessage": "Good start: the lone pair makes a new bond to the hydrogen. But that hydrogen now has two bonds, four electrons, and it can hold only two. Which bond must break, and where do its electrons go?"
+        }
+      ]
+    },
+    "product": {
+      "caption": "tert-butanol + hydronium chloride",
+      "mappedSmiles": "[OH:1][C:2]([CH3:3])([CH3:4])[CH3:5].[H:8][OH2+:6].[Cl-:7]",
+      "mapNumberToCoordinates": {
+        "1": [
+          0.55,
+          2.05
+        ],
+        "2": [
+          1.3,
+          0.75
+        ],
+        "3": [
+          0,
+          0
+        ],
+        "4": [
+          2.6,
+          1.5
+        ],
+        "5": [
+          2.05,
+          -0.55
+        ],
+        "6": [
+          4.3,
+          -0.09
+        ],
+        "7": [
+          -0.57,
+          4.06
+        ],
+        "8": [
+          5.6,
+          0.66
+        ]
+      }
+    },
+    "reactants": {
+      "caption": "tert-butyl cation in water, with its chloride counter-ion",
+      "hintTiers": [
+        "Which atom of water has electrons to give, and which carbon is short of electrons?",
+        "An oxygen lone pair forms a new bond to the positive carbon. Nothing has to break. One arrow.",
+        "One arrow: a lone pair of a water oxygen to the positively charged central carbon."
+      ],
+      "mappedSmiles": "[H:8][OH:1].[C+:2]([CH3:3])([CH3:4])[CH3:5].[OH2:6].[Cl-:7]",
+      "learnerPrompt": "Water is the solvent. Draw its attack on the tert-butyl cation.",
+      "misconceptions": [
+        {
+          "severity": "plausible",
+          "arrowPattern": "lp Cl7 -> σ Cl7-C2",
+          "feedbackMessage": "Chloride can attack too: that gives tert-butyl chloride, which simply ionises again in water. Water is the solvent, present in huge excess, so here it is the nucleophile.",
+          "misconceptionId": "chloride-attacks",
+          "misconceptionTag": "competing-nucleophile"
+        },
+        {
+          "severity": "wrong",
+          "arrowPattern": "lp O* -> σ O*-C3",
+          "feedbackMessage": "That methyl carbon already has four bonds, so it cannot take a fifth. Attack the carbon carrying the positive charge.",
+          "misconceptionId": "water-attacks-methyl",
+          "misconceptionTag": "attack-saturated-atom"
+        }
+      ],
+      "mapNumberToCoordinates": {
+        "1": [
+          3.6,
+          0
+        ],
+        "2": [
+          0.01,
+          0.91
+        ],
+        "3": [
+          -1.29,
+          0.16
+        ],
+        "4": [
+          1.31,
+          0.16
+        ],
+        "5": [
+          0.01,
+          2.41
+        ],
+        "6": [
+          -0.01,
+          4.71
+        ],
+        "7": [
+          2.29,
+          4.73
+        ],
+        "8": [
+          4.9,
+          0.75
+        ]
+      }
+    }
+  },
+  "conditionsLabel": "H₂O · 25 °C",
+  "reactionClasses": [
+    "acid-base",
+    "substitution"
+  ],
+  "reactionVersion": 1,
+  "mechanismSummary": "A lone pair of water attacks the positive carbon of the tert-butyl cation, giving an oxonium ion with three bonds to oxygen. A second water molecule then removes a proton from that oxygen: tert-butanol and H₃O⁺ form.",
+  "dailyPuzzleEligible": true,
+  "spectatorMapNumbers": [],
+  "atomRoleToMapNumbers": {},
+  "previousReactionVersion": null
+}
