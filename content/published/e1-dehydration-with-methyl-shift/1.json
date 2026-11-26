@@ -1,0 +1,596 @@
+{
+  "steps": [
+    {
+      "stepKey": "protonation",
+      "stepKind": "polar",
+      "toStateId": "oxonium-ion",
+      "fromStateId": "reactants",
+      "canonicalArrows": [
+        "lp O3 -> σ O3-H8",
+        "σ O9-H8 -> lp O9"
+      ],
+      "routePreference": "preferred",
+      "explanationAfterStep": "The OH group is now OH₂⁺, which can leave as neutral water."
+    },
+    {
+      "stepKey": "loss-of-water",
+      "stepKind": "polar",
+      "toStateId": "secondary-cation",
+      "fromStateId": "oxonium-ion",
+      "canonicalArrows": [
+        "σ C2-O3 -> lp O3"
+      ],
+      "routePreference": "preferred",
+      "explanationAfterStep": "Water leaves and a secondary carbocation forms. It is next to a carbon carrying three methyl groups."
+    },
+    {
+      "stepKey": "loss-of-water-with-methyl-shift",
+      "stepKind": "polar",
+      "toStateId": "tertiary-cation",
+      "fromStateId": "oxonium-ion",
+      "canonicalArrows": [
+        "σ C2-O3 -> lp O3",
+        "σ C4-C5 -> σ C2-C5"
+      ],
+      "routePreference": "accepted",
+      "explanationAfterStep": "Also correct: the methyl group shifts as water leaves, so the secondary cation is never free. Textbooks usually draw the two steps separately."
+    },
+    {
+      "stepKey": "methyl-shift",
+      "stepKind": "polar",
+      "toStateId": "tertiary-cation",
+      "fromStateId": "secondary-cation",
+      "canonicalArrows": [
+        "σ C4-C5 -> σ C2-C5"
+      ],
+      "routePreference": "preferred",
+      "explanationAfterStep": "A 1,2-methyl shift: the methyl moves with its bonding pair to the empty p orbital next door. The new cation is tertiary, stabilised by three alkyl groups, so the shift is downhill."
+    },
+    {
+      "stepKey": "deprotonation-to-tetrasubstituted",
+      "stepKind": "polar",
+      "toStateId": "tetrasubstituted-alkene",
+      "fromStateId": "tertiary-cation",
+      "canonicalArrows": [
+        "lp O9 -> σ O9-H14",
+        "σ C2-H14 -> π C2-C4"
+      ],
+      "routePreference": "preferred",
+      "explanationAfterStep": "The C=C bond carries four methyl groups: the most stable alkene possible here (Zaitsev)."
+    },
+    {
+      "stepKey": "deprotonation-to-disubstituted",
+      "stepKind": "polar",
+      "toStateId": "disubstituted-alkene",
+      "fromStateId": "tertiary-cation",
+      "canonicalArrows": [
+        "lp O9 -> σ O9-H15",
+        "σ C6-H15 -> π C4-C6"
+      ],
+      "routePreference": "accepted",
+      "explanationAfterStep": "Also correct: losing a methyl hydrogen gives 2,3-dimethylbut-1-ene, the minor product. Its C=C bond carries only two alkyl groups."
+    }
+  ],
+  "title": "E1 with a methyl shift",
+  "authors": [
+    {
+      "url": null,
+      "name": "Maksim"
+    }
+  ],
+  "licence": "CC-BY-SA-4.0",
+  "subtitle": "A secondary cation rearranges before it loses H⁺",
+  "references": [
+    "Clayden, Greeves and Warren, Organic Chemistry, 2nd edition (Oxford University Press), chapters 17 and 36"
+  ],
+  "reactionSlug": "e1-dehydration-with-methyl-shift",
+  "startStateId": "reactants",
+  "formatVersion": 1,
+  "difficultyTier": 3,
+  "stateIdToState": {
+    "reactants": {
+      "caption": "3,3-dimethylbutan-2-ol + sulfuric acid",
+      "hintTiers": [
+        "Hydroxide is a poor leaving group. What does the OH become after its oxygen takes a proton?",
+        "The alcohol oxygen takes the acid's drawn proton; the acid's O–H bond breaks. Two arrows.",
+        "Alcohol oxygen lone pair → the acid's hydrogen; the acid's O–H bond → a lone pair on its oxygen."
+      ],
+      "mappedSmiles": "[CH3:1][C:2]([H:14])([OH:3])[C:4]([CH3:5])([CH3:7])[CH2:6][H:15].[H:8][O:9][S:10](=[O:11])(=[O:12])[OH:13]",
+      "learnerPrompt": "Start the dehydration: give the alcohol a good leaving group.",
+      "misconceptions": [
+        {
+          "severity": "wrong",
+          "arrowPattern": "σ C2-O3 -> lp O3",
+          "feedbackMessage": "Hydroxide is a poor leaving group. Protonate the oxygen first so that water can leave.",
+          "misconceptionId": "hydroxide-leaves",
+          "misconceptionTag": "poor-leaving-group"
+        }
+      ],
+      "mapNumberToCoordinates": {
+        "1": [
+          0,
+          0
+        ],
+        "2": [
+          1.3,
+          0.75
+        ],
+        "3": [
+          2.05,
+          -0.55
+        ],
+        "4": [
+          0.55,
+          2.05
+        ],
+        "5": [
+          -0.2,
+          3.35
+        ],
+        "6": [
+          1.85,
+          2.8
+        ],
+        "7": [
+          -0.75,
+          1.3
+        ],
+        "8": [
+          6.9,
+          2.9
+        ],
+        "9": [
+          6.9,
+          1.4
+        ],
+        "10": [
+          5.6,
+          0.65
+        ],
+        "11": [
+          4.3,
+          -0.1
+        ],
+        "12": [
+          4.85,
+          1.95
+        ],
+        "13": [
+          6.35,
+          -0.65
+        ],
+        "14": [
+          2.6,
+          1.5
+        ],
+        "15": [
+          1.85,
+          4.3
+        ]
+      },
+      "partialProgressMessages": [
+        {
+          "learnerArrows": [
+            "lp O3 -> σ O3-H8"
+          ],
+          "feedbackMessage": "Good: the alcohol takes the proton. Now break the acid's O–H bond onto its oxygen."
+        }
+      ]
+    },
+    "oxonium-ion": {
+      "caption": "protonated alcohol (an oxonium ion)",
+      "hintTiers": [
+        "In E1 the leaving group leaves on its own. Which bond breaks?",
+        "The C–O bond breaks onto oxygen: water leaves and a secondary carbocation forms. One arrow.",
+        "The C–O bond → a lone pair on the oxygen."
+      ],
+      "mappedSmiles": "[CH3:1][C:2]([H:14])([OH+:3][H:8])[C:4]([CH3:5])([CH3:7])[CH2:6][H:15].[O-:9][S:10](=[O:11])(=[O:12])[OH:13]",
+      "learnerPrompt": "Water can now leave. Let it go.",
+      "misconceptions": [
+        {
+          "severity": "plausible",
+          "arrowPattern": "* -> π C1-C2",
+          "feedbackMessage": "That would give 3,3-dimethylbut-1-ene, only a few per cent of the product. There is no strong base for an E2: water leaves first, and the cation has a better option.",
+          "misconceptionId": "e2-to-unrearranged",
+          "misconceptionTag": "e2-instead-of-e1"
+        }
+      ],
+      "mapNumberToCoordinates": {
+        "1": [
+          0,
+          0
+        ],
+        "2": [
+          1.3,
+          0.75
+        ],
+        "3": [
+          2.05,
+          -0.55
+        ],
+        "4": [
+          0.55,
+          2.05
+        ],
+        "5": [
+          -0.2,
+          3.35
+        ],
+        "6": [
+          1.85,
+          2.8
+        ],
+        "7": [
+          -0.75,
+          1.3
+        ],
+        "8": [
+          3.55,
+          -0.55
+        ],
+        "9": [
+          5.82,
+          -0.21
+        ],
+        "10": [
+          7.12,
+          0.54
+        ],
+        "11": [
+          8.42,
+          1.29
+        ],
+        "12": [
+          7.87,
+          -0.76
+        ],
+        "13": [
+          6.37,
+          1.84
+        ],
+        "14": [
+          2.6,
+          1.5
+        ],
+        "15": [
+          1.85,
+          4.3
+        ]
+      }
+    },
+    "tertiary-cation": {
+      "caption": "tertiary carbocation after the methyl shift",
+      "hintTiers": [
+        "Which alkene has the most alkyl groups on its C=C bond? Remove the proton that makes it.",
+        "Hydrogen sulfate takes the drawn hydrogen on the CH next to the positive carbon; that C–H bond becomes the π bond. The C=C then carries four methyl groups. Two arrows.",
+        "Hydrogen sulfate oxygen lone pair → the hydrogen on the CH; that C–H bond → a π bond to the positive carbon."
+      ],
+      "mappedSmiles": "[CH3:1][C:2]([H:14])([CH3:5])[C+:4]([CH3:7])[CH2:6][H:15].[OH:3][H:8].[O-:9][S:10](=[O:11])(=[O:12])[OH:13]",
+      "learnerPrompt": "Now remove a proton to give the main alkene.",
+      "misconceptions": [
+        {
+          "severity": "wrong",
+          "arrowPattern": "σ C2-C5 -> σ C4-C5",
+          "feedbackMessage": "That moves the methyl back and makes the secondary cation again: uphill. Remove a proton from the tertiary cation instead.",
+          "misconceptionId": "shift-back",
+          "misconceptionTag": "reverse-step"
+        },
+        {
+          "severity": "plausible",
+          "arrowPattern": "lp O3 -> σ O3-C4",
+          "feedbackMessage": "Water can add to give a tertiary alcohol, but under hot acid that just ionises again. Heat drives the elimination: remove a proton.",
+          "misconceptionId": "water-adds",
+          "misconceptionTag": "substitution-instead-of-elimination"
+        }
+      ],
+      "mapNumberToCoordinates": {
+        "1": [
+          0,
+          0
+        ],
+        "2": [
+          1.3,
+          0.75
+        ],
+        "3": [
+          4.32,
+          -0.29
+        ],
+        "4": [
+          0.55,
+          2.05
+        ],
+        "5": [
+          2.05,
+          -0.55
+        ],
+        "6": [
+          1.3,
+          3.35
+        ],
+        "7": [
+          -0.95,
+          2.05
+        ],
+        "8": [
+          5.62,
+          0.46
+        ],
+        "9": [
+          0.05,
+          6.85
+        ],
+        "10": [
+          1.35,
+          7.6
+        ],
+        "11": [
+          2.65,
+          8.35
+        ],
+        "12": [
+          2.1,
+          6.3
+        ],
+        "13": [
+          0.6,
+          8.9
+        ],
+        "14": [
+          2.6,
+          1.5
+        ],
+        "15": [
+          0.55,
+          4.65
+        ]
+      },
+      "partialProgressMessages": [
+        {
+          "learnerArrows": [
+            "σ C2-H14 -> π C2-C4"
+          ],
+          "feedbackMessage": "Right: those electrons form the π bond. Now a base must take the hydrogen."
+        }
+      ]
+    },
+    "secondary-cation": {
+      "caption": "secondary carbocation + water + hydrogen sulfate",
+      "hintTiers": [
+        "A neighbouring C–C bond can move, with its electrons, to the positive carbon. Which cation would that make?",
+        "One methyl group on the neighbouring quaternary carbon shifts across to the positive carbon. The charge moves to the carbon it left, which is now tertiary. One arrow.",
+        "The bond from the quaternary carbon to one of its methyl groups → a new bond from that methyl to the positive carbon."
+      ],
+      "mappedSmiles": "[CH3:1][C+:2]([H:14])[C:4]([CH3:5])([CH3:7])[CH2:6][H:15].[OH:3][H:8].[O-:9][S:10](=[O:11])(=[O:12])[OH:13]",
+      "learnerPrompt": "This secondary cation sits next to a carbon with three methyl groups. What happens before any proton is lost?",
+      "misconceptions": [
+        {
+          "severity": "plausible",
+          "arrowPattern": "* -> π C1-C2",
+          "feedbackMessage": "That gives 3,3-dimethylbut-1-ene, only a few per cent. A secondary cation next to a quaternary carbon rearranges first: a methyl shift makes a tertiary cation.",
+          "misconceptionId": "deprotonate-unrearranged",
+          "misconceptionTag": "missed-rearrangement"
+        },
+        {
+          "severity": "plausible",
+          "arrowPattern": "lp O3 -> σ O3-C2",
+          "feedbackMessage": "Water adding back is the reverse of the last step. Look for a rearrangement that makes a more stable cation.",
+          "misconceptionId": "water-returns",
+          "misconceptionTag": "reverse-step"
+        }
+      ],
+      "mapNumberToCoordinates": {
+        "1": [
+          0,
+          0
+        ],
+        "2": [
+          1.3,
+          0.75
+        ],
+        "3": [
+          4.87,
+          -0.13
+        ],
+        "4": [
+          1.3,
+          2.25
+        ],
+        "5": [
+          1.3,
+          3.75
+        ],
+        "6": [
+          2.8,
+          2.25
+        ],
+        "7": [
+          -0.2,
+          2.25
+        ],
+        "8": [
+          6.17,
+          0.62
+        ],
+        "9": [
+          -0.08,
+          6.49
+        ],
+        "10": [
+          1.22,
+          7.24
+        ],
+        "11": [
+          2.52,
+          7.99
+        ],
+        "12": [
+          1.97,
+          5.94
+        ],
+        "13": [
+          0.47,
+          8.54
+        ],
+        "14": [
+          2.6,
+          0
+        ],
+        "15": [
+          3.55,
+          3.55
+        ]
+      }
+    },
+    "disubstituted-alkene": {
+      "caption": "2,3-dimethylbut-1-ene (less substituted, about a third)",
+      "mappedSmiles": "[CH3:1][C:2]([H:14])([CH3:5])[C:4]([CH3:7])=[CH2:6].[OH:3][H:8].[H:15][O:9][S:10](=[O:11])(=[O:12])[OH:13]",
+      "mapNumberToCoordinates": {
+        "1": [
+          0,
+          0
+        ],
+        "2": [
+          1.3,
+          0.75
+        ],
+        "3": [
+          4.31,
+          -0.2
+        ],
+        "4": [
+          0.55,
+          2.05
+        ],
+        "5": [
+          2.05,
+          -0.55
+        ],
+        "6": [
+          1.3,
+          3.35
+        ],
+        "7": [
+          -0.95,
+          2.05
+        ],
+        "8": [
+          5.61,
+          0.55
+        ],
+        "9": [
+          2.73,
+          7.52
+        ],
+        "10": [
+          1.43,
+          6.77
+        ],
+        "11": [
+          0.13,
+          6.02
+        ],
+        "12": [
+          0.68,
+          8.07
+        ],
+        "13": [
+          2.18,
+          5.47
+        ],
+        "14": [
+          2.6,
+          1.5
+        ],
+        "15": [
+          2.73,
+          9.02
+        ]
+      }
+    },
+    "tetrasubstituted-alkene": {
+      "caption": "2,3-dimethylbut-2-ene (main product, about two thirds)",
+      "mappedSmiles": "[CH3:1][C:2]([CH3:5])=[C:4]([CH3:7])[CH2:6][H:15].[OH:3][H:8].[H:14][O:9][S:10](=[O:11])(=[O:12])[OH:13]",
+      "mapNumberToCoordinates": {
+        "1": [
+          0,
+          0
+        ],
+        "2": [
+          1.3,
+          0.75
+        ],
+        "3": [
+          -0.31,
+          3.83
+        ],
+        "4": [
+          2.6,
+          0
+        ],
+        "5": [
+          1.3,
+          2.25
+        ],
+        "6": [
+          3.9,
+          0.75
+        ],
+        "7": [
+          2.6,
+          -1.5
+        ],
+        "8": [
+          0.99,
+          4.58
+        ],
+        "9": [
+          10.08,
+          1.69
+        ],
+        "10": [
+          8.78,
+          0.94
+        ],
+        "11": [
+          7.48,
+          0.19
+        ],
+        "12": [
+          8.03,
+          2.24
+        ],
+        "13": [
+          9.53,
+          -0.35
+        ],
+        "14": [
+          10.08,
+          3.19
+        ],
+        "15": [
+          5.2,
+          0
+        ]
+      }
+    }
+  },
+  "conditionsLabel": "conc. H₂SO₄ · heat",
+  "reactionClasses": [
+    "elimination",
+    "rearrangement"
+  ],
+  "reactionVersion": 1,
+  "mechanismSummary": "Acid protonates the OH group and water leaves, giving a secondary carbocation. A methyl group on the next carbon moves across with its bonding electrons (a 1,2-methyl shift), giving a more stable tertiary cation. Losing a proton then gives mostly 2,3-dimethylbut-2-ene, the tetrasubstituted alkene, with some 2,3-dimethylbut-1-ene. The unrearranged 3,3-dimethylbut-1-ene is only a few per cent. The shift and the loss of water may also happen together.",
+  "dailyPuzzleEligible": true,
+  "spectatorMapNumbers": [],
+  "atomRoleToMapNumbers": {
+    "base": [
+      9
+    ],
+    "migratingMethyl": [
+      5
+    ]
+  },
+  "previousReactionVersion": null
+}
