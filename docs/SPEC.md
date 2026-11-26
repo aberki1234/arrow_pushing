@@ -72,7 +72,11 @@ reactions, track `aromatic-chemistry`, problem sets in this order:
   Decided 2026-11-25 (item 7a): **one pick target per bond**; picked as a source it gives its **π electrons first**,
   then σ once this arrow set has used the π electrons (so a bond broken completely is two arrows from it). Every
   lone pair is its own target. When a bond's electrons could form a new bond from either of its atoms, a small
-  **"which atom forms the bond?"** menu opens by the tapped atom.
+  **"which atom forms the bond?"** menu opens by the tapped atom. **(2026-11-26, from the SEAr pilot):** learners see no
+  map numbers, so each candidate atom carries a badge (① ②) that the menu names ("① forms the bond"), lit while its
+  option is hovered or focused; badges sit on the free side of their atom and the menu on a side beside the tapped
+  atom that covers neither candidate (`moleculeDrawing/choiceMenuLayout.ts`). Screen readers hear "① (C9) forms the
+  bond", as pick targets are named by atom label.
 - **Drawing (decided 2026-11-25):** every heavy atom is **labelled** with its implicit H and charge (CH₃, OH⁻) in v1;
   skeletal display may come later as a setting. **Every lone pair is drawn**, spread evenly through the free space
   round the atom (showing only the relevant ones would give the answer away). One **scale per reaction** (56 px per

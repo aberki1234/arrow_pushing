@@ -717,6 +717,25 @@ svg.mol {
 .choice-menu .option:focus {
   outline: none;
 }
+.choice-badge circle {
+  fill: var(--surface);
+  stroke: var(--accent);
+  stroke-width: 1.5;
+}
+.choice-badge text {
+  font:
+    700 12px ui-sans-serif,
+    system-ui,
+    sans-serif;
+  fill: var(--accent);
+  pointer-events: none;
+}
+.choice-badge.lit circle {
+  fill: var(--accent);
+}
+.choice-badge.lit text {
+  fill: var(--surface);
+}
 .hit.pending-dot {
   fill: var(--accent-soft);
 }

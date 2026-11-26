@@ -1,7 +1,9 @@
 <script lang="ts">
   // Renders one state drawing (moleculeDrawing/stateDrawing.ts) as SVG: bonds, atom labels,
   // electron dots, annotations, curved arrows, and the pick targets the learner taps or reaches
-  // with Tab and Enter. The "which atom forms the bond?" menu opens beside the tapped atom.
+  // with Tab and Enter. The "which atom forms the bond?" menu opens beside the tapped atom; each
+  // candidate atom carries the badge (① ②) its option names, lit while that option is hovered
+  // or focused (the drawing shows no map numbers).
   // The editor may pass an `overlay` (its drag and show-H handles), drawn on top.
   import type { Snippet } from "svelte";
   import type { DrawnCurvedArrow } from "../moleculeDrawing/curvedArrowGeometry.js";
@@ -10,6 +12,7 @@
     type StateDrawing,
     drawnAtomOf,
   } from "../moleculeDrawing/stateDrawing.js";
+  import { choiceBadgePoint, choiceMenuOrigin } from "../moleculeDrawing/choiceMenuLayout.js";
   import type { DestinationChoice } from "./stepScreenView.js";
 
   const {
@@ -39,7 +42,7 @@
   const CHOICE_OPTION_WIDTH = 150;
   const CHOICE_OPTION_HEIGHT = 28;
   const CHOICE_GAP = 6;
-  const CHOICE_OFFSET = 22;
+  const BADGE_RADIUS = 9;
   const CANVAS_DESCRIPTION =
     "Molecule drawing. Tab to atoms, bonds and lone pairs; press Enter to choose a source, " +
     "then a target. Escape cancels.";
@@ -52,15 +55,44 @@
       drawing.viewBox.height,
     ].join(" "),
   );
-  const choiceOrigin = $derived(
-    choice === null ? null : drawnAtomOf(drawing, choice.anchorMapNumber).point,
+  const badgePoints = $derived(
+    choice === null
+      ? []
+      : choice.options.map((option) => choiceBadgePoint(drawing, option.formerMapNumber)),
   );
+  const choiceOrigin = $derived.by(() => {
+    if (choice === null) {
+      return null;
+    }
+    const keepClear = [
+      ...choice.options.map((option) => drawnAtomOf(drawing, option.formerMapNumber).point),
+      ...badgePoints,
+    ];
+    const size = {
+      width: CHOICE_OPTION_WIDTH + 2 * CHOICE_GAP,
+      height: choice.options.length * (CHOICE_OPTION_HEIGHT + CHOICE_GAP) + CHOICE_GAP,
+    };
+    return choiceMenuOrigin(drawing, choice.anchorMapNumber, keepClear, size);
+  });
   const choiceTransform = $derived(
     choiceOrigin === null
       ? ""
-      : `translate(${String(choiceOrigin.x + CHOICE_OFFSET)} ` +
-          `${String(choiceOrigin.y - CHOICE_OFFSET)})`,
+      : `translate(${String(choiceOrigin.x + CHOICE_GAP)} ${String(choiceOrigin.y + CHOICE_GAP)})`,
   );
+
+  // The option hovered or focused last, for the menu it belongs to; the first option otherwise
+  // (it has the focus when the menu opens).
+  type LitOption = { choice: DestinationChoice; optionIndex: number };
+  let litOption = $state.raw<LitOption | null>(null);
+  const litOptionIndex = $derived(
+    litOption !== null && litOption.choice === choice ? litOption.optionIndex : 0,
+  );
+
+  function lightOption(optionIndex: number): void {
+    if (choice !== null) {
+      litOption = { choice, optionIndex };
+    }
+  }
 
   function activate(event: KeyboardEvent, action: () => void): void {
     if (event.key === "Enter" || event.key === " ") {
@@ -222,6 +254,23 @@
     </g>
   {/if}
 
+  {#if choice !== null}
+    <g class="choice-badges" aria-hidden="true">
+      {#each choice.options as option, optionIndex (option.formerMapNumber)}
+        {@const point = badgePoints[optionIndex] ?? { x: 0, y: 0 }}
+        <g
+          class="choice-badge"
+          class:lit={optionIndex === litOptionIndex}
+          data-map-number={option.formerMapNumber}
+          transform={`translate(${String(point.x)} ${String(point.y)})`}
+        >
+          <circle r={BADGE_RADIUS} />
+          <text dominant-baseline="central" text-anchor="middle">{option.badge}</text>
+        </g>
+      {/each}
+    </g>
+  {/if}
+
   {#if choice !== null && choiceOrigin !== null}
     <g
       class="choice-menu"
@@ -234,17 +283,23 @@
         x={-CHOICE_GAP}
         y={-CHOICE_GAP}
         width={CHOICE_OPTION_WIDTH + 2 * CHOICE_GAP}
-        height={choice.optionLabels.length * (CHOICE_OPTION_HEIGHT + CHOICE_GAP) + CHOICE_GAP}
+        height={choice.options.length * (CHOICE_OPTION_HEIGHT + CHOICE_GAP) + CHOICE_GAP}
         rx="8"
       />
-      {#each choice.optionLabels as optionLabel, optionIndex (optionIndex)}
+      {#each choice.options as option, optionIndex (optionIndex)}
         <g
           class="option"
           role="menuitem"
           tabindex="0"
-          aria-label={optionLabel}
+          aria-label={option.accessibleName}
           transform={`translate(0 ${String(optionIndex * (CHOICE_OPTION_HEIGHT + CHOICE_GAP))})`}
           use:focusOnMount={optionIndex === 0}
+          onmouseenter={() => {
+            lightOption(optionIndex);
+          }}
+          onfocus={() => {
+            lightOption(optionIndex);
+          }}
           onclick={() => {
             onChoose(optionIndex);
           }}
@@ -258,7 +313,9 @@
           }}
         >
           <rect width={CHOICE_OPTION_WIDTH} height={CHOICE_OPTION_HEIGHT} rx="6" />
-          <text x="10" y={CHOICE_OPTION_HEIGHT / 2} dominant-baseline="central">{optionLabel}</text>
+          <text x="10" y={CHOICE_OPTION_HEIGHT / 2} dominant-baseline="central">
+            {option.label}
+          </text>
         </g>
       {/each}
     </g>

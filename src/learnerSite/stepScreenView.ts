@@ -184,26 +184,45 @@ export function tappedPlaceOf(target: PickTarget): TappedPlace {
     : { placeKind: target.targetKind, mapNumber: first };
 }
 
+/** One option of the menu: the atom that would form the new bond, named by its badge. */
+export interface DestinationChoiceOption {
+  /** Drawn on the atom while the menu is open: learners see no map numbers. */
+  readonly badge: string;
+  readonly formerMapNumber: number;
+  readonly label: string;
+  /** With the atom's label, as the pick targets name atoms for screen readers. */
+  readonly accessibleName: string;
+}
+
 export interface DestinationChoice {
   /** The tapped atom, shared by both options: the menu opens beside it. */
   readonly anchorMapNumber: number;
-  readonly optionLabels: readonly string[];
+  readonly options: readonly DestinationChoiceOption[];
 }
+
+const CHOICE_BADGES = ["①", "②", "③", "④"];
 
 /** The "which atom forms the bond?" menu while a choice is pending; otherwise null. */
 export function destinationChoice(
   session: Pick<StepSession, "pendingDestinationOptions">,
 ): DestinationChoice | null {
-  const options = session.pendingDestinationOptions;
-  if (options === null) {
+  const pending = session.pendingDestinationOptions;
+  if (pending === null) {
     return null;
   }
-  const atomLists = options.map((option) => option.atoms.map((atom) => atom.mapNumber));
+  const atomLists = pending.map((option) => option.atoms.map((atom) => atom.mapNumber));
   const anchorMapNumber =
     atomLists[0]?.find((mapNumber) => atomLists.every((atoms) => atoms.includes(mapNumber))) ?? 0;
-  const optionLabels = options.map((option) => {
+  const options = pending.map((option, optionIndex) => {
     const former = option.atoms.find((atom) => atom.mapNumber !== anchorMapNumber);
-    return `${former?.element ?? ""}${String(former?.mapNumber ?? "")} forms the bond`;
+    const badge = CHOICE_BADGES[optionIndex] ?? String(optionIndex + 1);
+    const atomLabel = `${former?.element ?? ""}${String(former?.mapNumber ?? "")}`;
+    return {
+      badge,
+      formerMapNumber: former?.mapNumber ?? 0,
+      label: `${badge} forms the bond`,
+      accessibleName: `${badge} (${atomLabel}) forms the bond`,
+    };
   });
-  return { anchorMapNumber, optionLabels };
+  return { anchorMapNumber, options };
 }

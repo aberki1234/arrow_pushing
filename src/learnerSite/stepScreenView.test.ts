@@ -129,14 +129,28 @@ describe("canvas helpers", () => {
     });
   });
 
-  test("the destination choice names the atom that forms the bond, by the tapped atom", () => {
+  test("the destination choice badges the atoms that could form the bond", () => {
     const waiting = [bond(3, 5), atom(9)].reduce(
       tapPlace,
       continueToNextState(continueToNextState(aldolFirstStepChecked())),
     );
+    // The drawing shows no map numbers: the menu names each atom by a badge drawn on it.
     expect(destinationChoice(waiting)).toEqual({
       anchorMapNumber: 9,
-      optionLabels: ["C3 forms the bond", "C5 forms the bond"],
+      options: [
+        {
+          badge: "①",
+          formerMapNumber: 3,
+          label: "① forms the bond",
+          accessibleName: "① (C3) forms the bond",
+        },
+        {
+          badge: "②",
+          formerMapNumber: 5,
+          label: "② forms the bond",
+          accessibleName: "② (C5) forms the bond",
+        },
+      ],
     });
     expect(destinationChoice(aldolSession())).toBeNull();
   });
