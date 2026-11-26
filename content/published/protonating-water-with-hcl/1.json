@@ -1,0 +1,117 @@
+{
+  "steps": [
+    {
+      "stepKey": "proton-transfer",
+      "stepKind": "polar",
+      "toStateId": "products",
+      "fromStateId": "reactants",
+      "canonicalArrows": [
+        "lp O1 -> σ O1-H2",
+        "σ H2-Cl3 -> lp Cl3"
+      ],
+      "routePreference": "preferred",
+      "explanationAfterStep": "Count to check the charges: oxygen now has three bonds and one lone pair, one electron fewer than it owns in water, so it is positive. Chlorine has four lone pairs, one electron more than in HCl, so it is negative. Electrons are never lost: the total charge is still zero."
+    }
+  ],
+  "title": "Protonating water with HCl",
+  "authors": [
+    {
+      "url": null,
+      "name": "Maksim"
+    }
+  ],
+  "licence": "CC-BY-SA-4.0",
+  "subtitle": "HCl gives its proton to water: H₃O⁺ and Cl⁻",
+  "references": [
+    "Clayden, Greeves and Warren, Organic Chemistry, 2nd edition (Oxford University Press), chapter 8 (Acidity, basicity and pKa)"
+  ],
+  "reactionSlug": "protonating-water-with-hcl",
+  "startStateId": "reactants",
+  "formatVersion": 1,
+  "difficultyTier": 1,
+  "stateIdToState": {
+    "products": {
+      "caption": "hydronium + chloride",
+      "mappedSmiles": "[H:2][OH2+:1].[Cl-:3]",
+      "mapNumberToCoordinates": {
+        "1": [
+          0,
+          0
+        ],
+        "2": [
+          1.3,
+          0.75
+        ],
+        "3": [
+          -0.3,
+          2.39
+        ]
+      }
+    },
+    "reactants": {
+      "caption": "water + hydrogen chloride",
+      "hintTiers": [
+        "Which atom is the electron source, and which atom of HCl is electron-poor?",
+        "Water's lone pair makes a new O–H bond, and the H–Cl bond must break at the same time. Which atom keeps the electrons of the broken bond? Two arrows.",
+        "Arrow 1: a lone pair on water's oxygen to the hydrogen of HCl. Arrow 2: the H–Cl bond onto chlorine, which leaves as chloride."
+      ],
+      "mappedSmiles": "[OH2:1].[H:2][Cl:3]",
+      "learnerPrompt": "Draw how HCl gives its proton to water.",
+      "misconceptions": [
+        {
+          "severity": "wrong",
+          "arrowPattern": "σ H2-Cl3 -> lp H2",
+          "feedbackMessage": "Chlorine is more electronegative than hydrogen, so the H–Cl bond breaks towards chlorine. Hydrogen moves as H⁺, without electrons.",
+          "misconceptionId": "hcl-bond-to-hydrogen",
+          "misconceptionTag": "bond-breaks-wrong-way"
+        },
+        {
+          "severity": "wrong",
+          "arrowPattern": "lp O1 -> σ O1-Cl3",
+          "feedbackMessage": "Chlorine is the electron-rich end of HCl. The electron-poor atom, the sink, is the hydrogen.",
+          "misconceptionId": "water-attacks-chlorine",
+          "misconceptionTag": "wrong-electron-sink"
+        },
+        {
+          "severity": "wrong",
+          "arrowPattern": "σ H2-Cl3 -> O1",
+          "feedbackMessage": "Curved arrows start where the electrons are and point to where they go. Start at the base's lone pair, not at the proton.",
+          "misconceptionId": "arrow-from-hcl",
+          "misconceptionTag": "arrow-starts-at-electrons"
+        }
+      ],
+      "mapNumberToCoordinates": {
+        "1": [
+          0,
+          0
+        ],
+        "2": [
+          3.57,
+          1.04
+        ],
+        "3": [
+          2.27,
+          0.29
+        ]
+      },
+      "partialProgressMessages": [
+        {
+          "learnerArrows": [
+            "lp O1 -> σ O1-H2"
+          ],
+          "feedbackMessage": "Good start: the lone pair makes a new bond to the hydrogen. But that hydrogen now has two bonds, four electrons, and it can hold only two. Which bond must break, and where do its electrons go?"
+        }
+      ]
+    }
+  },
+  "conditionsLabel": "HCl(g) + H₂O · 25 °C",
+  "reactionClasses": [
+    "acid-base"
+  ],
+  "reactionVersion": 1,
+  "mechanismSummary": "A lone pair on water's oxygen forms a bond to the hydrogen of HCl, and the H–Cl bond breaks towards chlorine. Oxygen ends with three bonds and one lone pair (positive); chlorine with four lone pairs (negative).",
+  "dailyPuzzleEligible": true,
+  "spectatorMapNumbers": [],
+  "atomRoleToMapNumbers": {},
+  "previousReactionVersion": null
+}
