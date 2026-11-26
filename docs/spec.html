@@ -161,6 +161,14 @@
       <li><b>Published versions are immutable</b>; an edit creates a new version, and old versions stay reachable because learner progress points at a version.</li>
       <li>Review = a play-through plus a diff against the previous version.</li>
       <li><b>Licence: CC BY-SA 4.0</b>, with the contributor’s name on the reaction page, agreed at submission.</li>
+      <li><b>Contributors (item 8e, decided 2026-11-26):</b>
+        <ul>
+          <li><b>Anyone who signs in is a contributor:</b> they draft and submit; nothing goes live without a review.</li>
+          <li><b>Sign-in with GitHub or Google</b> (you set up a Google sign-in app).</li>
+          <li><b>Reviewers:</b> you, and the contributors you promote on a small Users page. Reviewers review and publish; only you change roles.</li>
+          <li><b>Improving someone else's published reaction</b> is allowed: the copy goes to review as its next version, credited to both authors, without asking the original author first.</li>
+          <li>The review screen, notifications and limits come next, as a mockup (<code>mockups/review.html</code>).</li>
+        </ul></li>
     </ul>
 
     <h2 id="mockups">7 · Mockups <span class="tag">done</span></h2>
@@ -174,6 +182,7 @@
       <tr><td><a href="../mockups/progress.html">progress</a></td><td>Streak, history, mastery by type, recurring misconceptions, library, export/import</td></tr>
       <tr><td><a href="../mockups/editor.html">editor</a></td><td>Timeline, canvas with tools, lint/hints/alternatives/misconceptions/submit tabs (replaced by <i>create</i>)</td></tr>
       <tr><td><a href="../mockups/create.html">create</a></td><td><b>Added 2026-11-26, agreed as the design of item 8d.</b> The Create home (“Your mechanisms”) and the four stages: Start, Mechanism (draw the SN2 step by clicking), Teaching, Publish.</td></tr>
+      <tr><td><a href="../mockups/review.html">review</a></td><td><b>Added 2026-11-26 for item 8e, still to agree.</b> Sign-in, a contributor's Your mechanisms and Publish stage, the review queue, the review screen and the Users page.</td></tr>
     </tbody></table>
     <p class="muted">Validation in the mockups is hard-coded in <code>mockups/scenes.js</code>, which previews the shape of the future content. Checked in headless Chromium with no console errors.</p>
 
@@ -193,7 +202,7 @@
     <ul>
       <li>The <b>JSON schema</b>, <b>Postgres schema</b> and misconception pattern syntax are in <a href="schema-design.html">schema-design.html</a> and “mostly fine” per you. The decisions in §4 are settled; details may still be refined.</li>
       <li>Branding beyond the name (logo, colours). The name, ArrowPush, and the domain, <code>arrowpushing.com</code>, were decided on 2026-11-26.</li>
-      <li>Contributors and reviewers (item 8e): sign-in beyond GitHub (e.g. Google for students), reviewer roles beyond you, the review screen.</li>
+      <li>Contributors and reviewers (item 8e): the review screen, notifications and limits (who may sign up, the sign-in options, reviewers and improving others' reactions were decided on 2026-11-26, §6).</li>
       <li>Which reactions beyond the list above, and the order of authoring the first content set.</li>
       <li>Tracks after “Aromatic chemistry” (e.g. Zaitsev versus Hofmann, kinetic versus thermodynamic enolates) and their problem sets. Problem sets themselves were scoped on 2026-11-25 (§1, §2, §5).</li>
       <li><b>Deferred:</b> whole-mechanism mode, stereo validation, learner accounts/leaderboards/sync, visual-editor polish, synkit-assisted drafting.</li>

@@ -349,6 +349,17 @@ then a halobenzene (deactivating but ortho/para). The track ends with a checkpoi
 - **Published versions are immutable**; an edit creates a new version, old versions stay reachable (learner progress points at a version).
 - Reviewer sees a play-through plus a diff against the previous version.
 - **Licence:** CC BY-SA 4.0, contributor's name shown on the reaction page, agreed at submission.
+- **Contributors (item 8e, decided 2026-11-26):**
+  - **Anyone who signs in is a contributor** (site role `contributor`): they draft and submit; nothing goes live
+    without a review. The GitHub allow-list stops deciding who may sign in (it keeps naming the owner).
+  - **Sign-in with GitHub or Google** (Better Auth's two providers; the owner sets up a Google OAuth app).
+  - **Reviewers:** the owner and the contributors the owner promotes on a small Users page. Reviewers review and
+    publish; only the owner changes roles.
+  - **Improving someone else's published reaction** is allowed: the contributor's copy goes to review as the
+    reaction's next version, credited to both authors; the original author is not asked first. (The rule "only
+    the reaction's owner saves or edits it" becomes: the author of the unpublished version saves it; anyone may
+    start the next version of a published reaction, while no other unpublished version exists.)
+  - The review screen, notifications and limits are designed with a mockup next (`mockups/review.html`).
 
 ## 7. Mockups (done 2026-11-24)
 
@@ -362,6 +373,9 @@ Chromium: no console errors. Emoji (💡) may render as tofu in headless only.
 **`create` (added 2026-11-26, agreed as the design of item 8d):** the Create home ("Your mechanisms") and the four
 stages (Start, Mechanism, Teaching, Publish); the SN2 step can be drawn by clicking (`#start`, `#mech`, `#teach`,
 `#publish` open a stage). It supersedes `editor.html` as the editor's design.
+**`review` (added 2026-11-26, item 8e, proposals not yet agreed):** sign-in, a contributor's Your mechanisms and
+Publish stage, the review queue, the review screen (only what changed, notes) and the owner's Users page
+(`#signin`, `#contrib`, `#submit`, `#queue`, `#review`, `#users`).
 
 ## 8. Process rules
 
@@ -384,8 +398,8 @@ stages (Start, Mechanism, Teaching, Publish); the SN2 step can be drawn by click
 - The **JSON schema**, **Postgres schema** and misconception pattern syntax: `docs/schema-design.md` (2026-11-24),
   "mostly fine" per the user; the decisions in §4 are settled, and details may still be refined.
 - Branding beyond the name (logo, colours). Name and domain decided 2026-11-26: ArrowPush, `arrowpushing.com`.
-- Contributors and reviewers (item 8e): OAuth providers beyond GitHub (e.g. Google for students), reviewer roles
-  beyond the owner, the review screen.
+- Contributors and reviewers (item 8e): the review screen, notifications and limits (sign-up, providers, reviewers
+  and improving others' reactions were decided 2026-11-26, §6).
 - Which exact reactions beyond the list above; authoring order of the first content set.
 - Tracks after "Aromatic chemistry" (e.g. Zaitsev versus Hofmann, kinetic versus thermodynamic enolates) and their
   problem sets. (Problem sets themselves were scoped on 2026-11-25: §1, §2, §5 "Learn".)

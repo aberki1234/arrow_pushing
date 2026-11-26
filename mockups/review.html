@@ -1,0 +1,233 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Contributors and review — ArrowPush mockup</title>
+<link rel="stylesheet" href="style.css">
+<style>
+  .viewbar { display: flex; gap: 6px; flex-wrap: wrap; margin: 16px 0 4px; padding: 8px; border: 2px dashed var(--line); border-radius: 12px; }
+  .viewbar b { font-size: .78rem; text-transform: uppercase; letter-spacing: .06em; color: var(--muted); align-self: center; margin-right: 6px; }
+  .subnav { display: flex; gap: 4px; border-bottom: 1px solid var(--line); margin: 14px 0 0; }
+  .subnav a { padding: 8px 14px; font-weight: 700; color: var(--muted); text-decoration: none; border-bottom: 3px solid transparent; cursor: pointer; }
+  .subnav a[aria-current="page"] { color: var(--accent); border-color: var(--accent); }
+  .badge { display: inline-grid; place-items: center; min-width: 20px; height: 20px; padding: 0 6px; border-radius: 999px; background: var(--bad); color: #fff; font-size: .72rem; font-weight: 800; margin-left: 4px; }
+  .narrow { max-width: 760px; margin-left: auto; margin-right: auto; }
+  .signin { max-width: 440px; margin: 40px auto; text-align: center; }
+  .provider { width: 100%; justify-content: center; margin-top: 10px; }
+  .mylist .item, .queue .item { display: flex; gap: 14px; align-items: center; padding: 12px 6px; border-bottom: 1px solid var(--line); }
+  .mylist .item:last-child, .queue .item:last-child { border-bottom: 0; }
+  .grow { flex: 1; }
+  .note { border-radius: 12px; padding: 10px 12px; font-size: .9rem; background: var(--surface-2); }
+  .note.warn { background: var(--warn-soft); }
+  .note.good { background: var(--good-soft); color: var(--good); }
+  .note h4 { margin: 0 0 4px; font-size: .9rem; }
+  .comment { border-left: 3px solid var(--warn); padding: 6px 10px; margin: 8px 0; background: var(--surface); border-radius: 0 8px 8px 0; font-size: .9rem; }
+  .comment small { display: block; color: var(--muted); }
+  .review { display: grid; grid-template-columns: minmax(0, 1.7fr) minmax(280px, 1fr); gap: 16px; align-items: start; }
+  @media (max-width: 900px) { .review { grid-template-columns: 1fr; } }
+  .change { border: 1px solid var(--line); border-radius: 12px; padding: 10px 12px; margin-top: 10px; background: var(--surface); }
+  .change header { display: flex; gap: 8px; align-items: center; justify-content: space-between; }
+  .change h4 { margin: 0; font-size: .95rem; }
+  del { background: var(--bad-soft); color: var(--bad); text-decoration: line-through; border-radius: 4px; padding: 0 2px; }
+  ins { background: var(--good-soft); color: var(--good); text-decoration: none; border-radius: 4px; padding: 0 2px; }
+  .pair { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 8px; }
+  .pair .card { padding: 4px; }
+  .pair .cap { font-size: .75rem; font-weight: 700; color: var(--muted); text-align: center; }
+  .sticky { position: sticky; top: 70px; }
+  .seg { display: inline-flex; border: 1px solid var(--line); border-radius: 10px; overflow: hidden; }
+  .seg button { border: 0; background: var(--surface); color: var(--ink); padding: 7px 12px; font: inherit; font-size: .85rem; font-weight: 700; cursor: pointer; }
+  .seg button[aria-pressed="true"] { background: var(--accent); color: var(--accent-ink); }
+  .mock { margin-top: 28px; border: 2px dashed var(--line); border-radius: 14px; padding: 12px 16px; }
+  .mock h3 { font-size: .8rem; text-transform: uppercase; letter-spacing: .06em; color: var(--muted); }
+  .mock li { margin-bottom: 4px; }
+  .mini { width: 100%; height: auto; }
+</style>
+</head>
+<body>
+<div id="nav"></div>
+<div class="wrap">
+
+<div class="viewbar" role="group" aria-label="Mockup views">
+  <b>Mockup view</b>
+  <button class="chip" data-view="signin">Sign in</button>
+  <button class="chip" data-view="contrib">Contributor: Your mechanisms</button>
+  <button class="chip" data-view="submit">Contributor: Publish stage</button>
+  <button class="chip" data-view="queue">Reviewer: Review queue</button>
+  <button class="chip" data-view="review">Reviewer: Review screen</button>
+  <button class="chip" data-view="users">Owner: Users</button>
+</div>
+
+<!-- ============ Sign in ============ -->
+<section id="v-signin" class="hidden">
+  <div class="card signin">
+    <h1 style="font-size:1.6rem">Create on ArrowPush</h1>
+    <p class="muted">Draw a mechanism, add hints and common mistakes, and submit it. A reviewer checks it before learners see it.</p>
+    <button class="btn provider">Sign in with GitHub</button>
+    <button class="btn provider">Sign in with Google</button>
+    <p class="small muted mt">We keep your name and email to credit your reactions and to tell you about reviews. Learners never need an account.</p>
+  </div>
+</section>
+
+<!-- ============ Contributor: Your mechanisms ============ -->
+<section id="v-contrib" class="hidden">
+  <div class="subnav"><a aria-current="page">Your mechanisms</a></div>
+  <div class="note warn mt">
+    <h4>A reviewer asked for changes to <b>Pinacol rearrangement</b></h4>
+    Open it to see the notes; submit again when you're done.
+  </div>
+  <div class="grid g2 mt">
+    <button class="card hero" style="text-align:left;font:inherit;color:var(--ink);cursor:pointer"><b style="font-size:1.2rem">✚ New mechanism</b><br><span class="muted small">You have 2 of 5 open drafts.</span></button>
+    <div class="card"><b style="font-size:1.2rem">✎ Improve a published one</b><br>
+      <span class="muted small">Any published reaction, yours or not: your copy goes to review as its next version, and you're credited beside its author.</span>
+      <div class="row mt"><select style="width:auto"><option>Wittig reaction (by M. L.)</option><option>SN2 substitution (by M. L.)</option></select><button class="btn sm">Suggest version 2</button></div></div>
+  </div>
+  <h2 class="mt2">Your mechanisms</h2>
+  <div class="card flat mylist">
+    <div class="item"><div class="grow"><b>Pinacol rearrangement</b><div class="small muted">2 steps · teaching done · reviewed by M. L. yesterday</div>
+        <div class="comment"><small>M. L. — overall</small>Lovely. Step 2: say why the more substituted group migrates. The hint 3 gives the answer away too early.</div></div>
+      <span class="pill warn">Changes requested</span><button class="btn sm">Address the notes</button></div>
+    <div class="item"><div class="grow"><b>Radical bromination</b><div class="small muted">2 steps · submitted 3 h ago · editing takes it out of review</div></div>
+      <span class="pill new">In review</span><button class="btn sm">View</button></div>
+    <div class="item"><div class="grow"><b>SN2 substitution · version 3</b><div class="small muted">Your suggestion for M. L.'s reaction · draft</div></div>
+      <span class="pill">Draft</span><button class="btn sm">Continue</button></div>
+    <div class="item"><div class="grow"><b>Fischer esterification</b><div class="small muted">Published · version 1</div></div>
+      <span class="pill good">Published</span><button class="btn sm">Suggest version 2</button></div>
+  </div>
+</section>
+
+<!-- ============ Contributor: Publish stage ============ -->
+<section id="v-submit" class="hidden narrow">
+  <div class="row mt"><button class="btn sm">← Your mechanisms</button><h2 style="margin:0">Pinacol rearrangement</h2><span class="pill warn">Changes requested</span></div>
+  <div class="card mt">
+    <h3>Reviewer's notes</h3>
+    <div class="comment"><small>M. L. — overall</small>Lovely. Step 2: say why the more substituted group migrates. The hint 3 gives the answer away too early.</div>
+    <div class="comment"><small>M. L. — on "Step 2 → Why it happens" · <a href="#">Go there →</a></small>Mention the stability of the cation formed.</div>
+    <p class="small muted">Notes stay here until you submit again.</p>
+  </div>
+  <div class="card mt"><h3>Checks</h3><p class="small" style="color:var(--good)">✓ No problems found.</p></div>
+  <div class="card mt">
+    <label class="row small"><input type="checkbox" checked> I share this under CC BY-SA 4.0, with my name shown on the reaction (agreed 12 Nov)</label>
+    <label class="f" for="msg">Note for the reviewer <span class="muted">optional</span></label>
+    <textarea id="msg" rows="2" placeholder="e.g. Reworded hint 3 and the step 2 explanation."></textarea>
+    <div class="row spread mt"><span class="small muted">A reviewer plays it through and compares it with the last version. You can keep editing; that takes it out of review.</span>
+      <button class="btn primary">Submit for review</button></div>
+  </div>
+</section>
+
+<!-- ============ Reviewer: queue ============ -->
+<section id="v-queue" class="hidden">
+  <div class="subnav"><a>Your mechanisms</a><a aria-current="page">Review <span class="badge">3</span></a><a>Users</a></div>
+  <h2 class="mt">Waiting for review</h2>
+  <div class="card flat queue">
+    <div class="item"><div class="grow"><b>SN2 substitution · version 3</b><div class="small muted">Suggested by Sam Lee for M. L.'s reaction · submitted 2 h ago · 3 changes</div></div>
+      <span class="pill">Improvement</span><button class="btn sm primary" data-view="review">Review</button></div>
+    <div class="item"><div class="grow"><b>Radical bromination</b><div class="small muted">New, by Ana Ruiz · submitted 3 h ago · 2 steps</div></div>
+      <span class="pill new">New reaction</span><button class="btn sm">Review</button></div>
+    <div class="item"><div class="grow"><b>Pinacol rearrangement</b><div class="small muted">By Jo Park · resubmitted after changes · 1 h ago</div></div>
+      <span class="pill warn">Resubmitted</span><button class="btn sm">Review</button></div>
+  </div>
+  <p class="small muted mt">Oldest first. A reviewer can't review their own submission.</p>
+</section>
+
+<!-- ============ Reviewer: review screen ============ -->
+<section id="v-review" class="hidden">
+  <div class="subnav"><a>Your mechanisms</a><a aria-current="page">Review <span class="badge">3</span></a><a>Users</a></div>
+  <div class="row spread mt">
+    <div><h2 style="margin:0">SN2 substitution · version 3</h2>
+      <span class="small muted">Suggested by Sam Lee · compared with version 2 by M. L. · "Clearer hint 2; added the leaving-group mistake."</span></div>
+    <button class="btn primary">▶ Play as learner</button>
+  </div>
+  <div class="review mt">
+    <section>
+      <div class="row"><span class="small muted">Show</span>
+        <div class="seg"><button aria-pressed="true">What changed (3)</button><button aria-pressed="false">Everything</button></div>
+        <span class="spacer"></span><span class="small" style="color:var(--good)">✓ Checks pass</span></div>
+
+      <div class="change">
+        <header><h4>Start · Hints</h4><button class="btn sm">✎ Note</button></header>
+        <p class="small" style="margin:6px 0 0"><b>Hint 2:</b> <del>The C–Br carbon is δ+.</del> <ins>Carbon is bonded to bromine, which pulls electrons away: carbon is δ+.</ins> Where must its electrons go?</p>
+      </div>
+
+      <div class="change">
+        <header><h4>Start · Common wrong answers <span class="pill good">+1</span></h4><button class="btn sm">✎ Note</button></header>
+        <div class="pair">
+          <div class="card flat"><svg class="mini" id="wrongNew" viewBox="0 0 640 300"></svg><div class="cap">New: lone pair on Br → C</div></div>
+          <div><p class="small" style="margin:6px 0"><b>Message:</b> <ins>Bromide is the leaving group: it leaves with the electrons rather than attacking the carbon it is leaving.</ins></p>
+            <p class="small muted">Severity: wrong</p></div>
+        </div>
+      </div>
+
+      <div class="change">
+        <header><h4>Start → Product · Why it happens</h4><button class="btn sm">✎ Note</button></header>
+        <p class="small" style="margin:6px 0 0">Hydroxide attacks the δ+ carbon from the back as bromide leaves<ins>, so the configuration inverts (Walden inversion)</ins>.</p>
+      </div>
+
+      <div class="change" style="opacity:.75">
+        <header><h4>Mechanism</h4></header>
+        <p class="small muted" style="margin:6px 0 0">Unchanged: same states and arrows as version 2. (A changed state is shown as two drawings, before and after.)</p>
+      </div>
+    </section>
+
+    <aside class="sticky">
+      <div class="card">
+        <h3>Your decision</h3>
+        <div class="comment"><small>Your note on "Start · Hints"</small>Nice. "pulls electrons away" → "is more electronegative"?</div>
+        <label class="f" for="overall">Overall note <span class="muted">sent to Sam Lee</span></label>
+        <textarea id="overall" rows="3" placeholder="What's good, and what to change."></textarea>
+        <div class="row mt"><button class="btn good">✓ Publish version 3</button><button class="btn">Request changes</button></div>
+        <p class="small muted mt">Publishing credits Sam Lee beside M. L. and rebuilds the site. Learners midway through version 2 finish it; new runs use version 3.</p>
+      </div>
+    </aside>
+  </div>
+</section>
+
+<!-- ============ Owner: users ============ -->
+<section id="v-users" class="hidden">
+  <div class="subnav"><a>Your mechanisms</a><a>Review <span class="badge">3</span></a><a aria-current="page">Users</a></div>
+  <div class="card flat mt">
+    <table class="t">
+      <thead><tr><th>Name</th><th>Signed in with</th><th>Reactions</th><th>Joined</th><th>Role</th></tr></thead>
+      <tbody>
+        <tr><td><b>M. L.</b> (you)</td><td>GitHub</td><td>6 published</td><td>Nov 2026</td><td>Owner</td></tr>
+        <tr><td>Sam Lee</td><td>Google</td><td>1 published · 1 in review</td><td>3 days ago</td><td><select style="width:auto"><option>Contributor</option><option selected>Reviewer</option><option>Blocked</option></select></td></tr>
+        <tr><td>Ana Ruiz</td><td>GitHub</td><td>1 in review</td><td>yesterday</td><td><select style="width:auto"><option selected>Contributor</option><option>Reviewer</option><option>Blocked</option></select></td></tr>
+        <tr><td>spam-account-17</td><td>Google</td><td>4 drafts</td><td>today</td><td><select style="width:auto"><option>Contributor</option><option>Reviewer</option><option selected>Blocked</option></select></td></tr>
+      </tbody>
+    </table>
+  </div>
+  <p class="small muted mt">Blocked: can sign in and see their drafts but not save or submit; their submissions leave the queue.</p>
+</section>
+
+<div class="mock">
+  <h3>Mockup notes: proposals still to agree</h3>
+  <ul class="small">
+    <li><b>Notifications in the site only</b> for now: a count on Review for reviewers, a banner on Your mechanisms for contributors. Email (e.g. via Resend) can come later.</li>
+    <li><b>Limits:</b> at most 5 open drafts per contributor; anything more waits until one is submitted or deleted. Blocking a user (Users page) stops their saving and submitting.</li>
+    <li><b>Submitted drafts stay editable</b>, but editing takes them out of review (back to draft) so the reviewer never reviews a moving target.</li>
+    <li><b>Review notes:</b> one overall note plus optional notes pinned to a change; they show on the contributor's Publish stage with "Go there →", and clear when they submit again.</li>
+    <li><b>The diff</b> lists only what changed by default: text shown with deletions and insertions, a changed state as before/after drawings, a new wrong answer as its drawing. A new reaction shows everything.</li>
+    <li>A reviewer can't review their own submission; the owner can publish their own reactions directly, as now.</li>
+  </ul>
+</div>
+</div>
+
+<script src="common.js"></script>
+<script src="scenes.js"></script>
+<script>
+(function () {
+  const views = ['signin', 'contrib', 'submit', 'queue', 'review', 'users'];
+  function show(view) {
+    views.forEach((v) => document.getElementById('v-' + v).classList.toggle('hidden', v !== view));
+    document.querySelectorAll('.viewbar [data-view]').forEach((b) => b.setAttribute('aria-pressed', String(b.dataset.view === view)));
+    location.hash = view;
+  }
+  document.querySelectorAll('[data-view]').forEach((b) => b.addEventListener('click', () => show(b.dataset.view)));
+  document.getElementById('wrongNew').innerHTML = sn2Before() +
+    '<defs><marker id="mWrong" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="5.5" markerHeight="5.5" orient="auto" markerUnits="strokeWidth"><path d="M0,1 L9,5 L0,9 z" fill="var(--bad)"/></marker></defs>' +
+    '<path class="arrow wrong" marker-end="url(#mWrong)" d="M476 160 Q 400 80 312 160"/>';
+  const start = location.hash.slice(1);
+  show(views.includes(start) ? start : 'contrib');
+})();
+</script>
+</body>
+</html>
