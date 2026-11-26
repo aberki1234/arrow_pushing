@@ -14,7 +14,12 @@
  *   bond A–B      atom A or B: lp (rad for a fish-hook) on it; a bond B–C: π B-C; the bond A–B
  *                 itself or a bond touching neither: refused; atom Y: π if exactly one of A and B
  *                 is bonded to Y, otherwise a choice between the two ("which atom forms the
- *                 bond?", decided 2026-11-25)
+ *                 bond?", decided 2026-11-25). With A bonded to Y and Y electron-poor, a pair
+ *                 arrow offers a choice instead: π A-Y first, or σ B-Y (B shifts across: a
+ *                 1,2-hydride or alkyl shift; decided 2026-11-26, item 10f), unless a drawn arrow
+ *                 already bonds B to something else (a base taking the H).
+ * Electron-poor: C, N or O short of an octet (a carbocation), or losing a σ bond to an arrow
+ * already drawn in this set (its leaving group going).
  * Tapping a lone pair or an unpaired electron as a destination means tapping its atom.
  */
 import type {
@@ -209,10 +214,73 @@ export function tapToDestinationLocus(
   source: ElectronLocus,
   tapped: TappedPlace,
   arrowType: ArrowType,
+  drawnArrows: readonly CurvedArrow[] = [],
 ): DestinationPick {
   const [first, second] = source.atoms.map((atom) => atom.mapNumber);
   if (second === undefined || first === undefined) {
     return fromAtomSource(graph, first ?? 0, tapped);
   }
-  return fromBondSource(graph, [first, second], tapped, arrowType);
+  const pick = fromBondSource(graph, [first, second], tapped, arrowType);
+  if (pick.pickOutcome !== "destination" || tapped.placeKind !== "atom" || arrowType !== "pair") {
+    return pick;
+  }
+  return withShiftOption(graph, pick.destination, [first, second], tapped.mapNumber, drawnArrows);
+}
+
+const OCTET_ELEMENTS = new Set(["C", "N", "O"]);
+
+function valenceElectronsOf(graph: StateGraph, mapNumber: number): number {
+  const atom = graph.mapNumberToAtom.get(mapNumber);
+  let bondingElectrons = 2 * (atom?.hydrogenCount ?? 0);
+  for (const [key, bondOrder] of graph.bondToOrder) {
+    if (key.split("-").map(Number).includes(mapNumber)) {
+      bondingElectrons += 2 * bondOrder;
+    }
+  }
+  return bondingElectrons + (atom?.nonbondingElectronCount ?? 0);
+}
+
+function touches(locus: ElectronLocus, mapNumber: number): boolean {
+  return locus.atoms.some((atom) => atom.mapNumber === mapNumber);
+}
+
+function isElectronPoor(
+  graph: StateGraph,
+  mapNumber: number,
+  drawnArrows: readonly CurvedArrow[],
+): boolean {
+  const element = graph.mapNumberToAtom.get(mapNumber)?.element ?? "";
+  if (OCTET_ELEMENTS.has(element) && valenceElectronsOf(graph, mapNumber) < 8) {
+    return true;
+  }
+  return drawnArrows.some(
+    ({ source, destination }) =>
+      source.locusKind === "sigmaBond" &&
+      touches(source, mapNumber) &&
+      !touches(destination, mapNumber),
+  );
+}
+
+/** A π bond to Y from the bond A–B, or B shifting across to Y when Y is electron-poor. */
+function withShiftOption(
+  graph: StateGraph,
+  piDestination: ElectronLocus,
+  [first, second]: readonly [number, number],
+  target: number,
+  drawnArrows: readonly CurvedArrow[],
+): DestinationPick {
+  if (piDestination.locusKind !== "piBond" || !isElectronPoor(graph, target, drawnArrows)) {
+    return { pickOutcome: "destination", destination: piDestination };
+  }
+  const migrating = touches(piDestination, first) ? second : first;
+  const migratingAlreadyTaken = drawnArrows.some(
+    ({ destination }) => destination.locusKind === "sigmaBond" && touches(destination, migrating),
+  );
+  if (migratingAlreadyTaken) {
+    return { pickOutcome: "destination", destination: piDestination };
+  }
+  return {
+    pickOutcome: "choice",
+    destinationOptions: [piDestination, bondLocus(graph, "sigmaBond", migrating, target)],
+  };
 }

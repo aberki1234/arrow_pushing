@@ -77,6 +77,10 @@ reactions, track `aromatic-chemistry`, problem sets in this order:
   option is hovered or focused; badges sit on the free side of their atom and the menu on a side beside the tapped
   atom that covers neither candidate (`moleculeDrawing/choiceMenuLayout.ts`). Screen readers hear "① (C9) forms the
   bond", as pick targets are named by atom label.
+  **1,2-shifts (2026-11-26, item 10f):** a bond A–B tapped, then an atom Y bonded to A that is **electron-poor** (C, N or
+  O short of an octet, or losing a σ bond to an arrow already drawn in this set) opens the same menu: "① forms a π
+  bond" (A=Y, first and focused, as before) or "② shifts across" (B moves to Y: hydride or alkyl shift). Not offered
+  when a drawn arrow already bonds B to something else (a base taking the H).
 - **Drawing (decided 2026-11-25):** every heavy atom is **labelled** with its implicit H and charge (CH₃, OH⁻) in v1;
   skeletal display may come later as a setting. **Every lone pair is drawn**, spread evenly through the free space
   round the atom (showing only the relevant ones would give the answer away). One **scale per reaction** (56 px per

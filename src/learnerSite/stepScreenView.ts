@@ -217,11 +217,16 @@ export function destinationChoice(
     const former = option.atoms.find((atom) => atom.mapNumber !== anchorMapNumber);
     const badge = CHOICE_BADGES[optionIndex] ?? String(optionIndex + 1);
     const atomLabel = `${former?.element ?? ""}${String(former?.mapNumber ?? "")}`;
+    const isShiftChoice = pending.some((other) => other.locusKind !== option.locusKind);
+    let action = "forms the bond";
+    if (isShiftChoice) {
+      action = option.locusKind === "piBond" ? "forms a π bond" : "shifts across";
+    }
     return {
       badge,
       formerMapNumber: former?.mapNumber ?? 0,
-      label: `${badge} forms the bond`,
-      accessibleName: `${badge} (${atomLabel}) forms the bond`,
+      label: `${badge} ${action}`,
+      accessibleName: `${badge} (${atomLabel}) ${action}`,
     };
   });
   return { anchorMapNumber, options };

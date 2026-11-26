@@ -864,6 +864,9 @@ RDKit (RDKit.js) on every valid SMILES case and every example state (`src/chemis
      `alternative-product-without-caption` (warning) added in `mechanismGraphRules.ts` (`LintedState.hasCaption`);
      Create names the main product "Product" and the others "Other product" (numbered when several;
      `stateStrip.stateDisplayNames`). The learner side needed nothing: a run is complete at any state no step leaves.
+   * **10f Done 2026-11-26.** 1,2-shifts are drawable (SPEC §3): `arrowPicking.tapToDestinationLocus` takes the drawn
+     arrows and, for a bond A–B tapped then an electron-poor atom Y bonded to A, offers π A-Y or σ B-Y; the menu
+     reads "forms a π bond" / "shifts across". Also: open-draft limit 20 (§SPEC 6).
    * **10d** The SEAr pilot (nitronium formation, nitration of benzene, nitration of anisole with resonance steps)
      drafted and pushed; reviewed by the owner; then the rest of the batch and `content/tracks/aromatic-chemistry.json`.
    Phase 2 (design deferred until after the batch): the MCP server at `/mcp` over the same module and tokens, and a

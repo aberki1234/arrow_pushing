@@ -1,5 +1,6 @@
 /** Tests for stepScreenView.ts on runs through the example reactions. */
 import { describe, expect, test } from "vitest";
+import { parseCurvedArrow } from "../arrowNotation/curvedArrowNotation.js";
 import { exampleSessionReaction } from "../testSupport/exampleSessions.js";
 import type { TappedPlace } from "../stepSession/arrowPicking.js";
 import {
@@ -153,6 +154,24 @@ describe("canvas helpers", () => {
       ],
     });
     expect(destinationChoice(aldolSession())).toBeNull();
+  });
+});
+
+describe("the shift menu", () => {
+  test("names a π bond and a shift, the π bond first", () => {
+    const options = [
+      parseCurvedArrow("lp O1 -> π C2-C3").destination,
+      parseCurvedArrow("lp O1 -> σ C3-H5").destination,
+    ];
+    expect(
+      destinationChoice({ pendingDestinationOptions: options })?.options.map((option) => [
+        option.formerMapNumber,
+        option.label,
+      ]),
+    ).toEqual([
+      [2, "① forms a π bond"],
+      [5, "② shifts across"],
+    ]);
   });
 });
 

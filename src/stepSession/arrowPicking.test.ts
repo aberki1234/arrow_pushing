@@ -22,6 +22,9 @@ const ENOLATE_AND_ALDEHYDE = stateGraphFromMappedSmiles(
   "[H:2][O:1][H:4].[CH2:3]=[CH:5][O-:6].[CH3:8][CH:9]=[O:10]",
 );
 const RADICAL = stateGraphFromMappedSmiles("[Br:1].[H:2][CH3:3].[Br:4][Br:5]");
+const PROPYL_CATION = stateGraphFromMappedSmiles("[CH3:1][CH:2]([H:5])[CH2+:3]");
+const PROPYL_CHLORIDE = stateGraphFromMappedSmiles("[CH3:1][CH:2]([H:5])[CH2:3][Cl:4]");
+const PROPYL_CATION_AND_WATER = stateGraphFromMappedSmiles("[CH3:1][CH:2]([H:5])[CH2+:3].[OH2:6]");
 
 const atom = (mapNumber: number): TappedPlace => ({ placeKind: "atom", mapNumber });
 const lonePair = (mapNumber: number): TappedPlace => ({ placeKind: "lonePair", mapNumber });
@@ -134,7 +137,43 @@ describe("destinations from a bond", () => {
       "π C3-C5",
     );
   });
+});
 
+describe("1,2-shifts", () => {
+  test("an electron-poor atom next to the bond asks: π bond, or a 1,2-shift", () => {
+    // A carbocation: the C–H pair may form C2=C3 or carry H5 across to C3 (hydride shift).
+    const source = sourceOf(tapToSourceLocus(PROPYL_CATION, bond(2, 5), [], "pair"));
+    expect(destinationText(tapToDestinationLocus(PROPYL_CATION, source, atom(3), "pair"))).toBe(
+      "choice: π C2-C3 | σ C3-H5",
+    );
+    // An atom losing its leaving group in the same arrow set counts as electron-poor.
+    const leaving = [parseCurvedArrow("σ C3-Cl4 -> lp Cl4")];
+    const chlorideSource = sourceOf(tapToSourceLocus(PROPYL_CHLORIDE, bond(2, 5), leaving, "pair"));
+    expect(
+      destinationText(
+        tapToDestinationLocus(PROPYL_CHLORIDE, chlorideSource, atom(3), "pair", leaving),
+      ),
+    ).toBe("choice: π C2-C3 | σ C3-H5");
+    // Without the leaving group drawn, C3 has its octet: no menu.
+    expect(
+      destinationText(tapToDestinationLocus(PROPYL_CHLORIDE, chlorideSource, atom(3), "pair")),
+    ).toBe("π C2-C3");
+  });
+
+  test("no shift is offered for an H a base is already taking", () => {
+    const baseTakesH = [parseCurvedArrow("lp O6 -> σ O6-H5")];
+    const source = sourceOf(
+      tapToSourceLocus(PROPYL_CATION_AND_WATER, bond(2, 5), baseTakesH, "pair"),
+    );
+    expect(
+      destinationText(
+        tapToDestinationLocus(PROPYL_CATION_AND_WATER, source, atom(3), "pair", baseTakesH),
+      ),
+    ).toBe("π C2-C3");
+  });
+});
+
+describe("destinations from a bond, continued", () => {
   test("an atom bonded to neither asks which atom forms the bond", () => {
     const source = sourceOf(tapToSourceLocus(ENOLATE_AND_ALDEHYDE, bond(3, 5), [], "pair"));
     expect(
