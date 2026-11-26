@@ -1,0 +1,289 @@
+{
+  "steps": [
+    {
+      "stepKey": "enolate-formation",
+      "stepKind": "polar",
+      "toStateId": "enolate",
+      "fromStateId": "reactants",
+      "canonicalArrows": [
+        "lp O9 -> σ O9-H10",
+        "σ C4-H10 -> π C2-C4",
+        "π C2-O3 -> lp O3"
+      ],
+      "routePreference": "preferred",
+      "explanationAfterStep": "The negative charge sits mostly on oxygen. The C–H next to a ketone has a pKa of about 20, low enough for hydroxide to remove a little of it at a time."
+    },
+    {
+      "stepKey": "loss-of-hydroxide",
+      "stepKind": "polar",
+      "toStateId": "product",
+      "fromStateId": "enolate",
+      "canonicalArrows": [
+        "lp O3 -> π C2-O3",
+        "π C2-C4 -> π C4-C5",
+        "σ C5-O6 -> lp O6"
+      ],
+      "routePreference": "preferred",
+      "explanationAfterStep": "The slow step: the conjugate base loses the leaving group. The new C=C bond is conjugated with C=O, which pays for losing a poor leaving group. Hydroxide is regenerated: it is a catalyst."
+    }
+  ],
+  "title": "E1cB: diacetone alcohol to mesityl oxide",
+  "authors": [
+    {
+      "url": null,
+      "name": "Maksim"
+    }
+  ],
+  "licence": "CC-BY-SA-4.0",
+  "subtitle": "An enolate pushes out hydroxide",
+  "references": [
+    "Clayden, Greeves and Warren, Organic Chemistry, 2nd edition (Oxford University Press), chapters 17 and 26"
+  ],
+  "reactionSlug": "e1cb-diacetone-alcohol",
+  "startStateId": "reactants",
+  "formatVersion": 1,
+  "difficultyTier": 2,
+  "stateIdToState": {
+    "enolate": {
+      "caption": "the enolate + water",
+      "hintTiers": [
+        "Electrons from the enolate oxygen can flow along the C=C bond towards the carbon carrying the OH.",
+        "The oxygen lone pair re-forms C=O, the C=C π bond moves one bond along, and the C–OH bond breaks onto oxygen. Three arrows.",
+        "Enolate oxygen lone pair → a π bond to the carbonyl carbon; the C=C π bond → a π bond to the carbon carrying OH; the C–OH bond → a lone pair on that oxygen."
+      ],
+      "mappedSmiles": "[CH3:1][C:2]([O-:3])=[CH:4][C:5]([OH:6])([CH3:7])[CH3:8].[OH:9][H:10].[Na+:11]",
+      "learnerPrompt": "The enolate pushes out the leaving group.",
+      "misconceptions": [
+        {
+          "severity": "plausible",
+          "arrowPattern": "* -> σ C4-H10",
+          "feedbackMessage": "Taking the proton back just reverses the first step. Let the enolate push hydroxide out instead.",
+          "misconceptionId": "enolate-c-protonated",
+          "misconceptionTag": "reverse-step"
+        },
+        {
+          "severity": "wrong",
+          "arrowPattern": "lp O3 -> σ O3-C5",
+          "feedbackMessage": "That would make a strained four-membered ring. The enolate's electrons flow along the C=C bond to push hydroxide out.",
+          "misconceptionId": "o-alkylation",
+          "misconceptionTag": "wrong-nucleophile-site"
+        }
+      ],
+      "mapNumberToCoordinates": {
+        "1": [
+          0,
+          0
+        ],
+        "2": [
+          1.3,
+          0.75
+        ],
+        "3": [
+          1.3,
+          2.25
+        ],
+        "4": [
+          2.6,
+          0
+        ],
+        "5": [
+          3.9,
+          0.75
+        ],
+        "6": [
+          3.15,
+          2.05
+        ],
+        "7": [
+          5.2,
+          1.5
+        ],
+        "8": [
+          4.65,
+          -0.55
+        ],
+        "9": [
+          -0.4,
+          3.78
+        ],
+        "10": [
+          0.9,
+          4.53
+        ],
+        "11": [
+          -0.41,
+          6.4
+        ]
+      },
+      "partialProgressMessages": [
+        {
+          "learnerArrows": [
+            "σ C5-O6 -> lp O6"
+          ],
+          "feedbackMessage": "Hydroxide does leave here, but only because the enolate pushes it. Add the arrows from the enolate oxygen and the C=C bond."
+        }
+      ]
+    },
+    "product": {
+      "caption": "mesityl oxide (4-methylpent-3-en-2-one) + hydroxide + water",
+      "mappedSmiles": "[CH3:1][C:2](=[O:3])[CH:4]=[C:5]([CH3:7])[CH3:8].[OH-:6].[OH:9][H:10].[Na+:11]",
+      "mapNumberToCoordinates": {
+        "1": [
+          0,
+          0
+        ],
+        "2": [
+          1.3,
+          0.75
+        ],
+        "3": [
+          1.3,
+          2.25
+        ],
+        "4": [
+          2.6,
+          0
+        ],
+        "5": [
+          3.9,
+          0.75
+        ],
+        "6": [
+          -0.49,
+          3.7
+        ],
+        "7": [
+          5.2,
+          0
+        ],
+        "8": [
+          3.9,
+          2.25
+        ],
+        "9": [
+          1.21,
+          5.24
+        ],
+        "10": [
+          2.51,
+          5.99
+        ],
+        "11": [
+          -0.85,
+          6.18
+        ]
+      }
+    },
+    "reactants": {
+      "caption": "diacetone alcohol (4-hydroxy-4-methylpentan-2-one) + sodium hydroxide",
+      "hintTiers": [
+        "A C–H next to a C=O group is acidic: the negative charge of its conjugate base can sit on oxygen.",
+        "Hydroxide takes the drawn hydrogen on the CH₂ between the two functional groups. The C–H electrons form a C=C bond and the C=O π electrons move onto oxygen. Three arrows.",
+        "Hydroxide lone pair → the drawn hydrogen; that C–H bond → a π bond to the carbonyl carbon; the C=O π bond → a lone pair on the carbonyl oxygen."
+      ],
+      "mappedSmiles": "[CH3:1][C:2](=[O:3])[CH:4]([H:10])[C:5]([OH:6])([CH3:7])[CH3:8].[OH-:9].[Na+:11]",
+      "learnerPrompt": "Hydroxide is a base. Which proton is acidic? Form the enolate.",
+      "misconceptions": [
+        {
+          "severity": "wrong",
+          "arrowPattern": "σ C4-H10 -> π C4-C5",
+          "feedbackMessage": "Hydroxide is a poor leaving group, so a concerted E2 is not possible. The C–H next to the ketone is acidic: form the enolate first.",
+          "misconceptionId": "e2-concerted",
+          "misconceptionTag": "e2-instead-of-e1cb"
+        },
+        {
+          "severity": "wrong",
+          "arrowPattern": "σ C5-O6 -> lp O6",
+          "feedbackMessage": "Hydroxide will not leave on its own from a neutral molecule, and there is no acid to protonate it. Make the enolate first: its electrons will push hydroxide out.",
+          "misconceptionId": "hydroxide-leaves",
+          "misconceptionTag": "poor-leaving-group"
+        },
+        {
+          "severity": "plausible",
+          "arrowPattern": "lp O9 -> σ O9-C2",
+          "feedbackMessage": "Hydroxide can add to the ketone, but that only gives an unstable hydrate that falls apart again. Here hydroxide acts as a base.",
+          "misconceptionId": "attack-carbonyl",
+          "misconceptionTag": "carbonyl-addition-instead"
+        }
+      ],
+      "mapNumberToCoordinates": {
+        "1": [
+          0,
+          0
+        ],
+        "2": [
+          1.3,
+          0.75
+        ],
+        "3": [
+          1.3,
+          2.25
+        ],
+        "4": [
+          2.6,
+          0
+        ],
+        "5": [
+          2.6,
+          -1.5
+        ],
+        "6": [
+          1.1,
+          -1.5
+        ],
+        "7": [
+          2.6,
+          -3
+        ],
+        "8": [
+          4.1,
+          -1.5
+        ],
+        "9": [
+          6.1,
+          0.14
+        ],
+        "10": [
+          3.9,
+          0.75
+        ],
+        "11": [
+          7.65,
+          -1.56
+        ]
+      },
+      "partialProgressMessages": [
+        {
+          "learnerArrows": [
+            "lp O9 -> σ O9-H10",
+            "σ C4-H10 -> π C2-C4"
+          ],
+          "feedbackMessage": "Good: the base takes the proton and a C=C forms. The carbonyl carbon now has five bonds: move the C=O π electrons onto oxygen."
+        }
+      ]
+    }
+  },
+  "conditionsLabel": "NaOH (aq) · heat",
+  "reactionClasses": [
+    "elimination",
+    "carbonyl"
+  ],
+  "reactionVersion": 1,
+  "mechanismSummary": "Hydroxide removes a proton from the carbon next to the ketone: that C–H is acidic because the enolate it gives is stabilised by the C=O group. The enolate (the conjugate base, the cB of E1cB) then pushes out hydroxide from the next carbon, forming the conjugated enone, mesityl oxide. Hydroxide is a poor leaving group, but the conjugated C=C–C=O product makes this step favourable. This is the second half of an aldol condensation.",
+  "dailyPuzzleEligible": true,
+  "spectatorMapNumbers": [
+    11
+  ],
+  "atomRoleToMapNumbers": {
+    "base": [
+      9
+    ],
+    "acidicProton": [
+      10
+    ],
+    "leavingGroup": [
+      6
+    ]
+  },
+  "previousReactionVersion": null
+}
