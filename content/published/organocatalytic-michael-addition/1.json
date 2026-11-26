@@ -1,0 +1,1407 @@
+{
+  "steps": [
+    {
+      "stepKey": "conjugate-addition",
+      "stepKind": "polar",
+      "toStateId": "sigma-complex",
+      "fromStateId": "reactants",
+      "canonicalArrows": [
+        "π C22-C23 -> σ C4-C22",
+        "π C24-C25 -> π C23-C24",
+        "lp N21 -> π N21-C25",
+        "π C3-C4 -> π C1-C3",
+        "π C1-N40 -> lp N40"
+      ],
+      "routePreference": "preferred",
+      "explanationAfterStep": "The nucleophile adds 1,4 to the LUMO-lowered iminium ion, which becomes an enamine. Pyrrole attacks through the carbon next to nitrogen, giving a cation shared by nitrogen and two ring carbons. The catalyst's benzyl group blocks one face of the C=C, so the pyrrole adds from the other: the new stereocentre forms in about 90 % ee. The app does not check stereochemistry yet, so the drawings carry no wedges and either face is accepted."
+    },
+    {
+      "stepKey": "rearomatisation",
+      "stepKind": "polar",
+      "toStateId": "enamine",
+      "fromStateId": "sigma-complex",
+      "canonicalArrows": [
+        "lp O61 -> σ O61-H27",
+        "σ C22-H27 -> π C22-C23",
+        "π C23-C24 -> π C24-C25",
+        "π N21-C25 -> lp N21"
+      ],
+      "routePreference": "preferred",
+      "explanationAfterStep": "Loss of the proton restores the aromatic pyrrole, as in every electrophilic aromatic substitution: overall this is a Friedel–Crafts alkylation, done by conjugate addition."
+    },
+    {
+      "stepKey": "enamine-protonation",
+      "stepKind": "polar",
+      "toStateId": "iminium-2",
+      "fromStateId": "enamine",
+      "canonicalArrows": [
+        "lp N40 -> π N40-C1",
+        "π C1-C3 -> σ C3-H27",
+        "σ O61-H27 -> lp O61"
+      ],
+      "routePreference": "preferred",
+      "explanationAfterStep": "The proton taken from the ring goes back onto the enamine carbon, giving a saturated iminium ion. Iminium catalysis therefore passes through enamine chemistry too."
+    },
+    {
+      "stepKey": "general-base-water-addition",
+      "stepKind": "polar",
+      "toStateId": "carbinolamine",
+      "fromStateId": "iminium-2",
+      "canonicalArrows": [
+        "lp O61 -> σ O61-H71",
+        "σ O70-H71 -> lp O70",
+        "lp O70 -> σ O70-C1",
+        "π C1-N40 -> lp N40"
+      ],
+      "routePreference": "preferred",
+      "explanationAfterStep": "Water in the solvent (THF with a little water) hydrolyses the iminium ion; trifluoroacetate takes a proton as water adds."
+    },
+    {
+      "stepKey": "nitrogen-protonation",
+      "stepKind": "polar",
+      "toStateId": "ammonium",
+      "fromStateId": "carbinolamine",
+      "canonicalArrows": [
+        "lp N40 -> σ N40-H71",
+        "σ O61-H71 -> lp O61"
+      ],
+      "routePreference": "preferred",
+      "explanationAfterStep": "TFA protonates the nitrogen, so the catalyst can leave as a neutral amine."
+    },
+    {
+      "stepKey": "catalyst-release",
+      "stepKind": "polar",
+      "toStateId": "products",
+      "fromStateId": "ammonium",
+      "canonicalArrows": [
+        "lp O61 -> σ O61-H72",
+        "σ O70-H72 -> π C1-O70",
+        "σ C1-N40 -> lp N40"
+      ],
+      "routePreference": "preferred",
+      "explanationAfterStep": "The aldehyde re-forms and the amine leaves; with TFA it forms the iminium ion of the next crotonaldehyde. The saturated aldehyde cannot form a conjugated iminium ion, so it does not react again."
+    }
+  ],
+  "title": "Organocatalytic conjugate addition",
+  "authors": [
+    {
+      "url": null,
+      "name": "Maksim"
+    }
+  ],
+  "licence": "CC-BY-SA-4.0",
+  "subtitle": "An iminium ion lets N-methylpyrrole add 1,4 to crotonaldehyde",
+  "references": [
+    "Paras and MacMillan, Journal of the American Chemical Society 2001, 123, 4370",
+    "Clayden, Greeves and Warren, Organic Chemistry, 2nd edition (Oxford University Press), chapter 41 (asymmetric synthesis: organocatalysis)",
+    "Clayden, Greeves and Warren, Organic Chemistry, 2nd edition (Oxford University Press), chapter 22 (conjugate addition)"
+  ],
+  "reactionSlug": "organocatalytic-michael-addition",
+  "startStateId": "reactants",
+  "formatVersion": 1,
+  "difficultyTier": 3,
+  "stateIdToState": {
+    "enamine": {
+      "caption": "the 2-substituted pyrrole, still bound as an enamine + trifluoroacetic acid",
+      "hintTiers": [
+        "An enamine is protonated on carbon by acid. Which acid is now present?",
+        "The nitrogen lone pair forms C=N⁺, the C=C pair takes the drawn hydrogen of TFA, and the acid O–H pair stays on its oxygen. Three arrows.",
+        "Catalyst nitrogen lone pair → π bond to its carbon; enamine C=C π bond → new bond from the middle carbon to the acid hydrogen; the acid O–H bond → a lone pair on its oxygen."
+      ],
+      "mappedSmiles": "[CH3:26][N:21]1[C:22]([CH:4]([CH3:5])[CH:3]=[CH:1][N:40]7[C:41]([CH3:42])([CH3:43])[N:44]([CH3:45])[C:46](=[O:47])[CH:48]7[CH2:49][C:51]8=[CH:52][CH:53]=[CH:54][CH:55]=[CH:56]8)=[CH:23][CH:24]=[CH:25]1.[H:27][O:61][C:62](=[O:63])[C:64]([F:65])([F:66])[F:67].[H:71][O:70][H:72]",
+      "learnerPrompt": "Turn the enamine back into an iminium ion.",
+      "misconceptions": [
+        {
+          "severity": "plausible",
+          "arrowPattern": "lp N40 -> σ N40-H27",
+          "feedbackMessage": "Protonating nitrogen is fast but reversible and leads nowhere. Protonate the enamine carbon to make the iminium ion that water can hydrolyse.",
+          "misconceptionId": "protonate-nitrogen",
+          "misconceptionTag": "n-not-c-protonation"
+        },
+        {
+          "severity": "plausible",
+          "arrowPattern": "* -> σ C23-H27",
+          "feedbackMessage": "Protonating the pyrrole ring takes away its aromaticity again. The enamine carbon is the base here.",
+          "misconceptionId": "protonate-pyrrole",
+          "misconceptionTag": "unproductive-protonation"
+        }
+      ],
+      "mapNumberToCoordinates": {
+        "1": [
+          1.67,
+          -2.98
+        ],
+        "3": [
+          1.21,
+          -4.41
+        ],
+        "4": [
+          -0.26,
+          -4.72
+        ],
+        "5": [
+          -0.72,
+          -6.15
+        ],
+        "21": [
+          -2.75,
+          -3.76
+        ],
+        "22": [
+          -1.26,
+          -3.6
+        ],
+        "23": [
+          -0.95,
+          -2.14
+        ],
+        "24": [
+          -2.25,
+          -1.39
+        ],
+        "25": [
+          -3.36,
+          -2.39
+        ],
+        "26": [
+          -3.5,
+          -5.06
+        ],
+        "27": [
+          -2.78,
+          5.01
+        ],
+        "40": [
+          3.14,
+          -2.67
+        ],
+        "41": [
+          4.25,
+          -3.67
+        ],
+        "42": [
+          5.14,
+          -4.89
+        ],
+        "43": [
+          3.14,
+          -4.68
+        ],
+        "44": [
+          5.55,
+          -2.92
+        ],
+        "45": [
+          6.92,
+          -3.53
+        ],
+        "46": [
+          5.24,
+          -1.46
+        ],
+        "47": [
+          6.25,
+          -0.34
+        ],
+        "48": [
+          3.75,
+          -1.3
+        ],
+        "49": [
+          3,
+          0
+        ],
+        "51": [
+          1.5,
+          0
+        ],
+        "52": [
+          0.75,
+          1.3
+        ],
+        "53": [
+          -0.75,
+          1.3
+        ],
+        "54": [
+          -1.5,
+          0
+        ],
+        "55": [
+          -0.75,
+          -1.3
+        ],
+        "56": [
+          0.75,
+          -1.3
+        ],
+        "61": [
+          -1.48,
+          5.76
+        ],
+        "62": [
+          -0.18,
+          5.01
+        ],
+        "63": [
+          -0.18,
+          3.51
+        ],
+        "64": [
+          1.12,
+          5.76
+        ],
+        "65": [
+          2.41,
+          6.51
+        ],
+        "66": [
+          1.87,
+          4.46
+        ],
+        "67": [
+          0.37,
+          7.06
+        ],
+        "70": [
+          9.5,
+          0.1
+        ],
+        "71": [
+          10.8,
+          0.85
+        ],
+        "72": [
+          8.2,
+          0.85
+        ]
+      },
+      "partialProgressMessages": [
+        {
+          "learnerArrows": [
+            "π C1-C3 -> σ C3-H27",
+            "σ O61-H27 -> lp O61"
+          ],
+          "feedbackMessage": "Right proton transfer. Push with the nitrogen lone pair to form C=N⁺."
+        }
+      ]
+    },
+    "ammonium": {
+      "caption": "the N-protonated carbinolamine + trifluoroacetate",
+      "hintTiers": [
+        "The OH can become C=O if it loses its proton, and the protonated nitrogen is a good leaving group.",
+        "Trifluoroacetate takes the hydrogen of the OH, that O–H pair forms the C=O π bond, and the C–N bond breaks onto nitrogen. Three arrows.",
+        "Carboxylate lone pair → new bond to the OH hydrogen; that O–H bond → a π bond between oxygen and carbon; the C–N bond → a lone pair on nitrogen."
+      ],
+      "mappedSmiles": "[CH3:26][N:21]1[C:22]([CH:4]([CH3:5])[CH:3]([H:27])[CH:1]([O:70][H:72])[N+:40]7([H:71])[C:41]([CH3:42])([CH3:43])[N:44]([CH3:45])[C:46](=[O:47])[CH:48]7[CH2:49][C:51]8=[CH:52][CH:53]=[CH:54][CH:55]=[CH:56]8)=[CH:23][CH:24]=[CH:25]1.[O-:61][C:62](=[O:63])[C:64]([F:65])([F:66])[F:67]",
+      "learnerPrompt": "Release the catalyst and form the aldehyde.",
+      "misconceptions": [
+        {
+          "severity": "wrong",
+          "arrowPattern": "σ C1-O70 -> lp O70",
+          "feedbackMessage": "Losing hydroxide would leave the wrong group behind. The catalyst is the leaving group: break the C–N bond.",
+          "misconceptionId": "hydroxide-leaves-not-amine",
+          "misconceptionTag": "poor-leaving-group"
+        }
+      ],
+      "mapNumberToCoordinates": {
+        "1": [
+          1.84,
+          -1.92
+        ],
+        "3": [
+          0.54,
+          -2.67
+        ],
+        "4": [
+          0.54,
+          -4.17
+        ],
+        "5": [
+          1.84,
+          -4.92
+        ],
+        "21": [
+          -2.13,
+          -4.31
+        ],
+        "22": [
+          -0.76,
+          -4.92
+        ],
+        "23": [
+          -0.91,
+          -6.41
+        ],
+        "24": [
+          -2.38,
+          -6.72
+        ],
+        "25": [
+          -3.13,
+          -5.42
+        ],
+        "26": [
+          -2.44,
+          -2.84
+        ],
+        "27": [
+          -0.76,
+          -1.92
+        ],
+        "40": [
+          3.14,
+          -2.67
+        ],
+        "41": [
+          4.25,
+          -3.67
+        ],
+        "42": [
+          5.14,
+          -4.89
+        ],
+        "43": [
+          3.14,
+          -4.68
+        ],
+        "44": [
+          5.55,
+          -2.92
+        ],
+        "45": [
+          6.92,
+          -3.53
+        ],
+        "46": [
+          5.24,
+          -1.46
+        ],
+        "47": [
+          6.25,
+          -0.34
+        ],
+        "48": [
+          3.75,
+          -1.3
+        ],
+        "49": [
+          3,
+          0
+        ],
+        "51": [
+          3.75,
+          1.3
+        ],
+        "52": [
+          3,
+          2.6
+        ],
+        "53": [
+          3.75,
+          3.9
+        ],
+        "54": [
+          5.25,
+          3.9
+        ],
+        "55": [
+          6,
+          2.6
+        ],
+        "56": [
+          5.25,
+          1.3
+        ],
+        "61": [
+          8.21,
+          0.84
+        ],
+        "62": [
+          9.51,
+          0.09
+        ],
+        "63": [
+          9.51,
+          -1.41
+        ],
+        "64": [
+          10.81,
+          0.84
+        ],
+        "65": [
+          12.11,
+          1.59
+        ],
+        "66": [
+          11.56,
+          -0.46
+        ],
+        "67": [
+          10.06,
+          2.14
+        ],
+        "70": [
+          1.84,
+          -0.42
+        ],
+        "71": [
+          2.26,
+          -3.88
+        ],
+        "72": [
+          0.54,
+          0.33
+        ]
+      },
+      "partialProgressMessages": [
+        {
+          "learnerArrows": [
+            "σ C1-N40 -> lp N40"
+          ],
+          "feedbackMessage": "The catalyst does leave, but the carbon needs electrons to replace the C–N bond: form the C=O from the OH, and let trifluoroacetate take its proton."
+        }
+      ]
+    },
+    "products": {
+      "caption": "3-(1-methylpyrrol-2-yl)butanal + the catalyst + TFA, ready for the next turn",
+      "mappedSmiles": "[CH3:26][N:21]1[C:22]([CH:4]([CH3:5])[CH:3]([H:27])[CH:1]=[O:70])=[CH:23][CH:24]=[CH:25]1.[H:71][N:40]7[C:41]([CH3:42])([CH3:43])[N:44]([CH3:45])[C:46](=[O:47])[CH:48]7[CH2:49][C:51]8=[CH:52][CH:53]=[CH:54][CH:55]=[CH:56]8.[H:72][O:61][C:62](=[O:63])[C:64]([F:65])([F:66])[F:67]",
+      "mapNumberToCoordinates": {
+        "1": [
+          3.33,
+          1.84
+        ],
+        "3": [
+          2.33,
+          2.95
+        ],
+        "4": [
+          0.86,
+          2.64
+        ],
+        "5": [
+          -0.15,
+          3.75
+        ],
+        "21": [
+          1.28,
+          0
+        ],
+        "22": [
+          0.39,
+          1.21
+        ],
+        "23": [
+          -1.03,
+          0.75
+        ],
+        "24": [
+          -1.03,
+          -0.75
+        ],
+        "25": [
+          0.39,
+          -1.21
+        ],
+        "26": [
+          2.78,
+          0
+        ],
+        "27": [
+          2.79,
+          4.38
+        ],
+        "40": [
+          3.35,
+          8.62
+        ],
+        "41": [
+          4.46,
+          7.61
+        ],
+        "42": [
+          5.34,
+          6.4
+        ],
+        "43": [
+          3.35,
+          6.61
+        ],
+        "44": [
+          5.76,
+          8.36
+        ],
+        "45": [
+          7.13,
+          7.75
+        ],
+        "46": [
+          5.45,
+          9.83
+        ],
+        "47": [
+          6.45,
+          10.94
+        ],
+        "48": [
+          3.96,
+          9.99
+        ],
+        "49": [
+          3.21,
+          11.28
+        ],
+        "51": [
+          1.71,
+          11.28
+        ],
+        "52": [
+          0.96,
+          12.58
+        ],
+        "53": [
+          -0.54,
+          12.58
+        ],
+        "54": [
+          -1.29,
+          11.28
+        ],
+        "55": [
+          -0.54,
+          9.99
+        ],
+        "56": [
+          0.96,
+          9.99
+        ],
+        "61": [
+          7.1,
+          0.75
+        ],
+        "62": [
+          8.39,
+          0
+        ],
+        "63": [
+          8.39,
+          -1.5
+        ],
+        "64": [
+          9.69,
+          0.75
+        ],
+        "65": [
+          10.99,
+          1.5
+        ],
+        "66": [
+          10.44,
+          -0.55
+        ],
+        "67": [
+          8.94,
+          2.05
+        ],
+        "70": [
+          4.8,
+          2.15
+        ],
+        "71": [
+          1.88,
+          8.3
+        ],
+        "72": [
+          5.8,
+          0
+        ]
+      }
+    },
+    "iminium-2": {
+      "caption": "the saturated iminium ion + trifluoroacetate + water",
+      "hintTiers": [
+        "Iminium hydrolysis is iminium formation run backwards. Trifluoroacetate is a weak base, close to the iminium ion.",
+        "Trifluoroacetate takes a drawn hydrogen of water, that O–H pair stays on water's oxygen, a water lone pair bonds to the iminium carbon, and the C=N⁺ π pair goes onto nitrogen. Four arrows.",
+        "Carboxylate lone pair → new bond to a water hydrogen; that O–H bond → a lone pair on water's oxygen; water lone pair → new bond to the iminium carbon; the C=N⁺ π bond → a lone pair on nitrogen."
+      ],
+      "mappedSmiles": "[CH3:26][N:21]1[C:22]([CH:4]([CH3:5])[CH:3]([H:27])[CH:1]=[N+:40]7[C:41]([CH3:42])([CH3:43])[N:44]([CH3:45])[C:46](=[O:47])[CH:48]7[CH2:49][C:51]8=[CH:52][CH:53]=[CH:54][CH:55]=[CH:56]8)=[CH:23][CH:24]=[CH:25]1.[O-:61][C:62](=[O:63])[C:64]([F:65])([F:66])[F:67].[H:71][O:70][H:72]",
+      "learnerPrompt": "Hydrolysis: water adds to the iminium carbon while trifluoroacetate takes a proton from it.",
+      "misconceptions": [
+        {
+          "severity": "plausible",
+          "arrowPattern": "σ C4-C22 -> *",
+          "feedbackMessage": "Breaking the new C–C bond goes backwards. Hydrolyse the iminium ion.",
+          "misconceptionId": "retro-addition",
+          "misconceptionTag": "reverse-step"
+        },
+        {
+          "severity": "plausible",
+          "arrowPattern": "lp O61 -> C1",
+          "feedbackMessage": "Trifluoroacetate adding to the iminium carbon is reversible and unproductive. Water is the nucleophile.",
+          "misconceptionId": "tfa-adds",
+          "misconceptionTag": "unproductive-addition"
+        }
+      ],
+      "mapNumberToCoordinates": {
+        "1": [
+          1.67,
+          -2.98
+        ],
+        "3": [
+          1.21,
+          -4.41
+        ],
+        "4": [
+          -0.26,
+          -4.72
+        ],
+        "5": [
+          -0.72,
+          -6.15
+        ],
+        "21": [
+          -0.95,
+          -2.14
+        ],
+        "22": [
+          -1.26,
+          -3.6
+        ],
+        "23": [
+          -2.75,
+          -3.76
+        ],
+        "24": [
+          -3.36,
+          -2.39
+        ],
+        "25": [
+          -2.25,
+          -1.39
+        ],
+        "26": [
+          0.42,
+          -1.53
+        ],
+        "27": [
+          2.21,
+          -5.52
+        ],
+        "40": [
+          3.14,
+          -2.67
+        ],
+        "41": [
+          4.25,
+          -3.67
+        ],
+        "42": [
+          5.14,
+          -4.89
+        ],
+        "43": [
+          3.14,
+          -4.68
+        ],
+        "44": [
+          5.55,
+          -2.92
+        ],
+        "45": [
+          6.92,
+          -3.53
+        ],
+        "46": [
+          5.24,
+          -1.46
+        ],
+        "47": [
+          6.25,
+          -0.34
+        ],
+        "48": [
+          3.75,
+          -1.3
+        ],
+        "49": [
+          3,
+          0
+        ],
+        "51": [
+          3.75,
+          1.3
+        ],
+        "52": [
+          5.25,
+          1.3
+        ],
+        "53": [
+          6,
+          2.6
+        ],
+        "54": [
+          5.25,
+          3.9
+        ],
+        "55": [
+          3.75,
+          3.9
+        ],
+        "56": [
+          3,
+          2.6
+        ],
+        "61": [
+          -1.3,
+          7.15
+        ],
+        "62": [
+          0,
+          6.4
+        ],
+        "63": [
+          0,
+          4.9
+        ],
+        "64": [
+          1.3,
+          7.15
+        ],
+        "65": [
+          2.6,
+          7.9
+        ],
+        "66": [
+          2.05,
+          5.85
+        ],
+        "67": [
+          0.55,
+          8.45
+        ],
+        "70": [
+          9.51,
+          0.1
+        ],
+        "71": [
+          10.8,
+          0.85
+        ],
+        "72": [
+          8.21,
+          0.85
+        ]
+      },
+      "partialProgressMessages": [
+        {
+          "learnerArrows": [
+            "lp O70 -> σ O70-C1",
+            "π C1-N40 -> lp N40"
+          ],
+          "feedbackMessage": "Water adds: right. Trifluoroacetate takes a proton from it in the same step: add two arrows."
+        }
+      ]
+    },
+    "reactants": {
+      "caption": "the iminium ion of crotonaldehyde (as its trifluoroacetate) + N-methylpyrrole + water",
+      "hintTiers": [
+        "Pyrrole is an electron-rich aromatic ring: it reacts like an enamine, through a ring carbon next to nitrogen. The far carbon of the iminium C=C is the electrophile.",
+        "The pyrrole C=C next to nitrogen makes the new bond to the far end of the iminium C=C; the other ring C=C moves round, and the ring nitrogen lone pair forms C=N⁺. On the other side the iminium C=C π pair moves over to the carbon of the C=N⁺, whose π pair goes onto the catalyst nitrogen. Five arrows.",
+        "Pyrrole C=C π bond (next to N) → new bond from that ring carbon to the CH carbon carrying the methyl; the other ring C=C π bond → a π bond to the next carbon; ring nitrogen lone pair → π bond to its carbon; iminium C=C π bond → a π bond to the iminium carbon; the C=N⁺ π bond → a lone pair on the catalyst nitrogen."
+      ],
+      "mappedSmiles": "[CH:1](=[N+:40]7[C:41]([CH3:42])([CH3:43])[N:44]([CH3:45])[C:46](=[O:47])[CH:48]7[CH2:49][C:51]8=[CH:52][CH:53]=[CH:54][CH:55]=[CH:56]8)[CH:3]=[CH:4][CH3:5].[CH3:26][N:21]1[C:22]([H:27])=[CH:23][CH:24]=[CH:25]1.[O-:61][C:62](=[O:63])[C:64]([F:65])([F:66])[F:67].[H:71][O:70][H:72]",
+      "learnerPrompt": "The iminium ion has already formed from crotonaldehyde and the catalyst's TFA salt. N-Methylpyrrole adds 1,4. Draw that step.",
+      "misconceptions": [
+        {
+          "severity": "wrong",
+          "arrowPattern": "lp N21 -> σ N21-C4",
+          "feedbackMessage": "The pyrrole nitrogen's lone pair is part of the aromatic sextet, and it carries a methyl group: it is not the nucleophile. A ring carbon next to it is.",
+          "misconceptionId": "pyrrole-nitrogen-attacks",
+          "misconceptionTag": "aromatic-lone-pair"
+        },
+        {
+          "severity": "plausible",
+          "arrowPattern": "* -> σ C4-C23",
+          "feedbackMessage": "Attack through the ring carbon one further from nitrogen gives a cation with less delocalisation (no nitrogen-stabilised C=N⁺ in line). Pyrroles react next to nitrogen.",
+          "misconceptionId": "attack-at-c3",
+          "misconceptionTag": "wrong-ring-position"
+        },
+        {
+          "severity": "plausible",
+          "arrowPattern": "* -> σ C1-C22",
+          "feedbackMessage": "Adding to the iminium carbon itself is the 1,2-route. The catalyst's bulky ring sits round that carbon; the pyrrole adds 1,4, at the far end of the C=C.",
+          "misconceptionId": "1-2-addition",
+          "misconceptionTag": "1-2-addition"
+        }
+      ],
+      "mapNumberToCoordinates": {
+        "1": [
+          1.67,
+          -2.98
+        ],
+        "3": [
+          1.21,
+          -4.41
+        ],
+        "4": [
+          -0.26,
+          -4.72
+        ],
+        "5": [
+          -0.72,
+          -6.15
+        ],
+        "21": [
+          0.91,
+          4.7
+        ],
+        "22": [
+          0.03,
+          5.91
+        ],
+        "23": [
+          -1.4,
+          5.45
+        ],
+        "24": [
+          -1.4,
+          3.95
+        ],
+        "25": [
+          0.03,
+          3.48
+        ],
+        "26": [
+          2.41,
+          4.7
+        ],
+        "27": [
+          0.49,
+          7.34
+        ],
+        "40": [
+          3.14,
+          -2.67
+        ],
+        "41": [
+          4.25,
+          -3.67
+        ],
+        "42": [
+          5.14,
+          -4.89
+        ],
+        "43": [
+          3.14,
+          -4.68
+        ],
+        "44": [
+          5.55,
+          -2.92
+        ],
+        "45": [
+          6.92,
+          -3.53
+        ],
+        "46": [
+          5.24,
+          -1.46
+        ],
+        "47": [
+          6.25,
+          -0.34
+        ],
+        "48": [
+          3.75,
+          -1.3
+        ],
+        "49": [
+          3,
+          0
+        ],
+        "51": [
+          1.5,
+          0
+        ],
+        "52": [
+          0.75,
+          1.3
+        ],
+        "53": [
+          -0.75,
+          1.3
+        ],
+        "54": [
+          -1.5,
+          0
+        ],
+        "55": [
+          -0.75,
+          -1.3
+        ],
+        "56": [
+          0.75,
+          -1.3
+        ],
+        "61": [
+          8.21,
+          0.85
+        ],
+        "62": [
+          9.5,
+          0.1
+        ],
+        "63": [
+          9.5,
+          -1.4
+        ],
+        "64": [
+          10.8,
+          0.85
+        ],
+        "65": [
+          12.1,
+          1.6
+        ],
+        "66": [
+          11.55,
+          -0.45
+        ],
+        "67": [
+          10.05,
+          2.15
+        ],
+        "70": [
+          -0.14,
+          9.53
+        ],
+        "71": [
+          1.16,
+          10.28
+        ],
+        "72": [
+          -1.44,
+          10.28
+        ]
+      },
+      "partialProgressMessages": [
+        {
+          "learnerArrows": [
+            "π C22-C23 -> σ C4-C22",
+            "π C3-C4 -> π C1-C3",
+            "π C1-N40 -> lp N40"
+          ],
+          "feedbackMessage": "Right new bond and the enamine forms. The pyrrole ring must now carry the positive charge: move its other C=C and the nitrogen lone pair."
+        }
+      ]
+    },
+    "carbinolamine": {
+      "caption": "the carbinolamine + trifluoroacetic acid",
+      "hintTiers": [
+        "An amine leaves well only from an ammonium ion. Which atom should take a proton?",
+        "The catalyst nitrogen lone pair takes the acid hydrogen of TFA, and that O–H pair stays on its oxygen. Two arrows.",
+        "Nitrogen lone pair → new bond to the acid hydrogen; the acid O–H bond → a lone pair on its oxygen."
+      ],
+      "mappedSmiles": "[CH3:26][N:21]1[C:22]([CH:4]([CH3:5])[CH:3]([H:27])[CH:1]([O:70][H:72])[N:40]7[C:41]([CH3:42])([CH3:43])[N:44]([CH3:45])[C:46](=[O:47])[CH:48]7[CH2:49][C:51]8=[CH:52][CH:53]=[CH:54][CH:55]=[CH:56]8)=[CH:23][CH:24]=[CH:25]1.[H:71][O:61][C:62](=[O:63])[C:64]([F:65])([F:66])[F:67]",
+      "learnerPrompt": "Make the catalyst a leaving group.",
+      "misconceptions": [
+        {
+          "severity": "wrong",
+          "arrowPattern": "σ C1-N40 -> lp N40",
+          "feedbackMessage": "An amide ion (R₂N⁻) is a hopeless leaving group. Protonate the nitrogen first.",
+          "misconceptionId": "amide-ion-leaves",
+          "misconceptionTag": "poor-leaving-group"
+        },
+        {
+          "severity": "plausible",
+          "arrowPattern": "lp O70 -> σ O70-H71",
+          "feedbackMessage": "Protonating the OH heads back towards the iminium ion. Protonate the nitrogen.",
+          "misconceptionId": "hydroxyl-protonated",
+          "misconceptionTag": "reverse-step"
+        }
+      ],
+      "mapNumberToCoordinates": {
+        "1": [
+          1.67,
+          -2.98
+        ],
+        "3": [
+          1.21,
+          -4.41
+        ],
+        "4": [
+          -0.26,
+          -4.72
+        ],
+        "5": [
+          -1.26,
+          -3.6
+        ],
+        "21": [
+          0.16,
+          -7.36
+        ],
+        "22": [
+          -0.72,
+          -6.15
+        ],
+        "23": [
+          -2.15,
+          -6.61
+        ],
+        "24": [
+          -2.15,
+          -8.11
+        ],
+        "25": [
+          -0.72,
+          -8.57
+        ],
+        "26": [
+          1.66,
+          -7.36
+        ],
+        "27": [
+          2.21,
+          -5.52
+        ],
+        "40": [
+          3.14,
+          -2.67
+        ],
+        "41": [
+          4.25,
+          -3.67
+        ],
+        "42": [
+          5.14,
+          -4.89
+        ],
+        "43": [
+          3.14,
+          -4.68
+        ],
+        "44": [
+          5.55,
+          -2.92
+        ],
+        "45": [
+          6.92,
+          -3.53
+        ],
+        "46": [
+          5.24,
+          -1.46
+        ],
+        "47": [
+          6.25,
+          -0.34
+        ],
+        "48": [
+          3.75,
+          -1.3
+        ],
+        "49": [
+          3,
+          0
+        ],
+        "51": [
+          3.75,
+          1.3
+        ],
+        "52": [
+          5.25,
+          1.3
+        ],
+        "53": [
+          6,
+          2.6
+        ],
+        "54": [
+          5.25,
+          3.9
+        ],
+        "55": [
+          3.75,
+          3.9
+        ],
+        "56": [
+          3,
+          2.6
+        ],
+        "61": [
+          9.77,
+          0.96
+        ],
+        "62": [
+          11.07,
+          0.21
+        ],
+        "63": [
+          11.07,
+          -1.29
+        ],
+        "64": [
+          12.37,
+          0.96
+        ],
+        "65": [
+          13.67,
+          1.71
+        ],
+        "66": [
+          13.12,
+          -0.34
+        ],
+        "67": [
+          11.62,
+          2.25
+        ],
+        "70": [
+          0.67,
+          -1.87
+        ],
+        "71": [
+          8.47,
+          0.21
+        ],
+        "72": [
+          -0.8,
+          -2.18
+        ]
+      }
+    },
+    "sigma-complex": {
+      "caption": "the pyrrolium cation (aromaticity lost) bearing an enamine",
+      "hintTiers": [
+        "The ring carbon that formed the new bond still carries its hydrogen. Losing it as a proton gives back the aromatic pyrrole.",
+        "Trifluoroacetate takes the drawn ring hydrogen; that C–H pair forms a C=C in the ring, the ring π bonds move round, and the C=N⁺ π pair goes back onto the ring nitrogen. Four arrows.",
+        "Carboxylate lone pair → new bond to the drawn ring hydrogen; that C–H bond → a π bond to the next ring carbon; that ring C=C π bond → a π bond one place further round; the C=N⁺ π bond → a lone pair on the ring nitrogen."
+      ],
+      "mappedSmiles": "[CH3:26][N+:21]1=[CH:25][CH:24]=[CH:23][C:22]1([H:27])[CH:4]([CH3:5])[CH:3]=[CH:1][N:40]7[C:41]([CH3:42])([CH3:43])[N:44]([CH3:45])[C:46](=[O:47])[CH:48]7[CH2:49][C:51]8=[CH:52][CH:53]=[CH:54][CH:55]=[CH:56]8.[O-:61][C:62](=[O:63])[C:64]([F:65])([F:66])[F:67].[H:71][O:70][H:72]",
+      "learnerPrompt": "Restore the aromatic ring.",
+      "misconceptions": [
+        {
+          "severity": "plausible",
+          "arrowPattern": "π C1-C3 -> *",
+          "feedbackMessage": "The enamine will be protonated, but there is no acid in the flask yet: only trifluoroacetate, a base. Rearomatise first; that makes the acid.",
+          "misconceptionId": "enamine-first",
+          "misconceptionTag": "no-acid-yet"
+        },
+        {
+          "severity": "plausible",
+          "arrowPattern": "lp O61 -> C25",
+          "feedbackMessage": "Adding the carboxylate to the ring would not restore aromaticity. It acts as a base here.",
+          "misconceptionId": "tfa-adds-to-ring",
+          "misconceptionTag": "unproductive-addition"
+        }
+      ],
+      "mapNumberToCoordinates": {
+        "1": [
+          1.67,
+          -2.98
+        ],
+        "3": [
+          1.21,
+          -4.41
+        ],
+        "4": [
+          -0.26,
+          -4.72
+        ],
+        "5": [
+          -0.72,
+          -6.15
+        ],
+        "21": [
+          -2.27,
+          -4.72
+        ],
+        "22": [
+          -1.26,
+          -3.6
+        ],
+        "23": [
+          -2.01,
+          -2.31
+        ],
+        "24": [
+          -3.48,
+          -2.62
+        ],
+        "25": [
+          -3.64,
+          -4.11
+        ],
+        "26": [
+          -1.95,
+          -6.19
+        ],
+        "27": [
+          -0.05,
+          -2.72
+        ],
+        "40": [
+          3.14,
+          -2.67
+        ],
+        "41": [
+          4.25,
+          -3.67
+        ],
+        "42": [
+          5.14,
+          -4.89
+        ],
+        "43": [
+          3.14,
+          -4.68
+        ],
+        "44": [
+          5.55,
+          -2.92
+        ],
+        "45": [
+          6.92,
+          -3.53
+        ],
+        "46": [
+          5.24,
+          -1.46
+        ],
+        "47": [
+          6.25,
+          -0.34
+        ],
+        "48": [
+          3.75,
+          -1.3
+        ],
+        "49": [
+          3,
+          0
+        ],
+        "51": [
+          1.5,
+          0
+        ],
+        "52": [
+          0.75,
+          1.3
+        ],
+        "53": [
+          -0.75,
+          1.3
+        ],
+        "54": [
+          -1.5,
+          0
+        ],
+        "55": [
+          -0.75,
+          -1.3
+        ],
+        "56": [
+          0.75,
+          -1.3
+        ],
+        "61": [
+          -1.39,
+          5.74
+        ],
+        "62": [
+          -0.09,
+          4.99
+        ],
+        "63": [
+          -0.09,
+          3.49
+        ],
+        "64": [
+          1.21,
+          5.74
+        ],
+        "65": [
+          2.51,
+          6.49
+        ],
+        "66": [
+          1.96,
+          4.44
+        ],
+        "67": [
+          0.46,
+          7.04
+        ],
+        "70": [
+          9.5,
+          0.11
+        ],
+        "71": [
+          10.8,
+          0.86
+        ],
+        "72": [
+          8.2,
+          0.86
+        ]
+      },
+      "partialProgressMessages": [
+        {
+          "learnerArrows": [
+            "lp O61 -> σ O61-H27",
+            "σ C22-H27 -> π C22-C23"
+          ],
+          "feedbackMessage": "Good: the proton goes. Keep the electrons moving round the ring to the nitrogen: two more arrows."
+        }
+      ]
+    }
+  },
+  "conditionsLabel": "imidazolidinone·TFA (20 mol %) · THF–H₂O · −30 °C",
+  "reactionClasses": [
+    "addition",
+    "aromatic substitution",
+    "carbonyl"
+  ],
+  "reactionVersion": 1,
+  "mechanismSummary": "Paras and MacMillan (2001) used iminium activation for a conjugate addition that enals alone do not undergo: N-methylpyrrole adds 1,4 to crotonaldehyde. The iminium ion (formed as in the Diels–Alder reaction, with TFA as the acid) is attacked at its far carbon by the pyrrole carbon next to nitrogen, giving an enamine and a pyrrolium cation. Trifluoroacetate restores the aromatic ring by removing a proton, and the TFA formed protonates the enamine carbon to give a saturated iminium ion. Water then hydrolyses it (addition with trifluoroacetate as general base, N-protonation, release) to the aldehyde and the free catalyst. The catalyst's benzyl group shields one face of the iminium ion, so the 3-pyrrolylbutanal forms with high ee. Iminium and enamine catalysis are two halves of one cycle here. The app does not check stereochemistry yet, so the drawings carry no wedges and either face is accepted.",
+  "abbreviatedGroups": [
+    {
+      "groupLabel": "Bn",
+      "mapNumbers": [
+        49,
+        51,
+        52,
+        53,
+        54,
+        55,
+        56
+      ],
+      "attachmentMapNumber": 49
+    },
+    {
+      "groupLabel": "CF₃",
+      "mapNumbers": [
+        64,
+        65,
+        66,
+        67
+      ],
+      "attachmentMapNumber": 64
+    }
+  ],
+  "dailyPuzzleEligible": true,
+  "spectatorMapNumbers": [],
+  "atomRoleToMapNumbers": {
+    "base": [
+      61
+    ],
+    "nucleophile": [
+      22
+    ],
+    "electrophile": [
+      4
+    ]
+  },
+  "previousReactionVersion": null
+}

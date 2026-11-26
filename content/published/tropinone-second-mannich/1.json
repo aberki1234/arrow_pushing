@@ -1,0 +1,977 @@
+{
+  "steps": [
+    {
+      "stepKey": "ketone-protonation",
+      "stepKind": "polar",
+      "toStateId": "protonated-ketone",
+      "fromStateId": "reactants",
+      "canonicalArrows": [
+        "lp O19 -> σ O19-H26",
+        "σ O25-H26 -> lp O25"
+      ],
+      "routePreference": "preferred",
+      "explanationAfterStep": "Enolisation starts again, this time towards the other α-carbon."
+    },
+    {
+      "stepKey": "enol-formation",
+      "stepKind": "polar",
+      "toStateId": "enol",
+      "fromStateId": "protonated-ketone",
+      "canonicalArrows": [
+        "lp O27 -> σ O27-H29",
+        "σ C20-H29 -> π C18-C20",
+        "π C18-O19 -> lp O19"
+      ],
+      "routePreference": "preferred",
+      "explanationAfterStep": "This enol points its nucleophilic carbon at the side of the molecule that still carries the masked iminium ion. The other α-carbon, now joined to the ring, could also enolise, but its enol cannot close a ring."
+    },
+    {
+      "stepKey": "hydroxyl-protonation",
+      "stepKind": "polar",
+      "toStateId": "protonated-hemiaminal",
+      "fromStateId": "enol",
+      "canonicalArrows": [
+        "lp O6 -> σ O6-H29",
+        "σ O27-H29 -> lp O27"
+      ],
+      "routePreference": "preferred",
+      "explanationAfterStep": "Protonated, the hemiaminal OH can leave as water, exactly as in the first iminium ion."
+    },
+    {
+      "stepKey": "second-iminium",
+      "stepKind": "polar",
+      "toStateId": "iminium-and-enol",
+      "fromStateId": "protonated-hemiaminal",
+      "canonicalArrows": [
+        "lp N7 -> π N7-C5",
+        "σ C5-O6 -> lp O6"
+      ],
+      "routePreference": "preferred",
+      "explanationAfterStep": "The second iminium ion forms on the other carbon next to nitrogen. Nucleophile and electrophile are now held close together in one molecule."
+    },
+    {
+      "stepKey": "second-mannich",
+      "stepKind": "polar",
+      "toStateId": "oxocarbenium",
+      "fromStateId": "iminium-and-enol",
+      "canonicalArrows": [
+        "lp O19 -> π C18-O19",
+        "π C18-C20 -> σ C5-C20",
+        "π C5-N7 -> lp N7"
+      ],
+      "routePreference": "preferred",
+      "explanationAfterStep": "An intramolecular Mannich reaction closes a six-membered ring across the pyrrolidine: the bicyclic tropane skeleton. The new bond can only form on the same face as the first, so the nitrogen bridges two cis ring-junction carbons; the app does not check stereochemistry yet."
+    },
+    {
+      "stepKey": "deprotonation",
+      "stepKind": "polar",
+      "toStateId": "products",
+      "fromStateId": "oxocarbenium",
+      "canonicalArrows": [
+        "lp O25 -> σ O25-H26",
+        "σ O19-H26 -> lp O19"
+      ],
+      "routePreference": "preferred",
+      "explanationAfterStep": "Loss of the proton gives tropinone-2,4-dicarboxylic acid. Two Mannich reactions have made two C–C bonds and the whole bicyclic skeleton from three simple pieces."
+    }
+  ],
+  "title": "Tropinone: the second Mannich reaction",
+  "authors": [
+    {
+      "url": null,
+      "name": "Maksim"
+    }
+  ],
+  "licence": "CC-BY-SA-4.0",
+  "subtitle": "A second enol and a second iminium ion close the tropane bicycle",
+  "references": [
+    "Clayden, Greeves and Warren, Organic Chemistry, 2nd edition (Oxford University Press), chapter 26 (the Mannich reaction and Robinson's tropinone synthesis)",
+    "R. Robinson, A synthesis of tropinone, J. Chem. Soc., Trans., 1917, 111, 762–768"
+  ],
+  "reactionSlug": "tropinone-second-mannich",
+  "startStateId": "reactants",
+  "formatVersion": 1,
+  "difficultyTier": 3,
+  "stateIdToState": {
+    "enol": {
+      "caption": "the enol + H₃O⁺",
+      "hintTiers": [
+        "The ring carbon next to nitrogen still carries an OH. How did the first iminium ion form?",
+        "The OH oxygen takes a proton from H₃O⁺, so that it can leave as water. Two arrows.",
+        "Ring OH lone pair → new O–H bond to the proton of H₃O⁺; that O–H bond → a lone pair on water's oxygen."
+      ],
+      "mappedSmiles": "[CH:2]1([CH:17]([C:14](=[O:15])[OH:16])[C:18]([O:19][H:26])=[CH:20][C:21](=[O:22])[OH:23])[N:7]([CH3:8])[CH:5]([OH:6])[CH2:4][CH2:3]1.[OH2:25].[H:29][OH2+:27].[Cl-:13]",
+      "learnerPrompt": "Now the electrophile: protonate the OH on the ring, next to the nitrogen.",
+      "misconceptions": [
+        {
+          "severity": "wrong",
+          "arrowPattern": "π C18-C20 -> σ C5-C20",
+          "feedbackMessage": "That ring carbon is not electrophilic yet: it still carries an OH, a poor leaving group. Make the iminium ion first.",
+          "misconceptionId": "enol-attacks-hemiaminal",
+          "misconceptionTag": "poor-leaving-group"
+        },
+        {
+          "severity": "plausible",
+          "arrowPattern": "lp N7 -> H29",
+          "feedbackMessage": "Protonating the nitrogen takes away the lone pair that must push out water. Protonate the OH.",
+          "misconceptionId": "protonate-amine-again",
+          "misconceptionTag": "unproductive-protonation"
+        }
+      ],
+      "mapNumberToCoordinates": {
+        "2": [
+          1.28,
+          0
+        ],
+        "3": [
+          0.39,
+          1.21
+        ],
+        "4": [
+          -1.03,
+          0.75
+        ],
+        "5": [
+          -1.03,
+          -0.75
+        ],
+        "6": [
+          -2.524,
+          -0.881
+        ],
+        "7": [
+          0.39,
+          -1.21
+        ],
+        "8": [
+          0.87,
+          -1.85
+        ],
+        "13": [
+          13.51,
+          -2.085
+        ],
+        "14": [
+          3.21,
+          -1.74
+        ],
+        "15": [
+          3.67,
+          -3.16
+        ],
+        "16": [
+          4.21,
+          -0.62
+        ],
+        "17": [
+          1.74,
+          -1.43
+        ],
+        "18": [
+          0.74,
+          -2.54
+        ],
+        "19": [
+          1.2,
+          -3.97
+        ],
+        "20": [
+          -0.73,
+          -2.23
+        ],
+        "21": [
+          -1.74,
+          -3.34
+        ],
+        "22": [
+          -3.2,
+          -3.03
+        ],
+        "23": [
+          -1.27,
+          -4.77
+        ],
+        "25": [
+          6.81,
+          -2.085
+        ],
+        "26": [
+          1.713,
+          -5.38
+        ],
+        "27": [
+          9.41,
+          -2.085
+        ],
+        "29": [
+          10.91,
+          -2.085
+        ]
+      },
+      "partialProgressMessages": [
+        {
+          "learnerArrows": [
+            "lp O6 -> σ O6-H29"
+          ],
+          "feedbackMessage": "Good. Where does the O–H bonding pair of H₃O⁺ go?"
+        }
+      ]
+    },
+    "products": {
+      "caption": "tropinone-2,4-dicarboxylic acid (the tropane skeleton) + H₃O⁺",
+      "mappedSmiles": "[CH:2]12[CH2:3][CH2:4][CH:5]([N:7]1[CH3:8])[CH:20]([C:21](=[O:22])[OH:23])[C:18](=[O:19])[CH:17]2[C:14](=[O:15])[OH:16].[OH:6][H:29].[H:26][OH2+:25].[OH2:27].[Cl-:13]",
+      "mapNumberToCoordinates": {
+        "2": [
+          1.28,
+          0
+        ],
+        "3": [
+          0.39,
+          1.21
+        ],
+        "4": [
+          -1.03,
+          0.75
+        ],
+        "5": [
+          -1.03,
+          -0.75
+        ],
+        "6": [
+          0.01,
+          3.47
+        ],
+        "7": [
+          0.39,
+          -1.21
+        ],
+        "8": [
+          0.87,
+          -1.85
+        ],
+        "13": [
+          -0.45,
+          5.73
+        ],
+        "14": [
+          3.21,
+          -1.74
+        ],
+        "15": [
+          3.67,
+          -3.16
+        ],
+        "16": [
+          4.21,
+          -0.62
+        ],
+        "17": [
+          1.74,
+          -1.43
+        ],
+        "18": [
+          0.74,
+          -2.54
+        ],
+        "19": [
+          1.2,
+          -3.97
+        ],
+        "20": [
+          -0.73,
+          -2.23
+        ],
+        "21": [
+          -1.74,
+          -3.34
+        ],
+        "22": [
+          -3.2,
+          -3.03
+        ],
+        "23": [
+          -1.27,
+          -4.77
+        ],
+        "25": [
+          6.25,
+          0.42
+        ],
+        "26": [
+          7.55,
+          1.17
+        ],
+        "27": [
+          -2.22,
+          2.72
+        ],
+        "29": [
+          1.3,
+          4.22
+        ]
+      }
+    },
+    "reactants": {
+      "caption": "the first Mannich product + H₃O⁺ + water",
+      "hintTiers": [
+        "Two things are needed for the second Mannich reaction: a nucleophile and an electrophile. Start with the nucleophile.",
+        "As before, enolisation in acid starts with the ketone oxygen taking a proton from H₃O⁺. Two arrows.",
+        "Ketone oxygen lone pair → new O–H bond to the proton of H₃O⁺; that O–H bond → a lone pair on water's oxygen."
+      ],
+      "mappedSmiles": "[CH:2]1([CH:17]([C:14](=[O:15])[OH:16])[C:18](=[O:19])[CH:20]([H:29])[C:21](=[O:22])[OH:23])[N:7]([CH3:8])[CH:5]([OH:6])[CH2:4][CH2:3]1.[H:26][OH2+:25].[OH2:27].[Cl-:13]",
+      "learnerPrompt": "Make the second enol: protonate the ketone oxygen.",
+      "misconceptions": [
+        {
+          "severity": "plausible",
+          "arrowPattern": "lp O6 -> σ O6-H26",
+          "feedbackMessage": "The second iminium ion is needed too, and in the flask the order is not fixed. In this problem, make the enol first, then the iminium ion.",
+          "misconceptionId": "iminium-first",
+          "misconceptionTag": "other-order"
+        },
+        {
+          "severity": "plausible",
+          "arrowPattern": "lp N7 -> H26",
+          "feedbackMessage": "In the flask much of the amine is protonated, but an ammonium nitrogen has no lone pair to make the iminium ion later. Protonate the ketone.",
+          "misconceptionId": "protonate-amine",
+          "misconceptionTag": "unproductive-protonation"
+        }
+      ],
+      "mapNumberToCoordinates": {
+        "2": [
+          1.28,
+          0
+        ],
+        "3": [
+          0.39,
+          1.21
+        ],
+        "4": [
+          -1.03,
+          0.75
+        ],
+        "5": [
+          -1.03,
+          -0.75
+        ],
+        "6": [
+          -2.44,
+          -0.237
+        ],
+        "7": [
+          0.39,
+          -1.21
+        ],
+        "8": [
+          0.87,
+          -1.85
+        ],
+        "13": [
+          13.51,
+          -1.78
+        ],
+        "14": [
+          3.21,
+          -1.74
+        ],
+        "15": [
+          3.67,
+          -3.16
+        ],
+        "16": [
+          4.21,
+          -0.62
+        ],
+        "17": [
+          1.74,
+          -1.43
+        ],
+        "18": [
+          0.74,
+          -2.54
+        ],
+        "19": [
+          1.2,
+          -3.97
+        ],
+        "20": [
+          -0.73,
+          -2.23
+        ],
+        "21": [
+          -1.74,
+          -3.34
+        ],
+        "22": [
+          -3.2,
+          -3.03
+        ],
+        "23": [
+          -1.27,
+          -4.77
+        ],
+        "25": [
+          6.81,
+          -1.78
+        ],
+        "26": [
+          8.31,
+          -1.78
+        ],
+        "27": [
+          10.91,
+          -1.78
+        ],
+        "29": [
+          -2.179,
+          -1.842
+        ]
+      },
+      "partialProgressMessages": [
+        {
+          "learnerArrows": [
+            "lp O19 -> σ O19-H26"
+          ],
+          "feedbackMessage": "Good. Where does the O–H bonding pair of H₃O⁺ go?"
+        }
+      ]
+    },
+    "oxocarbenium": {
+      "caption": "the protonated bicyclic ketone + water",
+      "hintTiers": [
+        "The ring has closed, but the ketone is still protonated. Which base is around?",
+        "Water takes the proton on the positive oxygen. Two arrows.",
+        "Water lone pair → new O–H bond to the proton on the carbonyl oxygen; that O–H bond → a lone pair on that oxygen."
+      ],
+      "mappedSmiles": "[CH:2]12[CH2:3][CH2:4][CH:5]([N:7]1[CH3:8])[CH:20]([C:21](=[O:22])[OH:23])[C:18](=[O+:19][H:26])[CH:17]2[C:14](=[O:15])[OH:16].[OH:6][H:29].[OH2:25].[OH2:27].[Cl-:13]",
+      "learnerPrompt": "Water removes the proton from the carbonyl oxygen.",
+      "misconceptions": [
+        {
+          "severity": "plausible",
+          "arrowPattern": "lp O* -> C18",
+          "feedbackMessage": "Water can add to a protonated ketone, but that only gives a hydrate. Remove the proton instead.",
+          "misconceptionId": "water-adds-to-carbonyl",
+          "misconceptionTag": "unproductive-addition"
+        },
+        {
+          "severity": "plausible",
+          "arrowPattern": "σ C5-C20 -> *",
+          "feedbackMessage": "Breaking the new C–C bond is the retro-Mannich reaction: it undoes the ring closure. Remove the proton from oxygen.",
+          "misconceptionId": "retro-mannich",
+          "misconceptionTag": "reverse-step"
+        }
+      ],
+      "mapNumberToCoordinates": {
+        "2": [
+          1.28,
+          0
+        ],
+        "3": [
+          0.39,
+          1.21
+        ],
+        "4": [
+          -1.03,
+          0.75
+        ],
+        "5": [
+          -1.03,
+          -0.75
+        ],
+        "6": [
+          6.81,
+          -2.085
+        ],
+        "7": [
+          0.39,
+          -1.21
+        ],
+        "8": [
+          0.87,
+          -1.85
+        ],
+        "13": [
+          16.11,
+          -2.085
+        ],
+        "14": [
+          3.21,
+          -1.74
+        ],
+        "15": [
+          3.67,
+          -3.16
+        ],
+        "16": [
+          4.21,
+          -0.62
+        ],
+        "17": [
+          1.74,
+          -1.43
+        ],
+        "18": [
+          0.74,
+          -2.54
+        ],
+        "19": [
+          1.2,
+          -3.97
+        ],
+        "20": [
+          -0.73,
+          -2.23
+        ],
+        "21": [
+          -1.74,
+          -3.34
+        ],
+        "22": [
+          -3.2,
+          -3.03
+        ],
+        "23": [
+          -1.27,
+          -4.77
+        ],
+        "25": [
+          10.91,
+          -2.085
+        ],
+        "26": [
+          1.713,
+          -5.38
+        ],
+        "27": [
+          13.51,
+          -2.085
+        ],
+        "29": [
+          8.31,
+          -2.085
+        ]
+      },
+      "partialProgressMessages": [
+        {
+          "learnerArrows": [
+            "lp O25 -> σ O25-H26"
+          ],
+          "feedbackMessage": "Good: water takes the proton. Where does the O–H bonding pair go?"
+        }
+      ]
+    },
+    "iminium-and-enol": {
+      "caption": "the second iminium ion and the enol, in one molecule + water",
+      "hintTiers": [
+        "The nucleophile and the electrophile are now in one molecule. Which enol carbon can reach the iminium carbon, and what size of ring forms?",
+        "Count round: the enol carbon, the carbonyl carbon, the ring carbon, nitrogen and the iminium carbon close a six-membered ring. Three arrows, as in the first Mannich reaction.",
+        "Enol oxygen lone pair → a C=O π bond; C=C π bond → new C–C bond to the iminium carbon; C=N π bond → a lone pair on nitrogen."
+      ],
+      "mappedSmiles": "[CH:2]1([CH:17]([C:14](=[O:15])[OH:16])[C:18]([O:19][H:26])=[CH:20][C:21](=[O:22])[OH:23])[N+:7]([CH3:8])=[CH:5][CH2:4][CH2:3]1.[H:29][OH:6].[OH2:25].[OH2:27].[Cl-:13]",
+      "learnerPrompt": "The enol closes the second ring onto the iminium ion: the second Mannich reaction.",
+      "misconceptions": [
+        {
+          "severity": "plausible",
+          "arrowPattern": "lp O19 -> C5",
+          "feedbackMessage": "The oxygen could add, but that gives a reversible adduct and no C–C bond. Attack with the enol carbon.",
+          "misconceptionId": "enol-oxygen-closes-ring",
+          "misconceptionTag": "ambident-wrong-end"
+        },
+        {
+          "severity": "wrong",
+          "arrowPattern": "π C5-N7 -> C5",
+          "feedbackMessage": "The C=N π electrons move towards the positive nitrogen, not onto carbon.",
+          "misconceptionId": "pi-to-iminium-carbon",
+          "misconceptionTag": "pi-to-own-atom"
+        }
+      ],
+      "mapNumberToCoordinates": {
+        "2": [
+          1.28,
+          0
+        ],
+        "3": [
+          0.39,
+          1.21
+        ],
+        "4": [
+          -1.03,
+          0.75
+        ],
+        "5": [
+          -1.03,
+          -0.75
+        ],
+        "6": [
+          6.81,
+          -2.085
+        ],
+        "7": [
+          0.39,
+          -1.21
+        ],
+        "8": [
+          0.87,
+          -1.85
+        ],
+        "13": [
+          16.11,
+          -2.085
+        ],
+        "14": [
+          3.21,
+          -1.74
+        ],
+        "15": [
+          3.67,
+          -3.16
+        ],
+        "16": [
+          4.21,
+          -0.62
+        ],
+        "17": [
+          1.74,
+          -1.43
+        ],
+        "18": [
+          0.74,
+          -2.54
+        ],
+        "19": [
+          1.2,
+          -3.97
+        ],
+        "20": [
+          -0.73,
+          -2.23
+        ],
+        "21": [
+          -1.74,
+          -3.34
+        ],
+        "22": [
+          -3.2,
+          -3.03
+        ],
+        "23": [
+          -1.27,
+          -4.77
+        ],
+        "25": [
+          10.91,
+          -2.085
+        ],
+        "26": [
+          1.713,
+          -5.38
+        ],
+        "27": [
+          13.51,
+          -2.085
+        ],
+        "29": [
+          8.31,
+          -2.085
+        ]
+      },
+      "partialProgressMessages": [
+        {
+          "learnerArrows": [
+            "π C18-C20 -> σ C5-C20",
+            "π C5-N7 -> lp N7"
+          ],
+          "feedbackMessage": "Right bonds, but this leaves a positive carbon next to the OH. Push the oxygen lone pair in."
+        }
+      ]
+    },
+    "protonated-ketone": {
+      "caption": "protonated ketone + water",
+      "hintTiers": [
+        "The ketone has two α-carbons. One already carries the ring; the other is still a CH₂. Which one has to become nucleophilic to close a ring?",
+        "Water takes the proton from that CH₂; the C–H pair becomes a C=C π bond and the C=O π pair moves onto oxygen. Three arrows.",
+        "Water lone pair → new O–H bond to the α-proton; that C–H bond → a C=C π bond to the carbonyl carbon; the C=O π bond → a lone pair on oxygen."
+      ],
+      "mappedSmiles": "[CH:2]1([CH:17]([C:14](=[O:15])[OH:16])[C:18](=[O+:19][H:26])[CH:20]([H:29])[C:21](=[O:22])[OH:23])[N:7]([CH3:8])[CH:5]([OH:6])[CH2:4][CH2:3]1.[OH2:25].[OH2:27].[Cl-:13]",
+      "learnerPrompt": "Water removes a proton from the CH₂ on the far side of the ketone, the one still next to a CO₂H.",
+      "misconceptions": [
+        {
+          "severity": "wrong",
+          "arrowPattern": "lp O* -> H26",
+          "feedbackMessage": "Taking the proton off oxygen just reverses the last step. Take a proton from the CH₂ next to the C=O.",
+          "misconceptionId": "water-takes-oh-proton-back",
+          "misconceptionTag": "reverse-step"
+        },
+        {
+          "severity": "plausible",
+          "arrowPattern": "lp O* -> C18",
+          "feedbackMessage": "Water can add to the protonated ketone, but that only gives a hydrate. Remove an α-proton to make the enol.",
+          "misconceptionId": "water-adds-to-protonated-ketone",
+          "misconceptionTag": "unproductive-addition"
+        }
+      ],
+      "mapNumberToCoordinates": {
+        "2": [
+          1.28,
+          0
+        ],
+        "3": [
+          0.39,
+          1.21
+        ],
+        "4": [
+          -1.03,
+          0.75
+        ],
+        "5": [
+          -1.03,
+          -0.75
+        ],
+        "6": [
+          -2.44,
+          -0.237
+        ],
+        "7": [
+          0.39,
+          -1.21
+        ],
+        "8": [
+          0.87,
+          -1.85
+        ],
+        "13": [
+          12.01,
+          -2.085
+        ],
+        "14": [
+          3.21,
+          -1.74
+        ],
+        "15": [
+          3.67,
+          -3.16
+        ],
+        "16": [
+          4.21,
+          -0.62
+        ],
+        "17": [
+          1.74,
+          -1.43
+        ],
+        "18": [
+          0.74,
+          -2.54
+        ],
+        "19": [
+          1.2,
+          -3.97
+        ],
+        "20": [
+          -0.73,
+          -2.23
+        ],
+        "21": [
+          -1.74,
+          -3.34
+        ],
+        "22": [
+          -3.2,
+          -3.03
+        ],
+        "23": [
+          -1.27,
+          -4.77
+        ],
+        "25": [
+          6.81,
+          -2.085
+        ],
+        "26": [
+          1.713,
+          -5.38
+        ],
+        "27": [
+          9.41,
+          -2.085
+        ],
+        "29": [
+          -2.179,
+          -1.842
+        ]
+      },
+      "partialProgressMessages": [
+        {
+          "learnerArrows": [
+            "lp O27 -> σ O27-H29",
+            "σ C20-H29 -> π C18-C20"
+          ],
+          "feedbackMessage": "Right so far, but the carbonyl carbon now has five bonds. Move the C=O π pair onto oxygen."
+        }
+      ]
+    },
+    "protonated-hemiaminal": {
+      "caption": "the enol, protonated on the ring OH + water",
+      "hintTiers": [
+        "Water is now a good leaving group. Which lone pair next door can push it out?",
+        "The nitrogen lone pair forms a C=N π bond as the C–O bond breaks. Two arrows.",
+        "Nitrogen lone pair → new C=N π bond to the carbon carrying the protonated OH; that C–O bond → a lone pair on the leaving oxygen."
+      ],
+      "mappedSmiles": "[CH:2]1([CH:17]([C:14](=[O:15])[OH:16])[C:18]([O:19][H:26])=[CH:20][C:21](=[O:22])[OH:23])[N:7]([CH3:8])[CH:5]([OH+:6][H:29])[CH2:4][CH2:3]1.[OH2:25].[OH2:27].[Cl-:13]",
+      "learnerPrompt": "The nitrogen lone pair pushes out water: the second iminium ion.",
+      "misconceptions": [
+        {
+          "severity": "plausible",
+          "arrowPattern": "σ C2-N7 -> lp N7",
+          "feedbackMessage": "Breaking that N–C bond would open the pyrrolidine ring. Water is the leaving group.",
+          "misconceptionId": "ring-opens",
+          "misconceptionTag": "wrong-group-leaves"
+        },
+        {
+          "severity": "plausible",
+          "arrowPattern": "lp O* -> H29",
+          "feedbackMessage": "Taking the proton off again reverses the last step. Let water leave.",
+          "misconceptionId": "water-takes-proton-back",
+          "misconceptionTag": "reverse-step"
+        }
+      ],
+      "mapNumberToCoordinates": {
+        "2": [
+          1.28,
+          0
+        ],
+        "3": [
+          0.39,
+          1.21
+        ],
+        "4": [
+          -1.03,
+          0.75
+        ],
+        "5": [
+          -1.03,
+          -0.75
+        ],
+        "6": [
+          -2.524,
+          -0.881
+        ],
+        "7": [
+          0.39,
+          -1.21
+        ],
+        "8": [
+          0.87,
+          -1.85
+        ],
+        "13": [
+          12.01,
+          -2.085
+        ],
+        "14": [
+          3.21,
+          -1.74
+        ],
+        "15": [
+          3.67,
+          -3.16
+        ],
+        "16": [
+          4.21,
+          -0.62
+        ],
+        "17": [
+          1.74,
+          -1.43
+        ],
+        "18": [
+          0.74,
+          -2.54
+        ],
+        "19": [
+          1.2,
+          -3.97
+        ],
+        "20": [
+          -0.73,
+          -2.23
+        ],
+        "21": [
+          -1.74,
+          -3.34
+        ],
+        "22": [
+          -3.2,
+          -3.03
+        ],
+        "23": [
+          -1.27,
+          -4.77
+        ],
+        "25": [
+          6.81,
+          -2.085
+        ],
+        "26": [
+          1.713,
+          -5.38
+        ],
+        "27": [
+          9.41,
+          -2.085
+        ],
+        "29": [
+          -3.884,
+          -0.247
+        ]
+      },
+      "partialProgressMessages": [
+        {
+          "learnerArrows": [
+            "lp N7 -> π N7-C5"
+          ],
+          "feedbackMessage": "Right: the nitrogen lone pair pushes in. That carbon now has five bonds: let water go."
+        }
+      ]
+    }
+  },
+  "conditionsLabel": "H₂O, pH ≈ 5–7 · rt",
+  "reactionClasses": [
+    "carbonyl",
+    "addition"
+  ],
+  "reactionVersion": 1,
+  "mechanismSummary": "The first Mannich product enolises again (H₃O⁺ protonates the ketone, water removes a proton from the free CH₂), and its ring OH is protonated and pushed out by the nitrogen lone pair to make a second iminium ion. The enol carbon then attacks the iminium carbon inside the same molecule, closing a six-membered ring: an intramolecular Mannich reaction. Deprotonation gives tropinone-2,4-dicarboxylic acid, the 8-azabicyclo[3.2.1]octane (tropane) skeleton. The new ring can only close with the nitrogen bridge cis, which is why tropinone forms as a single, symmetrical (meso) bicycle; stereochemistry is explained here but not checked by the app yet. The CO₂H groups are drawn un-ionised for clarity.",
+  "abbreviatedGroups": [
+    {
+      "groupLabel": "CO₂H",
+      "mapNumbers": [
+        14,
+        15,
+        16
+      ],
+      "attachmentMapNumber": 14
+    },
+    {
+      "groupLabel": "CO₂H",
+      "mapNumbers": [
+        21,
+        22,
+        23
+      ],
+      "attachmentMapNumber": 21
+    }
+  ],
+  "dailyPuzzleEligible": true,
+  "spectatorMapNumbers": [
+    13
+  ],
+  "atomRoleToMapNumbers": {
+    "enolCarbon": [
+      20
+    ],
+    "electrophilicCarbon": [
+      5
+    ]
+  },
+  "previousReactionVersion": null
+}

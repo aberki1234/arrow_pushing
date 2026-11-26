@@ -1,0 +1,388 @@
+{
+  "steps": [
+    {
+      "stepKey": "addition",
+      "stepKind": "polar",
+      "toStateId": "alkoxide",
+      "fromStateId": "reactants",
+      "canonicalArrows": [
+        "σ C2-Li6 -> σ C2-C7",
+        "π C7-O8 -> lp O8"
+      ],
+      "routePreference": "preferred",
+      "explanationAfterStep": "The α-silyl carbanion adds to the ketone like any organolithium."
+    },
+    {
+      "stepKey": "silicate-formation",
+      "stepKind": "polar",
+      "toStateId": "silicate",
+      "fromStateId": "alkoxide",
+      "canonicalArrows": [
+        "lp O8 -> σ O8-Si1"
+      ],
+      "routePreference": "preferred",
+      "explanationAfterStep": "Silicon takes a fifth ligand, closing a four-membered ring, like the oxaphosphetane in a Wittig."
+    },
+    {
+      "stepKey": "concerted-elimination",
+      "stepKind": "polar",
+      "toStateId": "products",
+      "fromStateId": "alkoxide",
+      "canonicalArrows": [
+        "lp O8 -> σ O8-Si1",
+        "σ Si1-C2 -> π C2-C7",
+        "σ C7-O8 -> lp O8"
+      ],
+      "routePreference": "accepted",
+      "explanationAfterStep": "Also accepted: a one-step syn-elimination, with the Si–O bond forming as the ring breaks. Whether the four-membered silicate is a true intermediate is debated."
+    },
+    {
+      "stepKey": "elimination",
+      "stepKind": "polar",
+      "toStateId": "products",
+      "fromStateId": "silicate",
+      "canonicalArrows": [
+        "σ Si1-C2 -> π C2-C7",
+        "σ C7-O8 -> lp O8"
+      ],
+      "routePreference": "preferred",
+      "explanationAfterStep": "The ring breaks into the alkene and Me₃SiO⁻. The strong Si–O bond pays for it. Because O and Si leave from the same side, the basic Peterson is a syn-elimination; in acid the β-hydroxysilane eliminates anti instead, so one diastereomer can give either alkene isomer. The app does not check that yet."
+    }
+  ],
+  "title": "Peterson olefination",
+  "authors": [
+    {
+      "url": null,
+      "name": "Maksim"
+    }
+  ],
+  "licence": "CC-BY-SA-4.0",
+  "subtitle": "(Trimethylsilyl)methyllithium turns cyclohexanone into methylenecyclohexane",
+  "references": [
+    "Clayden, Greeves and Warren, Organic Chemistry, 2nd edition (Oxford University Press), chapter 27"
+  ],
+  "reactionSlug": "peterson-olefination",
+  "startStateId": "reactants",
+  "formatVersion": 1,
+  "difficultyTier": 2,
+  "stateIdToState": {
+    "alkoxide": {
+      "caption": "the β-silyl alkoxide (lithium salt)",
+      "hintTiers": [
+        "Silicon forms very strong bonds to oxygen, and it can take a fifth bond. Which atom is three bonds from the alkoxide oxygen?",
+        "One arrow: the alkoxide lone pair forms a new bond to silicon, closing a four-membered ring.",
+        "Alkoxide lone pair → new bond to silicon."
+      ],
+      "mappedSmiles": "[O-:8][C:7]1([CH2:2][Si:1]([CH3:3])([CH3:4])[CH3:5])[CH2:9][CH2:10][CH2:11][CH2:12][CH2:13]1.[Li+:6]",
+      "learnerPrompt": "The alkoxide attacks silicon.",
+      "misconceptions": [
+        {
+          "severity": "wrong",
+          "arrowPattern": "lp O8 -> σ O8-C*",
+          "feedbackMessage": "Oxygen bonds to silicon, not to a carbon. The Si–O bond is one of the strongest single bonds.",
+          "misconceptionId": "oxygen-attacks-carbon",
+          "misconceptionTag": "wrong-electrophilic-atom"
+        },
+        {
+          "severity": "plausible",
+          "arrowPattern": "σ C2-C7 -> lp C2",
+          "feedbackMessage": "That just undoes the addition. Bond the oxygen to silicon.",
+          "misconceptionId": "retro",
+          "misconceptionTag": "reverse-step"
+        }
+      ],
+      "mapNumberToCoordinates": {
+        "1": [
+          4.06,
+          0.45
+        ],
+        "2": [
+          2.65,
+          0.96
+        ],
+        "3": [
+          5.47,
+          -0.06
+        ],
+        "4": [
+          4.57,
+          1.86
+        ],
+        "5": [
+          3.55,
+          -0.96
+        ],
+        "6": [
+          -0.49,
+          3.57
+        ],
+        "7": [
+          1.5,
+          0
+        ],
+        "8": [
+          2.65,
+          -0.96
+        ],
+        "9": [
+          0.75,
+          1.3
+        ],
+        "10": [
+          -0.75,
+          1.3
+        ],
+        "11": [
+          -1.5,
+          0
+        ],
+        "12": [
+          -0.75,
+          -1.3
+        ],
+        "13": [
+          0.75,
+          -1.3
+        ]
+      }
+    },
+    "products": {
+      "caption": "methylenecyclohexane + lithium trimethylsilanolate",
+      "mappedSmiles": "[CH2:2]=[C:7]1[CH2:9][CH2:10][CH2:11][CH2:12][CH2:13]1.[O-:8][Si:1]([CH3:3])([CH3:4])[CH3:5].[Li+:6]",
+      "mapNumberToCoordinates": {
+        "1": [
+          1.3,
+          4.6
+        ],
+        "2": [
+          3,
+          0
+        ],
+        "3": [
+          0,
+          3.85
+        ],
+        "4": [
+          2.6,
+          5.35
+        ],
+        "5": [
+          2.05,
+          3.3
+        ],
+        "6": [
+          -2.26,
+          3.03
+        ],
+        "7": [
+          1.5,
+          0
+        ],
+        "8": [
+          0.55,
+          5.9
+        ],
+        "9": [
+          0.75,
+          1.3
+        ],
+        "10": [
+          -0.75,
+          1.3
+        ],
+        "11": [
+          -1.5,
+          0
+        ],
+        "12": [
+          -0.75,
+          -1.3
+        ],
+        "13": [
+          0.75,
+          -1.3
+        ]
+      }
+    },
+    "silicate": {
+      "caption": "a four-membered ring with a five-coordinate silicate",
+      "hintTiers": [
+        "Break the two ring bonds that are not Si–O: the C–Si bond becomes the C=C π bond.",
+        "Two arrows: the C–Si bond → the C=C π bond; the C–O bond → a lone pair on oxygen.",
+        "Si–CH₂ bond → C=C π bond; ring C–O bond → a lone pair on oxygen."
+      ],
+      "mappedSmiles": "[O:8]1[C:7]2([CH2:2][Si-:1]1([CH3:3])([CH3:4])[CH3:5])[CH2:9][CH2:10][CH2:11][CH2:12][CH2:13]2.[Li+:6]",
+      "learnerPrompt": "The ring breaks into an alkene and a silanolate.",
+      "misconceptions": [
+        {
+          "severity": "plausible",
+          "arrowPattern": "σ Si1-O8 -> lp O8",
+          "feedbackMessage": "That reopens the ring to the alkoxide. Keep the Si–O bond: break C–Si and C–O.",
+          "misconceptionId": "si-o-breaks",
+          "misconceptionTag": "reverse-step"
+        }
+      ],
+      "mapNumberToCoordinates": {
+        "1": [
+          3.62,
+          0
+        ],
+        "2": [
+          2.56,
+          -1.06
+        ],
+        "3": [
+          4.2,
+          1.39
+        ],
+        "4": [
+          4.2,
+          -1.39
+        ],
+        "5": [
+          5.12,
+          0
+        ],
+        "6": [
+          -0.93,
+          3.58
+        ],
+        "7": [
+          1.5,
+          0
+        ],
+        "8": [
+          2.56,
+          1.06
+        ],
+        "9": [
+          0.75,
+          1.3
+        ],
+        "10": [
+          -0.75,
+          1.3
+        ],
+        "11": [
+          -1.5,
+          0
+        ],
+        "12": [
+          -0.75,
+          -1.3
+        ],
+        "13": [
+          0.75,
+          -1.3
+        ]
+      },
+      "partialProgressMessages": [
+        {
+          "learnerArrows": [
+            "σ Si1-C2 -> π C2-C7"
+          ],
+          "feedbackMessage": "Right: the C=C bond forms. That carbon now has five bonds: break the C–O bond onto oxygen."
+        }
+      ]
+    },
+    "reactants": {
+      "caption": "(trimethylsilyl)methyllithium + cyclohexanone",
+      "hintTiers": [
+        "The C–Li bond is very polar: the carbon is a nucleophile, stabilised a little by the silicon next to it. Where is the electrophile?",
+        "The C–Li bonding pair forms the new C–C bond to the carbonyl carbon, and the C=O π pair moves onto oxygen. Two arrows.",
+        "C–Li bond → new bond from that carbon to the carbonyl carbon; C=O π bond → a lone pair on oxygen."
+      ],
+      "mappedSmiles": "[Li:6][CH2:2][Si:1]([CH3:3])([CH3:4])[CH3:5].[O:8]=[C:7]1[CH2:9][CH2:10][CH2:11][CH2:12][CH2:13]1",
+      "learnerPrompt": "The organolithium adds to the ketone.",
+      "misconceptions": [
+        {
+          "severity": "wrong",
+          "arrowPattern": "σ C2-Li6 -> σ C2-O8",
+          "feedbackMessage": "The carbonyl oxygen is the electron-rich end. The carbon nucleophile bonds to the carbonyl carbon.",
+          "misconceptionId": "li-attacks-oxygen",
+          "misconceptionTag": "wrong-electrophilic-atom"
+        },
+        {
+          "severity": "wrong",
+          "arrowPattern": "π C7-O8 -> lp C7",
+          "feedbackMessage": "The C=O π pair goes to oxygen, not to carbon.",
+          "misconceptionId": "pi-onto-carbon",
+          "misconceptionTag": "wrong-direction"
+        }
+      ],
+      "mapNumberToCoordinates": {
+        "1": [
+          -1.3,
+          3.6
+        ],
+        "2": [
+          0,
+          4.35
+        ],
+        "3": [
+          -2.6,
+          2.85
+        ],
+        "4": [
+          -0.55,
+          2.3
+        ],
+        "5": [
+          -2.05,
+          4.9
+        ],
+        "6": [
+          0,
+          5.85
+        ],
+        "7": [
+          1.99,
+          -1.28
+        ],
+        "8": [
+          3.49,
+          -1.28
+        ],
+        "9": [
+          1.24,
+          0.02
+        ],
+        "10": [
+          -0.26,
+          0.02
+        ],
+        "11": [
+          -1.01,
+          -1.28
+        ],
+        "12": [
+          -0.26,
+          -2.58
+        ],
+        "13": [
+          1.24,
+          -2.58
+        ]
+      },
+      "partialProgressMessages": [
+        {
+          "learnerArrows": [
+            "σ C2-Li6 -> σ C2-C7"
+          ],
+          "feedbackMessage": "Right: the new C–C bond. Now move the C=O π pair onto oxygen."
+        }
+      ]
+    }
+  },
+  "conditionsLabel": "Me₃SiCH₂Li · THF · −78 °C → reflux",
+  "reactionClasses": [
+    "carbonyl",
+    "elimination"
+  ],
+  "reactionVersion": 1,
+  "mechanismSummary": "The α-silyl organolithium adds to the ketone. The β-silyl alkoxide attacks silicon, giving a four-membered ring, which breaks into the alkene and trimethylsilanolate: the silicon version of the Wittig, driven by the strong Si–O bond. With lithium the alkoxide eliminates slowly, so the β-hydroxysilane is often isolated after work-up and then treated with KH (syn-elimination) or acid (anti-elimination).",
+  "dailyPuzzleEligible": true,
+  "spectatorMapNumbers": [],
+  "atomRoleToMapNumbers": {},
+  "previousReactionVersion": null
+}

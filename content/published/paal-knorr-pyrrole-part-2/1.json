@@ -1,0 +1,738 @@
+{
+  "steps": [
+    {
+      "stepKey": "first-protonation",
+      "stepKind": "polar",
+      "toStateId": "protonated-hydroxyl",
+      "fromStateId": "reactants",
+      "canonicalArrows": [
+        "lp O3 -> σ O3-H20",
+        "σ O16-H20 -> lp O16"
+      ],
+      "routePreference": "preferred",
+      "explanationAfterStep": "Protonation turns OH into OH₂⁺, so that the leaving group is neutral water. The two OH groups are identical, so either may go first."
+    },
+    {
+      "stepKey": "first-loss-of-water",
+      "stepKind": "polar",
+      "toStateId": "iminium-ion",
+      "fromStateId": "protonated-hydroxyl",
+      "canonicalArrows": [
+        "lp N9 -> π C2-N9",
+        "σ C2-O3 -> lp O3"
+      ],
+      "routePreference": "preferred",
+      "explanationAfterStep": "The nitrogen lone pair pushes water out, giving an iminium ion rather than a bare carbocation."
+    },
+    {
+      "stepKey": "enamine-formation",
+      "stepKind": "polar",
+      "toStateId": "enamine",
+      "fromStateId": "iminium-ion",
+      "canonicalArrows": [
+        "lp O16 -> σ O16-H18",
+        "σ C4-H18 -> π C2-C4",
+        "π C2-N9 -> lp N9"
+      ],
+      "routePreference": "preferred",
+      "explanationAfterStep": "Losing a proton next to the iminium carbon gives an enamine, exactly as when a secondary amine meets a ketone. The nitrogen lone pair is free again to push out the second water."
+    },
+    {
+      "stepKey": "second-protonation",
+      "stepKind": "polar",
+      "toStateId": "second-protonated-hydroxyl",
+      "fromStateId": "enamine",
+      "canonicalArrows": [
+        "lp O7 -> σ O7-H18",
+        "σ O16-H18 -> lp O16"
+      ],
+      "routePreference": "preferred",
+      "explanationAfterStep": "The second OH is protonated in the same way."
+    },
+    {
+      "stepKey": "second-loss-of-water",
+      "stepKind": "polar",
+      "toStateId": "second-iminium-ion",
+      "fromStateId": "second-protonated-hydroxyl",
+      "canonicalArrows": [
+        "lp N9 -> π C6-N9",
+        "σ C6-O7 -> lp O7"
+      ],
+      "routePreference": "preferred",
+      "explanationAfterStep": "The nitrogen lone pair pushes out the second water. The cation is a protonated pyrrole (a 2H-pyrrolium ion): it is one proton away from aromatic."
+    },
+    {
+      "stepKey": "aromatisation",
+      "stepKind": "polar",
+      "toStateId": "products",
+      "fromStateId": "second-iminium-ion",
+      "canonicalArrows": [
+        "lp O16 -> σ O16-H19",
+        "σ C5-H19 -> π C5-C6",
+        "π C6-N9 -> lp N9"
+      ],
+      "routePreference": "preferred",
+      "explanationAfterStep": "Losing the last proton gives the aromatic pyrrole: the nitrogen lone pair joins the four π electrons of the two C=C bonds to make a sextet. Aromaticity is the driving force of the whole sequence."
+    }
+  ],
+  "title": "Paal–Knorr pyrrole synthesis, part 2",
+  "authors": [
+    {
+      "url": null,
+      "name": "Maksim"
+    }
+  ],
+  "licence": "CC-BY-SA-4.0",
+  "subtitle": "Two losses of water, each pushed by the nitrogen, give the aromatic pyrrole",
+  "references": [
+    "Clayden, Greeves and Warren, Organic Chemistry, 2nd edition (Oxford University Press), chapter 30"
+  ],
+  "reactionSlug": "paal-knorr-pyrrole-part-2",
+  "startStateId": "reactants",
+  "formatVersion": 1,
+  "difficultyTier": 2,
+  "stateIdToState": {
+    "enamine": {
+      "caption": "the enamine (a 2,3-dihydropyrrole) + water + acetic acid",
+      "hintTiers": [
+        "The second OH has to leave as water as well. What must happen to it first?",
+        "The remaining OH takes the acidic proton of acetic acid. Two arrows.",
+        "OH lone pair → a new O–H bond to the acid hydrogen; the acid O–H bond → a lone pair on its oxygen."
+      ],
+      "mappedSmiles": "[CH3:1][C:2]1=[CH:4][CH:5]([H:19])[C:6]([CH3:8])([OH:7])[N:9]1[CH3:10].[OH:3][H:20].[CH3:13][C:14](=[O:15])[O:16][H:18]",
+      "learnerPrompt": "Protonate the second OH group. Draw it.",
+      "misconceptions": [
+        {
+          "severity": "plausible",
+          "arrowPattern": "π C2-C4 -> *",
+          "feedbackMessage": "Protonating the enamine carbon just takes you back to the iminium ion. Protonate the remaining OH so that it can leave.",
+          "misconceptionId": "c-protonation",
+          "misconceptionTag": "reverse-step"
+        }
+      ],
+      "mapNumberToCoordinates": {
+        "1": [
+          2.78,
+          0
+        ],
+        "2": [
+          1.28,
+          0
+        ],
+        "3": [
+          5.06,
+          0.21
+        ],
+        "4": [
+          0.39,
+          1.21
+        ],
+        "5": [
+          -1.03,
+          0.75
+        ],
+        "6": [
+          -1.03,
+          -0.75
+        ],
+        "7": [
+          -2.52,
+          -0.59
+        ],
+        "8": [
+          -1.34,
+          -2.22
+        ],
+        "9": [
+          0.39,
+          -1.21
+        ],
+        "10": [
+          0.86,
+          -2.64
+        ],
+        "13": [
+          0.37,
+          3.5
+        ],
+        "14": [
+          1.67,
+          4.25
+        ],
+        "15": [
+          2.97,
+          3.5
+        ],
+        "16": [
+          1.67,
+          5.75
+        ],
+        "18": [
+          2.97,
+          6.5
+        ],
+        "19": [
+          -2.25,
+          1.63
+        ],
+        "20": [
+          6.36,
+          0.96
+        ]
+      }
+    },
+    "products": {
+      "caption": "1,2,5-trimethylpyrrole + two water + acetic acid",
+      "mappedSmiles": "[CH3:1][C:2]1=[CH:4][CH:5]=[C:6]([CH3:8])[N:9]1[CH3:10].[OH:3][H:20].[OH:7][H:18].[CH3:13][C:14](=[O:15])[O:16][H:19]",
+      "mapNumberToCoordinates": {
+        "1": [
+          2.78,
+          0
+        ],
+        "2": [
+          1.28,
+          0
+        ],
+        "3": [
+          5.05,
+          0.27
+        ],
+        "4": [
+          0.39,
+          1.21
+        ],
+        "5": [
+          -1.03,
+          0.75
+        ],
+        "6": [
+          -1.03,
+          -0.75
+        ],
+        "7": [
+          8.04,
+          -0.52
+        ],
+        "8": [
+          -2.25,
+          -1.63
+        ],
+        "9": [
+          0.39,
+          -1.21
+        ],
+        "10": [
+          0.86,
+          -2.64
+        ],
+        "13": [
+          0.45,
+          3.51
+        ],
+        "14": [
+          1.75,
+          4.26
+        ],
+        "15": [
+          3.05,
+          3.51
+        ],
+        "16": [
+          1.75,
+          5.76
+        ],
+        "18": [
+          9.33,
+          0.23
+        ],
+        "19": [
+          3.05,
+          6.51
+        ],
+        "20": [
+          6.35,
+          1.02
+        ]
+      }
+    },
+    "reactants": {
+      "caption": "2,5-dihydroxy-1,2,5-trimethylpyrrolidine + acetic acid",
+      "hintTiers": [
+        "Hydroxide is a poor leaving group. How can an OH group be made into a good one?",
+        "An OH oxygen lone pair takes the acidic proton of acetic acid, turning OH into OH₂⁺. Two arrows.",
+        "OH lone pair → a new O–H bond to the acid hydrogen; the acid O–H bond → a lone pair on its oxygen."
+      ],
+      "mappedSmiles": "[CH3:1][C:2]1([OH:3])[CH:4]([H:18])[CH:5]([H:19])[C:6]([CH3:8])([OH:7])[N:9]1[CH3:10].[CH3:13][C:14](=[O:15])[O:16][H:20]",
+      "learnerPrompt": "Acetic acid protonates one of the OH groups. Draw it.",
+      "misconceptions": [
+        {
+          "severity": "wrong",
+          "arrowPattern": "σ C2-O3 -> lp O3",
+          "feedbackMessage": "Hydroxide is a poor leaving group, especially in acid. Protonate the OH first so that water can leave.",
+          "misconceptionId": "hydroxide-leaves",
+          "misconceptionTag": "poor-leaving-group"
+        },
+        {
+          "severity": "wrong",
+          "arrowPattern": "σ C6-O7 -> lp O7",
+          "feedbackMessage": "Hydroxide is a poor leaving group, especially in acid. Protonate the OH first so that water can leave.",
+          "misconceptionId": "hydroxide-leaves-other",
+          "misconceptionTag": "poor-leaving-group"
+        },
+        {
+          "severity": "plausible",
+          "arrowPattern": "lp N9 -> σ N9-H20",
+          "feedbackMessage": "The amine nitrogen is basic and will be partly protonated, but then it has no lone pair to push out water. Protonate an OH group.",
+          "misconceptionId": "protonate-nitrogen",
+          "misconceptionTag": "acid-base-dead-end"
+        }
+      ],
+      "mapNumberToCoordinates": {
+        "1": [
+          2.39,
+          1
+        ],
+        "2": [
+          1.28,
+          0
+        ],
+        "3": [
+          2.39,
+          -1
+        ],
+        "4": [
+          0.39,
+          1.21
+        ],
+        "5": [
+          -1.03,
+          0.75
+        ],
+        "6": [
+          -1.03,
+          -0.75
+        ],
+        "7": [
+          -2.52,
+          -0.59
+        ],
+        "8": [
+          -1.34,
+          -2.22
+        ],
+        "9": [
+          0.39,
+          -1.21
+        ],
+        "10": [
+          0.86,
+          -2.64
+        ],
+        "13": [
+          4.58,
+          0.31
+        ],
+        "14": [
+          5.87,
+          1.06
+        ],
+        "15": [
+          7.17,
+          0.31
+        ],
+        "16": [
+          5.87,
+          2.56
+        ],
+        "18": [
+          0.86,
+          2.64
+        ],
+        "19": [
+          -2.25,
+          1.63
+        ],
+        "20": [
+          7.17,
+          3.31
+        ]
+      }
+    },
+    "iminium-ion": {
+      "caption": "an iminium ion + water + acetate",
+      "hintTiers": [
+        "An iminium ion, like a protonated ketone, makes the C–H bonds next to it acidic. Which ring hydrogen can go?",
+        "Acetate takes the H on the ring carbon next to the C=N⁺ carbon; the C–H electrons form a C=C π bond and the C=N π bond moves onto nitrogen. Three arrows.",
+        "Acetate O⁻ lone pair → a new O–H bond to the ring H next to the iminium carbon; that C–H bond → a C=C π bond; the C=N π bond → a lone pair on nitrogen."
+      ],
+      "mappedSmiles": "[CH3:1][C:2]1=[N+:9]([CH3:10])[C:6]([CH3:8])([OH:7])[CH:5]([H:19])[CH:4]1[H:18].[OH:3][H:20].[CH3:13][C:14](=[O:15])[O-:16]",
+      "learnerPrompt": "Acetate removes a proton next to the iminium carbon. Draw it.",
+      "misconceptions": [
+        {
+          "severity": "plausible",
+          "arrowPattern": "lp O3 -> σ O3-C2",
+          "feedbackMessage": "Water adding back to the iminium ion just reverses the last step. Remove a proton next to it to make an enamine.",
+          "misconceptionId": "water-adds-back",
+          "misconceptionTag": "reverse-step"
+        },
+        {
+          "severity": "plausible",
+          "arrowPattern": "lp O16 -> σ O16-C2",
+          "feedbackMessage": "Acetate can add to the iminium ion, but that adduct just falls apart again. Use acetate as a base.",
+          "misconceptionId": "acetate-adds",
+          "misconceptionTag": "wrong-nucleophile"
+        }
+      ],
+      "mapNumberToCoordinates": {
+        "1": [
+          2.78,
+          0
+        ],
+        "2": [
+          1.28,
+          0
+        ],
+        "3": [
+          5.07,
+          0.08
+        ],
+        "4": [
+          0.39,
+          -1.21
+        ],
+        "5": [
+          -1.03,
+          -0.75
+        ],
+        "6": [
+          -1.03,
+          0.75
+        ],
+        "7": [
+          -1.34,
+          2.22
+        ],
+        "8": [
+          -2.52,
+          0.59
+        ],
+        "9": [
+          0.39,
+          1.21
+        ],
+        "10": [
+          0.86,
+          2.64
+        ],
+        "13": [
+          0.41,
+          4.85
+        ],
+        "14": [
+          1.71,
+          5.6
+        ],
+        "15": [
+          3.01,
+          4.85
+        ],
+        "16": [
+          1.71,
+          7.1
+        ],
+        "18": [
+          0.86,
+          -2.64
+        ],
+        "19": [
+          -2.25,
+          -1.63
+        ],
+        "20": [
+          6.37,
+          0.83
+        ]
+      },
+      "partialProgressMessages": [
+        {
+          "learnerArrows": [
+            "lp O16 -> σ O16-H18"
+          ],
+          "feedbackMessage": "Right proton. The C–H electrons now form a C=C bond, and the C=N π bond returns to nitrogen."
+        }
+      ]
+    },
+    "second-iminium-ion": {
+      "caption": "a second iminium ion + water + acetate",
+      "hintTiers": [
+        "The ring has one sp³ carbon left. What happens if it loses a proton?",
+        "Acetate takes the H on the CH₂ carbon; the C–H electrons form a C=C π bond; the C=N π bond moves onto nitrogen. Three arrows.",
+        "Acetate O⁻ lone pair → a new O–H bond to the ring H; that C–H bond → a C=C π bond to the iminium carbon; the C=N π bond → a lone pair on nitrogen."
+      ],
+      "mappedSmiles": "[CH3:1][C:2]1=[CH:4][CH:5]([H:19])[C:6]([CH3:8])=[N+:9]1[CH3:10].[OH:3][H:20].[OH:7][H:18].[CH3:13][C:14](=[O:15])[O-:16]",
+      "learnerPrompt": "One more proton goes, and the ring becomes aromatic. Draw it.",
+      "misconceptions": [
+        {
+          "severity": "plausible",
+          "arrowPattern": "lp O7 -> σ O7-C6",
+          "feedbackMessage": "Water adding back just reverses the last step. One proton is all that stands between this ion and an aromatic ring.",
+          "misconceptionId": "second-water-adds-back",
+          "misconceptionTag": "reverse-step"
+        }
+      ],
+      "mapNumberToCoordinates": {
+        "1": [
+          2.78,
+          0
+        ],
+        "2": [
+          1.28,
+          0
+        ],
+        "3": [
+          5.06,
+          0.19
+        ],
+        "4": [
+          0.39,
+          1.21
+        ],
+        "5": [
+          -1.03,
+          0.75
+        ],
+        "6": [
+          -1.03,
+          -0.75
+        ],
+        "7": [
+          8.21,
+          -0.4
+        ],
+        "8": [
+          -2.25,
+          -1.63
+        ],
+        "9": [
+          0.39,
+          -1.21
+        ],
+        "10": [
+          0.86,
+          -2.64
+        ],
+        "13": [
+          0.33,
+          3.5
+        ],
+        "14": [
+          1.63,
+          4.25
+        ],
+        "15": [
+          2.93,
+          3.5
+        ],
+        "16": [
+          1.63,
+          5.75
+        ],
+        "18": [
+          9.51,
+          0.35
+        ],
+        "19": [
+          -2.25,
+          1.63
+        ],
+        "20": [
+          6.36,
+          0.94
+        ]
+      },
+      "partialProgressMessages": [
+        {
+          "learnerArrows": [
+            "lp O16 -> σ O16-H19"
+          ],
+          "feedbackMessage": "Right proton. The C–H electrons now form a C=C bond, and the C=N π bond returns to nitrogen."
+        }
+      ]
+    },
+    "protonated-hydroxyl": {
+      "caption": "OH protonated + acetate",
+      "hintTiers": [
+        "Which lone pair can help push out water?",
+        "The nitrogen lone pair forms a C=N π bond to the carbon bearing OH₂⁺, and the C–O bond breaks onto oxygen. Two arrows.",
+        "Nitrogen lone pair → a C=N π bond to the carbon bearing OH₂⁺; that C–O bond → a lone pair on oxygen (water leaves)."
+      ],
+      "mappedSmiles": "[CH3:1][C:2]1([OH+:3][H:20])[CH:4]([H:18])[CH:5]([H:19])[C:6]([CH3:8])([OH:7])[N:9]1[CH3:10].[CH3:13][C:14](=[O:15])[O-:16]",
+      "learnerPrompt": "Water leaves, pushed out by the nitrogen lone pair. Draw it.",
+      "mapNumberToCoordinates": {
+        "1": [
+          2.39,
+          1
+        ],
+        "2": [
+          1.28,
+          0
+        ],
+        "3": [
+          2.39,
+          -1
+        ],
+        "4": [
+          0.39,
+          1.21
+        ],
+        "5": [
+          -1.03,
+          0.75
+        ],
+        "6": [
+          -1.03,
+          -0.75
+        ],
+        "7": [
+          -2.52,
+          -0.59
+        ],
+        "8": [
+          -1.34,
+          -2.22
+        ],
+        "9": [
+          0.39,
+          -1.21
+        ],
+        "10": [
+          0.86,
+          -2.64
+        ],
+        "13": [
+          4.52,
+          0.26
+        ],
+        "14": [
+          5.82,
+          1.01
+        ],
+        "15": [
+          7.11,
+          0.26
+        ],
+        "16": [
+          5.82,
+          2.51
+        ],
+        "18": [
+          0.86,
+          2.64
+        ],
+        "19": [
+          -2.25,
+          1.63
+        ],
+        "20": [
+          2.08,
+          -2.47
+        ]
+      }
+    },
+    "second-protonated-hydroxyl": {
+      "caption": "second OH protonated + acetate",
+      "hintTiers": [
+        "Same move as before. Which lone pair pushes?",
+        "The nitrogen lone pair forms a C=N π bond to the carbon bearing OH₂⁺; the C–O bond breaks onto oxygen. Two arrows.",
+        "Nitrogen lone pair → a C=N π bond to the carbon bearing OH₂⁺; that C–O bond → a lone pair on oxygen."
+      ],
+      "mappedSmiles": "[CH3:1][C:2]1=[CH:4][CH:5]([H:19])[C:6]([CH3:8])([OH+:7][H:18])[N:9]1[CH3:10].[OH:3][H:20].[CH3:13][C:14](=[O:15])[O-:16]",
+      "learnerPrompt": "The nitrogen lone pair pushes out the second water. Draw it.",
+      "mapNumberToCoordinates": {
+        "1": [
+          2.78,
+          0
+        ],
+        "2": [
+          1.28,
+          0
+        ],
+        "3": [
+          5.06,
+          0.23
+        ],
+        "4": [
+          0.39,
+          1.21
+        ],
+        "5": [
+          -1.03,
+          0.75
+        ],
+        "6": [
+          -1.03,
+          -0.75
+        ],
+        "7": [
+          -2.52,
+          -0.59
+        ],
+        "8": [
+          -1.34,
+          -2.22
+        ],
+        "9": [
+          0.39,
+          -1.21
+        ],
+        "10": [
+          0.86,
+          -2.64
+        ],
+        "13": [
+          0.41,
+          3.5
+        ],
+        "14": [
+          1.71,
+          4.25
+        ],
+        "15": [
+          3.01,
+          3.5
+        ],
+        "16": [
+          1.71,
+          5.75
+        ],
+        "18": [
+          -3.41,
+          -1.81
+        ],
+        "19": [
+          -2.25,
+          1.63
+        ],
+        "20": [
+          6.35,
+          0.98
+        ]
+      }
+    }
+  },
+  "conditionsLabel": "AcOH (cat.) · EtOH · reflux",
+  "reactionClasses": [
+    "carbonyl",
+    "elimination"
+  ],
+  "reactionVersion": 1,
+  "mechanismSummary": "The cyclic bis-hemiaminal from Part 1 loses two molecules of water. Each time, acetic acid protonates an OH group, the nitrogen lone pair pushes water out to give an iminium ion, and acetate removes a proton from the next carbon. After the second loss of water the last deprotonation makes the ring aromatic: 1,2,5-trimethylpyrrole.",
+  "dailyPuzzleEligible": true,
+  "spectatorMapNumbers": [],
+  "atomRoleToMapNumbers": {
+    "ringNitrogen": [
+      9
+    ]
+  },
+  "previousReactionVersion": null
+}

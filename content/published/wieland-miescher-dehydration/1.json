@@ -1,0 +1,932 @@
+{
+  "steps": [
+    {
+      "stepKey": "ketone-protonation",
+      "stepKind": "polar",
+      "toStateId": "protonated-ketone",
+      "fromStateId": "reactants",
+      "canonicalArrows": [
+        "lp O13 -> σ O13-H69",
+        "σ O68-H69 -> lp O68"
+      ],
+      "routePreference": "preferred",
+      "explanationAfterStep": "The protonated ketone makes the neighbouring C–H acidic enough for tosylate to remove."
+    },
+    {
+      "stepKey": "enolisation",
+      "stepKind": "polar",
+      "toStateId": "enol",
+      "fromStateId": "protonated-ketone",
+      "canonicalArrows": [
+        "lp O68 -> σ O68-H15",
+        "σ C14-H15 -> π C12-C14",
+        "π C12-O13 -> lp O13"
+      ],
+      "routePreference": "preferred",
+      "explanationAfterStep": "The enol forms towards the carbon carrying OH: its C=C is now next to the leaving group."
+    },
+    {
+      "stepKey": "hydroxyl-protonation",
+      "stepKind": "polar",
+      "toStateId": "oxonium",
+      "fromStateId": "enol",
+      "canonicalArrows": [
+        "lp O2 -> σ O2-H15",
+        "σ O68-H15 -> lp O68"
+      ],
+      "routePreference": "preferred",
+      "explanationAfterStep": "Acid turns the OH into OH₂⁺, so water can leave."
+    },
+    {
+      "stepKey": "loss-of-water",
+      "stepKind": "polar",
+      "toStateId": "protonated-enone",
+      "fromStateId": "oxonium",
+      "canonicalArrows": [
+        "lp O13 -> π C12-O13",
+        "π C12-C14 -> π C1-C14",
+        "σ C1-O2 -> lp O2"
+      ],
+      "routePreference": "preferred",
+      "explanationAfterStep": "The enol pushes water out: the acid-catalysed version of E1cB, with an enol in place of an enolate. The new C=C is conjugated with the C=O."
+    },
+    {
+      "stepKey": "deprotonation",
+      "stepKind": "polar",
+      "toStateId": "products",
+      "fromStateId": "protonated-enone",
+      "canonicalArrows": [
+        "lp O68 -> σ O68-H69",
+        "σ O13-H69 -> lp O13"
+      ],
+      "routePreference": "preferred",
+      "explanationAfterStep": "Tosylate takes the proton back, giving the enone and returning TsOH. The quaternary methyl carbon is untouched, so the enantiomeric excess set in the aldol survives."
+    }
+  ],
+  "title": "Wieland–Miescher ketone 4: dehydration",
+  "authors": [
+    {
+      "url": null,
+      "name": "Maksim"
+    }
+  ],
+  "licence": "CC-BY-SA-4.0",
+  "subtitle": "Acid turns the ketol into the conjugated enone",
+  "references": [
+    "Clayden, Greeves and Warren, Organic Chemistry, 2nd edition (Oxford University Press), chapter 26 (aldol dehydration)",
+    "Hajos and Parrish, Journal of Organic Chemistry 1974, 39, 1615",
+    "Eder, Sauer and Wiechert, Angewandte Chemie International Edition 1971, 10, 496"
+  ],
+  "reactionSlug": "wieland-miescher-dehydration",
+  "startStateId": "reactants",
+  "formatVersion": 1,
+  "difficultyTier": 2,
+  "stateIdToState": {
+    "enol": {
+      "caption": "the enol + toluenesulfonic acid",
+      "hintTiers": [
+        "OH⁻ leaves badly from a neutral molecule; water leaves well.",
+        "The ring-fusion OH takes the drawn hydrogen of TsOH, and that O–H pair stays on the sulfonate oxygen. Two arrows.",
+        "Hydroxyl oxygen lone pair → new bond to the acid hydrogen; the acid O–H bond → a lone pair on its oxygen."
+      ],
+      "mappedSmiles": "[OH:2][C:1]12[CH2:9][CH2:8][CH2:7][C:5](=[O:6])[C:3]1([CH3:4])[CH2:10][CH2:11][C:12]([O:13][H:69])=[CH:14]2.[H:15][O:68][S:65](=[O:66])(=[O:67])[C:61]1=[CH:62][CH:63]=[C:64]([CH3:60])[CH:70]=[CH:71]1",
+      "learnerPrompt": "Make the leaving group.",
+      "misconceptions": [
+        {
+          "severity": "wrong",
+          "arrowPattern": "σ C1-O2 -> lp O2",
+          "feedbackMessage": "Pushing out hydroxide in strong acid is not the route: protonate the OH first so neutral water leaves.",
+          "misconceptionId": "enol-pushes-hydroxide",
+          "misconceptionTag": "poor-leaving-group"
+        },
+        {
+          "severity": "plausible",
+          "arrowPattern": "π C12-C14 -> σ C14-H15",
+          "feedbackMessage": "Protonating the enol carbon goes back to the protonated ketone. Protonate the OH.",
+          "misconceptionId": "enol-reprotonated",
+          "misconceptionTag": "reverse-step"
+        }
+      ],
+      "mapNumberToCoordinates": {
+        "1": [
+          1.5,
+          0
+        ],
+        "2": [
+          2.25,
+          1.3
+        ],
+        "3": [
+          0.75,
+          -1.3
+        ],
+        "4": [
+          0,
+          -2.6
+        ],
+        "5": [
+          -0.75,
+          -1.3
+        ],
+        "6": [
+          -1.5,
+          -2.6
+        ],
+        "7": [
+          -1.5,
+          0
+        ],
+        "8": [
+          -0.75,
+          1.3
+        ],
+        "9": [
+          0.75,
+          1.3
+        ],
+        "10": [
+          1.5,
+          -2.6
+        ],
+        "11": [
+          3,
+          -2.6
+        ],
+        "12": [
+          3.75,
+          -1.3
+        ],
+        "13": [
+          5.25,
+          -1.3
+        ],
+        "14": [
+          3,
+          0
+        ],
+        "15": [
+          4.22,
+          7.24
+        ],
+        "60": [
+          -3.08,
+          4.99
+        ],
+        "61": [
+          1.42,
+          4.99
+        ],
+        "62": [
+          0.67,
+          6.29
+        ],
+        "63": [
+          -0.83,
+          6.29
+        ],
+        "64": [
+          -1.58,
+          4.99
+        ],
+        "65": [
+          2.92,
+          4.99
+        ],
+        "66": [
+          4.42,
+          4.99
+        ],
+        "67": [
+          2.92,
+          3.49
+        ],
+        "68": [
+          2.92,
+          6.49
+        ],
+        "69": [
+          6,
+          -2.6
+        ],
+        "70": [
+          -0.83,
+          3.69
+        ],
+        "71": [
+          0.67,
+          3.69
+        ]
+      }
+    },
+    "oxonium": {
+      "caption": "the enol with OH₂⁺ on the ring-fusion carbon + tosylate",
+      "hintTiers": [
+        "Electrons from the enol oxygen can flow along the C=C towards the carbon carrying the OH₂⁺ group.",
+        "The enol oxygen lone pair forms C=O⁺, the C=C pair moves one bond along to the ring-fusion carbon, and the C–O bond breaks onto the water oxygen. Three arrows.",
+        "Enol oxygen lone pair → π bond to its carbon; C=C π bond → a π bond to the ring-fusion carbon; the C–OH₂⁺ bond → a lone pair on the water oxygen."
+      ],
+      "mappedSmiles": "[H:15][OH+:2][C:1]12[CH2:9][CH2:8][CH2:7][C:5](=[O:6])[C:3]1([CH3:4])[CH2:10][CH2:11][C:12]([O:13][H:69])=[CH:14]2.[O-:68][S:65](=[O:66])(=[O:67])[C:61]1=[CH:62][CH:63]=[C:64]([CH3:60])[CH:70]=[CH:71]1",
+      "learnerPrompt": "The enol pushes out water.",
+      "misconceptions": [
+        {
+          "severity": "plausible",
+          "arrowPattern": "σ C1-C14 -> *",
+          "feedbackMessage": "Breaking the ring bond is a retro-aldol and would give back the achiral triketone, losing the enantiomeric excess. Push water out.",
+          "misconceptionId": "retro-aldol",
+          "misconceptionTag": "reverse-step"
+        }
+      ],
+      "mapNumberToCoordinates": {
+        "1": [
+          1.5,
+          0
+        ],
+        "2": [
+          2.25,
+          1.3
+        ],
+        "3": [
+          0.75,
+          -1.3
+        ],
+        "4": [
+          0,
+          -2.6
+        ],
+        "5": [
+          -0.75,
+          -1.3
+        ],
+        "6": [
+          -1.5,
+          -2.6
+        ],
+        "7": [
+          -1.5,
+          0
+        ],
+        "8": [
+          -0.75,
+          1.3
+        ],
+        "9": [
+          0.75,
+          1.3
+        ],
+        "10": [
+          1.5,
+          -2.6
+        ],
+        "11": [
+          3,
+          -2.6
+        ],
+        "12": [
+          3.75,
+          -1.3
+        ],
+        "13": [
+          5.25,
+          -1.3
+        ],
+        "14": [
+          3,
+          0
+        ],
+        "15": [
+          3.75,
+          1.3
+        ],
+        "60": [
+          -3.19,
+          5.02
+        ],
+        "61": [
+          1.31,
+          5.02
+        ],
+        "62": [
+          0.56,
+          6.32
+        ],
+        "63": [
+          -0.94,
+          6.32
+        ],
+        "64": [
+          -1.69,
+          5.02
+        ],
+        "65": [
+          2.81,
+          5.02
+        ],
+        "66": [
+          4.31,
+          5.02
+        ],
+        "67": [
+          2.81,
+          3.52
+        ],
+        "68": [
+          2.81,
+          6.52
+        ],
+        "69": [
+          6,
+          -2.6
+        ],
+        "70": [
+          -0.94,
+          3.72
+        ],
+        "71": [
+          0.56,
+          3.72
+        ]
+      },
+      "partialProgressMessages": [
+        {
+          "learnerArrows": [
+            "π C12-C14 -> π C1-C14",
+            "σ C1-O2 -> lp O2"
+          ],
+          "feedbackMessage": "Right bonds, but this leaves a positive carbon next to the enol oxygen. Push the oxygen lone pair in to form C=O⁺."
+        }
+      ]
+    },
+    "products": {
+      "caption": "the Wieland–Miescher ketone + water + toluenesulfonic acid",
+      "mappedSmiles": "[C:1]12[CH2:9][CH2:8][CH2:7][C:5](=[O:6])[C:3]1([CH3:4])[CH2:10][CH2:11][C:12](=[O:13])[CH:14]=2.[H:15][OH:2].[H:69][O:68][S:65](=[O:66])(=[O:67])[C:61]1=[CH:62][CH:63]=[C:64]([CH3:60])[CH:70]=[CH:71]1",
+      "mapNumberToCoordinates": {
+        "1": [
+          1.5,
+          0
+        ],
+        "2": [
+          7,
+          0.18
+        ],
+        "3": [
+          0.75,
+          -1.3
+        ],
+        "4": [
+          0,
+          -2.6
+        ],
+        "5": [
+          -0.75,
+          -1.3
+        ],
+        "6": [
+          -1.5,
+          -2.6
+        ],
+        "7": [
+          -1.5,
+          0
+        ],
+        "8": [
+          -0.75,
+          1.3
+        ],
+        "9": [
+          0.75,
+          1.3
+        ],
+        "10": [
+          1.5,
+          -2.6
+        ],
+        "11": [
+          3,
+          -2.6
+        ],
+        "12": [
+          3.75,
+          -1.3
+        ],
+        "13": [
+          5.25,
+          -1.3
+        ],
+        "14": [
+          3,
+          0
+        ],
+        "15": [
+          8.3,
+          0.93
+        ],
+        "60": [
+          -2.98,
+          4.9
+        ],
+        "61": [
+          1.52,
+          4.9
+        ],
+        "62": [
+          0.77,
+          6.2
+        ],
+        "63": [
+          -0.73,
+          6.2
+        ],
+        "64": [
+          -1.48,
+          4.9
+        ],
+        "65": [
+          3.02,
+          4.9
+        ],
+        "66": [
+          4.52,
+          4.9
+        ],
+        "67": [
+          3.02,
+          3.4
+        ],
+        "68": [
+          3.02,
+          6.4
+        ],
+        "69": [
+          4.32,
+          7.15
+        ],
+        "70": [
+          -0.73,
+          3.6
+        ],
+        "71": [
+          0.77,
+          3.6
+        ]
+      }
+    },
+    "reactants": {
+      "caption": "the bicyclic ketol + toluenesulfonic acid",
+      "hintTiers": [
+        "In acid, the C=C forms through an enol. An enol forms from a protonated ketone.",
+        "The oxygen of the ketone in the newly closed ring takes the drawn hydrogen of TsOH, and that O–H pair stays on the sulfonate oxygen. Two arrows.",
+        "Lone pair on the oxygen of the new ring's ketone → new bond to the acid hydrogen; the acid O–H bond → a lone pair on its oxygen."
+      ],
+      "mappedSmiles": "[OH:2][C:1]12[CH2:9][CH2:8][CH2:7][C:5](=[O:6])[C:3]1([CH3:4])[CH2:10][CH2:11][C:12](=[O:13])[CH:14]2[H:15].[H:69][O:68][S:65](=[O:66])(=[O:67])[C:61]1=[CH:62][CH:63]=[C:64]([CH3:60])[CH:70]=[CH:71]1",
+      "learnerPrompt": "Acid catalysis: activate the ketone that will become the enone.",
+      "misconceptions": [
+        {
+          "severity": "wrong",
+          "arrowPattern": "σ C1-O2 -> lp O2",
+          "feedbackMessage": "Hydroxide cannot leave from a neutral molecule. In acid, first make the ketone into an enol.",
+          "misconceptionId": "base-like-elimination",
+          "misconceptionTag": "e2-instead-of-enol"
+        },
+        {
+          "severity": "plausible",
+          "arrowPattern": "lp O2 -> σ O2-H69",
+          "feedbackMessage": "Protonating the OH first makes a good leaving group, but a cation at that ring-fusion carbon is not the route. Make the enol first so that it can push water out.",
+          "misconceptionId": "protonate-hydroxyl-first",
+          "misconceptionTag": "order-of-steps"
+        },
+        {
+          "severity": "plausible",
+          "arrowPattern": "lp O6 -> σ O6-H69",
+          "feedbackMessage": "That ketone sits next to the quaternary carbon and has no hydrogen next to the OH-bearing carbon. Protonate the ketone of the new ring.",
+          "misconceptionId": "protonate-other-ketone",
+          "misconceptionTag": "wrong-carbonyl"
+        }
+      ],
+      "mapNumberToCoordinates": {
+        "1": [
+          1.5,
+          0
+        ],
+        "2": [
+          2.25,
+          1.3
+        ],
+        "3": [
+          0.75,
+          -1.3
+        ],
+        "4": [
+          0,
+          -2.6
+        ],
+        "5": [
+          -0.75,
+          -1.3
+        ],
+        "6": [
+          -1.5,
+          -2.6
+        ],
+        "7": [
+          -1.5,
+          0
+        ],
+        "8": [
+          -0.75,
+          1.3
+        ],
+        "9": [
+          0.75,
+          1.3
+        ],
+        "10": [
+          1.5,
+          -2.6
+        ],
+        "11": [
+          3,
+          -2.6
+        ],
+        "12": [
+          3.75,
+          -1.3
+        ],
+        "13": [
+          5.25,
+          -1.3
+        ],
+        "14": [
+          3,
+          0
+        ],
+        "15": [
+          3.75,
+          1.3
+        ],
+        "60": [
+          -3.04,
+          4.98
+        ],
+        "61": [
+          1.46,
+          4.98
+        ],
+        "62": [
+          0.71,
+          6.28
+        ],
+        "63": [
+          -0.79,
+          6.28
+        ],
+        "64": [
+          -1.54,
+          4.98
+        ],
+        "65": [
+          2.96,
+          4.98
+        ],
+        "66": [
+          4.46,
+          4.98
+        ],
+        "67": [
+          2.96,
+          3.48
+        ],
+        "68": [
+          2.96,
+          6.48
+        ],
+        "69": [
+          4.26,
+          7.23
+        ],
+        "70": [
+          -0.79,
+          3.68
+        ],
+        "71": [
+          0.71,
+          3.68
+        ]
+      }
+    },
+    "protonated-enone": {
+      "caption": "the protonated enone + water + tosylate",
+      "hintTiers": [
+        "The acid catalyst must be returned.",
+        "Tosylate takes the hydrogen on the positive oxygen, and that O–H pair stays on oxygen. Two arrows.",
+        "Tosylate lone pair → new bond to the hydrogen on the carbonyl oxygen; that O–H bond → a lone pair on oxygen."
+      ],
+      "mappedSmiles": "[C:1]12[CH2:9][CH2:8][CH2:7][C:5](=[O:6])[C:3]1([CH3:4])[CH2:10][CH2:11][C:12](=[O+:13][H:69])[CH:14]=2.[H:15][OH:2].[O-:68][S:65](=[O:66])(=[O:67])[C:61]1=[CH:62][CH:63]=[C:64]([CH3:60])[CH:70]=[CH:71]1",
+      "learnerPrompt": "Release the enone.",
+      "misconceptions": [
+        {
+          "severity": "plausible",
+          "arrowPattern": "lp O2 -> C1",
+          "feedbackMessage": "Water adding back reverses the dehydration. Removing water (Dean–Stark) stops this: deprotonate the oxygen.",
+          "misconceptionId": "water-adds-back",
+          "misconceptionTag": "reverse-step"
+        }
+      ],
+      "mapNumberToCoordinates": {
+        "1": [
+          1.5,
+          0
+        ],
+        "2": [
+          7.12,
+          0.03
+        ],
+        "3": [
+          0.75,
+          -1.3
+        ],
+        "4": [
+          0,
+          -2.6
+        ],
+        "5": [
+          -0.75,
+          -1.3
+        ],
+        "6": [
+          -1.5,
+          -2.6
+        ],
+        "7": [
+          -1.5,
+          0
+        ],
+        "8": [
+          -0.75,
+          1.3
+        ],
+        "9": [
+          0.75,
+          1.3
+        ],
+        "10": [
+          1.5,
+          -2.6
+        ],
+        "11": [
+          3,
+          -2.6
+        ],
+        "12": [
+          3.75,
+          -1.3
+        ],
+        "13": [
+          5.25,
+          -1.3
+        ],
+        "14": [
+          3,
+          0
+        ],
+        "15": [
+          8.42,
+          0.78
+        ],
+        "60": [
+          -3.12,
+          4.89
+        ],
+        "61": [
+          1.38,
+          4.89
+        ],
+        "62": [
+          0.63,
+          6.19
+        ],
+        "63": [
+          -0.87,
+          6.19
+        ],
+        "64": [
+          -1.62,
+          4.89
+        ],
+        "65": [
+          2.88,
+          4.89
+        ],
+        "66": [
+          4.38,
+          4.89
+        ],
+        "67": [
+          2.88,
+          3.39
+        ],
+        "68": [
+          2.88,
+          6.39
+        ],
+        "69": [
+          6,
+          -2.6
+        ],
+        "70": [
+          -0.87,
+          3.59
+        ],
+        "71": [
+          0.63,
+          3.59
+        ]
+      },
+      "partialProgressMessages": [
+        {
+          "learnerArrows": [
+            "lp O68 -> σ O68-H69"
+          ],
+          "feedbackMessage": "Good: tosylate takes the proton. Where does the O–H bonding pair go?"
+        }
+      ]
+    },
+    "protonated-ketone": {
+      "caption": "the protonated ketone + tosylate",
+      "hintTiers": [
+        "Two carbons flank the protonated C=O. Only the enol towards the carbon carrying OH can push water out.",
+        "Tosylate takes the drawn hydrogen on the CH₂ between the C=O and the OH-bearing carbon. That C–H pair forms a C=C bond, and the C=O π pair moves onto oxygen. Three arrows.",
+        "Tosylate oxygen lone pair → new bond to the drawn hydrogen; that C–H bond → a π bond to the carbonyl carbon; the C=O π bond → a lone pair on oxygen."
+      ],
+      "mappedSmiles": "[OH:2][C:1]12[CH2:9][CH2:8][CH2:7][C:5](=[O:6])[C:3]1([CH3:4])[CH2:10][CH2:11][C:12](=[O+:13][H:69])[CH:14]2[H:15].[O-:68][S:65](=[O:66])(=[O:67])[C:61]1=[CH:62][CH:63]=[C:64]([CH3:60])[CH:70]=[CH:71]1",
+      "learnerPrompt": "Form the enol on the side of the OH-bearing carbon.",
+      "misconceptions": [
+        {
+          "severity": "plausible",
+          "arrowPattern": "* -> π C11-C12",
+          "feedbackMessage": "That enol points away from the OH-bearing carbon and cannot push water out. Form the enol on the other side.",
+          "misconceptionId": "enol-wrong-side",
+          "misconceptionTag": "wrong-alpha-carbon"
+        },
+        {
+          "severity": "plausible",
+          "arrowPattern": "lp O68 -> C12",
+          "feedbackMessage": "Tosylate is a very weak nucleophile, and adding it leads nowhere. It acts as a base here.",
+          "misconceptionId": "tosylate-adds",
+          "misconceptionTag": "unproductive-addition"
+        }
+      ],
+      "mapNumberToCoordinates": {
+        "1": [
+          1.5,
+          0
+        ],
+        "2": [
+          2.25,
+          1.3
+        ],
+        "3": [
+          0.75,
+          -1.3
+        ],
+        "4": [
+          0,
+          -2.6
+        ],
+        "5": [
+          -0.75,
+          -1.3
+        ],
+        "6": [
+          -1.5,
+          -2.6
+        ],
+        "7": [
+          -1.5,
+          0
+        ],
+        "8": [
+          -0.75,
+          1.3
+        ],
+        "9": [
+          0.75,
+          1.3
+        ],
+        "10": [
+          1.5,
+          -2.6
+        ],
+        "11": [
+          3,
+          -2.6
+        ],
+        "12": [
+          3.75,
+          -1.3
+        ],
+        "13": [
+          5.25,
+          -1.3
+        ],
+        "14": [
+          3,
+          0
+        ],
+        "15": [
+          3.75,
+          1.3
+        ],
+        "60": [
+          -3.19,
+          5.02
+        ],
+        "61": [
+          1.31,
+          5.02
+        ],
+        "62": [
+          0.56,
+          6.32
+        ],
+        "63": [
+          -0.94,
+          6.32
+        ],
+        "64": [
+          -1.69,
+          5.02
+        ],
+        "65": [
+          2.81,
+          5.02
+        ],
+        "66": [
+          4.31,
+          5.02
+        ],
+        "67": [
+          2.81,
+          3.52
+        ],
+        "68": [
+          2.81,
+          6.52
+        ],
+        "69": [
+          6,
+          -2.6
+        ],
+        "70": [
+          -0.94,
+          3.72
+        ],
+        "71": [
+          0.56,
+          3.72
+        ]
+      },
+      "partialProgressMessages": [
+        {
+          "learnerArrows": [
+            "lp O68 -> σ O68-H15",
+            "σ C14-H15 -> π C12-C14"
+          ],
+          "feedbackMessage": "Good: tosylate takes the proton and the C=C forms. Now move the C=O π pair onto oxygen."
+        }
+      ]
+    }
+  },
+  "conditionsLabel": "TsOH (cat.) · benzene · reflux (Dean–Stark)",
+  "reactionClasses": [
+    "carbonyl",
+    "elimination"
+  ],
+  "reactionVersion": 1,
+  "mechanismSummary": "Toluenesulfonic acid protonates the ketone of the new ring, and tosylate removes a proton from the CH₂ next to the OH-bearing carbon, giving the enol. The OH is protonated, and the enol pushes water out: the acid version of the E1cB dehydration of the Robinson annulation. Tosylate removes the last proton, giving the conjugated enone, the Wieland–Miescher ketone. Water is removed with a Dean–Stark trap. Acid is used rather than base because base could also run the aldol backwards to the achiral triketone and erode the enantiomeric excess; acid leaves the quaternary stereocentre alone. With (S)-proline in hot acetonitrile and perchloric acid (Eder, Sauer and Wiechert), aldol and dehydration happen in one pot.",
+  "abbreviatedGroups": [
+    {
+      "groupLabel": "Tol",
+      "mapNumbers": [
+        60,
+        61,
+        62,
+        63,
+        64,
+        70,
+        71
+      ],
+      "attachmentMapNumber": 61
+    }
+  ],
+  "dailyPuzzleEligible": true,
+  "spectatorMapNumbers": [],
+  "atomRoleToMapNumbers": {
+    "acid": [
+      69
+    ],
+    "leavingGroup": [
+      2
+    ]
+  },
+  "previousReactionVersion": null
+}

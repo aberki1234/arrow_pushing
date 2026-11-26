@@ -1,0 +1,507 @@
+{
+  "steps": [
+    {
+      "stepKey": "protonation",
+      "stepKind": "polar",
+      "toStateId": "oxonium-ion",
+      "fromStateId": "reactants",
+      "canonicalArrows": [
+        "lp O3 -> σ O3-H10",
+        "σ O11-H10 -> lp O11"
+      ],
+      "routePreference": "preferred",
+      "explanationAfterStep": "Protonation turns one OH into OH₂⁺, which can leave as water. The two OH groups of pinacol are the same, so either can be protonated."
+    },
+    {
+      "stepKey": "loss-of-water",
+      "stepKind": "polar",
+      "toStateId": "tertiary-cation",
+      "fromStateId": "oxonium-ion",
+      "canonicalArrows": [
+        "σ C2-O3 -> lp O3"
+      ],
+      "routePreference": "preferred",
+      "explanationAfterStep": "Water leaves and a tertiary carbocation forms. In an unsymmetrical diol, the OH that leaves is the one giving the more stable cation."
+    },
+    {
+      "stepKey": "loss-of-water-with-methyl-shift",
+      "stepKind": "polar",
+      "toStateId": "protonated-ketone",
+      "fromStateId": "oxonium-ion",
+      "canonicalArrows": [
+        "σ C2-O3 -> lp O3",
+        "σ C5-C8 -> σ C2-C8",
+        "lp O6 -> π C5-O6"
+      ],
+      "routePreference": "accepted",
+      "explanationAfterStep": "Also correct: the methyl group can move as water leaves, in one step. The textbook picture has the tertiary cation first."
+    },
+    {
+      "stepKey": "methyl-shift",
+      "stepKind": "polar",
+      "toStateId": "protonated-ketone",
+      "fromStateId": "tertiary-cation",
+      "canonicalArrows": [
+        "σ C5-C8 -> σ C2-C8",
+        "lp O6 -> π C5-O6"
+      ],
+      "routePreference": "preferred",
+      "explanationAfterStep": "A methyl group moves with its bonding pair to the cation next door. The cation it leaves behind is stabilised by the oxygen lone pair: it is a protonated ketone, much more stable than any carbocation. This is what drives the rearrangement."
+    },
+    {
+      "stepKey": "deprotonation",
+      "stepKind": "polar",
+      "toStateId": "products",
+      "fromStateId": "protonated-ketone",
+      "canonicalArrows": [
+        "lp O11 -> σ O11-H7",
+        "σ O6-H7 -> lp O6"
+      ],
+      "routePreference": "preferred",
+      "explanationAfterStep": "Loss of the proton gives pinacolone and returns the sulfuric acid."
+    }
+  ],
+  "title": "Pinacol rearrangement",
+  "authors": [
+    {
+      "url": null,
+      "name": "Maksim"
+    }
+  ],
+  "licence": "CC-BY-SA-4.0",
+  "subtitle": "A 1,2-diol in acid: a methyl group moves and a ketone forms",
+  "references": [
+    "Clayden, Greeves and Warren, Organic Chemistry, 2nd edition (Oxford University Press), chapter 36"
+  ],
+  "reactionSlug": "pinacol-rearrangement",
+  "startStateId": "reactants",
+  "formatVersion": 1,
+  "difficultyTier": 2,
+  "stateIdToState": {
+    "products": {
+      "caption": "pinacolone (3,3-dimethylbutan-2-one) + water + sulfuric acid",
+      "mappedSmiles": "[CH3:1][C:2]([CH3:4])([CH3:8])[C:5]([CH3:9])=[O:6].[OH:3][H:10].[H:7][O:11][S:12](=[O:13])(=[O:14])[OH:15]",
+      "mapNumberToCoordinates": {
+        "1": [
+          0,
+          0
+        ],
+        "2": [
+          1.3,
+          0.75
+        ],
+        "3": [
+          5.76,
+          0.06
+        ],
+        "4": [
+          2.6,
+          1.5
+        ],
+        "5": [
+          2.05,
+          -0.55
+        ],
+        "6": [
+          1.3,
+          -1.85
+        ],
+        "7": [
+          2.58,
+          7.33
+        ],
+        "8": [
+          0.55,
+          2.05
+        ],
+        "9": [
+          3.55,
+          -0.55
+        ],
+        "10": [
+          7.06,
+          0.81
+        ],
+        "11": [
+          2.58,
+          5.83
+        ],
+        "12": [
+          1.28,
+          5.08
+        ],
+        "13": [
+          -0.02,
+          4.33
+        ],
+        "14": [
+          0.53,
+          6.38
+        ],
+        "15": [
+          2.03,
+          3.78
+        ]
+      }
+    },
+    "reactants": {
+      "caption": "pinacol (2,3-dimethylbutane-2,3-diol) + sulfuric acid",
+      "hintTiers": [
+        "Hydroxide is a poor leaving group, but water is a good one. What does the acid do to an OH group?",
+        "One OH oxygen uses a lone pair to take the proton from sulfuric acid, and that O–H pair stays on the acid's oxygen. Two arrows.",
+        "Lone pair of the OH oxygen without the drawn hydrogen → new bond to the acidic proton of H₂SO₄; that O–H bond → a lone pair on the sulfuric acid oxygen."
+      ],
+      "mappedSmiles": "[CH3:1][C:2]([CH3:4])([OH:3])[C:5]([CH3:8])([CH3:9])[O:6][H:7].[H:10][O:11][S:12](=[O:13])(=[O:14])[OH:15]",
+      "learnerPrompt": "Turn one OH group into a leaving group.",
+      "misconceptions": [
+        {
+          "severity": "wrong",
+          "arrowPattern": "σ C2-O3 -> lp O3",
+          "feedbackMessage": "Hydroxide is a poor leaving group: an OH does not leave on its own. Protonate it first so that it leaves as water.",
+          "misconceptionId": "hydroxide-leaves",
+          "misconceptionTag": "poor-leaving-group"
+        }
+      ],
+      "mapNumberToCoordinates": {
+        "1": [
+          0,
+          0
+        ],
+        "2": [
+          1.3,
+          0.75
+        ],
+        "3": [
+          0.55,
+          2.05
+        ],
+        "4": [
+          2.6,
+          1.5
+        ],
+        "5": [
+          2.05,
+          -0.55
+        ],
+        "6": [
+          0.75,
+          -1.3
+        ],
+        "7": [
+          0.75,
+          -2.8
+        ],
+        "8": [
+          2.8,
+          -1.85
+        ],
+        "9": [
+          3.35,
+          0.2
+        ],
+        "10": [
+          8.24,
+          3.4
+        ],
+        "11": [
+          8.24,
+          1.9
+        ],
+        "12": [
+          6.94,
+          1.15
+        ],
+        "13": [
+          5.64,
+          0.4
+        ],
+        "14": [
+          6.19,
+          2.45
+        ],
+        "15": [
+          7.69,
+          -0.14
+        ]
+      }
+    },
+    "oxonium-ion": {
+      "caption": "protonated pinacol + hydrogensulfate",
+      "hintTiers": [
+        "The protonated OH can now leave as a neutral water molecule. What kind of carbon is left behind?",
+        "The C–O bond breaks and its pair goes to the oxygen. One arrow: a tertiary carbocation.",
+        "C–O bond to the protonated oxygen → a lone pair on that oxygen, leaving a tertiary cation."
+      ],
+      "mappedSmiles": "[CH3:1][C:2]([CH3:4])([OH+:3][H:10])[C:5]([CH3:8])([CH3:9])[O:6][H:7].[O-:11][S:12](=[O:13])(=[O:14])[OH:15]",
+      "learnerPrompt": "Water leaves.",
+      "misconceptions": [
+        {
+          "severity": "plausible",
+          "arrowPattern": "lp O11 -> σ O11-H7",
+          "feedbackMessage": "Taking the proton off the other OH group does not lead anywhere yet. Let water leave first.",
+          "misconceptionId": "remove-other-oh-proton",
+          "misconceptionTag": "unproductive-proton-transfer"
+        },
+        {
+          "severity": "plausible",
+          "arrowPattern": "lp O11 -> σ O11-C2",
+          "feedbackMessage": "An SN2 reaction at a crowded tertiary carbon is not possible. Water leaves on its own to give a carbocation.",
+          "misconceptionId": "bisulfate-substitutes",
+          "misconceptionTag": "substitution-instead"
+        }
+      ],
+      "mapNumberToCoordinates": {
+        "1": [
+          0,
+          0
+        ],
+        "2": [
+          1.3,
+          0.75
+        ],
+        "3": [
+          0.55,
+          2.05
+        ],
+        "4": [
+          2.6,
+          1.5
+        ],
+        "5": [
+          2.05,
+          -0.55
+        ],
+        "6": [
+          0.75,
+          -1.3
+        ],
+        "7": [
+          0.75,
+          -2.8
+        ],
+        "8": [
+          2.8,
+          -1.85
+        ],
+        "9": [
+          3.35,
+          0.2
+        ],
+        "10": [
+          1.3,
+          3.35
+        ],
+        "11": [
+          5.61,
+          0.19
+        ],
+        "12": [
+          6.91,
+          0.94
+        ],
+        "13": [
+          8.21,
+          1.69
+        ],
+        "14": [
+          7.66,
+          -0.36
+        ],
+        "15": [
+          6.16,
+          2.24
+        ]
+      }
+    },
+    "tertiary-cation": {
+      "caption": "tertiary carbocation + water + hydrogensulfate",
+      "hintTiers": [
+        "The neighbouring carbon carries an OH group. If a methyl group moves across with its bonding pair, which atom can then stabilise the new cation?",
+        "A methyl group on the carbinol carbon moves to the cation (a 1,2-shift), and the OH lone pair makes a C=O π bond. Two arrows.",
+        "C–CH₃ bond of the carbinol carbon → new bond from that methyl to the cationic carbon; OH oxygen lone pair → C=O π bond."
+      ],
+      "mappedSmiles": "[CH3:1][C+:2]([CH3:4])[C:5]([CH3:8])([CH3:9])[O:6][H:7].[OH:3][H:10].[O-:11][S:12](=[O:13])(=[O:14])[OH:15]",
+      "learnerPrompt": "The key step: a group moves onto the cation.",
+      "misconceptions": [
+        {
+          "severity": "plausible",
+          "arrowPattern": "lp O3 -> σ O3-C2",
+          "feedbackMessage": "Water adding back just reverses the last step. Look at the groups on the neighbouring carbon.",
+          "misconceptionId": "water-adds-back",
+          "misconceptionTag": "reverse-step"
+        },
+        {
+          "severity": "wrong",
+          "arrowPattern": "σ C5-O6 -> *",
+          "feedbackMessage": "The OH group stays where it is: it is the group that will stabilise the new cation, by becoming C=O. A methyl group migrates.",
+          "misconceptionId": "hydroxyl-migrates",
+          "misconceptionTag": "wrong-migrating-group"
+        },
+        {
+          "severity": "plausible",
+          "arrowPattern": "lp O11 -> σ O11-C2",
+          "feedbackMessage": "Hydrogensulfate is a weak nucleophile, and the cation finds a much better way to become stable: the 1,2-shift gives a cation stabilised by the oxygen lone pair.",
+          "misconceptionId": "bisulfate-adds",
+          "misconceptionTag": "trap-cation"
+        }
+      ],
+      "mapNumberToCoordinates": {
+        "1": [
+          0,
+          0
+        ],
+        "2": [
+          1.3,
+          0.75
+        ],
+        "3": [
+          4.81,
+          -0.43
+        ],
+        "4": [
+          2.6,
+          0
+        ],
+        "5": [
+          1.3,
+          2.25
+        ],
+        "6": [
+          -0.2,
+          2.25
+        ],
+        "7": [
+          -0.95,
+          3.55
+        ],
+        "8": [
+          1.3,
+          3.75
+        ],
+        "9": [
+          2.8,
+          2.25
+        ],
+        "10": [
+          6.11,
+          0.32
+        ],
+        "11": [
+          0.08,
+          6.44
+        ],
+        "12": [
+          1.38,
+          7.19
+        ],
+        "13": [
+          2.67,
+          7.94
+        ],
+        "14": [
+          2.13,
+          5.89
+        ],
+        "15": [
+          0.63,
+          8.49
+        ]
+      }
+    },
+    "protonated-ketone": {
+      "caption": "protonated pinacolone + water + hydrogensulfate",
+      "hintTiers": [
+        "The positive oxygen still carries a proton. Which base was released in the first step?",
+        "The hydrogensulfate oxygen takes the proton; the O–H pair stays on the carbonyl oxygen. Two arrows.",
+        "Hydrogensulfate oxygen lone pair → new bond to the drawn H; O–H bond → a lone pair on the carbonyl oxygen."
+      ],
+      "mappedSmiles": "[CH3:1][C:2]([CH3:4])([CH3:8])[C:5]([CH3:9])=[O+:6][H:7].[OH:3][H:10].[O-:11][S:12](=[O:13])(=[O:14])[OH:15]",
+      "learnerPrompt": "Finish with a proton transfer.",
+      "misconceptions": [
+        {
+          "severity": "plausible",
+          "arrowPattern": "lp O3 -> σ O3-H7",
+          "feedbackMessage": "Water can take this proton as well. Here hydrogensulfate, made in the first step, takes it back, so the acid is regenerated: it is a catalyst.",
+          "misconceptionId": "water-as-base",
+          "misconceptionTag": "other-base"
+        }
+      ],
+      "mapNumberToCoordinates": {
+        "1": [
+          0,
+          0
+        ],
+        "2": [
+          1.3,
+          0.75
+        ],
+        "3": [
+          5.69,
+          0.19
+        ],
+        "4": [
+          2.6,
+          1.5
+        ],
+        "5": [
+          2.05,
+          -0.55
+        ],
+        "6": [
+          1.3,
+          -1.85
+        ],
+        "7": [
+          2.05,
+          -3.15
+        ],
+        "8": [
+          0.55,
+          2.05
+        ],
+        "9": [
+          3.55,
+          -0.55
+        ],
+        "10": [
+          6.99,
+          0.94
+        ],
+        "11": [
+          -0.06,
+          4.35
+        ],
+        "12": [
+          1.24,
+          5.1
+        ],
+        "13": [
+          2.54,
+          5.85
+        ],
+        "14": [
+          1.99,
+          3.81
+        ],
+        "15": [
+          0.49,
+          6.4
+        ]
+      }
+    }
+  },
+  "conditionsLabel": "H₂SO₄ · heat",
+  "reactionClasses": [
+    "rearrangement"
+  ],
+  "reactionVersion": 1,
+  "mechanismSummary": "One OH group of pinacol is protonated and leaves as water, giving a tertiary carbocation. A methyl group on the neighbouring carbon moves across with its bonding pair (a 1,2-shift), leaving a cation next to the remaining OH. The oxygen lone pair stabilises it as a protonated ketone, and loss of the proton gives pinacolone. The C=O bond formed is the driving force.",
+  "dailyPuzzleEligible": true,
+  "spectatorMapNumbers": [],
+  "atomRoleToMapNumbers": {
+    "migratingGroup": [
+      8
+    ]
+  },
+  "previousReactionVersion": null
+}

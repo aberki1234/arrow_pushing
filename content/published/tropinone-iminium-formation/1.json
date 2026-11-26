@@ -1,0 +1,902 @@
+{
+  "steps": [
+    {
+      "stepKey": "amine-addition",
+      "stepKind": "polar",
+      "toStateId": "zwitterion",
+      "fromStateId": "reactants",
+      "canonicalArrows": [
+        "lp N7 -> σ N7-C2",
+        "π C2-O1 -> lp O1"
+      ],
+      "routePreference": "preferred",
+      "explanationAfterStep": "Methylamine adds to one aldehyde. Succinaldehyde is symmetrical, so it does not matter which."
+    },
+    {
+      "stepKey": "oxygen-protonation",
+      "stepKind": "polar",
+      "toStateId": "protonated-adduct",
+      "fromStateId": "zwitterion",
+      "canonicalArrows": [
+        "lp O1 -> σ O1-H12",
+        "σ O11-H12 -> lp O11"
+      ],
+      "routePreference": "preferred",
+      "explanationAfterStep": "H₃O⁺ protonates the alkoxide."
+    },
+    {
+      "stepKey": "nitrogen-deprotonation",
+      "stepKind": "polar",
+      "toStateId": "hemiaminal",
+      "fromStateId": "protonated-adduct",
+      "canonicalArrows": [
+        "lp O11 -> σ O11-H9",
+        "σ N7-H9 -> lp N7"
+      ],
+      "routePreference": "preferred",
+      "explanationAfterStep": "Water removes a proton from nitrogen: the neutral hemiaminal. Its nitrogen is now a secondary amine with a lone pair."
+    },
+    {
+      "stepKey": "ring-closure",
+      "stepKind": "polar",
+      "toStateId": "cyclic-zwitterion",
+      "fromStateId": "hemiaminal",
+      "canonicalArrows": [
+        "lp N7 -> σ N7-C5",
+        "π C5-O6 -> lp O6"
+      ],
+      "routePreference": "preferred",
+      "explanationAfterStep": "A five-membered ring closes fast: the nitrogen adds to the second aldehyde inside the same molecule. Using a 1,4-dialdehyde is what builds the pyrrolidine ring of tropinone."
+    },
+    {
+      "stepKey": "second-oxygen-protonation",
+      "stepKind": "polar",
+      "toStateId": "protonated-cyclic-adduct",
+      "fromStateId": "cyclic-zwitterion",
+      "canonicalArrows": [
+        "lp O6 -> σ O6-H9",
+        "σ O11-H9 -> lp O11"
+      ],
+      "routePreference": "preferred",
+      "explanationAfterStep": "H₃O⁺ protonates the second alkoxide."
+    },
+    {
+      "stepKey": "second-nitrogen-deprotonation",
+      "stepKind": "polar",
+      "toStateId": "diol",
+      "fromStateId": "protonated-cyclic-adduct",
+      "canonicalArrows": [
+        "lp O11 -> σ O11-H10",
+        "σ N7-H10 -> lp N7"
+      ],
+      "routePreference": "preferred",
+      "explanationAfterStep": "Water takes the last N–H proton. The 2,5-dihydroxypyrrolidine has a tertiary nitrogen with a free lone pair."
+    },
+    {
+      "stepKey": "hydroxyl-protonation",
+      "stepKind": "polar",
+      "toStateId": "protonated-diol",
+      "fromStateId": "diol",
+      "canonicalArrows": [
+        "lp O1 -> σ O1-H10",
+        "σ O11-H10 -> lp O11"
+      ],
+      "routePreference": "preferred",
+      "explanationAfterStep": "Protonated, the OH can leave as water. The two OH groups are equivalent: either will do."
+    },
+    {
+      "stepKey": "loss-of-water",
+      "stepKind": "polar",
+      "toStateId": "iminium",
+      "fromStateId": "protonated-diol",
+      "canonicalArrows": [
+        "lp N7 -> π N7-C2",
+        "σ C2-O1 -> lp O1"
+      ],
+      "routePreference": "preferred",
+      "explanationAfterStep": "The nitrogen lone pair pushes out water, giving a cyclic iminium ion. A tertiary nitrogen has no N–H to lose, so the iminium ion stays: it is the electrophile for the first Mannich reaction. The other OH is still there and will become the second iminium ion later."
+    }
+  ],
+  "title": "Tropinone: the first iminium ion",
+  "authors": [
+    {
+      "url": null,
+      "name": "Maksim"
+    }
+  ],
+  "licence": "CC-BY-SA-4.0",
+  "subtitle": "Methylamine and succinaldehyde close a pyrrolidine ring and make a cyclic iminium ion",
+  "references": [
+    "Clayden, Greeves and Warren, Organic Chemistry, 2nd edition (Oxford University Press), chapter 26 (the Mannich reaction and Robinson's tropinone synthesis)",
+    "R. Robinson, A synthesis of tropinone, J. Chem. Soc., Trans., 1917, 111, 762–768"
+  ],
+  "reactionSlug": "tropinone-iminium-formation",
+  "startStateId": "reactants",
+  "formatVersion": 1,
+  "difficultyTier": 3,
+  "stateIdToState": {
+    "diol": {
+      "caption": "1-methylpyrrolidine-2,5-diol + H₃O⁺",
+      "hintTiers": [
+        "To make the iminium ion, one OH must leave. Is hydroxide a good leaving group?",
+        "Either OH (they are equivalent) takes a proton from H₃O⁺. Two arrows.",
+        "OH oxygen lone pair → new O–H bond to the proton of H₃O⁺; that O–H bond → a lone pair on water's oxygen."
+      ],
+      "mappedSmiles": "[H:12][O:1][CH:2]1[CH2:3][CH2:4][CH:5]([O:6][H:9])[N:7]1[CH3:8].[H:10][OH2+:11].[Cl-:13]",
+      "learnerPrompt": "Protonate one of the two OH groups.",
+      "misconceptions": [
+        {
+          "severity": "plausible",
+          "arrowPattern": "lp N7 -> H10",
+          "feedbackMessage": "Protonating the nitrogen gives back an ammonium ion, which cannot push anything out. Protonate an OH so it can leave as water.",
+          "misconceptionId": "protonate-ring-nitrogen",
+          "misconceptionTag": "unproductive-protonation"
+        },
+        {
+          "severity": "wrong",
+          "arrowPattern": "σ C*-O* -> lp O*",
+          "feedbackMessage": "Hydroxide is a poor leaving group. Protonate the OH first, so that neutral water leaves.",
+          "misconceptionId": "hydroxide-leaves-unprotonated",
+          "misconceptionTag": "poor-leaving-group"
+        }
+      ],
+      "mapNumberToCoordinates": {
+        "1": [
+          2.78,
+          0
+        ],
+        "2": [
+          1.28,
+          0
+        ],
+        "3": [
+          0.39,
+          1.21
+        ],
+        "4": [
+          -1.03,
+          0.75
+        ],
+        "5": [
+          -1.03,
+          -0.75
+        ],
+        "6": [
+          -2.25,
+          -1.63
+        ],
+        "7": [
+          0.39,
+          -1.21
+        ],
+        "8": [
+          0.86,
+          -2.64
+        ],
+        "9": [
+          -3.62,
+          -1.02
+        ],
+        "10": [
+          1.51,
+          4.25
+        ],
+        "11": [
+          0.21,
+          3.5
+        ],
+        "12": [
+          3.53,
+          -1.3
+        ],
+        "13": [
+          -1.93,
+          4.33
+        ]
+      },
+      "partialProgressMessages": [
+        {
+          "learnerArrows": [
+            "lp O1 -> σ O1-H10"
+          ],
+          "feedbackMessage": "Good: the OH takes a proton. Where does the O–H bonding pair of H₃O⁺ go?"
+        }
+      ]
+    },
+    "iminium": {
+      "caption": "the cyclic iminium ion (a 1-methylpyrrolinium ion carrying an OH) + water",
+      "mappedSmiles": "[CH:2]1=[N+:7]([CH3:8])[CH:5]([O:6][H:9])[CH2:4][CH2:3]1.[H:12][O:1][H:10].[OH2:11].[Cl-:13]",
+      "mapNumberToCoordinates": {
+        "1": [
+          0.08,
+          4.79
+        ],
+        "2": [
+          1.28,
+          0
+        ],
+        "3": [
+          0.39,
+          -1.21
+        ],
+        "4": [
+          -1.03,
+          -0.75
+        ],
+        "5": [
+          -1.03,
+          0.75
+        ],
+        "6": [
+          -2.25,
+          1.63
+        ],
+        "7": [
+          0.39,
+          1.21
+        ],
+        "8": [
+          0.86,
+          2.64
+        ],
+        "9": [
+          -2.09,
+          3.12
+        ],
+        "10": [
+          1.38,
+          5.54
+        ],
+        "11": [
+          3.51,
+          -0.42
+        ],
+        "12": [
+          -1.22,
+          5.54
+        ],
+        "13": [
+          3.9,
+          1.85
+        ]
+      }
+    },
+    "reactants": {
+      "caption": "succinaldehyde + methylamine + H₃O⁺",
+      "hintTiers": [
+        "Amines are good nucleophiles, and aldehydes are good electrophiles. Which atom of an aldehyde is electron-poor?",
+        "The nitrogen lone pair forms a new N–C bond to one carbonyl carbon, and that C=O π pair moves onto oxygen. Two arrows.",
+        "Nitrogen lone pair → new N–C bond to a carbonyl carbon; that C=O π bond → a lone pair on its oxygen."
+      ],
+      "mappedSmiles": "[O:1]=[CH:2][CH2:3][CH2:4][CH:5]=[O:6].[CH3:8][N:7]([H:9])[H:10].[H:12][OH2+:11].[Cl-:13]",
+      "learnerPrompt": "Methylamine attacks one of the two aldehydes.",
+      "misconceptions": [
+        {
+          "severity": "plausible",
+          "arrowPattern": "lp N7 -> H12",
+          "feedbackMessage": "Near pH 7 much of the methylamine is indeed protonated, but a methylammonium ion has no lone pair: it is not a nucleophile. Draw the free amine attacking an aldehyde.",
+          "misconceptionId": "amine-protonated",
+          "misconceptionTag": "unproductive-protonation"
+        },
+        {
+          "severity": "wrong",
+          "arrowPattern": "lp N7 -> O*",
+          "feedbackMessage": "The carbonyl oxygen is electron-rich. The amine attacks the electron-poor carbonyl carbon.",
+          "misconceptionId": "amine-attacks-oxygen",
+          "misconceptionTag": "attack-electron-rich-atom"
+        }
+      ],
+      "mapNumberToCoordinates": {
+        "1": [
+          -1.3,
+          4
+        ],
+        "2": [
+          0,
+          3.25
+        ],
+        "3": [
+          1.3,
+          4
+        ],
+        "4": [
+          2.6,
+          3.25
+        ],
+        "5": [
+          3.9,
+          4
+        ],
+        "6": [
+          5.2,
+          3.25
+        ],
+        "7": [
+          1.07,
+          -0.26
+        ],
+        "8": [
+          -0.23,
+          -1.01
+        ],
+        "9": [
+          2.37,
+          -1.01
+        ],
+        "10": [
+          1.07,
+          1.24
+        ],
+        "11": [
+          4.58,
+          0.09
+        ],
+        "12": [
+          5.88,
+          0.84
+        ],
+        "13": [
+          -1.75,
+          6.24
+        ]
+      },
+      "partialProgressMessages": [
+        {
+          "learnerArrows": [
+            "lp N7 -> σ N7-C2"
+          ],
+          "feedbackMessage": "Right: nitrogen attacks the carbonyl carbon. That carbon now has five bonds: move the C=O π pair."
+        }
+      ]
+    },
+    "hemiaminal": {
+      "caption": "hemiaminal + H₃O⁺",
+      "hintTiers": [
+        "The molecule still has a free aldehyde, and its nitrogen still has a lone pair. How far apart are they?",
+        "Count round: nitrogen and the second carbonyl carbon would close a five-membered ring. The nitrogen lone pair forms the new N–C bond and the C=O π pair moves onto oxygen. Two arrows.",
+        "Nitrogen lone pair → new N–C bond to the carbon of the second aldehyde; that C=O π bond → a lone pair on its oxygen."
+      ],
+      "mappedSmiles": "[H:12][O:1][CH:2]([CH2:3][CH2:4][CH:5]=[O:6])[N:7]([CH3:8])[H:10].[H:9][OH2+:11].[Cl-:13]",
+      "learnerPrompt": "The nitrogen, now a secondary amine, closes a five-membered ring onto the second aldehyde.",
+      "misconceptions": [
+        {
+          "severity": "plausible",
+          "arrowPattern": "lp O1 -> σ O1-H9",
+          "feedbackMessage": "Protonating the OH and losing water would give an open-chain iminium ion; that route can also reach the ring later. Here the nitrogen still has its lone pair and the second aldehyde is in reach: close the ring first.",
+          "misconceptionId": "open-chain-iminium",
+          "misconceptionTag": "other-route"
+        },
+        {
+          "severity": "plausible",
+          "arrowPattern": "lp O1 -> σ O1-C5",
+          "feedbackMessage": "The OH could add to the aldehyde and give a cyclic hemiacetal, reversibly. Nitrogen is the better nucleophile, and only the nitrogen ring leads on to the iminium ion.",
+          "misconceptionId": "oxygen-closes-ring",
+          "misconceptionTag": "wrong-nucleophile"
+        }
+      ],
+      "mapNumberToCoordinates": {
+        "1": [
+          2.243,
+          0.607
+        ],
+        "2": [
+          0.744,
+          0.651
+        ],
+        "3": [
+          -0.102,
+          1.889
+        ],
+        "4": [
+          -1.542,
+          1.467
+        ],
+        "5": [
+          -1.585,
+          -0.032
+        ],
+        "6": [
+          -2.824,
+          -0.879
+        ],
+        "7": [
+          -0.172,
+          -0.537
+        ],
+        "8": [
+          1.104,
+          -1.324
+        ],
+        "9": [
+          7.055,
+          0
+        ],
+        "10": [
+          -0.822,
+          -1.889
+        ],
+        "11": [
+          5.555,
+          0
+        ],
+        "12": [
+          2.955,
+          -0.713
+        ],
+        "13": [
+          9.655,
+          0
+        ]
+      },
+      "partialProgressMessages": [
+        {
+          "learnerArrows": [
+            "lp N7 -> σ N7-C5"
+          ],
+          "feedbackMessage": "Right: the nitrogen closes the ring. Now move the C=O π pair of that aldehyde onto oxygen."
+        }
+      ]
+    },
+    "zwitterion": {
+      "caption": "zwitterionic adduct + H₃O⁺",
+      "hintTiers": [
+        "The adduct carries O⁻ and N⁺. Which species can give the oxygen a proton?",
+        "The oxygen lone pair takes a proton from H₃O⁺. Two arrows.",
+        "Alkoxide lone pair → new O–H bond to the proton of H₃O⁺; that O–H bond → a lone pair on water's oxygen."
+      ],
+      "mappedSmiles": "[O-:1][CH:2]([CH2:3][CH2:4][CH:5]=[O:6])[N+:7]([CH3:8])([H:9])[H:10].[H:12][OH2+:11].[Cl-:13]",
+      "learnerPrompt": "Protonate the alkoxide.",
+      "misconceptions": [
+        {
+          "severity": "plausible",
+          "arrowPattern": "lp O1 -> H9",
+          "feedbackMessage": "Protons move through the water, not straight across the molecule. Take one from H₃O⁺.",
+          "misconceptionId": "direct-proton-shift",
+          "misconceptionTag": "intramolecular-proton-shift"
+        },
+        {
+          "severity": "plausible",
+          "arrowPattern": "σ C2-N7 -> lp N7",
+          "feedbackMessage": "Losing the amine just reverses the addition. Protonate the alkoxide instead.",
+          "misconceptionId": "amine-leaves-again",
+          "misconceptionTag": "reverse-step"
+        }
+      ],
+      "mapNumberToCoordinates": {
+        "1": [
+          3.9,
+          0.75
+        ],
+        "2": [
+          2.6,
+          1.5
+        ],
+        "3": [
+          2.6,
+          3
+        ],
+        "4": [
+          3.9,
+          3.75
+        ],
+        "5": [
+          3.9,
+          5.25
+        ],
+        "6": [
+          5.2,
+          6
+        ],
+        "7": [
+          1.3,
+          0.75
+        ],
+        "8": [
+          0,
+          0
+        ],
+        "9": [
+          2.05,
+          -0.55
+        ],
+        "10": [
+          0.55,
+          2.05
+        ],
+        "11": [
+          6.2,
+          0
+        ],
+        "12": [
+          7.5,
+          0.75
+        ],
+        "13": [
+          0,
+          7
+        ]
+      },
+      "partialProgressMessages": [
+        {
+          "learnerArrows": [
+            "lp O1 -> σ O1-H12"
+          ],
+          "feedbackMessage": "Good: the oxygen takes the proton. Where does that O–H bonding pair of H₃O⁺ go?"
+        }
+      ]
+    },
+    "protonated-diol": {
+      "caption": "diol protonated on one oxygen + water",
+      "hintTiers": [
+        "Water is now a good leaving group. Which lone pair next door can push it out?",
+        "The nitrogen lone pair forms a C=N π bond as the C–O bond breaks. Two arrows.",
+        "Nitrogen lone pair → new C=N π bond to the carbon carrying the protonated OH; that C–O bond → a lone pair on the leaving oxygen."
+      ],
+      "mappedSmiles": "[H:12][O+:1]([H:10])[CH:2]1[CH2:3][CH2:4][CH:5]([O:6][H:9])[N:7]1[CH3:8].[OH2:11].[Cl-:13]",
+      "learnerPrompt": "Water leaves, pushed out by the nitrogen lone pair.",
+      "misconceptions": [
+        {
+          "severity": "plausible",
+          "arrowPattern": "σ C2-N7 -> lp N7",
+          "feedbackMessage": "Breaking the ring N–C bond would open the ring again. Water is the leaving group, pushed out by the nitrogen lone pair.",
+          "misconceptionId": "ring-opens-to-oxonium",
+          "misconceptionTag": "wrong-group-leaves"
+        },
+        {
+          "severity": "plausible",
+          "arrowPattern": "lp O11 -> H10",
+          "feedbackMessage": "Taking the proton off again just reverses the last step. Let water leave.",
+          "misconceptionId": "water-takes-proton-back",
+          "misconceptionTag": "reverse-step"
+        }
+      ],
+      "mapNumberToCoordinates": {
+        "1": [
+          2.78,
+          0
+        ],
+        "2": [
+          1.28,
+          0
+        ],
+        "3": [
+          0.39,
+          1.21
+        ],
+        "4": [
+          -1.03,
+          0.75
+        ],
+        "5": [
+          -1.03,
+          -0.75
+        ],
+        "6": [
+          -2.25,
+          -1.63
+        ],
+        "7": [
+          0.39,
+          -1.21
+        ],
+        "8": [
+          0.86,
+          -2.64
+        ],
+        "9": [
+          -3.62,
+          -1.02
+        ],
+        "10": [
+          3.53,
+          -1.3
+        ],
+        "11": [
+          -0.18,
+          3.43
+        ],
+        "12": [
+          3.53,
+          1.3
+        ],
+        "13": [
+          2.03,
+          4.06
+        ]
+      },
+      "partialProgressMessages": [
+        {
+          "learnerArrows": [
+            "lp N7 -> π N7-C2"
+          ],
+          "feedbackMessage": "Right: the nitrogen lone pair pushes in. That carbon now has five bonds: let water go."
+        }
+      ]
+    },
+    "cyclic-zwitterion": {
+      "caption": "pyrrolidinium alkoxide + H₃O⁺",
+      "hintTiers": [
+        "The ring now carries O⁻ and N⁺, just as after the first addition. Which species gives a proton?",
+        "The alkoxide lone pair takes a proton from H₃O⁺. Two arrows.",
+        "Alkoxide lone pair → new O–H bond to the proton of H₃O⁺; that O–H bond → a lone pair on water's oxygen."
+      ],
+      "mappedSmiles": "[H:12][O:1][CH:2]1[CH2:3][CH2:4][CH:5]([O-:6])[N+:7]1([CH3:8])[H:10].[H:9][OH2+:11].[Cl-:13]",
+      "learnerPrompt": "Protonate the new alkoxide.",
+      "misconceptions": [
+        {
+          "severity": "plausible",
+          "arrowPattern": "σ C5-N7 -> lp N7",
+          "feedbackMessage": "Breaking the new N–C bond just opens the ring again. Protonate the alkoxide.",
+          "misconceptionId": "ring-opens-again",
+          "misconceptionTag": "reverse-step"
+        },
+        {
+          "severity": "plausible",
+          "arrowPattern": "lp O6 -> H10",
+          "feedbackMessage": "Protons move through the water, not across the ring. Take one from H₃O⁺.",
+          "misconceptionId": "direct-proton-shift-in-ring",
+          "misconceptionTag": "intramolecular-proton-shift"
+        }
+      ],
+      "mapNumberToCoordinates": {
+        "1": [
+          2.78,
+          0
+        ],
+        "2": [
+          1.28,
+          0
+        ],
+        "3": [
+          0.39,
+          1.21
+        ],
+        "4": [
+          -1.03,
+          0.75
+        ],
+        "5": [
+          -1.03,
+          -0.75
+        ],
+        "6": [
+          -2.25,
+          -1.63
+        ],
+        "7": [
+          0.39,
+          -1.21
+        ],
+        "8": [
+          -0.22,
+          -2.58
+        ],
+        "9": [
+          1.33,
+          4.19
+        ],
+        "10": [
+          1.69,
+          -1.96
+        ],
+        "11": [
+          0.04,
+          3.44
+        ],
+        "12": [
+          3.53,
+          -1.3
+        ],
+        "13": [
+          -2.04,
+          4.41
+        ]
+      },
+      "partialProgressMessages": [
+        {
+          "learnerArrows": [
+            "lp O6 -> σ O6-H9"
+          ],
+          "feedbackMessage": "Good. Where does the O–H bonding pair of H₃O⁺ go?"
+        }
+      ]
+    },
+    "protonated-adduct": {
+      "caption": "adduct protonated on oxygen + water",
+      "hintTiers": [
+        "Which atom carries the positive charge and an acidic proton?",
+        "Water takes a proton from nitrogen, and the N–H pair stays on nitrogen as a lone pair. Two arrows.",
+        "Water lone pair → new O–H bond to a proton on nitrogen; that N–H bond → a lone pair on nitrogen."
+      ],
+      "mappedSmiles": "[H:12][O:1][CH:2]([CH2:3][CH2:4][CH:5]=[O:6])[N+:7]([CH3:8])([H:9])[H:10].[OH2:11].[Cl-:13]",
+      "learnerPrompt": "Water takes a proton from the positive nitrogen.",
+      "misconceptions": [
+        {
+          "severity": "wrong",
+          "arrowPattern": "lp O11 -> H12",
+          "feedbackMessage": "That OH is neutral; taking its proton just undoes the last step. The acidic protons are on the positive nitrogen.",
+          "misconceptionId": "water-takes-oh-proton",
+          "misconceptionTag": "reverse-step"
+        },
+        {
+          "severity": "wrong",
+          "arrowPattern": "σ C2-O1 -> lp O1",
+          "feedbackMessage": "Hydroxide is a poor leaving group, and the nitrogen has no lone pair to push it out yet.",
+          "misconceptionId": "hydroxide-leaves",
+          "misconceptionTag": "poor-leaving-group"
+        }
+      ],
+      "mapNumberToCoordinates": {
+        "1": [
+          3.9,
+          0.75
+        ],
+        "2": [
+          2.6,
+          1.5
+        ],
+        "3": [
+          2.6,
+          3
+        ],
+        "4": [
+          3.9,
+          3.75
+        ],
+        "5": [
+          3.9,
+          5.25
+        ],
+        "6": [
+          5.2,
+          6
+        ],
+        "7": [
+          1.3,
+          0.75
+        ],
+        "8": [
+          0,
+          0
+        ],
+        "9": [
+          2.05,
+          -0.55
+        ],
+        "10": [
+          0.55,
+          2.05
+        ],
+        "11": [
+          6.61,
+          -0.27
+        ],
+        "12": [
+          5.2,
+          1.5
+        ],
+        "13": [
+          8.7,
+          0.7
+        ]
+      },
+      "partialProgressMessages": [
+        {
+          "learnerArrows": [
+            "lp O11 -> σ O11-H9"
+          ],
+          "feedbackMessage": "Good: water takes an N–H proton. Where does the N–H bonding pair go?"
+        }
+      ]
+    },
+    "protonated-cyclic-adduct": {
+      "caption": "pyrrolidinium diol + water",
+      "hintTiers": [
+        "One acidic proton is left, on the positive nitrogen.",
+        "Water takes the N–H proton and the bonding pair stays on nitrogen. Two arrows.",
+        "Water lone pair → new O–H bond to the proton on nitrogen; that N–H bond → a lone pair on nitrogen."
+      ],
+      "mappedSmiles": "[H:12][O:1][CH:2]1[CH2:3][CH2:4][CH:5]([O:6][H:9])[N+:7]1([CH3:8])[H:10].[OH2:11].[Cl-:13]",
+      "learnerPrompt": "Water takes the proton from the positive nitrogen.",
+      "misconceptions": [
+        {
+          "severity": "wrong",
+          "arrowPattern": "lp O11 -> H9",
+          "feedbackMessage": "That OH is neutral; taking its proton undoes the last step. Take the proton from nitrogen.",
+          "misconceptionId": "water-takes-new-oh-proton",
+          "misconceptionTag": "reverse-step"
+        },
+        {
+          "severity": "wrong",
+          "arrowPattern": "σ C*-O* -> lp O*",
+          "feedbackMessage": "Hydroxide is a poor leaving group, and the nitrogen has no lone pair yet to push it out.",
+          "misconceptionId": "hydroxide-leaves-ring",
+          "misconceptionTag": "poor-leaving-group"
+        }
+      ],
+      "mapNumberToCoordinates": {
+        "1": [
+          2.78,
+          0
+        ],
+        "2": [
+          1.28,
+          0
+        ],
+        "3": [
+          0.39,
+          1.21
+        ],
+        "4": [
+          -1.03,
+          0.75
+        ],
+        "5": [
+          -1.03,
+          -0.75
+        ],
+        "6": [
+          -2.25,
+          -1.63
+        ],
+        "7": [
+          0.39,
+          -1.21
+        ],
+        "8": [
+          -0.22,
+          -2.58
+        ],
+        "9": [
+          -3.62,
+          -1.02
+        ],
+        "10": [
+          1.69,
+          -1.96
+        ],
+        "11": [
+          -0.07,
+          3.44
+        ],
+        "12": [
+          3.53,
+          -1.3
+        ],
+        "13": [
+          1.87,
+          4.67
+        ]
+      },
+      "partialProgressMessages": [
+        {
+          "learnerArrows": [
+            "lp O11 -> σ O11-H10"
+          ],
+          "feedbackMessage": "Good: water takes the N–H proton. Where does the N–H bonding pair go?"
+        }
+      ]
+    }
+  },
+  "conditionsLabel": "MeNH₂ · H₂O, pH ≈ 5–7 · rt",
+  "reactionClasses": [
+    "carbonyl",
+    "addition"
+  ],
+  "reactionVersion": 1,
+  "mechanismSummary": "Methylamine adds to one aldehyde of succinaldehyde; proton transfers through H₃O⁺ and water give a hemiaminal. Its nitrogen then adds to the second aldehyde, closing a five-membered ring, and two more proton transfers give 1-methylpyrrolidine-2,5-diol. Protonating one OH lets the nitrogen lone pair push out water: the cyclic iminium ion, ready for the first Mannich reaction. All these steps are reversible; Robinson ran the reaction in water at room temperature, and Schöpf later showed that buffering near pH 7 gives the best yields.",
+  "dailyPuzzleEligible": true,
+  "spectatorMapNumbers": [
+    13
+  ],
+  "atomRoleToMapNumbers": {
+    "nucleophile": [
+      7
+    ],
+    "electrophilicCarbon": [
+      2,
+      5
+    ]
+  },
+  "previousReactionVersion": null
+}

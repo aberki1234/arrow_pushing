@@ -1,0 +1,1715 @@
+{
+  "steps": [
+    {
+      "stepKey": "amine-addition",
+      "stepKind": "polar",
+      "toStateId": "zwitterion",
+      "fromStateId": "reactants",
+      "canonicalArrows": [
+        "lp N10 -> σ N10-C2",
+        "π C2-O3 -> σ O3-H15",
+        "σ O14-H15 -> lp O14"
+      ],
+      "routePreference": "preferred",
+      "explanationAfterStep": "Proline is bifunctional: a secondary amine to make the enamine and a carboxylic acid to move protons. Acetone is used in large excess (20 % of the solvent), so most proline sits on acetone, not on the aldehyde."
+    },
+    {
+      "stepKey": "nitrogen-deprotonation",
+      "stepKind": "polar",
+      "toStateId": "carbinolamine",
+      "fromStateId": "zwitterion",
+      "canonicalArrows": [
+        "lp O14 -> σ O14-H20",
+        "σ N10-H20 -> lp N10"
+      ],
+      "routePreference": "preferred",
+      "explanationAfterStep": "The carboxylate takes the N–H proton back: the acid is ready to act again and the nitrogen has its lone pair."
+    },
+    {
+      "stepKey": "acid-assisted-loss-of-water",
+      "stepKind": "polar",
+      "toStateId": "iminium",
+      "fromStateId": "carbinolamine",
+      "canonicalArrows": [
+        "lp O3 -> σ O3-H20",
+        "σ O14-H20 -> lp O14",
+        "lp N10 -> π N10-C2",
+        "σ C2-O3 -> lp O3"
+      ],
+      "routePreference": "preferred",
+      "explanationAfterStep": "General acid catalysis: the CO₂H protonates the OH just as the nitrogen pushes water out, so no strong acid is needed. Protonating first and then losing water is also accepted."
+    },
+    {
+      "stepKey": "hydroxyl-protonation",
+      "stepKind": "polar",
+      "toStateId": "protonated-carbinolamine",
+      "fromStateId": "carbinolamine",
+      "canonicalArrows": [
+        "lp O3 -> σ O3-H20",
+        "σ O14-H20 -> lp O14"
+      ],
+      "routePreference": "accepted",
+      "explanationAfterStep": "The OH becomes OH₂⁺, and water is a good leaving group."
+    },
+    {
+      "stepKey": "loss-of-water",
+      "stepKind": "polar",
+      "toStateId": "iminium",
+      "fromStateId": "protonated-carbinolamine",
+      "canonicalArrows": [
+        "lp N10 -> π N10-C2",
+        "σ C2-O3 -> lp O3"
+      ],
+      "routePreference": "accepted",
+      "explanationAfterStep": "The nitrogen lone pair pushes water out, giving the iminium ion with its own carboxylate as counter-ion."
+    },
+    {
+      "stepKey": "enamine-formation",
+      "stepKind": "polar",
+      "toStateId": "enamine",
+      "fromStateId": "iminium",
+      "canonicalArrows": [
+        "lp O14 -> σ O14-H5",
+        "σ C4-H5 -> π C2-C4",
+        "π C2-N10 -> lp N10"
+      ],
+      "routePreference": "preferred",
+      "explanationAfterStep": "The enamine is the nucleophile of enamine catalysis: its HOMO is raised by the nitrogen lone pair, much as in an enol, but it is neutral and forms at room temperature. The CO₂H is back, ready to deliver a proton."
+    },
+    {
+      "stepKey": "aldol-addition",
+      "stepKind": "polar",
+      "toStateId": "aldol-iminium",
+      "fromStateId": "enamine",
+      "canonicalArrows": [
+        "lp N10 -> π N10-C2",
+        "π C2-C4 -> σ C4-C30",
+        "π C30-O31 -> σ O31-H5",
+        "σ O14-H5 -> lp O14"
+      ],
+      "routePreference": "preferred",
+      "explanationAfterStep": "The step that decides the enantiomer. In the Houk–List transition state the enamine is anti to the carboxylic acid, the CO₂H hydrogen-bonds to the aldehyde oxygen and delivers its proton as the C–C bond forms, and the aryl group sits pseudo-equatorial in a chair-like (Zimmerman–Traxler-like) arrangement. One face of the aldehyde is attacked: the (R)-aldol forms in 76 % ee. The app does not check stereochemistry yet, so the drawings carry no wedges and either face is accepted."
+    },
+    {
+      "stepKey": "general-base-water-addition",
+      "stepKind": "polar",
+      "toStateId": "carbinolamine-2",
+      "fromStateId": "aldol-iminium",
+      "canonicalArrows": [
+        "lp O14 -> σ O14-H15",
+        "σ O3-H15 -> lp O3",
+        "lp O3 -> σ O3-C2",
+        "π C2-N10 -> lp N10"
+      ],
+      "routePreference": "preferred",
+      "explanationAfterStep": "General base catalysis: the carboxylate takes a proton from water as water adds, so no OH₂⁺ builds up. Adding water first and then moving the proton is also accepted."
+    },
+    {
+      "stepKey": "water-addition",
+      "stepKind": "polar",
+      "toStateId": "water-adduct",
+      "fromStateId": "aldol-iminium",
+      "canonicalArrows": [
+        "lp O3 -> σ O3-C2",
+        "π C2-N10 -> lp N10"
+      ],
+      "routePreference": "accepted",
+      "explanationAfterStep": "Water adds to the C=N⁺ carbon."
+    },
+    {
+      "stepKey": "proton-to-carboxylate",
+      "stepKind": "polar",
+      "toStateId": "carbinolamine-2",
+      "fromStateId": "water-adduct",
+      "canonicalArrows": [
+        "lp O14 -> σ O14-H15",
+        "σ O3-H15 -> lp O3"
+      ],
+      "routePreference": "accepted",
+      "explanationAfterStep": "The carboxylate takes a proton off the new OH₂⁺ group."
+    },
+    {
+      "stepKey": "nitrogen-protonation",
+      "stepKind": "polar",
+      "toStateId": "ammonium",
+      "fromStateId": "carbinolamine-2",
+      "canonicalArrows": [
+        "lp N10 -> σ N10-H15",
+        "σ O14-H15 -> lp O14"
+      ],
+      "routePreference": "preferred",
+      "explanationAfterStep": "The proton moves on to nitrogen, turning proline into a leaving group."
+    },
+    {
+      "stepKey": "proline-release",
+      "stepKind": "polar",
+      "toStateId": "products",
+      "fromStateId": "ammonium",
+      "canonicalArrows": [
+        "lp O14 -> σ O14-H20",
+        "σ O3-H20 -> π C2-O3",
+        "σ C2-N10 -> lp N10"
+      ],
+      "routePreference": "preferred",
+      "explanationAfterStep": "The ketone re-forms and proline leaves with its acid restored: the catalyst turns over. 30 mol % proline was used, and 4-nitrobenzaldehyde gave the aldol in 68 % yield."
+    }
+  ],
+  "title": "Proline-catalysed aldol reaction",
+  "authors": [
+    {
+      "url": null,
+      "name": "Maksim"
+    }
+  ],
+  "licence": "CC-BY-SA-4.0",
+  "subtitle": "Proline turns acetone into an enamine and delivers a proton to the aldehyde",
+  "references": [
+    "List, Lerner and Barbas, Journal of the American Chemical Society 2000, 122, 2395",
+    "Bahmanyar, Houk, Martin and List, Journal of the American Chemical Society 2003, 125, 2475 (the transition state)",
+    "Clayden, Greeves and Warren, Organic Chemistry, 2nd edition (Oxford University Press), chapter 41 (asymmetric synthesis: organocatalysis)",
+    "Clayden, Greeves and Warren, Organic Chemistry, 2nd edition (Oxford University Press), chapter 26 (enamines)"
+  ],
+  "reactionSlug": "proline-catalysed-aldol",
+  "startStateId": "reactants",
+  "formatVersion": 1,
+  "difficultyTier": 3,
+  "stateIdToState": {
+    "enamine": {
+      "caption": "the proline enamine of acetone + water + 4-nitrobenzaldehyde",
+      "hintTiers": [
+        "The enamine CH₂ carbon is the nucleophile, the aldehyde carbon is the electrophile, and the CO₂H is held next to the aldehyde oxygen.",
+        "The nitrogen lone pair forms C=N⁺, the C=C pair makes the new C–C bond to the aldehyde carbon, the C=O π pair takes the acid hydrogen, and the acid O–H pair stays on its oxygen. Four arrows.",
+        "Nitrogen lone pair → π bond to its carbon; enamine C=C π bond → new bond to the aldehyde carbon; aldehyde C=O π bond → new bond from its oxygen to the acid hydrogen; the acid O–H bond → a lone pair on its oxygen."
+      ],
+      "mappedSmiles": "[CH3:1][C:2](=[CH2:4])[N:10]1[CH:11]([C:12](=[O:13])[O:14][H:5])[CH2:16][CH2:17][CH2:18]1.[H:15][O:3][H:20].[O:31]=[CH:30][C:32]2=[CH:33][CH:34]=[C:35]([N+:36](=[O:37])[O-:38])[CH:39]=[CH:40]2",
+      "learnerPrompt": "The C–C bond: the enamine attacks the aldehyde while the acid delivers its proton.",
+      "misconceptions": [
+        {
+          "severity": "wrong",
+          "arrowPattern": "lp N10 -> C30",
+          "feedbackMessage": "Nitrogen is the electron donor, but the bond forms from the enamine carbon. Push the nitrogen lone pair towards the C=C.",
+          "misconceptionId": "nitrogen-attacks",
+          "misconceptionTag": "enamine-wrong-end"
+        },
+        {
+          "severity": "plausible",
+          "arrowPattern": "π C2-C4 -> σ C4-H5",
+          "feedbackMessage": "Protonating the enamine carbon just gives back the iminium ion. Use the enamine carbon as the nucleophile.",
+          "misconceptionId": "enamine-protonated",
+          "misconceptionTag": "unproductive-protonation"
+        },
+        {
+          "severity": "wrong",
+          "arrowPattern": "* -> σ C4-O3",
+          "feedbackMessage": "Water is not an electrophile. The enamine attacks the aldehyde carbon.",
+          "misconceptionId": "water-attacked",
+          "misconceptionTag": "wrong-electrophile"
+        }
+      ],
+      "mapNumberToCoordinates": {
+        "1": [
+          3.53,
+          -1.3
+        ],
+        "2": [
+          2.78,
+          0
+        ],
+        "3": [
+          -0.25,
+          7.41
+        ],
+        "4": [
+          3.53,
+          1.3
+        ],
+        "5": [
+          0.32,
+          5.18
+        ],
+        "10": [
+          1.28,
+          0
+        ],
+        "11": [
+          0.39,
+          1.21
+        ],
+        "12": [
+          0.86,
+          2.64
+        ],
+        "13": [
+          2.33,
+          2.95
+        ],
+        "14": [
+          -0.15,
+          3.75
+        ],
+        "15": [
+          1.05,
+          8.16
+        ],
+        "16": [
+          -1.03,
+          0.75
+        ],
+        "17": [
+          -1.03,
+          -0.75
+        ],
+        "18": [
+          0.39,
+          -1.21
+        ],
+        "20": [
+          -1.55,
+          8.16
+        ],
+        "30": [
+          12.55,
+          -0.25
+        ],
+        "31": [
+          13.3,
+          -1.55
+        ],
+        "32": [
+          11.05,
+          -0.25
+        ],
+        "33": [
+          10.3,
+          1.05
+        ],
+        "34": [
+          8.8,
+          1.05
+        ],
+        "35": [
+          8.05,
+          -0.25
+        ],
+        "36": [
+          6.55,
+          -0.25
+        ],
+        "37": [
+          5.8,
+          1.05
+        ],
+        "38": [
+          5.8,
+          -1.55
+        ],
+        "39": [
+          8.8,
+          -1.55
+        ],
+        "40": [
+          10.3,
+          -1.55
+        ]
+      },
+      "partialProgressMessages": [
+        {
+          "learnerArrows": [
+            "lp N10 -> π N10-C2",
+            "π C2-C4 -> σ C4-C30",
+            "π C30-O31 -> lp O31"
+          ],
+          "feedbackMessage": "Right C–C bond. In List's transition state the CO₂H gives its proton to that oxygen at the same time, so no alkoxide forms: add those two arrows."
+        }
+      ]
+    },
+    "iminium": {
+      "caption": "the iminium carboxylate + water",
+      "hintTiers": [
+        "An iminium ion loses a proton from its α-carbon to give an enamine, the nitrogen version of an enol.",
+        "The carboxylate takes the drawn hydrogen of the CH₂ group. That C–H pair forms a C=C bond, and the C=N π pair goes onto nitrogen. Three arrows.",
+        "Carboxylate lone pair → new bond to the drawn C–H hydrogen; that C–H bond → a π bond to the iminium carbon; the C=N π bond → a lone pair on nitrogen."
+      ],
+      "mappedSmiles": "[CH3:1][C:2](=[N+:10]1[CH:11]([C:12](=[O:13])[O-:14])[CH2:16][CH2:17][CH2:18]1)[CH2:4][H:5].[H:15][O:3][H:20].[O:31]=[CH:30][C:32]2=[CH:33][CH:34]=[C:35]([N+:36](=[O:37])[O-:38])[CH:39]=[CH:40]2",
+      "learnerPrompt": "Form the enamine.",
+      "misconceptions": [
+        {
+          "severity": "plausible",
+          "arrowPattern": "lp O3 -> C2",
+          "feedbackMessage": "Water adding back reverses the last step. Deprotonate the α-carbon to form the enamine.",
+          "misconceptionId": "water-adds-back",
+          "misconceptionTag": "reverse-step"
+        },
+        {
+          "severity": "wrong",
+          "arrowPattern": "* -> σ C2-C30",
+          "feedbackMessage": "Two electrophiles cannot bond to each other. The iminium ion must first become a nucleophilic enamine.",
+          "misconceptionId": "aldehyde-attacked-by-iminium",
+          "misconceptionTag": "wrong-electrophile-pair"
+        }
+      ],
+      "mapNumberToCoordinates": {
+        "1": [
+          3.53,
+          -1.3
+        ],
+        "2": [
+          2.78,
+          0
+        ],
+        "3": [
+          8.54,
+          -0.08
+        ],
+        "4": [
+          3.53,
+          1.3
+        ],
+        "5": [
+          5.03,
+          1.3
+        ],
+        "10": [
+          1.28,
+          0
+        ],
+        "11": [
+          0.39,
+          1.21
+        ],
+        "12": [
+          0.86,
+          2.64
+        ],
+        "13": [
+          2.33,
+          2.95
+        ],
+        "14": [
+          -0.15,
+          3.75
+        ],
+        "15": [
+          9.84,
+          0.67
+        ],
+        "16": [
+          -1.03,
+          0.75
+        ],
+        "17": [
+          -1.03,
+          -0.75
+        ],
+        "18": [
+          0.39,
+          -1.21
+        ],
+        "20": [
+          7.24,
+          0.67
+        ],
+        "30": [
+          2.55,
+          7.28
+        ],
+        "31": [
+          3.3,
+          5.98
+        ],
+        "32": [
+          1.05,
+          7.28
+        ],
+        "33": [
+          0.3,
+          8.58
+        ],
+        "34": [
+          -1.2,
+          8.58
+        ],
+        "35": [
+          -1.95,
+          7.28
+        ],
+        "36": [
+          -3.45,
+          7.28
+        ],
+        "37": [
+          -4.2,
+          8.58
+        ],
+        "38": [
+          -4.2,
+          5.98
+        ],
+        "39": [
+          -1.2,
+          5.98
+        ],
+        "40": [
+          0.3,
+          5.98
+        ]
+      },
+      "partialProgressMessages": [
+        {
+          "learnerArrows": [
+            "lp O14 -> σ O14-H5",
+            "σ C4-H5 -> π C2-C4"
+          ],
+          "feedbackMessage": "Good: the proton goes and a C=C forms. Now move the C=N π pair onto nitrogen."
+        }
+      ]
+    },
+    "ammonium": {
+      "caption": "the N-protonated carbinolamine",
+      "hintTiers": [
+        "The OH can become C=O if it loses its proton, and the protonated nitrogen is now a good leaving group.",
+        "The carboxylate takes the hydrogen of the OH, that O–H pair forms the C=O π bond, and the C–N bond breaks onto nitrogen. Three arrows.",
+        "Carboxylate lone pair → new bond to the OH hydrogen; that O–H bond → a π bond between oxygen and carbon; the C–N bond → a lone pair on nitrogen."
+      ],
+      "mappedSmiles": "[CH3:1][C:2]([O:3][H:20])([N+:10]1([H:15])[CH:11]([C:12](=[O:13])[O-:14])[CH2:16][CH2:17][CH2:18]1)[CH2:4][CH:30]([O:31][H:5])[C:32]2=[CH:33][CH:34]=[C:35]([N+:36](=[O:37])[O-:38])[CH:39]=[CH:40]2",
+      "learnerPrompt": "Release proline and form the ketone.",
+      "misconceptions": [
+        {
+          "severity": "wrong",
+          "arrowPattern": "σ C2-O3 -> lp O3",
+          "feedbackMessage": "Losing hydroxide would leave the wrong group behind. Proline is the leaving group: break the C–N bond.",
+          "misconceptionId": "hydroxide-leaves-not-proline",
+          "misconceptionTag": "poor-leaving-group"
+        }
+      ],
+      "mapNumberToCoordinates": {
+        "1": [
+          6.75,
+          -1.3
+        ],
+        "2": [
+          5.25,
+          -1.3
+        ],
+        "3": [
+          5.25,
+          -2.8
+        ],
+        "4": [
+          3.75,
+          -1.3
+        ],
+        "5": [
+          5.25,
+          -3.9
+        ],
+        "10": [
+          5.25,
+          0.2
+        ],
+        "11": [
+          6.74,
+          0.04
+        ],
+        "12": [
+          7.49,
+          -1.25
+        ],
+        "13": [
+          8.99,
+          -1.25
+        ],
+        "14": [
+          6.74,
+          -2.55
+        ],
+        "15": [
+          3.76,
+          0.04
+        ],
+        "16": [
+          7.35,
+          1.41
+        ],
+        "17": [
+          6.24,
+          2.42
+        ],
+        "18": [
+          4.94,
+          1.67
+        ],
+        "20": [
+          6.55,
+          -3.55
+        ],
+        "30": [
+          3,
+          -2.6
+        ],
+        "31": [
+          3.75,
+          -3.9
+        ],
+        "32": [
+          1.5,
+          -2.6
+        ],
+        "33": [
+          0.75,
+          -3.9
+        ],
+        "34": [
+          -0.75,
+          -3.9
+        ],
+        "35": [
+          -1.5,
+          -2.6
+        ],
+        "36": [
+          -3,
+          -2.6
+        ],
+        "37": [
+          -3.75,
+          -3.9
+        ],
+        "38": [
+          -3.75,
+          -1.3
+        ],
+        "39": [
+          -0.75,
+          -1.3
+        ],
+        "40": [
+          0.75,
+          -1.3
+        ]
+      },
+      "partialProgressMessages": [
+        {
+          "learnerArrows": [
+            "σ C2-N10 -> lp N10"
+          ],
+          "feedbackMessage": "Proline does leave, but the carbon needs electrons to replace the C–N bond: form the C=O from the OH, and let the carboxylate take its proton."
+        }
+      ]
+    },
+    "products": {
+      "caption": "4-hydroxy-4-(4-nitrophenyl)butan-2-one (the aldol) + proline, set free",
+      "mappedSmiles": "[CH3:1][C:2](=[O:3])[CH2:4][CH:30]([O:31][H:5])[C:32]2=[CH:33][CH:34]=[C:35]([N+:36](=[O:37])[O-:38])[CH:39]=[CH:40]2.[H:15][N:10]1[CH:11]([C:12](=[O:13])[O:14][H:20])[CH2:16][CH2:17][CH2:18]1",
+      "mapNumberToCoordinates": {
+        "1": [
+          6,
+          -2.6
+        ],
+        "2": [
+          5.25,
+          -1.3
+        ],
+        "3": [
+          6,
+          0
+        ],
+        "4": [
+          3.75,
+          -1.3
+        ],
+        "5": [
+          5.25,
+          1.3
+        ],
+        "10": [
+          1.09,
+          4.74
+        ],
+        "11": [
+          0.2,
+          5.95
+        ],
+        "12": [
+          0.67,
+          7.38
+        ],
+        "13": [
+          2.14,
+          7.69
+        ],
+        "14": [
+          -0.34,
+          8.49
+        ],
+        "15": [
+          2.59,
+          4.74
+        ],
+        "16": [
+          -1.22,
+          5.49
+        ],
+        "17": [
+          -1.22,
+          3.99
+        ],
+        "18": [
+          0.2,
+          3.52
+        ],
+        "20": [
+          0.13,
+          9.92
+        ],
+        "30": [
+          3,
+          0
+        ],
+        "31": [
+          3.75,
+          1.3
+        ],
+        "32": [
+          1.5,
+          0
+        ],
+        "33": [
+          0.75,
+          1.3
+        ],
+        "34": [
+          -0.75,
+          1.3
+        ],
+        "35": [
+          -1.5,
+          0
+        ],
+        "36": [
+          -3,
+          0
+        ],
+        "37": [
+          -3.75,
+          1.3
+        ],
+        "38": [
+          -3.75,
+          -1.3
+        ],
+        "39": [
+          -0.75,
+          -1.3
+        ],
+        "40": [
+          0.75,
+          -1.3
+        ]
+      }
+    },
+    "reactants": {
+      "caption": "acetone + (S)-proline + 4-nitrobenzaldehyde (Ar = 4-nitrophenyl)",
+      "hintTiers": [
+        "The aldehyde is the better electrophile, but an iminium ion from it has no α-hydrogen and cannot become an enamine. Proline's job is to make acetone into the nucleophile.",
+        "The nitrogen lone pair makes a bond to the carbonyl carbon of acetone. That C=O π pair takes the drawn hydrogen of proline's CO₂H, and the acid O–H pair stays on its oxygen. Three arrows.",
+        "Nitrogen lone pair → new bond to acetone's carbonyl carbon; acetone's C=O π bond → new bond from its oxygen to the acid hydrogen; the acid O–H bond → a lone pair on the carboxyl oxygen."
+      ],
+      "mappedSmiles": "[CH3:1][C:2](=[O:3])[CH2:4][H:5].[H:20][N:10]1[CH:11]([C:12](=[O:13])[O:14][H:15])[CH2:16][CH2:17][CH2:18]1.[O:31]=[CH:30][C:32]2=[CH:33][CH:34]=[C:35]([N+:36](=[O:37])[O-:38])[CH:39]=[CH:40]2",
+      "learnerPrompt": "Proline first turns acetone into an enamine. Start: the amine adds to a carbonyl group, helped by proline's own acid.",
+      "misconceptions": [
+        {
+          "severity": "plausible",
+          "arrowPattern": "lp N10 -> C30",
+          "feedbackMessage": "Proline does add to the aldehyde too, but that iminium ion has no α-hydrogen, so it cannot become an enamine: a parasitic dead end. Make the enamine of acetone.",
+          "misconceptionId": "attack-aldehyde",
+          "misconceptionTag": "dead-end-iminium"
+        },
+        {
+          "severity": "wrong",
+          "arrowPattern": "* -> σ C4-C30",
+          "feedbackMessage": "Acetone is not yet nucleophilic at carbon: only a trace is enolised. Proline must turn it into an enamine first.",
+          "misconceptionId": "enamine-carbon-first",
+          "misconceptionTag": "no-nucleophile-yet"
+        },
+        {
+          "severity": "wrong",
+          "arrowPattern": "lp O14 -> C2",
+          "feedbackMessage": "The carboxyl oxygen is a poor nucleophile. Proline's nucleophile is its secondary amine nitrogen.",
+          "misconceptionId": "carboxylate-attacks",
+          "misconceptionTag": "wrong-nucleophile"
+        }
+      ],
+      "mapNumberToCoordinates": {
+        "1": [
+          0,
+          6.18
+        ],
+        "2": [
+          1.3,
+          6.93
+        ],
+        "3": [
+          1.3,
+          8.43
+        ],
+        "4": [
+          2.6,
+          6.18
+        ],
+        "5": [
+          3.9,
+          6.93
+        ],
+        "10": [
+          0.99,
+          -1.3
+        ],
+        "11": [
+          0.11,
+          -0.08
+        ],
+        "12": [
+          0.57,
+          1.34
+        ],
+        "13": [
+          2.04,
+          1.65
+        ],
+        "14": [
+          -0.43,
+          2.46
+        ],
+        "15": [
+          0.03,
+          3.88
+        ],
+        "16": [
+          -1.32,
+          -0.55
+        ],
+        "17": [
+          -1.32,
+          -2.05
+        ],
+        "18": [
+          0.11,
+          -2.51
+        ],
+        "20": [
+          2.49,
+          -1.3
+        ],
+        "30": [
+          11.55,
+          -0.05
+        ],
+        "31": [
+          12.3,
+          -1.35
+        ],
+        "32": [
+          10.05,
+          -0.05
+        ],
+        "33": [
+          9.3,
+          1.25
+        ],
+        "34": [
+          7.8,
+          1.25
+        ],
+        "35": [
+          7.05,
+          -0.05
+        ],
+        "36": [
+          5.55,
+          -0.05
+        ],
+        "37": [
+          4.8,
+          1.25
+        ],
+        "38": [
+          4.8,
+          -1.35
+        ],
+        "39": [
+          7.8,
+          -1.35
+        ],
+        "40": [
+          9.3,
+          -1.35
+        ]
+      },
+      "partialProgressMessages": [
+        {
+          "learnerArrows": [
+            "lp N10 -> σ N10-C2",
+            "π C2-O3 -> lp O3"
+          ],
+          "feedbackMessage": "Correct addition. Proline's acid is right there: let the C=O π pair take its proton in the same step."
+        }
+      ]
+    },
+    "zwitterion": {
+      "caption": "the zwitterion: an ammonium ion and a carboxylate",
+      "hintTiers": [
+        "Before water can leave, nitrogen needs a lone pair to push it out. Which base is close by?",
+        "The carboxylate takes the drawn hydrogen on nitrogen, and the N–H pair stays on nitrogen. Two arrows.",
+        "Carboxylate oxygen lone pair → new bond to the hydrogen on nitrogen; the N–H bond → a lone pair on nitrogen."
+      ],
+      "mappedSmiles": "[CH3:1][C:2]([O:3][H:15])([CH2:4][H:5])[N+:10]1([H:20])[CH:11]([C:12](=[O:13])[O-:14])[CH2:16][CH2:17][CH2:18]1.[O:31]=[CH:30][C:32]2=[CH:33][CH:34]=[C:35]([N+:36](=[O:37])[O-:38])[CH:39]=[CH:40]2",
+      "learnerPrompt": "Give the nitrogen its lone pair back.",
+      "misconceptions": [
+        {
+          "severity": "wrong",
+          "arrowPattern": "σ C2-O3 -> lp O3",
+          "feedbackMessage": "Hydroxide is a poor leaving group, and nitrogen has no lone pair to push it out yet. Deprotonate the nitrogen first.",
+          "misconceptionId": "hydroxide-leaves",
+          "misconceptionTag": "poor-leaving-group"
+        },
+        {
+          "severity": "plausible",
+          "arrowPattern": "σ C2-N10 -> lp N10",
+          "feedbackMessage": "Breaking the C–N bond just reverses the addition. Move the proton from nitrogen to the carboxylate.",
+          "misconceptionId": "adduct-falls-apart",
+          "misconceptionTag": "reverse-step"
+        }
+      ],
+      "mapNumberToCoordinates": {
+        "1": [
+          3.39,
+          0.11
+        ],
+        "2": [
+          2.39,
+          -1
+        ],
+        "3": [
+          3.51,
+          -2.01
+        ],
+        "4": [
+          1.39,
+          -2.12
+        ],
+        "5": [
+          1.85,
+          -3.54
+        ],
+        "10": [
+          1.28,
+          0
+        ],
+        "11": [
+          0.39,
+          1.21
+        ],
+        "12": [
+          0.86,
+          2.64
+        ],
+        "13": [
+          2.33,
+          2.95
+        ],
+        "14": [
+          -0.15,
+          3.75
+        ],
+        "15": [
+          4.93,
+          -1.54
+        ],
+        "16": [
+          -1.03,
+          0.75
+        ],
+        "17": [
+          -1.03,
+          -0.75
+        ],
+        "18": [
+          0.39,
+          -1.21
+        ],
+        "20": [
+          2.39,
+          1
+        ],
+        "30": [
+          13.95,
+          -0.02
+        ],
+        "31": [
+          14.7,
+          -1.32
+        ],
+        "32": [
+          12.45,
+          -0.02
+        ],
+        "33": [
+          11.7,
+          1.28
+        ],
+        "34": [
+          10.2,
+          1.28
+        ],
+        "35": [
+          9.45,
+          -0.02
+        ],
+        "36": [
+          7.95,
+          -0.02
+        ],
+        "37": [
+          7.2,
+          1.28
+        ],
+        "38": [
+          7.2,
+          -1.32
+        ],
+        "39": [
+          10.2,
+          -1.32
+        ],
+        "40": [
+          11.7,
+          -1.32
+        ]
+      },
+      "partialProgressMessages": [
+        {
+          "learnerArrows": [
+            "lp O14 -> σ O14-H20"
+          ],
+          "feedbackMessage": "Good: the carboxylate takes the proton. Where does the N–H bonding pair go?"
+        }
+      ]
+    },
+    "water-adduct": {
+      "caption": "the protonated carbinolamine",
+      "hintTiers": [
+        "The added oxygen is positive. The carboxylate is a base.",
+        "The carboxylate takes one drawn hydrogen of the OH₂⁺ group, and that O–H pair stays on oxygen. Two arrows.",
+        "Carboxylate lone pair → new bond to a hydrogen of the OH₂⁺ group; that O–H bond → a lone pair on its oxygen."
+      ],
+      "mappedSmiles": "[CH3:1][C:2]([O+:3]([H:15])[H:20])([N:10]1[CH:11]([C:12](=[O:13])[O-:14])[CH2:16][CH2:17][CH2:18]1)[CH2:4][CH:30]([O:31][H:5])[C:32]2=[CH:33][CH:34]=[C:35]([N+:36](=[O:37])[O-:38])[CH:39]=[CH:40]2",
+      "learnerPrompt": "Move a proton off the added water.",
+      "misconceptions": [
+        {
+          "severity": "plausible",
+          "arrowPattern": "σ C2-O3 -> lp O3",
+          "feedbackMessage": "Losing water reverses the last step. Move a proton to the carboxylate.",
+          "misconceptionId": "water-leaves-again",
+          "misconceptionTag": "reverse-step"
+        }
+      ],
+      "mapNumberToCoordinates": {
+        "1": [
+          6.75,
+          -1.3
+        ],
+        "2": [
+          5.25,
+          -1.3
+        ],
+        "3": [
+          5.51,
+          -2.78
+        ],
+        "4": [
+          3.75,
+          -1.3
+        ],
+        "5": [
+          4.34,
+          -4.68
+        ],
+        "10": [
+          5.25,
+          0.2
+        ],
+        "11": [
+          6.46,
+          1.08
+        ],
+        "12": [
+          7.89,
+          0.62
+        ],
+        "13": [
+          9,
+          1.62
+        ],
+        "14": [
+          8.2,
+          -0.85
+        ],
+        "15": [
+          5.16,
+          -3.49
+        ],
+        "16": [
+          6,
+          2.51
+        ],
+        "17": [
+          4.5,
+          2.51
+        ],
+        "18": [
+          4.04,
+          1.08
+        ],
+        "20": [
+          6.92,
+          -3.29
+        ],
+        "30": [
+          2.79,
+          -2.45
+        ],
+        "31": [
+          3.05,
+          -3.93
+        ],
+        "32": [
+          1.31,
+          -2.19
+        ],
+        "33": [
+          0.34,
+          -3.34
+        ],
+        "34": [
+          -1.13,
+          -3.08
+        ],
+        "35": [
+          -1.65,
+          -1.67
+        ],
+        "36": [
+          -3.12,
+          -1.41
+        ],
+        "37": [
+          -4.09,
+          -2.55
+        ],
+        "38": [
+          -3.64,
+          0
+        ],
+        "39": [
+          -0.68,
+          -0.52
+        ],
+        "40": [
+          0.8,
+          -0.78
+        ]
+      },
+      "partialProgressMessages": [
+        {
+          "learnerArrows": [
+            "lp O14 -> σ O14-H15"
+          ],
+          "feedbackMessage": "Good: the carboxylate takes the proton. Where does the O–H bonding pair go?"
+        }
+      ]
+    },
+    "aldol-iminium": {
+      "caption": "the aldol iminium carboxylate + water",
+      "hintTiers": [
+        "Hydrolysis is iminium formation run backwards. The carboxylate is a base close to the iminium carbon.",
+        "The carboxylate takes a drawn hydrogen of water, that O–H pair stays on water's oxygen, a water lone pair makes the bond to the iminium carbon, and the C=N π pair goes onto nitrogen. Four arrows (or add water first, then move the proton).",
+        "Carboxylate lone pair → new bond to a water hydrogen; that O–H bond → a lone pair on water's oxygen; water lone pair → new bond to the iminium carbon; the C=N π bond → a lone pair on nitrogen."
+      ],
+      "mappedSmiles": "[CH3:1][C:2](=[N+:10]1[CH:11]([C:12](=[O:13])[O-:14])[CH2:16][CH2:17][CH2:18]1)[CH2:4][CH:30]([O:31][H:5])[C:32]2=[CH:33][CH:34]=[C:35]([N+:36](=[O:37])[O-:38])[CH:39]=[CH:40]2.[H:15][O:3][H:20]",
+      "learnerPrompt": "Hydrolysis: water adds to the iminium ion, and the carboxylate takes a proton from it as it adds.",
+      "misconceptions": [
+        {
+          "severity": "plausible",
+          "arrowPattern": "σ C4-C30 -> *",
+          "feedbackMessage": "Breaking the new C–C bond is the retro-aldol, the reverse of the last step. Hydrolyse the iminium ion.",
+          "misconceptionId": "retro-aldol",
+          "misconceptionTag": "reverse-step"
+        },
+        {
+          "severity": "plausible",
+          "arrowPattern": "σ C30-O31 -> lp O31",
+          "feedbackMessage": "Losing the new OH would give the condensation by-product (the enone), which List saw as a minor product. The main path hydrolyses the iminium ion.",
+          "misconceptionId": "hydroxyl-eliminates",
+          "misconceptionTag": "wrong-step"
+        }
+      ],
+      "mapNumberToCoordinates": {
+        "1": [
+          6,
+          -2.6
+        ],
+        "2": [
+          5.25,
+          -1.3
+        ],
+        "3": [
+          0,
+          3.6
+        ],
+        "4": [
+          3.75,
+          -1.3
+        ],
+        "5": [
+          3,
+          2.6
+        ],
+        "10": [
+          6,
+          0
+        ],
+        "11": [
+          7.49,
+          0.16
+        ],
+        "12": [
+          8.5,
+          -0.96
+        ],
+        "13": [
+          9.96,
+          -0.65
+        ],
+        "14": [
+          8.03,
+          -2.38
+        ],
+        "15": [
+          1.3,
+          4.35
+        ],
+        "16": [
+          7.8,
+          1.62
+        ],
+        "17": [
+          6.5,
+          2.37
+        ],
+        "18": [
+          5.39,
+          1.37
+        ],
+        "20": [
+          -1.3,
+          4.35
+        ],
+        "30": [
+          3,
+          0
+        ],
+        "31": [
+          3.75,
+          1.3
+        ],
+        "32": [
+          1.5,
+          0
+        ],
+        "33": [
+          0.75,
+          1.3
+        ],
+        "34": [
+          -0.75,
+          1.3
+        ],
+        "35": [
+          -1.5,
+          0
+        ],
+        "36": [
+          -3,
+          0
+        ],
+        "37": [
+          -3.75,
+          1.3
+        ],
+        "38": [
+          -3.75,
+          -1.3
+        ],
+        "39": [
+          -0.75,
+          -1.3
+        ],
+        "40": [
+          0.75,
+          -1.3
+        ]
+      },
+      "partialProgressMessages": [
+        {
+          "learnerArrows": [
+            "lp O3 -> σ O3-C2",
+            "π C2-N10 -> lp N10",
+            "lp O14 -> σ O14-H15"
+          ],
+          "feedbackMessage": "Nearly: the carboxylate takes the water hydrogen. Where does that O–H bonding pair go?"
+        }
+      ]
+    },
+    "carbinolamine": {
+      "caption": "the carbinolamine (hemiaminal)",
+      "hintTiers": [
+        "OH⁻ leaves badly; water leaves well. The CO₂H can protonate the OH, and the nitrogen lone pair can push it out.",
+        "The OH oxygen takes the acid hydrogen, that O–H pair stays on the carboxyl oxygen, the nitrogen lone pair forms C=N⁺, and the C–O bond breaks onto the leaving oxygen. Four arrows (or protonate first, then push water out).",
+        "Hydroxyl lone pair → new bond to the acid hydrogen; the acid O–H bond → a lone pair on its oxygen; nitrogen lone pair → π bond to the carbon; the C–O bond → a lone pair on the oxygen that leaves."
+      ],
+      "mappedSmiles": "[CH3:1][C:2]([O:3][H:15])([CH2:4][H:5])[N:10]1[CH:11]([C:12](=[O:13])[O:14][H:20])[CH2:16][CH2:17][CH2:18]1.[O:31]=[CH:30][C:32]2=[CH:33][CH:34]=[C:35]([N+:36](=[O:37])[O-:38])[CH:39]=[CH:40]2",
+      "learnerPrompt": "Lose water to make the iminium ion. The acid can protonate the OH as the nitrogen pushes.",
+      "misconceptions": [
+        {
+          "severity": "plausible",
+          "arrowPattern": "lp N10 -> σ N10-H20",
+          "feedbackMessage": "Protonating nitrogen takes away the lone pair that must push water out. Protonate the OH.",
+          "misconceptionId": "nitrogen-protonated",
+          "misconceptionTag": "unproductive-protonation"
+        }
+      ],
+      "mapNumberToCoordinates": {
+        "1": [
+          2.78,
+          1.5
+        ],
+        "2": [
+          2.78,
+          0
+        ],
+        "3": [
+          4.28,
+          0
+        ],
+        "4": [
+          2.78,
+          -1.5
+        ],
+        "5": [
+          4.08,
+          -2.25
+        ],
+        "10": [
+          1.28,
+          0
+        ],
+        "11": [
+          0.39,
+          1.21
+        ],
+        "12": [
+          0.86,
+          2.64
+        ],
+        "13": [
+          2.33,
+          2.95
+        ],
+        "14": [
+          -0.15,
+          3.75
+        ],
+        "15": [
+          5.03,
+          -1.3
+        ],
+        "16": [
+          -1.03,
+          0.75
+        ],
+        "17": [
+          -1.03,
+          -0.75
+        ],
+        "18": [
+          0.39,
+          -1.21
+        ],
+        "20": [
+          0.32,
+          5.18
+        ],
+        "30": [
+          14.07,
+          -0.14
+        ],
+        "31": [
+          14.82,
+          -1.44
+        ],
+        "32": [
+          12.57,
+          -0.14
+        ],
+        "33": [
+          11.82,
+          1.16
+        ],
+        "34": [
+          10.32,
+          1.16
+        ],
+        "35": [
+          9.57,
+          -0.14
+        ],
+        "36": [
+          8.07,
+          -0.14
+        ],
+        "37": [
+          7.32,
+          1.16
+        ],
+        "38": [
+          7.32,
+          -1.44
+        ],
+        "39": [
+          10.32,
+          -1.44
+        ],
+        "40": [
+          11.82,
+          -1.44
+        ]
+      },
+      "partialProgressMessages": [
+        {
+          "learnerArrows": [
+            "lp N10 -> π N10-C2",
+            "σ C2-O3 -> lp O3"
+          ],
+          "feedbackMessage": "Right push, but the leaving oxygen would be hydroxide. Let the CO₂H protonate it in the same step."
+        }
+      ]
+    },
+    "carbinolamine-2": {
+      "caption": "the carbinolamine of the aldol",
+      "hintTiers": [
+        "An amine leaves well only as a neutral amine from an ammonium ion. Which atom should take a proton?",
+        "The nitrogen lone pair takes the acid hydrogen of the CO₂H, and that O–H pair stays on its oxygen. Two arrows.",
+        "Nitrogen lone pair → new bond to the acid hydrogen; the acid O–H bond → a lone pair on its oxygen."
+      ],
+      "mappedSmiles": "[CH3:1][C:2]([O:3][H:20])([N:10]1[CH:11]([C:12](=[O:13])[O:14][H:15])[CH2:16][CH2:17][CH2:18]1)[CH2:4][CH:30]([O:31][H:5])[C:32]2=[CH:33][CH:34]=[C:35]([N+:36](=[O:37])[O-:38])[CH:39]=[CH:40]2",
+      "learnerPrompt": "Make proline a leaving group.",
+      "misconceptions": [
+        {
+          "severity": "wrong",
+          "arrowPattern": "σ C2-N10 -> lp N10",
+          "feedbackMessage": "An amide ion (R₂N⁻) is a hopeless leaving group. Protonate the nitrogen first.",
+          "misconceptionId": "amide-ion-leaves",
+          "misconceptionTag": "poor-leaving-group"
+        },
+        {
+          "severity": "plausible",
+          "arrowPattern": "lp O3 -> σ O3-H15",
+          "feedbackMessage": "Protonating the OH heads back towards the iminium ion. Protonate the nitrogen.",
+          "misconceptionId": "hydroxyl-protonated",
+          "misconceptionTag": "reverse-step"
+        }
+      ],
+      "mapNumberToCoordinates": {
+        "1": [
+          6.75,
+          -1.3
+        ],
+        "2": [
+          5.25,
+          -1.3
+        ],
+        "3": [
+          5.25,
+          -2.8
+        ],
+        "4": [
+          3.75,
+          -1.3
+        ],
+        "5": [
+          5.25,
+          -3.9
+        ],
+        "10": [
+          5.25,
+          0.2
+        ],
+        "11": [
+          6.46,
+          1.08
+        ],
+        "12": [
+          7.89,
+          0.62
+        ],
+        "13": [
+          9,
+          1.62
+        ],
+        "14": [
+          8.2,
+          -0.85
+        ],
+        "15": [
+          9.63,
+          -1.31
+        ],
+        "16": [
+          6,
+          2.51
+        ],
+        "17": [
+          4.5,
+          2.51
+        ],
+        "18": [
+          4.04,
+          1.08
+        ],
+        "20": [
+          6.55,
+          -3.55
+        ],
+        "30": [
+          3,
+          -2.6
+        ],
+        "31": [
+          3.75,
+          -3.9
+        ],
+        "32": [
+          1.5,
+          -2.6
+        ],
+        "33": [
+          0.75,
+          -3.9
+        ],
+        "34": [
+          -0.75,
+          -3.9
+        ],
+        "35": [
+          -1.5,
+          -2.6
+        ],
+        "36": [
+          -3,
+          -2.6
+        ],
+        "37": [
+          -3.75,
+          -3.9
+        ],
+        "38": [
+          -3.75,
+          -1.3
+        ],
+        "39": [
+          -0.75,
+          -1.3
+        ],
+        "40": [
+          0.75,
+          -1.3
+        ]
+      }
+    },
+    "protonated-carbinolamine": {
+      "caption": "the O-protonated carbinolamine",
+      "hintTiers": [
+        "Water is now a good leaving group, and the neighbouring nitrogen has a lone pair.",
+        "The nitrogen lone pair forms a C=N π bond, and the C–O bond breaks onto oxygen. Two arrows.",
+        "Nitrogen lone pair → π bond to the carbon; the C–O bond → a lone pair on the water oxygen."
+      ],
+      "mappedSmiles": "[CH3:1][C:2]([O+:3]([H:15])[H:20])([CH2:4][H:5])[N:10]1[CH:11]([C:12](=[O:13])[O-:14])[CH2:16][CH2:17][CH2:18]1.[O:31]=[CH:30][C:32]2=[CH:33][CH:34]=[C:35]([N+:36](=[O:37])[O-:38])[CH:39]=[CH:40]2",
+      "learnerPrompt": "Lose water.",
+      "misconceptions": [
+        {
+          "severity": "wrong",
+          "arrowPattern": "lp O14 -> C2",
+          "feedbackMessage": "The carboxylate does not displace water here. The nitrogen lone pair next door pushes water out.",
+          "misconceptionId": "carboxylate-displaces-water",
+          "misconceptionTag": "wrong-nucleophile"
+        }
+      ],
+      "mapNumberToCoordinates": {
+        "1": [
+          2.78,
+          1.5
+        ],
+        "2": [
+          2.78,
+          0
+        ],
+        "3": [
+          4.28,
+          0
+        ],
+        "4": [
+          2.78,
+          -1.5
+        ],
+        "5": [
+          4.08,
+          -2.25
+        ],
+        "10": [
+          1.28,
+          0
+        ],
+        "11": [
+          0.39,
+          1.21
+        ],
+        "12": [
+          0.86,
+          2.64
+        ],
+        "13": [
+          2.33,
+          2.95
+        ],
+        "14": [
+          -0.15,
+          3.75
+        ],
+        "15": [
+          5.03,
+          -1.3
+        ],
+        "16": [
+          -1.03,
+          0.75
+        ],
+        "17": [
+          -1.03,
+          -0.75
+        ],
+        "18": [
+          0.39,
+          -1.21
+        ],
+        "20": [
+          5.03,
+          1.3
+        ],
+        "30": [
+          2.47,
+          7.29
+        ],
+        "31": [
+          3.22,
+          5.99
+        ],
+        "32": [
+          0.97,
+          7.29
+        ],
+        "33": [
+          0.22,
+          8.59
+        ],
+        "34": [
+          -1.28,
+          8.59
+        ],
+        "35": [
+          -2.03,
+          7.29
+        ],
+        "36": [
+          -3.53,
+          7.29
+        ],
+        "37": [
+          -4.28,
+          8.59
+        ],
+        "38": [
+          -4.28,
+          5.99
+        ],
+        "39": [
+          -1.28,
+          5.99
+        ],
+        "40": [
+          0.22,
+          5.99
+        ]
+      },
+      "partialProgressMessages": [
+        {
+          "learnerArrows": [
+            "σ C2-O3 -> lp O3"
+          ],
+          "feedbackMessage": "Water leaves, but the carbon would be left with six electrons. Push with the nitrogen lone pair."
+        }
+      ]
+    }
+  },
+  "conditionsLabel": "acetone (20 vol %) · L-proline (30 mol %) · DMSO · rt",
+  "reactionClasses": [
+    "carbonyl",
+    "addition"
+  ],
+  "reactionVersion": 1,
+  "mechanismSummary": "List, Lerner and Barbas (2000) showed that the amino acid proline catalyses a direct asymmetric aldol between unmodified acetone and an aldehyde. Proline's amine condenses with acetone: it adds while the CO₂H protonates the oxygen, the carboxylate shuttles the N–H proton, and the acid helps water leave. The carboxylate then removes an α-proton to give the enamine. The enamine attacks 4-nitrobenzaldehyde while the CO₂H delivers its proton to the aldehyde oxygen (the Houk–List transition state); this step sets the stereocentre, giving the (R)-aldol in 76 % ee. Hydrolysis runs the condensation backwards and frees proline. Like an aldolase enzyme (class I, through an enamine of a lysine), proline uses an amine and an acid together. The app does not check stereochemistry yet, so the drawings carry no wedges and either face is accepted.",
+  "abbreviatedGroups": [
+    {
+      "groupLabel": "Ar",
+      "mapNumbers": [
+        32,
+        33,
+        34,
+        35,
+        36,
+        37,
+        38,
+        39,
+        40
+      ],
+      "attachmentMapNumber": 32
+    }
+  ],
+  "dailyPuzzleEligible": true,
+  "spectatorMapNumbers": [],
+  "atomRoleToMapNumbers": {
+    "acid": [
+      15,
+      20,
+      5
+    ],
+    "nucleophile": [
+      10,
+      4
+    ],
+    "electrophile": [
+      2,
+      30
+    ]
+  },
+  "previousReactionVersion": null
+}
