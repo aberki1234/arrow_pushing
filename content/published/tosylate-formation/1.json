@@ -1,0 +1,579 @@
+{
+  "steps": [
+    {
+      "stepKey": "sulfonylation",
+      "stepKind": "polar",
+      "toStateId": "protonated-tosylate",
+      "fromStateId": "reactants",
+      "canonicalArrows": [
+        "lp O5 -> σ O5-S6",
+        "σ S6-Cl17 -> lp Cl17"
+      ],
+      "routePreference": "preferred",
+      "explanationAfterStep": "Substitution at sulfur, drawn here in one step. The C–O bond of the alcohol is not broken, so a stereocentre at that carbon keeps its configuration."
+    },
+    {
+      "stepKey": "addition-to-sulfur",
+      "stepKind": "polar",
+      "toStateId": "sulfur-intermediate",
+      "fromStateId": "reactants",
+      "canonicalArrows": [
+        "lp O5 -> σ O5-S6",
+        "π S6-O7 -> lp O7"
+      ],
+      "routePreference": "accepted",
+      "explanationAfterStep": "Also correct: an S=O π bond takes the electrons first, giving a five-coordinate sulfur intermediate. Chloride is lost in the next step."
+    },
+    {
+      "stepKey": "chloride-loss",
+      "stepKind": "polar",
+      "toStateId": "protonated-tosylate",
+      "fromStateId": "sulfur-intermediate",
+      "canonicalArrows": [
+        "lp O7 -> π O7-S6",
+        "σ S6-Cl17 -> lp Cl17"
+      ],
+      "routePreference": "accepted",
+      "explanationAfterStep": "The S=O bond re-forms and chloride leaves: the same protonated tosylate as the one-step route."
+    },
+    {
+      "stepKey": "deprotonation",
+      "stepKind": "polar",
+      "toStateId": "products",
+      "fromStateId": "protonated-tosylate",
+      "canonicalArrows": [
+        "lp N18 -> σ N18-H16",
+        "σ O5-H16 -> lp O5"
+      ],
+      "routePreference": "preferred",
+      "explanationAfterStep": "Butan-2-yl tosylate: OTs is now an excellent leaving group, about as good as a halide. Pyridine is a weak base, but strong enough to take a proton from a positive oxygen, and it neutralises the HCl formed."
+    }
+  ],
+  "title": "Making a tosylate",
+  "authors": [
+    {
+      "url": null,
+      "name": "Maksim"
+    }
+  ],
+  "licence": "CC-BY-SA-4.0",
+  "subtitle": "TsCl turns OH into a leaving group",
+  "references": [
+    "Clayden, Greeves and Warren, Organic Chemistry, 2nd edition (Oxford University Press), chapter 15"
+  ],
+  "reactionSlug": "tosylate-formation",
+  "startStateId": "reactants",
+  "formatVersion": 1,
+  "difficultyTier": 3,
+  "stateIdToState": {
+    "products": {
+      "caption": "butan-2-yl tosylate + pyridinium chloride",
+      "mappedSmiles": "[CH3:1][CH2:2][CH:3]([CH3:4])[O:5][S:6](=[O:7])(=[O:8])[C:9]1=[CH:10][CH:11]=[C:12]([CH3:15])[CH:13]=[CH:14]1.[Cl-:17].[H:16][N+:18]1=[CH:19][CH:20]=[CH:21][CH:22]=[CH:23]1",
+      "mapNumberToCoordinates": {
+        "1": [
+          7.5,
+          2.6
+        ],
+        "2": [
+          6.75,
+          1.3
+        ],
+        "3": [
+          5.25,
+          1.3
+        ],
+        "4": [
+          4.5,
+          2.6
+        ],
+        "5": [
+          4.5,
+          0
+        ],
+        "6": [
+          3,
+          0
+        ],
+        "7": [
+          3,
+          -1.5
+        ],
+        "8": [
+          3,
+          1.5
+        ],
+        "9": [
+          1.5,
+          0
+        ],
+        "10": [
+          0.75,
+          1.3
+        ],
+        "11": [
+          -0.75,
+          1.3
+        ],
+        "12": [
+          -1.5,
+          0
+        ],
+        "13": [
+          -0.75,
+          -1.3
+        ],
+        "14": [
+          0.75,
+          -1.3
+        ],
+        "15": [
+          -3,
+          0
+        ],
+        "16": [
+          0.32,
+          4.57
+        ],
+        "17": [
+          0,
+          7.2
+        ],
+        "18": [
+          -1.18,
+          4.57
+        ],
+        "19": [
+          -1.93,
+          5.87
+        ],
+        "20": [
+          -3.43,
+          5.87
+        ],
+        "21": [
+          -4.18,
+          4.57
+        ],
+        "22": [
+          -3.43,
+          3.27
+        ],
+        "23": [
+          -1.93,
+          3.27
+        ]
+      }
+    },
+    "reactants": {
+      "caption": "butan-2-ol + tosyl chloride + pyridine",
+      "hintTiers": [
+        "The sulfur of tosyl chloride is very electron-poor: two S=O bonds and a chlorine pull electrons from it. Which atom of the alcohol can attack it?",
+        "The alcohol oxygen attacks sulfur, and chloride leaves at the same time. Two arrows.",
+        "Arrow 1: a lone pair on the alcohol oxygen forms a bond to sulfur. Arrow 2: the S–Cl bond breaks, and its pair goes onto chlorine."
+      ],
+      "mappedSmiles": "[CH3:1][CH2:2][CH:3]([CH3:4])[O:5][H:16].[Cl:17][S:6](=[O:7])(=[O:8])[C:9]1=[CH:10][CH:11]=[C:12]([CH3:15])[CH:13]=[CH:14]1.[N:18]1=[CH:19][CH:20]=[CH:21][CH:22]=[CH:23]1",
+      "learnerPrompt": "Turn the OH into a sulfonate ester. Draw the first step.",
+      "misconceptions": [
+        {
+          "severity": "wrong",
+          "arrowPattern": "lp N18 -> H16",
+          "feedbackMessage": "Pyridine is far too weak a base to remove the proton of a neutral alcohol. The oxygen attacks sulfur first; the proton is lost afterwards, from the positive oxygen.",
+          "misconceptionId": "pyridine-deprotonates-alcohol",
+          "misconceptionTag": "base-too-weak"
+        },
+        {
+          "severity": "wrong",
+          "arrowPattern": "σ C3-O5 -> *",
+          "feedbackMessage": "The C–O bond of the alcohol is not touched: the oxygen keeps its carbon, which is why the configuration at that carbon is kept.",
+          "misconceptionId": "c-o-bond-breaks",
+          "misconceptionTag": "wrong-bond-breaks"
+        },
+        {
+          "severity": "plausible",
+          "arrowPattern": "lp N18 -> S6",
+          "feedbackMessage": "Pyridine can attack sulfur first, as a nucleophilic catalyst, but this exercise follows the direct route. Let the alcohol oxygen attack sulfur.",
+          "misconceptionId": "pyridine-attacks-sulfur",
+          "misconceptionTag": "nucleophilic-catalysis"
+        }
+      ],
+      "mapNumberToCoordinates": {
+        "1": [
+          0,
+          8.35
+        ],
+        "2": [
+          1.3,
+          9.1
+        ],
+        "3": [
+          2.6,
+          8.35
+        ],
+        "4": [
+          3.9,
+          9.1
+        ],
+        "5": [
+          2.6,
+          6.85
+        ],
+        "6": [
+          3,
+          0
+        ],
+        "7": [
+          4.5,
+          0
+        ],
+        "8": [
+          3,
+          -1.5
+        ],
+        "9": [
+          1.5,
+          0
+        ],
+        "10": [
+          0.75,
+          1.3
+        ],
+        "11": [
+          -0.75,
+          1.3
+        ],
+        "12": [
+          -1.5,
+          0
+        ],
+        "13": [
+          -0.75,
+          -1.3
+        ],
+        "14": [
+          0.75,
+          -1.3
+        ],
+        "15": [
+          -3,
+          0
+        ],
+        "16": [
+          3.9,
+          6.1
+        ],
+        "17": [
+          3,
+          1.5
+        ],
+        "18": [
+          0.97,
+          4.79
+        ],
+        "19": [
+          0.22,
+          6.09
+        ],
+        "20": [
+          -1.28,
+          6.09
+        ],
+        "21": [
+          -2.03,
+          4.79
+        ],
+        "22": [
+          -1.28,
+          3.49
+        ],
+        "23": [
+          0.22,
+          3.49
+        ]
+      },
+      "partialProgressMessages": [
+        {
+          "learnerArrows": [
+            "lp O5 -> σ O5-S6"
+          ],
+          "feedbackMessage": "Right: oxygen attacks sulfur. Now a bond to sulfur must break: either the S–Cl bond, or an S=O π bond onto its oxygen."
+        }
+      ]
+    },
+    "protonated-tosylate": {
+      "caption": "protonated tosylate + chloride + pyridine",
+      "hintTiers": [
+        "The positive oxygen still carries a hydrogen. Which species is the base?",
+        "The pyridine nitrogen takes the proton; the O–H pair stays on the oxygen. Two arrows.",
+        "Arrow 1: the lone pair on pyridine's nitrogen forms a bond to the hydrogen on the positive oxygen. Arrow 2: that O–H bond breaks, and its pair goes back onto the oxygen."
+      ],
+      "mappedSmiles": "[CH3:1][CH2:2][CH:3]([CH3:4])[O+:5]([H:16])[S:6](=[O:7])(=[O:8])[C:9]1=[CH:10][CH:11]=[C:12]([CH3:15])[CH:13]=[CH:14]1.[Cl-:17].[N:18]1=[CH:19][CH:20]=[CH:21][CH:22]=[CH:23]1",
+      "learnerPrompt": "Pyridine finishes the job. Draw the proton transfer.",
+      "misconceptions": [
+        {
+          "severity": "plausible",
+          "arrowPattern": "lp Cl17 -> H16",
+          "feedbackMessage": "Chloride is a very weak base. Pyridine, used as the solvent, takes the proton and mops up the acid.",
+          "misconceptionId": "chloride-as-base",
+          "misconceptionTag": "weak-base"
+        },
+        {
+          "severity": "plausible",
+          "arrowPattern": "lp Cl17 -> C3",
+          "feedbackMessage": "Chloride can displace this very good leaving group (a known side reaction that makes alkyl chlorides), but pyridine removes the proton faster, giving the tosylate.",
+          "misconceptionId": "chloride-attacks-carbon",
+          "misconceptionTag": "side-reaction"
+        }
+      ],
+      "mapNumberToCoordinates": {
+        "1": [
+          7.5,
+          -2.6
+        ],
+        "2": [
+          6.75,
+          -1.3
+        ],
+        "3": [
+          5.25,
+          -1.3
+        ],
+        "4": [
+          4.5,
+          -2.6
+        ],
+        "5": [
+          4.5,
+          0
+        ],
+        "6": [
+          3,
+          0
+        ],
+        "7": [
+          3,
+          -1.5
+        ],
+        "8": [
+          3,
+          1.5
+        ],
+        "9": [
+          1.5,
+          0
+        ],
+        "10": [
+          0.75,
+          1.3
+        ],
+        "11": [
+          -0.75,
+          1.3
+        ],
+        "12": [
+          -1.5,
+          0
+        ],
+        "13": [
+          -0.75,
+          -1.3
+        ],
+        "14": [
+          0.75,
+          -1.3
+        ],
+        "15": [
+          -3,
+          0
+        ],
+        "16": [
+          5.25,
+          1.3
+        ],
+        "17": [
+          0,
+          6.1
+        ],
+        "18": [
+          -1.6,
+          4.25
+        ],
+        "19": [
+          -2.35,
+          5.55
+        ],
+        "20": [
+          -3.85,
+          5.55
+        ],
+        "21": [
+          -4.6,
+          4.25
+        ],
+        "22": [
+          -3.85,
+          2.95
+        ],
+        "23": [
+          -2.35,
+          2.95
+        ]
+      },
+      "partialProgressMessages": [
+        {
+          "learnerArrows": [
+            "lp N18 -> σ N18-H16"
+          ],
+          "feedbackMessage": "Right base, right proton. Hydrogen can only have one bond: where does the old O–H pair go?"
+        }
+      ]
+    },
+    "sulfur-intermediate": {
+      "caption": "five-coordinate sulfur intermediate",
+      "hintTiers": [
+        "The negatively charged oxygen can push its electrons back towards sulfur. Which bond to sulfur breaks?",
+        "The lone pair of the negative oxygen re-forms the S=O π bond as the S–Cl bond breaks. Two arrows.",
+        "Arrow 1: a lone pair on the negative oxygen forms a π bond back to sulfur. Arrow 2: the S–Cl bond breaks, and its pair goes onto chlorine."
+      ],
+      "mappedSmiles": "[CH3:1][CH2:2][CH:3]([CH3:4])[O+:5]([H:16])[S:6]([O-:7])(=[O:8])([Cl:17])[C:9]1=[CH:10][CH:11]=[C:12]([CH3:15])[CH:13]=[CH:14]1.[N:18]1=[CH:19][CH:20]=[CH:21][CH:22]=[CH:23]1",
+      "learnerPrompt": "Re-form the S=O bond and expel chloride.",
+      "misconceptions": [
+        {
+          "severity": "plausible",
+          "arrowPattern": "σ O5-S6 -> lp O5",
+          "feedbackMessage": "That throws the alcohol out again and goes backwards. Chloride is the better leaving group.",
+          "misconceptionId": "alcohol-leaves-again",
+          "misconceptionTag": "reverse-step"
+        }
+      ],
+      "mapNumberToCoordinates": {
+        "1": [
+          4.08,
+          -5.08
+        ],
+        "2": [
+          3.08,
+          -3.97
+        ],
+        "3": [
+          3.54,
+          -2.54
+        ],
+        "4": [
+          5.01,
+          -2.23
+        ],
+        "5": [
+          2.54,
+          -1.43
+        ],
+        "6": [
+          3,
+          0
+        ],
+        "7": [
+          4.21,
+          0.88
+        ],
+        "8": [
+          4.21,
+          -0.88
+        ],
+        "9": [
+          1.5,
+          0
+        ],
+        "10": [
+          0.75,
+          -1.3
+        ],
+        "11": [
+          -0.75,
+          -1.3
+        ],
+        "12": [
+          -1.5,
+          0
+        ],
+        "13": [
+          -0.75,
+          1.3
+        ],
+        "14": [
+          0.75,
+          1.3
+        ],
+        "15": [
+          -3,
+          0
+        ],
+        "16": [
+          1.19,
+          -2.08
+        ],
+        "17": [
+          2.54,
+          1.43
+        ],
+        "18": [
+          1.08,
+          4.82
+        ],
+        "19": [
+          0.33,
+          6.12
+        ],
+        "20": [
+          -1.17,
+          6.12
+        ],
+        "21": [
+          -1.92,
+          4.82
+        ],
+        "22": [
+          -1.17,
+          3.52
+        ],
+        "23": [
+          0.33,
+          3.52
+        ]
+      }
+    }
+  },
+  "conditionsLabel": "TsCl · pyridine · 0 °C",
+  "reactionClasses": [
+    "substitution"
+  ],
+  "reactionVersion": 1,
+  "mechanismSummary": "Tosylation makes a leaving group without touching the carbon: the alcohol oxygen attacks sulfur, chloride leaves, and pyridine removes the proton. The C–O bond survives, so the configuration at carbon is kept: (R)-butan-2-ol gives the (R)-tosylate. The tosylate can then be displaced by SN2, with inversion.",
+  "abbreviatedGroups": [
+    {
+      "groupLabel": "Tol",
+      "mapNumbers": [
+        9,
+        10,
+        11,
+        12,
+        13,
+        14,
+        15
+      ],
+      "attachmentMapNumber": 9
+    }
+  ],
+  "dailyPuzzleEligible": true,
+  "spectatorMapNumbers": [],
+  "atomRoleToMapNumbers": {
+    "base": [
+      18
+    ],
+    "sulfur": [
+      6
+    ],
+    "nucleophile": [
+      5
+    ]
+  },
+  "previousReactionVersion": null
+}
