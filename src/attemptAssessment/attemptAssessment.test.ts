@@ -93,3 +93,42 @@ test("a state left only by a change step cannot be assessed", () => {
     "no arrow step",
   );
 });
+
+/**
+ * Benzene attacking NO₂⁺ (docs/SPEC.md §4): only C9's hydrogen is drawn, as H15, because the
+ * deprotonation needs it. That one explicit hydrogen must not make attack at C10 (its mirror
+ * image) wrong: hydrogens are compared as counts.
+ */
+function benzeneNitration(): Record<string, unknown> {
+  const benzene = "[C:9]1([H:15])=[CH:10][CH:11]=[CH:12][CH:13]=[CH:14]1";
+  const arenium = "[O:1]=[N+:2]([O-:3])[C:9]1([H:15])[CH+:10][CH:11]=[CH:12][CH:13]=[CH:14]1";
+  return {
+    startStateId: "reactants",
+    atomRoleToMapNumbers: {},
+    stateIdToState: {
+      reactants: { mappedSmiles: `[O:1]=[N+:2]=[O:3].${benzene}` },
+      arenium: { mappedSmiles: arenium },
+    },
+    steps: [
+      {
+        stepKey: "attack",
+        fromStateId: "reactants",
+        toStateId: "arenium",
+        stepKind: "polar",
+        routePreference: "preferred",
+        canonicalArrows: ["π C9-C10 -> σ C9-N2", "π N2-O3 -> lp O3"],
+      },
+    ],
+  };
+}
+
+test("attack at the mirror-image carbon of a ring with one drawn H is correct", () => {
+  const prepared = prepareReaction(benzeneNitration());
+  const assess = (arrows: string[]): AttemptAssessment =>
+    assessAttempt(prepared, "reactants", arrows.map(parseCurvedArrow));
+  expect(assess(["π C9-C10 -> σ C9-N2", "π N2-O3 -> lp O3"]).assessmentKind).toBe("correct");
+  // The same π bond, but the new bond formed at C10: the mirror image of the drawn answer.
+  expect(assess(["π C9-C10 -> σ C10-N2", "π N2-O3 -> lp O3"]).assessmentKind).toBe("correct");
+  // Attack at C11 (a different π bond) is the same compound too: any ring carbon of benzene.
+  expect(assess(["π C11-C12 -> σ C11-N2", "π N2-O3 -> lp O3"]).assessmentKind).toBe("correct");
+});

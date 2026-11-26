@@ -206,6 +206,48 @@ function relabelLocus(locus: ElectronLocus, relabelling: MapNumberRelabelling): 
   return { locusKind: locus.locusKind, atoms: atomsInOrder };
 }
 
+/**
+ * The same state with each drawn hydrogen folded into its neighbour's hydrogen count: an H with
+ * one single bond to a non-hydrogen atom and no electrons of its own. Hydrogens are drawn only
+ * where a step needs them (docs/schema-design.md §2), so one drawn H can make mirror-image atoms
+ * look different; compared folded, attack at either is the same compound (item 10g follow-up,
+ * 2026-11-26). A bare H⁺, H₂ or a hydride keeps its atom.
+ */
+export function withHydrogensFolded(graph: StateGraph): StateGraph {
+  const foldInto = new Map<number, number>();
+  for (const [key, order] of graph.bondToOrder) {
+    const [first, second] = bondKeyMapNumbers(key);
+    const firstAtom = graph.mapNumberToAtom.get(first);
+    const secondAtom = graph.mapNumberToAtom.get(second);
+    if (order !== 1 || firstAtom === undefined || secondAtom === undefined) {
+      continue;
+    }
+    for (const [hydrogen, other] of [
+      [firstAtom, secondAtom],
+      [secondAtom, firstAtom],
+    ] as const) {
+      const isFoldable =
+        hydrogen.element === "H" && other.element !== "H" && hydrogen.nonbondingElectronCount === 0;
+      if (isFoldable) {
+        foldInto.set(hydrogen.mapNumber, other.mapNumber);
+      }
+    }
+  }
+  const mapNumberToAtom = new Map<number, StateAtom>();
+  for (const [mapNumber, atom] of graph.mapNumberToAtom) {
+    if (!foldInto.has(mapNumber)) {
+      const folded = [...foldInto.values()].filter((target) => target === mapNumber).length;
+      mapNumberToAtom.set(mapNumber, { ...atom, hydrogenCount: atom.hydrogenCount + folded });
+    }
+  }
+  const bondToOrder = new Map(
+    [...graph.bondToOrder].filter(([key]) =>
+      bondKeyMapNumbers(key).every((mapNumber) => !foldInto.has(mapNumber)),
+    ),
+  );
+  return { mapNumberToAtom, bondToOrder };
+}
+
 /** The same arrow with its atoms renumbered (bond atoms re-sorted by map number). */
 export function relabelCurvedArrow(
   curvedArrow: CurvedArrow,

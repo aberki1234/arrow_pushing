@@ -38,6 +38,7 @@ import {
   graphOf,
   type PreparedReaction,
   type PreparedStep,
+  foldedSymmetriesOf,
   symmetriesOf,
 } from "./preparedReaction.js";
 import { compareStates, type StateComparison } from "./resonanceEquivalence.js";
@@ -45,6 +46,7 @@ import {
   type MapNumberRelabelling,
   relabelCurvedArrow,
   relabelStateGraph,
+  withHydrogensFolded,
 } from "./skeletonSymmetry.js";
 
 export { prepareReaction, type PreparedReaction } from "./preparedReaction.js";
@@ -125,6 +127,8 @@ interface Attempt {
   readonly applicationError: ArrowApplicationError | undefined;
   readonly cancellingArrows: readonly CurvedArrow[] | undefined;
   readonly symmetries: readonly MapNumberRelabelling[];
+  /** The state's symmetries with drawn hydrogens folded, for comparing results only. */
+  readonly foldedSymmetries: readonly MapNumberRelabelling[];
 }
 
 function applied(
@@ -194,14 +198,21 @@ function cancellingArrowsOf(
   return undefined;
 }
 
-function bestComparison(
-  result: StateGraph,
-  target: StateGraph,
-  symmetries: readonly MapNumberRelabelling[],
-): StateComparison {
-  const comparisons = new Set(
-    symmetries.map((symmetry) => compareStates(relabelStateGraph(result, symmetry), target)),
-  );
+/**
+ * The best comparison of the result with a step's to-state over the state's symmetries, and
+ * again with drawn hydrogens folded into counts (so a mirror-image attack on a ring where only
+ * one H is drawn still matches).
+ */
+function bestComparison(attempt: Attempt, result: StateGraph, target: StateGraph): StateComparison {
+  const foldedTarget = withHydrogensFolded(target);
+  const comparisons = new Set([
+    ...attempt.symmetries.map((symmetry) =>
+      compareStates(relabelStateGraph(result, symmetry), target),
+    ),
+    ...attempt.foldedSymmetries.map((symmetry) =>
+      compareStates(withHydrogensFolded(relabelStateGraph(result, symmetry)), foldedTarget),
+    ),
+  ]);
   return COMPARISONS_BEST_FIRST.find((comparison) => comparisons.has(comparison)) ?? "different";
 }
 
@@ -220,7 +231,7 @@ function stepComparisons(attempt: Attempt): [PreparedStep, StateComparison][] {
     .filter((step) => arrowTypesFit(step, attempt.learnerArrows))
     .map((step) => [
       step,
-      bestComparison(result, graphOf(attempt.prepared, step.toStateId), attempt.symmetries),
+      bestComparison(attempt, result, graphOf(attempt.prepared, step.toStateId)),
     ]);
 }
 
@@ -453,6 +464,7 @@ export function assessAttempt(
     applicationError,
     cancellingArrows: cancellingArrowsOf(learnerArrows),
     symmetries: symmetriesOf(prepared, stateId),
+    foldedSymmetries: foldedSymmetriesOf(prepared, stateId),
   };
   const meaningless: GenericRuleAssessment | undefined =
     applicationError !== undefined && MEANINGLESS_ARROW_RULE_IDS.has(applicationError.genericRuleId)

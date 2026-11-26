@@ -98,6 +98,13 @@ reactions, track `aromatic-chemistry`, problem sets in this order:
   - **Possible new bonds shown:** between molecules, atoms near each other in the drawing; within one molecule, two
     bonds apart only when the receiving atom is electron-poor (the 10f rule: a 1,2-shift), never three bonds apart,
     and four or more apart when near (ring closure).
+  - **Fixes from the SEAr review (2026-11-26):** a new bond is offered only to an atom that can take one
+    (electron-poor, with a π bond to give up, a radical, an H on O/N/S/halogen, or bonded to O, S or a halogen),
+    so no ghosts to a methyl carbon; pointing at the **far atom** of a new bond (the acylium carbon) picks that bond,
+    from the nearer end of the source bond, while an atom that is a destination itself keeps its meaning. **A drawn H
+    no longer breaks symmetry:** results are also compared with drawn hydrogens folded into hydrogen counts, so
+    attack at the mirror-image carbon of a ring where only one H is drawn is correct (§4). **Seeded layouts keep
+    separate molecules at least 1.5 bond lengths apart.**
   - **To monitor (owner, 2026-11-26):** targets that sit close together. Re-aromatisation is the known case: after the
     C–H bond is picked, the ghost for H shifting to the C⁺ ends beside that C⁺ atom, which is the usual target (π
     bond). A touch tap therefore picks the target nearest the tap (atom centre, bond or ghost midpoint) rather than

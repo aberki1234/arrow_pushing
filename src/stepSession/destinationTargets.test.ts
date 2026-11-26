@@ -106,4 +106,13 @@ describe("the nearest place", () => {
     expect(nearestDestinationTarget(targets, c6)?.target.pickTargetId).toBe("atom:6");
     expect(nearestDestinationTarget(targets, { x: 10_000, y: 10_000 })).toBeNull();
   });
+
+  test("pointing at a new bond's far atom picks it; an atom that is a place wins", () => {
+    const { drawing, targets } = enolateTargets();
+    // C9 is not a place (bonded to neither C3 nor C5), so pointing at it means the new bond to it.
+    const c9 = drawnAtomOf(drawing, 9).point;
+    expect(nearestDestinationTarget(targets, c9)?.target.pickTargetId).toBe("newBond:3-9");
+    const c5 = drawnAtomOf(drawing, 5).point;
+    expect(nearestDestinationTarget(targets, c5)?.target.pickTargetId).toBe("atom:5");
+  });
 });

@@ -9,9 +9,12 @@
  *   new bond     each bond of newBondDestinations.ts whose atoms are drawn (and tappable) within
  *                NEW_BOND_REACH bond lengths of each other, or that is a 1,2-shift (always shown:
  *                however it is drawn, it lands two bonds away)
- * The nearest place is measured to its centre: the atom, the bond's midpoint, the new bond's
- * midpoint. So a tap on an atom means the atom, and a tap in the middle of a dashed line means
- * that new bond, even where the two are close (re-aromatisation, docs/SPEC.md §3 "To monitor").
+ * The nearest place is measured to its anchors: the atom; the bond's midpoint; the new bond's
+ * midpoint and its far atom (the one not in the source), so pointing at the atom the electrons
+ * go to picks the new bond to it, from the nearer end of the source bond. Atoms and bonds come
+ * first and win a tie, so an atom that is a place itself keeps its meaning, and a tap in the
+ * middle of a dashed line means that new bond even where the two are close (re-aromatisation,
+ * docs/SPEC.md §3 "To monitor").
  */
 import type {
   AtomLabel,
@@ -52,6 +55,8 @@ export interface DestinationTarget {
   readonly preview: DrawnCurvedArrow;
   /** For a new bond: its dashed line, trimmed clear of the two atoms' labels. */
   readonly newBondLine: { readonly start: Point; readonly end: Point } | null;
+  /** Where pointing picks this place: its centre, and for a new bond also its far atom. */
+  readonly anchors: readonly Point[];
 }
 
 export interface PickedSource {
@@ -73,7 +78,7 @@ function withPreview(
   picked: PickedSource,
   target: PickTarget,
   destination: ElectronLocus,
-): Omit<DestinationTarget, "newBondLine"> {
+): Omit<DestinationTarget, "newBondLine" | "anchors"> {
   const curvedArrow: CurvedArrow = {
     source: picked.source,
     destination,
@@ -99,12 +104,15 @@ function newBondTarget(
     radius: NEW_BOND_TARGET_RADIUS,
     accessibleName: `new bond ${atomName(first)}–${atomName(second)}`,
   };
+  const sourceAtoms = picked.source.atoms.map((atom) => atom.mapNumber);
+  const farAtom = sourceAtoms.includes(first.mapNumber) ? end : start;
   return {
     ...withPreview(drawing, picked, target, destination),
     newBondLine: {
       start: pointBetween(start, end, NEW_BOND_LINE_TRIM),
       end: pointBetween(start, end, 1 - NEW_BOND_LINE_TRIM),
     },
+    anchors: [target.center, farAtom],
   };
 }
 
@@ -136,6 +144,13 @@ function isShownNewBond(
   return isShift || drawnLength <= NEW_BOND_REACH * BOND_LENGTH_PIXELS;
 }
 
+/** Shorter new bonds first: pointing at a far atom picks the bond from the nearer source atom. */
+function newBondLength(place: DestinationTarget): number {
+  return place.newBondLine === null
+    ? 0
+    : distanceBetween(place.newBondLine.start, place.newBondLine.end);
+}
+
 /** Every place the picked source's electrons can go on this drawing. */
 export function destinationTargets(
   drawing: StateDrawing,
@@ -149,16 +164,23 @@ export function destinationTargets(
     }
     const pick = tapToDestinationLocus(graph, picked.source, place, picked.arrowType);
     return pick.pickOutcome === "destination"
-      ? [{ ...withPreview(drawing, picked, target, pick.destination), newBondLine: null }]
+      ? [
+          {
+            ...withPreview(drawing, picked, target, pick.destination),
+            newBondLine: null,
+            anchors: [target.center],
+          },
+        ]
       : [];
   });
   const newBonds = newBondDestinations(graph, picked.source, picked.drawnArrows)
     .filter((destination) => isShownNewBond(drawing, graph, picked.source, destination))
-    .map((destination) => newBondTarget(drawing, picked, destination));
+    .map((destination) => newBondTarget(drawing, picked, destination))
+    .sort((first, second) => newBondLength(first) - newBondLength(second));
   return [...drawnPlaces, ...newBonds];
 }
 
-/** The place nearest `point` (by its centre), or null if none is within NEAREST_PLACE_PIXELS. */
+/** The place nearest `point` (by its anchors), or null if none is within NEAREST_PLACE_PIXELS. */
 export function nearestDestinationTarget(
   targets: readonly DestinationTarget[],
   point: Point,
@@ -166,7 +188,7 @@ export function nearestDestinationTarget(
   let nearest: DestinationTarget | null = null;
   let nearestDistance = NEAREST_PLACE_PIXELS;
   for (const candidate of targets) {
-    const distance = distanceBetween(candidate.target.center, point);
+    const distance = Math.min(...candidate.anchors.map((anchor) => distanceBetween(anchor, point)));
     if (distance < nearestDistance) {
       nearest = candidate;
       nearestDistance = distance;

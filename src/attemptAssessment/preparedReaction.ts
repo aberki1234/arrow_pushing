@@ -9,7 +9,11 @@ import { type CurvedArrow, parseCurvedArrow } from "../arrowNotation/curvedArrow
 import { stateGraphFromMappedSmiles } from "../stateGraphs/mappedSmilesReading.js";
 import type { StateGraph } from "../stateGraphs/stateGraph.js";
 import { type ArrowPattern, parseArrowPattern } from "./arrowPatterns.js";
-import { type MapNumberRelabelling, skeletonSymmetries } from "./skeletonSymmetry.js";
+import {
+  type MapNumberRelabelling,
+  skeletonSymmetries,
+  withHydrogensFolded,
+} from "./skeletonSymmetry.js";
 
 /** An arrow step leaving a state, with its known arrow sets parsed (canonical arrows first). */
 export interface PreparedStep {
@@ -40,6 +44,8 @@ export interface PreparedReaction {
   readonly stateIdToMisconceptions: ReadonlyMap<string, readonly PreparedMisconception[]>;
   readonly stateIdToPartialProgressMessages: ReadonlyMap<string, readonly PartialProgressMessage[]>;
   readonly stateIdToSymmetries: Map<string, MapNumberRelabelling[]>;
+  /** The symmetries of each state with its drawn hydrogens folded (withHydrogensFolded). */
+  readonly stateIdToFoldedSymmetries: Map<string, MapNumberRelabelling[]>;
 }
 
 type DocumentRecord = Readonly<Record<string, unknown>>;
@@ -147,6 +153,7 @@ export function prepareReaction(
     stateIdToMisconceptions,
     stateIdToPartialProgressMessages,
     stateIdToSymmetries: new Map(),
+    stateIdToFoldedSymmetries: new Map(),
   };
 }
 
@@ -167,5 +174,19 @@ export function symmetriesOf(prepared: PreparedReaction, stateId: string): MapNu
   }
   const symmetries = skeletonSymmetries(graphOf(prepared, stateId));
   prepared.stateIdToSymmetries.set(stateId, symmetries);
+  return symmetries;
+}
+
+/** A state's skeleton symmetries with its drawn hydrogens folded into hydrogen counts. */
+export function foldedSymmetriesOf(
+  prepared: PreparedReaction,
+  stateId: string,
+): MapNumberRelabelling[] {
+  const known = prepared.stateIdToFoldedSymmetries.get(stateId);
+  if (known !== undefined) {
+    return known;
+  }
+  const symmetries = skeletonSymmetries(withHydrogensFolded(graphOf(prepared, stateId)));
+  prepared.stateIdToFoldedSymmetries.set(stateId, symmetries);
   return symmetries;
 }

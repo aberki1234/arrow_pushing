@@ -354,6 +354,12 @@ of π/lone-pair arrows. No path can pass through an sp³ atom: it has no π bond
 So the test is a single pass over atoms and bonds (microseconds), with no RDKit and no enumeration. Enumerating forms
 instead grows exponentially in the worst case (fused aromatics).
 
+**Drawn hydrogens (2026-11-26):** a step's result is also compared with every drawn H (one single bond to a
+non-hydrogen, no electrons of its own) folded into its neighbour's hydrogen count, under the symmetries of the
+from-state folded the same way (`withHydrogensFolded`, `foldedSymmetriesOf`). Hydrogens are drawn only where a step
+needs them, so a single drawn H made mirror-image ring carbons differ: attack at C13 instead of C14 of benzene was
+wrong. Arrow patterns (misconceptions, partial progress) keep the unfolded symmetries.
+
 **Skeleton symmetry** is found by enumerating the automorphisms of `S`'s σ skeleton, with elements and H counts as
 labels. The molecules here are small: a tert-butyl group with every H explicit is about 1,300 permutations, and most H are
 implicit. Above `MAXIMUM_SKELETON_SYMMETRIES = 10_000` (a safety cap, not a chemistry number), the linter warns and the

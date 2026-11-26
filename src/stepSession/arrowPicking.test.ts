@@ -153,9 +153,20 @@ describe("possible new bonds from a bond source", () => {
     return newBondDestinations(graph, source, drawnArrows).map(formatElectronLocus);
   };
 
-  test("to any atom of another molecule", () => {
+  test("to an atom of another molecule that can take a bond", () => {
     const dielsAlder = stateGraphFromMappedSmiles("[CH2:1]=[CH:2][CH:3]=[CH2:4].[CH2:5]=[CH2:6]");
     expect(newBonds(dielsAlder, [1, 2])).toEqual(["σ C1-C5", "σ C1-C6", "σ C2-C5", "σ C2-C6"]);
+    // The acylium carbon has π bonds to give up; its methyl carbon has nothing to give up.
+    const acylium = stateGraphFromMappedSmiles("[CH3:1][C:2]#[O+:3].[CH2:4]=[CH2:5]");
+    expect(newBonds(acylium, [4, 5])).toEqual(["σ C2-C4", "σ C2-C5", "σ O3-C4", "σ O3-C5"]);
+    // An H on oxygen can be passed across; an H on carbon, or water's oxygen itself, cannot.
+    const enolateAndWater = stateGraphFromMappedSmiles(
+      "[CH2:1]=[CH:2][O-:3].[H:4][O:5][H:6].[CH4:7]",
+    );
+    expect(newBonds(enolateAndWater, [1, 2])).toEqual(["σ C1-H4", "σ C1-H6", "σ C2-H4", "σ C2-H6"]);
+    // A carbon bonded to a leaving group can take a bond (SN2 by a π bond).
+    const alkeneAndBromomethane = stateGraphFromMappedSmiles("[CH2:1]=[CH2:2].[CH3:3][Br:4]");
+    expect(newBonds(alkeneAndBromomethane, [1, 2])).toEqual(["σ C1-C3", "σ C2-C3"]);
   });
 
   test("within a molecule: 1,2-shifts onto an electron-poor atom; rings from 4 bonds", () => {
@@ -169,7 +180,7 @@ describe("possible new bonds from a bond source", () => {
   });
 
   test("no 1,2-shift of an H a base is already taking", () => {
-    expect(newBonds(PROPYL_CATION_AND_WATER, [2, 5], ["lp O6 -> σ O6-H5"])).toEqual(["σ C2-O6"]);
+    expect(newBonds(PROPYL_CATION_AND_WATER, [2, 5], ["lp O6 -> σ O6-H5"])).toEqual([]);
   });
 
   test("a lone pair has none: tapping the atom is enough", () => {

@@ -116,3 +116,33 @@ describe("seedMissingCoordinates", () => {
     expect(document).toEqual(sn2Reaction());
   });
 });
+
+describe("separate molecules", () => {
+  it("keeps separate molecules at least a bond and a half apart", () => {
+    // RDKit put SO₃ and hydrogen sulfate 0.5 apart here, on top of each other.
+    const smiles =
+      "[O:1]=[S:2](=[O:3])=[O:4].[O-:5][S:6](=[O:7])(=[O:8])[OH:9]." +
+      "[C:14]1([H:17])=[CH:13][CH:12]=[CH:11][CH:16]=[CH:15]1";
+    const coordinates = seededCoordinates(smiles, toolkit);
+    const molecules = [
+      [1, 2, 3, 4],
+      [5, 6, 7, 8, 9],
+      [11, 12, 13, 14, 15, 16, 17],
+    ];
+    const pointOf = (mapNumber: number): [number, number] =>
+      coordinates[String(mapNumber)] ?? [Number.NaN, Number.NaN];
+    for (const [index, molecule] of molecules.entries()) {
+      for (const other of molecules.slice(index + 1)) {
+        for (const first of molecule) {
+          for (const second of other) {
+            const [x1, y1] = pointOf(first);
+            const [x2, y2] = pointOf(second);
+            expect(Math.hypot(x1 - x2, y1 - y2)).toBeGreaterThanOrEqual(
+              1.5 * RDKIT_BOND_LENGTH - BOND_LENGTH_TOLERANCE,
+            );
+          }
+        }
+      }
+    }
+  });
+});
