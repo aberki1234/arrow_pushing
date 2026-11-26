@@ -1,0 +1,324 @@
+{
+  "steps": [
+    {
+      "stepKey": "electrophilic-attack",
+      "stepKind": "polar",
+      "toStateId": "arenium-ion",
+      "fromStateId": "reactants",
+      "canonicalArrows": [
+        "π C9-C10 -> σ C9-N2",
+        "π N2-O3 -> lp O3"
+      ],
+      "routePreference": "preferred",
+      "explanationAfterStep": "This is the slow step: aromaticity is lost. The positive charge of the arenium ion is shared by the carbons ortho and para to the new C–N bond."
+    },
+    {
+      "stepKey": "deprotonation",
+      "stepKind": "polar",
+      "toStateId": "nitrobenzene",
+      "fromStateId": "arenium-ion",
+      "canonicalArrows": [
+        "lp O4 -> σ O4-H15",
+        "σ C9-H15 -> π C9-C10"
+      ],
+      "routePreference": "preferred",
+      "explanationAfterStep": "Loss of H⁺ is fast because it restores the aromatic ring. Sulfuric acid is regenerated: it is a catalyst."
+    }
+  ],
+  "title": "Nitration of benzene",
+  "authors": [
+    {
+      "url": null,
+      "name": "Maksim"
+    }
+  ],
+  "licence": "CC-BY-SA-4.0",
+  "subtitle": "Benzene attacks the nitronium ion; hydrogen sulfate restores aromaticity",
+  "references": [
+    "Clayden, Greeves and Warren, Organic Chemistry, 2nd edition (Oxford University Press), chapter 21"
+  ],
+  "reactionSlug": "nitration-of-benzene",
+  "startStateId": "reactants",
+  "formatVersion": 1,
+  "difficultyTier": 1,
+  "stateIdToState": {
+    "reactants": {
+      "caption": "nitronium ion + hydrogen sulfate + benzene",
+      "hintTiers": [
+        "Where are benzene's most available electrons, and which atom of NO₂⁺ is electron-poor?",
+        "One ring π bond forms a new C–N bond. Nitrogen cannot keep five bonds, so one N=O π pair moves onto oxygen. Two arrows.",
+        "A ring π bond → new C–N bond to the nitronium nitrogen; one N=O π bond → lone pair on that oxygen."
+      ],
+      "mappedSmiles": "[O:1]=[N+:2]=[O:3].[O-:4][S:5](=[O:6])(=[O:7])[OH:8].[C:9]1([H:15])=[CH:10][CH:11]=[CH:12][CH:13]=[CH:14]1",
+      "learnerPrompt": "Benzene is the nucleophile. Draw its attack on the nitronium ion.",
+      "misconceptions": [
+        {
+          "severity": "wrong",
+          "arrowPattern": "π C*-C* -> O*",
+          "feedbackMessage": "The oxygens of NO₂⁺ carry the electron density. The positive, electron-poor atom is nitrogen.",
+          "misconceptionId": "attack-on-oxygen",
+          "misconceptionTag": "attack-electron-rich-atom"
+        },
+        {
+          "severity": "wrong",
+          "arrowPattern": "lp O4 -> H15",
+          "feedbackMessage": "A benzene C–H is not acidic (pKa about 43). The proton only becomes acidic after the electrophile has added.",
+          "misconceptionId": "base-removes-proton-first",
+          "misconceptionTag": "deprotonate-too-early"
+        }
+      ],
+      "mapNumberToCoordinates": {
+        "1": [
+          0,
+          5.3
+        ],
+        "2": [
+          0,
+          3.8
+        ],
+        "3": [
+          0,
+          2.3
+        ],
+        "4": [
+          4,
+          0
+        ],
+        "5": [
+          5.3,
+          0.75
+        ],
+        "6": [
+          6.6,
+          1.5
+        ],
+        "7": [
+          6.05,
+          -0.55
+        ],
+        "8": [
+          4.55,
+          2.05
+        ],
+        "9": [
+          1.5,
+          0
+        ],
+        "10": [
+          0.75,
+          1.3
+        ],
+        "11": [
+          -0.75,
+          1.3
+        ],
+        "12": [
+          -1.5,
+          0
+        ],
+        "13": [
+          -0.75,
+          -1.3
+        ],
+        "14": [
+          0.75,
+          -1.3
+        ],
+        "15": [
+          3,
+          0
+        ]
+      },
+      "partialProgressMessages": [
+        {
+          "learnerArrows": [
+            "π C9-C10 -> σ C9-N2"
+          ],
+          "feedbackMessage": "Right: a ring π bond attacks nitrogen. But N now has five bonds. Which N=O π pair must move away?"
+        }
+      ]
+    },
+    "arenium-ion": {
+      "caption": "arenium (Wheland) ion",
+      "hintTiers": [
+        "The sp³ carbon carries both the nitro group and a hydrogen. Losing which one gives back the aromatic ring?",
+        "Hydrogen sulfate takes the proton, and the C–H bonding pair becomes a ring π bond next to the positive carbon. Two arrows.",
+        "Hydrogen sulfate's O⁻ lone pair → the H on the carbon bearing NO₂; σ C–H → a π bond to the neighbouring positive carbon."
+      ],
+      "mappedSmiles": "[O:1]=[N+:2]([O-:3])[C:9]1([H:15])[CH+:10][CH:11]=[CH:12][CH:13]=[CH:14]1.[O-:4][S:5](=[O:6])(=[O:7])[OH:8]",
+      "learnerPrompt": "Restore the aromatic ring.",
+      "misconceptions": [
+        {
+          "severity": "plausible",
+          "arrowPattern": "lp O4 -> C*",
+          "feedbackMessage": "Adding the nucleophile would give a non-aromatic addition product. Losing H⁺ restores aromaticity, which is far more favourable.",
+          "misconceptionId": "hydrogen-sulfate-adds-to-cation",
+          "misconceptionTag": "addition-instead-of-substitution"
+        },
+        {
+          "severity": "plausible",
+          "arrowPattern": "σ C9-N2 -> *",
+          "feedbackMessage": "Losing NO₂⁺ again just reverses the first step. Which other group on that sp³ carbon can leave?",
+          "misconceptionId": "lose-nitro-group",
+          "misconceptionTag": "wrong-group-leaves"
+        }
+      ],
+      "mapNumberToCoordinates": {
+        "1": [
+          2.39,
+          -2.44
+        ],
+        "2": [
+          2.65,
+          -0.96
+        ],
+        "3": [
+          4.06,
+          -0.45
+        ],
+        "4": [
+          0,
+          2.85
+        ],
+        "5": [
+          1.3,
+          3.6
+        ],
+        "6": [
+          2.6,
+          4.35
+        ],
+        "7": [
+          2.05,
+          2.3
+        ],
+        "8": [
+          0.55,
+          4.9
+        ],
+        "9": [
+          1.5,
+          0
+        ],
+        "10": [
+          0.75,
+          1.3
+        ],
+        "11": [
+          -0.75,
+          1.3
+        ],
+        "12": [
+          -1.5,
+          0
+        ],
+        "13": [
+          -0.75,
+          -1.3
+        ],
+        "14": [
+          0.75,
+          -1.3
+        ],
+        "15": [
+          2.65,
+          0.96
+        ]
+      },
+      "partialProgressMessages": [
+        {
+          "learnerArrows": [
+            "lp O4 -> σ O4-H15"
+          ],
+          "feedbackMessage": "Good: hydrogen sulfate takes the proton. Where does the C–H bonding pair go?"
+        }
+      ]
+    },
+    "nitrobenzene": {
+      "caption": "nitrobenzene + sulfuric acid",
+      "mappedSmiles": "[O:1]=[N+:2]([O-:3])[C:9]1=[CH:10][CH:11]=[CH:12][CH:13]=[CH:14]1.[H:15][O:4][S:5](=[O:6])(=[O:7])[OH:8]",
+      "mapNumberToCoordinates": {
+        "1": [
+          3.75,
+          -1.3
+        ],
+        "2": [
+          3,
+          0
+        ],
+        "3": [
+          3.75,
+          1.3
+        ],
+        "4": [
+          2.6,
+          4.35
+        ],
+        "5": [
+          1.3,
+          3.6
+        ],
+        "6": [
+          0,
+          2.85
+        ],
+        "7": [
+          0.55,
+          4.9
+        ],
+        "8": [
+          2.05,
+          2.3
+        ],
+        "9": [
+          1.5,
+          0
+        ],
+        "10": [
+          0.75,
+          1.3
+        ],
+        "11": [
+          -0.75,
+          1.3
+        ],
+        "12": [
+          -1.5,
+          0
+        ],
+        "13": [
+          -0.75,
+          -1.3
+        ],
+        "14": [
+          0.75,
+          -1.3
+        ],
+        "15": [
+          2.6,
+          5.85
+        ]
+      }
+    }
+  },
+  "conditionsLabel": "conc. HNO₃ · conc. H₂SO₄ · 50 °C",
+  "reactionClasses": [
+    "aromatic substitution"
+  ],
+  "reactionVersion": 2,
+  "mechanismSummary": "A π bond of benzene attacks the nitrogen of NO₂⁺, giving the arenium (Wheland) ion: aromaticity is lost and the positive charge is spread over three ring carbons. Hydrogen sulfate removes the proton from the sp³ carbon, the ring is aromatic again, and sulfuric acid is regenerated.",
+  "dailyPuzzleEligible": true,
+  "spectatorMapNumbers": [],
+  "atomRoleToMapNumbers": {
+    "base": [
+      4
+    ],
+    "ipsoCarbon": [
+      9
+    ],
+    "electrophile": [
+      2
+    ]
+  },
+  "previousReactionVersion": 1
+}
