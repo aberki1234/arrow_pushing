@@ -1,0 +1,443 @@
+{
+  "steps": [
+    {
+      "stepKey": "meta-attack",
+      "stepKind": "polar",
+      "toStateId": "arenium-ion",
+      "fromStateId": "reactants",
+      "canonicalArrows": [
+        "π C13-C14 -> σ C13-N2",
+        "π N2-O3 -> lp O3"
+      ],
+      "routePreference": "preferred",
+      "explanationAfterStep": "Meta attack: the charge sits on C14, C16 and C12, never on C11 (which carries N⁺)."
+    },
+    {
+      "stepKey": "charge-moves",
+      "stepKind": "polar",
+      "toStateId": "second-form",
+      "fromStateId": "arenium-ion",
+      "canonicalArrows": [
+        "π C15-C16 -> π C14-C15"
+      ],
+      "routePreference": "preferred",
+      "explanationAfterStep": "Another resonance form. After ortho or para attack, one form would put + on C11, right next to N⁺."
+    },
+    {
+      "stepKey": "deprotonation",
+      "stepKind": "polar",
+      "toStateId": "product",
+      "fromStateId": "second-form",
+      "canonicalArrows": [
+        "lp O4 -> σ O4-H17",
+        "σ C13-H17 -> π C12-C13",
+        "π C11-C12 -> π C11-C16"
+      ],
+      "routePreference": "preferred",
+      "explanationAfterStep": "1,3-Dinitrobenzene. Electron-withdrawing groups (NO₂, C=O, CN, SO₃H) direct meta and deactivate."
+    }
+  ],
+  "title": "Nitration of nitrobenzene",
+  "authors": [
+    {
+      "url": null,
+      "name": "Maksim"
+    }
+  ],
+  "licence": "CC-BY-SA-4.0",
+  "subtitle": "A nitro group directs meta",
+  "references": [
+    "Clayden, Greeves and Warren, Organic Chemistry, 2nd edition (Oxford University Press), chapter 21"
+  ],
+  "reactionSlug": "nitration-of-nitrobenzene",
+  "startStateId": "reactants",
+  "formatVersion": 1,
+  "difficultyTier": 3,
+  "stateIdToState": {
+    "product": {
+      "caption": "1,3-dinitrobenzene + sulfuric acid",
+      "mappedSmiles": "[O-:20][N+:18](=[O:19])[C:11]1[CH:12]=[C:13]([N+:2](=[O:1])[O-:3])[CH:14]=[CH:15][CH:16]=1.[H:17][O:4][S:5](=[O:6])(=[O:7])[OH:8]",
+      "mapNumberToCoordinates": {
+        "1": [
+          -0.75,
+          3.9
+        ],
+        "2": [
+          -1.5,
+          2.6
+        ],
+        "3": [
+          -3,
+          2.6
+        ],
+        "4": [
+          2.7,
+          7.52
+        ],
+        "5": [
+          1.4,
+          6.77
+        ],
+        "6": [
+          0.11,
+          6.02
+        ],
+        "7": [
+          0.65,
+          8.06
+        ],
+        "8": [
+          2.15,
+          5.47
+        ],
+        "11": [
+          1.5,
+          0
+        ],
+        "12": [
+          0.75,
+          1.3
+        ],
+        "13": [
+          -0.75,
+          1.3
+        ],
+        "14": [
+          -1.5,
+          0
+        ],
+        "15": [
+          -0.75,
+          -1.3
+        ],
+        "16": [
+          0.75,
+          -1.3
+        ],
+        "17": [
+          2.7,
+          9.02
+        ],
+        "18": [
+          3,
+          0
+        ],
+        "19": [
+          3.75,
+          -1.3
+        ],
+        "20": [
+          3.75,
+          1.3
+        ]
+      }
+    },
+    "reactants": {
+      "caption": "nitronium ion + hydrogen sulfate + nitrobenzene",
+      "hintTiers": [
+        "Which carbons are meta to the carbon bearing NO₂ (one carbon in between)?",
+        "π C13=C14 forms the new C13–N2 bond; an N=O π pair moves onto oxygen. Two arrows.",
+        "π C13=C14 → new C13–N2 bond; π N2=O3 → lone pair on O3."
+      ],
+      "mappedSmiles": "[O:1]=[N+:2]=[O:3].[O-:4][S:5](=[O:6])(=[O:7])[OH:8].[O-:20][N+:18](=[O:19])[C:11]1=[CH:12][C:13]([H:17])=[CH:14][CH:15]=[CH:16]1",
+      "learnerPrompt": "Nitrobenzene attacks NO₂⁺ meta to the nitro group.",
+      "misconceptions": [
+        {
+          "severity": "wrong",
+          "arrowPattern": "* -> σ C14-N2",
+          "feedbackMessage": "Attack there would give a resonance form with the positive charge on the carbon bearing N⁺: two positive charges side by side. Try meta.",
+          "misconceptionId": "para-attack",
+          "misconceptionTag": "wrong-regiochemistry-para"
+        },
+        {
+          "severity": "wrong",
+          "arrowPattern": "* -> σ C12-N2",
+          "feedbackMessage": "Attack there would give a resonance form with the positive charge on the carbon bearing N⁺: two positive charges side by side. Try meta.",
+          "misconceptionId": "ortho-attack",
+          "misconceptionTag": "wrong-regiochemistry-ortho"
+        }
+      ],
+      "mapNumberToCoordinates": {
+        "1": [
+          0,
+          6.6
+        ],
+        "2": [
+          0,
+          5.1
+        ],
+        "3": [
+          0,
+          3.6
+        ],
+        "4": [
+          4.75,
+          0
+        ],
+        "5": [
+          6.05,
+          0.75
+        ],
+        "6": [
+          7.35,
+          1.5
+        ],
+        "7": [
+          6.8,
+          -0.55
+        ],
+        "8": [
+          5.3,
+          2.05
+        ],
+        "11": [
+          0.29,
+          -0.74
+        ],
+        "12": [
+          -0.46,
+          0.56
+        ],
+        "13": [
+          -1.96,
+          0.56
+        ],
+        "14": [
+          -2.71,
+          -0.74
+        ],
+        "15": [
+          -1.96,
+          -2.04
+        ],
+        "16": [
+          -0.46,
+          -2.04
+        ],
+        "17": [
+          -2.71,
+          1.86
+        ],
+        "18": [
+          1.79,
+          -0.74
+        ],
+        "19": [
+          2.54,
+          -2.04
+        ],
+        "20": [
+          2.54,
+          0.56
+        ]
+      },
+      "partialProgressMessages": [
+        {
+          "learnerArrows": [
+            "π C13-C14 -> σ C13-N2"
+          ],
+          "feedbackMessage": "Right carbon. Nitrogen now has five bonds: move an N=O π pair onto oxygen."
+        }
+      ]
+    },
+    "arenium-ion": {
+      "caption": "arenium ion after meta attack",
+      "hintTiers": [
+        "A π bond next to the cationic carbon can shift towards it.",
+        "The C15=C16 π bond moves to C14–C15: the charge moves to C16. One arrow.",
+        "π C15=C16 → π C14–C15."
+      ],
+      "mappedSmiles": "[O-:20][N+:18](=[O:19])[C:11]1=[CH:12][C:13]([H:17])([N+:2](=[O:1])[O-:3])[CH+:14][CH:15]=[CH:16]1.[O-:4][S:5](=[O:6])(=[O:7])[OH:8]",
+      "learnerPrompt": "Move the positive charge round the ring once. Does it ever reach the carbon bearing NO₂?",
+      "misconceptions": [],
+      "mapNumberToCoordinates": {
+        "1": [
+          0.92,
+          3.29
+        ],
+        "2": [
+          -0.49,
+          2.78
+        ],
+        "3": [
+          -1.64,
+          3.74
+        ],
+        "4": [
+          0.07,
+          5.75
+        ],
+        "5": [
+          1.37,
+          6.5
+        ],
+        "6": [
+          2.66,
+          7.25
+        ],
+        "7": [
+          2.12,
+          5.2
+        ],
+        "8": [
+          0.62,
+          7.8
+        ],
+        "11": [
+          1.5,
+          0
+        ],
+        "12": [
+          0.75,
+          1.3
+        ],
+        "13": [
+          -0.75,
+          1.3
+        ],
+        "14": [
+          -1.5,
+          0
+        ],
+        "15": [
+          -0.75,
+          -1.3
+        ],
+        "16": [
+          0.75,
+          -1.3
+        ],
+        "17": [
+          -2.16,
+          1.81
+        ],
+        "18": [
+          3,
+          0
+        ],
+        "19": [
+          3.75,
+          -1.3
+        ],
+        "20": [
+          3.75,
+          1.3
+        ]
+      }
+    },
+    "second-form": {
+      "caption": "charge on C16: next to, but never on, the carbon bearing NO₂",
+      "hintTiers": [
+        "The C–H pair must end up in the ring; the π electrons shift to fill C16.",
+        "Hydrogen sulfate takes H17; σ C13–H17 forms π C12=C13; π C11=C12 shifts to C11=C16. Three arrows.",
+        "O4 lone pair → H17; σ C13–H17 → π C12=C13; π C11=C12 → π C11=C16."
+      ],
+      "mappedSmiles": "[O-:20][N+:18](=[O:19])[C:11]1=[CH:12][C:13]([H:17])([N+:2](=[O:1])[O-:3])[CH:14]=[CH:15][CH+:16]1.[O-:4][S:5](=[O:6])(=[O:7])[OH:8]",
+      "learnerPrompt": "Hydrogen sulfate removes the proton and the ring is aromatic again.",
+      "misconceptions": [],
+      "mapNumberToCoordinates": {
+        "1": [
+          0.92,
+          3.29
+        ],
+        "2": [
+          -0.49,
+          2.78
+        ],
+        "3": [
+          -1.64,
+          3.74
+        ],
+        "4": [
+          0.07,
+          5.75
+        ],
+        "5": [
+          1.37,
+          6.5
+        ],
+        "6": [
+          2.66,
+          7.25
+        ],
+        "7": [
+          2.12,
+          5.2
+        ],
+        "8": [
+          0.62,
+          7.8
+        ],
+        "11": [
+          1.5,
+          0
+        ],
+        "12": [
+          0.75,
+          1.3
+        ],
+        "13": [
+          -0.75,
+          1.3
+        ],
+        "14": [
+          -1.5,
+          0
+        ],
+        "15": [
+          -0.75,
+          -1.3
+        ],
+        "16": [
+          0.75,
+          -1.3
+        ],
+        "17": [
+          -2.16,
+          1.81
+        ],
+        "18": [
+          3,
+          0
+        ],
+        "19": [
+          3.75,
+          -1.3
+        ],
+        "20": [
+          3.75,
+          1.3
+        ]
+      },
+      "partialProgressMessages": [
+        {
+          "learnerArrows": [
+            "lp O4 -> σ O4-H17",
+            "σ C13-H17 -> π C12-C13"
+          ],
+          "feedbackMessage": "Good start, but C12 now has five bonds. Shift the C11=C12 π bond towards the positive C16."
+        }
+      ]
+    }
+  },
+  "conditionsLabel": "fuming HNO₃ · conc. H₂SO₄ · 100 °C",
+  "reactionClasses": [
+    "aromatic substitution"
+  ],
+  "reactionVersion": 1,
+  "mechanismSummary": "The nitro group withdraws electrons, so nitrobenzene reacts much more slowly than benzene (hence the harsh conditions). After ortho or para attack one resonance form would put the positive charge on the carbon bearing the already positive nitrogen: very unfavourable. Meta attack avoids that form, so meta is the least bad choice: 1,3-dinitrobenzene is the major product.",
+  "dailyPuzzleEligible": true,
+  "spectatorMapNumbers": [],
+  "atomRoleToMapNumbers": {
+    "base": [
+      4
+    ],
+    "electrophile": [
+      2
+    ],
+    "nitroNitrogen": [
+      18
+    ]
+  },
+  "previousReactionVersion": null
+}
