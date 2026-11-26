@@ -167,6 +167,7 @@ export function tapPlace(session: StepSession, tapped: TappedPlace): StepSession
     session.pendingSource,
     tapped,
     session.arrowType,
+    session.drawnArrows,
   );
   if (destinationPick.pickOutcome === "refused") {
     return { ...session, pickMessage: destinationPick.refusalMessage };

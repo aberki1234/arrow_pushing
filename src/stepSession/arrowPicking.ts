@@ -17,7 +17,10 @@
  *                 the dashed line between its two atoms (point and snap, decided 2026-11-26,
  *                 item 10g; newBondDestinations.ts lists them). This replaces the "which atom
  *                 forms the bond?" menu (2026-11-25) and the 10f shift menu.
- *   new bond X–Y  σ X-Y
+ *   new bond X–Y  σ X-Y, if newBondDestinations.ts offers it (else refused)
+ * An atom a 1,2-shift from the source bond lands on means that shift (the π bond to it is chosen
+ * as the bond itself); every way of choosing a place (tap, keyboard, pointer) goes through
+ * tapToDestinationLocus, so a place means the same thing however it is chosen.
  * Tapping a lone pair or an unpaired electron as a destination means tapping its atom.
  */
 import type {
@@ -26,6 +29,7 @@ import type {
   ElectronLocus,
 } from "../arrowNotation/curvedArrowNotation.js";
 import { type StateGraph, bondKey } from "../stateGraphs/stateGraph.js";
+import { newBondDestinations } from "./newBondDestinations.js";
 
 export type ArrowType = "pair" | "fishHook";
 
@@ -205,21 +209,57 @@ function fromBondSource(
   return refused(PICK_THE_NEW_BOND);
 }
 
+const NO_SUCH_NEW_BOND = "Those two atoms cannot form a bond in this step.";
+
+/** The new bond from the source bond that a 1,2-shift onto `target` would form, if offered. */
+function shiftOnto(
+  offered: readonly ElectronLocus[],
+  sourceAtoms: readonly number[],
+  target: number,
+): ElectronLocus | undefined {
+  if (sourceAtoms.includes(target)) {
+    return undefined;
+  }
+  return offered.find((newBond) => {
+    const atoms = newBond.atoms.map((atom) => atom.mapNumber);
+    return atoms.includes(target) && sourceAtoms.some((atom) => atoms.includes(atom));
+  });
+}
+
+/**
+ * The one rule for what a chosen place means, whether it was tapped, chosen by keyboard or
+ * pointed at (destinationTargets.ts lays the same places out on the drawing): see the module
+ * comment and docs/schema-design.md §2 "Where the electrons can go".
+ */
 export function tapToDestinationLocus(
   graph: StateGraph,
   source: ElectronLocus,
   tapped: TappedPlace,
   arrowType: ArrowType,
+  drawnArrows: readonly CurvedArrow[] = [],
 ): DestinationPick {
+  const offered = newBondDestinations(graph, source, drawnArrows);
   if (tapped.placeKind === "newBond") {
-    return {
-      pickOutcome: "destination",
-      destination: bondLocus(graph, "sigmaBond", ...tapped.mapNumbers),
-    };
+    const wanted = bondKey(...tapped.mapNumbers);
+    const newBond = offered.find(
+      (candidate) => bondKey(candidate.atoms[0].mapNumber, candidate.atoms[1]?.mapNumber ?? 0) === wanted,
+    );
+    return newBond === undefined
+      ? { pickOutcome: "refused", refusalMessage: NO_SUCH_NEW_BOND }
+      : { pickOutcome: "destination", destination: newBond };
   }
   const [first, second] = source.atoms.map((atom) => atom.mapNumber);
   if (second === undefined || first === undefined) {
     return fromAtomSource(graph, first ?? 0, tapped);
+  }
+  // An atom a 1,2-shift lands on means the shift (its π bond is the bond itself, tapped as a bond).
+  if (tapped.placeKind === "atom") {
+    const target = tapped.mapNumber;
+    const shift = shiftOnto(offered, [first, second], target);
+    const nextToOneEnd = bonded(graph, first, target) !== bonded(graph, second, target);
+    if (shift !== undefined && nextToOneEnd) {
+      return { pickOutcome: "destination", destination: shift };
+    }
   }
   return fromBondSource(graph, [first, second], tapped, arrowType);
 }

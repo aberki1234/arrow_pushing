@@ -222,6 +222,36 @@ describe("possible new bonds, whatever the order", () => {
 });
 
 describe("destinations from a bond, continued", () => {
+  test("an atom a 1,2-shift lands on means the shift, by tap, keyboard or pointer alike", () => {
+    // The cation: σ C2–H5 then C3 is the hydride shift (the π bond is the C2–C3 bond itself).
+    const source = sourceOf(tapToSourceLocus(PROPYL_CATION, bond(2, 5), [], "pair"));
+    expect(destinationText(tapToDestinationLocus(PROPYL_CATION, source, atom(3), "pair"))).toBe(
+      "σ C3-H5",
+    );
+    expect(destinationText(tapToDestinationLocus(PROPYL_CATION, source, bond(2, 3), "pair"))).toBe(
+      "π C2-C3",
+    );
+  });
+
+  test("a carbonyl carbon is no shift target: σ C–H then the C=O carbon is a C=C π bond", () => {
+    // Enolate formation with the C–H arrow drawn first (the base arrow not yet drawn).
+    const source = sourceOf(tapToSourceLocus(ALDOL_START, bond(3, 4), [], "pair"));
+    expect(destinationText(tapToDestinationLocus(ALDOL_START, source, atom(5), "pair"))).toBe(
+      "π C3-C5",
+    );
+  });
+
+  test("a new bond is accepted only where it is offered", () => {
+    const source = sourceOf(tapToSourceLocus(ENOLATE_AND_ALDEHYDE, bond(3, 5), [], "pair"));
+    expect(
+      destinationText(tapToDestinationLocus(ENOLATE_AND_ALDEHYDE, source, newBond(3, 9), "pair")),
+    ).toBe("σ C3-C9");
+    // C3 and the methyl carbon C8 cannot bond (the methyl has nothing to give up).
+    expect(
+      destinationText(tapToDestinationLocus(ENOLATE_AND_ALDEHYDE, source, newBond(3, 8), "pair")),
+    ).toBe("refused");
+  });
+
   test("an atom bonded to neither is refused: the new bond is picked itself", () => {
     const source = sourceOf(tapToSourceLocus(ENOLATE_AND_ALDEHYDE, bond(3, 5), [], "pair"));
     const refusal = tapToDestinationLocus(ENOLATE_AND_ALDEHYDE, source, atom(9), "pair");

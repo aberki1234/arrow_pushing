@@ -78,6 +78,7 @@ export function tapPlace(drawing: ArrowDrawing, tapped: TappedPlace): ArrowDrawi
     drawing.pendingSource,
     tapped,
     drawing.arrowType,
+    drawing.drawnArrows,
   );
   if (destinationPick.pickOutcome === "refused") {
     return { ...drawing, pickMessage: destinationPick.refusalMessage };

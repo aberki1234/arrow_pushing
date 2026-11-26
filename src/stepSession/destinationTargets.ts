@@ -172,11 +172,8 @@ function isShownNewBond(
   return isShift || drawnLength <= NEW_BOND_REACH * BOND_LENGTH_PIXELS;
 }
 
-/** The atom of a new bond that is not in the source (the one the electrons go to). */
-function farAtomOf(place: DestinationTarget, source: ElectronLocus): number {
-  const sourceAtoms = source.atoms.map((atom) => atom.mapNumber);
-  const [first = 0, second = 0] = place.target.mapNumbers;
-  return sourceAtoms.includes(first) ? second : first;
+function locusKey(locus: ElectronLocus): string {
+  return `${locus.locusKind}:${locus.atoms.map((atom) => String(atom.mapNumber)).join("-")}`;
 }
 
 /** Shorter new bonds first: pointing at a far atom picks the bond from the nearer source atom. */
@@ -197,7 +194,13 @@ export function destinationTargets(
     if (place === null) {
       return [];
     }
-    const pick = tapToDestinationLocus(graph, picked.source, place, picked.arrowType);
+    const pick = tapToDestinationLocus(
+      graph,
+      picked.source,
+      place,
+      picked.arrowType,
+      picked.drawnArrows,
+    );
     return pick.pickOutcome === "destination"
       ? [
           {
@@ -212,17 +215,10 @@ export function destinationTargets(
     .filter((destination) => isShownNewBond(drawing, graph, picked.source, destination))
     .map((destination) => newBondTarget(drawing, picked, destination))
     .sort((first, second) => newBondLength(first) - newBondLength(second));
-  // An atom a 1,2-shift lands on means the shift: as in textbooks, a shift's arrowhead points at
-  // the atom, a new π bond's at the middle of the bond (still offered there, as a bond place).
-  const shiftTargets = new Set(newBonds.map((place) => farAtomOf(place, picked.source)));
-  const keptPlaces = drawnPlaces.filter(
-    (place) =>
-      !(
-        place.target.targetKind === "atom" &&
-        place.destination.locusKind === "piBond" &&
-        shiftTargets.has(place.target.mapNumbers[0] ?? 0)
-      ),
-  );
+  // An atom whose meaning is a new bond (the atom a 1,2-shift lands on) is shown as that new bond,
+  // dashed line and all; its far-atom anchor is the same point.
+  const newBondKeys = new Set(newBonds.map((place) => locusKey(place.destination)));
+  const keptPlaces = drawnPlaces.filter((place) => !newBondKeys.has(locusKey(place.destination)));
   return [...keptPlaces, ...newBonds];
 }
 

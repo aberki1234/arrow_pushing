@@ -187,8 +187,13 @@ function isOffered(
     // A 1,2-shift onto an atom that is electron-poor, or will be as a leaving group goes (drawn
     // before or after the shift: the order the arrows are drawn in does not matter).
     const isShiftOfFormer = graph.bondToOrder.has(bondKey(other, target));
+    // A single bond to a leaving group (C–Br, C–OH₂⁺, O–O), not a C=O: a carbonyl carbon is no
+    // shift target.
     const losesLeavingGroup = neighboursOf(graph, target).some(
-      (neighbour) => neighbour !== other && LEAVING_GROUP_ELEMENTS.has(elementOf(graph, neighbour)),
+      (neighbour) =>
+        neighbour !== other &&
+        LEAVING_GROUP_ELEMENTS.has(elementOf(graph, neighbour)) &&
+        graph.bondToOrder.get(bondKey(target, neighbour)) === 1,
     );
     return isShiftOfFormer && (isElectronPoor(graph, target, drawnArrows) || losesLeavingGroup);
   }
