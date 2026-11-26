@@ -5,6 +5,9 @@
   import type { ChemistryToolkit } from "../chemistryToolkit/chemistryToolkit.js";
   import { type ArrowDrawing, setArrowType } from "../reactionEditing/arrowDrawing.js";
   import type { WedgeStyleChoice } from "../reactionEditing/fieldEdits.js";
+  import { statesOf } from "../reactionEditing/reactionDraft.js";
+  import { saveStructureFromEditor, stateToMolfile } from "../reactionEditing/structureExchange.js";
+  import StructureEditorDialog from "./StructureEditorDialog.svelte";
   import { stateDisplayNames } from "../reactionEditing/stateStrip.js";
   import { statesLeftUnreachable } from "../reactionEditing/stepDeletion.js";
   import ArrowList from "./ArrowList.svelte";
@@ -48,6 +51,14 @@
     { style: "plain", label: "— Plain" },
   ];
   const MORE_ITEMS: readonly { label: string; hint: string; choose: () => void }[] = [
+    {
+      label: "Edit structure",
+      hint: "draw or tidy it in Ketcher (wedges, rings…)",
+      choose: () => {
+        moreOpen = false;
+        structureOpen = true;
+      },
+    },
     {
       label: "Show an H",
       hint: "make one hydrogen tappable",
@@ -127,6 +138,26 @@
 
   function changeDrawing(change: (current: ArrowDrawing) => ArrowDrawing): void {
     update(updateArrowDrawing(session, change));
+  }
+
+  let structureOpen = $state(false);
+  const selectedState = $derived(
+    statesOf(currentDraft(session))[session.selectedStateId] as
+      | {
+          mappedSmiles: string;
+          mapNumberToCoordinates?: Record<string, number[]>;
+          bondToWedgeStyle?: Record<string, string>;
+        }
+      | undefined,
+  );
+
+  function saveStructure(molfile: string): void {
+    structureOpen = false;
+    if (toolkit !== null) {
+      apply(
+        saveStructureFromEditor(currentDraft(session), session.selectedStateId, molfile, toolkit),
+      );
+    }
   }
 
   function apply(edit: Parameters<typeof applyDocumentEdit>[1]): void {
@@ -333,3 +364,14 @@
     </section>
   </aside>
 </div>
+
+{#if structureOpen && selectedState !== undefined}
+  <StructureEditorDialog
+    molfile={stateToMolfile(selectedState)}
+    canChangeBonds={session.selectedStateId === document.startStateId}
+    onSave={saveStructure}
+    onCancel={() => {
+      structureOpen = false;
+    }}
+  />
+{/if}

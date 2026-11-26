@@ -41,7 +41,8 @@ Do not change agreed decisions without asking; update `docs/SPEC.md` and `docs/s
   catalogue and reaction files), `learnerSite/` (Svelte 5 + Vite app; `make site` → `build/site/`, `make dev`),
   `reactionEditor/` (Create, item 8d: Your mechanisms and the Start / Mechanism / Teaching / Publish stages,
   Svelte; `make editor` → http://localhost:5174/ on `content/reactions/`; built for the Render server),
-  `editorFileServer/` (the dev server's reading and saving of `content/reactions/`).
+  `editorFileServer/` (the dev server's reading and saving of `content/reactions/`), `buildTools/` (`make ketcher`:
+  the pinned Ketcher release, Create's structure editor, into `vendor/editor-public/ketcher`, not in git).
   `testSupport/` (fixture reading for tests). Tests sit beside the code as `*.test.ts`; Svelte component tests start
   with `// @vitest-environment jsdom`. Tests that load RDKit.js get it once with `loadChemistryToolkit()` in
   `beforeAll`.

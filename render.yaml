@@ -9,7 +9,8 @@ services:
     plan: starter
     # Choose the region nearest the Supabase project when creating the service.
     # --include=dev: the build (Vite) and the start (tsx) use development packages.
-    buildCommand: npm ci --include=dev && npx vite build --config vite.editor.config.ts
+    # fetch-ketcher: the structure editor's pinned release, served at /ketcher/ (item 10h).
+    buildCommand: npm ci --include=dev && npx tsx src/buildTools/runFromShell.ts fetch-ketcher && npx vite build --config vite.editor.config.ts
     startCommand: npx tsx src/backendServer/runFromShell.ts serve
     healthCheckPath: /
     autoDeploy: true

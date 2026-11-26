@@ -60,6 +60,11 @@ export interface ChemistryToolkit {
    * become implicit counts and aromatic rings are given one Kekulé form.
    */
   readStructure(smiles: string): WrittenStructure | undefined;
+  /**
+   * A V2000 molblock (from Ketcher, item 10h) read the usual way, explicit hydrogens kept: hydrogen
+   * counts and charges worked out, map numbers from the atom-map column, rings in Kekulé form.
+   */
+  readMolblock(molblock: string): WrittenStructure | undefined;
 }
 
 // Explicit hydrogens are drawn atoms, so RDKit must not fold them into their neighbours.
@@ -183,6 +188,8 @@ function toolkitOn(rdkit: RDKitModule): ChemistryToolkit {
       }),
     readStructure: (smiles) => withMolecule(rdkit, smiles, writtenStructure, RDKIT_DEFAULTS),
     readWrittenStructure: (smiles) => withMolecule(rdkit, smiles, writtenStructure, AS_WRITTEN),
+    readMolblock: (molblock) =>
+      withMolecule(rdkit, molblock, writtenStructure, KEEP_EXPLICIT_HYDROGENS),
   };
 }
 

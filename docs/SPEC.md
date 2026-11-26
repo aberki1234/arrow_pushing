@@ -327,7 +327,8 @@ reactions, track `electrophilic-aromatic-substitution`, problem sets in this ord
   - **Built 2026-11-25 (8b):** as above, plus these defaults: clearing an optional text removes its key (required
     text stays empty for lint); making a step preferred makes the other preferred step from its state accepted;
     a drawn misconception is refused at once if its arrows are a correct answer or would hide one; in Wedges mode
-    the author chooses **Wedge, Dash or Plain** and taps a bond: the narrow end goes on the more substituted atom
+    the author can also open **Edit structure** (Ketcher, item 10h: draw or tidy a state, wedges and rings; the
+    start state freely, later states only their layout and wedges); the author chooses **Wedge, Dash or Plain** and taps a bond: the narrow end goes on the more substituted atom
     and a second tap flips it (2026-11-26, replacing the five-step cycle; for trans-1,2-dibromocyclohexane); state
     ids and step keys are renamed everywhere.
 - **Backend (for editor/submissions only):** **TypeScript + Svelte** frontend; **TypeScript on Node + Postgres**

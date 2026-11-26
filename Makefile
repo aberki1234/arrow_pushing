@@ -71,13 +71,19 @@ dev:
 # The reaction editor (src/reactionEditor), served with its reaction-file server: drafts are read
 # from and saved to content/reactions/. Development only; open http://localhost:5174/.
 .PHONY: editor
-editor:
+editor: ketcher
 	npx vite --config vite.editor.config.ts
 
 # The editor built for the backend server, into build/editor/ (it saves to the server's database).
 .PHONY: editor-build
-editor-build:
+editor-build: ketcher
 	npx vite build --config vite.editor.config.ts
+
+# Ketcher, Create's structure editor (item 10h): the pinned release, checksum-checked, into
+# vendor/editor-public/ketcher (not in git; skipped when that version is already there).
+.PHONY: ketcher
+ketcher:
+	npx tsx src/buildTools/runFromShell.ts fetch-ketcher
 
 # The backend server (src/backendServer): sign-in, the reaction API and the built editor. Settings
 # come from environment variables (src/backendServer/serverSettings.ts); it applies migrations first.

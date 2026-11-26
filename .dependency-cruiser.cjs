@@ -25,6 +25,7 @@ const layersLowestFirst = [
   "reactionEditor",
   "editorFileServer",
   "backendServer",
+  "buildTools",
 ];
 
 const layerRules = layersLowestFirst.slice(0, -1).map((layer, position) => ({

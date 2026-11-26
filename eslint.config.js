@@ -25,7 +25,17 @@ const lineLengthRule = {
 };
 
 export default tseslint.config(
-  { ignores: ["node_modules", "dist", "build", "mockups", "docs", ".dependency-cruiser.cjs"] },
+  {
+    ignores: [
+      "node_modules",
+      "dist",
+      "build",
+      "vendor",
+      "mockups",
+      "docs",
+      ".dependency-cruiser.cjs",
+    ],
+  },
   eslint.configs.recommended,
   {
     files: ["**/*.js"],

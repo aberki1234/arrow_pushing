@@ -52,6 +52,9 @@ export default defineConfig({
   root: fromProjectRoot("src/reactionEditor/"),
   server: { port: EDITOR_PORT },
   build: { outDir: fromProjectRoot("build/editor/"), emptyOutDir: true },
+  // Ketcher, the structure editor (item 10h): fetched by `make ketcher` into vendor/editor-public/
+  // ketcher (not in git) and served, and copied into the build, at /ketcher/.
+  publicDir: fromProjectRoot("vendor/editor-public/"),
   // The lint worker is a module worker (main.ts starts it with type "module").
   worker: { format: "es" },
   // RDKit.js is a CommonJS (Emscripten) module: Vite pre-bundles it into an ES module, and

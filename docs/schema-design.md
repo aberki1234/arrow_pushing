@@ -905,6 +905,25 @@ RDKit (RDKit.js) on every valid SMILES case and every example state (`src/chemis
      state (`pendingDestinationOptions`, `chooseDestination`) is gone from the session and Create's arrow drawing.
      Checked in headless Chromium on the aldol: hover preview with the dashed C3–C9, a touch tap on its middle
      drawing "π C3=C5 → new bond C3–C9", faint lines after a touch.
+   * **10h Done 2026-11-26.** Structure editor: Ketcher in Create (decided 2026-11-26 from the prototype comparing Ketcher 3.21,
+     Apache-2.0, with Kekule.js 1.0.4, MIT: only Ketcher kept the map numbers through a round trip; it kept wedges,
+     coordinates and our mapped SMILES too; about 29 MB, loaded only in Create). Chemweave (GPL-3.0) for ideas only.
+     Planned, test-first:
+     - **Files:** the pinned Ketcher standalone release, checksum-checked, fetched at build time into the editor's
+       public folder (not in git), served by Create's server at `/ketcher/` (same origin, so Create can talk to it).
+     - **Exchange** (`reactionEditing/structureExchange.ts`): a state → V2000 molfile (map numbers in the atom-map
+       column, coordinates, wedges as bond stereo); a Ketcher molfile → mapped Kekulé SMILES (RDKit.js for hydrogen
+       counts and charges, our writer), coordinates rescaled to our bond length, `bondToWedgeStyle`; new atoms get
+       new map numbers.
+     - **What may change:** the start state freely; every later state only its layout and wedges (its bonds come
+       from the arrows): a save that changes atoms, bonds, charges or hydrogens there is refused.
+     - **Create:** "⋯ More → Edit structure" opens Ketcher in a dialog on the selected state; Save or Cancel.
+       The learner site is unchanged.
+     Built: `src/buildTools/` (`make ketcher`, also in Render's build command; `fflate` unzips), Vite's editor
+     `publicDir` `vendor/editor-public/`, `chemistryToolkit.readMolblock`, `reactionEditing/structureExchange.ts`
+     (`stateToMolfile`, `molfileToStructure`, `applyEditedStructure`, `saveStructureFromEditor`; a saved layout keeps
+     the state's old centre), `reactionEditor/StructureEditorDialog.svelte`. Checked in headless Chromium on the dev
+     editor: Ketcher ready in about 2 s with the state and its map numbers, Save writes the state.
    * **10d** The SEAr pilot (nitronium formation, nitration of benzene, nitration of anisole with resonance steps)
      drafted and pushed; reviewed by the owner; then the rest of the batch and `content/tracks/electrophilic-aromatic-substitution.json` (renamed from `aromatic-chemistry`, 2026-11-26).
    Phase 2 (design deferred until after the batch): the MCP server at `/mcp` over the same module and tokens, and a

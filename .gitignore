@@ -11,3 +11,6 @@ build/
 
 # Draft sync's local record of the drafts pushed or pulled (src/draftSync/)
 .draft-sync.json
+
+# Ketcher's release, fetched at build time (make ketcher)
+vendor/
