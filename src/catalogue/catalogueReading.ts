@@ -18,7 +18,27 @@ import {
   schemaViolationsFromErrors,
   type SchemaViolation,
 } from "../reactionFiles/schemaViolations.js";
-import { type ProblemSet, trackSchema } from "../trackFiles/trackSchemaViolations.js";
+import {
+  type CurriculumLevel,
+  type ProblemSet,
+  trackSchema,
+} from "../trackFiles/trackSchemaViolations.js";
+
+/** A state's drawing fields, as a reaction's or a track's card draws it (item 11). */
+export interface SchemeState {
+  readonly mappedSmiles: string;
+  /** Map number (as JSON key text) to [x, y] in RDKit units. */
+  readonly mapNumberToCoordinates: Readonly<Record<string, readonly number[]>>;
+  /** Key "<map number>-<map number>", wide end at the second atom. */
+  readonly bondToWedgeStyle?: Readonly<Record<string, "wedge" | "dash">>;
+}
+
+/** A bystander group drawn as a short label (Ph, OMe), as in the reaction file. */
+export interface CatalogueAbbreviatedGroup {
+  readonly groupLabel: string;
+  readonly attachmentMapNumber: number;
+  readonly mapNumbers: readonly number[];
+}
 
 export interface CatalogueEntry {
   readonly reactionSlug: string;
@@ -29,6 +49,11 @@ export interface CatalogueEntry {
   readonly reactionClasses: readonly string[];
   readonly difficultyTier: number;
   readonly dailyPuzzleEligible: boolean;
+  /** The text over the card's arrow; absent in catalogues built before item 11. */
+  readonly conditionsLabel?: string;
+  /** The start state the card draws; absent in catalogues built before item 11. */
+  readonly startState?: SchemeState;
+  readonly abbreviatedGroups?: readonly CatalogueAbbreviatedGroup[];
 }
 
 /** A track as the catalogue holds it: only published set items, no empty problem set. */
@@ -36,6 +61,14 @@ export interface CatalogueTrack {
   readonly trackSlug: string;
   readonly title: string;
   readonly goal: string;
+  /** Absent in catalogues built before item 11. */
+  readonly level?: CurriculumLevel;
+  /** e.g. "F2"; absent in catalogues built before item 11. */
+  readonly curriculumCode?: string;
+  /** Absent before item 11 and when its reaction is not published. */
+  readonly showcaseReactionSlug?: string;
+  /** Where the showcase reaction's preferred route ends; present with showcaseReactionSlug. */
+  readonly showcaseProductState?: SchemeState;
   readonly problemSets: readonly ProblemSet[];
 }
 

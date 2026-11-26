@@ -1,13 +1,14 @@
 /**
  * The daily puzzle (SPEC §1; decided 2026-11-25, item 7b): which reaction version is today's for
- * the learner's local date, its number, the streak, the time to the next one, the share text,
- * and which of its three states the daily page shows.
+ * the learner's local date, its number, the streak, the time to the next one, the result saved
+ * for a finished run, and which of its three states the daily page shows.
  *
  * Rules
  *   puzzle number  the date's position in the catalogue's calendar, counting from 1
  *   streak         consecutive local days with a finished daily, ending today or yesterday
  *                  (missed steps still count: finishing counts, not scoring)
- *   share text     "ArrowPush #<number> <one tile per step taken> <points>/<maximum>", no link
+ *   share grid     one coloured square per step taken, kept in the saved daily result (the
+ *                  share text and its Copy button went on 2026-11-26, item 11)
  *   page state     finished if today has a result; in progress if an unfinished daily was
  *                  started today; otherwise before (an unfinished one from another day is dropped)
  */
@@ -18,10 +19,8 @@ import type {
   LearnerProgress,
   RunRecord,
 } from "../learnerProgress/learnerProgress.js";
-import { maximumPoints, totalPoints } from "../stepSession/stepScoring.js";
+import { totalPoints } from "../stepSession/stepScoring.js";
 import type { StepOutcome, StepResult } from "../stepSession/stepSession.js";
-
-export const SHARE_TEXT_PREFIX = "ArrowPush";
 
 export interface DailyPuzzle {
   readonly localDate: string;
@@ -91,11 +90,6 @@ export function timeUntilNextPuzzleText(now: Date): string {
 
 export function shareGridOf(stepResults: readonly StepResult[]): string {
   return stepResults.map((stepResult) => OUTCOME_TO_SHARE_TILE[stepResult.stepOutcome]).join("");
-}
-
-export function shareText(puzzleNumber: number, stepResults: readonly StepResult[]): string {
-  const points = `${String(totalPoints(stepResults))}/${String(maximumPoints(stepResults))}`;
-  return `${SHARE_TEXT_PREFIX} #${String(puzzleNumber)} ${shareGridOf(stepResults)} ${points}`;
 }
 
 /** The result to save for a finished daily run. */

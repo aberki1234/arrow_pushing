@@ -3,6 +3,9 @@
   "trackSlug": "elimination",
   "title": "Elimination",
   "goal": "How alkyl halides and alcohols lose HX or water to give alkenes: E2, E1 and E1cB.",
+  "level": "foundations",
+  "curriculumCode": "F3",
+  "showcaseReactionSlug": "e2-2-bromobutane-zaitsev",
   "problemSets": [
     {
       "problemSetSlug": "e2",

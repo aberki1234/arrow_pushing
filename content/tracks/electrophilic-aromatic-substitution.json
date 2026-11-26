@@ -3,6 +3,9 @@
   "trackSlug": "electrophilic-aromatic-substitution",
   "title": "Electrophilic aromatic substitution",
   "goal": "How arenes react with electrophiles, and where.",
+  "level": "foundations",
+  "curriculumCode": "F7",
+  "showcaseReactionSlug": "nitration-of-benzene",
   "problemSets": [
     {
       "problemSetSlug": "making-the-electrophile",

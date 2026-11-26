@@ -3,6 +3,9 @@
   "trackSlug": "nucleophilic-substitution",
   "title": "Nucleophilic substitution",
   "goal": "How a nucleophile replaces a leaving group at a saturated carbon: SN2, SN1, and making leaving groups.",
+  "level": "foundations",
+  "curriculumCode": "F2",
+  "showcaseReactionSlug": "cyanide-and-iodoethane",
   "problemSets": [
     {
       "problemSetSlug": "sn2",

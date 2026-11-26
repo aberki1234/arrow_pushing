@@ -364,8 +364,13 @@ atomSelector        := O1 | O* (any O) | @nucleophile (a role) | *</code></pre>
   "reactions": [{ "reactionSlug": "…", "latestReactionVersion": 2,      // sorted by slug
                   "reactionVersionToContentHash": { "1": "&lt;64 hex&gt;", "2": "&lt;64 hex&gt;" },
                   "title": "…", "subtitle": "…",                        // null if absent
-                  "reactionClasses": ["…"], "difficultyTier": 1, "dailyPuzzleEligible": true }],
+                  "reactionClasses": ["…"], "difficultyTier": 1, "dailyPuzzleEligible": true,
+                  "conditionsLabel": "NaOH · EtOH/H₂O · 25 °C",        // item 11, for the cards
+                  "startState": { "mappedSmiles": "…", "mapNumberToCoordinates": { … } } }],
+  "tracks": [{ "trackSlug": "…", …, "level": "foundations", "curriculumCode": "F2",
+               "showcaseReactionSlug": "…", "showcaseProductState": { … }, … }],
   "dateToDailyReactionVersionRef": { "2026-12-01": "sn2-hydroxide-bromomethane@2", … } }</code></pre>
+    <p><b>For the cards</b> (item 11): each reaction's conditions and start state, and each track's showcase with the product where its reaction's preferred route ends. All optional in the schema, so a catalogue built before them still reads. About 2 kB per reaction.</p>
     <p>The <b>daily calendar is a list that only grows</b>. “Date mod number of reactions” would reshuffle days whenever a reaction is added. <span class="tag ok">built</span> 2026-11-25 as <code>src/catalogueBuilding/</code> (<code>npx tsx src/catalogueBuilding/runFromShell.ts build</code>, in TypeScript since item 8.0); the browser reads it with <code>src/catalogue/</code>. Decided 2026-11-25:</p>
     <ul>
       <li><b>Files in, files out.</b> The build reads published reaction files (later exported from Postgres) and writes into a new or empty folder: <code>catalogue.json</code> plus <code>r/&lt;slug&gt;/&lt;version&gt;.&lt;first 8 hex&gt;.json</code> per published version. Each reaction file holds exactly its canonical JSON, so the content hash (full 64 hex in the catalogue) is the sha256 of the file served.</li>
@@ -380,6 +385,9 @@ atomSelector        := O1 | O* (any O) | @nucleophile (a role) | *</code></pre>
     <p>One hand-written file per track, <code>content/tracks/&lt;trackSlug&gt;.json</code> (shape: <code>schema/track.schema.json</code>), kept in git:</p>
 <pre><code>{ "formatVersion": 1, "trackSlug": "aromatic-chemistry", "title": "Aromatic chemistry",
   "goal": "How arenes react with electrophiles, and where.",
+  "level": "foundations",                                  // foundations | core | advanced | graduate
+  "curriculumCode": "F7",                                  // its code in the curriculum roadmap
+  "showcaseReactionSlug": "nitration-of-benzene",          // one of its reactions, drawn whole on its card
   "problemSets": [                                         // in the suggested order
     { "problemSetSlug": "arenium-ion", "title": "The arenium ion",
       "conceptInOneLine": "An electrophile adds, the arenium ion loses H⁺, aromaticity returns.",
@@ -391,8 +399,8 @@ atomSelector        := O1 | O* (any O) | @nucleophile (a role) | *</code></pre>
     <ul>
       <li>Items are ordered by hand; the difficulty tier is shown but doesn't order them. A reaction may appear in several problem sets, at most once in each. Membership doesn't affect the daily puzzle.</li>
       <li>Every problem set says <code>"checkpoint": true</code> or <code>false</code>. Figures are SVG files in <code>content/tracks/figures/</code>.</li>
-      <li><b>Lint</b> <span class="tag ok">built</span> (<code>make lint-tracks</code>): the schema; problem-set slugs unique in the track; a reaction at most once per problem set; an item whose reaction isn't published is a <b>warning</b>; a checkpoint comes last and uses only reactions from the track's earlier problem sets; every figure exists.</li>
-      <li><b>Catalogue build</b> <span class="tag ok">built</span>: tracks are compiled into <code>catalogue.json</code>, and figures are copied to <code>t/&lt;track&gt;/figures/</code>. Unpublished items are left out, then empty problem sets, then empty tracks. A lint error in a track file stops the build. A push changing <code>content/tracks/</code> also rebuilds the site.</li>
+      <li><b>Lint</b> <span class="tag ok">built</span> (<code>make lint-tracks</code>): the schema; problem-set slugs unique in the track; a reaction at most once per problem set; an item whose reaction isn't published is a <b>warning</b>; a checkpoint comes last and uses only reactions from the track's earlier problem sets; every figure exists. Since item 11: the curriculum code's letter (F, C, A, G) matches the level, and the showcase is one of the track's reactions.</li>
+      <li><b>Catalogue build</b> <span class="tag ok">built</span>: tracks are compiled into <code>catalogue.json</code>, and figures are copied to <code>t/&lt;track&gt;/figures/</code>. Unpublished items are left out, then empty problem sets, then empty tracks (and an unpublished showcase). Tracks are listed by level, then by code (F2 before F10); two files with one code stop the build. A lint error in a track file stops the build. A push changing <code>content/tracks/</code> also rebuilds the site.</li>
       <li>Tracks move into Postgres, with an editor screen, only once contributors write problem sets.</li>
     </ul>
 
@@ -511,9 +519,16 @@ verifications(id uuid pk, identifier, value, expires_at, …)   -- the OAuth sta
           <li><b>10d</b> The SEAr pilot (nitronium formation, nitration of benzene, nitration of anisole with resonance steps), pushed and reviewed by you; then the rest of the batch and the track file.</li>
         </ul>
         Phase 2 (designed after the batch): the MCP server at <code>/mcp</code> over the same module and tokens, and a token page in Create.</li>
+      <li><b>Layout tidy-up</b> (decided 2026-11-26; design <a href="../mockups/layout.html">mockups/layout.html</a>):
+        <ul>
+          <li><span class="tag ok">done</span> <b>11a</b> Track files gain <code>level</code>, <code>curriculumCode</code> and <code>showcaseReactionSlug</code>; the linter checks the code's letter against the level and that the showcase is one of the track's reactions; the build refuses a repeated code and lists tracks by level, then code.</li>
+          <li><span class="tag ok">done</span> <b>11b</b> The catalogue carries what the cards draw: each reaction's conditions and start state (SMILES, coordinates, wedges, abbreviated groups), and each track's showcase with its product (where the preferred route ends). Optional in the schema so the previous catalogue still reads.</li>
+          <li><span class="tag ok">done</span> <b>11c</b> A drawing module for the cards in RSC / ACS document style (fixed bond length, skeletal, real sub- and superscripts, ring double bonds inside, no lone pairs), and the conditions split above / below the arrow.</li>
+          <li><span class="tag ok">done</span> <b>11d</b> The pages: Learn by level, Practice and problem sets as horizontal reaction cards ending in “?”, the Home daily card with the scheme, results as tiles with “5 / 6 points”, no share text or Copy.</li>
+        </ul></li>
     </ol>
 
-    <h2 id="fixes">11 · Corrections to the mockup content</h2>
+    <h2 id="fixes">12 · Corrections to the mockup content</h2>
     <ul>
       <li><span class="tag ok">Q4</span> <b>Radical H-abstraction needs 3 fish-hooks</b>, not 2. The 2-arrow attempt is partial progress (“1 more”).</li>
       <li><b>Aldol step 2 needs 3 arrows</b>, not 2. With the enolate drawn C=C–O⁻, attacking from the C=C π bond alone leaves C⁺ next to O⁻. That attempt now gets <code>minor-resonance-form</code>. The full answer: O⁻ lone pair → π O–C, π C=C → σ C–C′, π C′=O′ → lone pair on O′.</li>

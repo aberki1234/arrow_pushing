@@ -1,17 +1,21 @@
 <script lang="ts">
   // Home (decided 2026-11-25, item 7c): the hero, today's puzzle card, continue learning (item
   // 9b), continue practising, the learner's mastery in brief, and browse by type. The daily
-  // reaction stays unnamed here.
+  // reaction stays unnamed here; since item 11 its card shows the starting materials and
+  // conditions with a "?" for the product, and a solved daily its tiles and points.
   import { type Catalogue, catalogueTracks, localDateText } from "../catalogue/catalogueReading.js";
   import {
     dailyPageStateOf,
     dailyPuzzleOn,
-    shareGridOf,
     stepCountText,
     streakOn,
     timeUntilNextPuzzleText,
   } from "../dailyPuzzle/dailyPuzzle.js";
-  import { readDailyInProgress, readProgress } from "../learnerProgress/learnerProgress.js";
+  import {
+    readDailyInProgress,
+    readProgress,
+    runOfDailyResult,
+  } from "../learnerProgress/learnerProgress.js";
   import { firstTryRates } from "../learnerStatistics/learningHistory.js";
   import {
     masteredCount,
@@ -25,12 +29,15 @@
     recurringFeedback,
   } from "../learnerStatistics/recurringFeedback.js";
   import { preferredArrowStepsFrom } from "../stepSession/sessionReaction.js";
+  import { maximumPoints, totalPoints } from "../stepSession/stepScoring.js";
   import { continueLearning } from "../learnTracks/continueLearning.js";
   import { nextUpInTrack } from "../learnTracks/trackProgress.js";
   import { browserStorage } from "./browserStorage.js";
   import { learnHash, nextUpHash } from "./learnView.js";
   import { loadMisconceptionInfo } from "./misconceptionLoading.js";
+  import ReactionScheme from "./ReactionScheme.svelte";
   import { loadSessionReaction } from "./reactionLoading.js";
+  import ResultTiles from "./ResultTiles.svelte";
   import { siteRouteHash } from "./siteRoutes.js";
 
   const { catalogue }: { catalogue: Catalogue } = $props();
@@ -102,30 +109,50 @@
       <p class="muted">Practise a reaction instead.</p>
     {:else}
       {@const entry = entryOf(refParts(puzzle.reactionVersionRef)[0])}
-      <h2 id="today-heading">
-        Daily puzzle #{puzzle.puzzleNumber} · 🔥 {streakOn(progress.dateToDailyResult, today)}-day
-        streak
-      </h2>
-      <p class="muted small">
-        Mystery reaction{puzzleStepCount === null ? "" : ` · ${stepCountText(puzzleStepCount)}`}
-        {#if entry}· <span class="dots">{dots(entry.difficultyTier)}</span>{/if}
-      </p>
+      <h2 id="today-heading">Daily puzzle #{puzzle.puzzleNumber}</h2>
       {#if pageState.pageState === "finished"}
-        <p class="share">{pageState.dailyResult.shareGrid}</p>
-        <p class="small muted">Solved · next puzzle in {timeUntilNextPuzzleText(new Date())}</p>
-      {:else if pageState.pageState === "inProgress"}
-        <p class="small">
-          In progress · step {pageState.saved.snapshot.stepResults.length + 1}{puzzleStepCount ===
-          null
-            ? ""
-            : ` of ${String(puzzleStepCount)}`}
+        {@const run = runOfDailyResult(progress, pageState.dailyResult)}
+        <p class="muted small">
+          Solved{puzzleStepCount === null ? "" : ` · ${stepCountText(puzzleStepCount)}`}
+          {#if entry}· <span class="dots">{dots(entry.difficultyTier)}</span>{/if}
+          · 🔥 {streakOn(progress.dateToDailyResult, today)}-day streak
         </p>
-        <a class="btn primary sm" href="#/daily">Continue</a>
+        {#if run}
+          <div class="row">
+            <ResultTiles stepResults={run.stepResults} />
+            <span>
+              {totalPoints(run.stepResults)} / {maximumPoints(run.stepResults)} points
+            </span>
+          </div>
+        {/if}
+        <p class="small muted">Next puzzle in {timeUntilNextPuzzleText(new Date())}</p>
       {:else}
-        <p class="small muted">
-          Not started · next puzzle in {timeUntilNextPuzzleText(new Date())}
+        <p class="muted small">
+          Mystery reaction{puzzleStepCount === null ? "" : ` · ${stepCountText(puzzleStepCount)}`}
+          {#if entry}· <span class="dots">{dots(entry.difficultyTier)}</span>{/if}
+          · 🔥 {streakOn(progress.dateToDailyResult, today)}-day streak
         </p>
-        <a class="btn primary sm" href="#/daily">Start</a>
+        {#if entry?.startState}
+          <ReactionScheme
+            startState={entry.startState}
+            conditionsLabel={entry.conditionsLabel}
+            abbreviatedGroups={entry.abbreviatedGroups ?? []}
+            productState={null}
+          />
+        {/if}
+        <div class="row mt">
+          <a class="btn primary sm" href="#/daily">
+            {pageState.pageState === "inProgress" ? "Continue" : "▶ Start"}
+          </a>
+          <span class="small muted">
+            {#if pageState.pageState === "inProgress"}
+              In progress · step {pageState.saved.snapshot.stepResults.length +
+                1}{puzzleStepCount === null ? "" : ` of ${String(puzzleStepCount)}`}
+            {:else}
+              Next puzzle in {timeUntilNextPuzzleText(new Date())}
+            {/if}
+          </span>
+        </div>
       {/if}
     {/if}
   </section>
@@ -180,8 +207,12 @@
       {@const [lastSlug] = refParts(lastPractice.reactionVersionRef)}
       {@const lastEntry = entryOf(lastSlug)}
       <p>
-        <b>{lastEntry?.title ?? lastSlug}</b> · last time {shareGridOf(lastPractice.stepResults)}
+        <b>{lastEntry?.title ?? lastSlug}</b>
       </p>
+      <div class="row small">
+        <span class="muted">Last time</span>
+        <ResultTiles stepResults={lastPractice.stepResults} small />
+      </div>
       {#if lastEntry}
         <a
           class="btn sm"

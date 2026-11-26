@@ -16,7 +16,6 @@ import {
   dailyResultOf,
   dateBefore,
   shareGridOf,
-  shareText,
   stepCountText,
   streakOn,
   timeUntilNextPuzzleText,
@@ -75,11 +74,10 @@ test("time until the next puzzle, at the learner's own midnight", () => {
   expect(timeUntilNextPuzzleText(new Date(2026, 0, 5, 23, 15, 30))).toBe("44 m");
 });
 
-describe("sharing", () => {
-  test("one tile per step taken, coloured by outcome", () => {
+describe("the stored result", () => {
+  test("its grid has one tile per step taken, coloured by outcome", () => {
     const stepResults = [result("firstTry"), result("afterHint", 1, 1), result("missed", 3)];
     expect(shareGridOf(stepResults)).toBe("🟩🟨🟥");
-    expect(shareText(142, stepResults)).toBe("ArrowPush #142 🟩🟨🟥 5/9");
   });
 
   test("the daily result saved for a finished run", () => {

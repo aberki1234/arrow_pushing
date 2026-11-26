@@ -115,3 +115,12 @@ test("a checkpoint is started on its own page, not from a link naming a reaction
   expect(screen.getByRole("button", { name: /Start checkpoint/ })).toBeTruthy();
   expect(screen.queryByRole("link", { name: /Next up|Start:/ })).toBeNull();
 });
+
+test("each set item is a reaction card ending at a hidden product", () => {
+  renderPolarSteps();
+  const items = within(screen.getByRole("list", { name: "Set items" })).getAllByRole("listitem");
+  for (const item of items) {
+    expect(within(item).getByLabelText("Product hidden")).toBeTruthy();
+    expect(item.querySelectorAll("svg.scheme-species").length).toBeGreaterThan(0);
+  }
+});

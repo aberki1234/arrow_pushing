@@ -16,6 +16,7 @@
   import type { SetItem } from "../trackFiles/trackSchemaViolations.js";
   import CheckpointRun from "./CheckpointRun.svelte";
   import ConceptCard from "./ConceptCard.svelte";
+  import ReactionCard from "./ReactionCard.svelte";
   import { difficultyDots, learnHash, setItemMarkText } from "./learnView.js";
 
   const {
@@ -91,38 +92,46 @@
   />
 
   <ol class="set-items mt" aria-label="Set items">
-    {#each setProgress.setItemMarks as mark (mark.setItem.reactionSlug)}
+    {#each setProgress.setItemMarks as mark, position (mark.setItem.reactionSlug)}
       {@const entry = entryOf(mark.setItem.reactionSlug)}
       {@const isNextUp = nextUp?.reactionSlug === mark.setItem.reactionSlug}
-      <li class="card set-item" class:next={isNextUp}>
-        <div class="row spread">
-          <h2>
-            {#if problemSet.checkpoint && !mark.done}
-              Hidden reaction
-            {:else if problemSet.checkpoint}
-              {entry?.title ?? mark.setItem.reactionSlug}
-            {:else}
-              <a
-                href={learnHash(
-                  track.trackSlug,
-                  problemSet.problemSetSlug,
-                  mark.setItem.reactionSlug,
-                )}
-              >
+      {@const isHidden = problemSet.checkpoint && !mark.done}
+      <li class="set-item">
+        <ReactionCard entry={isHidden ? undefined : entry} isNext={isNextUp}>
+          {#snippet details()}
+            <h2>
+              <span class="item-number" class:done={mark.done} aria-hidden="true">
+                {mark.done ? "✓" : position + 1}
+              </span>
+              {#if isHidden}
+                Hidden reaction
+              {:else if problemSet.checkpoint}
                 {entry?.title ?? mark.setItem.reactionSlug}
-              </a>
-            {/if}
-          </h2>
-          <span class="pill" class:good={mark.mastered} class:new={isNextUp}>
-            {isNextUp ? "Next up" : setItemMarkText(mark)}
-          </span>
-        </div>
-        <p class="small">{mark.setItem.whyThisOne}</p>
-        {#if entry}
-          <span class="dots small" aria-label={`difficulty ${String(entry.difficultyTier)} of 3`}>
-            {difficultyDots(entry.difficultyTier)}
-          </span>
-        {/if}
+              {:else}
+                <a
+                  href={learnHash(
+                    track.trackSlug,
+                    problemSet.problemSetSlug,
+                    mark.setItem.reactionSlug,
+                  )}
+                >
+                  {entry?.title ?? mark.setItem.reactionSlug}
+                </a>
+              {/if}
+            </h2>
+            <p class="small muted">{mark.setItem.whyThisOne}</p>
+            <div class="row">
+              {#if entry}
+                <span class="dots" aria-label={`difficulty ${String(entry.difficultyTier)} of 3`}>
+                  {difficultyDots(entry.difficultyTier)}
+                </span>
+              {/if}
+              <span class="pill" class:good={mark.mastered} class:new={isNextUp}>
+                {isNextUp ? "Next up" : setItemMarkText(mark)}
+              </span>
+            </div>
+          {/snippet}
+        </ReactionCard>
       </li>
     {/each}
   </ol>

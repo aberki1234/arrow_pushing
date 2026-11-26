@@ -11,8 +11,15 @@
  *   checkpoint-not-last              (error)   a checkpoint problem set is not the last one.
  *   checkpoint-reaction-not-earlier  (error)   a checkpoint's reaction is in no earlier problem
  *                                              set of the track.
+ *   curriculum-code-wrong-level      (error)   the curriculum code's letter is not the level's
+ *                                              (F foundations, C core, A advanced, G graduate).
+ *   showcase-not-in-track            (error)   the showcase reaction is no set item of the track.
  */
-import { type TrackDocument, trackSchemaViolations } from "../trackFiles/trackSchemaViolations.js";
+import {
+  CURRICULUM_LEVEL_TO_LETTER,
+  type TrackDocument,
+  trackSchemaViolations,
+} from "../trackFiles/trackSchemaViolations.js";
 import { type LintFinding, lintError, lintWarning } from "./lintFindings.js";
 
 function schemaFindings(trackDocument: unknown): LintFinding[] {
@@ -111,6 +118,36 @@ function checkpointFindings(track: TrackDocument): LintFinding[] {
   return findings;
 }
 
+/** The code's letter matches the level, and the showcase is one of the track's reactions. */
+function curriculumFindings(track: TrackDocument): LintFinding[] {
+  const findings: LintFinding[] = [];
+  const levelLetter = CURRICULUM_LEVEL_TO_LETTER[track.level];
+  if (!track.curriculumCode.startsWith(levelLetter)) {
+    findings.push(
+      lintError(
+        "curriculum-code-wrong-level",
+        ["curriculumCode"],
+        `${track.curriculumCode} does not start with ${levelLetter}, the letter of the ` +
+          `${track.level} level`,
+      ),
+    );
+  }
+  const trackReactionSlugs = track.problemSets.flatMap((problemSet) =>
+    problemSet.setItems.map((setItem) => setItem.reactionSlug),
+  );
+  if (!trackReactionSlugs.includes(track.showcaseReactionSlug)) {
+    findings.push(
+      lintError(
+        "showcase-not-in-track",
+        ["showcaseReactionSlug"],
+        `${track.showcaseReactionSlug} is no set item of the track; the showcase shows one of ` +
+          "the reactions the track teaches",
+      ),
+    );
+  }
+  return findings;
+}
+
 /**
  * The lint findings of one track document.
  * `publishedReactionSlugs`: the slugs that have at least one published version.
@@ -128,5 +165,6 @@ export function lintTrack(
     ...repeatedProblemSetSlugFindings(track),
     ...setItemFindings(track, publishedReactionSlugs),
     ...checkpointFindings(track),
+    ...curriculumFindings(track),
   ];
 }

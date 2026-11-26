@@ -3,6 +3,9 @@
   "trackSlug": "addition-to-alkenes",
   "title": "Addition to alkenes",
   "goal": "How electrophiles add across C=C bonds, and where each part ends up.",
+  "level": "foundations",
+  "curriculumCode": "F4",
+  "showcaseReactionSlug": "propene-and-hbr",
   "problemSets": [
     {
       "problemSetSlug": "via-carbocations",

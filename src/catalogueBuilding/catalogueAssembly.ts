@@ -7,14 +7,21 @@
  *   2. catalogueEntries(): one entry per slug, sorted by slug, read from its latest version.
  *   3. eligibleVersionRefs(): the latest version of each slug whose latest version is
  *      dailyPuzzleEligible.
- *   4. assembleCatalogue(): all of the above plus the extended daily calendar (dailyCalendar).
+ *   4. assembleCatalogue(): all of the above plus the extended daily calendar (dailyCalendar),
+ *      and each showcased track's product (withShowcaseProducts).
+ *
+ * An entry and a track carry what their cards draw (item 11): the conditions, the start state
+ * and, for a track's showcase, the state where the preferred route ends.
  */
 import {
   type Catalogue,
+  type CatalogueAbbreviatedGroup,
   type CatalogueEntry,
   type CatalogueTrack,
+  type SchemeState,
   catalogueSchemaViolations,
 } from "../catalogue/catalogueReading.js";
+import { endOfPreferredRoute } from "../reactionFiles/preferredRoute.js";
 import { CatalogueBuildError } from "./catalogueBuildErrors.js";
 import { appendedDailyCalendar } from "./dailyCalendar.js";
 import type { PublishedVersion } from "./publishedVersions.js";
@@ -109,6 +116,47 @@ function textOrNull(value: unknown): string | null {
   return typeof value === "string" ? value : null;
 }
 
+function recordOrNull(value: unknown): Readonly<Record<string, unknown>> | null {
+  return typeof value === "object" && value !== null && !Array.isArray(value)
+    ? (value as Readonly<Record<string, unknown>>)
+    : null;
+}
+
+/** The drawing fields of the document's state `stateId`, or null if it has no such state. */
+function schemeStateOf(
+  document: Readonly<Record<string, unknown>>,
+  stateId: string,
+): SchemeState | null {
+  const state = recordOrNull(recordOrNull(document["stateIdToState"])?.[stateId]);
+  if (state === null) {
+    return null;
+  }
+  // The reaction file passed its schema, so these fields have the shapes SchemeState names.
+  const wedges = state["bondToWedgeStyle"] as SchemeState["bondToWedgeStyle"];
+  return {
+    mappedSmiles: String(state["mappedSmiles"]),
+    mapNumberToCoordinates: state[
+      "mapNumberToCoordinates"
+    ] as SchemeState["mapNumberToCoordinates"],
+    ...(wedges === undefined ? {} : { bondToWedgeStyle: wedges }),
+  };
+}
+
+/** What the reaction's card draws: the conditions, the start state, the abbreviated groups. */
+function schemeFieldsOf(
+  document: Readonly<Record<string, unknown>>,
+): Pick<CatalogueEntry, "conditionsLabel" | "startState" | "abbreviatedGroups"> {
+  const startState = schemeStateOf(document, String(document["startStateId"]));
+  const groups = document["abbreviatedGroups"];
+  return {
+    ...(typeof document["conditionsLabel"] === "string"
+      ? { conditionsLabel: document["conditionsLabel"] }
+      : {}),
+    ...(startState === null ? {} : { startState }),
+    ...(Array.isArray(groups) ? { abbreviatedGroups: groups as CatalogueAbbreviatedGroup[] } : {}),
+  };
+}
+
 /** One entry per slug, sorted by slug; its texts and facets come from the latest version. */
 export function catalogueEntries(publishedVersions: readonly PublishedVersion[]): CatalogueEntry[] {
   return latestVersions(publishedVersions).map((latest) => {
@@ -130,7 +178,33 @@ export function catalogueEntries(publishedVersions: readonly PublishedVersion[])
         : [],
       difficultyTier: Number(document.difficultyTier),
       dailyPuzzleEligible: document.dailyPuzzleEligible === true,
+      ...schemeFieldsOf(document),
     };
+  });
+}
+
+/**
+ * Each track with a showcase gains `showcaseProductState`: where the preferred route of its
+ * reaction's latest version ends.
+ */
+export function withShowcaseProducts(
+  tracks: readonly CatalogueTrack[],
+  publishedVersions: readonly PublishedVersion[],
+): CatalogueTrack[] {
+  const slugToLatest = new Map(
+    latestVersions(publishedVersions).map((version) => [version.reactionSlug, version]),
+  );
+  return tracks.map((track) => {
+    const showcase =
+      track.showcaseReactionSlug === undefined
+        ? undefined
+        : slugToLatest.get(track.showcaseReactionSlug);
+    if (showcase === undefined) {
+      return track;
+    }
+    const document = showcase.reactionDocument;
+    const productState = schemeStateOf(document, endOfPreferredRoute(document));
+    return productState === null ? track : { ...track, showcaseProductState: productState };
   });
 }
 
@@ -176,7 +250,7 @@ export function assembleCatalogue(
     formatVersion: CATALOGUE_FORMAT_VERSION,
     builtAt,
     reactions: catalogueEntries(publishedVersions),
-    tracks,
+    tracks: withShowcaseProducts(tracks, publishedVersions),
     dateToDailyReactionVersionRef: appendedDailyCalendar(
       previousDateToRef,
       eligibleVersionRefs(publishedVersions),

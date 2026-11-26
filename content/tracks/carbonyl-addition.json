@@ -3,6 +3,9 @@
   "trackSlug": "carbonyl-addition",
   "title": "Carbonyl addition",
   "goal": "How nucleophiles add to C=O, and what the tetrahedral intermediate does next.",
+  "level": "foundations",
+  "curriculumCode": "F5",
+  "showcaseReactionSlug": "sodium-borohydride-and-acetone",
   "problemSets": [
     {
       "problemSetSlug": "nucleophilic-addition",

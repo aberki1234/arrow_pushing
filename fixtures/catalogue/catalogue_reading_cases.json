@@ -1,5 +1,5 @@
 {
-  "description": "Reading a catalogue (schema/catalogue.schema.json) in the learner site. The catalogue below is valid; its tracks use the problem set of schema/track.schema.json. dateCases: the reaction version ref of the daily puzzle on a learner's local date, or null outside the calendar. filePathCases: the static file of a reaction version ref, r/<slug>/<version>.<first 8 hex of its content hash>.json, or null for a ref the catalogue does not hold. invalidEdits: a value set at pathToSet (keys and positions from the root) that both schema validators must report at expectedViolationPath.",
+  "description": "Reading a catalogue (schema/catalogue.schema.json) in the learner site. The catalogue below is valid; its tracks use the problem set, level and curriculum code of schema/track.schema.json (level, curriculumCode and showcaseReactionSlug are absent from catalogues built before item 11, as are an entry's conditionsLabel and startState and a track's showcaseProductState). dateCases: the reaction version ref of the daily puzzle on a learner's local date, or null outside the calendar. filePathCases: the static file of a reaction version ref, r/<slug>/<version>.<first 8 hex of its content hash>.json, or null for a ref the catalogue does not hold. invalidEdits: a value set at pathToSet (keys and positions from the root) that both schema validators must report at expectedViolationPath.",
   "catalogue": {
     "formatVersion": 1,
     "builtAt": "2026-12-01T10:00:00Z",
@@ -12,10 +12,17 @@
        "reactionVersionToContentHash": {"1": "aaaaaaaa11111111111111111111111111111111111111111111111111111111",
                                         "2": "bbbbbbbb22222222222222222222222222222222222222222222222222222222"},
        "title": "SN2 substitution", "subtitle": "Hydroxide displaces bromide from bromomethane",
-       "reactionClasses": ["substitution"], "difficultyTier": 1, "dailyPuzzleEligible": true}
+       "reactionClasses": ["substitution"], "difficultyTier": 1, "dailyPuzzleEligible": true,
+       "conditionsLabel": "NaOH · EtOH/H₂O · 25 °C",
+       "startState": {"mappedSmiles": "[OH-:1].[CH3:2][Br:3]",
+                      "mapNumberToCoordinates": {"1": [0, 0], "2": [2.5, 0], "3": [4, 0]},
+                      "bondToWedgeStyle": {"2-3": "wedge"}}}
     ],
     "tracks": [
       {"trackSlug": "first-mechanisms", "title": "First mechanisms", "goal": "Polar steps first.",
+       "level": "foundations", "curriculumCode": "F1", "showcaseReactionSlug": "sn2-hydroxide-bromomethane",
+       "showcaseProductState": {"mappedSmiles": "[OH:1][CH3:2].[Br-:3]",
+                                "mapNumberToCoordinates": {"1": [0, 0], "2": [1.5, 0], "3": [4, 0]}},
        "problemSets": [
          {"problemSetSlug": "polar-steps", "title": "Polar steps", "conceptInOneLine": "Pairs of electrons move.",
           "conceptCard": "Each curved arrow moves **one pair**.", "conceptFigurePaths": ["figures/curved-arrow.svg"],
@@ -49,6 +56,10 @@
     {"caseName": "a subtitle that is neither text nor null", "pathToSet": ["reactions", 1, "subtitle"], "newValue": 3, "expectedViolationPath": "/reactions/1/subtitle"},
     {"caseName": "a set item with no reaction slug", "pathToSet": ["tracks", 0, "problemSets", 0, "setItems", 0], "newValue": {"whyThisOne": "No slug."}, "expectedViolationPath": "/tracks/0/problemSets/0/setItems/0"},
     {"caseName": "a concept figure that is not an SVG in figures/", "pathToSet": ["tracks", 0, "problemSets", 0, "conceptFigurePaths", 0], "newValue": "../secret.png", "expectedViolationPath": "/tracks/0/problemSets/0/conceptFigurePaths/0"},
+    {"caseName": "a track level the curriculum does not have", "pathToSet": ["tracks", 0, "level"], "newValue": "postdoc", "expectedViolationPath": "/tracks/0/level"},
+    {"caseName": "a curriculum code in the wrong shape", "pathToSet": ["tracks", 0, "curriculumCode"], "newValue": "F01", "expectedViolationPath": "/tracks/0/curriculumCode"},
+    {"caseName": "a start state without coordinates", "pathToSet": ["reactions", 1, "startState", "mapNumberToCoordinates"], "newValue": [], "expectedViolationPath": "/reactions/1/startState/mapNumberToCoordinates"},
+    {"caseName": "a wedge style the reaction file does not have", "pathToSet": ["reactions", 1, "startState", "bondToWedgeStyle", "2-3"], "newValue": "bold", "expectedViolationPath": "/reactions/1/startState/bondToWedgeStyle/2-3"},
     {"caseName": "a catalogue track with a format version", "pathToSet": ["tracks", 0, "formatVersion"], "newValue": 1, "expectedViolationPath": "/tracks/0"},
     {"caseName": "difficulty out of range", "pathToSet": ["reactions", 1, "difficultyTier"], "newValue": 4, "expectedViolationPath": "/reactions/1/difficultyTier"}
   ]

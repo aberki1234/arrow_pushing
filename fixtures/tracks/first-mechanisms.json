@@ -3,6 +3,9 @@
   "trackSlug": "first-mechanisms",
   "title": "First mechanisms",
   "goal": "Polar and radical steps on the four example reactions.",
+  "level": "foundations",
+  "curriculumCode": "F1",
+  "showcaseReactionSlug": "sn2-hydroxide-bromomethane",
   "problemSets": [
     {
       "problemSetSlug": "polar-steps",

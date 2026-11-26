@@ -28,6 +28,7 @@
   import { type StepSession, startStepSession } from "../stepSession/stepSession.js";
   import { browserStorage } from "./browserStorage.js";
   import { loadSessionReaction } from "./reactionLoading.js";
+  import ReactionScheme from "./ReactionScheme.svelte";
   import RunSummary from "./RunSummary.svelte";
   import StepPlay from "./StepPlay.svelte";
   import { type FinishedViewExtras, finishedViewExtras } from "./runSummaryView.js";
@@ -40,6 +41,14 @@
     "Work out the mechanism from the reactants and conditions. The name is revealed at the end.";
   // Fixed when the page opens: a puzzle finished after midnight counts for the day it started.
   const puzzle = $derived(dailyPuzzleOn(catalogue, localDateText(new Date())));
+  /** Today's reaction in the catalogue: its card's scheme (item 11). */
+  const puzzleEntry = $derived(
+    puzzle === null
+      ? undefined
+      : catalogue.reactions.find(
+          (entry) => entry.reactionSlug === puzzle.reactionVersionRef.split("@")[0],
+        ),
+  );
   let progress: LearnerProgress = $state.raw(readProgress(browserStorage));
   let pageState: DailyPageState | null = $state.raw(null);
   let reaction: SessionReaction | null = $state.raw(null);
@@ -175,10 +184,16 @@
     </div>
     <h1 id="daily-heading" style="margin-top:8px">Daily puzzle #{puzzle.puzzleNumber}</h1>
     <p><b>Mystery named reaction.</b> {INTRODUCTION}</p>
+    {#if puzzleEntry?.startState}
+      <ReactionScheme
+        startState={puzzleEntry.startState}
+        conditionsLabel={puzzleEntry.conditionsLabel}
+        abbreviatedGroups={puzzleEntry.abbreviatedGroups ?? []}
+        productState={null}
+      />
+    {/if}
     <p class="muted">
-      {reaction.stateIdToState.get(reaction.startStateId)?.displayFields.caption ?? ""}
-      {reaction.conditionsLabel ? ` · ${reaction.conditionsLabel}` : ""}
-      · {stepCountText(preferredArrowStepsFrom(reaction, reaction.startStateId))}
+      {stepCountText(preferredArrowStepsFrom(reaction, reaction.startStateId))}
     </p>
     <button class="btn primary" type="button" onclick={start}>Start</button>
   </section>

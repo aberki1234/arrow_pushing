@@ -1,7 +1,8 @@
 <script lang="ts">
   // The practice list (decided 2026-11-25, item 7c): every reaction with the learner's mastery,
   // filtered by type, difficulty and status and searched by title. The filters are kept in the
-  // hash (replaced, not pushed, so typing a search does not fill the browser history).
+  // hash (replaced, not pushed, so typing a search does not fill the browser history). Each
+  // reaction is a horizontal card with its scheme, one per row (item 11).
   import type { Catalogue } from "../catalogue/catalogueReading.js";
   import { readProgress } from "../learnerProgress/learnerProgress.js";
   import {
@@ -14,6 +15,7 @@
   } from "../learnerStatistics/practiceList.js";
   import { masteryByClass, masteryBySlug } from "../learnerStatistics/reactionMastery.js";
   import { browserStorage } from "./browserStorage.js";
+  import ReactionCard from "./ReactionCard.svelte";
   import { siteRouteHash } from "./siteRoutes.js";
 
   const { catalogue, practiceQuery }: { catalogue: Catalogue; practiceQuery: string } = $props();
@@ -45,6 +47,10 @@
       practiceQuery: practiceFiltersQuery(next),
     });
     window.history.replaceState(null, "", hash);
+  }
+
+  function entryOf(reactionSlug: string): Catalogue["reactions"][number] | undefined {
+    return catalogue.reactions.find((entry) => entry.reactionSlug === reactionSlug);
   }
 
   function dots(difficultyTier: number): string {
@@ -147,31 +153,42 @@
 </div>
 
 <p class="small muted mt" aria-live="polite">{shown.length} of {cards.length} reactions</p>
-<ul class="grid g3 reaction-list">
+<ul class="reaction-list" aria-label="Reactions">
   {#each shown as card (card.reactionSlug)}
-    <li class="card">
-      <div class="row">
-        {#each card.reactionClasses as reactionClass (reactionClass)}
-          <span class="pill" class:rad={reactionClass === "radical"}>{reactionClass}</span>
-        {/each}
-        <span class="dots" aria-label={`difficulty ${String(card.difficultyTier)} of 3`}>
-          {dots(card.difficultyTier)}
-        </span>
-        {#if card.isUpdated}<span class="pill new">updated</span>{/if}
-      </div>
-      <h2>{card.title}</h2>
-      {#if card.subtitle}<p class="muted small">{card.subtitle}</p>{/if}
-      <div class="row spread">
-        <span class="small">
-          {card.masteryPercent === null ? "New" : `Mastery ${String(card.masteryPercent)}%`}
-        </span>
-        <a
-          class="btn primary sm"
-          href={siteRouteHash({ routeName: "play", reactionVersionRef: card.reactionVersionRef })}
-        >
-          Practise
-        </a>
-      </div>
+    <li>
+      <ReactionCard entry={entryOf(card.reactionSlug)}>
+        {#snippet details()}
+          <h2>
+            <a
+              href={siteRouteHash({
+                routeName: "play",
+                reactionVersionRef: card.reactionVersionRef,
+              })}
+            >
+              {card.title}
+            </a>
+          </h2>
+          {#if card.subtitle}<p class="muted small">{card.subtitle}</p>{/if}
+          <div class="row">
+            {#each card.reactionClasses as reactionClass (reactionClass)}
+              <span class="pill" class:rad={reactionClass === "radical"}>{reactionClass}</span>
+            {/each}
+            <span class="dots" aria-label={`difficulty ${String(card.difficultyTier)} of 3`}>
+              {dots(card.difficultyTier)}
+            </span>
+          </div>
+          <div class="row">
+            {#if card.masteryPercent === null}
+              <span class="pill new">New</span>
+            {:else if card.masteryPercent === 100}
+              <span class="pill good">Mastered ✓</span>
+            {:else}
+              <span class="pill">Mastery {card.masteryPercent}%</span>
+            {/if}
+            {#if card.isUpdated}<span class="pill new">updated</span>{/if}
+          </div>
+        {/snippet}
+      </ReactionCard>
     </li>
   {:else}
     <li class="muted">No reaction matches these filters.</li>

@@ -5,6 +5,7 @@
 import { join } from "node:path";
 import { type Catalogue, readCatalogue } from "../catalogue/catalogueReading.js";
 import {
+  exampleReactionDocuments,
   fixtureCaseEntries,
   fixturesFolderPath,
   isRecord,
@@ -65,15 +66,52 @@ export function editedTrack(caseName: string): Record<string, unknown> {
   return applyReactionEdits(exampleTrack(), editCase.edits);
 }
 
+/** The drawing fields of an example reaction's state, as the catalogue holds them. */
+function schemeStateOf(
+  document: Record<string, unknown>,
+  stateId: string,
+): Record<string, unknown> {
+  const stateIdToState = document["stateIdToState"];
+  const state = isRecord(stateIdToState) ? stateIdToState[stateId] : undefined;
+  if (!isRecord(state)) {
+    throw new Error(`the example reaction has no state ${stateId}`);
+  }
+  return {
+    mappedSmiles: state["mappedSmiles"],
+    mapNumberToCoordinates: state["mapNumberToCoordinates"],
+  };
+}
+
+/** What an example reaction's card draws: its conditions and its start state. */
+function exampleSchemeFields(reactionSlug: string): Record<string, unknown> {
+  const document = exampleReactionDocuments().find(
+    ([name]) => name === `${reactionSlug}.json`,
+  )?.[1];
+  if (document === undefined) {
+    throw new Error(`no example reaction ${reactionSlug}`);
+  }
+  return {
+    conditionsLabel: document["conditionsLabel"],
+    startState: schemeStateOf(document, String(document["startStateId"])),
+  };
+}
+
 /**
- * A catalogue holding the four example reactions (version 1, stand-in hashes) and the example
- * track as the catalogue build compiles it (every reaction published, so nothing left out).
+ * A catalogue holding the four example reactions (version 1, stand-in hashes, with what their
+ * cards draw) and the example track as the catalogue build compiles it (every reaction
+ * published, so nothing left out; its showcase, the SN2, ends at its "products" state).
  */
 export function exampleLearnCatalogue(): Catalogue {
   // The catalogue's track is the track file without its format version.
-  const track = Object.fromEntries(
-    Object.entries(exampleTrack()).filter(([key]) => key !== "formatVersion"),
-  );
+  const sn2 = exampleReactionDocuments().find(
+    ([name]) => name === "sn2-hydroxide-bromomethane.json",
+  )?.[1];
+  const track = {
+    ...Object.fromEntries(
+      Object.entries(exampleTrack()).filter(([key]) => key !== "formatVersion"),
+    ),
+    showcaseProductState: sn2 === undefined ? undefined : schemeStateOf(sn2, "products"),
+  };
   const slugToTitle: Record<string, string> = {
     "aldol-addition-base": "Aldol addition",
     "radical-bromination-methane": "Radical bromination",
@@ -92,6 +130,7 @@ export function exampleLearnCatalogue(): Catalogue {
       reactionClasses: ["substitution"],
       difficultyTier: 1,
       dailyPuzzleEligible: true,
+      ...exampleSchemeFields(reactionSlug),
     })),
     tracks: [track],
     dateToDailyReactionVersionRef: {},

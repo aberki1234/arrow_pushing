@@ -214,10 +214,11 @@ reactions, track `electrophilic-aromatic-substitution`, problem sets in this ord
   below 0. After the 3rd wrong check the step is **missed** (0 points, 🟥): its arrows are shown dashed and the puzzle
   continues from the textbook step's result. Hints cost a point (the third shows ghost arrows). The name and subtitle
   are hidden until the end. An unfinished puzzle is **saved after every check and resumed** after a reload; it counts
-  for the day it was started. **Streak:** consecutive days with a finished daily. **Share text:**
-  `ArrowPush #142 🟩🟨🟥 5/9` (no link yet). The **finished view** (both modes) names the reaction and shows the
-  tiles, step by step with the arrows in words, the mechanism summary and the attribution; daily adds points, Copy,
-  streak and the time to the next puzzle.
+  for the day it was started. **Streak:** consecutive days with a finished daily. The **finished view** (both modes)
+  names the reaction and shows the tiles, step by step with the arrows in words, the mechanism summary and the
+  attribution; daily adds points, streak and the time to the next puzzle. **No share text or Copy button**
+  (removed 2026-11-26 at the owner's request, item 11: the emoji line `ArrowPush #142 🟩🟨🟥 5/9` looked jarring);
+  a result is always shown as the ✓ ~ ✕ tiles with "5 / 9 points" in ordinary text.
 - **Home, practice, progress (decided 2026-11-25, item 7c):** **mastery** of a reaction = points of its most recent
   finished run (either mode, same scoring) ÷ that run's maximum, grouped by slug so a new version does not reset it;
   **mastered** = 100%; class mastery averages every catalogue reaction of the class (untried = 0%). **First-try rate**:
@@ -257,12 +258,34 @@ reactions, track `electrophilic-aromatic-substitution`, problem sets in this ord
     `catalogue.json`. A set item whose reaction is not published gives a lint **warning** and is left out of the
     build; a problem set with no published item is hidden. A push changing `content/tracks/` also rebuilds the
     site. Tracks move into Postgres with an editor screen only when contributors author problem sets.
-  - **Pages:** header order Home · Daily · **Learn** · Practice · Progress. `#/learn`: one card per track (title,
-    one-line goal, done / total bar, **Continue** to Next up). `#/learn/<track>`: its problem sets as a vertical
+  - **Pages:** header order Home · Daily · **Learn** · Practice · Progress. `#/learn` (revised 2026-11-26, item 11,
+    `mockups/layout.html`): one **level card** per curriculum level (Foundations · First year, Core · Second year,
+    Advanced · Third and fourth year, Graduate · Synthesis case studies) holding its tracks in curriculum order
+    (F1, F2, …) as **horizontal track cards**: the code, a picture of the track's **showcase reaction** (its whole
+    scheme, product included), title, goal, done / total bar, mastery and **Start / Continue** to Next up; the Next-up
+    track has the accent border. A level with a live track is open; a level without one is folded and lists its
+    planned tracks; a planned track of an open level shows as a faded "Coming soon" card without a picture. Track
+    files carry `level`, `curriculumCode` (its letter matches the level) and `showcaseReactionSlug` (one of its set
+    items); the catalogue lists tracks by level, then code. The planned tracks come from `docs/curriculum.md`,
+    copied into the site as a short list. `#/learn/<track>`: its problem sets as a vertical
     numbered path (title, concept in a line, done count, mastery ring; Next up highlighted).
     `#/learn/<track>/<set>`: the concept card (open until one of its set items is done, then folded; agreed
     2026-11-26 instead of "after the first visit", so no visits are stored), then the numbered set items
-    (title, difficulty tier, "why this one", done / mastered mark) and a **Start / Next up** button.
+    (title, difficulty tier, "why this one", done / mastered mark) and a **Start / Next up** button. The set items
+    are reaction cards like Practice's (item 11), numbered.
+  - **Reaction cards (decided 2026-11-26, item 11, `mockups/layout.html`):** Practice, problem sets and the daily
+    show a reaction as a horizontal card in the SciFinder layout: the start state's species separated by "+", a
+    reaction arrow with `conditionsLabel` (its first "·" part above, the rest below) and a dashed **"?"** box in
+    place of the product (the product is never shown before a run; only a track's showcase shows it); title, type,
+    difficulty and status on the right. One card per row. The Home daily card shows the mystery reaction this way.
+  - **Drawing in the cards (decided 2026-11-26):** RSC / ACS document style, unlike the step screen: one fixed
+    bond length (20 px) everywhere, skeletal (carbons unlabelled except a lone or charged carbon or one bonded only
+    to heteroatoms in a species of at most two heavy atoms), Arial labels about 0.68 bond lengths high with true sub-
+    and superscripts, lines about 0.05 bond lengths, double bonds 18% of a bond length apart (inside a ring, offset
+    toward its centre and shortened; centred on a terminal C=O), bonds stopping short of labels, wedges and hashes,
+    no lone pairs. Explicit (mapped) hydrogens are folded into their atom (left out on carbon, "OH" on oxygen); a
+    lone O, S or halogen is written hydrogens first (H₂O, HBr, HO⁻); metal counter-ions (Na⁺) are left out, since
+    the conditions name the salt. The catalogue carries what the cards need (item 11).
   - **Playing from a problem set** (`#/learn/<track>/<set>/<reaction>`): the step screen shows a breadcrumb
     ("Aromatic chemistry › The arenium ion · 2 of 5"); the finished view replaces the related reactions with
     **Next in set: …** and a link back, or **Problem set complete** with a link to the next problem set. The same

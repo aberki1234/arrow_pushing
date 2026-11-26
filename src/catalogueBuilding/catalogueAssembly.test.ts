@@ -3,7 +3,11 @@
  * the previous catalogue, and the assembled catalogue.
  */
 import { describe, expect, it } from "vitest";
-import { isRecord, readFixtureJson } from "../testSupport/fixtureFiles.js";
+import {
+  exampleReactionDocuments,
+  isRecord,
+  readFixtureJson,
+} from "../testSupport/fixtureFiles.js";
 import {
   assembleCatalogue,
   type BuiltCatalogue,
@@ -70,6 +74,93 @@ it("gives one entry per slug, sorted, read from the latest version", () => {
     difficultyTier: 2,
     dailyPuzzleEligible: true,
   });
+});
+
+/** An example reaction (fixtures/reactions/<slug>.json) as published version 1, then `edit`ed. */
+function exampleVersion(
+  reactionSlug: string,
+  edit: (document: Record<string, unknown>) => void = () => undefined,
+): PublishedVersion {
+  const found = exampleReactionDocuments().find(([name]) => name === `${reactionSlug}.json`);
+  if (found === undefined) {
+    throw new Error(`no example reaction ${reactionSlug}`);
+  }
+  const reactionDocument = structuredClone(found[1]);
+  edit(reactionDocument);
+  return {
+    reactionSlug,
+    reactionVersion: 1,
+    reactionDocument,
+    contentHash: contentHashOf(reactionDocument),
+    sourcePath: `${reactionSlug}.json`,
+  };
+}
+
+/** The state `stateId` of a published version's document. */
+function stateOf(version: PublishedVersion, stateId: string): Record<string, unknown> {
+  const stateIdToState = version.reactionDocument["stateIdToState"];
+  const state = isRecord(stateIdToState) ? stateIdToState[stateId] : undefined;
+  if (!isRecord(state)) {
+    throw new Error(`${version.reactionSlug} has no state ${stateId}`);
+  }
+  return state;
+}
+
+it("an entry carries the conditions and the start state as the cards draw it", () => {
+  const sn2 = exampleVersion("sn2-hydroxide-bromomethane");
+  const reactants = stateOf(sn2, "reactants");
+  const [entry] = catalogueEntries([sn2]);
+  expect(entry?.conditionsLabel).toBe("NaOH · EtOH/H₂O · 25 °C");
+  expect(entry?.startState).toEqual({
+    mappedSmiles: reactants["mappedSmiles"],
+    mapNumberToCoordinates: reactants["mapNumberToCoordinates"],
+  });
+  expect(entry && "abbreviatedGroups" in entry).toBe(false);
+});
+
+it("an entry keeps the start state's wedges and the reaction's abbreviated groups", () => {
+  const wittig = exampleVersion("wittig-methylenation-cyclohexanone", (document) => {
+    const stateIdToState = document["stateIdToState"] as Record<string, Record<string, unknown>>;
+    const reactants = stateIdToState["reactants"] ?? {};
+    reactants["bondToWedgeStyle"] = { "1-2": "wedge" };
+  });
+  const [entry] = catalogueEntries([wittig]);
+  expect(entry?.startState?.bondToWedgeStyle).toEqual({ "1-2": "wedge" });
+  expect(entry?.abbreviatedGroups).toEqual(wittig.reactionDocument["abbreviatedGroups"]);
+});
+
+it("a showcased track carries the product where its reaction's preferred route ends", () => {
+  const versions = ["aldol-addition-base", "sn2-hydroxide-bromomethane"].map((slug) =>
+    exampleVersion(slug),
+  );
+  const unshowcased = {
+    trackSlug: "first-mechanisms",
+    title: "First mechanisms",
+    goal: "Polar steps first.",
+    level: "foundations",
+    curriculumCode: "F1",
+    problemSets: [
+      {
+        problemSetSlug: "polar-steps",
+        title: "Polar steps",
+        conceptInOneLine: "Pairs move.",
+        conceptCard: "One pair per arrow.",
+        checkpoint: false,
+        setItems: [{ reactionSlug: "aldol-addition-base", whyThisOne: "Two steps." }],
+      },
+    ],
+  } as const;
+  const catalogue = assembleCatalogue(versions, undefined, "2026-12-01", BUILT_AT, [
+    { ...unshowcased, showcaseReactionSlug: "aldol-addition-base" },
+    { ...unshowcased, trackSlug: "second", curriculumCode: "F2" },
+  ]);
+  const product = stateOf(versions[0] as PublishedVersion, "aldol-product");
+  expect(catalogue.tracks?.[0]?.showcaseProductState).toEqual({
+    mappedSmiles: product["mappedSmiles"],
+    mapNumberToCoordinates: product["mapNumberToCoordinates"],
+  });
+  expect(catalogue.tracks?.[1] && "showcaseProductState" in catalogue.tracks[1]).toBe(false);
+  expect(catalogueSchemaViolationPaths(catalogue)).toEqual([]);
 });
 
 it("reads eligibility from the latest version only", () => {

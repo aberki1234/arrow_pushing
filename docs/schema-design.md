@@ -470,9 +470,19 @@ match an authored message, are a strict part of a known arrow set, or give a min
   "reactions": [{ "reactionSlug": "…", "latestReactionVersion": 2,      // sorted by slug
                   "reactionVersionToContentHash": { "1": "<64 hex>", "2": "<64 hex>" },
                   "title": "…", "subtitle": "…",                        // subtitle null if absent
-                  "reactionClasses": ["…"], "difficultyTier": 1, "dailyPuzzleEligible": true }],
+                  "reactionClasses": ["…"], "difficultyTier": 1, "dailyPuzzleEligible": true,
+                  // item 11, for the cards (all optional in the schema: older catalogues lack them)
+                  "conditionsLabel": "NaOH · EtOH/H₂O · 25 °C",
+                  "startState": { "mappedSmiles": "…", "mapNumberToCoordinates": { … },
+                                  "bondToWedgeStyle": { … } },   // only when the state has wedges
+                  "abbreviatedGroups": [ … ] }],                 // only when the reaction has them
+  "tracks": [{ "trackSlug": "…", …, "level": "foundations", "curriculumCode": "F2",
+               "showcaseReactionSlug": "…", "showcaseProductState": { "mappedSmiles": "…", … }, … }],
   "dateToDailyReactionVersionRef": { "2026-12-01": "sn2-hydroxide-bromomethane@2", … } }
 ```
+
+The cards' fields (item 11) come from each slug's latest version; a track's `showcaseProductState` is the state where
+its showcase reaction's preferred route ends (`reactionFiles/preferredRoute.ts`). About 2 kB per reaction.
 
 The **daily calendar is a list in the build that only grows**. It is not `hash(date) mod N`, which would reshuffle past
 and future days whenever a reaction is added. Built (item 6, 2026-11-25; in TypeScript since item 8.0) as `src/catalogueBuilding/`
@@ -510,6 +520,9 @@ One hand-written file per track, `content/tracks/<trackSlug>.json` (shape: `sche
 ```jsonc
 { "formatVersion": 1, "trackSlug": "aromatic-chemistry", "title": "Aromatic chemistry",
   "goal": "How arenes react with electrophiles, and where.",
+  "level": "foundations",                                  // foundations | core | advanced | graduate (item 11)
+  "curriculumCode": "F7",                                  // docs/curriculum.md: the level's letter + place
+  "showcaseReactionSlug": "nitration-of-benzene",          // one of its set items, drawn whole on its card
   "problemSets": [                                         // in the suggested order
     { "problemSetSlug": "arenium-ion", "title": "The arenium ion",
       "conceptInOneLine": "An electrophile adds, the arenium ion loses H⁺, aromaticity returns.",
@@ -530,13 +543,17 @@ One hand-written file per track, `content/tracks/<trackSlug>.json` (shape: `sche
   `schema-violation` (error; nothing else is checked then), `problem-set-slug-repeated` (error),
   `set-item-reaction-repeated` (error, at the second appearance), `set-item-not-published` (**warning**),
   `checkpoint-not-last` (error), `checkpoint-reaction-not-earlier` (error: a checkpoint reaction in no earlier
-  problem set), `concept-figure-missing` (error), `file-not-readable` (error). Cases:
+  problem set), `concept-figure-missing` (error), `file-not-readable` (error), and since item 11
+  `curriculum-code-wrong-level` (error: the code's letter F / C / A / G is not the level's) and
+  `showcase-not-in-track` (error: the showcase reaction is no set item of the track). Cases:
   `fixtures/lint_cases/track_edits.json` on the example track `fixtures/tracks/first-mechanisms.json`.
 * **Catalogue build** (built in 9a: `src/catalogueBuilding/trackCompiling.ts`; `build … --tracks-folder FOLDER`):
   every `*.json` in the folder is linted (an error refuses the build: `track-file-not-readable`,
   `track-file-has-lint-errors`; warnings are printed), then compiled into the catalogue's optional **`tracks`**:
   each track without `formatVersion`, set items with no published reaction left out, then empty problem sets,
-  then empty tracks; sorted by `trackSlug` (two files with one slug: `track-slug-duplicated`). Concept figures
+  then empty tracks, and a showcase whose reaction is not published; listed by level, then by the number of
+  the curriculum code (since item 11; before it, by `trackSlug`). Two files with one slug refuse the build
+  (`track-slug-duplicated`), as do two with one curriculum code (`curriculum-code-duplicated`). Concept figures
   are copied to **`t/<trackSlug>/figures/<name>.svg`** (`conceptFigureFilePath` in `src/catalogue/`). Without the
   option, or if the folder does not exist, `tracks` is `[]`; catalogues built before item 9 have no `tracks` key,
   read as none (`catalogueTracks`). A push to `main` changing `content/tracks/` also runs the deploy workflow.
@@ -934,7 +951,37 @@ RDKit (RDKit.js) on every valid SMILES case and every example state (`src/chemis
    Phase 2 (design deferred until after the batch): the MCP server at `/mcp` over the same module and tokens, and a
    token page in Create.
 
-## 11. Corrections to the mockup content
+11. Layout tidy-up (decided 2026-11-26, SPEC §5 "Learn", "Reaction cards", "Drawing in the cards"; design
+   `mockups/layout.html`). In four parts, each test-first:
+   * **11a Done 2026-11-26.** Track `level`, `curriculumCode` and `showcaseReactionSlug` (§6.1): the track schema; lint rules
+     `curriculum-code-wrong-level` (the code's letter F/C/A/G is not the level's) and `showcase-not-in-track` (the
+     showcase reaction is no set item of the track); the build refuses two tracks with one code
+     (`curriculum-code-duplicated`) and lists tracks by level, then code number; the catalogue track carries
+     `level`, `curriculumCode` and, when its reaction is published, `showcase` (§6). The six tracks and the example
+     track get the fields.
+   * **11b Done 2026-11-26.** Scheme data in the catalogue (§6): each entry gains `conditionsLabel` and `startState`
+     (`mappedSmiles`, `mapNumberToCoordinates`, `bondToWedgeStyle` when set) and `abbreviatedGroups` when the
+     reaction has them; a track's `showcase` is `{ reactionSlug, productState }`, the product being where the
+     preferred route from the start state ends (`reactionFiles/preferredRoute.ts`). All optional in the schema, so
+     the previous catalogue still validates.
+   * **11c Done 2026-11-26.** `moleculeDrawing/schemeDrawing.ts`: a state as the cards draw it (SPEC §5 "Drawing
+     in the cards"): species split and placed left to right, skeletal labels, bonds cut at label boxes, ring double
+     bonds inside, wedges and hashes, text runs with sub- and superscripts; `conditionsLabelParts` (above / below).
+     Built in four files: `schemeText.ts` (runs, shifts, Arial widths, the conditions split), `schemeStructure.ts`
+     (pixels at 20 px per median bond, species, explicit hydrogens folded into their atom), `schemeLabels.ts`
+     (which atoms are labelled, placement, the box a bond stops at, charge included), `schemeBonds.ts` (lines,
+     double-bond side, wedges); metal counter-ions are left out (the conditions name the salt).
+   * **11d Done 2026-11-26.** The pages (`src/learnerSite/`): `ReactionScheme` and `ReactionCard` components; Learn by level
+     (`learnTracks/trackLevels.ts`: levels in order, their tracks, the planned tracks of `docs/curriculum.md`);
+     Practice and problem sets as card lists; the Home daily card with the scheme and result tiles; the finished
+     view without share text or Copy (`dailyPuzzle.shareText` goes). Checked in headless Chromium.
+     Built: `ReactionScheme.svelte`, `ReactionCard.svelte`, `ResultTiles.svelte` (also Home's Continue practising and
+     the Progress library, replacing the coloured-square text), `LearnPage`, `PracticePage`, `ProblemSetPage`, the
+     Home and Daily cards, `RunSummary`; `learnTracks/trackLevels.ts`. Checked in headless Chromium on a preview
+     built from `content/published` and `content/tracks` (Learn F1 → F7 with showcases, Practice, a problem set, Home,
+     Daily before a run); a solved daily and the finished view are covered by component tests only.
+
+## 12. Corrections to the mockup content
 
 * **Radical H-abstraction needs 3 fish-hooks**, not 2 (Q4). The 2-arrow attempt is partial progress ("1 more"),
   and an authored message can add "one fish-hook per electron — the C–H bond has two".

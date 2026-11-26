@@ -20,6 +20,21 @@
      "expectedLintRuleIds": ["checkpoint-not-last"]},
     {"caseName": "a checkpoint reaction from no earlier problem set",
      "edits": [{"pathToSet": ["problemSets", 2, "setItems", 1, "reactionSlug"], "newValue": "wittig-methylenation-cyclohexanone"}],
-     "expectedLintRuleIds": ["checkpoint-reaction-not-earlier"]}
+     "expectedLintRuleIds": ["checkpoint-reaction-not-earlier"]},
+    {"caseName": "a curriculum code whose letter is not the level's",
+     "edits": [{"pathToSet": ["level"], "newValue": "core"}],
+     "expectedLintRuleIds": ["curriculum-code-wrong-level"]},
+    {"caseName": "a showcase reaction that is no set item of the track",
+     "edits": [{"pathToSet": ["showcaseReactionSlug"], "newValue": "wittig-methylenation-cyclohexanone"}],
+     "expectedLintRuleIds": ["showcase-not-in-track"]},
+    {"caseName": "a level the curriculum does not have",
+     "edits": [{"pathToSet": ["level"], "newValue": "postdoc"}],
+     "expectedLintRuleIds": ["schema-violation"]},
+    {"caseName": "a curriculum code in the wrong shape",
+     "edits": [{"pathToSet": ["curriculumCode"], "newValue": "F0"}],
+     "expectedLintRuleIds": ["schema-violation"]},
+    {"caseName": "a track without its level",
+     "edits": [{"pathToDelete": ["level"]}],
+     "expectedLintRuleIds": ["schema-violation"]}
   ]
 }

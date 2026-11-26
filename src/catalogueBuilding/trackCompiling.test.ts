@@ -65,12 +65,34 @@ it("a track left with no problem set is hidden", () => {
   expect(compileTracks([exampleTrackDocument()], new Set())).toEqual([]);
 });
 
-it("tracks are sorted by slug", () => {
+it("tracks are listed by level, then by the number of their curriculum code", () => {
   const tracks = compileTracks(
-    [exampleTrackDocument({ trackSlug: "zeta" }), exampleTrackDocument({ trackSlug: "alpha" })],
+    [
+      exampleTrackDocument({ trackSlug: "alpha", level: "core", curriculumCode: "C1" }),
+      exampleTrackDocument({ trackSlug: "beta", curriculumCode: "F10" }),
+      exampleTrackDocument({ trackSlug: "gamma", level: "graduate", curriculumCode: "G1" }),
+      exampleTrackDocument({ trackSlug: "delta", curriculumCode: "F2" }),
+      exampleTrackDocument({ trackSlug: "epsilon", level: "advanced", curriculumCode: "A3" }),
+    ],
     EXAMPLE_REACTION_SLUGS,
   );
-  expect(tracks.map((track) => track.trackSlug)).toEqual(["alpha", "zeta"]);
+  expect(tracks.map((track) => track.curriculumCode)).toEqual(["F2", "F10", "C1", "A3", "G1"]);
+});
+
+it("two tracks with one curriculum code refuse the build", () => {
+  const compileBoth = (): unknown =>
+    compileTracks(
+      [exampleTrackDocument(), exampleTrackDocument({ trackSlug: "second-track" })],
+      EXAMPLE_REACTION_SLUGS,
+    );
+  expect(errorCodeOf(compileBoth)).toBe("curriculum-code-duplicated");
+  expect(compileBoth).toThrow(/F1/);
+});
+
+it("a showcase whose reaction is not published is left out", () => {
+  const [track] = compileTracks([exampleTrackDocument()], publishedExcept(SN2_SLUG));
+  expect(track).toBeDefined();
+  expect(track && "showcaseReactionSlug" in track).toBe(false);
 });
 
 it("two tracks with one slug refuse the build", () => {

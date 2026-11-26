@@ -39,7 +39,7 @@
       "pattern": "^[a-z0-9]+(-[a-z0-9]+)*@[1-9][0-9]*$"
     },
     "catalogueTrack": {
-      "description": "A track file without its formatVersion; the problem sets are those of schema/track.schema.json.",
+      "description": "A track file without its formatVersion; the problem sets, level and curriculum code are those of schema/track.schema.json. level and curriculumCode are absent in catalogues built before item 11; showcaseReactionSlug is absent then too, and when its reaction is not published.",
       "type": "object",
       "additionalProperties": false,
       "required": ["trackSlug", "title", "goal", "problemSets"],
@@ -47,6 +47,13 @@
         "trackSlug": {"$ref": "#/$defs/slug"},
         "title": {"type": "string", "minLength": 1},
         "goal": {"type": "string", "minLength": 1},
+        "level": {"$ref": "track.schema.json#/$defs/level"},
+        "curriculumCode": {"$ref": "track.schema.json#/$defs/curriculumCode"},
+        "showcaseReactionSlug": {"$ref": "#/$defs/slug"},
+        "showcaseProductState": {
+          "description": "Where the showcase reaction's preferred route ends (its main product), drawn after the arrow on the track's card; present with showcaseReactionSlug.",
+          "$ref": "#/$defs/schemeState"
+        },
         "problemSets": {
           "type": "array",
           "minItems": 1,
@@ -73,7 +80,48 @@
         "subtitle": {"type": ["string", "null"]},
         "reactionClasses": {"type": "array", "minItems": 1, "items": {"type": "string"}},
         "difficultyTier": {"type": "integer", "minimum": 1, "maximum": 3},
-        "dailyPuzzleEligible": {"type": "boolean"}
+        "dailyPuzzleEligible": {"type": "boolean"},
+        "conditionsLabel": {
+          "description": "The latest version's conditionsLabel, written over the arrow of the reaction's card. Absent in catalogues built before item 11.",
+          "type": "string"
+        },
+        "startState": {
+          "description": "The latest version's start state as the reaction's card draws it. Absent in catalogues built before item 11.",
+          "$ref": "#/$defs/schemeState"
+        },
+        "abbreviatedGroups": {
+          "description": "The latest version's abbreviatedGroups (schema/reaction.schema.json), when it has any.",
+          "type": "array",
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": ["groupLabel", "attachmentMapNumber", "mapNumbers"],
+            "properties": {
+              "groupLabel": {"type": "string", "minLength": 1, "maxLength": 6},
+              "attachmentMapNumber": {"type": "integer", "minimum": 1},
+              "mapNumbers": {"type": "array", "minItems": 1, "items": {"type": "integer", "minimum": 1}}
+            }
+          }
+        }
+      }
+    },
+    "schemeState": {
+      "description": "A state's drawing fields, as in schema/reaction.schema.json: what a card needs to draw it.",
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["mappedSmiles", "mapNumberToCoordinates"],
+      "properties": {
+        "mappedSmiles": {"type": "string", "minLength": 1},
+        "mapNumberToCoordinates": {
+          "type": "object",
+          "propertyNames": {"pattern": "^[1-9][0-9]*$"},
+          "additionalProperties": {"type": "array", "minItems": 2, "maxItems": 2, "items": {"type": "number"}}
+        },
+        "bondToWedgeStyle": {
+          "type": "object",
+          "propertyNames": {"pattern": "^[1-9][0-9]*-[1-9][0-9]*$"},
+          "additionalProperties": {"enum": ["wedge", "dash"]}
+        }
       }
     }
   }

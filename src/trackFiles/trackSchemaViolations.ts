@@ -33,11 +33,28 @@ export interface ProblemSet {
   readonly setItems: readonly SetItem[];
 }
 
+/** The curriculum levels in order (docs/curriculum.md). */
+export const CURRICULUM_LEVELS = ["foundations", "core", "advanced", "graduate"] as const;
+export type CurriculumLevel = (typeof CURRICULUM_LEVELS)[number];
+
+/** The letter a level's curriculum codes start with, e.g. F2 for the second Foundations track. */
+export const CURRICULUM_LEVEL_TO_LETTER: Readonly<Record<CurriculumLevel, string>> = {
+  foundations: "F",
+  core: "C",
+  advanced: "A",
+  graduate: "G",
+};
+
 export interface TrackDocument {
   readonly formatVersion: 1;
   readonly trackSlug: string;
   readonly title: string;
   readonly goal: string;
+  readonly level: CurriculumLevel;
+  /** e.g. "F2": the level's letter and the track's place in that level. */
+  readonly curriculumCode: string;
+  /** One of the track's set items, drawn whole on the track's card. */
+  readonly showcaseReactionSlug: string;
   readonly problemSets: readonly ProblemSet[];
 }
 

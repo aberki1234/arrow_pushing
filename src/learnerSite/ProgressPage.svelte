@@ -3,7 +3,7 @@
   // last 28 days of daily puzzles, the Learn tracks (item 9b), recurring misconceptions, the
   // reaction library weakest first, and export / import / reset. Everything lives in this browser.
   import { type Catalogue, catalogueTracks, localDateText } from "../catalogue/catalogueReading.js";
-  import { shareGridOf, streakOn } from "../dailyPuzzle/dailyPuzzle.js";
+  import { streakOn } from "../dailyPuzzle/dailyPuzzle.js";
   import {
     type LearnerProgress,
     readProgress,
@@ -36,6 +36,7 @@
   import { browserStorage } from "./browserStorage.js";
   import { learnHash } from "./learnView.js";
   import { loadMisconceptionInfo } from "./misconceptionLoading.js";
+  import ResultTiles from "./ResultTiles.svelte";
   import { siteRouteHash } from "./siteRoutes.js";
 
   const { catalogue }: { catalogue: Catalogue } = $props();
@@ -236,7 +237,7 @@
           {@const latest = latestVersionOf(entry.reactionSlug)}
           <tr>
             <td>{titleOf(entry.reactionSlug)}</td>
-            <td>{shareGridOf(entry.lastRun.stepResults)}</td>
+            <td><ResultTiles stepResults={entry.lastRun.stepResults} small /></td>
             <td>{entry.masteryPercent}%</td>
             <td>
               v{entry.lastReactionVersion}

@@ -3,6 +3,9 @@
   "trackSlug": "curved-arrows",
   "title": "Curved arrows",
   "goal": "Draw curved arrows from electrons to where they go, keep every octet, and count formal charges.",
+  "level": "foundations",
+  "curriculumCode": "F1",
+  "showcaseReactionSlug": "ammonia-and-boron-trifluoride",
   "problemSets": [
     {
       "problemSetSlug": "sources-and-sinks",

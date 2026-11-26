@@ -98,6 +98,24 @@ test("the catalogue's tracks are read as written", () => {
   ]);
 });
 
+test("a track's level, curriculum code and showcase are read as written", () => {
+  const [track] = catalogueTracks(readCatalogue(exampleCatalogueDocument()));
+  expect([track?.level, track?.curriculumCode, track?.showcaseReactionSlug]).toEqual([
+    "foundations",
+    "F1",
+    "sn2-hydroxide-bromomethane",
+  ]);
+});
+
+test("a track from a catalogue built before item 11 reads without them", () => {
+  const document = exampleCatalogueDocument();
+  const [firstTrack] = document["tracks"] as Record<string, unknown>[];
+  const { level, curriculumCode, showcaseReactionSlug, ...olderTrack } = firstTrack ?? {};
+  expect([level, curriculumCode, showcaseReactionSlug]).not.toContain(undefined);
+  const [track] = catalogueTracks(readCatalogue({ ...document, tracks: [olderTrack] }));
+  expect(track?.level).toBeUndefined();
+});
+
 test("a catalogue built before tracks existed has none", () => {
   const { tracks, ...catalogueWithoutTracks } = exampleCatalogueDocument();
   expect(tracks).toBeDefined();

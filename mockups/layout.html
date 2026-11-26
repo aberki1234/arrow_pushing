@@ -1,0 +1,372 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Layout tidy-up — ArrowPush mockup</title>
+<link rel="stylesheet" href="style.css">
+<style>
+  .jump { position: sticky; top: 0; z-index: 5; background: var(--bg); padding: 8px 0; border-bottom: 1px solid var(--line); }
+  .jump a { margin-right: 14px; font-weight: 700; }
+  .section-label { text-transform: uppercase; letter-spacing: .08em; font-size: .75rem; color: var(--muted); font-weight: 800; margin: 48px 0 4px; }
+  .note { border-left: 4px solid var(--accent); background: var(--accent-soft); padding: 10px 14px; border-radius: 0 10px 10px 0; font-size: .92rem; }
+  .note ol, .note ul { margin: 6px 0 0; padding-left: 20px; }
+
+  /* the reaction scheme: starting materials + … → conditions → product */
+  .scheme { display: flex; align-items: center; gap: 2px; flex-wrap: nowrap; min-width: 0; }
+  .scheme svg.mol { display: block; overflow: visible; }
+  .mol line { stroke: var(--mol); stroke-width: 1; stroke-linecap: butt; fill: none; }
+  .mol path.wedge, .mol circle.dot { fill: var(--mol); }
+  .mol path.curly { stroke: var(--arrow); stroke-width: 1.1; fill: none; } .mol path.curly-head { fill: var(--arrow); }
+  .mol text { fill: var(--mol); font: 400 13.6px Arial, Helvetica, "Liberation Sans", sans-serif; }
+  .formula, .scheme .plus { font: 400 13.6px Arial, Helvetica, "Liberation Sans", sans-serif; color: var(--mol); white-space: nowrap; }
+  .scheme .plus { padding: 0 4px; }
+  .formula sub, .rxarrow sub { font-size: 70%; vertical-align: -0.25em; line-height: 0; }
+  .formula sup, .rxarrow sup { font-size: 70%; vertical-align: 0.5em; line-height: 0; }
+  .rxarrow { display: grid; grid-template-columns: minmax(40px, 1fr) auto; align-items: center; padding: 0 6px; }
+  .rxarrow .above, .rxarrow .below { grid-column: 1 / 3; font: 400 12px Arial, Helvetica, "Liberation Sans", sans-serif; line-height: 1.25; text-align: center; color: var(--mol); white-space: nowrap; padding: 0 4px; }
+  .rxarrow .shaft { height: 1px; background: var(--mol); margin-right: -2px; }
+  .rxarrow svg.head { width: 9px; height: 8px; display: block; margin: 2px 0; }
+  .rxarrow svg path { fill: var(--mol); }
+  .hidden-product { width: 44px; height: 36px; flex: none; border: 2px dashed var(--line); border-radius: 10px; display: grid; place-items: center; color: var(--muted); font-weight: 800; font-size: 1.2rem; }
+
+  /* level (meta) cards */
+  .level { padding: 0; overflow: hidden; }
+  .level header { display: flex; align-items: center; gap: 14px; padding: 16px 20px; border-bottom: 1px solid var(--line); background: var(--surface-2); }
+  .level header h2 { margin: 0; font-size: 1.25rem; }
+  .level-badge { width: 42px; height: 42px; border-radius: 12px; display: grid; place-items: center; font-weight: 900; font-size: 1.1rem; background: var(--accent); color: var(--accent-ink); flex: none; }
+  .level-body { padding: 14px; display: flex; flex-direction: column; gap: 10px; }
+  details.level > summary { list-style: none; cursor: pointer; }
+  details.level > summary::-webkit-details-marker { display: none; }
+  details.level:not([open]) > summary header { border-bottom: 0; }
+  .chev { margin-left: auto; color: var(--muted); font-size: 1.1rem; transition: transform .15s; }
+  details[open] .chev { transform: rotate(90deg); }
+
+  /* horizontal track card */
+  .track { display: grid; grid-template-columns: 46px minmax(250px, 330px) 1fr; gap: 16px; align-items: center; padding: 14px 16px; border: 1px solid var(--line); border-radius: 14px; background: var(--surface); }
+  .track:hover { border-color: var(--accent); }
+  .track .code { font-weight: 900; color: var(--accent); font-size: 1.05rem; text-align: center; }
+  .track .figure { background: var(--surface-2); border-radius: 10px; padding: 10px 12px; display: flex; justify-content: center; overflow: hidden; }
+  .track h3 { margin: 0 0 2px; font-size: 1.08rem; }
+  .track h3 a { color: inherit; text-decoration: none; }
+  .track .info p { margin: 0 0 8px; }
+  .track.planned { opacity: .55; border-style: dashed; background: transparent; }
+  .track.planned .figure { background: transparent; border: 1px dashed var(--line); }
+  .track.next { border: 2px solid var(--accent); }
+  .planned-list { display: flex; flex-wrap: wrap; gap: 8px; padding: 0 6px 6px; }
+
+  /* horizontal reaction card (Practice, problem set) */
+  .rxcard { display: grid; grid-template-columns: minmax(0, 1fr) 270px; gap: 18px; align-items: center; padding: 14px 18px; border: 1px solid var(--line); border-radius: 14px; background: var(--surface); text-decoration: none; color: inherit; }
+  .rxcard:hover { border-color: var(--accent); }
+  .rxcard .scheme-wrap { overflow-x: auto; padding: 4px 0; }
+  .rxcard .meta { border-left: 1px solid var(--line); padding-left: 16px; }
+  .rxcard .meta h3 { margin: 0 0 4px; font-size: 1rem; }
+  .rxcard .meta .row { gap: 6px; }
+  .rxlist { display: flex; flex-direction: column; gap: 10px; margin: 0; padding: 0; list-style: none; }
+  .num { width: 26px; height: 26px; border-radius: 50%; background: var(--surface-2); display: inline-grid; place-items: center; font-weight: 800; font-size: .8rem; margin-right: 6px; }
+  .num.done { background: var(--good); color: #fff; }
+
+  /* daily result */
+  .tile { width: 40px; height: 40px; border-radius: 10px; display: inline-grid; place-items: center; font-weight: 800; color: #fff; }
+  .tile.g { background: var(--good); } .tile.y { background: #d89a00; } .tile.r { background: var(--bad); }
+  .tiles { display: flex; gap: 6px; }
+  .old-share { font-size: 1.6rem; letter-spacing: 3px; line-height: 1.5; background: var(--surface-2); border-radius: 12px; padding: 12px 16px; display: inline-block; }
+  .copybox { font-family: ui-monospace, monospace; font-size: .82rem; background: var(--surface-2); border: 1px solid var(--line); border-radius: 8px; padding: 6px 10px; color: var(--muted); }
+  .compare { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+  .tag { font-size: .7rem; font-weight: 800; text-transform: uppercase; letter-spacing: .06em; padding: 2px 8px; border-radius: 99px; }
+  .tag.before { background: var(--bad-soft); color: var(--bad); } .tag.after { background: var(--good-soft); color: var(--good); }
+
+  @media (max-width: 760px) {
+    .track { grid-template-columns: 1fr; } .track .code { text-align: left; }
+    .rxcard { grid-template-columns: 1fr; } .rxcard .meta { border-left: 0; padding-left: 0; border-top: 1px solid var(--line); padding-top: 10px; }
+    .compare { grid-template-columns: 1fr; }
+  }
+</style>
+</head>
+<body>
+<div id="nav"></div>
+<div class="wrap">
+  <h1 class="mt">Layout tidy-up</h1>
+  <p class="muted">Four changes, each shown as it would look on the site. Structures here are hand-drawn
+    placeholders; the real cards would draw them from the reaction files with the same drawing code as the step screen.</p>
+  <div class="jump"><a href="#learn">1 · Learn</a><a href="#practice">2 · Reaction cards</a><a href="#set">3 · Problem set</a><a href="#daily">4 · Daily result</a><a href="#questions">Questions</a></div>
+
+  <!-- ============ 1. LEARN ============ -->
+  <p class="section-label" id="learn">1 · Learn page (#/learn)</p>
+  <h1 style="margin-top:4px">Learn</h1>
+  <p class="muted">Guided tracks, grouped by year. Nothing is locked; the order is a suggestion.</p>
+
+  <section class="card level">
+    <header>
+      <div class="level-badge">F</div>
+      <div><h2>Foundations <span class="muted small">· First year</span></h2>
+        <div class="small muted">Curved arrows and the reactions every later track builds on.</div></div>
+      <div style="margin-left:auto;text-align:right" class="small"><b>2 of 6</b> tracks started<br><span class="muted">23 of 118 done</span></div>
+    </header>
+    <div class="level-body" id="foundations"></div>
+  </section>
+
+  <details class="card level mt">
+    <summary><header><div class="level-badge">C</div>
+      <div><h2>Core <span class="muted small">· Second year</span></h2>
+        <div class="small muted">Enolates, condensations, conjugate addition, rearrangements, radicals, first pericyclic reactions.</div></div>
+      <span class="chev">›</span></header></summary>
+    <div class="level-body"><p class="small muted" style="margin:0 6px">Coming soon:</p>
+      <div class="planned-list"><span class="chip">C1 Enols and enolates</span><span class="chip">C2 Carbonyl condensations</span><span class="chip">C3 Conjugate addition</span><span class="chip">C4 SNAr</span><span class="chip">C5 Oxidation and reduction</span><span class="chip">C6 Rearrangements</span><span class="chip">C7 Radical reactions</span><span class="chip">C8 Pericyclic reactions I</span></div></div>
+  </details>
+  <details class="card level mt">
+    <summary><header><div class="level-badge">A</div>
+      <div><h2>Advanced <span class="muted small">· Third and fourth year</span></h2>
+        <div class="small muted">Stereoelectronics, named rearrangements, ylides and carbenes, heterocycles, organocatalysis, metal catalysis.</div></div>
+      <span class="chev">›</span></header></summary>
+    <div class="level-body"><p class="small muted" style="margin:0 6px">Coming soon.</p></div>
+  </details>
+  <details class="card level mt">
+    <summary><header><div class="level-badge">G</div>
+      <div><h2>Graduate <span class="muted small">· Synthesis case studies</span></h2>
+        <div class="small muted">One track per published synthesis: its key steps in order, with the real conditions.</div></div>
+      <span class="chev">›</span></header></summary>
+    <div class="level-body"><p class="small muted" style="margin:0 6px">Coming soon: Robinson's tropinone, Wieland–Miescher ketone, Johnson's progesterone, Corey's PGF₂α, Woodward's reserpine.</p></div>
+  </details>
+  <p class="note mt">Levels open by default only if they have a live track; empty ones are folded with the planned
+    titles as a preview. Inside a level, tracks keep their curriculum order (F1 → F7) and the code is shown.
+    The Next-up track gets the accent border.</p>
+
+  <!-- ============ 2. PRACTICE ============ -->
+  <p class="section-label" id="practice">2 · Reaction cards (#/practice)</p>
+  <h1 style="margin-top:4px">Practice</h1>
+  <p class="muted">Untimed, unlimited attempts, free hints. Pick a reaction.</p>
+  <div class="card flat"><div class="row"><span class="small muted">Type</span>
+    <button class="chip" aria-pressed="true">All</button><button class="chip">Substitution</button><button class="chip">Elimination</button><button class="chip">Addition</button><button class="chip">Aromatic</button>
+    <span class="spacer"></span><input type="text" placeholder="Reaction name" style="width:200px" aria-label="Search"></div></div>
+  <p class="small muted mt">6 of 118 reactions</p>
+  <ul class="rxlist" id="practiceList"></ul>
+  <p class="note mt">One card per row, so the scheme has room. Reactants and reagents on the left, the reagents
+    and solvent above / below the arrow as written in <code>conditionsLabel</code>, then the product. Title, type,
+    difficulty and your status on the right. On a phone the right panel drops under the scheme and the scheme scrolls sideways.</p>
+
+  <!-- ============ 3. PROBLEM SET ============ -->
+  <p class="section-label" id="set">3 · Problem set (#/learn/&lt;track&gt;/&lt;set&gt;): same card, numbered</p>
+  <p class="small muted" style="margin:4px 0"><a href="#learn">Learn</a> › <a href="#learn">F2 · Nucleophilic substitution</a> ›</p>
+  <h1 style="margin-top:0">SN2: one concerted step</h1>
+  <ul class="rxlist" id="setList"></ul>
+
+  <!-- ============ 4. DAILY ============ -->
+  <p class="section-label" id="daily">4 · Daily result (Home card and the finished Daily page)</p>
+  <div class="compare">
+    <section class="card">
+      <span class="tag before">Now</span>
+      <h2 class="mt">Daily puzzle #2 · 🔥 3-day streak</h2>
+      <p class="muted small">Mystery reaction · 2 steps · <span class="dots">●●○</span></p>
+      <p class="old-share">ArrowPush #2 🟨🟩 5/6</p>
+      <p class="small muted">Solved · next puzzle in 7 h 12 min</p>
+    </section>
+    <section class="card">
+      <span class="tag after">Proposed</span>
+      <h2 class="mt">Daily puzzle #2</h2>
+      <p class="muted small">Solved · 2 steps · <span class="dots">●●○</span> · 🔥 3-day streak</p>
+      <div class="row" style="gap:16px;align-items:center">
+        <div class="tiles" aria-label="Step 1 retry or hint, step 2 first try"><span class="tile y">~</span><span class="tile g">✓</span></div>
+        <span>5 / 6 points</span>
+      </div>
+      <p class="small muted">Next puzzle in 7 h 12 min</p>
+    </section>
+  </div>
+  <section class="card mt">
+    <span class="tag after">Proposed · Home card before solving</span>
+    <h2 class="mt">Daily puzzle #3</h2>
+    <p class="muted small">Mystery reaction · 3 steps · <span class="dots">●●○</span> · 🔥 3-day streak</p>
+    <div class="scheme" id="dailyScheme"></div>
+    <div class="row mt"><a class="btn primary sm" href="#daily">▶ Start</a><span class="small muted">Next puzzle in 7 h 12 min</span></div>
+  </section>
+  <p class="note mt">The result is drawn with the same tiles (✓ ~ ✕) as the step screen and the points in the
+    page's ordinary text. The emoji line is no longer shown on the card. The unsolved daily shows its starting
+    materials and conditions with a hidden product.</p>
+
+  <!-- ============ QUESTIONS ============ -->
+  <p class="section-label" id="questions">What this needs</p>
+  <div class="card">
+    <ol>
+      <li><b>Track order and level (agreed 2026-11-26).</b> Today tracks come out in slug order. Each track file would gain
+        <code>level</code> (foundations / core / advanced / graduate) and its <code>curriculumCode</code> (F1, F2…),
+        which gives the order. Planned tracks shown as "coming soon" would come from a small list in the site, or be left out.</li>
+      <li><b>Track picture.</b> Each track file names one <code>showcaseReactionSlug</code>, drawn as a scheme like the
+        reaction cards (F1 is the exception: a concept picture with the curved arrow, from an SVG in <code>figures/</code>).</li>
+      <li><b>Reaction schemes in the catalogue.</b> <code>catalogue.json</code> only has titles today. The cards need
+        the start state and final state (mapped SMILES + coordinates) and <code>conditionsLabel</code>, either added
+        to each catalogue entry or by loading every reaction file on the Practice page (≈120 small files).</li>
+      <li><b>Product on reaction cards (agreed 2026-11-26):</b> hidden behind a "?" on Practice, problem-set and daily
+        cards; only the Learn track pictures show a whole reaction.</li>
+    </ol>
+  </div>
+  <div style="height:80px"></div>
+</div>
+<script src="common.js"></script>
+<script>
+/* ---------- skeletal-structure drawer (mockup only), RSC / ACS document proportions ----------
+   One fixed bond length L everywhere (no per-card scaling). Ratios from the ACS 1996 / RSC ChemDraw settings:
+   label font ≈ 0.68 L (Arial, regular), line width ≈ 0.05 L, double-bond spacing 18 % of L,
+   wedge wide end ≈ 0.15 L, hashes ≈ 0.13 L apart, true sub/superscripts in labels. */
+var NS = 'http://www.w3.org/2000/svg';
+var L = 20, FONT = 13.6, LINE = 1, SPACING = 0.18 * L, A = L * Math.cos(Math.PI / 6), B = L / 2; /* zigzag step: A across, B up/down */
+function el(tag, attrs, text) { var e = document.createElementNS(NS, tag); for (var k in attrs) e.setAttribute(k, attrs[k]); if (text) e.textContent = text; return e; }
+function ringVerts(cx, cy, pointy) { var v = []; for (var k = 0; k < 6; k++) { var t = ((pointy ? 0 : 30) + 60 * k) * Math.PI / 180; v.push([cx + L * Math.cos(t), cy + L * Math.sin(t), '']); } return v; }
+/* label text: digits after a letter or ")" are subscripts, a final + or − is a superscript */
+function labelParts(label) { var out = [], m, re = /([A-Za-z()]+)|(\d+)|([+−])/g; while ((m = re.exec(label))) out.push(m[1] ? [m[1], ''] : m[2] ? [m[2], 'sub'] : [m[3], 'sup']); return out; }
+function charWidth(c) { return /[A-Z]/.test(c) ? 0.68 : /[il]/.test(c) ? 0.25 : 0.56; }
+function textWidth(parts) { return parts.reduce(function (w, p) { return w + p[0].split('').reduce(function (x, c) { return x + charWidth(c); }, 0) * (p[1] ? 0.7 : 1) * FONT; }, 0); }
+function firstSymbolWidth(label) { return textWidth([[label.match(/^[A-Z][a-z]?/)[0], '']]); }
+/* where the label's box sits: x0..x1 around the atom; "start" puts the first element symbol on the atom */
+function labelBox(a) { var parts = labelParts(a[2]), w = textWidth(parts), x0 = a[3] === 'start' ? a[0] - firstSymbolWidth(a[2]) / 2 : a[3] === 'end' ? a[0] + firstSymbolWidth(a[2].slice(-1)) / 2 - w : a[0] - w / 2; return { x0: x0, x1: x0 + w, parts: parts }; }
+function trimAt(a, ux, uy) { /* distance from the atom to where a bond in direction (ux, uy) leaves its label box, plus a margin */
+  if (!a[2]) return 0; var box = labelBox(a), hw = ux > 0 ? box.x1 - a[0] : a[0] - box.x0, hh = 0.38 * FONT;
+  return Math.min(Math.abs(ux) > 1e-6 ? Math.abs(hw / ux) : 1e9, Math.abs(uy) > 1e-6 ? hh / Math.abs(uy) : 1e9) + 1.6;
+}
+function drawLabel(svg, a) {
+  var box = labelBox(a), t = el('text', { x: box.x0, y: a[1] + 0.36 * FONT });
+  box.parts.forEach(function (p) { var ts = el('tspan', p[1] === 'sub' ? { 'font-size': 0.7 * FONT, dy: 0.25 * FONT } : p[1] === 'sup' ? { 'font-size': 0.7 * FONT, dy: -0.45 * FONT } : {}, p[0]); t.appendChild(ts);
+    if (p[1]) { var back = el('tspan', { dy: p[1] === 'sub' ? -0.25 * FONT : 0.45 * FONT }, '​'); t.appendChild(back); } });
+  svg.appendChild(t);
+}
+/* spec: { ring: [cx, cy, pointy], ringDoubles, atoms: [[x, y, label, anchor]], bonds: [[i, j, order, side]] }
+   order 1, 2, 3, 'wedge' or 'hash' (narrow end at i); side ±1 puts a double bond's second line on one side */
+function mol(spec) {
+  var atoms = [], bonds = [], centre = null;
+  if (spec.ring) { atoms = ringVerts(spec.ring[0], spec.ring[1], spec.ring[2]); centre = spec.ring; var dbl = spec.ringDoubles || [0, 2, 4]; for (var k = 0; k < 6; k++) bonds.push([k, (k + 1) % 6, dbl.indexOf(k) > -1 ? 2 : 1, 'ring']); }
+  atoms = atoms.concat(spec.atoms || []); bonds = bonds.concat(spec.bonds || []);
+  var g = el('g', {}), minX = 1e9, minY = 1e9, maxX = -1e9, maxY = -1e9;
+  function grow(x0, y0, x1, y1) { minX = Math.min(minX, x0); minY = Math.min(minY, y0); maxX = Math.max(maxX, x1); maxY = Math.max(maxY, y1); }
+  atoms.forEach(function (a) { if (a[2]) { var bx = labelBox(a); grow(bx.x0, a[1] - 0.55 * FONT, bx.x1, a[1] + 0.6 * FONT); } else grow(a[0] - 2, a[1] - 2, a[0] + 2, a[1] + 2); });
+  bonds.forEach(function (b) {
+    var p = atoms[b[0]], q = atoms[b[1]], dx = q[0] - p[0], dy = q[1] - p[1], len = Math.hypot(dx, dy), ux = dx / len, uy = dy / len, nx = -uy, ny = ux;
+    var s0 = trimAt(p, ux, uy), s1 = trimAt(q, -ux, -uy);
+    var x1 = p[0] + ux * s0, y1 = p[1] + uy * s0, x2 = q[0] - ux * s1, y2 = q[1] - uy * s1;
+    function ln(o, t0, t1) { g.appendChild(el('line', { x1: x1 + nx * o + ux * t0, y1: y1 + ny * o + uy * t0, x2: x2 + nx * o - ux * t1, y2: y2 + ny * o - uy * t1 })); }
+    if (b[2] === 'wedge') { var w = 0.15 * L; g.appendChild(el('path', { class: 'wedge', d: 'M' + x1 + ' ' + y1 + 'L' + (x2 + nx * w) + ' ' + (y2 + ny * w) + 'L' + (x2 - nx * w) + ' ' + (y2 - ny * w) + 'Z' })); }
+    else if (b[2] === 'hash') { var n = Math.floor(Math.hypot(x2 - x1, y2 - y1) / (0.13 * L)); for (var i = 1; i <= n; i++) { var f = i / n, cx = x1 + (x2 - x1) * f, cy = y1 + (y2 - y1) * f, hw = 0.15 * L * f + 0.4; g.appendChild(el('line', { x1: cx + nx * hw, y1: cy + ny * hw, x2: cx - nx * hw, y2: cy - ny * hw })); } }
+    else if (b[2] === 2 && b[3] === 'ring') { var mx = (p[0] + q[0]) / 2, my = (p[1] + q[1]) / 2, side = ((centre[0] - mx) * nx + (centre[1] - my) * ny) > 0 ? 1 : -1; ln(0, 0, 0); ln(SPACING * side, 0.15 * L, 0.15 * L); }
+    else if (b[2] === 2 && b[3]) { ln(0, 0, 0); ln(SPACING * b[3], p[2] ? 0 : 0.12 * L, q[2] ? 0 : 0.12 * L); }
+    else if (b[2] === 2) { ln(SPACING / 2, 0, 0); ln(-SPACING / 2, 0, 0); }
+    else if (b[2] === 3) { ln(0, 0, 0); ln(SPACING * 0.85, 0, 0); ln(-SPACING * 0.85, 0, 0); }
+    else ln(0, 0, 0);
+  });
+  atoms.forEach(function (a) { if (a[2]) drawLabel(g, a); });
+  var pad = 1.5; minX -= pad; minY -= pad; maxX += pad; maxY += pad;
+  var svg = el('svg', { class: 'mol', viewBox: [minX, minY, maxX - minX, maxY - minY].join(' '), style: 'width:' + (maxX - minX) + 'px;height:' + (maxY - minY) + 'px;flex:none' });
+  svg.appendChild(g); return svg;
+}
+/* molecule library: every bond is L long; zigzag steps are (A, ±B) */
+var M = {
+  iodoethane: { atoms: [[0, B], [A, 0], [2 * A, B, 'I']], bonds: [[0, 1, 1], [1, 2, 1]] },
+  propanenitrile: { atoms: [[0, B], [A, 0], [2 * A, B], [3 * A, 2 * B, 'N']], bonds: [[0, 1, 1], [1, 2, 1], [2, 3, 3]] },
+  bromobutane2: { atoms: [[0, L + B], [A, L], [2 * A, L + B], [3 * A, L], [A, 0, 'Br']], bonds: [[0, 1, 1], [1, 2, 1], [2, 3, 1], [1, 4, 1]] },
+  butene2: { atoms: [[0, B], [A, 0], [2 * A, B], [3 * A, 0]], bonds: [[0, 1, 1], [1, 2, 2, 1], [2, 3, 1]] },
+  propene: { atoms: [[0, B], [A, 0], [2 * A, B]], bonds: [[0, 1, 2, 1], [1, 2, 1]] },
+  bromopropane2: { atoms: [[0, L + B], [A, L], [2 * A, L + B], [A, 0, 'Br']], bonds: [[0, 1, 1], [1, 2, 1], [1, 3, 1]] },
+  acetone: { atoms: [[0, L + B], [A, L], [2 * A, L + B], [A, 0, 'O']], bonds: [[0, 1, 1], [1, 2, 1], [1, 3, 2]] },
+  propan2ol: { atoms: [[0, L + B], [A, L], [2 * A, L + B], [A, 0, 'OH', 'start']], bonds: [[0, 1, 1], [1, 2, 1], [1, 3, 1]] },
+  acetylchloride: { atoms: [[0, L + B], [A, L], [A, 0, 'O'], [2 * A, L + B, 'Cl', 'start']], bonds: [[0, 1, 1], [1, 2, 2], [1, 3, 1]] },
+  methylacetate: { atoms: [[0, L + B], [A, L], [A, 0, 'O'], [2 * A, L + B, 'O'], [3 * A, L]], bonds: [[0, 1, 1], [1, 2, 2], [1, 3, 1], [3, 4, 1]] },
+  benzene: { ring: [0, 0, false] },
+  nitrobenzene: { ring: [0, 0, false], atoms: [[0, -2 * L, 'NO2', 'start']], bonds: [[4, 6, 1]] },
+  toluene: { ring: [0, 0, true], atoms: [[2 * L, 0]], bonds: [[0, 6, 1]] },
+  nitrotoluene4: { ring: [0, 0, true], atoms: [[-2 * L, 0], [2 * L, 0, 'NO2', 'start']], bonds: [[3, 6, 1], [0, 7, 1]] },
+  benzaldehyde: { ring: [0, 0, true], atoms: [[L + A, -B], [L + 2 * A, 0, 'O']], bonds: [[0, 6, 1], [6, 7, 2]] },
+  phenylethanol: { ring: [0, 0, true], atoms: [[L + A, -B], [L + 2 * A, 0], [L + A, -B - L, 'OH', 'start']], bonds: [[0, 6, 1], [6, 7, 1], [6, 8, 1]] },
+  cyclohexene: { ring: [0, 0, false], ringDoubles: [4] },
+  dibromocyclohexane: { ring: [0, 0, false], ringDoubles: [], atoms: [[2 * A, -L, 'Br', 'start'], [2 * A, L, 'Br', 'start']], bonds: [[5, 6, 'wedge'], [0, 7, 'hash']] }
+};
+
+/* formulas and conditions as text, with true sub- and superscripts */
+function chem(text) { return text.replace(/([A-Za-z)])(\d+)/g, '$1<sub>$2</sub>').replace(/([A-Za-z\d])([+−])(?=$|[ ,])/g, '$1<sup>$2</sup>'); }
+function formula(text) { var s = document.createElement('span'); s.className = 'formula'; s.innerHTML = chem(text); return s; }
+function plus() { var p = document.createElement('span'); p.className = 'plus'; p.textContent = '+'; return p; }
+function arrow(above, below) {
+  var d = document.createElement('div'); d.className = 'rxarrow';
+  d.innerHTML = '<div class="above">' + (above ? chem(above) : '&nbsp;') + '</div><div class="shaft"></div><svg class="head" viewBox="0 0 9 8"><path d="M9 4 L0 0.9 L1.6 4 L0 7.1 Z"/></svg><div class="below">' + (below ? chem(below) : '&nbsp;') + '</div>';
+  return d;
+}
+function part(x) { return typeof x === 'string' ? (M[x] ? mol(M[x]) : formula(x)) : x; }
+/* scheme(['iodoethane', 'NaCN'], '', 'DMSO', 'propanenitrile'); product null → the hidden "?" box */
+function scheme(reactants, above, below, product) {
+  var s = document.createElement('div'); s.className = 'scheme';
+  reactants.forEach(function (r, i) { if (i) s.appendChild(plus()); s.appendChild(part(r)); });
+  s.appendChild(arrow(above, below));
+  if (product === null) { var h = document.createElement('div'); h.className = 'hidden-product'; h.textContent = '?'; s.appendChild(h); }
+  else (Array.isArray(product) ? product : [product]).forEach(function (r, i) { if (i) s.appendChild(plus()); s.appendChild(part(r)); });
+  return s;
+}
+/* F1 concept figure: H3N: + BF3 with a curved arrow, then the adduct with its formal charges */
+function curvedArrowsFigure() {
+  var s = document.createElement('div'); s.className = 'scheme';
+  var svg = el('svg', { class: 'mol', viewBox: '-4 -16 92 40', style: 'width:92px;height:40px;flex:none' }), g = el('g', {});
+  drawLabel(g, [10, 10, 'H3N', 'end']); drawLabel(g, [64, 10, 'BF3', 'start']);
+  g.appendChild(el('circle', { cx: 18.5, cy: 7, r: 1.1, class: 'dot' })); g.appendChild(el('circle', { cx: 18.5, cy: 13, r: 1.1, class: 'dot' }));
+  g.appendChild(el('path', { class: 'curly', d: 'M21 5 Q38 -16 60 -2' }));
+  g.appendChild(el('path', { class: 'curly-head', d: 'M63 1 L56.2 -1.2 L58.9 -2.5 L59.4 -5.5 Z' }));
+  svg.appendChild(g); s.appendChild(svg);
+  s.appendChild(arrow('', ''));
+  s.appendChild(mol({ atoms: [[0, 0, 'H3N', 'end'], [L * 1.15, 0, 'BF3', 'start']], bonds: [[0, 1, 1]] }));
+  var last = s.lastChild, gg = last.querySelector('g');
+  drawLabel(gg, [1, -10, '+']); drawLabel(gg, [L * 1.15 + 1, -10, '−']);
+  last.setAttribute('viewBox', last.getAttribute('viewBox').replace(/^(\S+) (\S+) (\S+) (\S+)$/, function (_, x, y, w, h) { return x + ' ' + (+y - 8) + ' ' + w + ' ' + (+h + 8); }));
+  last.style.height = (parseFloat(last.style.height) + 8) + 'px';
+  return s;
+}
+
+/* ---------- 1. Learn ---------- */
+var TRACKS = [
+  { code: 'F1', title: 'Curved arrows', goal: 'Draw curved arrows from electrons to where they go, keep every octet, and count formal charges.', fig: curvedArrowsFigure, done: 14, total: 21, mastery: 48, next: 'Resonance' },
+  { code: 'F2', title: 'Nucleophilic substitution', goal: 'How a nucleophile replaces a leaving group at a saturated carbon: SN2, SN1, and making leaving groups.', fig: function () { return scheme(['iodoethane', 'NaCN'], 'DMSO', '', 'propanenitrile'); }, done: 9, total: 19, mastery: 30, next: 'SN1: the carbocation first', isNext: true },
+  { code: 'F3', title: 'Elimination', goal: 'How alkyl halides and alcohols lose HX or water to give alkenes: E2, E1 and E1cB.', fig: function () { return scheme(['bromobutane2'], 'NaOEt', 'EtOH, heat', 'butene2'); }, done: 0, total: 14 },
+  { code: 'F4', title: 'Addition to alkenes', goal: 'How electrophiles add across C=C bonds, and where each part ends up.', fig: function () { return scheme(['propene', 'HBr'], '', '', 'bromopropane2'); }, done: 0, total: 14 },
+  { code: 'F5', title: 'Carbonyl addition', goal: 'How nucleophiles add to C=O, and what the tetrahedral intermediate does next.', fig: function () { return scheme(['acetone'], 'NaBH4', 'MeOH', 'propan2ol'); }, done: 0, total: 16 },
+  { code: 'F6', title: 'Carboxylic acid derivatives', goal: 'Addition then elimination at the acyl carbon.', fig: function () { return scheme(['acetylchloride', 'MeOH'], 'pyridine', '', 'methylacetate'); }, planned: true },
+  { code: 'F7', title: 'Electrophilic aromatic substitution', goal: 'How arenes react with electrophiles, and where.', fig: function () { return scheme(['benzene'], 'HNO3', 'H2SO4', 'nitrobenzene'); }, done: 0, total: 25 }
+];
+var host = document.getElementById('foundations');
+TRACKS.forEach(function (t) {
+  var c = document.createElement('div'); c.className = 'track' + (t.planned ? ' planned' : '') + (t.isNext ? ' next' : '');
+  var right;
+  if (t.planned) right = '<h3>' + t.title + ' <span class="pill">Coming soon</span></h3><p class="small muted">' + t.goal + '</p>';
+  else right = '<h3><a href="#learn">' + t.title + '</a>' + (t.isNext ? ' <span class="pill new">Next up</span>' : '') + '</h3><p class="small muted">' + t.goal + '</p>' +
+    '<div class="row spread small"><span>' + t.done + ' of ' + t.total + ' done</span><span class="muted">mastery ' + (t.mastery || 0) + '%</span></div>' +
+    '<div class="bar"><i style="width:' + (100 * t.done / t.total) + '%"></i></div>' +
+    '<div class="row mt"><a class="btn ' + (t.isNext ? 'primary ' : '') + 'sm" href="#learn">' + (t.done ? '▶ Continue' : '▶ Start') + '</a>' + (t.next ? '<span class="small muted">Next up: ' + t.next + '</span>' : '') + '</div>';
+  c.innerHTML = '<div class="code">' + t.code + '</div><div class="figure"></div><div class="info">' + right + '</div>';
+  c.querySelector('.figure').appendChild(t.fig());
+  host.appendChild(c);
+});
+
+/* ---------- 2. Practice + 3. problem set ---------- */
+function rxcard(r, numbered, i) {
+  var li = document.createElement('li'); var a = document.createElement('a'); a.className = 'rxcard'; a.href = '#practice';
+  var w = document.createElement('div'); w.className = 'scheme-wrap'; w.appendChild(scheme(r.reactants, r.above, r.below, null)); a.appendChild(w);
+  var m = document.createElement('div'); m.className = 'meta';
+  var status = r.status === 'mastered' ? '<span class="pill good">Mastered ✓</span>' : r.status === 'practised' ? '<span class="pill">Practised</span>' : '<span class="pill new">New</span>';
+  m.innerHTML = '<h3>' + (numbered ? '<span class="num' + (r.status ? ' done' : '') + '">' + (r.status ? '✓' : i + 1) + '</span>' : '') + r.title + '</h3>' +
+    (r.why ? '<p class="small muted" style="margin:0 0 6px">' + r.why + '</p>' : '') +
+    '<div class="row"><span class="pill">' + r.cls + '</span><span class="dots" aria-label="difficulty">' + '●'.repeat(r.tier) + '○'.repeat(3 - r.tier) + '</span>' + status + '</div>' +
+    '<div class="small muted mt">' + r.steps + (r.steps === 1 ? ' step' : ' steps') + '</div>';
+  a.appendChild(m); li.appendChild(a); return li;
+}
+var PRACTICE = [
+  { title: 'Cyanide and iodoethane', cls: 'substitution', tier: 1, steps: 1, status: 'mastered', reactants: ['iodoethane', 'NaCN'], above: '', below: 'DMSO', product: 'propanenitrile' },
+  { title: 'E2: 2-bromobutane (Zaitsev)', cls: 'elimination', tier: 2, steps: 1, status: 'practised', reactants: ['bromobutane2'], above: 'NaOEt', below: 'EtOH, heat', product: 'butene2' },
+  { title: 'Nitration of toluene', cls: 'aromatic', tier: 2, steps: 3, reactants: ['toluene'], above: 'HNO3', below: 'H2SO4', product: 'nitrotoluene4' },
+  { title: 'Methylmagnesium bromide and benzaldehyde', cls: 'addition', tier: 1, steps: 2, reactants: ['benzaldehyde'], above: '1. MeMgBr, Et2O', below: '2. H3O+', product: 'phenylethanol' },
+  { title: 'Bromination of cyclohexene', cls: 'addition', tier: 2, steps: 2, status: 'practised', reactants: ['cyclohexene', 'Br2'], above: '', below: 'CH2Cl2', product: 'dibromocyclohexane' },
+  { title: 'Propene and HBr', cls: 'addition', tier: 1, steps: 2, reactants: ['propene', 'HBr'], above: '', below: '', product: 'bromopropane2' }
+];
+var pl = document.getElementById('practiceList'); PRACTICE.forEach(function (r) { pl.appendChild(rxcard(r)); });
+var SET = [
+  { title: 'Hydroxide and bromomethane', why: 'The simplest case: one concerted step, inversion.', cls: 'substitution', tier: 1, steps: 1, status: 'mastered', reactants: ['CH3Br', 'NaOH'], above: '', below: 'H2O', product: ['CH3OH', 'NaBr'] },
+  { title: 'Cyanide and iodoethane', why: 'A carbon nucleophile and a better leaving group.', cls: 'substitution', tier: 1, steps: 1, status: 'practised', reactants: ['iodoethane', 'NaCN'], above: '', below: 'DMSO', product: 'propanenitrile' },
+  { title: 'Finkelstein: chloroethane and iodide', why: 'An equilibrium pushed by precipitation.', cls: 'substitution', tier: 1, steps: 1, reactants: ['CH3CH2Cl', 'NaI'], above: '', below: 'acetone', product: 'iodoethane' }
+];
+var sl = document.getElementById('setList'); SET.forEach(function (r, i) { sl.appendChild(rxcard(r, true, i)); });
+
+/* ---------- 4. daily ---------- */
+document.getElementById('dailyScheme').appendChild(scheme(['benzaldehyde'], '1. MeMgBr, Et2O', '2. H3O+', null));
+</script>
+</body>
+</html>

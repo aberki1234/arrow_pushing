@@ -5,13 +5,18 @@
  *   1. readTrackFolder(): read every *.json in the tracks folder, lint it (lint errors refuse the
  *      build, warnings are printed) and list the concept figures to copy.
  *   2. compileTracks(): leave out set items whose reaction is not published, then problem sets
- *      left with no set item, then tracks left with no problem set; sort the tracks by slug.
+ *      left with no set item, then tracks left with no problem set, and a showcase whose reaction
+ *      is not published; list the tracks by level, then by the number of their curriculum code.
  */
 import { existsSync, readdirSync } from "node:fs";
 import { join } from "node:path";
 import { type CatalogueTrack, conceptFigureFilePath } from "../catalogue/catalogueReading.js";
 import { lintTrackFile } from "../reactionLinting/trackFileLint.js";
-import type { ProblemSet, TrackDocument } from "../trackFiles/trackSchemaViolations.js";
+import {
+  CURRICULUM_LEVELS,
+  type ProblemSet,
+  type TrackDocument,
+} from "../trackFiles/trackSchemaViolations.js";
 import { CatalogueBuildError } from "./catalogueBuildErrors.js";
 
 /** A concept figure: the file to read and its path in the built site. */
@@ -43,33 +48,65 @@ function publishedPart(
   return setItems.length === 0 ? null : { ...problemSet, setItems };
 }
 
-/**
- * The tracks as the catalogue holds them. Throws CatalogueBuildError track-slug-duplicated when
- * two track files share a slug.
- */
-export function compileTracks(
-  trackDocuments: readonly TrackDocument[],
-  publishedReactionSlugs: ReadonlySet<string>,
-): CatalogueTrack[] {
+/** Two files with one track slug or one curriculum code refuse the build. */
+function checkTracksDistinct(trackDocuments: readonly TrackDocument[]): void {
   const seenTrackSlugs = new Set<string>();
-  const tracks: CatalogueTrack[] = [];
-  for (const { trackSlug, title, goal, problemSets: authoredProblemSets } of trackDocuments) {
+  const seenCurriculumCodes = new Set<string>();
+  for (const { trackSlug, curriculumCode } of trackDocuments) {
     if (seenTrackSlugs.has(trackSlug)) {
       throw new CatalogueBuildError(
         "track-slug-duplicated",
         `two track files are called ${trackSlug}`,
       );
     }
+    if (seenCurriculumCodes.has(curriculumCode)) {
+      throw new CatalogueBuildError(
+        "curriculum-code-duplicated",
+        `two track files have the curriculum code ${curriculumCode}`,
+      );
+    }
     seenTrackSlugs.add(trackSlug);
-    // The catalogue has its own format version, so the track's is not copied.
-    const problemSets = authoredProblemSets
+    seenCurriculumCodes.add(curriculumCode);
+  }
+}
+
+/** Level first (foundations … graduate), then the number of the curriculum code (F2 before F10). */
+function compareCurriculumPlace(first: CatalogueTrack, second: CatalogueTrack): number {
+  const levelPlace = (track: CatalogueTrack): number =>
+    track.level === undefined ? CURRICULUM_LEVELS.length : CURRICULUM_LEVELS.indexOf(track.level);
+  const codeNumber = (track: CatalogueTrack): number => Number(track.curriculumCode?.slice(1));
+  return levelPlace(first) - levelPlace(second) || codeNumber(first) - codeNumber(second);
+}
+
+/**
+ * The tracks as the catalogue holds them. Throws CatalogueBuildError track-slug-duplicated or
+ * curriculum-code-duplicated when two track files share a slug or a curriculum code.
+ */
+export function compileTracks(
+  trackDocuments: readonly TrackDocument[],
+  publishedReactionSlugs: ReadonlySet<string>,
+): CatalogueTrack[] {
+  checkTracksDistinct(trackDocuments);
+  const tracks: CatalogueTrack[] = [];
+  for (const trackDocument of trackDocuments) {
+    const { trackSlug, title, goal, level, curriculumCode, showcaseReactionSlug } = trackDocument;
+    const problemSets = trackDocument.problemSets
       .map((problemSet) => publishedPart(problemSet, publishedReactionSlugs))
       .filter((problemSet) => problemSet !== null);
     if (problemSets.length > 0) {
-      tracks.push({ trackSlug, title, goal, problemSets });
+      // The catalogue has its own format version, so the track's is not copied.
+      tracks.push({
+        trackSlug,
+        title,
+        goal,
+        level,
+        curriculumCode,
+        ...(publishedReactionSlugs.has(showcaseReactionSlug) ? { showcaseReactionSlug } : {}),
+        problemSets,
+      });
     }
   }
-  return tracks.sort((first, second) => compareText(first.trackSlug, second.trackSlug));
+  return tracks.sort(compareCurriculumPlace);
 }
 
 function conceptFigureCopies(track: TrackDocument, tracksFolder: string): ConceptFigureCopy[] {
