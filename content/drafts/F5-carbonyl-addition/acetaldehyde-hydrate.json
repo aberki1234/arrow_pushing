@@ -1,0 +1,238 @@
+{
+  "formatVersion": 1,
+  "reactionSlug": "acetaldehyde-hydrate",
+  "reactionVersion": 1,
+  "previousReactionVersion": null,
+  "title": "Hydrate formation",
+  "subtitle": "Hydroxide adds to acetaldehyde; water protonates the alkoxide",
+  "reactionClasses": [
+    "carbonyl",
+    "addition"
+  ],
+  "difficultyTier": 1,
+  "conditionsLabel": "H₂O · NaOH (cat.)",
+  "dailyPuzzleEligible": true,
+  "atomRoleToMapNumbers": {
+    "carbonylCarbon": [
+      3
+    ],
+    "carbonylOxygen": [
+      4
+    ],
+    "hydroxide": [
+      1
+    ]
+  },
+  "spectatorMapNumbers": [
+    7
+  ],
+  "startStateId": "reactants",
+  "stateIdToState": {
+    "reactants": {
+      "mappedSmiles": "[OH-:1].[Na+:7].[CH3:2][CH:3]=[O:4].[H:6][OH:5]",
+      "caption": "acetaldehyde + hydroxide + water",
+      "learnerPrompt": "Hydroxide attacks acetaldehyde.",
+      "hintTiers": [
+        "Which species is the nucleophile, and which atom of the aldehyde is electron-poor?",
+        "A lone pair of hydroxide forms a new O–C bond to the carbonyl carbon, and the C=O π pair moves onto oxygen. Two arrows.",
+        "Hydroxide lone pair → new O–C bond to the carbonyl carbon; C=O π bond → lone pair on the carbonyl oxygen."
+      ],
+      "misconceptions": [
+        {
+          "misconceptionId": "hydroxide-attacks-oxygen",
+          "misconceptionTag": "attack-electron-rich-atom",
+          "severity": "wrong",
+          "arrowPattern": "lp O1 -> O4",
+          "feedbackMessage": "The carbonyl oxygen is electron-rich. Hydroxide attacks the electron-poor carbonyl carbon."
+        },
+        {
+          "misconceptionId": "hydroxide-swaps-proton-with-water",
+          "misconceptionTag": "unproductive-protonation",
+          "severity": "plausible",
+          "arrowPattern": "lp O1 -> H6",
+          "feedbackMessage": "Hydroxide and water just swap a proton: nothing changes. Hydroxide must attack the carbonyl carbon."
+        },
+        {
+          "misconceptionId": "pi-to-carbonyl-carbon",
+          "misconceptionTag": "pi-to-own-atom",
+          "severity": "wrong",
+          "arrowPattern": "π C3-O4 -> C3",
+          "feedbackMessage": "The C=O π electrons move towards oxygen, the electronegative atom, not onto carbon."
+        }
+      ],
+      "partialProgressMessages": [
+        {
+          "learnerArrows": [
+            "lp O1 -> σ O1-C3"
+          ],
+          "feedbackMessage": "Right: hydroxide attacks the carbonyl carbon. That carbon now has five bonds: move the C=O π pair."
+        }
+      ],
+      "mapNumberToCoordinates": {
+        "1": [
+          0,
+          1.75
+        ],
+        "2": [
+          -1.04,
+          -1.29
+        ],
+        "3": [
+          0.25,
+          -0.54
+        ],
+        "4": [
+          1.55,
+          -1.29
+        ],
+        "5": [
+          0.58,
+          3.98
+        ],
+        "6": [
+          1.88,
+          4.73
+        ],
+        "7": [
+          3.6,
+          0
+        ]
+      }
+    },
+    "alkoxide": {
+      "mappedSmiles": "[CH3:2][CH:3]([OH:1])[O-:4].[Na+:7].[H:6][OH:5]",
+      "caption": "tetrahedral alkoxide + water",
+      "learnerPrompt": "Water protonates the alkoxide.",
+      "hintTiers": [
+        "The alkoxide oxygen is a base. Which molecule can give it a proton?",
+        "The alkoxide lone pair takes a proton of water, and the O–H bonding pair stays on water's oxygen. Two arrows.",
+        "Alkoxide oxygen lone pair → new O–H bond to a proton of water; that O–H bond → lone pair on water's oxygen."
+      ],
+      "misconceptions": [
+        {
+          "misconceptionId": "hydroxide-leaves-again",
+          "misconceptionTag": "reverse-step",
+          "severity": "plausible",
+          "arrowPattern": "σ O1-C3 -> lp O1",
+          "feedbackMessage": "Losing hydroxide just reverses the addition; hydrate formation is reversible. Protonate the alkoxide instead."
+        },
+        {
+          "misconceptionId": "alkoxide-attacks-water-oxygen",
+          "misconceptionTag": "attack-non-electrophile",
+          "severity": "wrong",
+          "arrowPattern": "lp O4 -> O5",
+          "feedbackMessage": "Water's oxygen is not an electrophile. The alkoxide is a base: it takes a proton."
+        }
+      ],
+      "partialProgressMessages": [
+        {
+          "learnerArrows": [
+            "lp O4 -> σ O4-H6"
+          ],
+          "feedbackMessage": "Good: the alkoxide takes a proton of water. Where does the O–H bonding pair go?"
+        }
+      ],
+      "mapNumberToCoordinates": {
+        "1": [
+          2.6,
+          0
+        ],
+        "2": [
+          0,
+          0
+        ],
+        "3": [
+          1.3,
+          0.75
+        ],
+        "4": [
+          1.3,
+          2.25
+        ],
+        "5": [
+          -0.17,
+          4
+        ],
+        "6": [
+          1.13,
+          4.75
+        ],
+        "7": [
+          4.83,
+          -0.4
+        ]
+      }
+    },
+    "products": {
+      "mappedSmiles": "[CH3:2][CH:3]([OH:1])[O:4][H:6].[Na+:7].[OH-:5]",
+      "caption": "ethane-1,1-diol (the hydrate) + hydroxide",
+      "mapNumberToCoordinates": {
+        "1": [
+          2.6,
+          0
+        ],
+        "2": [
+          0,
+          0
+        ],
+        "3": [
+          1.3,
+          0.75
+        ],
+        "4": [
+          1.3,
+          2.25
+        ],
+        "5": [
+          4.79,
+          -0.7
+        ],
+        "6": [
+          2.6,
+          3
+        ],
+        "7": [
+          -0.06,
+          4.11
+        ]
+      }
+    }
+  },
+  "steps": [
+    {
+      "stepKey": "hydroxide-addition",
+      "fromStateId": "reactants",
+      "toStateId": "alkoxide",
+      "stepKind": "polar",
+      "routePreference": "preferred",
+      "canonicalArrows": [
+        "lp O1 -> σ O1-C3",
+        "π C3-O4 -> lp O4"
+      ],
+      "explanationAfterStep": "Hydroxide is a better nucleophile than water, so base speeds up hydration. The carbonyl carbon changes from trigonal to tetrahedral."
+    },
+    {
+      "stepKey": "protonation",
+      "fromStateId": "alkoxide",
+      "toStateId": "products",
+      "stepKind": "polar",
+      "routePreference": "preferred",
+      "canonicalArrows": [
+        "lp O4 -> σ O4-H6",
+        "σ O5-H6 -> lp O5"
+      ],
+      "explanationAfterStep": "Hydroxide is regenerated, so it is a catalyst. The equilibrium lies far towards the hydrate only for very electrophilic carbonyls such as formaldehyde or chloral."
+    }
+  ],
+  "mechanismSummary": "Hydroxide attacks the carbonyl carbon and the C=O π electrons move onto oxygen. Water protonates the alkoxide, giving the hydrate and hydroxide back. For acetaldehyde about half is hydrate at equilibrium.",
+  "references": [
+    "Clayden, Greeves and Warren, Organic Chemistry, 2nd edition (Oxford University Press), chapter 6"
+  ],
+  "authors": [
+    {
+      "name": "Maksim",
+      "url": null
+    }
+  ],
+  "licence": "CC-BY-SA-4.0"
+}

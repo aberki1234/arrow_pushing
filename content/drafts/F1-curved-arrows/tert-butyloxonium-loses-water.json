@@ -1,0 +1,133 @@
+{
+  "formatVersion": 1,
+  "reactionSlug": "tert-butyloxonium-loses-water",
+  "reactionVersion": 1,
+  "previousReactionVersion": null,
+  "title": "The tert-butyloxonium ion loses water",
+  "subtitle": "A C–O bond breaks: water leaves, a carbocation forms",
+  "reactionClasses": [
+    "acid-base",
+    "substitution"
+  ],
+  "difficultyTier": 1,
+  "conditionsLabel": "conc. HCl · 25 °C",
+  "dailyPuzzleEligible": true,
+  "atomRoleToMapNumbers": {},
+  "spectatorMapNumbers": [],
+  "startStateId": "reactants",
+  "stateIdToState": {
+    "reactants": {
+      "mappedSmiles": "[C:1]([CH3:2])([CH3:3])([CH3:4])[OH2+:5].[Cl-:6]",
+      "caption": "tert-butyloxonium chloride",
+      "mapNumberToCoordinates": {
+        "1": [
+          1.3,
+          0.75
+        ],
+        "2": [
+          0,
+          0
+        ],
+        "3": [
+          2.6,
+          1.5
+        ],
+        "4": [
+          2.05,
+          -0.55
+        ],
+        "5": [
+          0.55,
+          2.05
+        ],
+        "6": [
+          4.32,
+          -0.23
+        ]
+      },
+      "learnerPrompt": "Draw how water leaves to give the carbocation.",
+      "hintTiers": [
+        "Water is a good leaving group once it carries the positive charge. Which bond breaks?",
+        "One arrow: a bond breaks heterolytically, and both electrons go to the more electronegative atom.",
+        "One arrow: the C–O bond onto the oxygen, which leaves as water and leaves a tertiary carbocation."
+      ],
+      "misconceptions": [
+        {
+          "misconceptionId": "concerted-substitution",
+          "misconceptionTag": "crowded-tertiary-carbon",
+          "severity": "plausible",
+          "arrowPattern": "lp Cl6 -> σ Cl6-C1; σ C1-O5 -> lp O5",
+          "feedbackMessage": "Chloride cannot reach the back of a tertiary carbon: three methyl groups are in the way. Water leaves first; chloride attacks the cation afterwards."
+        },
+        {
+          "misconceptionId": "pentavalent-carbon",
+          "misconceptionTag": "octet-exceeded",
+          "severity": "wrong",
+          "arrowPattern": "lp Cl6 -> σ Cl6-C1",
+          "feedbackMessage": "This carbon already has four bonds. A new bond to chloride would give it five bonds and ten electrons, which carbon can never have. A bond must break first."
+        },
+        {
+          "misconceptionId": "bond-breaks-towards-carbon",
+          "misconceptionTag": "bond-breaks-wrong-way",
+          "severity": "wrong",
+          "arrowPattern": "σ C1-O5 -> lp C1",
+          "feedbackMessage": "The C–O bond breaks towards the positive, electronegative oxygen, not towards carbon. Water leaves with both electrons."
+        }
+      ]
+    },
+    "products": {
+      "mappedSmiles": "[C+:1]([CH3:2])([CH3:3])[CH3:4].[OH2:5].[Cl-:6]",
+      "caption": "tert-butyl cation + water + chloride",
+      "mapNumberToCoordinates": {
+        "1": [
+          1.3,
+          0.75
+        ],
+        "2": [
+          0,
+          0
+        ],
+        "3": [
+          2.6,
+          0
+        ],
+        "4": [
+          1.3,
+          2.25
+        ],
+        "5": [
+          -0.3,
+          3.84
+        ],
+        "6": [
+          4.83,
+          -0.4
+        ]
+      }
+    }
+  },
+  "steps": [
+    {
+      "stepKey": "loss-of-water",
+      "fromStateId": "reactants",
+      "toStateId": "products",
+      "stepKind": "polar",
+      "routePreference": "preferred",
+      "canonicalArrows": [
+        "σ C1-O5 -> lp O5"
+      ],
+      "explanationAfterStep": "Oxygen takes back the pair it shared, so it is neutral again. Carbon loses a bond and its share of two electrons: three bonds, six electrons, positive. A tertiary carbocation is stabilised by its three methyl groups, which is why this ionisation is fast."
+    }
+  ],
+  "mechanismSummary": "The C–O bond of the protonated alcohol breaks, and both electrons go to oxygen, which leaves as neutral water. Carbon is left with three bonds and a positive charge: the tertiary carbocation.",
+  "references": [
+    "Clayden, Greeves and Warren, Organic Chemistry, 2nd edition (Oxford University Press), chapter 5 (Organic reactions)"
+  ],
+  "authors": [
+    {
+      "name": "Maksim",
+      "url": null
+    }
+  ],
+  "licence": "CC-BY-SA-4.0"
+}

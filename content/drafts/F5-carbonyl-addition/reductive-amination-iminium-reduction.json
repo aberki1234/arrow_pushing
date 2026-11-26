@@ -1,0 +1,249 @@
+{
+  "formatVersion": 1,
+  "reactionSlug": "reductive-amination-iminium-reduction",
+  "reactionVersion": 1,
+  "previousReactionVersion": null,
+  "title": "Reductive amination",
+  "subtitle": "Sodium cyanoborohydride reduces an iminium ion to the amine",
+  "reactionClasses": [
+    "carbonyl",
+    "addition"
+  ],
+  "difficultyTier": 2,
+  "conditionsLabel": "NaBH₃CN · MeOH · AcOH, pH 6",
+  "dailyPuzzleEligible": true,
+  "atomRoleToMapNumbers": {
+    "iminiumCarbon": [
+      1
+    ],
+    "nitrogen": [
+      2
+    ],
+    "boron": [
+      9
+    ],
+    "hydride": [
+      10
+    ]
+  },
+  "spectatorMapNumbers": [
+    13,
+    14,
+    15,
+    16,
+    17
+  ],
+  "startStateId": "reactants",
+  "stateIdToState": {
+    "reactants": {
+      "mappedSmiles": "[CH3:3][NH+:2]=[C:1]1[CH2:4][CH2:5][CH2:6][CH2:7][CH2:8]1.[CH3:14][C:15](=[O:16])[O-:17].[Na+:13].[H:10][BH2-:9][C:11]#[N:12]",
+      "caption": "iminium ion + cyanoborohydride",
+      "learnerPrompt": "Reduce the iminium ion.",
+      "hintTiers": [
+        "Where is the hydride in cyanoborohydride, and which atom of the iminium ion is electron-poor?",
+        "A B–H bonding pair becomes a new C–H bond to the C=N⁺ carbon, and the C=N π pair moves onto nitrogen. Two arrows.",
+        "B–H bond → new C–H bond to the C=N⁺ carbon; C=N π bond → lone pair on nitrogen."
+      ],
+      "misconceptions": [
+        {
+          "misconceptionId": "hydride-attacks-nitrogen",
+          "misconceptionTag": "attack-electron-rich-atom",
+          "severity": "wrong",
+          "arrowPattern": "σ B9-H10 -> N2",
+          "feedbackMessage": "Nitrogen already has four bonds. The electron-poor atom that can accept hydride is the carbon of C=N⁺."
+        },
+        {
+          "misconceptionId": "cyanide-delivered",
+          "misconceptionTag": "wrong-nucleophile",
+          "severity": "wrong",
+          "arrowPattern": "σ B9-C11 -> C1",
+          "feedbackMessage": "The B–C bond is strong and the cyano group stays on boron. Only hydride is delivered."
+        },
+        {
+          "misconceptionId": "pi-to-iminium-carbon",
+          "misconceptionTag": "pi-to-own-atom",
+          "severity": "wrong",
+          "arrowPattern": "π C1-N2 -> C1",
+          "feedbackMessage": "The C=N π electrons move towards the positive nitrogen, not onto carbon."
+        }
+      ],
+      "partialProgressMessages": [
+        {
+          "learnerArrows": [
+            "σ B9-H10 -> σ C1-H10"
+          ],
+          "feedbackMessage": "Right: hydride attacks the carbon. That carbon now has five bonds: move the C=N π pair."
+        }
+      ],
+      "mapNumberToCoordinates": {
+        "1": [
+          1.5,
+          0
+        ],
+        "2": [
+          3,
+          0
+        ],
+        "3": [
+          3.75,
+          -1.3
+        ],
+        "4": [
+          0.75,
+          1.3
+        ],
+        "5": [
+          -0.75,
+          1.3
+        ],
+        "6": [
+          -1.5,
+          0
+        ],
+        "7": [
+          -0.75,
+          -1.3
+        ],
+        "8": [
+          0.75,
+          -1.3
+        ],
+        "9": [
+          -3.2,
+          2.76
+        ],
+        "10": [
+          -1.9,
+          3.51
+        ],
+        "11": [
+          -4.5,
+          3.51
+        ],
+        "12": [
+          -5.8,
+          4.26
+        ],
+        "13": [
+          5.59,
+          0.03
+        ],
+        "14": [
+          0,
+          4.8
+        ],
+        "15": [
+          1.3,
+          5.55
+        ],
+        "16": [
+          2.6,
+          4.8
+        ],
+        "17": [
+          1.3,
+          7.05
+        ]
+      }
+    },
+    "products": {
+      "mappedSmiles": "[CH3:3][NH:2][C:1]1([H:10])[CH2:4][CH2:5][CH2:6][CH2:7][CH2:8]1.[CH3:14][C:15](=[O:16])[O-:17].[Na+:13].[BH2:9][C:11]#[N:12]",
+      "caption": "N-methylcyclohexylamine + BH₂CN",
+      "mapNumberToCoordinates": {
+        "1": [
+          1.5,
+          0
+        ],
+        "2": [
+          2.65,
+          -0.96
+        ],
+        "3": [
+          2.39,
+          -2.44
+        ],
+        "4": [
+          0.75,
+          1.3
+        ],
+        "5": [
+          -0.75,
+          1.3
+        ],
+        "6": [
+          -1.5,
+          0
+        ],
+        "7": [
+          -0.75,
+          -1.3
+        ],
+        "8": [
+          0.75,
+          -1.3
+        ],
+        "9": [
+          1.82,
+          3.41
+        ],
+        "10": [
+          2.65,
+          0.96
+        ],
+        "11": [
+          3.12,
+          4.16
+        ],
+        "12": [
+          4.42,
+          4.91
+        ],
+        "13": [
+          0,
+          4.8
+        ],
+        "14": [
+          4.8,
+          0.29
+        ],
+        "15": [
+          6.1,
+          1.04
+        ],
+        "16": [
+          7.4,
+          0.29
+        ],
+        "17": [
+          6.1,
+          2.54
+        ]
+      }
+    }
+  },
+  "steps": [
+    {
+      "stepKey": "hydride-transfer",
+      "fromStateId": "reactants",
+      "toStateId": "products",
+      "stepKind": "polar",
+      "routePreference": "preferred",
+      "canonicalArrows": [
+        "σ B9-H10 -> σ C1-H10",
+        "π C1-N2 -> lp N2"
+      ],
+      "explanationAfterStep": "The cyano group withdraws electrons from boron, so NaBH₃CN is a weaker hydride donor than NaBH₄. It reduces the positive iminium ion fast but leaves the ketone almost untouched, so the ketone, amine and reducing agent can all be mixed at once."
+    }
+  ],
+  "mechanismSummary": "A B–H bond of cyanoborohydride delivers hydride to the carbon of the iminium ion, and the C=N π electrons move onto nitrogen, giving the secondary amine. The ketone is hardly touched: cyanoborohydride is too weak a hydride donor to reduce it at pH 6, so only the iminium ion reacts.",
+  "references": [
+    "Clayden, Greeves and Warren, Organic Chemistry, 2nd edition (Oxford University Press), chapter 11"
+  ],
+  "authors": [
+    {
+      "name": "Maksim",
+      "url": null
+    }
+  ],
+  "licence": "CC-BY-SA-4.0"
+}

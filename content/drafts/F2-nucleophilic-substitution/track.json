@@ -1,0 +1,120 @@
+{
+  "formatVersion": 1,
+  "trackSlug": "nucleophilic-substitution",
+  "title": "Nucleophilic substitution",
+  "goal": "How a nucleophile replaces a leaving group at a saturated carbon: SN2, SN1, and making leaving groups.",
+  "problemSets": [
+    {
+      "problemSetSlug": "sn2",
+      "title": "SN2: one concerted step",
+      "conceptInOneLine": "The nucleophile attacks from the back as the leaving group leaves, in one step.",
+      "conceptCard": "In **SN2** the nucleophile attacks the δ+ carbon from the side **opposite** the leaving group, and the C–X bond breaks **at the same time**: two arrows, one step.\n\n- Rate = k[nucleophile][substrate]: both take part in the slow step.\n- Best on **methyl and primary** carbons, and fast on benzylic ones; a tertiary carbon is too crowded.\n- A stereocentre is **inverted**.\n- Good nucleophiles: I⁻, CN⁻, N₃⁻, amines. Polar aprotic solvents (acetone, DMSO, DMF) speed it up.",
+      "checkpoint": false,
+      "setItems": [
+        {
+          "reactionSlug": "sn2-hydroxide-bromomethane",
+          "whyThisOne": "The pattern: two arrows, one step."
+        },
+        {
+          "reactionSlug": "cyanide-and-iodoethane",
+          "whyThisOne": "A carbon nucleophile makes a C–C bond."
+        },
+        {
+          "reactionSlug": "finkelstein-chloroethane",
+          "whyThisOne": "Halide exchange, driven by a precipitate."
+        },
+        {
+          "reactionSlug": "azide-and-benzyl-bromide",
+          "whyThisOne": "A benzylic carbon: fast SN2."
+        },
+        {
+          "reactionSlug": "ammonia-and-iodomethane",
+          "whyThisOne": "A neutral nucleophile: SN2, then a proton transfer."
+        }
+      ]
+    },
+    {
+      "problemSetSlug": "sn1",
+      "title": "SN1: the carbocation first",
+      "conceptInOneLine": "The leaving group goes first; a nucleophile then captures a flat carbocation.",
+      "conceptCard": "In **SN1** the C–X bond breaks **on its own** (the slow step), giving a **carbocation**, which a nucleophile then captures.\n\n- Rate = k[substrate]: the nucleophile is not in the slow step.\n- Needs a **stable cation**: tertiary, benzylic or allylic. Typical nucleophiles are weak ones such as water or an alcohol, often the solvent.\n- The cation is flat, so a stereocentre is **racemised**.\n- An **allylic** cation can be attacked at either end, and a cation can **rearrange** (a 1,2-hydride shift) to a more stable one first.\n- After water or an alcohol adds, a **proton transfer** gives the neutral product.",
+      "checkpoint": false,
+      "setItems": [
+        {
+          "reactionSlug": "tert-butyl-bromide-hydrolysis",
+          "whyThisOne": "The three steps of SN1 at a tertiary carbon."
+        },
+        {
+          "reactionSlug": "benzhydryl-chloride-methanolysis",
+          "whyThisOne": "Two rings stabilise a secondary cation."
+        },
+        {
+          "reactionSlug": "allylic-chloride-hydrolysis",
+          "whyThisOne": "One cation, two ends: two products."
+        },
+        {
+          "reactionSlug": "3-methylbutan-2-ol-and-hbr",
+          "whyThisOne": "The cation rearranges before bromide arrives."
+        }
+      ]
+    },
+    {
+      "problemSetSlug": "making-leaving-groups",
+      "title": "Making leaving groups",
+      "conceptInOneLine": "OH is a poor leaving group: protonate it, or turn it into OTs or O–P⁺.",
+      "conceptCard": "Hydroxide is a strong base, so **OH never leaves on its own**. Turn it into something that leaves as a weak base:\n\n- **Protonate** it with HBr: water leaves.\n- Make a **tosylate** with TsCl and pyridine. The C–O bond is not touched, so the configuration is kept; TsO⁻ then leaves about as well as a halide.\n- Bond it to **phosphorus** (the Appel reaction: PPh₃, CBr₄). Ph₃P=O leaves, driven by the strong P=O bond.\n\nThe last step is then an ordinary SN2, or SN1 on a tertiary carbon.",
+      "checkpoint": false,
+      "setItems": [
+        {
+          "reactionSlug": "ethanol-and-hbr",
+          "whyThisOne": "Acid makes the leaving group; SN2 on a primary carbon."
+        },
+        {
+          "reactionSlug": "tosylate-formation",
+          "whyThisOne": "Substitution at sulfur: the carbon keeps its configuration."
+        },
+        {
+          "reactionSlug": "tosylate-displacement",
+          "whyThisOne": "Iodide displaces OTs with inversion."
+        },
+        {
+          "reactionSlug": "appel-reaction",
+          "whyThisOne": "Four steps, driven by the P=O bond."
+        }
+      ]
+    },
+    {
+      "problemSetSlug": "substitution-checkpoint",
+      "title": "Checkpoint",
+      "conceptInOneLine": "SN2 or SN1? Decide from the carbon, the nucleophile and the leaving group.",
+      "conceptCard": "Reactions from every set, shuffled, names hidden until you finish. Three attempts per step.",
+      "checkpoint": true,
+      "setItems": [
+        {
+          "reactionSlug": "cyanide-and-iodoethane",
+          "whyThisOne": "SN2 with a carbon nucleophile."
+        },
+        {
+          "reactionSlug": "ammonia-and-iodomethane",
+          "whyThisOne": "SN2, then a proton transfer."
+        },
+        {
+          "reactionSlug": "benzhydryl-chloride-methanolysis",
+          "whyThisOne": "SN1 at a stabilised secondary carbon."
+        },
+        {
+          "reactionSlug": "3-methylbutan-2-ol-and-hbr",
+          "whyThisOne": "Watch for the rearrangement."
+        },
+        {
+          "reactionSlug": "ethanol-and-hbr",
+          "whyThisOne": "Make the leaving group first."
+        },
+        {
+          "reactionSlug": "appel-reaction",
+          "whyThisOne": "A leaving group made with phosphorus."
+        }
+      ]
+    }
+  ]
+}

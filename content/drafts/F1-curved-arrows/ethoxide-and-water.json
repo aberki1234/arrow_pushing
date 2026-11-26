@@ -1,0 +1,143 @@
+{
+  "formatVersion": 1,
+  "reactionSlug": "ethoxide-and-water",
+  "reactionVersion": 1,
+  "previousReactionVersion": null,
+  "title": "Ethoxide and water",
+  "subtitle": "Which way does the proton go? Ethoxide is the base",
+  "reactionClasses": [
+    "acid-base"
+  ],
+  "difficultyTier": 1,
+  "conditionsLabel": "NaOEt + H₂O · 25 °C",
+  "dailyPuzzleEligible": true,
+  "atomRoleToMapNumbers": {},
+  "spectatorMapNumbers": [
+    4
+  ],
+  "startStateId": "reactants",
+  "stateIdToState": {
+    "reactants": {
+      "mappedSmiles": "[CH3:1][CH2:2][O-:3].[Na+:4].[H:6][OH:5]",
+      "caption": "sodium ethoxide + water",
+      "mapNumberToCoordinates": {
+        "1": [
+          0,
+          0
+        ],
+        "2": [
+          1.3,
+          0.75
+        ],
+        "3": [
+          2.6,
+          0
+        ],
+        "4": [
+          0,
+          3.5
+        ],
+        "5": [
+          2.22,
+          2.95
+        ],
+        "6": [
+          3.52,
+          3.7
+        ]
+      },
+      "learnerPrompt": "Sodium ethoxide is dissolved in water. Draw the proton transfer.",
+      "hintTiers": [
+        "Which species is the base here: the negatively charged one or the neutral one?",
+        "Ethoxide's lone pair makes a new O–H bond to a hydrogen of water; that O–H bond of water breaks. Two arrows.",
+        "Arrow 1: a lone pair of ethoxide's oxygen to a hydrogen of water. Arrow 2: that O–H bond onto water's oxygen, which becomes hydroxide."
+      ],
+      "misconceptions": [
+        {
+          "misconceptionId": "water-as-base",
+          "misconceptionTag": "wrong-acid-base-direction",
+          "severity": "wrong",
+          "arrowPattern": "lp O5 -> *",
+          "feedbackMessage": "Water is the acid here, not the base. Ethoxide, with its negative charge, is by far the better electron source: electrons flow from ethoxide's oxygen to a hydrogen of water."
+        },
+        {
+          "misconceptionId": "arrow-from-water",
+          "misconceptionTag": "arrow-starts-at-electrons",
+          "severity": "wrong",
+          "arrowPattern": "σ H6-O5 -> O3",
+          "feedbackMessage": "This arrow runs backwards: it pushes water's electrons towards the already negative ethoxide. Start at ethoxide's lone pair and point it at a hydrogen of water."
+        },
+        {
+          "misconceptionId": "water-bond-to-hydrogen",
+          "misconceptionTag": "bond-breaks-wrong-way",
+          "severity": "wrong",
+          "arrowPattern": "σ H6-O5 -> lp H6",
+          "feedbackMessage": "The bond breaks towards the more electronegative atom. Hydrogen leaves as H⁺, with no electrons; the bonding pair stays on the other atom."
+        }
+      ],
+      "partialProgressMessages": [
+        {
+          "learnerArrows": [
+            "lp O3 -> σ O3-H6"
+          ],
+          "feedbackMessage": "Good start: the lone pair makes a new bond to the hydrogen. But that hydrogen now has two bonds, four electrons, and it can hold only two. Which bond must break, and where do its electrons go?"
+        }
+      ]
+    },
+    "products": {
+      "mappedSmiles": "[CH3:1][CH2:2][O:3][H:6].[Na+:4].[OH-:5]",
+      "caption": "ethanol + sodium hydroxide",
+      "mapNumberToCoordinates": {
+        "1": [
+          0,
+          0
+        ],
+        "2": [
+          1.3,
+          0.75
+        ],
+        "3": [
+          2.6,
+          0
+        ],
+        "4": [
+          0,
+          2.75
+        ],
+        "5": [
+          -1.98,
+          1.1
+        ],
+        "6": [
+          3.9,
+          0.75
+        ]
+      }
+    }
+  },
+  "steps": [
+    {
+      "stepKey": "proton-transfer",
+      "fromStateId": "reactants",
+      "toStateId": "products",
+      "stepKind": "polar",
+      "routePreference": "preferred",
+      "canonicalArrows": [
+        "lp O3 -> σ O3-H6",
+        "σ H6-O5 -> lp O5"
+      ],
+      "explanationAfterStep": "The two acids, ethanol and water, have almost the same pKa, so the equilibrium sits near the middle for equal amounts. Water is the solvent, though, so it wins: ethoxide does not survive in water. That is why reactions of sodium ethoxide are run in dry ethanol."
+    }
+  ],
+  "mechanismSummary": "Ethoxide's lone pair takes a proton from water, giving ethanol and hydroxide. Ethanol (pKa about 16) and water (pKa 15.7) are almost equally acidic, but water is in huge excess, so sodium ethoxide in water is mostly converted to hydroxide.",
+  "references": [
+    "Clayden, Greeves and Warren, Organic Chemistry, 2nd edition (Oxford University Press), chapter 8 (Acidity, basicity and pKa)"
+  ],
+  "authors": [
+    {
+      "name": "Maksim",
+      "url": null
+    }
+  ],
+  "licence": "CC-BY-SA-4.0"
+}

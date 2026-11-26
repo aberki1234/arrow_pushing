@@ -1,0 +1,487 @@
+{
+  "formatVersion": 1,
+  "reactionSlug": "benzhydryl-chloride-methanolysis",
+  "reactionVersion": 1,
+  "previousReactionVersion": null,
+  "title": "Methanolysis of benzhydryl chloride",
+  "subtitle": "Two rings make a secondary cation easy to form",
+  "reactionClasses": [
+    "substitution"
+  ],
+  "difficultyTier": 2,
+  "conditionsLabel": "MeOH · 25 °C",
+  "dailyPuzzleEligible": true,
+  "atomRoleToMapNumbers": {
+    "electrophile": [
+      1
+    ],
+    "leavingGroup": [
+      2
+    ]
+  },
+  "spectatorMapNumbers": [],
+  "startStateId": "reactants",
+  "stateIdToState": {
+    "reactants": {
+      "mappedSmiles": "[Cl:2][CH:1]([C:3]1=[CH:4][CH:5]=[CH:6][CH:7]=[CH:8]1)([C:9]1=[CH:10][CH:11]=[CH:12][CH:13]=[CH:14]1).[CH3:16][O:15][H:17].[CH3:19][OH:18]",
+      "caption": "benzhydryl (diphenylmethyl) chloride + methanol",
+      "learnerPrompt": "Methanol is a poor nucleophile. Show the first step.",
+      "hintTiers": [
+        "This carbon is secondary, but both of its neighbours are benzene rings. What could they do for a positive charge?",
+        "The C–Cl bond breaks on its own, both electrons going to chlorine. One arrow.",
+        "The C–Cl bond breaks, and its pair goes onto chlorine, leaving the diphenylmethyl cation."
+      ],
+      "misconceptions": [
+        {
+          "misconceptionId": "methanol-attacks-directly",
+          "misconceptionTag": "sn2-instead-of-sn1",
+          "severity": "plausible",
+          "arrowPattern": "lp O* -> C1",
+          "feedbackMessage": "Methanol is a weak nucleophile, and the two rings crowd the carbon. The cation forms first, helped by the rings."
+        },
+        {
+          "misconceptionId": "bond-electrons-to-carbon",
+          "misconceptionTag": "electrons-toward-less-electronegative-atom",
+          "severity": "wrong",
+          "arrowPattern": "σ C1-Cl2 -> lp C1",
+          "feedbackMessage": "The C–Cl pair goes to chlorine, the more electronegative atom."
+        }
+      ],
+      "mapNumberToCoordinates": {
+        "1": [
+          3,
+          0
+        ],
+        "2": [
+          3.75,
+          1.3
+        ],
+        "3": [
+          1.5,
+          0
+        ],
+        "4": [
+          0.75,
+          1.3
+        ],
+        "5": [
+          -0.75,
+          1.3
+        ],
+        "6": [
+          -1.5,
+          0
+        ],
+        "7": [
+          -0.75,
+          -1.3
+        ],
+        "8": [
+          0.75,
+          -1.3
+        ],
+        "9": [
+          3.75,
+          -1.3
+        ],
+        "10": [
+          3,
+          -2.6
+        ],
+        "11": [
+          3.75,
+          -3.9
+        ],
+        "12": [
+          5.25,
+          -3.9
+        ],
+        "13": [
+          6,
+          -2.6
+        ],
+        "14": [
+          5.25,
+          -1.3
+        ],
+        "15": [
+          0.91,
+          4.29
+        ],
+        "16": [
+          -0.39,
+          3.54
+        ],
+        "17": [
+          2.21,
+          3.54
+        ],
+        "18": [
+          0.6,
+          6.61
+        ],
+        "19": [
+          -0.7,
+          5.86
+        ]
+      }
+    },
+    "carbocation": {
+      "mappedSmiles": "[CH+:1]([C:3]1=[CH:4][CH:5]=[CH:6][CH:7]=[CH:8]1)([C:9]1=[CH:10][CH:11]=[CH:12][CH:13]=[CH:14]1).[Cl-:2].[CH3:16][O:15][H:17].[CH3:19][OH:18]",
+      "caption": "diphenylmethyl cation + chloride",
+      "learnerPrompt": "The solvent traps the cation. Draw the arrow.",
+      "hintTiers": [
+        "Which species, present in huge excess, has a lone pair?",
+        "A lone pair on the oxygen of methanol forms a bond to the positive carbon. One arrow.",
+        "The lone pair on methanol's oxygen forms a new bond to the positive carbon."
+      ],
+      "misconceptions": [
+        {
+          "misconceptionId": "chloride-returns",
+          "misconceptionTag": "ion-pair-return",
+          "severity": "plausible",
+          "arrowPattern": "lp Cl2 -> C1",
+          "feedbackMessage": "That re-forms the starting chloride. Methanol, the solvent, vastly outnumbers chloride and traps the cation."
+        }
+      ],
+      "mapNumberToCoordinates": {
+        "1": [
+          3,
+          0
+        ],
+        "2": [
+          7.12,
+          0.03
+        ],
+        "3": [
+          1.5,
+          0
+        ],
+        "4": [
+          0.75,
+          1.3
+        ],
+        "5": [
+          -0.75,
+          1.3
+        ],
+        "6": [
+          -1.5,
+          0
+        ],
+        "7": [
+          -0.75,
+          -1.3
+        ],
+        "8": [
+          0.75,
+          -1.3
+        ],
+        "9": [
+          3.75,
+          -1.3
+        ],
+        "10": [
+          3,
+          -2.6
+        ],
+        "11": [
+          3.75,
+          -3.9
+        ],
+        "12": [
+          5.25,
+          -3.9
+        ],
+        "13": [
+          6,
+          -2.6
+        ],
+        "14": [
+          5.25,
+          -1.3
+        ],
+        "15": [
+          0.97,
+          4.29
+        ],
+        "16": [
+          -0.33,
+          3.54
+        ],
+        "17": [
+          2.27,
+          3.54
+        ],
+        "18": [
+          0.53,
+          6.53
+        ],
+        "19": [
+          -0.76,
+          5.78
+        ]
+      }
+    },
+    "oxonium-ion": {
+      "mappedSmiles": "[CH:1]([C:3]1=[CH:4][CH:5]=[CH:6][CH:7]=[CH:8]1)([C:9]1=[CH:10][CH:11]=[CH:12][CH:13]=[CH:14]1)[O+:15]([CH3:16])[H:17].[Cl-:2].[CH3:19][OH:18]",
+      "caption": "protonated ether + chloride",
+      "learnerPrompt": "Finish: give the neutral ether.",
+      "hintTiers": [
+        "The O–H bond of a positively charged oxygen is acidic. Which molecule present can act as a base?",
+        "A second methanol takes the proton from the positive oxygen; the O–H pair stays on that oxygen. Two arrows.",
+        "Arrow 1: a lone pair of a second methanol forms a bond to the hydrogen on the positive oxygen. Arrow 2: that O–H bond breaks, and its pair goes back onto the oxygen."
+      ],
+      "misconceptions": [
+        {
+          "misconceptionId": "chloride-as-base",
+          "misconceptionTag": "weak-base",
+          "severity": "plausible",
+          "arrowPattern": "lp Cl2 -> H17",
+          "feedbackMessage": "Chloride is a very weak base (HCl is a strong acid). Methanol, the solvent, takes the proton."
+        }
+      ],
+      "partialProgressMessages": [
+        {
+          "learnerArrows": [
+            "lp O18 -> σ O18-H17"
+          ],
+          "feedbackMessage": "Right base, right proton. Hydrogen can only have one bond: where does the old O–H pair go?"
+        }
+      ],
+      "mapNumberToCoordinates": {
+        "1": [
+          3,
+          0
+        ],
+        "2": [
+          7.12,
+          0.02
+        ],
+        "3": [
+          1.5,
+          0
+        ],
+        "4": [
+          0.75,
+          1.3
+        ],
+        "5": [
+          -0.75,
+          1.3
+        ],
+        "6": [
+          -1.5,
+          0
+        ],
+        "7": [
+          -0.75,
+          -1.3
+        ],
+        "8": [
+          0.75,
+          -1.3
+        ],
+        "9": [
+          3.75,
+          -1.3
+        ],
+        "10": [
+          3,
+          -2.6
+        ],
+        "11": [
+          3.75,
+          -3.9
+        ],
+        "12": [
+          5.25,
+          -3.9
+        ],
+        "13": [
+          6,
+          -2.6
+        ],
+        "14": [
+          5.25,
+          -1.3
+        ],
+        "15": [
+          3.75,
+          1.3
+        ],
+        "16": [
+          3,
+          2.6
+        ],
+        "17": [
+          5.25,
+          1.3
+        ],
+        "18": [
+          1.3,
+          4.35
+        ],
+        "19": [
+          0,
+          3.6
+        ]
+      }
+    },
+    "products": {
+      "mappedSmiles": "[CH:1]([C:3]1=[CH:4][CH:5]=[CH:6][CH:7]=[CH:8]1)([C:9]1=[CH:10][CH:11]=[CH:12][CH:13]=[CH:14]1)[O:15][CH3:16].[H:17][OH+:18][CH3:19].[Cl-:2]",
+      "caption": "benzhydryl methyl ether + protonated methanol + chloride",
+      "mapNumberToCoordinates": {
+        "1": [
+          3,
+          0
+        ],
+        "2": [
+          -2.12,
+          5.15
+        ],
+        "3": [
+          1.5,
+          0
+        ],
+        "4": [
+          0.75,
+          1.3
+        ],
+        "5": [
+          -0.75,
+          1.3
+        ],
+        "6": [
+          -1.5,
+          0
+        ],
+        "7": [
+          -0.75,
+          -1.3
+        ],
+        "8": [
+          0.75,
+          -1.3
+        ],
+        "9": [
+          3.75,
+          -1.3
+        ],
+        "10": [
+          3,
+          -2.6
+        ],
+        "11": [
+          3.75,
+          -3.9
+        ],
+        "12": [
+          5.25,
+          -3.9
+        ],
+        "13": [
+          6,
+          -2.6
+        ],
+        "14": [
+          5.25,
+          -1.3
+        ],
+        "15": [
+          3.75,
+          1.3
+        ],
+        "16": [
+          5.25,
+          1.3
+        ],
+        "17": [
+          2.12,
+          3.55
+        ],
+        "18": [
+          0.82,
+          4.3
+        ],
+        "19": [
+          -0.47,
+          3.55
+        ]
+      }
+    }
+  },
+  "steps": [
+    {
+      "stepKey": "ionisation",
+      "fromStateId": "reactants",
+      "toStateId": "carbocation",
+      "stepKind": "polar",
+      "routePreference": "preferred",
+      "canonicalArrows": [
+        "σ C1-Cl2 -> lp Cl2"
+      ],
+      "explanationAfterStep": "The positive charge is spread over both rings by resonance (onto their ortho and para carbons), so this secondary cation is about as stable as a tertiary one."
+    },
+    {
+      "stepKey": "methanol-attacks",
+      "fromStateId": "carbocation",
+      "toStateId": "oxonium-ion",
+      "stepKind": "polar",
+      "routePreference": "preferred",
+      "canonicalArrows": [
+        "lp O15 -> σ O15-C1"
+      ],
+      "explanationAfterStep": "The cation is flat, so either face can be attacked. The oxygen now has three bonds and carries the positive charge."
+    },
+    {
+      "stepKey": "deprotonation",
+      "fromStateId": "oxonium-ion",
+      "toStateId": "products",
+      "stepKind": "polar",
+      "routePreference": "preferred",
+      "canonicalArrows": [
+        "lp O18 -> σ O18-H17",
+        "σ O15-H17 -> lp O15"
+      ],
+      "explanationAfterStep": "Overall, OMe has replaced Cl, and HCl has formed (here as protonated methanol and chloride)."
+    }
+  ],
+  "mechanismSummary": "SN1 solvolysis: the solvent is the nucleophile. A secondary carbon reacts by SN1 here because two phenyl rings delocalise the positive charge. Ionisation is rate-determining; methanol captures the cation and a second methanol removes the proton.",
+  "references": [
+    "Clayden, Greeves and Warren, Organic Chemistry, 2nd edition (Oxford University Press), chapter 15"
+  ],
+  "authors": [
+    {
+      "name": "Maksim",
+      "url": null
+    }
+  ],
+  "licence": "CC-BY-SA-4.0",
+  "abbreviatedGroups": [
+    {
+      "groupLabel": "Ph",
+      "attachmentMapNumber": 3,
+      "mapNumbers": [
+        3,
+        4,
+        5,
+        6,
+        7,
+        8
+      ]
+    },
+    {
+      "groupLabel": "Ph",
+      "attachmentMapNumber": 9,
+      "mapNumbers": [
+        9,
+        10,
+        11,
+        12,
+        13,
+        14
+      ]
+    }
+  ]
+}

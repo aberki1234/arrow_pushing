@@ -1,0 +1,360 @@
+{
+  "formatVersion": 1,
+  "reactionSlug": "phosphonium-ylide-formation",
+  "reactionVersion": 1,
+  "previousReactionVersion": null,
+  "title": "Phosphonium ylide formation",
+  "subtitle": "Butyllithium deprotonates methyltriphenylphosphonium bromide",
+  "reactionClasses": [
+    "acid-base"
+  ],
+  "difficultyTier": 2,
+  "conditionsLabel": "BuLi · THF · 0 °C",
+  "dailyPuzzleEligible": true,
+  "atomRoleToMapNumbers": {
+    "phosphorus": [
+      1
+    ],
+    "ylideCarbon": [
+      2
+    ],
+    "butylCarbon": [
+      5
+    ]
+  },
+  "spectatorMapNumbers": [
+    4,
+    9
+  ],
+  "abbreviatedGroups": [
+    {
+      "groupLabel": "Ph",
+      "attachmentMapNumber": 11,
+      "mapNumbers": [
+        11,
+        12,
+        13,
+        14,
+        15,
+        16
+      ]
+    },
+    {
+      "groupLabel": "Ph",
+      "attachmentMapNumber": 21,
+      "mapNumbers": [
+        21,
+        22,
+        23,
+        24,
+        25,
+        26
+      ]
+    },
+    {
+      "groupLabel": "Ph",
+      "attachmentMapNumber": 31,
+      "mapNumbers": [
+        31,
+        32,
+        33,
+        34,
+        35,
+        36
+      ]
+    }
+  ],
+  "startStateId": "reactants",
+  "stateIdToState": {
+    "reactants": {
+      "mappedSmiles": "[H:3][CH2:2][P+:1]([C:11]1=[CH:12][CH:13]=[CH:14][CH:15]=[CH:16]1)([C:21]1=[CH:22][CH:23]=[CH:24][CH:25]=[CH:26]1)[C:31]1=[CH:32][CH:33]=[CH:34][CH:35]=[CH:36]1.[Br-:4].[Li+:9].[CH2-:5][CH2:6][CH2:7][CH3:8]",
+      "caption": "methyltriphenylphosphonium bromide + butyllithium",
+      "learnerPrompt": "Butyllithium is the base. Make the ylide.",
+      "hintTiers": [
+        "The positive phosphorus makes the C–H bonds next to it acidic. Butyllithium is drawn as Li⁺ and the butyl anion: where are its reactive electrons?",
+        "The butyl carbon's lone pair takes a proton from the methyl group on phosphorus, and that C–H bonding pair stays on carbon. Two arrows.",
+        "Butyl carbon lone pair → new C–H bond to a proton of the methyl group; that C–H bond → lone pair on the methyl carbon."
+      ],
+      "misconceptions": [
+        {
+          "misconceptionId": "butyl-attacks-phosphorus",
+          "misconceptionTag": "attack-non-electrophile",
+          "severity": "wrong",
+          "arrowPattern": "lp C5 -> P1",
+          "feedbackMessage": "Phosphorus already has four bonds. Butyllithium acts as a base here: it takes a proton from the carbon next to P⁺."
+        },
+        {
+          "misconceptionId": "butyl-substitutes-methyl",
+          "misconceptionTag": "base-acts-as-nucleophile",
+          "severity": "wrong",
+          "arrowPattern": "lp C5 -> C2",
+          "feedbackMessage": "Triphenylphosphine is not displaced. Butyllithium takes a proton from that carbon instead."
+        },
+        {
+          "misconceptionId": "c-h-pair-to-hydrogen",
+          "misconceptionTag": "electron-flow-reversed",
+          "severity": "wrong",
+          "arrowPattern": "σ C2-H3 -> lp H3",
+          "feedbackMessage": "The C–H bonding pair stays on carbon: the proton leaves without electrons."
+        }
+      ],
+      "partialProgressMessages": [
+        {
+          "learnerArrows": [
+            "lp C5 -> σ H3-C5"
+          ],
+          "feedbackMessage": "Right: the butyl carbon takes the proton. Where does the C–H bonding pair go?"
+        }
+      ],
+      "mapNumberToCoordinates": {
+        "1": [
+          3,
+          0
+        ],
+        "2": [
+          4.5,
+          0
+        ],
+        "3": [
+          5.25,
+          1.3
+        ],
+        "4": [
+          0,
+          5.5
+        ],
+        "5": [
+          9.37,
+          0.36
+        ],
+        "6": [
+          10.66,
+          1.11
+        ],
+        "7": [
+          11.96,
+          0.36
+        ],
+        "8": [
+          13.26,
+          1.11
+        ],
+        "9": [
+          7.1,
+          -0.01
+        ],
+        "11": [
+          1.5,
+          0
+        ],
+        "12": [
+          0.75,
+          1.3
+        ],
+        "13": [
+          -0.75,
+          1.3
+        ],
+        "14": [
+          -1.5,
+          0
+        ],
+        "15": [
+          -0.75,
+          -1.3
+        ],
+        "16": [
+          0.75,
+          -1.3
+        ],
+        "21": [
+          3,
+          1.5
+        ],
+        "22": [
+          4.3,
+          2.25
+        ],
+        "23": [
+          4.3,
+          3.75
+        ],
+        "24": [
+          3,
+          4.5
+        ],
+        "25": [
+          1.7,
+          3.75
+        ],
+        "26": [
+          1.7,
+          2.25
+        ],
+        "31": [
+          3,
+          -1.5
+        ],
+        "32": [
+          1.7,
+          -2.25
+        ],
+        "33": [
+          1.7,
+          -3.75
+        ],
+        "34": [
+          3,
+          -4.5
+        ],
+        "35": [
+          4.3,
+          -3.75
+        ],
+        "36": [
+          4.3,
+          -2.25
+        ]
+      }
+    },
+    "products": {
+      "mappedSmiles": "[CH2-:2][P+:1]([C:11]1=[CH:12][CH:13]=[CH:14][CH:15]=[CH:16]1)([C:21]1=[CH:22][CH:23]=[CH:24][CH:25]=[CH:26]1)[C:31]1=[CH:32][CH:33]=[CH:34][CH:35]=[CH:36]1.[Br-:4].[Li+:9].[H:3][CH2:5][CH2:6][CH2:7][CH3:8]",
+      "caption": "methylenetriphenylphosphorane (ylide) + butane + LiBr",
+      "mapNumberToCoordinates": {
+        "1": [
+          3,
+          0
+        ],
+        "2": [
+          4.5,
+          0
+        ],
+        "3": [
+          14.27,
+          0.29
+        ],
+        "4": [
+          0,
+          5.5
+        ],
+        "5": [
+          12.97,
+          1.04
+        ],
+        "6": [
+          11.67,
+          0.29
+        ],
+        "7": [
+          10.37,
+          1.04
+        ],
+        "8": [
+          9.07,
+          0.29
+        ],
+        "9": [
+          6.8,
+          0
+        ],
+        "11": [
+          1.5,
+          0
+        ],
+        "12": [
+          0.75,
+          1.3
+        ],
+        "13": [
+          -0.75,
+          1.3
+        ],
+        "14": [
+          -1.5,
+          0
+        ],
+        "15": [
+          -0.75,
+          -1.3
+        ],
+        "16": [
+          0.75,
+          -1.3
+        ],
+        "21": [
+          3,
+          1.5
+        ],
+        "22": [
+          4.3,
+          2.25
+        ],
+        "23": [
+          4.3,
+          3.75
+        ],
+        "24": [
+          3,
+          4.5
+        ],
+        "25": [
+          1.7,
+          3.75
+        ],
+        "26": [
+          1.7,
+          2.25
+        ],
+        "31": [
+          3,
+          -1.5
+        ],
+        "32": [
+          1.7,
+          -2.25
+        ],
+        "33": [
+          1.7,
+          -3.75
+        ],
+        "34": [
+          3,
+          -4.5
+        ],
+        "35": [
+          4.3,
+          -3.75
+        ],
+        "36": [
+          4.3,
+          -2.25
+        ]
+      }
+    }
+  },
+  "steps": [
+    {
+      "stepKey": "deprotonation",
+      "fromStateId": "reactants",
+      "toStateId": "products",
+      "stepKind": "polar",
+      "routePreference": "preferred",
+      "canonicalArrows": [
+        "lp C5 -> σ H3-C5",
+        "σ C2-H3 -> lp C2"
+      ],
+      "explanationAfterStep": "The positive phosphorus stabilises the carbanion next to it, so that C–H has a pKa of about 22. Butane (pKa about 50) is a far weaker acid, so the deprotonation is complete."
+    }
+  ],
+  "mechanismSummary": "Butyllithium reacts as the butyl anion, a very strong base: its carbon lone pair takes a proton from the carbon next to P⁺, and the C–H bonding pair stays on that carbon. The ylide has a carbanion next to the phosphonium ion, ready to attack a carbonyl group (the Wittig reaction).",
+  "references": [
+    "Clayden, Greeves and Warren, Organic Chemistry, 2nd edition (Oxford University Press), chapter 11"
+  ],
+  "authors": [
+    {
+      "name": "Maksim",
+      "url": null
+    }
+  ],
+  "licence": "CC-BY-SA-4.0"
+}

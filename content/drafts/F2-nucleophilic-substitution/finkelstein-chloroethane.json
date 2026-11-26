@@ -1,0 +1,151 @@
+{
+  "formatVersion": 1,
+  "reactionSlug": "finkelstein-chloroethane",
+  "reactionVersion": 1,
+  "previousReactionVersion": null,
+  "title": "Finkelstein reaction",
+  "subtitle": "Iodide swaps for chloride in acetone",
+  "reactionClasses": [
+    "substitution"
+  ],
+  "difficultyTier": 1,
+  "conditionsLabel": "NaI · acetone · reflux",
+  "dailyPuzzleEligible": true,
+  "atomRoleToMapNumbers": {
+    "nucleophile": [
+      1
+    ],
+    "electrophile": [
+      3
+    ],
+    "leavingGroup": [
+      4
+    ]
+  },
+  "spectatorMapNumbers": [
+    5
+  ],
+  "startStateId": "reactants",
+  "stateIdToState": {
+    "reactants": {
+      "mappedSmiles": "[I-:1].[CH3:2][CH2:3][Cl:4].[Na+:5]",
+      "caption": "iodide + chloroethane",
+      "learnerPrompt": "Iodide replaces chlorine. Draw the arrows.",
+      "hintTiers": [
+        "Iodide is the nucleophile and chloride the leaving group. Which carbon carries the chlorine?",
+        "Iodide attacks the CH₂ carbon from the back as the C–Cl bond breaks. Two arrows.",
+        "Arrow 1: a lone pair on iodide forms a bond to the CH₂ carbon. Arrow 2: the C–Cl bond breaks, and its pair goes onto chlorine."
+      ],
+      "misconceptions": [
+        {
+          "misconceptionId": "attack-on-chlorine",
+          "misconceptionTag": "attack-leaving-group",
+          "severity": "wrong",
+          "arrowPattern": "lp I1 -> Cl4",
+          "feedbackMessage": "Chlorine is the leaving group and carries δ− charge. Iodide attacks the δ+ carbon."
+        },
+        {
+          "misconceptionId": "attack-on-methyl-carbon",
+          "misconceptionTag": "attack-wrong-carbon",
+          "severity": "wrong",
+          "arrowPattern": "lp I1 -> C2",
+          "feedbackMessage": "The CH₃ carbon has no leaving group. Attack the carbon bonded to chlorine."
+        },
+        {
+          "misconceptionId": "bond-electrons-to-carbon",
+          "misconceptionTag": "electrons-toward-less-electronegative-atom",
+          "severity": "wrong",
+          "arrowPattern": "σ C3-Cl4 -> lp C3",
+          "feedbackMessage": "The C–Cl pair goes to chlorine, the more electronegative atom."
+        }
+      ],
+      "partialProgressMessages": [
+        {
+          "learnerArrows": [
+            "lp I1 -> σ I1-C3"
+          ],
+          "feedbackMessage": "Octet check: carbon would now have 10 electrons. What has to leave as the nucleophile arrives?"
+        },
+        {
+          "learnerArrows": [
+            "σ C3-Cl4 -> lp Cl4"
+          ],
+          "feedbackMessage": "A primary carbocation will not form. In SN2, iodide pushes in as chloride leaves."
+        }
+      ],
+      "mapNumberToCoordinates": {
+        "1": [
+          0,
+          2.75
+        ],
+        "2": [
+          0,
+          0
+        ],
+        "3": [
+          1.3,
+          0.75
+        ],
+        "4": [
+          2.6,
+          0
+        ],
+        "5": [
+          -2.16,
+          0.78
+        ]
+      }
+    },
+    "products": {
+      "mappedSmiles": "[I:1][CH2:3][CH3:2].[Cl-:4].[Na+:5]",
+      "caption": "iodoethane + sodium chloride (precipitates from acetone)",
+      "mapNumberToCoordinates": {
+        "1": [
+          2.6,
+          0
+        ],
+        "2": [
+          0,
+          0
+        ],
+        "3": [
+          1.3,
+          0.75
+        ],
+        "4": [
+          0,
+          2.75
+        ],
+        "5": [
+          -1.98,
+          1.14
+        ]
+      }
+    }
+  },
+  "steps": [
+    {
+      "stepKey": "substitution",
+      "fromStateId": "reactants",
+      "toStateId": "products",
+      "stepKind": "polar",
+      "routePreference": "preferred",
+      "canonicalArrows": [
+        "lp I1 -> σ I1-C3",
+        "σ C3-Cl4 -> lp Cl4"
+      ],
+      "explanationAfterStep": "Iodide and chloride are both good leaving groups, so this step could run backwards. Sodium chloride precipitates from acetone, which removes chloride and drives the reaction forward (Le Chatelier)."
+    }
+  ],
+  "mechanismSummary": "Finkelstein reaction: an SN2 halide exchange. Iodide is a large, polarisable and excellent nucleophile. The reaction is reversible, but sodium chloride is insoluble in acetone and precipitates, while sodium iodide stays dissolved, so the equilibrium is pulled towards iodoethane.",
+  "references": [
+    "Clayden, Greeves and Warren, Organic Chemistry, 2nd edition (Oxford University Press), chapter 15"
+  ],
+  "authors": [
+    {
+      "name": "Maksim",
+      "url": null
+    }
+  ],
+  "licence": "CC-BY-SA-4.0"
+}

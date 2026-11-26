@@ -1,0 +1,109 @@
+{
+  "formatVersion": 1,
+  "trackSlug": "elimination",
+  "title": "Elimination",
+  "goal": "How alkyl halides and alcohols lose HX or water to give alkenes: E2, E1 and E1cB.",
+  "problemSets": [
+    {
+      "problemSetSlug": "e2",
+      "title": "E2",
+      "conceptInOneLine": "A strong base takes a β-hydrogen as the leaving group goes, in one step.",
+      "conceptCard": "In **E2** everything happens at once. Three arrows:\n\n1. the base takes a **β-hydrogen** (on a carbon next to the one carrying the leaving group)\n2. the C–H electrons form the new **C=C π bond**\n3. the leaving group goes with the C–X electrons\n\nThe H and the leaving group must be **anti-periplanar**: in one plane, on opposite sides of the C–C bond, so the C–H orbital lines up with the back of the C–X bond.\n\nWith a choice of β-hydrogens, a small base gives mainly the **more substituted** alkene (*Zaitsev*). A **bulky** base such as t-BuO⁻ takes the most exposed hydrogen and gives the less substituted alkene (*Hofmann*).",
+      "checkpoint": false,
+      "setItems": [
+        {
+          "reactionSlug": "e2-2-bromopropane-ethoxide",
+          "whyThisOne": "The three-arrow pattern, one product."
+        },
+        {
+          "reactionSlug": "e2-2-bromobutane-zaitsev",
+          "whyThisOne": "Two β-hydrogens: the more substituted alkene wins."
+        },
+        {
+          "reactionSlug": "e2-tert-amyl-bromide-hofmann",
+          "whyThisOne": "A bulky base flips the choice."
+        }
+      ]
+    },
+    {
+      "problemSetSlug": "e1",
+      "title": "E1",
+      "conceptInOneLine": "The leaving group goes first; the carbocation then loses a proton.",
+      "conceptCard": "In **E1** the leaving group leaves **on its own**, giving a carbocation (the slow step). A weak base then removes a proton next to the positive carbon.\n\n- Alcohols need **acid** first: OH₂⁺ leaves as water; hydroxide would not.\n- Only stable cations form: **tertiary**, or secondary with help.\n- A carbocation can **rearrange** before it loses the proton: a hydride or methyl moves to the positive carbon if that makes a more stable cation.\n\nThe most substituted alkene is the main product.",
+      "checkpoint": false,
+      "setItems": [
+        {
+          "reactionSlug": "e1-tert-butanol-dehydration",
+          "whyThisOne": "Protonate, lose water, lose a proton."
+        },
+        {
+          "reactionSlug": "e1-dehydration-with-methyl-shift",
+          "whyThisOne": "The cation rearranges before it loses a proton."
+        }
+      ]
+    },
+    {
+      "problemSetSlug": "e1cb",
+      "title": "E1cB",
+      "conceptInOneLine": "An acidic proton goes first; the carbanion pushes the leaving group out.",
+      "conceptCard": "In **E1cB** the order of E1 is reversed. The base removes an **acidic** proton first, usually next to a C=O group, giving an enolate: the **c**onjugate **B**ase. Its electrons then push out the leaving group from the next carbon.\n\nBecause the leaving group is pushed, even a poor one such as **hydroxide** can go. The product is a conjugated C=C–C=O compound, an *enone*.",
+      "checkpoint": false,
+      "setItems": [
+        {
+          "reactionSlug": "e1cb-diacetone-alcohol",
+          "whyThisOne": "Hydroxide leaves, pushed by an enolate."
+        }
+      ]
+    },
+    {
+      "problemSetSlug": "substitution-or-elimination",
+      "title": "Substitution or elimination?",
+      "conceptInOneLine": "Look at the carbon and the base before you draw.",
+      "conceptCard": "The same reagents can substitute or eliminate. Decide **before** you draw:\n\n- **Primary** carbon, small nucleophile (EtO⁻, CN⁻, I⁻): **SN2**.\n- **Primary** carbon, **bulky** base (t-BuO⁻): **E2**.\n- **Tertiary** carbon, strong base: **E2**; SN2 is impossible.\n- Tertiary carbon, no strong base (water, alcohol): SN1 and E1.\n\nHeat favours elimination.",
+      "checkpoint": false,
+      "setItems": [
+        {
+          "reactionSlug": "1-bromopropane-and-ethoxide",
+          "whyThisOne": "Primary and a small base: SN2."
+        },
+        {
+          "reactionSlug": "tert-butyl-bromide-and-ethoxide",
+          "whyThisOne": "Tertiary: the base can only take a proton."
+        },
+        {
+          "reactionSlug": "1-bromopropane-and-tert-butoxide",
+          "whyThisOne": "Primary again, but the base is bulky."
+        }
+      ]
+    },
+    {
+      "problemSetSlug": "elimination-checkpoint",
+      "title": "Checkpoint",
+      "conceptInOneLine": "E2, E1 or E1cB, and which alkene?",
+      "conceptCard": "Reactions from every set, shuffled, names hidden until you finish. Three attempts per step.",
+      "checkpoint": true,
+      "setItems": [
+        {
+          "reactionSlug": "e2-2-bromobutane-zaitsev",
+          "whyThisOne": "Which β-hydrogen?"
+        },
+        {
+          "reactionSlug": "e2-tert-amyl-bromide-hofmann",
+          "whyThisOne": "Which β-hydrogen, with a bulky base?"
+        },
+        {
+          "reactionSlug": "e1-dehydration-with-methyl-shift",
+          "whyThisOne": "Watch the cation."
+        },
+        {
+          "reactionSlug": "e1cb-diacetone-alcohol",
+          "whyThisOne": "A poor leaving group, pushed out."
+        },
+        {
+          "reactionSlug": "1-bromopropane-and-ethoxide",
+          "whyThisOne": "Substitution or elimination?"
+        }
+      ]
+    }
+  ]
+}

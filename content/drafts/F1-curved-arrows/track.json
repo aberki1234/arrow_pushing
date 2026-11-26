@@ -1,0 +1,137 @@
+{
+  "formatVersion": 1,
+  "trackSlug": "curved-arrows",
+  "title": "Curved arrows",
+  "goal": "Draw curved arrows from electrons to where they go, keep every octet, and count formal charges.",
+  "problemSets": [
+    {
+      "problemSetSlug": "sources-and-sinks",
+      "title": "Sources and sinks",
+      "conceptInOneLine": "An arrow starts at electrons (a lone pair or a bond) and ends where they go.",
+      "conceptCard": "A curved arrow shows **two electrons** moving.\n\n- It **starts** at the electrons: a **lone pair** or a **bond**. Never at a positive charge or a bare hydrogen.\n- It **ends** where the electrons go: between two atoms for a **new bond**, or on an atom for a **new lone pair**.\n\nThe **source** is electron-rich (an anion, a lone pair, a π bond). The **sink** is electron-poor (a cation, an empty orbital, an acidic H).",
+      "checkpoint": false,
+      "setItems": [
+        {
+          "reactionSlug": "hydroxide-and-hydronium",
+          "whyThisOne": "The simplest source and sink: two arrows move one proton."
+        },
+        {
+          "reactionSlug": "ammonia-and-boron-trifluoride",
+          "whyThisOne": "An empty orbital is a sink: one arrow, nothing breaks."
+        },
+        {
+          "reactionSlug": "chloride-and-tert-butyl-cation",
+          "whyThisOne": "Anion to cation: the arrow runs from minus to plus."
+        },
+        {
+          "reactionSlug": "water-and-tert-butyl-cation",
+          "whyThisOne": "A neutral source, then a proton transfer to finish."
+        }
+      ]
+    },
+    {
+      "problemSetSlug": "formal-charge-and-octets",
+      "title": "Formal charge and octets",
+      "conceptInOneLine": "Make a bond to a full atom and another bond must break.",
+      "conceptCard": "Hydrogen holds **two** electrons; C, N, O and F hold **eight**. If an arrow gives an atom a new bond and it is already full, a second arrow must take a bond away.\n\n**Formal charge** = valence electrons − lone-pair electrons − bonds.\n\n- O with **three bonds** and one lone pair: **+**\n- N with **four bonds**: **+**\n- C with **three bonds** and no lone pair: **+**",
+      "checkpoint": false,
+      "setItems": [
+        {
+          "reactionSlug": "protonating-water-with-hcl",
+          "whyThisOne": "Where does each charge come from? Count oxygen and chlorine."
+        },
+        {
+          "reactionSlug": "protonating-ammonia",
+          "whyThisOne": "The positive charge moves from oxygen to nitrogen."
+        },
+        {
+          "reactionSlug": "tert-butyloxonium-loses-water",
+          "whyThisOne": "A bond breaks first: carbon never has five bonds."
+        }
+      ]
+    },
+    {
+      "problemSetSlug": "resonance",
+      "title": "Resonance",
+      "conceptInOneLine": "Resonance arrows move π bonds and lone pairs; atoms never move.",
+      "conceptCard": "Resonance forms are two drawings of **one** species. Between them, only **lone pairs** and **π bonds** move: no σ bond breaks, no atom moves.\n\n- A lone pair next to a π bond pushes in; the π bond moves out.\n- A π bond next to a positive carbon slides over.\n\nThe real species is a blend. Forms with the negative charge on the **more electronegative** atom, and with full octets, count most.",
+      "checkpoint": false,
+      "setItems": [
+        {
+          "reactionSlug": "acetate-resonance",
+          "whyThisOne": "Two identical forms: the charge is shared."
+        },
+        {
+          "reactionSlug": "acetone-enolate-resonance",
+          "whyThisOne": "Carbon or oxygen? Oxygen takes most of the charge."
+        },
+        {
+          "reactionSlug": "allyl-cation-resonance",
+          "whyThisOne": "One arrow; the positive charge itself never moves along it."
+        },
+        {
+          "reactionSlug": "amide-resonance",
+          "whyThisOne": "A neutral molecule with an important charge-separated form."
+        },
+        {
+          "reactionSlug": "nitromethane-resonance",
+          "whyThisOne": "Nitrogen cannot have five bonds, so the charge must be shared."
+        }
+      ]
+    },
+    {
+      "problemSetSlug": "proton-transfer-and-pka",
+      "title": "Proton transfer and pKa",
+      "conceptInOneLine": "Protons move from the stronger acid to the stronger base.",
+      "conceptCard": "Every proton transfer is **two arrows**: base lone pair → H, then H–A bond → A.\n\nThe equilibrium lies on the side of the **weaker acid** (higher pKa). Useful values:\n\n- H₃O⁺ −1.7, acetic acid 4.8, ammonium 9.2, phenol 10\n- water 15.7, ethanol 16\n\nA conjugate base whose charge is **shared by resonance** is weaker, so its acid is stronger.",
+      "checkpoint": false,
+      "setItems": [
+        {
+          "reactionSlug": "acetic-acid-and-hydroxide",
+          "whyThisOne": "Eleven pKa units downhill: acetate's charge is shared."
+        },
+        {
+          "reactionSlug": "phenol-and-hydroxide",
+          "whyThisOne": "The ring shares the charge: phenol is acidic."
+        },
+        {
+          "reactionSlug": "protonating-acetone",
+          "whyThisOne": "Acid activates a carbonyl: draw the carbocation form."
+        },
+        {
+          "reactionSlug": "ethoxide-and-water",
+          "whyThisOne": "Which way does it go? Find the base first."
+        }
+      ]
+    },
+    {
+      "problemSetSlug": "curved-arrows-checkpoint",
+      "title": "Checkpoint",
+      "conceptInOneLine": "Sources, sinks, octets, resonance and proton transfer, mixed.",
+      "conceptCard": "Reactions from every set, shuffled, names hidden until you finish. Three attempts per step.",
+      "checkpoint": true,
+      "setItems": [
+        {
+          "reactionSlug": "water-and-tert-butyl-cation",
+          "whyThisOne": "A nucleophile, then a proton transfer."
+        },
+        {
+          "reactionSlug": "tert-butyloxonium-loses-water",
+          "whyThisOne": "Which way does the bond break?"
+        },
+        {
+          "reactionSlug": "amide-resonance",
+          "whyThisOne": "Only π bonds and lone pairs move."
+        },
+        {
+          "reactionSlug": "acetic-acid-and-hydroxide",
+          "whyThisOne": "Base to proton, bond to oxygen."
+        },
+        {
+          "reactionSlug": "protonating-acetone",
+          "whyThisOne": "Protonate, then the resonance form."
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,128 @@
+{
+  "formatVersion": 1,
+  "reactionSlug": "acetate-resonance",
+  "reactionVersion": 1,
+  "previousReactionVersion": null,
+  "title": "Acetate resonance",
+  "subtitle": "The negative charge is shared by both oxygens",
+  "reactionClasses": [
+    "acid-base"
+  ],
+  "difficultyTier": 1,
+  "conditionsLabel": "resonance · no reagent",
+  "dailyPuzzleEligible": true,
+  "atomRoleToMapNumbers": {},
+  "spectatorMapNumbers": [
+    5
+  ],
+  "startStateId": "form-1",
+  "stateIdToState": {
+    "form-1": {
+      "mappedSmiles": "[CH3:1][C:2](=[O:3])[O-:4].[Na+:5]",
+      "caption": "sodium acetate, one resonance form",
+      "mapNumberToCoordinates": {
+        "1": [
+          0,
+          0
+        ],
+        "2": [
+          1.3,
+          0.75
+        ],
+        "3": [
+          2.6,
+          0
+        ],
+        "4": [
+          1.3,
+          2.25
+        ],
+        "5": [
+          -0.3,
+          3.84
+        ]
+      },
+      "learnerPrompt": "Draw the other resonance form of acetate. Move only lone pairs and π bonds.",
+      "hintTiers": [
+        "Which atom carries the negative charge, and is it next to a π bond?",
+        "The negative oxygen pushes a lone pair in to make a new C=O π bond. Carbon cannot have five bonds, so the old C=O π bond must move out at the same time. Two arrows.",
+        "Arrow 1: a lone pair of the negative oxygen into the C–O bond, making it double. Arrow 2: the C=O π bond onto the other oxygen, which becomes negative."
+      ],
+      "misconceptions": [
+        {
+          "misconceptionId": "break-sigma-bond",
+          "misconceptionTag": "resonance-moves-atoms",
+          "severity": "wrong",
+          "arrowPattern": "σ *-* -> *",
+          "feedbackMessage": "Resonance arrows never break or make σ bonds: the atoms stay exactly where they are. Move only lone pairs and π bonds."
+        },
+        {
+          "misconceptionId": "pi-pair-onto-carbon",
+          "misconceptionTag": "electrons-to-less-electronegative-atom",
+          "severity": "wrong",
+          "arrowPattern": "π C2-O* -> lp C2",
+          "feedbackMessage": "The π pair moves towards oxygen, the more electronegative atom, not onto carbon."
+        }
+      ],
+      "partialProgressMessages": [
+        {
+          "learnerArrows": [
+            "lp O4 -> π C2-O4"
+          ],
+          "feedbackMessage": "Carbon would now have five bonds, ten electrons. As the new π bond forms, the old C=O π bond must break: push it onto the other oxygen."
+        }
+      ]
+    },
+    "form-2": {
+      "mappedSmiles": "[CH3:1][C:2]([O-:3])=[O:4].[Na+:5]",
+      "caption": "sodium acetate, the other resonance form",
+      "mapNumberToCoordinates": {
+        "1": [
+          0,
+          0
+        ],
+        "2": [
+          1.3,
+          0.75
+        ],
+        "3": [
+          2.6,
+          0
+        ],
+        "4": [
+          1.3,
+          2.25
+        ],
+        "5": [
+          -0.3,
+          3.84
+        ]
+      }
+    }
+  },
+  "steps": [
+    {
+      "stepKey": "resonance",
+      "fromStateId": "form-1",
+      "toStateId": "form-2",
+      "stepKind": "polar",
+      "routePreference": "preferred",
+      "canonicalArrows": [
+        "lp O4 -> π C2-O4",
+        "π C2-O3 -> lp O3"
+      ],
+      "explanationAfterStep": "The two forms are the same picture, mirrored. The real acetate ion is neither: each oxygen carries half a negative charge and each C–O bond is halfway between single and double. This sharing is why acetic acid is about a hundred billion times more acidic than ethanol."
+    }
+  ],
+  "mechanismSummary": "A lone pair on the negative oxygen forms a C=O π bond, and the other C=O π bond moves onto its oxygen. The two forms are identical: the charge is shared equally, and both C–O bonds have the same length.",
+  "references": [
+    "Clayden, Greeves and Warren, Organic Chemistry, 2nd edition (Oxford University Press), chapter 7 (Delocalization and conjugation)"
+  ],
+  "authors": [
+    {
+      "name": "Maksim",
+      "url": null
+    }
+  ],
+  "licence": "CC-BY-SA-4.0"
+}

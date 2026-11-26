@@ -1,0 +1,335 @@
+{
+  "formatVersion": 1,
+  "reactionSlug": "styrene-and-hbr",
+  "reactionVersion": 1,
+  "previousReactionVersion": null,
+  "title": "Styrene and HBr",
+  "subtitle": "A benzylic cation, stabilised by the ring",
+  "reactionClasses": [
+    "addition"
+  ],
+  "difficultyTier": 2,
+  "conditionsLabel": "HBr · CH₂Cl₂ · 0 °C",
+  "dailyPuzzleEligible": true,
+  "atomRoleToMapNumbers": {
+    "alkene": [
+      1,
+      2
+    ]
+  },
+  "spectatorMapNumbers": [],
+  "startStateId": "reactants",
+  "stateIdToState": {
+    "reactants": {
+      "mappedSmiles": "[CH2:1]=[CH:2][C:3]1=[CH:4][CH:5]=[CH:6][CH:7]=[CH:8]1.[H:9][Br:10]",
+      "mapNumberToCoordinates": {
+        "1": [
+          3.75,
+          -1.3
+        ],
+        "2": [
+          3,
+          0
+        ],
+        "3": [
+          1.5,
+          0
+        ],
+        "4": [
+          0.75,
+          1.3
+        ],
+        "5": [
+          -0.75,
+          1.3
+        ],
+        "6": [
+          -1.5,
+          0
+        ],
+        "7": [
+          -0.75,
+          -1.3
+        ],
+        "8": [
+          0.75,
+          -1.3
+        ],
+        "9": [
+          1.22,
+          4.24
+        ],
+        "10": [
+          -0.08,
+          3.49
+        ]
+      },
+      "caption": "styrene + hydrogen bromide",
+      "learnerPrompt": "Styrene reacts with HBr. Draw the protonation.",
+      "hintTiers": [
+        "Which π bond reacts: the ring or the side-chain C=C? Which end gets the proton?",
+        "The side-chain π bond takes the proton at the CH₂ end, so the positive charge lands next to the ring. The H–Br bond breaks onto bromine. Two arrows.",
+        "Arrow 1: from the side-chain C=C π bond to the H, forming a bond from the CH₂ carbon to H. Arrow 2: from the H–Br bond onto bromine."
+      ],
+      "misconceptions": [
+        {
+          "misconceptionId": "primary-cation",
+          "misconceptionTag": "wrong-regiochemistry",
+          "severity": "wrong",
+          "arrowPattern": "π C1-C2 -> σ C2-H9",
+          "feedbackMessage": "That leaves a primary cation on the end carbon, not conjugated with the ring. Put the H on the CH₂ end so the positive charge sits next to the ring."
+        },
+        {
+          "misconceptionId": "ring-attacks-proton",
+          "misconceptionTag": "loses-aromaticity",
+          "severity": "wrong",
+          "arrowPattern": "π C3-C4 -> *",
+          "feedbackMessage": "Using a ring π bond would destroy aromaticity. The side-chain alkene is far more reactive."
+        }
+      ],
+      "partialProgressMessages": [
+        {
+          "learnerArrows": [
+            "π C1-C2 -> σ C1-H9"
+          ],
+          "feedbackMessage": "Right start. Hydrogen can only have one bond: break the H–Br bond onto bromine."
+        }
+      ]
+    },
+    "benzylic-cation": {
+      "mappedSmiles": "[H:9][CH2:1][CH+:2][C:3]1=[CH:4][CH:5]=[CH:6][CH:7]=[CH:8]1.[Br-:10]",
+      "mapNumberToCoordinates": {
+        "1": [
+          3.75,
+          -1.3
+        ],
+        "2": [
+          3,
+          0
+        ],
+        "3": [
+          1.5,
+          0
+        ],
+        "4": [
+          0.75,
+          1.3
+        ],
+        "5": [
+          -0.75,
+          1.3
+        ],
+        "6": [
+          -1.5,
+          0
+        ],
+        "7": [
+          -0.75,
+          -1.3
+        ],
+        "8": [
+          0.75,
+          -1.3
+        ],
+        "9": [
+          5.25,
+          -1.3
+        ],
+        "10": [
+          -0.67,
+          3.59
+        ]
+      },
+      "caption": "benzylic cation + bromide",
+      "learnerPrompt": "Why is this cation so stable? Draw a resonance form with the positive charge in the ring.",
+      "hintTiers": [
+        "The cationic carbon is next to a ring π bond. Which way can those electrons move?",
+        "Move the ring π bond that touches the side chain to between the ring carbon and the cationic carbon. One arrow.",
+        "From the ring C=C π bond next to the side chain to between the ring carbon and the cationic carbon. The charge moves onto the ortho carbon."
+      ],
+      "misconceptions": [
+        {
+          "misconceptionId": "bromide-in-ring",
+          "misconceptionTag": "loses-aromaticity",
+          "severity": "wrong",
+          "arrowPattern": "lp Br10 -> σ Br10-C4",
+          "feedbackMessage": "There is no positive charge on that ring carbon in this drawing."
+        }
+      ]
+    },
+    "ring-cation-form": {
+      "mappedSmiles": "[H:9][CH2:1][CH:2]=[C:3]1[CH+:4][CH:5]=[CH:6][CH:7]=[CH:8]1.[Br-:10]",
+      "mapNumberToCoordinates": {
+        "1": [
+          3.75,
+          -1.3
+        ],
+        "2": [
+          3,
+          0
+        ],
+        "3": [
+          1.5,
+          0
+        ],
+        "4": [
+          0.75,
+          1.3
+        ],
+        "5": [
+          -0.75,
+          1.3
+        ],
+        "6": [
+          -1.5,
+          0
+        ],
+        "7": [
+          -0.75,
+          -1.3
+        ],
+        "8": [
+          0.75,
+          -1.3
+        ],
+        "9": [
+          5.25,
+          -1.3
+        ],
+        "10": [
+          -0.67,
+          3.59
+        ]
+      },
+      "caption": "a resonance form of the benzylic cation: positive charge on an ortho carbon",
+      "learnerPrompt": "Now let bromide add. Where does it go?",
+      "hintTiers": [
+        "Bromide could add where any resonance form puts the positive charge. Which choice keeps the ring aromatic?",
+        "Bromide adds to the benzylic carbon (outside the ring), and the side-chain π bond moves back into the ring. Two arrows.",
+        "Arrow 1: from a bromide lone pair to the benzylic carbon. Arrow 2: from the exocyclic C=C π bond to between the ring carbon and the positively charged ortho carbon."
+      ],
+      "misconceptions": [
+        {
+          "misconceptionId": "bromide-at-ortho-carbon",
+          "misconceptionTag": "loses-aromaticity",
+          "severity": "wrong",
+          "arrowPattern": "lp Br10 -> σ Br10-C4",
+          "feedbackMessage": "Adding to the ring carbon would leave a non-aromatic ring. Bromide adds to the benzylic carbon, and the ring becomes aromatic again."
+        }
+      ],
+      "partialProgressMessages": [
+        {
+          "learnerArrows": [
+            "lp Br10 -> σ Br10-C2"
+          ],
+          "feedbackMessage": "Right place. That carbon would now have five bonds: move its C=C π bond back into the ring."
+        }
+      ]
+    },
+    "product": {
+      "mappedSmiles": "[H:9][CH2:1][CH:2]([Br:10])[C:3]1=[CH:4][CH:5]=[CH:6][CH:7]=[CH:8]1",
+      "mapNumberToCoordinates": {
+        "1": [
+          3.75,
+          -1.3
+        ],
+        "2": [
+          3,
+          0
+        ],
+        "3": [
+          1.5,
+          0
+        ],
+        "4": [
+          0.75,
+          1.3
+        ],
+        "5": [
+          -0.75,
+          1.3
+        ],
+        "6": [
+          -1.5,
+          0
+        ],
+        "7": [
+          -0.75,
+          -1.3
+        ],
+        "8": [
+          0.75,
+          -1.3
+        ],
+        "9": [
+          5.25,
+          -1.3
+        ],
+        "10": [
+          3.75,
+          1.3
+        ]
+      },
+      "caption": "(1-bromoethyl)benzene"
+    }
+  },
+  "steps": [
+    {
+      "stepKey": "protonation",
+      "fromStateId": "reactants",
+      "toStateId": "benzylic-cation",
+      "stepKind": "polar",
+      "routePreference": "preferred",
+      "canonicalArrows": [
+        "π C1-C2 -> σ C1-H9",
+        "σ H9-Br10 -> lp Br10"
+      ],
+      "explanationAfterStep": "A secondary benzylic cation: the empty p orbital overlaps with the ring π system."
+    },
+    {
+      "stepKey": "charge-into-ring",
+      "fromStateId": "benzylic-cation",
+      "toStateId": "ring-cation-form",
+      "stepKind": "polar",
+      "routePreference": "preferred",
+      "canonicalArrows": [
+        "π C3-C4 -> π C2-C3"
+      ],
+      "explanationAfterStep": "A resonance form, not a new species. The charge is spread over the benzylic carbon and the ortho and para ring carbons."
+    },
+    {
+      "stepKey": "bromide-adds",
+      "fromStateId": "ring-cation-form",
+      "toStateId": "product",
+      "stepKind": "polar",
+      "routePreference": "preferred",
+      "canonicalArrows": [
+        "lp Br10 -> σ Br10-C2",
+        "π C2-C3 -> π C3-C4"
+      ],
+      "explanationAfterStep": "Bromide adds at the benzylic carbon, the one position that leaves the ring aromatic."
+    },
+    {
+      "stepKey": "bromide-adds-directly",
+      "fromStateId": "benzylic-cation",
+      "toStateId": "product",
+      "stepKind": "polar",
+      "routePreference": "accepted",
+      "canonicalArrows": [
+        "lp Br10 -> σ Br10-C2"
+      ],
+      "explanationAfterStep": "Also correct: bromide adds straight to the benzylic cation. The resonance form only shows why this cation forms so easily."
+    }
+  ],
+  "mechanismSummary": "Protonation at the CH₂ end of styrene gives a benzylic cation: the positive charge is shared with the ring. Bromide adds at the benzylic carbon, so the ring stays aromatic: (1-bromoethyl)benzene.",
+  "references": [
+    "Clayden, Greeves and Warren, Organic Chemistry, 2nd edition (Oxford University Press), chapter 20"
+  ],
+  "authors": [
+    {
+      "name": "Maksim",
+      "url": null
+    }
+  ],
+  "licence": "CC-BY-SA-4.0"
+}

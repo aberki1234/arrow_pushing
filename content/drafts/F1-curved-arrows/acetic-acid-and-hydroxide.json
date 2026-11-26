@@ -1,0 +1,151 @@
+{
+  "formatVersion": 1,
+  "reactionSlug": "acetic-acid-and-hydroxide",
+  "reactionVersion": 1,
+  "previousReactionVersion": null,
+  "title": "Acetic acid and hydroxide",
+  "subtitle": "A carboxylic acid is deprotonated by hydroxide",
+  "reactionClasses": [
+    "acid-base"
+  ],
+  "difficultyTier": 1,
+  "conditionsLabel": "NaOH(aq) · 25 °C",
+  "dailyPuzzleEligible": true,
+  "atomRoleToMapNumbers": {},
+  "spectatorMapNumbers": [
+    7
+  ],
+  "startStateId": "reactants",
+  "stateIdToState": {
+    "reactants": {
+      "mappedSmiles": "[CH3:1][C:2](=[O:3])[O:4][H:5].[OH-:6].[Na+:7]",
+      "caption": "acetic acid + sodium hydroxide",
+      "mapNumberToCoordinates": {
+        "1": [
+          0,
+          0
+        ],
+        "2": [
+          1.3,
+          0.75
+        ],
+        "3": [
+          2.6,
+          0
+        ],
+        "4": [
+          1.3,
+          2.25
+        ],
+        "5": [
+          2.6,
+          3
+        ],
+        "6": [
+          4.79,
+          -0.7
+        ],
+        "7": [
+          -0.06,
+          4.11
+        ]
+      },
+      "learnerPrompt": "Draw the proton transfer from acetic acid to hydroxide.",
+      "hintTiers": [
+        "Which hydrogen of acetic acid is acidic? Which species is the base?",
+        "Hydroxide's lone pair makes a new O–H bond to the acid's O–H hydrogen, and the old O–H bond breaks. Two arrows.",
+        "Arrow 1: a lone pair of hydroxide to the hydrogen on the acid's oxygen. Arrow 2: that O–H bond onto the acid's oxygen, which becomes negative."
+      ],
+      "misconceptions": [
+        {
+          "misconceptionId": "hydroxide-adds-to-carbonyl",
+          "misconceptionTag": "addition-instead-of-proton-transfer",
+          "severity": "plausible",
+          "arrowPattern": "lp O6 -> σ O6-C2",
+          "feedbackMessage": "Hydroxide can add to a carbonyl carbon, but proton transfer from an O–H is far faster. With an acidic O–H present, the proton goes first."
+        },
+        {
+          "misconceptionId": "arrow-from-acid",
+          "misconceptionTag": "arrow-starts-at-electrons",
+          "severity": "wrong",
+          "arrowPattern": "σ O4-H5 -> O6",
+          "feedbackMessage": "Curved arrows start where the electrons are and point to where they go. Start at the base's lone pair, not at the proton."
+        },
+        {
+          "misconceptionId": "acid-bond-to-hydrogen",
+          "misconceptionTag": "bond-breaks-wrong-way",
+          "severity": "wrong",
+          "arrowPattern": "σ O4-H5 -> lp H5",
+          "feedbackMessage": "The bond breaks towards the more electronegative atom. Hydrogen leaves as H⁺, with no electrons; the bonding pair stays on the other atom."
+        }
+      ],
+      "partialProgressMessages": [
+        {
+          "learnerArrows": [
+            "lp O6 -> σ O6-H5"
+          ],
+          "feedbackMessage": "Good start: the lone pair makes a new bond to the hydrogen. But that hydrogen now has two bonds, four electrons, and it can hold only two. Which bond must break, and where do its electrons go?"
+        }
+      ]
+    },
+    "products": {
+      "mappedSmiles": "[CH3:1][C:2](=[O:3])[O-:4].[H:5][OH:6].[Na+:7]",
+      "caption": "sodium acetate + water",
+      "mapNumberToCoordinates": {
+        "1": [
+          0,
+          0
+        ],
+        "2": [
+          1.3,
+          0.75
+        ],
+        "3": [
+          2.6,
+          0
+        ],
+        "4": [
+          1.3,
+          2.25
+        ],
+        "5": [
+          1.13,
+          4.75
+        ],
+        "6": [
+          -0.17,
+          4
+        ],
+        "7": [
+          4.83,
+          -0.4
+        ]
+      }
+    }
+  },
+  "steps": [
+    {
+      "stepKey": "proton-transfer",
+      "fromStateId": "reactants",
+      "toStateId": "products",
+      "stepKind": "polar",
+      "routePreference": "preferred",
+      "canonicalArrows": [
+        "lp O6 -> σ O6-H5",
+        "σ H5-O4 -> lp O4"
+      ],
+      "explanationAfterStep": "An acid–base equilibrium lies on the side of the weaker acid. Water (pKa 15.7) is a much weaker acid than acetic acid (pKa 4.8), a difference of about eleven pKa units. Acetate is a weak base because its negative charge is shared by both oxygens."
+    }
+  ],
+  "mechanismSummary": "Hydroxide's lone pair takes the acidic O–H proton of acetic acid, and the O–H bond breaks onto oxygen. Acetic acid (pKa 4.8) is far more acidic than water (pKa 15.7), so the equilibrium lies completely on the side of acetate.",
+  "references": [
+    "Clayden, Greeves and Warren, Organic Chemistry, 2nd edition (Oxford University Press), chapter 8 (Acidity, basicity and pKa)"
+  ],
+  "authors": [
+    {
+      "name": "Maksim",
+      "url": null
+    }
+  ],
+  "licence": "CC-BY-SA-4.0"
+}

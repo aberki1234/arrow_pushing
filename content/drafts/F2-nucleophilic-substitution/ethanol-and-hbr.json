@@ -1,0 +1,208 @@
+{
+  "formatVersion": 1,
+  "reactionSlug": "ethanol-and-hbr",
+  "reactionVersion": 1,
+  "previousReactionVersion": null,
+  "title": "Ethanol and HBr",
+  "subtitle": "Protonation turns OH into a leaving group",
+  "reactionClasses": [
+    "substitution",
+    "acid-base"
+  ],
+  "difficultyTier": 2,
+  "conditionsLabel": "conc. HBr · reflux",
+  "dailyPuzzleEligible": true,
+  "atomRoleToMapNumbers": {
+    "nucleophile": [
+      5
+    ],
+    "electrophile": [
+      2
+    ]
+  },
+  "spectatorMapNumbers": [],
+  "startStateId": "reactants",
+  "stateIdToState": {
+    "reactants": {
+      "mappedSmiles": "[CH3:1][CH2:2][OH:3].[H:4][Br:5]",
+      "caption": "ethanol + HBr",
+      "learnerPrompt": "Hydroxide cannot leave. Show how the acid helps.",
+      "hintTiers": [
+        "Hydroxide is a poor leaving group. How can the OH group be made into a better one?",
+        "The oxygen of ethanol takes the proton of HBr; the H–Br pair goes onto bromine. Two arrows.",
+        "Arrow 1: a lone pair on the oxygen forms a bond to the hydrogen of HBr. Arrow 2: the H–Br bond breaks, and its pair goes onto bromine."
+      ],
+      "misconceptions": [
+        {
+          "misconceptionId": "hydroxide-leaves",
+          "misconceptionTag": "poor-leaving-group",
+          "severity": "wrong",
+          "arrowPattern": "σ C2-O3 -> *",
+          "feedbackMessage": "Hydroxide is a strong base and a very poor leaving group. Protonate the oxygen first, so that water leaves instead."
+        },
+        {
+          "misconceptionId": "bromide-displaces-hydroxide",
+          "misconceptionTag": "poor-leaving-group",
+          "severity": "wrong",
+          "arrowPattern": "lp Br5 -> C2",
+          "feedbackMessage": "Bromide cannot push out hydroxide, a very poor leaving group. The acid must protonate the oxygen first."
+        }
+      ],
+      "partialProgressMessages": [
+        {
+          "learnerArrows": [
+            "lp O3 -> σ O3-H4"
+          ],
+          "feedbackMessage": "Right: the oxygen takes the proton. Hydrogen can only have one bond, so what happens to the H–Br bond?"
+        }
+      ],
+      "mapNumberToCoordinates": {
+        "1": [
+          0,
+          0
+        ],
+        "2": [
+          1.3,
+          0.75
+        ],
+        "3": [
+          2.6,
+          0
+        ],
+        "4": [
+          1.06,
+          3.2
+        ],
+        "5": [
+          -0.24,
+          2.45
+        ]
+      }
+    },
+    "oxonium-ion": {
+      "mappedSmiles": "[CH3:1][CH2:2][OH+:3][H:4].[Br-:5]",
+      "caption": "ethyloxonium ion + bromide",
+      "learnerPrompt": "Bromide now displaces water. Draw the arrows.",
+      "hintTiers": [
+        "The carbon is primary, so a carbocation will not form. Which mechanism is left?",
+        "Bromide attacks the CH₂ carbon from the back as the C–O bond breaks and water leaves. Two arrows.",
+        "Arrow 1: a lone pair on bromide forms a bond to the CH₂ carbon. Arrow 2: the C–O bond breaks, and its pair goes onto the oxygen."
+      ],
+      "misconceptions": [
+        {
+          "misconceptionId": "bromide-takes-proton-back",
+          "misconceptionTag": "reverse-step",
+          "severity": "plausible",
+          "arrowPattern": "lp Br5 -> H4",
+          "feedbackMessage": "That just gives back ethanol and HBr. Use bromide as a nucleophile at carbon instead."
+        },
+        {
+          "misconceptionId": "attack-on-methyl-carbon",
+          "misconceptionTag": "attack-wrong-carbon",
+          "severity": "wrong",
+          "arrowPattern": "lp Br5 -> C1",
+          "feedbackMessage": "The CH₃ carbon has no leaving group. Attack the CH₂ carbon, bonded to the oxygen."
+        }
+      ],
+      "partialProgressMessages": [
+        {
+          "learnerArrows": [
+            "σ C2-O3 -> lp O3"
+          ],
+          "feedbackMessage": "Water would leave, but a primary carbocation is far too unstable to form. On a primary carbon, bromide pushes in as water leaves: SN2."
+        },
+        {
+          "learnerArrows": [
+            "lp Br5 -> σ Br5-C2"
+          ],
+          "feedbackMessage": "Octet check: carbon would now have 10 electrons. What has to leave as the nucleophile arrives?"
+        }
+      ],
+      "mapNumberToCoordinates": {
+        "1": [
+          0,
+          0
+        ],
+        "2": [
+          1.3,
+          0.75
+        ],
+        "3": [
+          2.6,
+          0
+        ],
+        "4": [
+          3.9,
+          0.75
+        ],
+        "5": [
+          -0.62,
+          2.19
+        ]
+      }
+    },
+    "products": {
+      "mappedSmiles": "[CH3:1][CH2:2][Br:5].[H:4][OH:3]",
+      "caption": "bromoethane + water",
+      "mapNumberToCoordinates": {
+        "1": [
+          0,
+          0
+        ],
+        "2": [
+          1.3,
+          0.75
+        ],
+        "3": [
+          -0.24,
+          2.45
+        ],
+        "4": [
+          1.06,
+          3.2
+        ],
+        "5": [
+          2.6,
+          0
+        ]
+      }
+    }
+  },
+  "steps": [
+    {
+      "stepKey": "protonation",
+      "fromStateId": "reactants",
+      "toStateId": "oxonium-ion",
+      "stepKind": "polar",
+      "routePreference": "preferred",
+      "canonicalArrows": [
+        "lp O3 -> σ O3-H4",
+        "σ H4-Br5 -> lp Br5"
+      ],
+      "explanationAfterStep": "The OH group is now OH₂⁺: it can leave as a neutral water molecule, a good leaving group."
+    },
+    {
+      "stepKey": "substitution",
+      "fromStateId": "oxonium-ion",
+      "toStateId": "products",
+      "stepKind": "polar",
+      "routePreference": "preferred",
+      "canonicalArrows": [
+        "lp Br5 -> σ Br5-C2",
+        "σ C2-O3 -> lp O3"
+      ],
+      "explanationAfterStep": "Water is a good leaving group because it is neutral and stable. On a primary carbon the substitution is SN2."
+    }
+  ],
+  "mechanismSummary": "Converting an alcohol to an alkyl bromide: acid makes the leaving group (OH becomes OH₂⁺), then bromide displaces water. A primary alcohol reacts by SN2; a tertiary one would react by SN1.",
+  "references": [
+    "Clayden, Greeves and Warren, Organic Chemistry, 2nd edition (Oxford University Press), chapter 15"
+  ],
+  "authors": [
+    {
+      "name": "Maksim",
+      "url": null
+    }
+  ],
+  "licence": "CC-BY-SA-4.0"
+}

@@ -1,0 +1,117 @@
+{
+  "formatVersion": 1,
+  "reactionSlug": "ammonia-and-boron-trifluoride",
+  "reactionVersion": 1,
+  "previousReactionVersion": null,
+  "title": "Ammonia and boron trifluoride",
+  "subtitle": "A Lewis acid–base adduct in one arrow",
+  "reactionClasses": [
+    "acid-base"
+  ],
+  "difficultyTier": 1,
+  "conditionsLabel": "Et₂O · 0 °C",
+  "dailyPuzzleEligible": true,
+  "atomRoleToMapNumbers": {},
+  "spectatorMapNumbers": [],
+  "startStateId": "reactants",
+  "stateIdToState": {
+    "reactants": {
+      "mappedSmiles": "[NH3:1].[B:2]([F:3])([F:4])[F:5]",
+      "caption": "ammonia + boron trifluoride",
+      "mapNumberToCoordinates": {
+        "1": [
+          0,
+          1.75
+        ],
+        "2": [
+          0,
+          -0.85
+        ],
+        "3": [
+          1.3,
+          -0.1
+        ],
+        "4": [
+          -1.3,
+          -0.1
+        ],
+        "5": [
+          0,
+          -2.35
+        ]
+      },
+      "learnerPrompt": "Draw the arrow that joins ammonia to boron trifluoride.",
+      "hintTiers": [
+        "Which molecule has a lone pair to give, and which has an atom with only six electrons around it?",
+        "Boron in BF₃ has an empty p orbital, so it can accept a pair without losing a bond. One arrow.",
+        "One arrow: the lone pair on ammonia's nitrogen to boron, making a new N–B bond."
+      ],
+      "misconceptions": [
+        {
+          "misconceptionId": "arrow-from-boron",
+          "misconceptionTag": "arrow-starts-at-electrons",
+          "severity": "wrong",
+          "arrowPattern": "σ B2-F* -> N1",
+          "feedbackMessage": "Arrows start from electrons that move. Boron brings an empty orbital, not electrons, and its B–F bonds stay put. Start at nitrogen's lone pair."
+        },
+        {
+          "misconceptionId": "fluorine-lone-pair-to-nitrogen",
+          "misconceptionTag": "wrong-electron-source",
+          "severity": "wrong",
+          "arrowPattern": "lp F* -> N1",
+          "feedbackMessage": "Ammonia's nitrogen already has a full octet, so it cannot accept a new bond. Fluorine also holds its lone pairs very tightly. Find the atom that is short of electrons."
+        }
+      ]
+    },
+    "adduct": {
+      "mappedSmiles": "[NH3+:1][B-:2]([F:3])([F:4])[F:5]",
+      "caption": "the H₃N⁺–BF₃⁻ adduct",
+      "mapNumberToCoordinates": {
+        "1": [
+          1.5,
+          0
+        ],
+        "2": [
+          0,
+          0
+        ],
+        "3": [
+          -1.5,
+          0
+        ],
+        "4": [
+          0,
+          1.5
+        ],
+        "5": [
+          0,
+          -1.5
+        ]
+      }
+    }
+  },
+  "steps": [
+    {
+      "stepKey": "lewis-adduct",
+      "fromStateId": "reactants",
+      "toStateId": "adduct",
+      "stepKind": "polar",
+      "routePreference": "preferred",
+      "canonicalArrows": [
+        "lp N1 -> σ N1-B2"
+      ],
+      "explanationAfterStep": "A Lewis base gives a pair, a Lewis acid takes it. Formal charges come from counting: nitrogen now shares its former lone pair, so it is positive; boron has gained a share in a pair, so it is negative. The molecule as a whole stays neutral."
+    }
+  ],
+  "mechanismSummary": "Nitrogen's lone pair, the source, forms a bond to boron, whose empty p orbital is the sink. No bond breaks, so one arrow is enough. Nitrogen ends with four bonds and a positive charge, boron with four bonds and a negative charge.",
+  "references": [
+    "Clayden, Greeves and Warren, Organic Chemistry, 2nd edition (Oxford University Press), chapter 5 (Organic reactions)"
+  ],
+  "authors": [
+    {
+      "name": "Maksim",
+      "url": null
+    }
+  ],
+  "licence": "CC-BY-SA-4.0"
+}
