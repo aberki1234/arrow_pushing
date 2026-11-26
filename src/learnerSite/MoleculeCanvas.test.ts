@@ -72,3 +72,27 @@ test("a click on a place picks it", async () => {
   await fireEvent.click(newBond);
   expect(picked.map((target) => target.pickTargetId)).toEqual(["newBond:3-9"]);
 });
+
+test("a click on a destination finishes the arrow and never also starts the next", async () => {
+  let session = startStepSession(exampleSessionReaction("aldol-addition-base"));
+  session = tapPlace(session, lonePair(1));
+  const drawing = currentStateDrawing(session, drawingScaleOf(session.reaction));
+  const picked: string[] = [];
+  const rendered = render(MoleculeCanvas, {
+    props: {
+      drawing,
+      arrows: [],
+      interactive: true,
+      selectedTargetId: null,
+      destinations: destinationsOf(session, drawing),
+      onPick: (target: PickTarget) => {
+        picked.push(target.pickTargetId);
+        // As the step screen does: the arrow is drawn, so no source is picked any more.
+        void rendered.rerender({ destinations: null });
+      },
+    },
+  });
+  const h4 = screen.getByRole("button", { name: "H4" });
+  await fireEvent.click(h4);
+  expect(picked).toEqual(["atom:4"]);
+});

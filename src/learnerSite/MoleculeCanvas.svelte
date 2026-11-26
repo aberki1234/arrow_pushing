@@ -105,16 +105,20 @@
     hovered = place === null ? null : { from: destinations, place };
   }
 
-  /** With a source picked, a click (or tap) picks the nearest place, else what was clicked. */
+  /**
+   * Every click on the drawing comes here, and picks at most one target, decided from the state
+   * at the moment of the click: with a source picked, the nearest place (or what was clicked)
+   * finishes the arrow; otherwise what was clicked starts one. The pick targets have no click
+   * handlers of their own, so one click can never both finish an arrow and start the next.
+   */
   function onCanvasClick(event: MouseEvent): void {
     if (!interactive) {
       return;
     }
-    const point = drawingPoint(event);
+    const placesNow = destinations;
+    const point = placesNow === null ? null : drawingPoint(event);
     const nearest =
-      destinations === null || point === null
-        ? null
-        : nearestDestinationTarget(destinations, point);
+      placesNow === null || point === null ? null : nearestDestinationTarget(placesNow, point);
     const target = nearest?.target ?? targetUnder(event);
     if (target !== null) {
       hovered = null;
@@ -281,12 +285,6 @@
           aria-label={target.accessibleName}
           aria-pressed={target.pickTargetId === selectedTargetId}
           data-target-id={target.pickTargetId}
-          onclick={() => {
-            // With a source picked, the canvas's own click listener picks the nearest place.
-            if (destinations === null) {
-              onPick(target);
-            }
-          }}
           onkeydown={(event) => {
             activate(event, () => {
               onPick(target);
@@ -304,7 +302,6 @@
           tabindex="0"
           aria-label={place.target.accessibleName}
           data-target-id={place.target.pickTargetId}
-          onclick={() => undefined}
           onkeydown={(event) => {
             activate(event, () => {
               onPick(place.target);
