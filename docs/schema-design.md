@@ -867,12 +867,19 @@ RDKit (RDKit.js) on every valid SMILES case and every example state (`src/chemis
    * **10f Done 2026-11-26.** 1,2-shifts are drawable (SPEC §3): `arrowPicking.tapToDestinationLocus` takes the drawn
      arrows and, for a bond A–B tapped then an electron-poor atom Y bonded to A, offers π A-Y or σ B-Y; the menu
      reads "forms a π bond" / "shifts across". Also: open-draft limit 20 (§SPEC 6).
-   * **10g** Point and snap (SPEC §3, decided 2026-11-26; prototype `mockups/prototype-new-bonds.html` variant C, kept
+   * **10g Done 2026-11-26.** Point and snap (SPEC §3, decided 2026-11-26; prototype `mockups/prototype-new-bonds.html` variant C, kept
      on the local branch `prototype/new-bond-arrows`). Planned: `stepSession/arrowPicking.ts` lists every destination
      of a source (atoms, bonds, possible new bonds with the filter of SPEC §3) and picks the nearest to a point;
      `moleculeDrawing` draws the ghost arrow, dashed new bonds and touch ghosts; `MoleculeCanvas.svelte` previews on
      pointer move, commits on click, uses the nearest target for touch taps, and puts new bonds in the Tab order;
      the bond-source menu, the 10f shift menu and `choiceMenuLayout.ts` go. Learner site and Create alike.
+     Built: `stepSession/newBondDestinations.ts` (the chemistry filter), `stepSession/destinationTargets.ts`
+     (places with their preview arrow and dashed line; `NEW_BOND_REACH` 2.1 bond lengths; nearest by centre within
+     0.8 bond lengths), the `newBond` pick target and tapped place, `MoleculeCanvas.svelte` (pointer listeners on
+     the drawing, faint lines after a touch, new bonds in the Tab order), `stepScreenView.destinationsOf`; the menu
+     state (`pendingDestinationOptions`, `chooseDestination`) is gone from the session and Create's arrow drawing.
+     Checked in headless Chromium on the aldol: hover preview with the dashed C3–C9, a touch tap on its middle
+     drawing "π C3=C5 → new bond C3–C9", faint lines after a touch.
    * **10d** The SEAr pilot (nitronium formation, nitration of benzene, nitration of anisole with resonance steps)
      drafted and pushed; reviewed by the owner; then the rest of the batch and `content/tracks/aromatic-chemistry.json`.
    Phase 2 (design deferred until after the batch): the MCP server at `/mcp` over the same module and tokens, and a

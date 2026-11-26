@@ -7,6 +7,7 @@ import { graphOf } from "../attemptAssessment/preparedReaction.js";
 import { reactionScale } from "../moleculeDrawing/drawingLayout.js";
 import { type PickTarget, type StateDrawing, drawState } from "../moleculeDrawing/stateDrawing.js";
 import type { TappedPlace } from "../stepSession/arrowPicking.js";
+import { type DestinationTarget, destinationTargets } from "../stepSession/destinationTargets.js";
 import { type FeedbackText, feedbackForAssessment } from "../stepSession/feedbackText.js";
 import {
   type SessionReaction,
@@ -113,12 +114,10 @@ export function canvasInstruction(session: StepSession): string {
     case "complete":
       return "Mechanism complete.";
     case "drawing":
-      if (session.pendingDestinationOptions !== null) {
-        return "Which atom forms the new bond? Choose one, or press Esc.";
-      }
       return session.pendingSource === null
         ? "Choose a source of electrons: a lone pair, a bond or an unpaired electron."
-        : "Now choose where the electrons go: an atom or a bond. Esc cancels.";
+        : "Now point at where the electrons go: an atom, a bond, or the dashed line of a new " +
+            "bond. Esc cancels.";
   }
 }
 
@@ -179,55 +178,22 @@ export function feedbackPanelText(session: StepSession): FeedbackText {
 /** What a tap on a pick target means to the step session. */
 export function tappedPlaceOf(target: PickTarget): TappedPlace {
   const [first = 0, second = 0] = target.mapNumbers;
-  return target.targetKind === "bond"
-    ? { placeKind: "bond", mapNumbers: [first, second] }
+  return target.targetKind === "bond" || target.targetKind === "newBond"
+    ? { placeKind: target.targetKind, mapNumbers: [first, second] }
     : { placeKind: target.targetKind, mapNumber: first };
 }
 
-/** One option of the menu: the atom that would form the new bond, named by its badge. */
-export interface DestinationChoiceOption {
-  /** Drawn on the atom while the menu is open: learners see no map numbers. */
-  readonly badge: string;
-  readonly formerMapNumber: number;
-  readonly label: string;
-  /** With the atom's label, as the pick targets name atoms for screen readers. */
-  readonly accessibleName: string;
-}
-
-export interface DestinationChoice {
-  /** The tapped atom, shared by both options: the menu opens beside it. */
-  readonly anchorMapNumber: number;
-  readonly options: readonly DestinationChoiceOption[];
-}
-
-const CHOICE_BADGES = ["①", "②", "③", "④"];
-
-/** The "which atom forms the bond?" menu while a choice is pending; otherwise null. */
-export function destinationChoice(
-  session: Pick<StepSession, "pendingDestinationOptions">,
-): DestinationChoice | null {
-  const pending = session.pendingDestinationOptions;
-  if (pending === null) {
+/** Where the picked source's electrons can go (point and snap), or null with no source picked. */
+export function destinationsOf(
+  session: StepSession,
+  drawing: StateDrawing,
+): DestinationTarget[] | null {
+  if (session.phase !== "drawing" || session.pendingSource === null) {
     return null;
   }
-  const atomLists = pending.map((option) => option.atoms.map((atom) => atom.mapNumber));
-  const anchorMapNumber =
-    atomLists[0]?.find((mapNumber) => atomLists.every((atoms) => atoms.includes(mapNumber))) ?? 0;
-  const options = pending.map((option, optionIndex) => {
-    const former = option.atoms.find((atom) => atom.mapNumber !== anchorMapNumber);
-    const badge = CHOICE_BADGES[optionIndex] ?? String(optionIndex + 1);
-    const atomLabel = `${former?.element ?? ""}${String(former?.mapNumber ?? "")}`;
-    const isShiftChoice = pending.some((other) => other.locusKind !== option.locusKind);
-    let action = "forms the bond";
-    if (isShiftChoice) {
-      action = option.locusKind === "piBond" ? "forms a π bond" : "shifts across";
-    }
-    return {
-      badge,
-      formerMapNumber: former?.mapNumber ?? 0,
-      label: `${badge} ${action}`,
-      accessibleName: `${badge} (${atomLabel}) ${action}`,
-    };
+  return destinationTargets(drawing, graphOf(session.reaction.prepared, session.currentStateId), {
+    source: session.pendingSource,
+    arrowType: session.arrowType,
+    drawnArrows: session.drawnArrows,
   });
-  return { anchorMapNumber, options };
 }

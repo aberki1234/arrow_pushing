@@ -105,7 +105,8 @@ export interface DrawnAnnotation {
   readonly point: Point;
 }
 
-export type PickTargetKind = "atom" | "bond" | "lonePair" | "unpairedElectron";
+/** "newBond": a bond not drawn yet, offered as a destination (stepSession/destinationTargets). */
+export type PickTargetKind = "atom" | "bond" | "lonePair" | "unpairedElectron" | "newBond";
 
 export interface PickTarget {
   /** Unique in the drawing, e.g. "atom:3", "bond:2-3", "lonePair:1:0", "unpairedElectron:5". */

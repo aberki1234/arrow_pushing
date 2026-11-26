@@ -1,6 +1,5 @@
 /** Tests for stepScreenView.ts on runs through the example reactions. */
 import { describe, expect, test } from "vitest";
-import { parseCurvedArrow } from "../arrowNotation/curvedArrowNotation.js";
 import { exampleSessionReaction } from "../testSupport/exampleSessions.js";
 import type { TappedPlace } from "../stepSession/arrowPicking.js";
 import {
@@ -15,7 +14,6 @@ import {
 import type { PickTarget, PickTargetKind } from "../moleculeDrawing/stateDrawing.js";
 import {
   canvasInstruction,
-  destinationChoice,
   tappedPlaceOf,
   currentStateDrawing,
   drawingScaleOf,
@@ -128,50 +126,6 @@ describe("canvas helpers", () => {
       placeKind: "bond",
       mapNumbers: [2, 3],
     });
-  });
-
-  test("the destination choice badges the atoms that could form the bond", () => {
-    const waiting = [bond(3, 5), atom(9)].reduce(
-      tapPlace,
-      continueToNextState(continueToNextState(aldolFirstStepChecked())),
-    );
-    // The drawing shows no map numbers: the menu names each atom by a badge drawn on it.
-    expect(destinationChoice(waiting)).toEqual({
-      anchorMapNumber: 9,
-      options: [
-        {
-          badge: "①",
-          formerMapNumber: 3,
-          label: "① forms the bond",
-          accessibleName: "① (C3) forms the bond",
-        },
-        {
-          badge: "②",
-          formerMapNumber: 5,
-          label: "② forms the bond",
-          accessibleName: "② (C5) forms the bond",
-        },
-      ],
-    });
-    expect(destinationChoice(aldolSession())).toBeNull();
-  });
-});
-
-describe("the shift menu", () => {
-  test("names a π bond and a shift, the π bond first", () => {
-    const options = [
-      parseCurvedArrow("lp O1 -> π C2-C3").destination,
-      parseCurvedArrow("lp O1 -> σ C3-H5").destination,
-    ];
-    expect(
-      destinationChoice({ pendingDestinationOptions: options })?.options.map((option) => [
-        option.formerMapNumber,
-        option.label,
-      ]),
-    ).toEqual([
-      [2, "① forms a π bond"],
-      [5, "② shifts across"],
-    ]);
   });
 });
 

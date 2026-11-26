@@ -11,7 +11,6 @@ import {
   type StepSession,
   cancelPick,
   checkArrows,
-  chooseDestination,
   clearArrows,
   continueToNextState,
   ghostArrows,
@@ -32,6 +31,10 @@ const bond = (first: number, second: number): TappedPlace => ({
   mapNumbers: [first, second],
 });
 const unpaired = (mapNumber: number): TappedPlace => ({ placeKind: "unpairedElectron", mapNumber });
+const newBond = (first: number, second: number): TappedPlace => ({
+  placeKind: "newBond",
+  mapNumbers: [first, second],
+});
 
 /** Tap each pair of places as source then destination. */
 function draw(session: StepSession, ...taps: TappedPlace[]): StepSession {
@@ -99,21 +102,17 @@ describe("drawing", () => {
 });
 
 describe("drawing: choices and editing", () => {
-  test("an ambiguous destination waits for a choice", () => {
+  test("a new bond is picked as itself; an atom bonded to neither is refused", () => {
     let session = startStepSession(exampleSessionReaction("aldol-addition-base"));
     session = continueToNextState(
       checkArrows(draw(session, lonePair(1), atom(4), bond(3, 4), atom(5), bond(5, 6), atom(6))),
     );
     session = continueToNextState(session); // the second aldehyde arrives
-    const waiting = draw(session, bond(3, 5), atom(9));
-    expect(waiting.pendingDestinationOptions?.map(formatElectronLocus)).toEqual([
-      "σ C3-C9",
-      "σ C5-C9",
-    ]);
-    expect(drawnTexts(chooseDestination(waiting, 0))).toEqual(["π C3-C5 -> σ C3-C9"]);
-    const cancelled = cancelPick(waiting);
-    expect(cancelled.pendingDestinationOptions).toBeNull();
-    expect(cancelled.pendingSource).toBeNull();
+    const refused = draw(session, bond(3, 5), atom(9));
+    expect(refused.pickMessage).toContain("dashed line");
+    expect(refused.pendingSource).not.toBeNull();
+    expect(drawnTexts(draw(refused, newBond(3, 9)))).toEqual(["π C3-C5 -> σ C3-C9"]);
+    expect(cancelPick(refused).pendingSource).toBeNull();
   });
 
   test("undo, remove and clear", () => {
@@ -228,13 +227,8 @@ describe("routes", () => {
 
   test("radical steps are drawn with fish-hooks", () => {
     let session = startStepSession(exampleSessionReaction("radical-bromination-methane"));
-    session = draw(session, unpaired(1), atom(2), bond(2, 3), atom(1));
-    // Neither H2 nor C3 is bonded to Br1: the learner says which atom forms the bond.
-    expect(session.pendingDestinationOptions?.map(formatElectronLocus)).toEqual([
-      "σ Br1-H2",
-      "σ Br1-C3",
-    ]);
-    session = draw(chooseDestination(session, 0), bond(2, 3), atom(3));
+    // The H2–C3 electron that goes to Br1 forms the new bond Br1–H2, picked as itself.
+    session = draw(session, unpaired(1), atom(2), bond(2, 3), newBond(1, 2), bond(2, 3), atom(3));
     expect(drawnTexts(session)).toEqual([
       "rad Br1 ~> σ Br1-H2",
       "σ H2-C3 ~> σ Br1-H2",

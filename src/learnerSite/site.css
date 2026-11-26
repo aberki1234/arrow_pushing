@@ -693,48 +693,19 @@ svg.mol {
 .at.elem {
   dominant-baseline: central;
 }
-.choice-menu rect.panel {
-  fill: var(--surface);
-  stroke: var(--line);
+.arrow.preview {
+  opacity: 0.55;
 }
-.choice-menu .option rect {
-  fill: var(--surface-2);
+.new-bond-line {
   stroke: var(--accent);
-  cursor: pointer;
-}
-.choice-menu .option text {
-  font:
-    600 13px ui-sans-serif,
-    system-ui,
-    sans-serif;
-  fill: var(--ink);
+  stroke-width: 2;
+  stroke-dasharray: 3 4;
+  opacity: 0.85;
   pointer-events: none;
 }
-.choice-menu .option:focus rect,
-.choice-menu .option:hover rect {
-  fill: var(--accent-soft);
-}
-.choice-menu .option:focus {
-  outline: none;
-}
-.choice-badge circle {
-  fill: var(--surface);
-  stroke: var(--accent);
-  stroke-width: 1.5;
-}
-.choice-badge text {
-  font:
-    700 12px ui-sans-serif,
-    system-ui,
-    sans-serif;
-  fill: var(--accent);
-  pointer-events: none;
-}
-.choice-badge.lit circle {
-  fill: var(--accent);
-}
-.choice-badge.lit text {
-  fill: var(--surface);
+.new-bond-line.faint {
+  stroke-dasharray: 4 5;
+  opacity: 0.38;
 }
 .hit.pending-dot {
   fill: var(--accent-soft);

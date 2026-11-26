@@ -1,7 +1,7 @@
 /**
  * The author drawing arrows on one state of the draft: taps become curved arrows by the same
- * picking rules the learner has (stepSession/arrowPicking.ts: π electrons first, then σ; the
- * "which atom forms the bond?" choice), but on any state, including one no step leaves yet. The
+ * picking rules the learner has (stepSession/arrowPicking.ts: π electrons first, then σ; a new
+ * bond picked as itself, the dashed line), but on any state, including one no step leaves yet. The
  * arrows then become a step with stepGeneration.addArrowStep().
  */
 import type { CurvedArrow, ElectronLocus } from "../arrowNotation/curvedArrowNotation.js";
@@ -22,8 +22,6 @@ export interface ArrowDrawing {
   readonly arrowType: ArrowType;
   readonly drawnArrows: readonly CurvedArrow[];
   readonly pendingSource: ElectronLocus | null;
-  /** The two bonds to choose between, while the "which atom forms the bond?" menu is open. */
-  readonly pendingDestinationOptions: readonly ElectronLocus[] | null;
   /** Why the last tap was refused, for the author. */
   readonly pickMessage: string | null;
 }
@@ -45,7 +43,6 @@ export function startArrowDrawing(document: ReactionDocument, stateId: string): 
     arrowType: classes.includes("radical") ? "fishHook" : "pair",
     drawnArrows: [],
     pendingSource: null,
-    pendingDestinationOptions: null,
     pickMessage: null,
   };
 }
@@ -63,11 +60,8 @@ function withArrow(
   return { ...cancelPick(drawing), drawnArrows: [...drawing.drawnArrows, curvedArrow] };
 }
 
-/** A tap picks the source, then the destination (or opens the choice between two bonds). */
+/** A tap picks the source, then the destination. */
 export function tapPlace(drawing: ArrowDrawing, tapped: TappedPlace): ArrowDrawing {
-  if (drawing.pendingDestinationOptions !== null) {
-    return drawing;
-  }
   if (drawing.pendingSource === null) {
     const sourcePick = tapToSourceLocus(
       drawing.graph,
@@ -84,32 +78,16 @@ export function tapPlace(drawing: ArrowDrawing, tapped: TappedPlace): ArrowDrawi
     drawing.pendingSource,
     tapped,
     drawing.arrowType,
-    drawing.drawnArrows,
   );
   if (destinationPick.pickOutcome === "refused") {
     return { ...drawing, pickMessage: destinationPick.refusalMessage };
   }
-  if (destinationPick.pickOutcome === "choice") {
-    return {
-      ...drawing,
-      pendingDestinationOptions: destinationPick.destinationOptions,
-      pickMessage: null,
-    };
-  }
   return withArrow(drawing, drawing.pendingSource, destinationPick.destination);
 }
 
-export function chooseDestination(drawing: ArrowDrawing, optionIndex: number): ArrowDrawing {
-  const destination = drawing.pendingDestinationOptions?.[optionIndex];
-  if (drawing.pendingSource === null || destination === undefined) {
-    return drawing;
-  }
-  return withArrow(drawing, drawing.pendingSource, destination);
-}
-
-/** Esc: drop the picked source or the open choice. */
+/** Esc: drop the picked source. */
 export function cancelPick(drawing: ArrowDrawing): ArrowDrawing {
-  return { ...drawing, pendingSource: null, pendingDestinationOptions: null, pickMessage: null };
+  return { ...drawing, pendingSource: null, pickMessage: null };
 }
 
 export function undoArrow(drawing: ArrowDrawing): ArrowDrawing {

@@ -15,6 +15,7 @@ import {
   tapToDestinationLocus,
   tapToSourceLocus,
 } from "./arrowPicking.js";
+import { newBondDestinations } from "./newBondDestinations.js";
 
 const SN2 = stateGraphFromMappedSmiles("[OH-:1].[CH3:2][Br:3]");
 const ALDOL_START = stateGraphFromMappedSmiles("[H:2][O-:1].[H:4][CH2:3][CH:5]=[O:6]");
@@ -33,6 +34,10 @@ const bond = (first: number, second: number): TappedPlace => ({
   mapNumbers: [first, second],
 });
 const unpaired = (mapNumber: number): TappedPlace => ({ placeKind: "unpairedElectron", mapNumber });
+const newBond = (first: number, second: number): TappedPlace => ({
+  placeKind: "newBond",
+  mapNumbers: [first, second],
+});
 
 function sourceText(pick: SourcePick): string {
   return pick.pickOutcome === "source" ? formatElectronLocus(pick.source) : "refused";
@@ -42,9 +47,7 @@ function destinationText(pick: DestinationPick): string {
   if (pick.pickOutcome === "destination") {
     return formatElectronLocus(pick.destination);
   }
-  return pick.pickOutcome === "choice"
-    ? `choice: ${pick.destinationOptions.map(formatElectronLocus).join(" | ")}`
-    : "refused";
+  return "refused";
 }
 
 function sourceOf(pick: SourcePick): ElectronLocus {
@@ -139,46 +142,52 @@ describe("destinations from a bond", () => {
   });
 });
 
-describe("1,2-shifts", () => {
-  test("an electron-poor atom next to the bond asks: π bond, or a 1,2-shift", () => {
-    // A carbocation: the C–H pair may form C2=C3 or carry H5 across to C3 (hydride shift).
-    const source = sourceOf(tapToSourceLocus(PROPYL_CATION, bond(2, 5), [], "pair"));
-    expect(destinationText(tapToDestinationLocus(PROPYL_CATION, source, atom(3), "pair"))).toBe(
-      "choice: π C2-C3 | σ C3-H5",
-    );
-    // An atom losing its leaving group in the same arrow set counts as electron-poor.
-    const leaving = [parseCurvedArrow("σ C3-Cl4 -> lp Cl4")];
-    const chlorideSource = sourceOf(tapToSourceLocus(PROPYL_CHLORIDE, bond(2, 5), leaving, "pair"));
-    expect(
-      destinationText(
-        tapToDestinationLocus(PROPYL_CHLORIDE, chlorideSource, atom(3), "pair", leaving),
-      ),
-    ).toBe("choice: π C2-C3 | σ C3-H5");
-    // Without the leaving group drawn, C3 has its octet: no menu.
-    expect(
-      destinationText(tapToDestinationLocus(PROPYL_CHLORIDE, chlorideSource, atom(3), "pair")),
-    ).toBe("π C2-C3");
+describe("possible new bonds from a bond source", () => {
+  const newBonds = (
+    graph: ReturnType<typeof stateGraphFromMappedSmiles>,
+    sourceBond: [number, number],
+    drawnArrowTexts: string[] = [],
+  ): string[] => {
+    const drawnArrows = drawnArrowTexts.map(parseCurvedArrow);
+    const source = sourceOf(tapToSourceLocus(graph, bond(...sourceBond), drawnArrows, "pair"));
+    return newBondDestinations(graph, source, drawnArrows).map(formatElectronLocus);
+  };
+
+  test("to any atom of another molecule", () => {
+    const dielsAlder = stateGraphFromMappedSmiles("[CH2:1]=[CH:2][CH:3]=[CH2:4].[CH2:5]=[CH2:6]");
+    expect(newBonds(dielsAlder, [1, 2])).toEqual(["σ C1-C5", "σ C1-C6", "σ C2-C5", "σ C2-C6"]);
   });
 
-  test("no shift is offered for an H a base is already taking", () => {
-    const baseTakesH = [parseCurvedArrow("lp O6 -> σ O6-H5")];
-    const source = sourceOf(
-      tapToSourceLocus(PROPYL_CATION_AND_WATER, bond(2, 5), baseTakesH, "pair"),
-    );
-    expect(
-      destinationText(
-        tapToDestinationLocus(PROPYL_CATION_AND_WATER, source, atom(3), "pair", baseTakesH),
-      ),
-    ).toBe("π C2-C3");
+  test("within a molecule: 1,2-shifts onto an electron-poor atom; rings from 4 bonds", () => {
+    expect(newBonds(PROPYL_CATION, [2, 5])).toEqual(["σ C3-H5"]);
+    expect(newBonds(PROPYL_CHLORIDE, [2, 5])).toEqual([]);
+    expect(newBonds(PROPYL_CHLORIDE, [2, 5], ["σ C3-Cl4 -> lp Cl4"])).toEqual(["σ C3-H5"]);
+    const hexadiene = stateGraphFromMappedSmiles("[CH2:1]=[CH:2][CH2:3][CH2:4][CH:5]=[CH2:6]");
+    // C1–C5 and C2–C6 are 4 bonds apart and C1–C6 5; C2–C5 (3 bonds) and C2–C4 (2, not
+    // electron-poor) are left out.
+    expect(newBonds(hexadiene, [1, 2])).toEqual(["σ C1-C5", "σ C1-C6", "σ C2-C6"]);
+  });
+
+  test("no 1,2-shift of an H a base is already taking", () => {
+    expect(newBonds(PROPYL_CATION_AND_WATER, [2, 5], ["lp O6 -> σ O6-H5"])).toEqual(["σ C2-O6"]);
+  });
+
+  test("a lone pair has none: tapping the atom is enough", () => {
+    const source = sourceOf(tapToSourceLocus(SN2, lonePair(1), [], "pair"));
+    expect(newBondDestinations(SN2, source, [])).toEqual([]);
   });
 });
 
 describe("destinations from a bond, continued", () => {
-  test("an atom bonded to neither asks which atom forms the bond", () => {
+  test("an atom bonded to neither is refused: the new bond is picked itself", () => {
     const source = sourceOf(tapToSourceLocus(ENOLATE_AND_ALDEHYDE, bond(3, 5), [], "pair"));
+    const refusal = tapToDestinationLocus(ENOLATE_AND_ALDEHYDE, source, atom(9), "pair");
+    expect(refusal.pickOutcome === "refused" ? refusal.refusalMessage : "").toContain(
+      "dashed line",
+    );
     expect(
-      destinationText(tapToDestinationLocus(ENOLATE_AND_ALDEHYDE, source, atom(9), "pair")),
-    ).toBe("choice: σ C3-C9 | σ C5-C9");
+      destinationText(tapToDestinationLocus(ENOLATE_AND_ALDEHYDE, source, newBond(3, 9), "pair")),
+    ).toBe("σ C3-C9");
   });
 
   test("a bond sharing one atom gains a π bond; itself and unrelated bonds are refused", () => {

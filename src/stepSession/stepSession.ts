@@ -64,8 +64,6 @@ export interface StepSession {
   readonly drawnArrows: readonly CurvedArrow[];
   /** The source picked, waiting for a destination tap. */
   readonly pendingSource: ElectronLocus | null;
-  /** Two destinations to choose between ("which atom forms the bond?"). */
-  readonly pendingDestinationOptions: readonly ElectronLocus[] | null;
   /** Why the last tap was refused, or why the check did not run. */
   readonly pickMessage: string | null;
   /** Wrong checks at the current state. */
@@ -100,7 +98,6 @@ function enterState(session: StepSession, stateId: string): StepSession {
     currentStateId: stateId,
     drawnArrows: [],
     pendingSource: null,
-    pendingDestinationOptions: null,
     pickMessage: null,
     wrongCheckCount: 0,
     hintsShown: 0,
@@ -125,7 +122,6 @@ export function startStepSession(
         : "pair",
     drawnArrows: [],
     pendingSource: null,
-    pendingDestinationOptions: null,
     pickMessage: null,
     wrongCheckCount: 0,
     hintsShown: 0,
@@ -151,13 +147,12 @@ function withArrow(
     ...session,
     drawnArrows: [...session.drawnArrows, curvedArrow],
     pendingSource: null,
-    pendingDestinationOptions: null,
     pickMessage: null,
   };
 }
 
 export function tapPlace(session: StepSession, tapped: TappedPlace): StepSession {
-  if (session.phase !== "drawing" || session.pendingDestinationOptions !== null) {
+  if (session.phase !== "drawing") {
     return session;
   }
   const graph = currentGraph(session);
@@ -172,32 +167,16 @@ export function tapPlace(session: StepSession, tapped: TappedPlace): StepSession
     session.pendingSource,
     tapped,
     session.arrowType,
-    session.drawnArrows,
   );
   if (destinationPick.pickOutcome === "refused") {
     return { ...session, pickMessage: destinationPick.refusalMessage };
   }
-  if (destinationPick.pickOutcome === "choice") {
-    return {
-      ...session,
-      pendingDestinationOptions: destinationPick.destinationOptions,
-      pickMessage: null,
-    };
-  }
   return withArrow(session, session.pendingSource, destinationPick.destination);
 }
 
-export function chooseDestination(session: StepSession, optionIndex: number): StepSession {
-  const destination = session.pendingDestinationOptions?.[optionIndex];
-  if (session.pendingSource === null || destination === undefined) {
-    return session;
-  }
-  return withArrow(session, session.pendingSource, destination);
-}
-
-/** Esc: drop the picked source or the pending choice. */
+/** Esc: drop the picked source. */
 export function cancelPick(session: StepSession): StepSession {
-  return { ...session, pendingSource: null, pendingDestinationOptions: null, pickMessage: null };
+  return { ...session, pendingSource: null, pickMessage: null };
 }
 
 function withArrows(session: StepSession, drawnArrows: readonly CurvedArrow[]): StepSession {

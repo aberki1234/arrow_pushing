@@ -7,7 +7,6 @@ import { formatCurvedArrow } from "../arrowNotation/curvedArrowNotation.js";
 import { exampleReaction } from "../testSupport/reactionEdits.js";
 import {
   cancelPick,
-  chooseDestination,
   clearArrows,
   setArrowType,
   startArrowDrawing,
@@ -50,16 +49,16 @@ describe("arrow drawing", () => {
     expect(drawing.pickMessage).toContain("Start from electrons");
   });
 
-  it("asks which atom forms the bond when a bond's electrons could go either way", () => {
-    // The enolate's C=C π electrons can bond C9 to either C3 or C5.
+  it("forms a new bond picked as itself, and refuses an atom bonded to neither", () => {
+    // The enolate's C=C π electrons can bond C9 to either C3 or C5: the author points at one.
     const aldol = exampleReaction("aldol-addition-base.json");
     let drawing = startArrowDrawing(aldol, "enolate-and-aldehyde");
     drawing = tapPlace(drawing, { placeKind: "bond", mapNumbers: [3, 5] });
-    drawing = tapPlace(drawing, { placeKind: "atom", mapNumber: 9 });
-    expect(drawing.pendingDestinationOptions).toHaveLength(2);
-    const chosen = chooseDestination(drawing, 0);
-    expect(chosen.drawnArrows).toHaveLength(1);
-    expect(chosen.pendingDestinationOptions).toBeNull();
+    const refused = tapPlace(drawing, { placeKind: "atom", mapNumber: 9 });
+    expect(refused.pickMessage).toContain("dashed line");
+    const drawn = tapPlace(refused, { placeKind: "newBond", mapNumbers: [3, 9] });
+    expect(drawn.drawnArrows).toHaveLength(1);
+    expect(drawn.pendingSource).toBeNull();
   });
 });
 

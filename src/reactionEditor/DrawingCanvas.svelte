@@ -1,11 +1,13 @@
 <script lang="ts">
   // The selected state's drawing, where the author works: arrows are picked in drawArrows mode
-  // (the "which atom forms the bond?" menu included), atoms dragged or given an H, bonds' wedges
-  // cycled. Every decision is in editorSession.ts; this passes the taps on.
+  // (point and snap, as for learners: new bonds are pointed at as dashed lines), atoms dragged or
+  // given an H, bonds' wedges cycled. Every decision is in editorSession.ts; this passes the taps
+  // on.
   import MoleculeCanvas from "../learnerSite/MoleculeCanvas.svelte";
-  import { destinationChoice, tappedPlaceOf } from "../learnerSite/stepScreenView.js";
+  import { tappedPlaceOf } from "../learnerSite/stepScreenView.js";
   import type { PickTarget } from "../moleculeDrawing/stateDrawing.js";
-  import { cancelPick, chooseDestination } from "../reactionEditing/arrowDrawing.js";
+  import { cancelPick } from "../reactionEditing/arrowDrawing.js";
+  import { destinationTargets } from "../stepSession/destinationTargets.js";
   import AtomHandles from "./AtomHandles.svelte";
   import {
     currentDraft,
@@ -23,9 +25,17 @@
 
   const shown = $derived(draftDrawing(currentDraft(session), session.selectedStateId));
   const arrows = $derived(drawnArrowsOn(shown.drawing, session.arrowDrawing?.drawnArrows ?? []));
-  const choice = $derived(
-    session.arrowDrawing === null ? null : destinationChoice(session.arrowDrawing),
-  );
+  const destinations = $derived.by(() => {
+    const drawing = session.arrowDrawing;
+    if (session.mode !== "drawArrows" || drawing === null || drawing.pendingSource === null) {
+      return null;
+    }
+    return destinationTargets(shown.drawing, drawing.graph, {
+      source: drawing.pendingSource,
+      arrowType: drawing.arrowType,
+      drawnArrows: drawing.drawnArrows,
+    });
+  });
 
   function pickTarget(target: PickTarget): void {
     const next = tapOnCanvas(session, tappedPlaceOf(target));
@@ -33,19 +43,14 @@
     update(next);
   }
 
-  function chooseOption(optionIndex: number): void {
-    pendingTargetId = null;
-    update(updateArrowDrawing(session, (drawing) => chooseDestination(drawing, optionIndex)));
-  }
-
-  function cancelChoice(): void {
+  function cancelPicking(): void {
     pendingTargetId = null;
     update(updateArrowDrawing(session, cancelPick));
   }
 
   function cancelOnEscape(event: KeyboardEvent): void {
     if (event.key === "Escape") {
-      cancelChoice();
+      cancelPicking();
     }
   }
 
@@ -72,10 +77,8 @@
   {arrows}
   interactive={session.mode === "drawArrows" || session.mode === "wedges"}
   selectedTargetId={pendingTargetId}
-  {choice}
+  {destinations}
   onPick={pickTarget}
-  onChoose={chooseOption}
-  onCancelChoice={cancelChoice}
 >
   {#snippet overlay()}
     {#if session.mode === "moveAtoms" || session.mode === "showHydrogen"}

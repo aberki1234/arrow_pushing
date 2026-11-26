@@ -13,9 +13,6 @@
     arrows={[]}
     interactive={false}
     selectedTargetId={null}
-    choice={null}
     onPick={() => undefined}
-    onChoose={() => undefined}
-    onCancelChoice={() => undefined}
   />
 </div>

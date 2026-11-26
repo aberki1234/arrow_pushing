@@ -1,48 +1,41 @@
 <script lang="ts">
   // Renders one state drawing (moleculeDrawing/stateDrawing.ts) as SVG: bonds, atom labels,
   // electron dots, annotations, curved arrows, and the pick targets the learner taps or reaches
-  // with Tab and Enter. The "which atom forms the bond?" menu opens beside the tapped atom; each
-  // candidate atom carries the badge (① ②) its option names, lit while that option is hovered
-  // or focused (the drawing shows no map numbers).
+  // with Tab and Enter. With a source picked (`destinations`, point and snap: docs/SPEC.md §3,
+  // item 10g) the place nearest the pointer is previewed as a ghost arrow, a new bond as a dashed
+  // line, and a click picks it; on touch every possible new bond is drawn as a faint dashed line
+  // and a tap picks the nearest place. Possible new bonds are keyboard targets too.
   // The editor may pass an `overlay` (its drag and show-H handles), drawn on top.
   import type { Snippet } from "svelte";
   import type { DrawnCurvedArrow } from "../moleculeDrawing/curvedArrowGeometry.js";
+  import type { Point } from "../moleculeDrawing/planeGeometry.js";
+  import type { PickTarget, StateDrawing } from "../moleculeDrawing/stateDrawing.js";
   import {
-    type PickTarget,
-    type StateDrawing,
-    drawnAtomOf,
-  } from "../moleculeDrawing/stateDrawing.js";
-  import { choiceBadgePoint, choiceMenuOrigin } from "../moleculeDrawing/choiceMenuLayout.js";
-  import type { DestinationChoice } from "./stepScreenView.js";
+    type DestinationTarget,
+    nearestDestinationTarget,
+  } from "../stepSession/destinationTargets.js";
 
   const {
     drawing,
     arrows,
     interactive,
     selectedTargetId,
-    choice,
+    destinations = null,
     onPick,
-    onChoose,
-    onCancelChoice,
     overlay,
   }: {
     drawing: StateDrawing;
     arrows: readonly { drawn: DrawnCurvedArrow; arrowClass: string }[];
     interactive: boolean;
     selectedTargetId: string | null;
-    choice: DestinationChoice | null;
+    /** Where the picked source's electrons can go; null with no source picked. */
+    destinations?: readonly DestinationTarget[] | null;
     onPick: (target: PickTarget) => void;
-    onChoose: (optionIndex: number) => void;
-    onCancelChoice: () => void;
     overlay?: Snippet;
   } = $props();
 
   // Drawing sizes, in pixels.
   const DOT_RADIUS = 2.3;
-  const CHOICE_OPTION_WIDTH = 150;
-  const CHOICE_OPTION_HEIGHT = 28;
-  const CHOICE_GAP = 6;
-  const BADGE_RADIUS = 9;
   const CANVAS_DESCRIPTION =
     "Molecule drawing. Tab to atoms, bonds and lone pairs; press Enter to choose a source, " +
     "then a target. Escape cancels.";
@@ -55,44 +48,96 @@
       drawing.viewBox.height,
     ].join(" "),
   );
-  const badgePoints = $derived(
-    choice === null
-      ? []
-      : choice.options.map((option) => choiceBadgePoint(drawing, option.formerMapNumber)),
+
+  let svgElement: SVGSVGElement | undefined = $state();
+  /** Set by the first touch on the drawing; a mouse or pen moving over it clears it. */
+  let touchMode = $state(false);
+  /** The place nearest the pointer, kept with the list it came from. */
+  let hovered = $state.raw<{
+    from: readonly DestinationTarget[];
+    place: DestinationTarget;
+  } | null>(null);
+  const preview = $derived(
+    hovered !== null && destinations !== null && hovered.from === destinations && !touchMode
+      ? hovered.place
+      : null,
   );
-  const choiceOrigin = $derived.by(() => {
-    if (choice === null) {
+  const newBondPlaces = $derived(
+    (destinations ?? []).filter((place) => place.newBondLine !== null),
+  );
+
+  /** The pointer in the drawing's own units; null where there is no layout (tests). */
+  function drawingPoint(event: MouseEvent): Point | null {
+    let matrix: DOMMatrix | null;
+    try {
+      matrix = svgElement?.getScreenCTM() ?? null;
+    } catch {
+      // jsdom (tests) has no getScreenCTM: no layout to measure against.
       return null;
     }
-    const keepClear = [
-      ...choice.options.map((option) => drawnAtomOf(drawing, option.formerMapNumber).point),
-      ...badgePoints,
-    ];
-    const size = {
-      width: CHOICE_OPTION_WIDTH + 2 * CHOICE_GAP,
-      height: choice.options.length * (CHOICE_OPTION_HEIGHT + CHOICE_GAP) + CHOICE_GAP,
-    };
-    return choiceMenuOrigin(drawing, choice.anchorMapNumber, keepClear, size);
-  });
-  const choiceTransform = $derived(
-    choiceOrigin === null
-      ? ""
-      : `translate(${String(choiceOrigin.x + CHOICE_GAP)} ${String(choiceOrigin.y + CHOICE_GAP)})`,
-  );
+    if (matrix === null) {
+      return null;
+    }
+    const point = new DOMPoint(event.clientX, event.clientY).matrixTransform(matrix.inverse());
+    return { x: point.x, y: point.y };
+  }
 
-  // The option hovered or focused last, for the menu it belongs to; the first option otherwise
-  // (it has the focus when the menu opens).
-  type LitOption = { choice: DestinationChoice; optionIndex: number };
-  let litOption = $state.raw<LitOption | null>(null);
-  const litOptionIndex = $derived(
-    litOption !== null && litOption.choice === choice ? litOption.optionIndex : 0,
-  );
+  /** The pick target of the element under a click, by its data-target-id. */
+  function targetUnder(event: MouseEvent): PickTarget | null {
+    const element =
+      event.target instanceof Element ? event.target.closest("[data-target-id]") : null;
+    const targetId = element?.getAttribute("data-target-id") ?? null;
+    const all = [...drawing.pickTargets, ...newBondPlaces.map((place) => place.target)];
+    return all.find((target) => target.pickTargetId === targetId) ?? null;
+  }
 
-  function lightOption(optionIndex: number): void {
-    if (choice !== null) {
-      litOption = { choice, optionIndex };
+  function onPointerDown(event: PointerEvent): void {
+    touchMode = event.pointerType === "touch";
+  }
+
+  function onPointerMove(event: PointerEvent): void {
+    if (destinations === null || event.pointerType === "touch") {
+      return;
+    }
+    touchMode = false;
+    const point = drawingPoint(event);
+    const place = point === null ? null : nearestDestinationTarget(destinations, point);
+    hovered = place === null ? null : { from: destinations, place };
+  }
+
+  /** With a source picked, a click (or tap) picks the nearest place, else what was clicked. */
+  function onCanvasClick(event: MouseEvent): void {
+    if (!interactive) {
+      return;
+    }
+    const point = drawingPoint(event);
+    const nearest =
+      destinations === null || point === null
+        ? null
+        : nearestDestinationTarget(destinations, point);
+    const target = nearest?.target ?? targetUnder(event);
+    if (target !== null) {
+      hovered = null;
+      onPick(target);
     }
   }
+
+  // Pointer and click listeners on the drawing itself (not markup handlers: the drawing is a
+  // group, not a control; its controls are the pick targets).
+  $effect(() => {
+    const element = svgElement;
+    if (element === undefined) {
+      return undefined;
+    }
+    element.addEventListener("pointerdown", onPointerDown);
+    element.addEventListener("pointermove", onPointerMove);
+    element.addEventListener("click", onCanvasClick);
+    return () => {
+      element.removeEventListener("pointerdown", onPointerDown);
+      element.removeEventListener("pointermove", onPointerMove);
+      element.removeEventListener("click", onCanvasClick);
+    };
+  });
 
   function activate(event: KeyboardEvent, action: () => void): void {
     if (event.key === "Enter" || event.key === " ") {
@@ -100,17 +145,11 @@
       action();
     }
   }
-
-  /** Svelte action: focus the element when it appears, if `shouldFocus`. */
-  function focusOnMount(node: SVGGElement, shouldFocus: boolean): void {
-    if (shouldFocus) {
-      node.focus();
-    }
-  }
 </script>
 
 <!-- Drawn at the view box's own size (one bond = 56 px); site.css lets it shrink to fit. -->
 <svg
+  bind:this={svgElement}
   class="mol"
   {viewBox}
   width={drawing.viewBox.width}
@@ -241,8 +280,12 @@
           tabindex="0"
           aria-label={target.accessibleName}
           aria-pressed={target.pickTargetId === selectedTargetId}
+          data-target-id={target.pickTargetId}
           onclick={() => {
-            onPick(target);
+            // With a source picked, the canvas's own click listener picks the nearest place.
+            if (destinations === null) {
+              onPick(target);
+            }
           }}
           onkeydown={(event) => {
             activate(event, () => {
@@ -251,73 +294,60 @@
           }}
         />
       {/each}
-    </g>
-  {/if}
-
-  {#if choice !== null}
-    <g class="choice-badges" aria-hidden="true">
-      {#each choice.options as option, optionIndex (option.formerMapNumber)}
-        {@const point = badgePoints[optionIndex] ?? { x: 0, y: 0 }}
-        <g
-          class="choice-badge"
-          class:lit={optionIndex === litOptionIndex}
-          data-map-number={option.formerMapNumber}
-          transform={`translate(${String(point.x)} ${String(point.y)})`}
-        >
-          <circle r={BADGE_RADIUS} />
-          <text dominant-baseline="central" text-anchor="middle">{option.badge}</text>
-        </g>
-      {/each}
-    </g>
-  {/if}
-
-  {#if choice !== null && choiceOrigin !== null}
-    <g
-      class="choice-menu"
-      role="menu"
-      aria-label="Which atom forms the new bond?"
-      transform={choiceTransform}
-    >
-      <rect
-        class="panel"
-        x={-CHOICE_GAP}
-        y={-CHOICE_GAP}
-        width={CHOICE_OPTION_WIDTH + 2 * CHOICE_GAP}
-        height={choice.options.length * (CHOICE_OPTION_HEIGHT + CHOICE_GAP) + CHOICE_GAP}
-        rx="8"
-      />
-      {#each choice.options as option, optionIndex (optionIndex)}
-        <g
-          class="option"
-          role="menuitem"
+      {#each newBondPlaces as place (place.target.pickTargetId)}
+        <circle
+          class="hit new-bond-hit"
+          cx={place.target.center.x}
+          cy={place.target.center.y}
+          r={place.target.radius}
+          role="button"
           tabindex="0"
-          aria-label={option.accessibleName}
-          transform={`translate(0 ${String(optionIndex * (CHOICE_OPTION_HEIGHT + CHOICE_GAP))})`}
-          use:focusOnMount={optionIndex === 0}
-          onmouseenter={() => {
-            lightOption(optionIndex);
-          }}
-          onfocus={() => {
-            lightOption(optionIndex);
-          }}
-          onclick={() => {
-            onChoose(optionIndex);
-          }}
+          aria-label={place.target.accessibleName}
+          data-target-id={place.target.pickTargetId}
+          onclick={() => undefined}
           onkeydown={(event) => {
-            if (event.key === "Escape") {
-              onCancelChoice();
-            }
             activate(event, () => {
-              onChoose(optionIndex);
+              onPick(place.target);
             });
           }}
-        >
-          <rect width={CHOICE_OPTION_WIDTH} height={CHOICE_OPTION_HEIGHT} rx="6" />
-          <text x="10" y={CHOICE_OPTION_HEIGHT / 2} dominant-baseline="central">
-            {option.label}
-          </text>
-        </g>
+        />
       {/each}
+    </g>
+  {/if}
+
+  {#if destinations !== null}
+    <g aria-hidden="true">
+      {#if touchMode}
+        {#each newBondPlaces as place (place.target.pickTargetId)}
+          {#if place.newBondLine !== null}
+            <line
+              class="new-bond-line faint"
+              x1={place.newBondLine.start.x}
+              y1={place.newBondLine.start.y}
+              x2={place.newBondLine.end.x}
+              y2={place.newBondLine.end.y}
+            />
+          {/if}
+        {/each}
+      {/if}
+      {#if preview !== null}
+        {#if preview.newBondLine !== null}
+          <line
+            class="new-bond-line"
+            x1={preview.newBondLine.start.x}
+            y1={preview.newBondLine.start.y}
+            x2={preview.newBondLine.end.x}
+            y2={preview.newBondLine.end.y}
+          />
+        {/if}
+        <path
+          class="arrow preview"
+          d={preview.preview.pathData}
+          marker-end={preview.preview.electronsMoved === 2
+            ? "url(#arrowhead-pair)"
+            : "url(#arrowhead-fish-hook)"}
+        />
+      {/if}
     </g>
   {/if}
 

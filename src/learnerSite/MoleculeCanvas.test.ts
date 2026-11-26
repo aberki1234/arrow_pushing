@@ -1,11 +1,13 @@
 // @vitest-environment jsdom
 /**
- * Component test for MoleculeCanvas.svelte's "which atom forms the bond?" menu: the drawing shows
- * no map numbers, so each candidate atom carries a badge (① ②) that the menu names, and the
- * option hovered or focused lights its atom's badge.
+ * Component test for MoleculeCanvas.svelte's point and snap (docs/SPEC.md §3, item 10g): with a
+ * source picked, the possible new bonds are reachable by keyboard, drawn as faint dashed lines
+ * once the drawing is touched, and a click picks the place (here, from the element clicked:
+ * jsdom has no layout to measure the pointer against).
  */
 import { fireEvent, render, screen } from "@testing-library/svelte";
 import { expect, test } from "vitest";
+import type { PickTarget } from "../moleculeDrawing/stateDrawing.js";
 import type { TappedPlace } from "../stepSession/arrowPicking.js";
 import {
   checkArrows,
@@ -15,7 +17,7 @@ import {
 } from "../stepSession/stepSession.js";
 import { exampleSessionReaction } from "../testSupport/exampleSessions.js";
 import MoleculeCanvas from "./MoleculeCanvas.svelte";
-import { currentStateDrawing, destinationChoice, drawingScaleOf } from "./stepScreenView.js";
+import { currentStateDrawing, destinationsOf, drawingScaleOf } from "./stepScreenView.js";
 
 const atom = (mapNumber: number): TappedPlace => ({ placeKind: "atom", mapNumber });
 const lonePair = (mapNumber: number): TappedPlace => ({ placeKind: "lonePair", mapNumber });
@@ -24,55 +26,49 @@ const bond = (first: number, second: number): TappedPlace => ({
   mapNumbers: [first, second],
 });
 
-/** The aldol's C–C bond step with the C3=C5 π bond and C9 tapped: the menu is open. */
-function renderAldolChoice(): void {
+/** The aldol's C–C bond step with the C3=C5 π bond picked as the source. */
+function renderAldolWithSource(): PickTarget[] {
   let session = startStepSession(exampleSessionReaction("aldol-addition-base"));
   const firstStep = [lonePair(1), atom(4), bond(3, 4), atom(5), bond(5, 6), atom(6)];
   session = continueToNextState(
     continueToNextState(checkArrows(firstStep.reduce(tapPlace, session))),
   );
-  session = [bond(3, 5), atom(9)].reduce(tapPlace, session);
+  session = tapPlace(session, bond(3, 5));
+  const drawing = currentStateDrawing(session, drawingScaleOf(session.reaction));
+  const picked: PickTarget[] = [];
   render(MoleculeCanvas, {
     props: {
-      drawing: currentStateDrawing(session, drawingScaleOf(session.reaction)),
+      drawing,
       arrows: [],
       interactive: true,
-      selectedTargetId: null,
-      choice: destinationChoice(session),
-      onPick: () => undefined,
-      onChoose: () => undefined,
-      onCancelChoice: () => undefined,
+      selectedTargetId: "bond:3-5",
+      destinations: destinationsOf(session, drawing),
+      onPick: (target: PickTarget) => {
+        picked.push(target);
+      },
     },
   });
+  return picked;
 }
 
-test("each candidate atom carries the badge its menu option names", () => {
-  renderAldolChoice();
-  const badges = document.querySelectorAll(".choice-badge");
-  expect([...badges].map((badge) => badge.textContent.trim())).toEqual(["①", "②"]);
-  expect([...badges].map((badge) => badge.getAttribute("data-map-number"))).toEqual(["3", "5"]);
-  const options = screen.getAllByRole("menuitem");
-  expect(options.map((option) => option.textContent.trim())).toEqual([
-    "① forms the bond",
-    "② forms the bond",
-  ]);
-  expect(options[1]?.getAttribute("aria-label")).toBe("② (C5) forms the bond");
+test("a possible new bond is a keyboard target with its own name", async () => {
+  const picked = renderAldolWithSource();
+  const newBond = screen.getByRole("button", { name: "new bond C3–C9" });
+  await fireEvent.keyDown(newBond, { key: "Enter" });
+  expect(picked.map((target) => target.pickTargetId)).toEqual(["newBond:3-9"]);
 });
 
-test("hovering or focusing an option lights its atom's badge", async () => {
-  renderAldolChoice();
-  const [firstOption, secondOption] = screen.getAllByRole("menuitem");
-  const litBadges = (): string[] =>
-    [...document.querySelectorAll(".choice-badge.lit")].map(
-      (badge) => badge.getAttribute("data-map-number") ?? "",
-    );
-  // The first option has the focus when the menu opens.
-  expect(litBadges()).toEqual(["3"]);
-  if (secondOption === undefined || firstOption === undefined) {
-    throw new Error("the menu has two options");
-  }
-  await fireEvent.mouseEnter(secondOption);
-  expect(litBadges()).toEqual(["5"]);
-  await fireEvent.focus(firstOption);
-  expect(litBadges()).toEqual(["3"]);
+test("touching the drawing shows the new bonds as faint dashed lines", async () => {
+  renderAldolWithSource();
+  expect(document.querySelectorAll(".new-bond-line.faint")).toHaveLength(0);
+  const canvas = screen.getByRole("group");
+  await fireEvent.pointerDown(canvas, { pointerType: "touch" });
+  expect(document.querySelectorAll(".new-bond-line.faint").length).toBeGreaterThan(0);
+});
+
+test("a click on a place picks it", async () => {
+  const picked = renderAldolWithSource();
+  const newBond = screen.getByRole("button", { name: "new bond C3–C9" });
+  await fireEvent.click(newBond);
+  expect(picked.map((target) => target.pickTargetId)).toEqual(["newBond:3-9"]);
 });

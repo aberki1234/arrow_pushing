@@ -8,7 +8,6 @@
   import {
     type StepSession,
     cancelPick,
-    chooseDestination,
     ghostArrows,
     revealedArrows,
     revealsReactionClass,
@@ -21,7 +20,7 @@
   import {
     canvasInstruction,
     currentStateDrawing,
-    destinationChoice,
+    destinationsOf,
     drawingScaleOf,
     feedbackPanelText,
     tappedPlaceOf,
@@ -60,7 +59,7 @@
       arrowClass,
     })),
   ]);
-  const choice = $derived(destinationChoice(session));
+  const destinations = $derived(destinationsOf(session, drawing));
   // Only practice tags a radical reaction; daily and checkpoint leave radical or polar to the
   // learner (revealsReactionClass).
   const radical = $derived(
@@ -81,11 +80,6 @@
   function cancel(): void {
     pendingTargetId = null;
     update(cancelPick(session));
-  }
-
-  function choose(optionIndex: number): void {
-    pendingTargetId = null;
-    update(chooseDestination(session, optionIndex));
   }
 
   function onWindowKey(event: KeyboardEvent): void {
@@ -130,12 +124,10 @@
         <MoleculeCanvas
           {drawing}
           arrows={drawnArrows}
-          interactive={session.phase === "drawing" && choice === null}
+          interactive={session.phase === "drawing"}
           selectedTargetId={pendingTargetId}
-          {choice}
+          {destinations}
           onPick={pickTarget}
-          onChoose={choose}
-          onCancelChoice={cancel}
         />
         {#if drawing.caption}
           <p class="caption muted">{drawing.caption}</p>
