@@ -26,6 +26,7 @@
     message,
     signInNeeded = false,
     userId = null,
+    draftLimitApplies = true,
     signInProviders = ["github"],
     onNew,
     onOpen,
@@ -41,6 +42,8 @@
     signInNeeded?: boolean;
     /** The signed-in user (on the server), else null: every listed file is one's own. */
     userId?: string | null;
+    /** False for someone with no open-drafts limit (the owner: "keepUnlimitedDrafts"). */
+    draftLimitApplies?: boolean;
     signInProviders?: readonly SignInProvider[];
     onNew: () => void;
     onOpen: (fileName: string) => void;
@@ -156,7 +159,9 @@
       <span class="choice-title">New mechanism</span>
       <span class="muted">Paste the starting materials, then push arrows.</span>
       {#if userId !== null}
-        <span class="small muted">{openDraftsLine(files ?? [], userId)}</span>
+        <span class="small muted">
+          {openDraftsLine(files ?? [], userId, { draftLimitApplies })}
+        </span>
       {/if}
     </button>
     <section class="card bigchoice" aria-label="Improve a published one">

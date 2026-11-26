@@ -418,6 +418,7 @@
       message={homeMessage}
       {signInNeeded}
       userId={signedInUser?.userId ?? null}
+      draftLimitApplies={signedInUser?.siteActions.includes("keepUnlimitedDrafts") !== true}
       {signInProviders}
       onNew={() => {
         homeMessage = "";

@@ -243,6 +243,7 @@ describe("the session", () => {
         "publish",
         "review",
         "manageUsers",
+        "keepUnlimitedDrafts",
       ],
     });
     const signOutResponse = await application.request(`${TEST_BASE_URL}/api/auth/sign-out`, {

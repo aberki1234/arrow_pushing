@@ -71,6 +71,14 @@ async function expectRefusal(pending: Promise<unknown>, refusalCode: string): Pr
   expect((refusal as ReactionDatabaseError).refusalCode).toBe(refusalCode);
 }
 
+describe("the owner's drafts", () => {
+  it(`lets the owner keep more than ${String(MAXIMUM_OPEN_DRAFTS)} open drafts`, async () => {
+    for (let number = 1; number <= MAXIMUM_OPEN_DRAFTS + 1; number += 1) {
+      await saveDraft(database, draftNamed(`owner-draft-${String(number)}`), ownerUserId);
+    }
+  });
+});
+
 describe("a contributor's drafts", () => {
   it("saves a new reaction as its owner", async () => {
     expect(await saveDraft(database, draftNamed("pinacol"), contributorUserId)).toEqual({

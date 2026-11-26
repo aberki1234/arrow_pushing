@@ -4,7 +4,8 @@
  *
  * Site roles (the users table's site_role)
  *   owner        everything: the only one who publishes their own versions directly (without a
- *                review) and who manages users (the Users page).
+ *                review), who manages users (the Users page) and who may keep any number of open
+ *                drafts (keepUnlimitedDrafts; everyone else has MAXIMUM_OPEN_DRAFTS).
  *   reviewer     sees every reaction and reviews others' submissions, publishing them or
  *                requesting changes (never their own: submissions.ts); their own versions go
  *                through review like anyone's.
@@ -16,7 +17,13 @@
 import type { SiteRole } from "./databaseTables.js";
 
 export type SiteAction =
-  "createReactions" | "seeEveryReaction" | "submitForReview" | "publish" | "review" | "manageUsers";
+  | "createReactions"
+  | "seeEveryReaction"
+  | "submitForReview"
+  | "publish"
+  | "review"
+  | "manageUsers"
+  | "keepUnlimitedDrafts";
 
 export const SITE_ACTIONS: readonly SiteAction[] = [
   "createReactions",
@@ -25,6 +32,7 @@ export const SITE_ACTIONS: readonly SiteAction[] = [
   "publish",
   "review",
   "manageUsers",
+  "keepUnlimitedDrafts",
 ];
 
 const SITE_ROLE_TO_ACTIONS: Readonly<Record<SiteRole, readonly SiteAction[]>> = {

@@ -5,8 +5,9 @@
  * Rules
  *   - Your mechanisms: the reactions whose newest version the user wrote, and their own published
  *     ones. Someone else's published reaction is offered under "Improve a published one" only.
- *   - Open drafts (draft, in review, changes requested) count against the limit of 5
- *     (reactionDatabase/reactionVersions.ts MAXIMUM_OPEN_DRAFTS).
+ *   - Open drafts (draft, in review, changes requested) count against the limit of 20
+ *     (reactionDatabase/reactionVersions.ts MAXIMUM_OPEN_DRAFTS); the owner has no limit
+ *     ("keepUnlimitedDrafts"), so their line gives only the count.
  *   - Create's sub-navigation: Your mechanisms always; Review with "review"; Users with
  *     "manageUsers" (reactionDatabase/sitePermissions.ts).
  */
@@ -129,8 +130,15 @@ export function yourRowNote(file: ListedReactionFile, userId: string): string {
   return file.newestSubmissionStatus === "submitted" ? "editing takes it out of review" : "";
 }
 
-export function openDraftsLine(files: readonly ListedReactionFile[], userId: string): string {
+export function openDraftsLine(
+  files: readonly ListedReactionFile[],
+  userId: string,
+  { draftLimitApplies = true }: { readonly draftLimitApplies?: boolean } = {},
+): string {
   const openCount = files.filter((file) => isOwnVersion(file, userId) && isOpen(file)).length;
+  if (!draftLimitApplies) {
+    return `You have ${String(openCount)} open drafts.`;
+  }
   return `You have ${String(openCount)} of ${String(MAXIMUM_OPEN_DRAFTS)} open drafts.`;
 }
 

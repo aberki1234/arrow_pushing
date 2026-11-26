@@ -15,7 +15,8 @@
  *     may start the next version of a published reaction, and becomes an author of its document.
  *   - Saving a changed document over a submitted version takes it out of review (back to draft);
  *     saving the same document again (a late autosave) leaves it in review.
- *   - An author has at most MAXIMUM_OPEN_DRAFTS unpublished versions.
+ *   - An author has at most MAXIMUM_OPEN_DRAFTS unpublished versions; the owner has no limit
+ *     (sitePermissions.ts keepUnlimitedDrafts).
  *   - A blocked user saves and starts nothing.
  */
 import { sql } from "kysely";
@@ -141,11 +142,15 @@ async function existingReaction(
   return reaction;
 }
 
-/** Refusal too-many-open-drafts when the author already has MAXIMUM_OPEN_DRAFTS open versions. */
+/** Refusal too-many-open-drafts at MAXIMUM_OPEN_DRAFTS open versions (not keepUnlimitedDrafts). */
 async function requireRoomForOpenDraft(
   database: ReactionDatabase,
   authorUserId: string,
 ): Promise<void> {
+  const siteRole = await siteRoleOf(database, authorUserId);
+  if (siteRole !== undefined && mayPerform(siteRole, "keepUnlimitedDrafts")) {
+    return;
+  }
   const openCount = await database
     .selectFrom("arrowpush.reactionVersions")
     .select(sql<number>`count(*)::int`.as("openCount"))

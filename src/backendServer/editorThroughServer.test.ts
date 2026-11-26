@@ -83,6 +83,7 @@ describe("signing in", () => {
         "publish",
         "review",
         "manageUsers",
+        "keepUnlimitedDrafts",
       ],
     });
     expect(await serverReactionStore(browserFetch("")).signedInUser()).toBeNull();

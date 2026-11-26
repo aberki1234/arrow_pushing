@@ -175,3 +175,7 @@ describe("the open-draft limit", () => {
     expect(MAXIMUM_OPEN_DRAFTS).toBe(SERVER_LIMIT);
   });
 });
+
+it("gives only the count of open drafts to someone with no limit", () => {
+  expect(openDraftsLine(FILES, "me", { draftLimitApplies: false })).toBe("You have 3 open drafts.");
+});
