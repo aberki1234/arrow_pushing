@@ -109,7 +109,9 @@ learner-facing text.** Name atoms by role ("the carbonyl carbon", "the oxygen of
 `misconceptions` per state for the common wrong answers (arrow-pattern grammar in `docs/schema-design.md` §5.2;
 patterns may use map numbers, they are not shown) and `partialProgressMessages` for an obvious incomplete answer.
 `explanationAfterStep` on every step, `caption` on every state, `mechanismSummary`, a short `subtitle`, a
-`conditionsLabel` with real textbook conditions, `difficultyTier` 1–3, `dailyPuzzleEligible` true,
+`conditionsLabel` with real textbook conditions, `difficultyTier` 1–3, `dailyPuzzleEligible` (true only if some step
+forms or breaks a σ bond other than an acidic O/N/S/halogen–H bond; resonance drills and plain proton transfers are
+false: owner, 2026-11-26),
 `reactionClasses` from the schema's list. British spelling, plain words, short sentences.
 
 **Checks, all must pass before you report:** from the repository root, with

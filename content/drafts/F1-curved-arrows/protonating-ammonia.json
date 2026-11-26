@@ -10,7 +10,7 @@
   ],
   "difficultyTier": 1,
   "conditionsLabel": "NH₃(aq) + HCl(aq) · 25 °C",
-  "dailyPuzzleEligible": true,
+  "dailyPuzzleEligible": false,
   "atomRoleToMapNumbers": {},
   "spectatorMapNumbers": [
     4

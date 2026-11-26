@@ -10,7 +10,7 @@
   ],
   "difficultyTier": 1,
   "conditionsLabel": "NaOEt + H₂O · 25 °C",
-  "dailyPuzzleEligible": true,
+  "dailyPuzzleEligible": false,
   "atomRoleToMapNumbers": {},
   "spectatorMapNumbers": [
     4

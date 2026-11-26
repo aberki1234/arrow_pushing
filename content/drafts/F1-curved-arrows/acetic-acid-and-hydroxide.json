@@ -10,7 +10,7 @@
   ],
   "difficultyTier": 1,
   "conditionsLabel": "NaOH(aq) · 25 °C",
-  "dailyPuzzleEligible": true,
+  "dailyPuzzleEligible": false,
   "atomRoleToMapNumbers": {},
   "spectatorMapNumbers": [
     7

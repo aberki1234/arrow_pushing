@@ -10,7 +10,7 @@
   ],
   "difficultyTier": 1,
   "conditionsLabel": "HCl(g) + H₂O · 25 °C",
-  "dailyPuzzleEligible": true,
+  "dailyPuzzleEligible": false,
   "atomRoleToMapNumbers": {},
   "spectatorMapNumbers": [],
   "startStateId": "reactants",

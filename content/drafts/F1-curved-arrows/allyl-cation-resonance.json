@@ -10,7 +10,7 @@
   ],
   "difficultyTier": 1,
   "conditionsLabel": "resonance · no reagent",
-  "dailyPuzzleEligible": true,
+  "dailyPuzzleEligible": false,
   "atomRoleToMapNumbers": {},
   "spectatorMapNumbers": [
     4

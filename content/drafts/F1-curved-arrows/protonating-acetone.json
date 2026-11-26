@@ -11,7 +11,7 @@
   ],
   "difficultyTier": 2,
   "conditionsLabel": "H₃O⁺ (dilute HCl) · 25 °C",
-  "dailyPuzzleEligible": true,
+  "dailyPuzzleEligible": false,
   "atomRoleToMapNumbers": {},
   "spectatorMapNumbers": [
     7
