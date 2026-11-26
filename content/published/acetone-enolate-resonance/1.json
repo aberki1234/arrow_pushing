@@ -1,0 +1,135 @@
+{
+  "steps": [
+    {
+      "stepKey": "resonance",
+      "stepKind": "polar",
+      "toStateId": "oxyanion",
+      "fromStateId": "carbanion",
+      "canonicalArrows": [
+        "lp C4 -> π C2-C4",
+        "π C2-O3 -> lp O3"
+      ],
+      "routePreference": "preferred",
+      "explanationAfterStep": "Oxygen is more electronegative than carbon, so this form, with the charge on oxygen, is the major contributor. No atom has moved: this is not the enol, which has a hydrogen on oxygen. With most carbon electrophiles the enolate still reacts at carbon."
+    }
+  ],
+  "title": "Enolate resonance",
+  "authors": [
+    {
+      "url": null,
+      "name": "Maksim"
+    }
+  ],
+  "licence": "CC-BY-SA-4.0",
+  "subtitle": "The enolate of acetone: carbanion and oxyanion forms",
+  "references": [
+    "Clayden, Greeves and Warren, Organic Chemistry, 2nd edition (Oxford University Press), chapter 7 (Delocalization and conjugation)"
+  ],
+  "reactionSlug": "acetone-enolate-resonance",
+  "startStateId": "carbanion",
+  "formatVersion": 1,
+  "difficultyTier": 2,
+  "stateIdToState": {
+    "oxyanion": {
+      "caption": "sodium enolate of acetone, drawn as an oxyanion",
+      "mappedSmiles": "[CH3:1][C:2]([O-:3])=[CH2:4].[Na+:5]",
+      "mapNumberToCoordinates": {
+        "1": [
+          0,
+          0
+        ],
+        "2": [
+          1.3,
+          0.75
+        ],
+        "3": [
+          1.3,
+          2.25
+        ],
+        "4": [
+          2.6,
+          0
+        ],
+        "5": [
+          -0.3,
+          3.84
+        ]
+      }
+    },
+    "carbanion": {
+      "caption": "sodium enolate of acetone, drawn as a carbanion",
+      "hintTiers": [
+        "The negative carbon sits next to a C=O group. Where can its lone pair go?",
+        "The carbon lone pair makes a C=C π bond. The central carbon cannot have five bonds, so the C=O π bond moves onto oxygen. Two arrows.",
+        "Arrow 1: the lone pair of the negative carbon into its bond to the carbonyl carbon. Arrow 2: the C=O π bond onto oxygen."
+      ],
+      "mappedSmiles": "[CH3:1][C:2](=[O:3])[CH2-:4].[Na+:5]",
+      "learnerPrompt": "Draw the resonance form with the negative charge on oxygen. Move only lone pairs and π bonds.",
+      "misconceptions": [
+        {
+          "severity": "wrong",
+          "arrowPattern": "σ *-* -> *",
+          "feedbackMessage": "Resonance arrows never break or make σ bonds: the atoms stay exactly where they are. Move only lone pairs and π bonds.",
+          "misconceptionId": "break-sigma-bond",
+          "misconceptionTag": "resonance-moves-atoms"
+        },
+        {
+          "severity": "wrong",
+          "arrowPattern": "lp O3 -> π C2-O3",
+          "feedbackMessage": "The oxygen lone pair pushing in would give the carbonyl carbon five bonds, and oxygen has nothing to push towards. The electrons flow from the negative carbon towards oxygen.",
+          "misconceptionId": "oxygen-pushes-in",
+          "misconceptionTag": "electrons-from-wrong-end"
+        },
+        {
+          "severity": "wrong",
+          "arrowPattern": "π C2-O3 -> lp C2",
+          "feedbackMessage": "The π pair moves towards oxygen, the more electronegative atom, not onto carbon.",
+          "misconceptionId": "pi-pair-onto-carbon",
+          "misconceptionTag": "electrons-to-less-electronegative-atom"
+        }
+      ],
+      "mapNumberToCoordinates": {
+        "1": [
+          0,
+          0
+        ],
+        "2": [
+          1.3,
+          0.75
+        ],
+        "3": [
+          1.3,
+          2.25
+        ],
+        "4": [
+          2.6,
+          0
+        ],
+        "5": [
+          -0.3,
+          3.84
+        ]
+      },
+      "partialProgressMessages": [
+        {
+          "learnerArrows": [
+            "lp C4 -> π C2-C4"
+          ],
+          "feedbackMessage": "The C=C π bond is right, but the carbonyl carbon now has five bonds. Push the C=O π bond onto oxygen at the same time."
+        }
+      ]
+    }
+  },
+  "conditionsLabel": "resonance · no reagent",
+  "reactionClasses": [
+    "acid-base"
+  ],
+  "reactionVersion": 1,
+  "mechanismSummary": "The carbanion lone pair forms a C=C π bond, and the C=O π bond moves onto oxygen. The form with the charge on oxygen is the major contributor, but both describe one ion, which reacts at carbon or at oxygen.",
+  "dailyPuzzleEligible": false,
+  "spectatorMapNumbers": [
+    5
+  ],
+  "atomRoleToMapNumbers": {},
+  "previousReactionVersion": null
+}
