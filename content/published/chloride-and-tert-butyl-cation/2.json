@@ -1,0 +1,110 @@
+{
+  "steps": [
+    {
+      "stepKey": "bond-formation",
+      "stepKind": "polar",
+      "toStateId": "product",
+      "fromStateId": "reactants",
+      "canonicalArrows": [
+        "lp Cl1 -> σ Cl1-C2"
+      ],
+      "routePreference": "preferred",
+      "explanationAfterStep": "The arrow runs from the negative chloride to the positive carbon. Chlorine loses its negative charge because it now shares one of its pairs; carbon loses its positive charge because it now has four bonds and a full octet. This is the last step when tert-butanol reacts with concentrated HCl."
+    }
+  ],
+  "title": "Chloride and the tert-butyl cation",
+  "authors": [
+    {
+      "url": null,
+      "name": "Maksim"
+    }
+  ],
+  "licence": "CC-BY-SA-4.0",
+  "subtitle": "An anion meets a cation: one arrow makes the C–Cl bond",
+  "references": [
+    "Clayden, Greeves and Warren, Organic Chemistry, 2nd edition (Oxford University Press), chapter 5 (Organic reactions)"
+  ],
+  "reactionSlug": "chloride-and-tert-butyl-cation",
+  "startStateId": "reactants",
+  "formatVersion": 1,
+  "difficultyTier": 1,
+  "stateIdToState": {
+    "product": {
+      "caption": "tert-butyl chloride",
+      "mappedSmiles": "[Cl:1][C:2]([CH3:3])([CH3:4])[CH3:5]",
+      "mapNumberToCoordinates": {
+        "1": [
+          0.55,
+          2.05
+        ],
+        "2": [
+          1.3,
+          0.75
+        ],
+        "3": [
+          0,
+          0
+        ],
+        "4": [
+          2.6,
+          1.5
+        ],
+        "5": [
+          2.05,
+          -0.55
+        ]
+      }
+    },
+    "reactants": {
+      "caption": "chloride + tert-butyl cation",
+      "hintTiers": [
+        "Which species has electrons to give, and which carbon is short of electrons?",
+        "The positive carbon has only three bonds and an empty p orbital. One arrow, and no bond breaks.",
+        "One arrow: a lone pair of chloride to the positively charged central carbon, making a new C–Cl bond."
+      ],
+      "mappedSmiles": "[Cl-:1].[C+:2]([CH3:3])([CH3:4])[CH3:5]",
+      "learnerPrompt": "Join chloride to the tert-butyl cation.",
+      "misconceptions": [
+        {
+          "severity": "wrong",
+          "arrowPattern": "lp Cl1 -> σ Cl1-C3",
+          "feedbackMessage": "That methyl carbon already has four bonds; a fifth would give it ten electrons. The electron-poor carbon is the central one, carrying the positive charge.",
+          "misconceptionId": "attack-methyl-carbon",
+          "misconceptionTag": "attack-saturated-atom"
+        }
+      ],
+      "mapNumberToCoordinates": {
+        "1": [
+          0,
+          3.25
+        ],
+        "2": [
+          1.6,
+          0.16
+        ],
+        "3": [
+          0.3,
+          -0.59
+        ],
+        "4": [
+          2.9,
+          -0.59
+        ],
+        "5": [
+          1.6,
+          1.66
+        ]
+      }
+    }
+  },
+  "conditionsLabel": "conc. HCl · 25 °C",
+  "reactionClasses": [
+    "acid-base"
+  ],
+  "reactionVersion": 2,
+  "mechanismSummary": "A lone pair of chloride, the source, forms a bond to the positively charged carbon of the tert-butyl cation, which has only six electrons. Both charges disappear: tert-butyl chloride is neutral.",
+  "dailyPuzzleEligible": true,
+  "spectatorMapNumbers": [],
+  "atomRoleToMapNumbers": {},
+  "previousReactionVersion": 1
+}
