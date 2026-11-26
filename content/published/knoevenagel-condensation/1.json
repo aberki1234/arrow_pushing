@@ -1,0 +1,994 @@
+{
+  "steps": [
+    {
+      "stepKey": "enolate-formation",
+      "stepKind": "polar",
+      "toStateId": "enolate",
+      "fromStateId": "reactants",
+      "canonicalArrows": [
+        "lp N22 -> σ N22-H12",
+        "σ C1-H12 -> π C1-C2",
+        "π C2-O3 -> lp O3"
+      ],
+      "routePreference": "preferred",
+      "explanationAfterStep": "Two ester groups share the negative charge, so a weak amine base is enough. Benzaldehyde has no α-hydrogens, so it cannot enolise and condense with itself."
+    },
+    {
+      "stepKey": "carbon-carbon-bond-formation",
+      "stepKind": "polar",
+      "toStateId": "alkoxide",
+      "fromStateId": "enolate",
+      "canonicalArrows": [
+        "lp O3 -> π C2-O3",
+        "π C1-C2 -> σ C1-C14",
+        "π C14-O15 -> lp O15"
+      ],
+      "routePreference": "preferred",
+      "explanationAfterStep": "An aldol-type addition: the stabilised enolate adds to the aldehyde."
+    },
+    {
+      "stepKey": "alkoxide-protonation",
+      "stepKind": "polar",
+      "toStateId": "aldol",
+      "fromStateId": "alkoxide",
+      "canonicalArrows": [
+        "lp O15 -> σ O15-H12",
+        "σ N22-H12 -> lp N22"
+      ],
+      "routePreference": "preferred",
+      "explanationAfterStep": "The piperidinium ion gives back its proton: piperidine is a catalyst."
+    },
+    {
+      "stepKey": "second-deprotonation",
+      "stepKind": "polar",
+      "toStateId": "second-enolate",
+      "fromStateId": "aldol",
+      "canonicalArrows": [
+        "lp N22 -> σ N22-H13",
+        "σ C1-H13 -> π C1-C2",
+        "π C2-O3 -> lp O3"
+      ],
+      "routePreference": "preferred",
+      "explanationAfterStep": "The central C–H is still flanked by two esters, so piperidine removes it easily."
+    },
+    {
+      "stepKey": "loss-of-hydroxide",
+      "stepKind": "polar",
+      "toStateId": "products",
+      "fromStateId": "second-enolate",
+      "canonicalArrows": [
+        "lp O3 -> π C2-O3",
+        "π C1-C2 -> π C1-C14",
+        "σ C14-O15 -> lp O15"
+      ],
+      "routePreference": "preferred",
+      "explanationAfterStep": "E1cB: the enolate pushes out hydroxide. The new C=C is conjugated with both esters and the ring, which drives the dehydration. Hydroxide then takes a proton from the piperidinium ion, giving water and piperidine back."
+    }
+  ],
+  "title": "Knoevenagel condensation",
+  "authors": [
+    {
+      "url": null,
+      "name": "Maksim"
+    }
+  ],
+  "licence": "CC-BY-SA-4.0",
+  "subtitle": "Diethyl malonate and benzaldehyde condense with a piperidine catalyst",
+  "references": [
+    "Clayden, Greeves and Warren, Organic Chemistry, 2nd edition (Oxford University Press), chapter 26"
+  ],
+  "reactionSlug": "knoevenagel-condensation",
+  "startStateId": "reactants",
+  "formatVersion": 1,
+  "difficultyTier": 3,
+  "stateIdToState": {
+    "aldol": {
+      "caption": "the aldol product + piperidine",
+      "hintTiers": [
+        "The central carbon still has one hydrogen between two C=O groups.",
+        "Piperidine takes the drawn hydrogen on the central carbon. The C–H pair forms a C=C bond to one ester carbon, and that C=O π pair moves onto oxygen. Three arrows.",
+        "Nitrogen lone pair → new bond to the drawn hydrogen; that C–H bond → a π bond to one ester carbonyl carbon; that C=O π bond → a lone pair on its oxygen."
+      ],
+      "mappedSmiles": "[CH3:6][CH2:5][O:4][C:2](=[O:3])[C:1]([H:13])([C:7](=[O:8])[O:9][CH2:10][CH3:11])[CH:14]([O:15][H:12])[C:16]1=[CH:17][CH:18]=[CH:19][CH:20]=[CH:21]1.[H:28][N:22]1[CH2:23][CH2:24][CH2:25][CH2:26][CH2:27]1",
+      "learnerPrompt": "Piperidine removes the remaining acidic proton.",
+      "misconceptions": [
+        {
+          "severity": "wrong",
+          "arrowPattern": "σ C14-O15 -> lp O15",
+          "feedbackMessage": "Hydroxide will not leave on its own from a neutral molecule. Form the enolate first: its electrons push hydroxide out (E1cB).",
+          "misconceptionId": "hydroxide-leaves",
+          "misconceptionTag": "poor-leaving-group"
+        },
+        {
+          "severity": "wrong",
+          "arrowPattern": "σ C1-H13 -> π C1-C14",
+          "feedbackMessage": "Hydroxide is too poor a leaving group for a concerted E2. Form the enolate first.",
+          "misconceptionId": "e2-concerted",
+          "misconceptionTag": "e2-instead-of-e1cb"
+        }
+      ],
+      "mapNumberToCoordinates": {
+        "1": [
+          3.75,
+          -1.3
+        ],
+        "2": [
+          2.45,
+          -2.05
+        ],
+        "3": [
+          2.45,
+          -3.55
+        ],
+        "4": [
+          1.15,
+          -1.3
+        ],
+        "5": [
+          -0.15,
+          -2.05
+        ],
+        "6": [
+          -1.45,
+          -1.3
+        ],
+        "7": [
+          4.5,
+          -2.6
+        ],
+        "8": [
+          3.75,
+          -3.9
+        ],
+        "9": [
+          6,
+          -2.6
+        ],
+        "10": [
+          6.75,
+          -3.9
+        ],
+        "11": [
+          8.25,
+          -3.9
+        ],
+        "12": [
+          0.75,
+          1.3
+        ],
+        "13": [
+          5.05,
+          -0.55
+        ],
+        "14": [
+          3,
+          0
+        ],
+        "15": [
+          1.5,
+          0
+        ],
+        "16": [
+          3.75,
+          1.3
+        ],
+        "17": [
+          3,
+          2.6
+        ],
+        "18": [
+          3.75,
+          3.9
+        ],
+        "19": [
+          5.25,
+          3.9
+        ],
+        "20": [
+          6,
+          2.6
+        ],
+        "21": [
+          5.25,
+          1.3
+        ],
+        "22": [
+          1.5,
+          6.2
+        ],
+        "23": [
+          0.75,
+          7.5
+        ],
+        "24": [
+          -0.75,
+          7.5
+        ],
+        "25": [
+          -1.5,
+          6.2
+        ],
+        "26": [
+          -0.75,
+          4.9
+        ],
+        "27": [
+          0.75,
+          4.9
+        ],
+        "28": [
+          3,
+          6.2
+        ]
+      },
+      "partialProgressMessages": [
+        {
+          "learnerArrows": [
+            "lp N22 -> σ N22-H13",
+            "σ C1-H13 -> π C1-C2"
+          ],
+          "feedbackMessage": "Good: piperidine takes the proton and a C=C bond forms. Now move that C=O π pair onto oxygen."
+        }
+      ]
+    },
+    "enolate": {
+      "caption": "malonate enolate + benzaldehyde + piperidinium ion",
+      "hintTiers": [
+        "Which carbon of benzaldehyde is electron-poor?",
+        "The O⁻ lone pair re-forms C=O, the C=C π pair forms a new C–C bond to the aldehyde carbon, and the aldehyde C=O π pair moves onto oxygen. Three arrows.",
+        "Enolate O⁻ lone pair → C=O π bond; C=C π bond → new C–C bond to the aldehyde carbon; aldehyde C=O π bond → a lone pair on its oxygen."
+      ],
+      "mappedSmiles": "[CH3:6][CH2:5][O:4][C:2]([O-:3])=[C:1]([H:13])[C:7](=[O:8])[O:9][CH2:10][CH3:11].[O:15]=[CH:14][C:16]1=[CH:17][CH:18]=[CH:19][CH:20]=[CH:21]1.[H:28][N+:22]1([H:12])[CH2:23][CH2:24][CH2:25][CH2:26][CH2:27]1",
+      "learnerPrompt": "The enolate attacks the aldehyde.",
+      "misconceptions": [
+        {
+          "severity": "plausible",
+          "arrowPattern": "lp O3 -> C14",
+          "feedbackMessage": "O-attack is reversible and gets nowhere. Make the C–C bond: attack with the central carbon.",
+          "misconceptionId": "oxygen-attacks",
+          "misconceptionTag": "ambident-wrong-end"
+        },
+        {
+          "severity": "wrong",
+          "arrowPattern": "π C1-C2 -> O15",
+          "feedbackMessage": "The carbonyl oxygen is electron-rich. Attack the aldehyde carbon.",
+          "misconceptionId": "attack-aldehyde-oxygen",
+          "misconceptionTag": "attack-electron-rich-atom"
+        }
+      ],
+      "mapNumberToCoordinates": {
+        "1": [
+          9.95,
+          0
+        ],
+        "2": [
+          8.65,
+          0.75
+        ],
+        "3": [
+          8.65,
+          2.25
+        ],
+        "4": [
+          7.35,
+          0
+        ],
+        "5": [
+          6.05,
+          0.75
+        ],
+        "6": [
+          4.75,
+          0
+        ],
+        "7": [
+          9.95,
+          -1.5
+        ],
+        "8": [
+          11.25,
+          -2.25
+        ],
+        "9": [
+          8.65,
+          -2.25
+        ],
+        "10": [
+          8.65,
+          -3.75
+        ],
+        "11": [
+          7.35,
+          -4.5
+        ],
+        "12": [
+          2.83,
+          5.88
+        ],
+        "13": [
+          11.25,
+          0.75
+        ],
+        "14": [
+          2.06,
+          0.08
+        ],
+        "15": [
+          2.81,
+          -1.22
+        ],
+        "16": [
+          0.56,
+          0.08
+        ],
+        "17": [
+          -0.19,
+          1.38
+        ],
+        "18": [
+          -1.69,
+          1.38
+        ],
+        "19": [
+          -2.44,
+          0.08
+        ],
+        "20": [
+          -1.69,
+          -1.22
+        ],
+        "21": [
+          -0.19,
+          -1.22
+        ],
+        "22": [
+          1.68,
+          4.92
+        ],
+        "23": [
+          0.93,
+          6.22
+        ],
+        "24": [
+          -0.57,
+          6.22
+        ],
+        "25": [
+          -1.32,
+          4.92
+        ],
+        "26": [
+          -0.57,
+          3.62
+        ],
+        "27": [
+          0.93,
+          3.62
+        ],
+        "28": [
+          2.83,
+          3.95
+        ]
+      },
+      "partialProgressMessages": [
+        {
+          "learnerArrows": [
+            "π C1-C2 -> σ C1-C14",
+            "π C14-O15 -> lp O15"
+          ],
+          "feedbackMessage": "Right bonds, but this leaves a positive carbon next to O⁻ on the ester. Push the O⁻ lone pair in to re-form C=O."
+        }
+      ]
+    },
+    "alkoxide": {
+      "caption": "alkoxide + piperidinium ion",
+      "hintTiers": [
+        "The alkoxide is a base. Which species in the flask is an acid?",
+        "The O⁻ lone pair takes a proton from the piperidinium ion, and the N–H pair stays on nitrogen. Two arrows.",
+        "Alkoxide lone pair → new O–H bond to a proton on the piperidinium nitrogen; that N–H bond → a lone pair on nitrogen."
+      ],
+      "mappedSmiles": "[CH3:6][CH2:5][O:4][C:2](=[O:3])[C:1]([H:13])([C:7](=[O:8])[O:9][CH2:10][CH3:11])[CH:14]([O-:15])[C:16]1=[CH:17][CH:18]=[CH:19][CH:20]=[CH:21]1.[H:28][N+:22]1([H:12])[CH2:23][CH2:24][CH2:25][CH2:26][CH2:27]1",
+      "learnerPrompt": "Protonate the alkoxide.",
+      "misconceptions": [
+        {
+          "severity": "wrong",
+          "arrowPattern": "σ C14-O15 -> lp O15",
+          "feedbackMessage": "O²⁻ cannot leave. Protonate the alkoxide first.",
+          "misconceptionId": "hydroxide-leaves-now",
+          "misconceptionTag": "poor-leaving-group"
+        },
+        {
+          "severity": "plausible",
+          "arrowPattern": "σ C1-C14 -> *",
+          "feedbackMessage": "Breaking the new C–C bond reverses the addition. Protonate the alkoxide instead.",
+          "misconceptionId": "new-bond-breaks",
+          "misconceptionTag": "reverse-step"
+        }
+      ],
+      "mapNumberToCoordinates": {
+        "1": [
+          3.75,
+          -1.3
+        ],
+        "2": [
+          2.45,
+          -2.05
+        ],
+        "3": [
+          2.45,
+          -3.55
+        ],
+        "4": [
+          1.15,
+          -1.3
+        ],
+        "5": [
+          -0.15,
+          -2.05
+        ],
+        "6": [
+          -1.45,
+          -1.3
+        ],
+        "7": [
+          4.5,
+          -2.6
+        ],
+        "8": [
+          3.75,
+          -3.9
+        ],
+        "9": [
+          6,
+          -2.6
+        ],
+        "10": [
+          6.75,
+          -3.9
+        ],
+        "11": [
+          8.25,
+          -3.9
+        ],
+        "12": [
+          2.42,
+          7.68
+        ],
+        "13": [
+          5.05,
+          -0.55
+        ],
+        "14": [
+          3,
+          0
+        ],
+        "15": [
+          1.5,
+          0
+        ],
+        "16": [
+          3.75,
+          1.3
+        ],
+        "17": [
+          3,
+          2.6
+        ],
+        "18": [
+          3.75,
+          3.9
+        ],
+        "19": [
+          5.25,
+          3.9
+        ],
+        "20": [
+          6,
+          2.6
+        ],
+        "21": [
+          5.25,
+          1.3
+        ],
+        "22": [
+          1.27,
+          6.72
+        ],
+        "23": [
+          0.52,
+          8.02
+        ],
+        "24": [
+          -0.98,
+          8.02
+        ],
+        "25": [
+          -1.73,
+          6.72
+        ],
+        "26": [
+          -0.98,
+          5.42
+        ],
+        "27": [
+          0.52,
+          5.42
+        ],
+        "28": [
+          2.42,
+          5.75
+        ]
+      },
+      "partialProgressMessages": [
+        {
+          "learnerArrows": [
+            "lp O15 -> σ O15-H12"
+          ],
+          "feedbackMessage": "Good: the alkoxide takes a proton from the piperidinium ion. Where does the N–H bonding pair go?"
+        }
+      ]
+    },
+    "products": {
+      "caption": "diethyl benzylidenemalonate + hydroxide + piperidinium ion",
+      "mappedSmiles": "[CH3:6][CH2:5][O:4][C:2](=[O:3])[C:1]([C:7](=[O:8])[O:9][CH2:10][CH3:11])=[CH:14][C:16]1=[CH:17][CH:18]=[CH:19][CH:20]=[CH:21]1.[H:12][O-:15].[H:28][N+:22]1([H:13])[CH2:23][CH2:24][CH2:25][CH2:26][CH2:27]1",
+      "mapNumberToCoordinates": {
+        "1": [
+          3.75,
+          -1.3
+        ],
+        "2": [
+          5.25,
+          -1.3
+        ],
+        "3": [
+          6,
+          -2.6
+        ],
+        "4": [
+          6,
+          0
+        ],
+        "5": [
+          7.5,
+          0
+        ],
+        "6": [
+          8.25,
+          1.3
+        ],
+        "7": [
+          3,
+          -2.6
+        ],
+        "8": [
+          3.75,
+          -3.9
+        ],
+        "9": [
+          1.5,
+          -2.6
+        ],
+        "10": [
+          0.75,
+          -3.9
+        ],
+        "11": [
+          -0.75,
+          -3.9
+        ],
+        "12": [
+          1.3,
+          6.65
+        ],
+        "13": [
+          -2.2,
+          5.01
+        ],
+        "14": [
+          3,
+          0
+        ],
+        "15": [
+          0,
+          5.9
+        ],
+        "16": [
+          1.5,
+          0
+        ],
+        "17": [
+          0.75,
+          1.3
+        ],
+        "18": [
+          -0.75,
+          1.3
+        ],
+        "19": [
+          -1.5,
+          0
+        ],
+        "20": [
+          -0.75,
+          -1.3
+        ],
+        "21": [
+          0.75,
+          -1.3
+        ],
+        "22": [
+          -3.35,
+          4.04
+        ],
+        "23": [
+          -4.1,
+          5.34
+        ],
+        "24": [
+          -5.6,
+          5.34
+        ],
+        "25": [
+          -6.35,
+          4.04
+        ],
+        "26": [
+          -5.6,
+          2.74
+        ],
+        "27": [
+          -4.1,
+          2.74
+        ],
+        "28": [
+          -2.2,
+          3.08
+        ]
+      }
+    },
+    "reactants": {
+      "caption": "diethyl malonate + benzaldehyde + piperidine",
+      "hintTiers": [
+        "Piperidine (pKa of its ammonium ion about 11) cannot deprotonate an ordinary ketone or ester. A C–H between two C=O groups is far more acidic (pKa about 13).",
+        "Piperidine takes a drawn hydrogen on the CH₂ between the two ester groups. The C–H pair forms a C=C bond to one carbonyl carbon, and that C=O π pair moves onto oxygen. Three arrows.",
+        "Nitrogen lone pair → new bond to a drawn hydrogen; that C–H bond → a π bond to one ester carbonyl carbon; that C=O π bond → a lone pair on its oxygen."
+      ],
+      "mappedSmiles": "[CH3:6][CH2:5][O:4][C:2](=[O:3])[C:1]([H:12])([H:13])[C:7](=[O:8])[O:9][CH2:10][CH3:11].[O:15]=[CH:14][C:16]1=[CH:17][CH:18]=[CH:19][CH:20]=[CH:21]1.[H:28][N:22]1[CH2:23][CH2:24][CH2:25][CH2:26][CH2:27]1",
+      "learnerPrompt": "Piperidine is a weak base. Which proton can it remove?",
+      "misconceptions": [
+        {
+          "severity": "plausible",
+          "arrowPattern": "lp N22 -> C14",
+          "feedbackMessage": "Piperidine can add to the aldehyde (and may help as an iminium catalyst), but the textbook mechanism starts with piperidine as a base on the malonate.",
+          "misconceptionId": "amine-adds-to-aldehyde",
+          "misconceptionTag": "unproductive-addition"
+        }
+      ],
+      "mapNumberToCoordinates": {
+        "1": [
+          9.95,
+          0
+        ],
+        "2": [
+          8.65,
+          0.75
+        ],
+        "3": [
+          8.65,
+          2.25
+        ],
+        "4": [
+          7.35,
+          0
+        ],
+        "5": [
+          6.05,
+          0.75
+        ],
+        "6": [
+          4.75,
+          0
+        ],
+        "7": [
+          11.25,
+          -0.75
+        ],
+        "8": [
+          11.25,
+          -2.25
+        ],
+        "9": [
+          12.54,
+          0
+        ],
+        "10": [
+          13.84,
+          -0.75
+        ],
+        "11": [
+          15.14,
+          0
+        ],
+        "12": [
+          9.2,
+          -1.3
+        ],
+        "13": [
+          10.7,
+          1.3
+        ],
+        "14": [
+          2.16,
+          -0.02
+        ],
+        "15": [
+          2.91,
+          -1.31
+        ],
+        "16": [
+          0.66,
+          -0.02
+        ],
+        "17": [
+          -0.09,
+          1.28
+        ],
+        "18": [
+          -1.59,
+          1.28
+        ],
+        "19": [
+          -2.34,
+          -0.02
+        ],
+        "20": [
+          -1.59,
+          -1.31
+        ],
+        "21": [
+          -0.09,
+          -1.31
+        ],
+        "22": [
+          1.58,
+          4.8
+        ],
+        "23": [
+          0.83,
+          6.1
+        ],
+        "24": [
+          -0.67,
+          6.1
+        ],
+        "25": [
+          -1.42,
+          4.8
+        ],
+        "26": [
+          -0.67,
+          3.5
+        ],
+        "27": [
+          0.83,
+          3.5
+        ],
+        "28": [
+          3.08,
+          4.8
+        ]
+      },
+      "partialProgressMessages": [
+        {
+          "learnerArrows": [
+            "lp N22 -> σ N22-H12",
+            "σ C1-H12 -> π C1-C2"
+          ],
+          "feedbackMessage": "Good: piperidine takes the proton and a C=C bond forms. Now move that C=O π pair onto oxygen."
+        }
+      ]
+    },
+    "second-enolate": {
+      "caption": "enolate + piperidinium ion",
+      "hintTiers": [
+        "Electrons from the enolate oxygen can flow along the C=C bond towards the carbon carrying the OH.",
+        "The O⁻ lone pair re-forms C=O, the C=C π pair moves one bond along to the carbon carrying OH, and the C–OH bond breaks onto oxygen. Three arrows.",
+        "Enolate O⁻ lone pair → C=O π bond; C=C π bond → a π bond to the carbon carrying OH; C–OH bond → a lone pair on that oxygen."
+      ],
+      "mappedSmiles": "[CH3:6][CH2:5][O:4][C:2]([O-:3])=[C:1]([C:7](=[O:8])[O:9][CH2:10][CH3:11])[CH:14]([O:15][H:12])[C:16]1=[CH:17][CH:18]=[CH:19][CH:20]=[CH:21]1.[H:28][N+:22]1([H:13])[CH2:23][CH2:24][CH2:25][CH2:26][CH2:27]1",
+      "learnerPrompt": "The enolate pushes out hydroxide.",
+      "misconceptions": [
+        {
+          "severity": "plausible",
+          "arrowPattern": "* -> σ C1-H13",
+          "feedbackMessage": "Taking the proton back reverses the last step. Let the enolate push hydroxide out instead.",
+          "misconceptionId": "enolate-reprotonated",
+          "misconceptionTag": "reverse-step"
+        },
+        {
+          "severity": "wrong",
+          "arrowPattern": "lp O3 -> σ O3-C14",
+          "feedbackMessage": "That would make a strained ring. The enolate's electrons flow along the C=C bond to push hydroxide out.",
+          "misconceptionId": "enolate-attacks-oxygen",
+          "misconceptionTag": "wrong-nucleophile-site"
+        }
+      ],
+      "mapNumberToCoordinates": {
+        "1": [
+          3.75,
+          -1.3
+        ],
+        "2": [
+          5.25,
+          -1.3
+        ],
+        "3": [
+          6,
+          -2.6
+        ],
+        "4": [
+          6,
+          0
+        ],
+        "5": [
+          7.5,
+          0
+        ],
+        "6": [
+          8.25,
+          1.3
+        ],
+        "7": [
+          3,
+          -2.6
+        ],
+        "8": [
+          3.75,
+          -3.9
+        ],
+        "9": [
+          1.5,
+          -2.6
+        ],
+        "10": [
+          0.75,
+          -3.9
+        ],
+        "11": [
+          -0.75,
+          -3.9
+        ],
+        "12": [
+          5.25,
+          1.3
+        ],
+        "13": [
+          2.06,
+          5.78
+        ],
+        "14": [
+          3,
+          0
+        ],
+        "15": [
+          3.75,
+          1.3
+        ],
+        "16": [
+          1.5,
+          0
+        ],
+        "17": [
+          0.75,
+          1.3
+        ],
+        "18": [
+          -0.75,
+          1.3
+        ],
+        "19": [
+          -1.5,
+          0
+        ],
+        "20": [
+          -0.75,
+          -1.3
+        ],
+        "21": [
+          0.75,
+          -1.3
+        ],
+        "22": [
+          0.91,
+          4.82
+        ],
+        "23": [
+          0.16,
+          6.12
+        ],
+        "24": [
+          -1.34,
+          6.12
+        ],
+        "25": [
+          -2.09,
+          4.82
+        ],
+        "26": [
+          -1.34,
+          3.52
+        ],
+        "27": [
+          0.16,
+          3.52
+        ],
+        "28": [
+          2.06,
+          3.86
+        ]
+      },
+      "partialProgressMessages": [
+        {
+          "learnerArrows": [
+            "σ C14-O15 -> lp O15"
+          ],
+          "feedbackMessage": "Hydroxide does leave here, but only because the enolate pushes it. Add the arrows from the O⁻ lone pair and the C=C bond."
+        }
+      ]
+    }
+  },
+  "conditionsLabel": "piperidine (cat.) · EtOH · reflux",
+  "reactionClasses": [
+    "carbonyl",
+    "elimination"
+  ],
+  "reactionVersion": 1,
+  "mechanismSummary": "Piperidine removes a proton from the CH₂ between the two esters of diethyl malonate. The stabilised enolate adds to benzaldehyde, and the piperidinium ion protonates the alkoxide. Piperidine removes the second acidic proton, and the enolate pushes out hydroxide (E1cB), giving diethyl benzylidenemalonate. Doubly stabilised enolates need only a weak amine base.",
+  "abbreviatedGroups": [
+    {
+      "groupLabel": "Et",
+      "mapNumbers": [
+        5,
+        6
+      ],
+      "attachmentMapNumber": 5
+    },
+    {
+      "groupLabel": "Et",
+      "mapNumbers": [
+        10,
+        11
+      ],
+      "attachmentMapNumber": 10
+    },
+    {
+      "groupLabel": "Ph",
+      "mapNumbers": [
+        16,
+        17,
+        18,
+        19,
+        20,
+        21
+      ],
+      "attachmentMapNumber": 16
+    }
+  ],
+  "dailyPuzzleEligible": true,
+  "spectatorMapNumbers": [],
+  "atomRoleToMapNumbers": {
+    "base": [
+      22
+    ],
+    "alphaCarbon": [
+      1
+    ],
+    "leavingGroup": [
+      15
+    ],
+    "electrophilicCarbon": [
+      14
+    ]
+  },
+  "previousReactionVersion": null
+}

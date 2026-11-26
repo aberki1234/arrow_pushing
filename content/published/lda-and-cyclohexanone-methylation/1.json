@@ -1,0 +1,464 @@
+{
+  "steps": [
+    {
+      "stepKey": "enolate-formation",
+      "stepKind": "polar",
+      "toStateId": "enolate",
+      "fromStateId": "reactants",
+      "canonicalArrows": [
+        "lp N9 -> σ N9-H20",
+        "σ C3-H20 -> π C1-C3",
+        "π C1-O2 -> lp O2"
+      ],
+      "routePreference": "preferred",
+      "explanationAfterStep": "With pKa 36 against pKa 20, the equilibrium lies completely on the enolate side: all the ketone is converted before the electrophile arrives, so the ketone cannot react with its own enolate."
+    },
+    {
+      "caption": "Iodomethane is added to the enolate solution.",
+      "stepKey": "iodomethane-added",
+      "stepKind": "change",
+      "toStateId": "enolate-and-iodomethane",
+      "fromStateId": "enolate",
+      "addedSpecies": "[CH3:16][I:17]",
+      "routePreference": "preferred"
+    },
+    {
+      "stepKey": "alkylation",
+      "stepKind": "polar",
+      "toStateId": "product",
+      "fromStateId": "enolate-and-iodomethane",
+      "canonicalArrows": [
+        "lp O2 -> π C1-O2",
+        "π C1-C3 -> σ C3-C16",
+        "σ C16-I17 -> lp I17"
+      ],
+      "routePreference": "preferred",
+      "explanationAfterStep": "An SN2 reaction with the enolate as the nucleophile. It works well with methyl, primary, allylic and benzylic halides; secondary and tertiary halides eliminate instead."
+    }
+  ],
+  "title": "Enolate alkylation: methylating cyclohexanone",
+  "authors": [
+    {
+      "url": null,
+      "name": "Maksim"
+    }
+  ],
+  "licence": "CC-BY-SA-4.0",
+  "subtitle": "LDA makes the enolate; methyl iodide is attacked by SN2",
+  "references": [
+    "Clayden, Greeves and Warren, Organic Chemistry, 2nd edition (Oxford University Press), chapter 25"
+  ],
+  "reactionSlug": "lda-and-cyclohexanone-methylation",
+  "startStateId": "reactants",
+  "formatVersion": 1,
+  "difficultyTier": 2,
+  "stateIdToState": {
+    "enolate": {
+      "caption": "lithium enolate + diisopropylamine",
+      "mappedSmiles": "[O-:2][C:1]1=[CH:3][CH2:4][CH2:5][CH2:6][CH2:7]1.[Li+:8].[H:20][N:9]([CH:10]([CH3:11])[CH3:12])[CH:13]([CH3:14])[CH3:15]",
+      "mapNumberToCoordinates": {
+        "1": [
+          1.5,
+          0
+        ],
+        "2": [
+          3,
+          0
+        ],
+        "3": [
+          0.75,
+          1.3
+        ],
+        "4": [
+          -0.75,
+          1.3
+        ],
+        "5": [
+          -1.5,
+          0
+        ],
+        "6": [
+          -0.75,
+          -1.3
+        ],
+        "7": [
+          0.75,
+          -1.3
+        ],
+        "8": [
+          -0.23,
+          3.52
+        ],
+        "9": [
+          2.29,
+          7.72
+        ],
+        "10": [
+          2.29,
+          6.22
+        ],
+        "11": [
+          0.99,
+          5.47
+        ],
+        "12": [
+          3.59,
+          5.47
+        ],
+        "13": [
+          0.99,
+          8.47
+        ],
+        "14": [
+          0.99,
+          9.97
+        ],
+        "15": [
+          -0.31,
+          7.72
+        ],
+        "20": [
+          3.59,
+          8.47
+        ]
+      }
+    },
+    "product": {
+      "caption": "2-methylcyclohexanone + lithium iodide + diisopropylamine",
+      "mappedSmiles": "[O:2]=[C:1]1[CH:3]([CH3:16])[CH2:4][CH2:5][CH2:6][CH2:7]1.[Li+:8].[H:20][N:9]([CH:10]([CH3:11])[CH3:12])[CH:13]([CH3:14])[CH3:15].[I-:17]",
+      "mapNumberToCoordinates": {
+        "1": [
+          1.5,
+          0
+        ],
+        "2": [
+          3,
+          0
+        ],
+        "3": [
+          0.75,
+          1.3
+        ],
+        "4": [
+          -0.75,
+          1.3
+        ],
+        "5": [
+          -1.5,
+          0
+        ],
+        "6": [
+          -0.75,
+          -1.3
+        ],
+        "7": [
+          0.75,
+          -1.3
+        ],
+        "8": [
+          -0.11,
+          4.21
+        ],
+        "9": [
+          6.6,
+          2.25
+        ],
+        "10": [
+          6.6,
+          0.75
+        ],
+        "11": [
+          5.3,
+          0
+        ],
+        "12": [
+          7.9,
+          0
+        ],
+        "13": [
+          5.3,
+          3
+        ],
+        "14": [
+          5.3,
+          4.5
+        ],
+        "15": [
+          4,
+          2.25
+        ],
+        "16": [
+          1.5,
+          2.6
+        ],
+        "17": [
+          0.31,
+          6.47
+        ],
+        "20": [
+          7.9,
+          3
+        ]
+      }
+    },
+    "reactants": {
+      "caption": "cyclohexanone + lithium diisopropylamide (LDA)",
+      "hintTiers": [
+        "LDA's conjugate acid, diisopropylamine, has pKa about 36; the ketone's α-C–H about 20. What happens, and how completely?",
+        "The nitrogen takes the drawn α-hydrogen; the C–H electrons form a C=C bond; the C=O π electrons move onto oxygen. Three arrows.",
+        "Nitrogen lone pair → the drawn α-hydrogen; that C–H bond → a π bond to the carbonyl carbon; the C=O π bond → a lone pair on oxygen."
+      ],
+      "mappedSmiles": "[O:2]=[C:1]1[CH:3]([H:20])[CH2:4][CH2:5][CH2:6][CH2:7]1.[Li+:8].[N-:9]([CH:10]([CH3:11])[CH3:12])[CH:13]([CH3:14])[CH3:15]",
+      "learnerPrompt": "LDA is a strong, hindered base. Form the enolate.",
+      "misconceptions": [
+        {
+          "severity": "wrong",
+          "arrowPattern": "lp N9 -> σ N9-C1",
+          "feedbackMessage": "LDA is too hindered to add to a carbonyl group: two isopropyl groups shield the nitrogen. It only takes protons.",
+          "misconceptionId": "lda-adds",
+          "misconceptionTag": "base-as-nucleophile"
+        },
+        {
+          "severity": "wrong",
+          "arrowPattern": "π C1-O2 -> lp C1",
+          "feedbackMessage": "The C=O π electrons move onto oxygen, the more electronegative atom, not onto carbon.",
+          "misconceptionId": "pi-onto-carbon",
+          "misconceptionTag": "pi-to-own-atom"
+        }
+      ],
+      "mapNumberToCoordinates": {
+        "1": [
+          1.5,
+          0
+        ],
+        "2": [
+          3,
+          0
+        ],
+        "3": [
+          0.75,
+          1.3
+        ],
+        "4": [
+          -0.75,
+          1.3
+        ],
+        "5": [
+          -1.5,
+          0
+        ],
+        "6": [
+          -0.75,
+          -1.3
+        ],
+        "7": [
+          0.75,
+          -1.3
+        ],
+        "8": [
+          -0.11,
+          4.21
+        ],
+        "9": [
+          6.55,
+          2.59
+        ],
+        "10": [
+          6.55,
+          1.09
+        ],
+        "11": [
+          5.25,
+          0.34
+        ],
+        "12": [
+          7.85,
+          0.34
+        ],
+        "13": [
+          7.85,
+          3.34
+        ],
+        "14": [
+          7.85,
+          4.84
+        ],
+        "15": [
+          9.15,
+          2.59
+        ],
+        "20": [
+          1.5,
+          2.6
+        ]
+      },
+      "partialProgressMessages": [
+        {
+          "learnerArrows": [
+            "lp N9 -> σ N9-H20",
+            "σ C3-H20 -> π C1-C3"
+          ],
+          "feedbackMessage": "Good: the proton is taken and a C=C forms. The carbonyl carbon now has five bonds: move the C=O π electrons onto oxygen."
+        }
+      ]
+    },
+    "enolate-and-iodomethane": {
+      "caption": "lithium enolate + iodomethane",
+      "hintTiers": [
+        "The enolate is an ambident nucleophile. With a soft electrophile such as iodomethane, which end forms the new bond?",
+        "An SN2 at carbon: the oxygen lone pair re-forms C=O, the C=C π electrons attack the methyl carbon, and iodide leaves. Three arrows.",
+        "Enolate oxygen lone pair → a π bond to the ring carbon; the C=C π bond → a new bond from the α-carbon to the methyl carbon; the C–I bond → a lone pair on iodine."
+      ],
+      "mappedSmiles": "[O-:2][C:1]1=[CH:3][CH2:4][CH2:5][CH2:6][CH2:7]1.[Li+:8].[H:20][N:9]([CH:10]([CH3:11])[CH3:12])[CH:13]([CH3:14])[CH3:15].[CH3:16][I:17]",
+      "learnerPrompt": "The enolate attacks iodomethane.",
+      "misconceptions": [
+        {
+          "severity": "plausible",
+          "arrowPattern": "lp O2 -> σ O2-C16",
+          "feedbackMessage": "O-methylation would give an enol ether. With a lithium enolate and iodomethane, attack through carbon wins: the new C–C bond and the C=O bond together are much stronger.",
+          "misconceptionId": "o-alkylation",
+          "misconceptionTag": "ambident-wrong-end"
+        },
+        {
+          "severity": "wrong",
+          "arrowPattern": "π C1-C3 -> I17",
+          "feedbackMessage": "Iodine is the leaving group. The nucleophile attacks the methyl carbon, from the side opposite the C–I bond.",
+          "misconceptionId": "attack-on-iodine",
+          "misconceptionTag": "attack-leaving-group"
+        }
+      ],
+      "mapNumberToCoordinates": {
+        "1": [
+          1.5,
+          0
+        ],
+        "2": [
+          3,
+          0
+        ],
+        "3": [
+          0.75,
+          1.3
+        ],
+        "4": [
+          -0.75,
+          1.3
+        ],
+        "5": [
+          -1.5,
+          0
+        ],
+        "6": [
+          -0.75,
+          -1.3
+        ],
+        "7": [
+          0.75,
+          -1.3
+        ],
+        "8": [
+          -0.23,
+          3.52
+        ],
+        "9": [
+          2.29,
+          7.72
+        ],
+        "10": [
+          2.29,
+          6.22
+        ],
+        "11": [
+          0.99,
+          5.47
+        ],
+        "12": [
+          3.59,
+          5.47
+        ],
+        "13": [
+          0.99,
+          8.47
+        ],
+        "14": [
+          0.99,
+          9.97
+        ],
+        "15": [
+          -0.31,
+          7.72
+        ],
+        "16": [
+          5.29,
+          0.12
+        ],
+        "17": [
+          6.59,
+          0.87
+        ],
+        "20": [
+          3.59,
+          8.47
+        ]
+      },
+      "partialProgressMessages": [
+        {
+          "learnerArrows": [
+            "π C1-C3 -> σ C3-C16",
+            "σ C16-I17 -> lp I17"
+          ],
+          "feedbackMessage": "Right bonds, but the ring carbon is left as a cation next to O⁻. Push the oxygen lone pair in too, to re-form C=O."
+        }
+      ]
+    }
+  },
+  "conditionsLabel": "1. LDA, THF, −78 °C · 2. MeI",
+  "reactionClasses": [
+    "substitution",
+    "carbonyl"
+  ],
+  "reactionVersion": 1,
+  "mechanismSummary": "LDA, a strong and hindered base, deprotonates the ketone completely at −78 °C to give the lithium enolate. Iodomethane is then added, and the enolate attacks it by SN2 through its α-carbon, while the oxygen lone pair re-forms the C=O bond. Making the enolate fully first, then adding the electrophile, avoids aldol reactions between ketone and enolate.",
+  "abbreviatedGroups": [
+    {
+      "groupLabel": "iPr",
+      "mapNumbers": [
+        10,
+        11,
+        12
+      ],
+      "attachmentMapNumber": 10
+    },
+    {
+      "groupLabel": "iPr",
+      "mapNumbers": [
+        13,
+        14,
+        15
+      ],
+      "attachmentMapNumber": 13
+    }
+  ],
+  "dailyPuzzleEligible": true,
+  "spectatorMapNumbers": [
+    8
+  ],
+  "atomRoleToMapNumbers": {
+    "base": [
+      9
+    ],
+    "alphaCarbon": [
+      3
+    ],
+    "electrophile": [
+      16
+    ],
+    "leavingGroup": [
+      17
+    ],
+    "enolateOxygen": [
+      2
+    ]
+  },
+  "previousReactionVersion": null
+}

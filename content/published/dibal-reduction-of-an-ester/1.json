@@ -1,0 +1,817 @@
+{
+  "steps": [
+    {
+      "stepKey": "hydride-transfer",
+      "stepKind": "polar",
+      "toStateId": "aluminium-acetal",
+      "fromStateId": "reactants",
+      "canonicalArrows": [
+        "π C2-O3 -> σ O3-Al10",
+        "σ Al10-H11 -> σ C2-H11"
+      ],
+      "routePreference": "preferred",
+      "explanationAfterStep": "Aluminium binds the carbonyl oxygen as hydride moves to carbon (in reality the O–Al bond forms first). The product is a stable aluminium acetal: at −78 °C it does not lose ethoxide, so no aldehyde is formed while DIBAL-H is still present."
+    },
+    {
+      "caption": "Dilute aqueous acid is added at low temperature (work-up), once all the ester has been reduced.",
+      "stepKey": "acid-work-up",
+      "stepKind": "change",
+      "toStateId": "acetal-and-acid",
+      "fromStateId": "aluminium-acetal",
+      "addedSpecies": "[H:31][OH2+:30].[Cl-:32]",
+      "routePreference": "preferred"
+    },
+    {
+      "stepKey": "ethoxy-protonation",
+      "stepKind": "polar",
+      "toStateId": "protonated-acetal",
+      "fromStateId": "acetal-and-acid",
+      "canonicalArrows": [
+        "lp O4 -> σ O4-H31",
+        "σ O30-H31 -> lp O30"
+      ],
+      "routePreference": "preferred",
+      "explanationAfterStep": "Protonation turns ethoxide into ethanol, a good leaving group."
+    },
+    {
+      "stepKey": "ethanol-leaves",
+      "stepKind": "polar",
+      "toStateId": "aldehyde-complex",
+      "fromStateId": "protonated-acetal",
+      "canonicalArrows": [
+        "lp O3 -> π C2-O3",
+        "σ C2-O4 -> lp O4"
+      ],
+      "routePreference": "preferred",
+      "explanationAfterStep": "The oxygen on aluminium pushes out ethanol and the aldehyde C=O forms, still bound to aluminium."
+    },
+    {
+      "stepKey": "aldehyde-release",
+      "stepKind": "polar",
+      "toStateId": "products",
+      "fromStateId": "aldehyde-complex",
+      "canonicalArrows": [
+        "lp O30 -> σ O30-Al10",
+        "σ O3-Al10 -> lp O3"
+      ],
+      "routePreference": "preferred",
+      "explanationAfterStep": "Water takes aluminium off the oxygen and benzaldehyde is released. No hydride is left by now, so the aldehyde survives: that is the point of DIBAL-H at −78 °C."
+    }
+  ],
+  "title": "DIBAL reduction to an aldehyde",
+  "authors": [
+    {
+      "url": null,
+      "name": "Maksim"
+    }
+  ],
+  "licence": "CC-BY-SA-4.0",
+  "subtitle": "One hydride adds at −78 °C; the intermediate survives until work-up releases benzaldehyde",
+  "references": [
+    "Clayden, Greeves and Warren, Organic Chemistry, 2nd edition (Oxford University Press), chapter 10"
+  ],
+  "reactionSlug": "dibal-reduction-of-an-ester",
+  "startStateId": "reactants",
+  "formatVersion": 1,
+  "difficultyTier": 3,
+  "stateIdToState": {
+    "products": {
+      "caption": "benzaldehyde + ethanol + aluminium by-product",
+      "mappedSmiles": "[C:2]([H:11])(=[O:3])[C:21]1=[CH:22][CH:23]=[CH:24][CH:25]=[CH:26]1.[H:31][O:4][CH2:5][CH3:6].[OH2+:30][Al:10]([CH2:12][CH:13]([CH3:14])[CH3:15])[CH2:16][CH:17]([CH3:18])[CH3:19].[Cl-:32]",
+      "mapNumberToCoordinates": {
+        "2": [
+          3,
+          0
+        ],
+        "3": [
+          3.75,
+          1.3
+        ],
+        "4": [
+          2.96,
+          3.54
+        ],
+        "5": [
+          1.66,
+          4.29
+        ],
+        "6": [
+          0.36,
+          3.54
+        ],
+        "10": [
+          6.84,
+          6.94
+        ],
+        "11": [
+          3.75,
+          -1.3
+        ],
+        "12": [
+          5.54,
+          6.19
+        ],
+        "13": [
+          4.24,
+          6.94
+        ],
+        "14": [
+          2.95,
+          6.19
+        ],
+        "15": [
+          4.24,
+          8.44
+        ],
+        "16": [
+          8.14,
+          6.19
+        ],
+        "17": [
+          9.44,
+          6.94
+        ],
+        "18": [
+          10.74,
+          6.19
+        ],
+        "19": [
+          9.44,
+          8.44
+        ],
+        "21": [
+          1.5,
+          0
+        ],
+        "22": [
+          0.75,
+          1.3
+        ],
+        "23": [
+          -0.75,
+          1.3
+        ],
+        "24": [
+          -1.5,
+          0
+        ],
+        "25": [
+          -0.75,
+          -1.3
+        ],
+        "26": [
+          0.75,
+          -1.3
+        ],
+        "30": [
+          6.84,
+          8.44
+        ],
+        "31": [
+          4.26,
+          4.29
+        ],
+        "32": [
+          5.6,
+          0
+        ]
+      }
+    },
+    "reactants": {
+      "caption": "ethyl benzoate + DIBAL-H (diisobutylaluminium hydride)",
+      "hintTiers": [
+        "Aluminium in DIBAL-H has only six electrons: it wants a lone pair. Which atom of the ester gives one, and where does the hydride go?",
+        "The C=O π pair forms a bond from oxygen to aluminium while the Al–H pair forms a C–H bond to the carbonyl carbon. Two arrows, in one step.",
+        "C=O π bond → new O–Al bond; Al–H bond → new C–H bond to the carbonyl carbon."
+      ],
+      "mappedSmiles": "[O:3]=[C:2]([O:4][CH2:5][CH3:6])[C:21]1=[CH:22][CH:23]=[CH:24][CH:25]=[CH:26]1.[H:11][Al:10]([CH2:12][CH:13]([CH3:14])[CH3:15])[CH2:16][CH:17]([CH3:18])[CH3:19]",
+      "learnerPrompt": "DIBAL-H is a Lewis acid and a hydride donor at once.",
+      "misconceptions": [
+        {
+          "severity": "wrong",
+          "arrowPattern": "σ Al10-H11 -> O3",
+          "feedbackMessage": "The oxygen is electron-rich. Hydride goes to the carbonyl carbon; oxygen bonds to aluminium.",
+          "misconceptionId": "hydride-attacks-oxygen",
+          "misconceptionTag": "attack-electron-rich-atom"
+        },
+        {
+          "severity": "plausible",
+          "arrowPattern": "lp O4 -> Al10",
+          "feedbackMessage": "The OEt oxygen is less basic: its lone pairs are shared with C=O. Aluminium binds the carbonyl oxygen.",
+          "misconceptionId": "ester-oxygen-binds-aluminium",
+          "misconceptionTag": "unproductive-lewis-complex"
+        }
+      ],
+      "mapNumberToCoordinates": {
+        "2": [
+          3,
+          0
+        ],
+        "3": [
+          3.75,
+          -1.3
+        ],
+        "4": [
+          3.75,
+          1.3
+        ],
+        "5": [
+          5.25,
+          1.3
+        ],
+        "6": [
+          6,
+          2.6
+        ],
+        "10": [
+          4.29,
+          5.57
+        ],
+        "11": [
+          5.59,
+          4.82
+        ],
+        "12": [
+          2.99,
+          4.82
+        ],
+        "13": [
+          1.69,
+          5.57
+        ],
+        "14": [
+          0.39,
+          4.82
+        ],
+        "15": [
+          1.69,
+          7.07
+        ],
+        "16": [
+          4.29,
+          7.07
+        ],
+        "17": [
+          5.59,
+          7.82
+        ],
+        "18": [
+          5.59,
+          9.32
+        ],
+        "19": [
+          6.88,
+          7.07
+        ],
+        "21": [
+          1.5,
+          0
+        ],
+        "22": [
+          0.75,
+          1.3
+        ],
+        "23": [
+          -0.75,
+          1.3
+        ],
+        "24": [
+          -1.5,
+          0
+        ],
+        "25": [
+          -0.75,
+          -1.3
+        ],
+        "26": [
+          0.75,
+          -1.3
+        ]
+      },
+      "partialProgressMessages": [
+        {
+          "learnerArrows": [
+            "lp O3 -> σ O3-Al10"
+          ],
+          "feedbackMessage": "Right: aluminium does bind the carbonyl oxygen first. Draw it here together with the hydride transfer: use the C=O π pair to make the O–Al bond, and move the Al–H pair to carbon."
+        }
+      ]
+    },
+    "acetal-and-acid": {
+      "caption": "tetrahedral intermediate + H₃O⁺ (work-up)",
+      "hintTiers": [
+        "The intermediate is an O,O-acetal. In acid, which oxygen is protonated so that a neutral molecule can leave?",
+        "The OEt oxygen takes a proton from H₃O⁺; that O–H bonding pair stays on water's oxygen. Two arrows.",
+        "OEt oxygen lone pair → new O–H bond to a proton of H₃O⁺; that O–H bond → lone pair on water's oxygen."
+      ],
+      "mappedSmiles": "[C:2]([H:11])([O:3][Al:10]([CH2:12][CH:13]([CH3:14])[CH3:15])[CH2:16][CH:17]([CH3:18])[CH3:19])([O:4][CH2:5][CH3:6])[C:21]1=[CH:22][CH:23]=[CH:24][CH:25]=[CH:26]1.[H:31][OH2+:30].[Cl-:32]",
+      "learnerPrompt": "Work-up: prepare the leaving group.",
+      "misconceptions": [
+        {
+          "severity": "wrong",
+          "arrowPattern": "σ C2-O4 -> lp O4",
+          "feedbackMessage": "Ethoxide cannot leave in acid. Protonate the OEt oxygen first, so that ethanol leaves.",
+          "misconceptionId": "ethoxide-leaves-unprotonated",
+          "misconceptionTag": "heterolysis-without-help"
+        },
+        {
+          "severity": "wrong",
+          "arrowPattern": "lp O30 -> C2",
+          "feedbackMessage": "That carbon has four bonds and no C=O. H₃O⁺ is the acid: protonate an oxygen.",
+          "misconceptionId": "water-attacks-carbon",
+          "misconceptionTag": "attack-non-electrophile"
+        }
+      ],
+      "mapNumberToCoordinates": {
+        "2": [
+          3,
+          0
+        ],
+        "3": [
+          3,
+          1.5
+        ],
+        "4": [
+          3,
+          -1.5
+        ],
+        "5": [
+          4.3,
+          -2.25
+        ],
+        "6": [
+          4.3,
+          -3.75
+        ],
+        "10": [
+          4.3,
+          2.25
+        ],
+        "11": [
+          4.5,
+          0
+        ],
+        "12": [
+          5.6,
+          1.5
+        ],
+        "13": [
+          6.9,
+          2.25
+        ],
+        "14": [
+          8.2,
+          1.5
+        ],
+        "15": [
+          6.9,
+          3.75
+        ],
+        "16": [
+          4.3,
+          3.75
+        ],
+        "17": [
+          3,
+          4.5
+        ],
+        "18": [
+          1.7,
+          3.75
+        ],
+        "19": [
+          3,
+          6
+        ],
+        "21": [
+          1.5,
+          0
+        ],
+        "22": [
+          0.75,
+          1.3
+        ],
+        "23": [
+          -0.75,
+          1.3
+        ],
+        "24": [
+          -1.5,
+          0
+        ],
+        "25": [
+          -0.75,
+          -1.3
+        ],
+        "26": [
+          0.75,
+          -1.3
+        ],
+        "30": [
+          9.83,
+          -0.07
+        ],
+        "31": [
+          11.13,
+          0.68
+        ],
+        "32": [
+          0,
+          7
+        ]
+      }
+    },
+    "aldehyde-complex": {
+      "caption": "benzaldehyde bound to aluminium + ethanol + water",
+      "hintTiers": [
+        "Aluminium is still bonded to the carbonyl oxygen. Which molecule can take its place on aluminium?",
+        "A water lone pair forms a bond to aluminium, and the Al–O bonding pair moves onto the carbonyl oxygen. Two arrows.",
+        "Water's oxygen lone pair → new O–Al bond; Al–O bond to the carbonyl oxygen → lone pair on the carbonyl oxygen."
+      ],
+      "mappedSmiles": "[C:2]([H:11])(=[O+:3][Al:10]([CH2:12][CH:13]([CH3:14])[CH3:15])[CH2:16][CH:17]([CH3:18])[CH3:19])[C:21]1=[CH:22][CH:23]=[CH:24][CH:25]=[CH:26]1.[H:31][O:4][CH2:5][CH3:6].[OH2:30].[Cl-:32]",
+      "learnerPrompt": "Free the aldehyde.",
+      "misconceptions": [
+        {
+          "severity": "plausible",
+          "arrowPattern": "lp O30 -> C2",
+          "feedbackMessage": "Water can add to the activated carbonyl, but that only forms the hydrate, which reverts. Water takes aluminium off the oxygen.",
+          "misconceptionId": "water-attacks-carbonyl",
+          "misconceptionTag": "unproductive-addition"
+        },
+        {
+          "severity": "plausible",
+          "arrowPattern": "lp O4 -> C2",
+          "feedbackMessage": "Ethanol adding back reverses the last step. Release the aldehyde from aluminium.",
+          "misconceptionId": "ethanol-adds-back",
+          "misconceptionTag": "reverse-step"
+        }
+      ],
+      "mapNumberToCoordinates": {
+        "2": [
+          3,
+          0
+        ],
+        "3": [
+          3.75,
+          1.3
+        ],
+        "4": [
+          2.6,
+          6.2
+        ],
+        "5": [
+          1.3,
+          6.95
+        ],
+        "6": [
+          0,
+          6.2
+        ],
+        "10": [
+          5.25,
+          1.3
+        ],
+        "11": [
+          3.75,
+          -1.3
+        ],
+        "12": [
+          6,
+          2.6
+        ],
+        "13": [
+          5.25,
+          3.9
+        ],
+        "14": [
+          6,
+          5.2
+        ],
+        "15": [
+          3.75,
+          3.9
+        ],
+        "16": [
+          6,
+          0
+        ],
+        "17": [
+          7.5,
+          0
+        ],
+        "18": [
+          8.25,
+          1.3
+        ],
+        "19": [
+          8.25,
+          -1.3
+        ],
+        "21": [
+          1.5,
+          0
+        ],
+        "22": [
+          0.75,
+          1.3
+        ],
+        "23": [
+          -0.75,
+          1.3
+        ],
+        "24": [
+          -1.5,
+          0
+        ],
+        "25": [
+          -0.75,
+          -1.3
+        ],
+        "26": [
+          0.75,
+          -1.3
+        ],
+        "30": [
+          -0.62,
+          8.39
+        ],
+        "31": [
+          3.9,
+          6.95
+        ],
+        "32": [
+          0.97,
+          10.06
+        ]
+      }
+    },
+    "aluminium-acetal": {
+      "caption": "tetrahedral intermediate (stable at −78 °C)",
+      "mappedSmiles": "[C:2]([H:11])([O:3][Al:10]([CH2:12][CH:13]([CH3:14])[CH3:15])[CH2:16][CH:17]([CH3:18])[CH3:19])([O:4][CH2:5][CH3:6])[C:21]1=[CH:22][CH:23]=[CH:24][CH:25]=[CH:26]1",
+      "mapNumberToCoordinates": {
+        "2": [
+          3,
+          0
+        ],
+        "3": [
+          3,
+          1.5
+        ],
+        "4": [
+          3,
+          -1.5
+        ],
+        "5": [
+          4.3,
+          -2.25
+        ],
+        "6": [
+          4.3,
+          -3.75
+        ],
+        "10": [
+          4.3,
+          2.25
+        ],
+        "11": [
+          4.5,
+          0
+        ],
+        "12": [
+          5.6,
+          1.5
+        ],
+        "13": [
+          6.9,
+          2.25
+        ],
+        "14": [
+          8.2,
+          1.5
+        ],
+        "15": [
+          6.9,
+          3.75
+        ],
+        "16": [
+          4.3,
+          3.75
+        ],
+        "17": [
+          3,
+          4.5
+        ],
+        "18": [
+          1.7,
+          3.75
+        ],
+        "19": [
+          3,
+          6
+        ],
+        "21": [
+          1.5,
+          0
+        ],
+        "22": [
+          0.75,
+          1.3
+        ],
+        "23": [
+          -0.75,
+          1.3
+        ],
+        "24": [
+          -1.5,
+          0
+        ],
+        "25": [
+          -0.75,
+          -1.3
+        ],
+        "26": [
+          0.75,
+          -1.3
+        ]
+      }
+    },
+    "protonated-acetal": {
+      "caption": "intermediate protonated on the OEt oxygen + water",
+      "hintTiers": [
+        "Ethanol is now a good leaving group. Which lone pair pushes it out?",
+        "The oxygen bonded to aluminium re-forms a C=O π bond and the C–O bond to the positive oxygen breaks. Two arrows.",
+        "Lone pair of the O–Al oxygen → new C=O π bond; C–O bond to the protonated OEt oxygen → lone pair on that oxygen."
+      ],
+      "mappedSmiles": "[C:2]([H:11])([O:3][Al:10]([CH2:12][CH:13]([CH3:14])[CH3:15])[CH2:16][CH:17]([CH3:18])[CH3:19])([O+:4]([H:31])[CH2:5][CH3:6])[C:21]1=[CH:22][CH:23]=[CH:24][CH:25]=[CH:26]1.[OH2:30].[Cl-:32]",
+      "learnerPrompt": "Ethanol leaves.",
+      "misconceptions": [
+        {
+          "severity": "plausible",
+          "arrowPattern": "lp O30 -> H31",
+          "feedbackMessage": "That undoes the protonation. Ethanol is ready to leave.",
+          "misconceptionId": "water-takes-proton-back",
+          "misconceptionTag": "reverse-step"
+        }
+      ],
+      "mapNumberToCoordinates": {
+        "2": [
+          3,
+          0
+        ],
+        "3": [
+          3,
+          1.5
+        ],
+        "4": [
+          3,
+          -1.5
+        ],
+        "5": [
+          1.7,
+          -2.25
+        ],
+        "6": [
+          1.7,
+          -3.75
+        ],
+        "10": [
+          4.3,
+          2.25
+        ],
+        "11": [
+          4.5,
+          0
+        ],
+        "12": [
+          5.6,
+          1.5
+        ],
+        "13": [
+          6.9,
+          2.25
+        ],
+        "14": [
+          8.2,
+          1.5
+        ],
+        "15": [
+          6.9,
+          3.75
+        ],
+        "16": [
+          4.3,
+          3.75
+        ],
+        "17": [
+          3,
+          4.5
+        ],
+        "18": [
+          1.7,
+          3.75
+        ],
+        "19": [
+          3,
+          6
+        ],
+        "21": [
+          1.5,
+          0
+        ],
+        "22": [
+          0.75,
+          1.3
+        ],
+        "23": [
+          -0.75,
+          1.3
+        ],
+        "24": [
+          -1.5,
+          0
+        ],
+        "25": [
+          -0.75,
+          -1.3
+        ],
+        "26": [
+          0.75,
+          -1.3
+        ],
+        "30": [
+          9.82,
+          -0.09
+        ],
+        "31": [
+          4.3,
+          -2.25
+        ],
+        "32": [
+          0,
+          7
+        ]
+      }
+    }
+  },
+  "conditionsLabel": "1. DIBAL-H, toluene, −78 °C · 2. HCl(aq)",
+  "reactionClasses": [
+    "carbonyl",
+    "addition",
+    "substitution"
+  ],
+  "reactionVersion": 1,
+  "mechanismSummary": "DIBAL-H binds the carbonyl oxygen of ethyl benzoate and delivers one hydride to the carbonyl carbon. At −78 °C the aluminium acetal formed is stable, so it is not turned into the aldehyde while hydride remains. In the acid work-up the OEt oxygen is protonated, ethanol leaves and water frees benzaldehyde from aluminium.",
+  "abbreviatedGroups": [
+    {
+      "groupLabel": "Ph",
+      "mapNumbers": [
+        21,
+        22,
+        23,
+        24,
+        25,
+        26
+      ],
+      "attachmentMapNumber": 21
+    },
+    {
+      "groupLabel": "iBu",
+      "mapNumbers": [
+        12,
+        13,
+        14,
+        15
+      ],
+      "attachmentMapNumber": 12
+    },
+    {
+      "groupLabel": "iBu",
+      "mapNumbers": [
+        16,
+        17,
+        18,
+        19
+      ],
+      "attachmentMapNumber": 16
+    }
+  ],
+  "dailyPuzzleEligible": true,
+  "spectatorMapNumbers": [
+    32
+  ],
+  "atomRoleToMapNumbers": {
+    "aluminium": [
+      10
+    ],
+    "esterOxygen": [
+      4
+    ],
+    "carbonylCarbon": [
+      2
+    ],
+    "carbonylOxygen": [
+      3
+    ]
+  },
+  "previousReactionVersion": null
+}

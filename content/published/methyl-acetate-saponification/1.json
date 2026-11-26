@@ -1,0 +1,314 @@
+{
+  "steps": [
+    {
+      "stepKey": "addition",
+      "stepKind": "polar",
+      "toStateId": "tetrahedral",
+      "fromStateId": "reactants",
+      "canonicalArrows": [
+        "lp O6 -> σ O6-C2",
+        "π C2-O3 -> lp O3"
+      ],
+      "routePreference": "preferred",
+      "explanationAfterStep": "Hydroxide adds to the carbonyl carbon: a tetrahedral intermediate with three oxygens on one carbon."
+    },
+    {
+      "stepKey": "methoxide-leaves",
+      "stepKind": "polar",
+      "toStateId": "acid-and-methoxide",
+      "fromStateId": "tetrahedral",
+      "canonicalArrows": [
+        "lp O3 -> π C2-O3",
+        "σ C2-O4 -> lp O4"
+      ],
+      "routePreference": "preferred",
+      "explanationAfterStep": "The C=O bond re-forms and methoxide leaves. Up to here every step is reversible."
+    },
+    {
+      "stepKey": "proton-transfer",
+      "stepKind": "polar",
+      "toStateId": "products",
+      "fromStateId": "acid-and-methoxide",
+      "canonicalArrows": [
+        "lp O4 -> σ O4-H7",
+        "σ O6-H7 -> lp O6"
+      ],
+      "routePreference": "preferred",
+      "explanationAfterStep": "Methoxide (methanol pKa about 16) takes the proton from acetic acid (pKa about 5). The carboxylate cannot be attacked by methanol, so this step makes saponification irreversible. Acid work-up gives acetic acid."
+    }
+  ],
+  "title": "Ester saponification",
+  "authors": [
+    {
+      "url": null,
+      "name": "Maksim"
+    }
+  ],
+  "licence": "CC-BY-SA-4.0",
+  "subtitle": "Hydroxide adds, methoxide leaves, and a proton transfer makes the carboxylate",
+  "references": [
+    "Clayden, Greeves and Warren, Organic Chemistry, 2nd edition (Oxford University Press), chapter 10"
+  ],
+  "reactionSlug": "methyl-acetate-saponification",
+  "startStateId": "reactants",
+  "formatVersion": 1,
+  "difficultyTier": 1,
+  "stateIdToState": {
+    "products": {
+      "caption": "sodium acetate + methanol",
+      "mappedSmiles": "[CH3:1][C:2](=[O:3])[O-:6].[H:7][O:4][CH3:5].[Na+:8]",
+      "mapNumberToCoordinates": {
+        "1": [
+          0,
+          0
+        ],
+        "2": [
+          1.3,
+          0.75
+        ],
+        "3": [
+          2.6,
+          0
+        ],
+        "4": [
+          1.3,
+          4.85
+        ],
+        "5": [
+          0,
+          4.1
+        ],
+        "6": [
+          1.3,
+          2.25
+        ],
+        "7": [
+          2.6,
+          4.1
+        ],
+        "8": [
+          4.83,
+          -0.4
+        ]
+      }
+    },
+    "reactants": {
+      "caption": "methyl acetate + sodium hydroxide",
+      "hintTiers": [
+        "Which carbon of the ester is electron-poor: the carbonyl carbon or the methyl carbons?",
+        "The hydroxide lone pair forms a bond to the carbonyl carbon, and the C=O π pair moves onto oxygen. Two arrows.",
+        "Hydroxide lone pair → new O–C bond to the carbonyl carbon; C=O π bond → lone pair on the carbonyl oxygen."
+      ],
+      "mappedSmiles": "[CH3:1][C:2](=[O:3])[O:4][CH3:5].[H:7][O-:6].[Na+:8]",
+      "learnerPrompt": "Hydroxide attacks the ester.",
+      "misconceptions": [
+        {
+          "severity": "plausible",
+          "arrowPattern": "lp O6 -> σ O6-C2; σ C2-O4 -> lp O4",
+          "feedbackMessage": "At a C=O carbon the nucleophile adds first and the π bond moves onto oxygen. Methoxide leaves in a separate step.",
+          "misconceptionId": "concerted-substitution",
+          "misconceptionTag": "concerted-substitution-at-carbonyl"
+        },
+        {
+          "severity": "plausible",
+          "arrowPattern": "lp O6 -> C5",
+          "feedbackMessage": "SN2 on the methyl group with carboxylate leaving does happen, but very rarely. Hydroxide attacks the much more electrophilic carbonyl carbon.",
+          "misconceptionId": "sn2-on-methyl",
+          "misconceptionTag": "attack-saturated-carbon"
+        },
+        {
+          "severity": "wrong",
+          "arrowPattern": "lp O6 -> O3",
+          "feedbackMessage": "Both oxygens are electron-rich. Hydroxide attacks the carbonyl carbon.",
+          "misconceptionId": "hydroxide-attacks-oxygen",
+          "misconceptionTag": "attack-electron-rich-atom"
+        }
+      ],
+      "mapNumberToCoordinates": {
+        "1": [
+          0,
+          0
+        ],
+        "2": [
+          1.3,
+          0.75
+        ],
+        "3": [
+          2.6,
+          0
+        ],
+        "4": [
+          1.3,
+          2.25
+        ],
+        "5": [
+          2.6,
+          3
+        ],
+        "6": [
+          4.84,
+          -0.38
+        ],
+        "7": [
+          6.14,
+          0.37
+        ],
+        "8": [
+          -0.06,
+          4.11
+        ]
+      },
+      "partialProgressMessages": [
+        {
+          "learnerArrows": [
+            "lp O6 -> σ O6-C2"
+          ],
+          "feedbackMessage": "Right: hydroxide attacks the carbonyl carbon. Now move the C=O π pair onto oxygen."
+        }
+      ]
+    },
+    "tetrahedral": {
+      "caption": "tetrahedral intermediate",
+      "hintTiers": [
+        "The oxygen anion re-forms C=O. Two groups could leave: hydroxide or methoxide. Which gives a new product?",
+        "Re-form the C=O π bond from the oxygen anion, and break the bond to the OMe oxygen. Two arrows.",
+        "Oxygen lone pair → C=O π bond; C–OMe bond → lone pair on the methoxy oxygen."
+      ],
+      "mappedSmiles": "[CH3:1][C:2]([O-:3])([O:6][H:7])[O:4][CH3:5].[Na+:8]",
+      "learnerPrompt": "The tetrahedral intermediate collapses.",
+      "misconceptions": [
+        {
+          "severity": "plausible",
+          "arrowPattern": "σ C2-O6 -> lp O6",
+          "feedbackMessage": "Losing hydroxide just goes back to the ester. Methoxide and hydroxide are similar leaving groups; losing methoxide moves the reaction forwards.",
+          "misconceptionId": "hydroxide-leaves",
+          "misconceptionTag": "reverse-step"
+        },
+        {
+          "severity": "plausible",
+          "arrowPattern": "lp O3 -> H7",
+          "feedbackMessage": "Moving the proton from one oxygen to the other changes nothing useful. Collapse the intermediate: re-form C=O and lose a group.",
+          "misconceptionId": "intramolecular-proton",
+          "misconceptionTag": "intramolecular-proton-shift"
+        }
+      ],
+      "mapNumberToCoordinates": {
+        "1": [
+          0,
+          0
+        ],
+        "2": [
+          1.3,
+          0.75
+        ],
+        "3": [
+          2.6,
+          1.5
+        ],
+        "4": [
+          2.05,
+          -0.55
+        ],
+        "5": [
+          3.55,
+          -0.55
+        ],
+        "6": [
+          0.55,
+          2.05
+        ],
+        "7": [
+          1.3,
+          3.35
+        ],
+        "8": [
+          5.83,
+          -0.41
+        ]
+      }
+    },
+    "acid-and-methoxide": {
+      "caption": "acetic acid + methoxide",
+      "hintTiers": [
+        "Methoxide is a strong base (pKa of methanol about 16). How acidic is a carboxylic acid?",
+        "The methoxide lone pair takes the O–H proton of the acid; the O–H bonding pair stays on the acid oxygen. Two arrows.",
+        "Methoxide lone pair → new O–H bond to the acid proton; acid O–H bond → lone pair on its oxygen."
+      ],
+      "mappedSmiles": "[CH3:1][C:2](=[O:3])[O:6][H:7].[O-:4][CH3:5].[Na+:8]",
+      "learnerPrompt": "Methoxide meets the carboxylic acid.",
+      "misconceptions": [
+        {
+          "severity": "plausible",
+          "arrowPattern": "lp O4 -> C2",
+          "feedbackMessage": "Methoxide could add again, but the proton transfer is much faster and goes downhill: carboxylic acids have pKa about 5.",
+          "misconceptionId": "methoxide-adds-back",
+          "misconceptionTag": "reverse-step"
+        },
+        {
+          "severity": "wrong",
+          "arrowPattern": "lp O4 -> C1",
+          "feedbackMessage": "That carbon has no leaving group. Methoxide is a strong base: what is the most acidic proton here?",
+          "misconceptionId": "methoxide-attacks-methyl",
+          "misconceptionTag": "attack-saturated-carbon"
+        }
+      ],
+      "mapNumberToCoordinates": {
+        "1": [
+          0,
+          0
+        ],
+        "2": [
+          1.3,
+          0.75
+        ],
+        "3": [
+          2.6,
+          0
+        ],
+        "4": [
+          6.14,
+          0.37
+        ],
+        "5": [
+          4.84,
+          -0.38
+        ],
+        "6": [
+          1.3,
+          2.25
+        ],
+        "7": [
+          2.6,
+          3
+        ],
+        "8": [
+          -0.06,
+          4.11
+        ]
+      }
+    }
+  },
+  "conditionsLabel": "NaOH · H₂O/MeOH · reflux",
+  "reactionClasses": [
+    "carbonyl",
+    "substitution"
+  ],
+  "reactionVersion": 1,
+  "mechanismSummary": "Hydroxide adds to the carbonyl carbon of methyl acetate. The tetrahedral intermediate collapses and methoxide leaves, giving acetic acid. Methoxide removes its proton: the carboxylate is so stable that this last step makes the whole hydrolysis irreversible.",
+  "dailyPuzzleEligible": true,
+  "spectatorMapNumbers": [
+    8
+  ],
+  "atomRoleToMapNumbers": {
+    "nucleophile": [
+      6
+    ],
+    "carbonylCarbon": [
+      2
+    ],
+    "carbonylOxygen": [
+      3
+    ]
+  },
+  "previousReactionVersion": null
+}
