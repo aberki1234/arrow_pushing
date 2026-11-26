@@ -1,0 +1,379 @@
+{
+  "steps": [
+    {
+      "stepKey": "para-attack",
+      "stepKind": "polar",
+      "toStateId": "sigma-complex",
+      "fromStateId": "reactants",
+      "canonicalArrows": [
+        "lp O17 -> π O17-C11",
+        "π C11-C12 -> π C12-C13",
+        "π C13-C14 -> σ C14-N8",
+        "π N7-N8 -> lp N7"
+      ],
+      "routePreference": "preferred",
+      "explanationAfterStep": "Electrophilic aromatic substitution with a weak electrophile: only very electron-rich rings (phenoxides, anilines) react. The mild base keeps the phenol as phenoxide, but too much base would turn the diazonium ion into a diazohydroxide."
+    },
+    {
+      "stepKey": "rearomatisation",
+      "stepKind": "polar",
+      "toStateId": "products",
+      "fromStateId": "sigma-complex",
+      "canonicalArrows": [
+        "lp O19 -> σ O19-H18",
+        "σ C14-H18 -> π C13-C14",
+        "π C12-C13 -> π C11-C12",
+        "π C11-O17 -> lp O17"
+      ],
+      "routePreference": "preferred",
+      "explanationAfterStep": "The ring is aromatic again. The product joins two aromatic rings through N=N: a long conjugated system that absorbs visible light, so azo compounds are dyes. Acidifying gives 4-hydroxyazobenzene."
+    }
+  ],
+  "title": "Azo coupling",
+  "authors": [
+    {
+      "url": null,
+      "name": "Maksim"
+    }
+  ],
+  "licence": "CC-BY-SA-4.0",
+  "subtitle": "A diazonium ion attacks phenoxide para to oxygen",
+  "references": [
+    "Clayden, Greeves and Warren, Organic Chemistry, 2nd edition (Oxford University Press), chapter 23"
+  ],
+  "reactionSlug": "azo-coupling",
+  "startStateId": "reactants",
+  "formatVersion": 1,
+  "difficultyTier": 2,
+  "stateIdToState": {
+    "products": {
+      "caption": "4-(phenylazo)phenoxide, an orange azo dye, + water",
+      "mappedSmiles": "[O-:17][C:11]1=[CH:12][CH:13]=[C:14]([N:8]=[N:7][C:1]2=[CH:2][CH:3]=[CH:4][CH:5]=[CH:6]2)[CH:15]=[CH:16]1.[H:18][OH:19].[Na+:20]",
+      "mapNumberToCoordinates": {
+        "1": [
+          1.5,
+          0
+        ],
+        "2": [
+          0.75,
+          1.3
+        ],
+        "3": [
+          -0.75,
+          1.3
+        ],
+        "4": [
+          -1.5,
+          0
+        ],
+        "5": [
+          -0.75,
+          -1.3
+        ],
+        "6": [
+          0.75,
+          -1.3
+        ],
+        "7": [
+          3,
+          0
+        ],
+        "8": [
+          3.75,
+          -1.3
+        ],
+        "11": [
+          8.25,
+          -1.3
+        ],
+        "12": [
+          7.5,
+          0
+        ],
+        "13": [
+          6,
+          0
+        ],
+        "14": [
+          5.25,
+          -1.3
+        ],
+        "15": [
+          6,
+          -2.6
+        ],
+        "16": [
+          7.5,
+          -2.6
+        ],
+        "17": [
+          9.75,
+          -1.3
+        ],
+        "18": [
+          0.14,
+          4.29
+        ],
+        "19": [
+          -1.16,
+          3.54
+        ],
+        "20": [
+          0.47,
+          6.56
+        ]
+      }
+    },
+    "reactants": {
+      "caption": "benzenediazonium + phenoxide + hydroxide (in water)",
+      "hintTiers": [
+        "Phenoxide is a very electron-rich arene; the diazonium ion is a weak electrophile. Which end of N≡N is attacked, and how does the O⁻ lone pair help the ring carbon para to it?",
+        "The O⁻ lone pair forms C=O, the ring π bonds shift along, the π bond at the para carbon forms a new C–N bond to the terminal nitrogen, and one N≡N π pair moves onto the nitrogen attached to the phenyl ring. Four arrows.",
+        "O⁻ lone pair → C=O π bond; the ring π bond from that carbon → the next ring bond; the π bond at the para carbon → new C–N bond to the terminal nitrogen; one N≡N π bond → a lone pair on the nitrogen bearing the phenyl group."
+      ],
+      "mappedSmiles": "[N:8]#[N+:7][C:1]1=[CH:2][CH:3]=[CH:4][CH:5]=[CH:6]1.[O-:17][C:11]1=[CH:12][CH:13]=[C:14]([H:18])[CH:15]=[CH:16]1.[OH-:19].[Na+:20]",
+      "learnerPrompt": "Phenoxide attacks the diazonium ion at the carbon para to oxygen.",
+      "misconceptions": [
+        {
+          "severity": "plausible",
+          "arrowPattern": "* -> σ C12-N8",
+          "feedbackMessage": "Ortho attack is possible, but para coupling is much faster: the para carbon is less hindered for the bulky diazonium ion. Ortho products form only when the para position is blocked.",
+          "misconceptionId": "ortho-attack",
+          "misconceptionTag": "wrong-regiochemistry-ortho"
+        },
+        {
+          "severity": "plausible",
+          "arrowPattern": "lp O17 -> σ O17-N8",
+          "feedbackMessage": "O-attack gives an unstable diazo ether that falls apart again. The C–N bond at the para carbon is what lasts.",
+          "misconceptionId": "oxygen-attacks",
+          "misconceptionTag": "ambident-wrong-end"
+        },
+        {
+          "severity": "wrong",
+          "arrowPattern": "* -> σ C14-N7",
+          "feedbackMessage": "The formal positive charge is drawn on the nitrogen attached to the phenyl ring, but the electrophilic atom is the terminal nitrogen (think of the Ph–N=N⁺ drawing).",
+          "misconceptionId": "attack-inner-nitrogen",
+          "misconceptionTag": "attack-wrong-atom"
+        }
+      ],
+      "mapNumberToCoordinates": {
+        "1": [
+          1.5,
+          0
+        ],
+        "2": [
+          0.75,
+          1.3
+        ],
+        "3": [
+          -0.75,
+          1.3
+        ],
+        "4": [
+          -1.5,
+          0
+        ],
+        "5": [
+          -0.75,
+          -1.3
+        ],
+        "6": [
+          0.75,
+          -1.3
+        ],
+        "7": [
+          3,
+          0
+        ],
+        "8": [
+          4.5,
+          0
+        ],
+        "11": [
+          1.17,
+          4.86
+        ],
+        "12": [
+          0.42,
+          6.16
+        ],
+        "13": [
+          -1.08,
+          6.16
+        ],
+        "14": [
+          -1.83,
+          4.86
+        ],
+        "15": [
+          -1.08,
+          3.56
+        ],
+        "16": [
+          0.42,
+          3.56
+        ],
+        "17": [
+          2.67,
+          4.86
+        ],
+        "18": [
+          -3.33,
+          4.86
+        ],
+        "19": [
+          6.8,
+          0
+        ],
+        "20": [
+          0.79,
+          8.41
+        ]
+      },
+      "partialProgressMessages": [
+        {
+          "learnerArrows": [
+            "π C13-C14 -> σ C14-N8",
+            "π N7-N8 -> lp N7"
+          ],
+          "feedbackMessage": "Right bonds, but this leaves a positive carbon in a ring that still has O⁻. Push the O⁻ lone pair in to form C=O."
+        }
+      ]
+    },
+    "sigma-complex": {
+      "caption": "the addition intermediate: a cyclohexadienone",
+      "hintTiers": [
+        "The sp³ ring carbon carries the new azo group and a hydrogen. Losing the proton rebuilds the aromatic ring.",
+        "Hydroxide takes the drawn hydrogen; the C–H pair forms a ring π bond, the next ring π bond shifts towards the carbonyl carbon, and the C=O π pair moves onto oxygen. Four arrows.",
+        "Hydroxide lone pair → new bond to the drawn H; that C–H bond → a ring π bond; the next ring π bond → the ring bond to the carbonyl carbon; the C=O π bond → a lone pair on oxygen."
+      ],
+      "mappedSmiles": "[O:17]=[C:11]1[CH:12]=[CH:13][C:14]([H:18])([N:8]=[N:7][C:1]2=[CH:2][CH:3]=[CH:4][CH:5]=[CH:6]2)[CH:15]=[CH:16]1.[OH-:19].[Na+:20]",
+      "learnerPrompt": "Hydroxide removes the proton and the ring becomes aromatic again.",
+      "misconceptions": [
+        {
+          "severity": "wrong",
+          "arrowPattern": "lp O19 -> σ O19-C11",
+          "feedbackMessage": "This carbonyl group is part of a ring that wants to be aromatic again. Hydroxide acts as a base: take the proton on the sp³ carbon.",
+          "misconceptionId": "hydroxide-adds-to-carbonyl",
+          "misconceptionTag": "unproductive-addition"
+        }
+      ],
+      "mapNumberToCoordinates": {
+        "1": [
+          1.5,
+          0
+        ],
+        "2": [
+          0.75,
+          1.3
+        ],
+        "3": [
+          -0.75,
+          1.3
+        ],
+        "4": [
+          -1.5,
+          0
+        ],
+        "5": [
+          -0.75,
+          -1.3
+        ],
+        "6": [
+          0.75,
+          -1.3
+        ],
+        "7": [
+          3,
+          0
+        ],
+        "8": [
+          3.75,
+          -1.3
+        ],
+        "11": [
+          7.55,
+          -3.23
+        ],
+        "12": [
+          7.81,
+          -1.75
+        ],
+        "13": [
+          6.66,
+          -0.79
+        ],
+        "14": [
+          5.25,
+          -1.3
+        ],
+        "15": [
+          4.99,
+          -2.78
+        ],
+        "16": [
+          6.14,
+          -3.74
+        ],
+        "17": [
+          8.7,
+          -4.19
+        ],
+        "18": [
+          4.99,
+          0.18
+        ],
+        "19": [
+          -1.28,
+          3.51
+        ],
+        "20": [
+          1.2,
+          4.23
+        ]
+      },
+      "partialProgressMessages": [
+        {
+          "learnerArrows": [
+            "lp O19 -> σ O19-H18",
+            "σ C14-H18 -> π C13-C14"
+          ],
+          "feedbackMessage": "Good start. Now the carbon next door has five bonds: keep shifting the π electrons towards oxygen."
+        }
+      ]
+    }
+  },
+  "conditionsLabel": "NaOH(aq) · 0–5 °C",
+  "reactionClasses": [
+    "aromatic substitution"
+  ],
+  "reactionVersion": 1,
+  "mechanismSummary": "The diazonium ion is a weak electrophile, so it attacks only very electron-rich arenes such as phenoxide. The oxygen lone pair pushes electrons to the para carbon, which bonds to the terminal nitrogen. Hydroxide then removes the proton from that carbon and the ring is aromatic again. The product, with two rings joined by N=N, is an azo dye. The diazonium nitrogens stay in the product here; the next reaction loses them.",
+  "abbreviatedGroups": [
+    {
+      "groupLabel": "Ph",
+      "mapNumbers": [
+        1,
+        2,
+        3,
+        4,
+        5,
+        6
+      ],
+      "attachmentMapNumber": 1
+    }
+  ],
+  "dailyPuzzleEligible": true,
+  "spectatorMapNumbers": [
+    20
+  ],
+  "atomRoleToMapNumbers": {
+    "base": [
+      19
+    ],
+    "electrophile": [
+      8
+    ]
+  },
+  "previousReactionVersion": null
+}

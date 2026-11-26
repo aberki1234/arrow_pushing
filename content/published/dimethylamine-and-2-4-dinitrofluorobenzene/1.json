@@ -1,0 +1,639 @@
+{
+  "steps": [
+    {
+      "stepKey": "addition",
+      "stepKind": "polar",
+      "toStateId": "zwitterion",
+      "fromStateId": "reactants",
+      "canonicalArrows": [
+        "lp N14 -> σ N14-C1",
+        "π C1-C6 -> π C5-C6",
+        "π C4-C5 -> π C4-N11",
+        "π N11-O12 -> lp O12"
+      ],
+      "routePreference": "preferred",
+      "explanationAfterStep": "This is the slow step, and it is why fluoride is the best leaving group in SNAr (F > Cl ≈ Br > I, the reverse of SN2). Fluorine pulls electrons out of the carbon it is attached to, making it more electrophilic, and the C–F bond does not break here. Any drawing of the charge on a ring carbon or a nitro oxygen is accepted."
+    },
+    {
+      "stepKey": "loss-of-fluoride",
+      "stepKind": "polar",
+      "toStateId": "anilinium-ion",
+      "fromStateId": "zwitterion",
+      "canonicalArrows": [
+        "lp O12 -> π N11-O12",
+        "π C4-N11 -> π C4-C5",
+        "π C5-C6 -> π C1-C6",
+        "σ C1-F7 -> lp F7"
+      ],
+      "routePreference": "preferred",
+      "explanationAfterStep": "Fluoride leaves and the ring is aromatic again. This step is fast, so the strength of the C–F bond hardly matters."
+    },
+    {
+      "stepKey": "deprotonation",
+      "stepKind": "polar",
+      "toStateId": "products",
+      "fromStateId": "anilinium-ion",
+      "canonicalArrows": [
+        "lp N18 -> σ N18-H17",
+        "σ N14-H17 -> lp N14"
+      ],
+      "routePreference": "preferred",
+      "explanationAfterStep": "A plain proton transfer. This is why two equivalents of the amine are used (or one plus another base): the second takes up the HF."
+    },
+    {
+      "stepKey": "early-deprotonation",
+      "stepKind": "polar",
+      "toStateId": "anionic-complex",
+      "fromStateId": "zwitterion",
+      "canonicalArrows": [
+        "lp N18 -> σ N18-H17",
+        "σ N14-H17 -> lp N14"
+      ],
+      "routePreference": "accepted",
+      "explanationAfterStep": "Also correct. With amine nucleophiles a base often removes the N–H proton from the Meisenheimer complex before the leaving group goes; for fluoride this order is common (base catalysis)."
+    },
+    {
+      "stepKey": "loss-of-fluoride-from-anion",
+      "stepKind": "polar",
+      "toStateId": "products",
+      "fromStateId": "anionic-complex",
+      "canonicalArrows": [
+        "lp O12 -> π N11-O12",
+        "π C4-N11 -> π C4-C5",
+        "π C5-C6 -> π C1-C6",
+        "σ C1-F7 -> lp F7"
+      ],
+      "routePreference": "accepted",
+      "explanationAfterStep": "Fluoride leaves and the ring is aromatic again. Both orders end at the same product."
+    }
+  ],
+  "title": "SNAr: why fluoride leaves best",
+  "authors": [
+    {
+      "url": null,
+      "name": "Maksim"
+    }
+  ],
+  "licence": "CC-BY-SA-4.0",
+  "subtitle": "Dimethylamine displaces fluoride from Sanger's reagent",
+  "references": [
+    "Clayden, Greeves and Warren, Organic Chemistry, 2nd edition (Oxford University Press), chapter 22"
+  ],
+  "reactionSlug": "dimethylamine-and-2-4-dinitrofluorobenzene",
+  "startStateId": "reactants",
+  "formatVersion": 1,
+  "difficultyTier": 2,
+  "stateIdToState": {
+    "products": {
+      "caption": "N,N-dimethyl-2,4-dinitroaniline + dimethylammonium fluoride",
+      "mappedSmiles": "[CH3:15][N:14]([CH3:16])[C:1]1=[CH:6][CH:5]=[C:4]([N+:11](=[O:12])[O-:13])[CH:3]=[C:2]1[N+:8](=[O:9])[O-:10].[F-:7].[CH3:19][NH+:18]([CH3:20])[H:17]",
+      "mapNumberToCoordinates": {
+        "1": [
+          1.5,
+          0
+        ],
+        "2": [
+          0.75,
+          -1.3
+        ],
+        "3": [
+          -0.75,
+          -1.3
+        ],
+        "4": [
+          -1.5,
+          0
+        ],
+        "5": [
+          -0.75,
+          1.3
+        ],
+        "6": [
+          0.75,
+          1.3
+        ],
+        "7": [
+          5.72,
+          0.13
+        ],
+        "8": [
+          1.5,
+          -2.6
+        ],
+        "9": [
+          0.75,
+          -3.9
+        ],
+        "10": [
+          3,
+          -2.6
+        ],
+        "11": [
+          -3,
+          0
+        ],
+        "12": [
+          -3.75,
+          1.3
+        ],
+        "13": [
+          -3.75,
+          -1.3
+        ],
+        "14": [
+          3,
+          0
+        ],
+        "15": [
+          3.75,
+          -1.3
+        ],
+        "16": [
+          3.75,
+          1.3
+        ],
+        "17": [
+          2.92,
+          3.53
+        ],
+        "18": [
+          1.62,
+          4.28
+        ],
+        "19": [
+          0.32,
+          3.53
+        ],
+        "20": [
+          1.62,
+          5.78
+        ]
+      }
+    },
+    "reactants": {
+      "caption": "1-fluoro-2,4-dinitrobenzene (Sanger's reagent) + two dimethylamine",
+      "hintTiers": [
+        "Which ring carbon carries the leaving group? From there, follow the ring π bonds round to the carbon bearing the nitro group opposite it.",
+        "The nitrogen lone pair forms a bond to the carbon bearing fluorine. The ring π bond from that carbon shifts one bond along, the next ring π bond moves out to the para nitro nitrogen, and an N=O π pair moves onto oxygen. Four arrows.",
+        "Amine N lone pair → new C–N bond to the carbon bearing F; ring π bond from that carbon → the next ring bond; the following ring π bond → a π bond to the para nitro nitrogen; one N=O π bond of that nitro group → a lone pair on its oxygen."
+      ],
+      "mappedSmiles": "[F:7][C:1]1=[CH:6][CH:5]=[C:4]([N+:11](=[O:12])[O-:13])[CH:3]=[C:2]1[N+:8](=[O:9])[O-:10].[CH3:15][N:14]([CH3:16])[H:17].[CH3:19][NH:18][CH3:20]",
+      "learnerPrompt": "Dimethylamine adds to the ring. This time, send the negative charge onto the para nitro group.",
+      "misconceptions": [
+        {
+          "severity": "plausible",
+          "arrowPattern": "lp N14 -> σ N14-C1; σ C1-F7 -> lp F7",
+          "feedbackMessage": "A ring carbon cannot be attacked from behind, and the C–F bond is the strongest single bond carbon makes. The amine adds first; fluoride leaves only once the ring has rebuilt.",
+          "misconceptionId": "one-step-substitution",
+          "misconceptionTag": "concerted-instead-of-stepwise"
+        },
+        {
+          "severity": "wrong",
+          "arrowPattern": "lp N14 -> F7",
+          "feedbackMessage": "Fluorine is the most electronegative atom of all: it does not accept electrons. Attack the carbon it is attached to.",
+          "misconceptionId": "attack-fluorine",
+          "misconceptionTag": "attack-leaving-group"
+        },
+        {
+          "severity": "wrong",
+          "arrowPattern": "lp N18 -> σ N18-H17",
+          "feedbackMessage": "Dimethylamine (pKa about 36 for its N–H) is not deprotonated by another dimethylamine. It adds as a neutral nucleophile; the N–H proton is lost later, once the nitrogen is positive.",
+          "misconceptionId": "base-first",
+          "misconceptionTag": "deprotonate-too-early"
+        }
+      ],
+      "mapNumberToCoordinates": {
+        "1": [
+          1.5,
+          0
+        ],
+        "2": [
+          0.75,
+          -1.3
+        ],
+        "3": [
+          -0.75,
+          -1.3
+        ],
+        "4": [
+          -1.5,
+          0
+        ],
+        "5": [
+          -0.75,
+          1.3
+        ],
+        "6": [
+          0.75,
+          1.3
+        ],
+        "7": [
+          3,
+          0
+        ],
+        "8": [
+          1.5,
+          -2.6
+        ],
+        "9": [
+          0.75,
+          -3.9
+        ],
+        "10": [
+          3,
+          -2.6
+        ],
+        "11": [
+          -3,
+          0
+        ],
+        "12": [
+          -3.75,
+          1.3
+        ],
+        "13": [
+          -3.75,
+          -1.3
+        ],
+        "14": [
+          1.79,
+          4.3
+        ],
+        "15": [
+          0.49,
+          3.55
+        ],
+        "16": [
+          1.79,
+          5.8
+        ],
+        "17": [
+          3.09,
+          3.55
+        ],
+        "18": [
+          6.58,
+          0.97
+        ],
+        "19": [
+          5.28,
+          0.22
+        ],
+        "20": [
+          7.88,
+          0.22
+        ]
+      },
+      "partialProgressMessages": [
+        {
+          "learnerArrows": [
+            "lp N14 -> σ N14-C1"
+          ],
+          "feedbackMessage": "Right carbon. It now has five bonds: move the ring π bond away from it."
+        }
+      ]
+    },
+    "zwitterion": {
+      "caption": "the Meisenheimer complex: a zwitterion, with the charge on the para nitro group",
+      "hintTiers": [
+        "Fluoride is a poor leaving group in SN2, but here the hard step is already over. Push the electrons back from the para nitro group.",
+        "The nitro O⁻ lone pair re-forms N=O, the C=N π pair moves into the ring, the next ring π bond shifts on to the carbon bearing fluorine, and the C–F bond breaks onto fluorine. Four arrows.",
+        "Para nitro O⁻ lone pair → N=O π bond; the C=N π bond → the ring bond next to it; the next ring π bond → a π bond to the carbon bearing F; the C–F bond → a lone pair on fluorine."
+      ],
+      "mappedSmiles": "[F:7][C:1]1([N+:14]([CH3:15])([CH3:16])[H:17])[CH:6]=[CH:5][C:4](=[N+:11]([O-:12])[O-:13])[CH:3]=[C:2]1[N+:8](=[O:9])[O-:10].[CH3:19][NH:18][CH3:20]",
+      "learnerPrompt": "Fluoride leaves and the ring becomes aromatic again.",
+      "misconceptions": [
+        {
+          "severity": "plausible",
+          "arrowPattern": "σ C1-N14 -> *",
+          "feedbackMessage": "Losing dimethylamine goes back to the start. Fluoride leaves instead: the C–F bond is strong, but breaking it now rebuilds the aromatic ring.",
+          "misconceptionId": "amine-leaves",
+          "misconceptionTag": "reverse-step"
+        }
+      ],
+      "mapNumberToCoordinates": {
+        "1": [
+          1.5,
+          0
+        ],
+        "2": [
+          0.75,
+          -1.3
+        ],
+        "3": [
+          -0.75,
+          -1.3
+        ],
+        "4": [
+          -1.5,
+          0
+        ],
+        "5": [
+          -0.75,
+          1.3
+        ],
+        "6": [
+          0.75,
+          1.3
+        ],
+        "7": [
+          2.65,
+          -0.96
+        ],
+        "8": [
+          1.5,
+          -2.6
+        ],
+        "9": [
+          0.75,
+          -3.9
+        ],
+        "10": [
+          3,
+          -2.6
+        ],
+        "11": [
+          -3,
+          0
+        ],
+        "12": [
+          -3.75,
+          1.3
+        ],
+        "13": [
+          -3.75,
+          -1.3
+        ],
+        "14": [
+          2.65,
+          0.96
+        ],
+        "15": [
+          1.68,
+          2.11
+        ],
+        "16": [
+          3.61,
+          -0.18
+        ],
+        "17": [
+          3.8,
+          1.93
+        ],
+        "18": [
+          1.51,
+          4.87
+        ],
+        "19": [
+          0.21,
+          4.12
+        ],
+        "20": [
+          2.81,
+          4.12
+        ]
+      },
+      "partialProgressMessages": [
+        {
+          "learnerArrows": [
+            "σ C1-F7 -> lp F7"
+          ],
+          "feedbackMessage": "Fluoride does leave, but the carbon would have only three bonds. Bring the electrons back from the para nitro group into the ring."
+        }
+      ]
+    },
+    "anilinium-ion": {
+      "caption": "the protonated product + fluoride + dimethylamine",
+      "hintTiers": [
+        "The positive nitrogen carries a hydrogen. Which species in the flask is a base?",
+        "The lone pair of the free dimethylamine forms a bond to the drawn hydrogen, and the N–H pair stays on the ring nitrogen. Two arrows.",
+        "Free amine N lone pair → new bond to the drawn H; that N–H bond → a lone pair on the nitrogen attached to the ring."
+      ],
+      "mappedSmiles": "[CH3:15][N+:14]([CH3:16])([H:17])[C:1]1=[CH:6][CH:5]=[C:4]([N+:11](=[O:12])[O-:13])[CH:3]=[C:2]1[N+:8](=[O:9])[O-:10].[F-:7].[CH3:19][NH:18][CH3:20]",
+      "learnerPrompt": "The second dimethylamine takes the proton off the positive nitrogen.",
+      "misconceptions": [
+        {
+          "severity": "plausible",
+          "arrowPattern": "lp F7 -> σ F7-H17",
+          "feedbackMessage": "Fluoride is a weak base (HF has pKa 3), weaker than dimethylamine (its ammonium ion has pKa 11). The amine takes the proton.",
+          "misconceptionId": "fluoride-as-base",
+          "misconceptionTag": "weaker-base"
+        }
+      ],
+      "mapNumberToCoordinates": {
+        "1": [
+          1.5,
+          0
+        ],
+        "2": [
+          0.75,
+          -1.3
+        ],
+        "3": [
+          -0.75,
+          -1.3
+        ],
+        "4": [
+          -1.5,
+          0
+        ],
+        "5": [
+          -0.75,
+          1.3
+        ],
+        "6": [
+          0.75,
+          1.3
+        ],
+        "7": [
+          0,
+          4.25
+        ],
+        "8": [
+          1.5,
+          -2.6
+        ],
+        "9": [
+          0.75,
+          -3.9
+        ],
+        "10": [
+          3,
+          -2.6
+        ],
+        "11": [
+          -3,
+          0
+        ],
+        "12": [
+          -3.75,
+          1.3
+        ],
+        "13": [
+          -3.75,
+          -1.3
+        ],
+        "14": [
+          3,
+          0
+        ],
+        "15": [
+          3,
+          1.5
+        ],
+        "16": [
+          3,
+          -1.5
+        ],
+        "17": [
+          4.5,
+          0
+        ],
+        "18": [
+          3.59,
+          4.41
+        ],
+        "19": [
+          2.29,
+          3.66
+        ],
+        "20": [
+          4.89,
+          3.66
+        ]
+      }
+    },
+    "anionic-complex": {
+      "caption": "the Meisenheimer complex after losing the N–H proton",
+      "hintTiers": [
+        "The proton is gone already; the ring still has to rebuild. Push the electrons back from the para nitro group.",
+        "The nitro O⁻ lone pair re-forms N=O, the C=N π pair moves into the ring, the next ring π bond shifts on to the carbon bearing fluorine, and the C–F bond breaks onto fluorine. Four arrows.",
+        "Para nitro O⁻ lone pair → N=O π bond; the C=N π bond → the ring bond next to it; the next ring π bond → a π bond to the carbon bearing F; the C–F bond → a lone pair on fluorine."
+      ],
+      "mappedSmiles": "[F:7][C:1]1([N:14]([CH3:15])[CH3:16])[CH:6]=[CH:5][C:4](=[N+:11]([O-:12])[O-:13])[CH:3]=[C:2]1[N+:8](=[O:9])[O-:10].[CH3:19][NH+:18]([CH3:20])[H:17]",
+      "learnerPrompt": "Fluoride leaves and the ring becomes aromatic again.",
+      "misconceptions": [
+        {
+          "severity": "wrong",
+          "arrowPattern": "σ C1-N14 -> *",
+          "feedbackMessage": "Without its positive charge, the dimethylamino group would leave as a dimethylamide anion: a hopeless leaving group. Fluoride leaves.",
+          "misconceptionId": "amide-leaves",
+          "misconceptionTag": "poor-leaving-group"
+        }
+      ],
+      "mapNumberToCoordinates": {
+        "1": [
+          1.5,
+          0
+        ],
+        "2": [
+          0.75,
+          -1.3
+        ],
+        "3": [
+          -0.75,
+          -1.3
+        ],
+        "4": [
+          -1.5,
+          0
+        ],
+        "5": [
+          -0.75,
+          1.3
+        ],
+        "6": [
+          0.75,
+          1.3
+        ],
+        "7": [
+          2.65,
+          -0.96
+        ],
+        "8": [
+          1.5,
+          -2.6
+        ],
+        "9": [
+          0.75,
+          -3.9
+        ],
+        "10": [
+          3,
+          -2.6
+        ],
+        "11": [
+          -3,
+          0
+        ],
+        "12": [
+          -3.75,
+          1.3
+        ],
+        "13": [
+          -3.75,
+          -1.3
+        ],
+        "14": [
+          2.65,
+          0.96
+        ],
+        "15": [
+          4.06,
+          0.45
+        ],
+        "16": [
+          2.39,
+          2.44
+        ],
+        "17": [
+          2.84,
+          4.7
+        ],
+        "18": [
+          1.54,
+          5.45
+        ],
+        "19": [
+          0.24,
+          4.7
+        ],
+        "20": [
+          1.54,
+          6.95
+        ]
+      },
+      "partialProgressMessages": [
+        {
+          "learnerArrows": [
+            "σ C1-F7 -> lp F7"
+          ],
+          "feedbackMessage": "Fluoride does leave, but the carbon would have only three bonds. Bring the electrons back from the para nitro group into the ring."
+        }
+      ]
+    }
+  },
+  "conditionsLabel": "Me₂NH (2 equiv.) · EtOH · 25 °C",
+  "reactionClasses": [
+    "aromatic substitution"
+  ],
+  "reactionVersion": 1,
+  "mechanismSummary": "Dimethylamine adds to the carbon bearing fluorine. This addition breaks the aromatic ring and is the slow step; the negative charge is spread onto the nitro groups, here drawn on the para one. Fluoride then leaves quickly and the ring is aromatic again, and a second amine takes the proton off nitrogen. Because the slow step does not break the C–F bond, the strongly electron-withdrawing fluorine makes the best SNAr leaving group: F > Cl > Br > I.",
+  "dailyPuzzleEligible": true,
+  "spectatorMapNumbers": [],
+  "atomRoleToMapNumbers": {
+    "base": [
+      18
+    ],
+    "nucleophile": [
+      14
+    ],
+    "leavingGroup": [
+      7
+    ],
+    "electrophilicCarbon": [
+      1
+    ]
+  },
+  "previousReactionVersion": null
+}

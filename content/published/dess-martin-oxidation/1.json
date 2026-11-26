@@ -1,0 +1,897 @@
+{
+  "steps": [
+    {
+      "stepKey": "ligand-exchange",
+      "stepKind": "polar",
+      "toStateId": "alkoxy-oxonium",
+      "fromStateId": "reactants",
+      "canonicalArrows": [
+        "lp O32 -> σ O32-I1",
+        "σ I1-O11 -> lp O11"
+      ],
+      "routePreference": "preferred",
+      "explanationAfterStep": "The alcohol replaces an acetate on iodine. Iodine keeps five bonds and a lone pair: twelve electrons, which elements below the second row can hold."
+    },
+    {
+      "stepKey": "deprotonation",
+      "stepKind": "polar",
+      "toStateId": "alkoxyperiodinane",
+      "fromStateId": "alkoxy-oxonium",
+      "canonicalArrows": [
+        "lp O11 -> σ O11-H33",
+        "σ O32-H33 -> lp O32"
+      ],
+      "routePreference": "preferred",
+      "explanationAfterStep": "The released acetate takes the proton: acetic acid. The alcohol is now an alkoxy group on iodine."
+    },
+    {
+      "stepKey": "acetate-leaves",
+      "stepKind": "polar",
+      "toStateId": "iodonium",
+      "fromStateId": "alkoxyperiodinane",
+      "canonicalArrows": [
+        "σ I1-O15 -> lp O15"
+      ],
+      "routePreference": "preferred",
+      "explanationAfterStep": "A second acetate leaves iodine. This is one simple way to draw where the base comes from; the order of these small steps is not known for certain."
+    },
+    {
+      "stepKey": "oxidation",
+      "stepKind": "polar",
+      "toStateId": "products",
+      "fromStateId": "iodonium",
+      "canonicalArrows": [
+        "lp O15 -> σ O15-H31",
+        "σ C30-H31 -> π C30-O32",
+        "σ O32-I1 -> lp I1"
+      ],
+      "routePreference": "preferred",
+      "explanationAfterStep": "Acetate removes the hydrogen on the alcohol carbon, the C=O forms and the O–I pair goes to iodine: iodine(V) is reduced to iodine(III), the alcohol oxidised to the aldehyde. It is the same pattern as the Swern's last step."
+    }
+  ],
+  "title": "Dess–Martin oxidation",
+  "authors": [
+    {
+      "url": null,
+      "name": "Maksim"
+    }
+  ],
+  "licence": "CC-BY-SA-4.0",
+  "subtitle": "A hypervalent iodine(V) reagent oxidises benzyl alcohol to benzaldehyde",
+  "references": [
+    "Clayden, Greeves and Warren, Organic Chemistry, 2nd edition (Oxford University Press), chapter 23"
+  ],
+  "reactionSlug": "dess-martin-oxidation",
+  "startStateId": "reactants",
+  "formatVersion": 1,
+  "difficultyTier": 2,
+  "stateIdToState": {
+    "iodonium": {
+      "caption": "iodine(V) cation + acetate + acetic acid",
+      "hintTiers": [
+        "Iodine(V) wants to become iodine(III) by taking a pair of electrons. Which hydrogen does acetate remove, and where does the I–O bond's pair go?",
+        "Three arrows: acetate takes the hydrogen on the alcohol carbon, that C–H pair makes a C=O π bond, and the O–I bond breaks with its pair going to iodine.",
+        "Acetate oxygen lone pair → new O–H bond to the hydrogen on the alcohol carbon; that C–H bond → new C=O π bond; O–I bond → lone pair on iodine."
+      ],
+      "mappedSmiles": "[O:9]=[C:8]1[O:10][I+:1]([O:32][CH:30]([H:31])[C:34]3=[CH:35][CH:36]=[CH:37][CH:38]=[CH:39]3)([O:19][C:20](=[O:21])[CH3:22])[C:2]2=[CH:3][CH:4]=[CH:5][CH:6]=[C:7]12.[H:33][O:11][C:12](=[O:13])[CH3:14].[O-:15][C:16](=[O:17])[CH3:18]",
+      "learnerPrompt": "The oxidation step: acetate removes the hydrogen on the alcohol carbon.",
+      "misconceptions": [
+        {
+          "severity": "wrong",
+          "arrowPattern": "σ I1-O32 -> lp O32",
+          "feedbackMessage": "If the O–I pair went to oxygen, iodine would not be reduced and no C=O could form. Iodine takes the pair: iodine(V) becomes iodine(III).",
+          "misconceptionId": "i-o-pair-to-oxygen",
+          "misconceptionTag": "wrong-direction-of-cleavage"
+        },
+        {
+          "severity": "plausible",
+          "arrowPattern": "lp O15 -> I1",
+          "feedbackMessage": "That reverses the last step. Use the acetate as a base.",
+          "misconceptionId": "acetate-back-on-iodine",
+          "misconceptionTag": "reverse-step"
+        }
+      ],
+      "mapNumberToCoordinates": {
+        "1": [
+          2.97,
+          -0.31
+        ],
+        "2": [
+          1.5,
+          0
+        ],
+        "3": [
+          0.75,
+          1.3
+        ],
+        "4": [
+          -0.75,
+          1.3
+        ],
+        "5": [
+          -1.5,
+          0
+        ],
+        "6": [
+          -0.75,
+          -1.3
+        ],
+        "7": [
+          0.75,
+          -1.3
+        ],
+        "8": [
+          1.75,
+          -2.41
+        ],
+        "9": [
+          1.44,
+          -3.88
+        ],
+        "10": [
+          3.12,
+          -1.8
+        ],
+        "11": [
+          10.78,
+          0.14
+        ],
+        "12": [
+          9.48,
+          0.89
+        ],
+        "13": [
+          9.48,
+          2.39
+        ],
+        "14": [
+          8.18,
+          0.14
+        ],
+        "15": [
+          2.6,
+          4.28
+        ],
+        "16": [
+          1.3,
+          5.03
+        ],
+        "17": [
+          1.3,
+          6.53
+        ],
+        "18": [
+          0,
+          4.28
+        ],
+        "19": [
+          3.12,
+          1.18
+        ],
+        "20": [
+          4.49,
+          1.79
+        ],
+        "21": [
+          5.71,
+          0.91
+        ],
+        "22": [
+          4.65,
+          3.28
+        ],
+        "30": [
+          5.22,
+          -1.61
+        ],
+        "31": [
+          6.72,
+          -1.61
+        ],
+        "32": [
+          4.47,
+          -0.31
+        ],
+        "33": [
+          12.08,
+          0.89
+        ],
+        "34": [
+          4.47,
+          -2.91
+        ],
+        "35": [
+          2.97,
+          -2.91
+        ],
+        "36": [
+          2.22,
+          -4.21
+        ],
+        "37": [
+          2.97,
+          -5.51
+        ],
+        "38": [
+          4.47,
+          -5.51
+        ],
+        "39": [
+          5.22,
+          -4.21
+        ]
+      },
+      "partialProgressMessages": [
+        {
+          "learnerArrows": [
+            "lp O15 -> σ O15-H31",
+            "σ C30-H31 -> π C30-O32"
+          ],
+          "feedbackMessage": "Right so far: the C=O is forming. Oxygen now has too many bonds: break the O–I bond, with its pair going to iodine."
+        }
+      ]
+    },
+    "products": {
+      "caption": "benzaldehyde + iodinane (iodine(III)) + two acetic acid",
+      "mappedSmiles": "[O:9]=[C:8]1[O:10][I:1]([O:19][C:20](=[O:21])[CH3:22])[C:2]2=[CH:3][CH:4]=[CH:5][CH:6]=[C:7]12.[O:32]=[CH:30][C:34]3=[CH:35][CH:36]=[CH:37][CH:38]=[CH:39]3.[H:31][O:15][C:16](=[O:17])[CH3:18].[H:33][O:11][C:12](=[O:13])[CH3:14]",
+      "mapNumberToCoordinates": {
+        "1": [
+          2.97,
+          -0.31
+        ],
+        "2": [
+          1.5,
+          0
+        ],
+        "3": [
+          0.75,
+          1.3
+        ],
+        "4": [
+          -0.75,
+          1.3
+        ],
+        "5": [
+          -1.5,
+          0
+        ],
+        "6": [
+          -0.75,
+          -1.3
+        ],
+        "7": [
+          0.75,
+          -1.3
+        ],
+        "8": [
+          1.75,
+          -2.41
+        ],
+        "9": [
+          1.44,
+          -3.88
+        ],
+        "10": [
+          3.12,
+          -1.8
+        ],
+        "11": [
+          4.14,
+          8.07
+        ],
+        "12": [
+          2.84,
+          8.82
+        ],
+        "13": [
+          2.84,
+          10.32
+        ],
+        "14": [
+          1.54,
+          8.07
+        ],
+        "15": [
+          11.25,
+          0.18
+        ],
+        "16": [
+          9.95,
+          0.93
+        ],
+        "17": [
+          9.95,
+          2.43
+        ],
+        "18": [
+          8.66,
+          0.18
+        ],
+        "19": [
+          4.08,
+          0.69
+        ],
+        "20": [
+          5.51,
+          0.23
+        ],
+        "21": [
+          5.82,
+          -1.24
+        ],
+        "22": [
+          6.62,
+          1.23
+        ],
+        "30": [
+          2.57,
+          4.82
+        ],
+        "31": [
+          12.55,
+          0.93
+        ],
+        "32": [
+          3.32,
+          3.53
+        ],
+        "33": [
+          5.44,
+          8.82
+        ],
+        "34": [
+          1.07,
+          4.82
+        ],
+        "35": [
+          0.32,
+          6.12
+        ],
+        "36": [
+          -1.18,
+          6.12
+        ],
+        "37": [
+          -1.93,
+          4.82
+        ],
+        "38": [
+          -1.18,
+          3.53
+        ],
+        "39": [
+          0.32,
+          3.53
+        ]
+      }
+    },
+    "reactants": {
+      "caption": "Dess–Martin periodinane + benzyl alcohol",
+      "hintTiers": [
+        "Iodine(V) carries three acetates, and acetate is a good leaving group. Which atom of the alcohol attacks iodine?",
+        "The alcohol oxygen makes a bond to iodine, and one I–O bond to an acetate breaks, its pair going to the acetate oxygen. Two arrows.",
+        "Alcohol oxygen lone pair → new O–I bond; I–OAc bond → lone pair on the acetate oxygen."
+      ],
+      "mappedSmiles": "[O:9]=[C:8]1[O:10][I:1]([O:11][C:12](=[O:13])[CH3:14])([O:15][C:16](=[O:17])[CH3:18])([O:19][C:20](=[O:21])[CH3:22])[C:2]2=[CH:3][CH:4]=[CH:5][CH:6]=[C:7]12.[CH:30]([H:31])([O:32][H:33])[C:34]1=[CH:35][CH:36]=[CH:37][CH:38]=[CH:39]1",
+      "learnerPrompt": "The alcohol swaps onto iodine.",
+      "misconceptions": [
+        {
+          "severity": "plausible",
+          "arrowPattern": "lp O32 -> C*",
+          "feedbackMessage": "Attack at an acetate carbonyl would only make benzyl acetate, slowly. Iodine is the electrophile: the alcohol swaps for an acetate there.",
+          "misconceptionId": "alcohol-attacks-acetate-carbonyl",
+          "misconceptionTag": "unproductive-addition"
+        },
+        {
+          "severity": "plausible",
+          "arrowPattern": "lp O32 -> σ O32-I1; σ I1-O10 -> lp O10",
+          "feedbackMessage": "The ring oxygen is held in a five-membered ring; an acetate leaves far more easily.",
+          "misconceptionId": "ring-oxygen-leaves",
+          "misconceptionTag": "wrong-group-leaves"
+        },
+        {
+          "severity": "wrong",
+          "arrowPattern": "σ I1-O11 -> lp I1",
+          "feedbackMessage": "Oxygen is more electronegative than iodine: the I–O pair leaves with the acetate oxygen.",
+          "misconceptionId": "i-o-pair-to-iodine",
+          "misconceptionTag": "wrong-direction-of-cleavage"
+        }
+      ],
+      "mapNumberToCoordinates": {
+        "1": [
+          2.97,
+          -0.31
+        ],
+        "2": [
+          1.5,
+          0
+        ],
+        "3": [
+          0.75,
+          1.3
+        ],
+        "4": [
+          -0.75,
+          1.3
+        ],
+        "5": [
+          -1.5,
+          0
+        ],
+        "6": [
+          -0.75,
+          -1.3
+        ],
+        "7": [
+          0.75,
+          -1.3
+        ],
+        "8": [
+          1.75,
+          -2.41
+        ],
+        "9": [
+          1.44,
+          -3.88
+        ],
+        "10": [
+          3.12,
+          -1.8
+        ],
+        "11": [
+          4.08,
+          0.69
+        ],
+        "12": [
+          5.51,
+          0.23
+        ],
+        "13": [
+          5.82,
+          -1.24
+        ],
+        "14": [
+          6.62,
+          1.23
+        ],
+        "15": [
+          2.58,
+          1.14
+        ],
+        "16": [
+          3.64,
+          2.2
+        ],
+        "17": [
+          5.09,
+          1.81
+        ],
+        "18": [
+          3.25,
+          3.65
+        ],
+        "19": [
+          4.37,
+          -0.85
+        ],
+        "20": [
+          4.6,
+          -2.33
+        ],
+        "21": [
+          3.44,
+          -3.27
+        ],
+        "22": [
+          6,
+          -2.87
+        ],
+        "30": [
+          2.73,
+          7.23
+        ],
+        "31": [
+          3.48,
+          5.93
+        ],
+        "32": [
+          3.48,
+          8.53
+        ],
+        "33": [
+          4.98,
+          8.53
+        ],
+        "34": [
+          1.23,
+          7.23
+        ],
+        "35": [
+          0.48,
+          8.53
+        ],
+        "36": [
+          -1.02,
+          8.53
+        ],
+        "37": [
+          -1.77,
+          7.23
+        ],
+        "38": [
+          -1.02,
+          5.93
+        ],
+        "39": [
+          0.48,
+          5.93
+        ]
+      },
+      "partialProgressMessages": [
+        {
+          "learnerArrows": [
+            "lp O32 -> σ O32-I1"
+          ],
+          "feedbackMessage": "Right: oxygen attacks iodine. Iodine already has five bonds: let an acetate leave with the I–O pair."
+        }
+      ]
+    },
+    "alkoxy-oxonium": {
+      "caption": "alcohol bound to iodine + acetate",
+      "hintTiers": [
+        "The oxygen bound to iodine carries a positive charge and an O–H. Which base was just released?",
+        "The acetate oxygen takes the O–H proton; the O–H pair stays on the alcohol oxygen. Two arrows.",
+        "Acetate oxygen lone pair → new O–H bond; O–H bond → lone pair on the oxygen bound to iodine."
+      ],
+      "mappedSmiles": "[O:9]=[C:8]1[O:10][I:1]([O+:32]([H:33])[CH:30]([H:31])[C:34]3=[CH:35][CH:36]=[CH:37][CH:38]=[CH:39]3)([O:15][C:16](=[O:17])[CH3:18])([O:19][C:20](=[O:21])[CH3:22])[C:2]2=[CH:3][CH:4]=[CH:5][CH:6]=[C:7]12.[O-:11][C:12](=[O:13])[CH3:14]",
+      "learnerPrompt": "Remove the proton from the positive oxygen.",
+      "misconceptions": [
+        {
+          "severity": "plausible",
+          "arrowPattern": "lp O11 -> H31",
+          "feedbackMessage": "The O–H proton on the positive oxygen is far more acidic. Take it first.",
+          "misconceptionId": "acetate-takes-alpha-h-now",
+          "misconceptionTag": "wrong-proton"
+        },
+        {
+          "severity": "plausible",
+          "arrowPattern": "lp O11 -> I1",
+          "feedbackMessage": "That reverses the exchange. Deprotonate the oxygen instead.",
+          "misconceptionId": "acetate-goes-back",
+          "misconceptionTag": "reverse-step"
+        }
+      ],
+      "mapNumberToCoordinates": {
+        "1": [
+          2.97,
+          -0.31
+        ],
+        "2": [
+          1.5,
+          0
+        ],
+        "3": [
+          0.75,
+          1.3
+        ],
+        "4": [
+          -0.75,
+          1.3
+        ],
+        "5": [
+          -1.5,
+          0
+        ],
+        "6": [
+          -0.75,
+          -1.3
+        ],
+        "7": [
+          0.75,
+          -1.3
+        ],
+        "8": [
+          1.75,
+          -2.41
+        ],
+        "9": [
+          1.44,
+          -3.88
+        ],
+        "10": [
+          3.12,
+          -1.8
+        ],
+        "11": [
+          2.18,
+          5.67
+        ],
+        "12": [
+          0.89,
+          6.42
+        ],
+        "13": [
+          0.89,
+          7.92
+        ],
+        "14": [
+          -0.41,
+          5.67
+        ],
+        "15": [
+          4.08,
+          0.69
+        ],
+        "16": [
+          5.51,
+          0.23
+        ],
+        "17": [
+          5.82,
+          -1.24
+        ],
+        "18": [
+          6.62,
+          1.23
+        ],
+        "19": [
+          2.58,
+          1.14
+        ],
+        "20": [
+          3.64,
+          2.2
+        ],
+        "21": [
+          5.09,
+          1.81
+        ],
+        "22": [
+          3.25,
+          3.65
+        ],
+        "30": [
+          4.6,
+          -2.33
+        ],
+        "31": [
+          3.44,
+          -3.27
+        ],
+        "32": [
+          4.37,
+          -0.85
+        ],
+        "33": [
+          5.09,
+          -0.51
+        ],
+        "34": [
+          6,
+          -2.87
+        ],
+        "35": [
+          7.17,
+          -1.92
+        ],
+        "36": [
+          8.57,
+          -2.46
+        ],
+        "37": [
+          8.8,
+          -3.94
+        ],
+        "38": [
+          7.64,
+          -4.89
+        ],
+        "39": [
+          6.24,
+          -4.35
+        ]
+      }
+    },
+    "alkoxyperiodinane": {
+      "caption": "alkoxyperiodinane + acetic acid",
+      "hintTiers": [
+        "To remove the hydrogen on the alcohol carbon a base is needed. Where can a second acetate come from?",
+        "An I–OAc bond breaks, its pair going to the acetate oxygen: an acetate anion and an iodine cation. One arrow.",
+        "I–OAc bond → lone pair on the acetate oxygen."
+      ],
+      "mappedSmiles": "[O:9]=[C:8]1[O:10][I:1]([O:32][CH:30]([H:31])[C:34]3=[CH:35][CH:36]=[CH:37][CH:38]=[CH:39]3)([O:15][C:16](=[O:17])[CH3:18])([O:19][C:20](=[O:21])[CH3:22])[C:2]2=[CH:3][CH:4]=[CH:5][CH:6]=[C:7]12.[H:33][O:11][C:12](=[O:13])[CH3:14]",
+      "learnerPrompt": "A second acetate leaves iodine.",
+      "misconceptions": [
+        {
+          "severity": "plausible",
+          "arrowPattern": "σ I1-O32 -> lp O32",
+          "feedbackMessage": "That would only release the alkoxide again. An acetate leaves instead, and then serves as the base.",
+          "misconceptionId": "alkoxide-leaves",
+          "misconceptionTag": "reverse-step"
+        },
+        {
+          "severity": "wrong",
+          "arrowPattern": "lp O11 -> H31",
+          "feedbackMessage": "Acetic acid is not a base strong enough to pull off that C–H. A fresh acetate anion is needed.",
+          "misconceptionId": "acetic-acid-as-base",
+          "misconceptionTag": "weak-base"
+        }
+      ],
+      "mapNumberToCoordinates": {
+        "1": [
+          2.97,
+          -0.31
+        ],
+        "2": [
+          1.5,
+          0
+        ],
+        "3": [
+          0.75,
+          1.3
+        ],
+        "4": [
+          -0.75,
+          1.3
+        ],
+        "5": [
+          -1.5,
+          0
+        ],
+        "6": [
+          -0.75,
+          -1.3
+        ],
+        "7": [
+          0.75,
+          -1.3
+        ],
+        "8": [
+          1.75,
+          -2.41
+        ],
+        "9": [
+          1.44,
+          -3.88
+        ],
+        "10": [
+          3.12,
+          -1.8
+        ],
+        "11": [
+          2.27,
+          5.7
+        ],
+        "12": [
+          0.97,
+          6.45
+        ],
+        "13": [
+          0.97,
+          7.95
+        ],
+        "14": [
+          -0.33,
+          5.7
+        ],
+        "15": [
+          4.08,
+          0.69
+        ],
+        "16": [
+          5.51,
+          0.23
+        ],
+        "17": [
+          5.82,
+          -1.24
+        ],
+        "18": [
+          6.62,
+          1.23
+        ],
+        "19": [
+          2.58,
+          1.14
+        ],
+        "20": [
+          3.64,
+          2.2
+        ],
+        "21": [
+          5.09,
+          1.81
+        ],
+        "22": [
+          3.25,
+          3.65
+        ],
+        "30": [
+          4.6,
+          -2.33
+        ],
+        "31": [
+          3.44,
+          -3.27
+        ],
+        "32": [
+          4.37,
+          -0.85
+        ],
+        "33": [
+          3.57,
+          6.45
+        ],
+        "34": [
+          6,
+          -2.87
+        ],
+        "35": [
+          7.17,
+          -1.92
+        ],
+        "36": [
+          8.57,
+          -2.46
+        ],
+        "37": [
+          8.8,
+          -3.94
+        ],
+        "38": [
+          7.64,
+          -4.89
+        ],
+        "39": [
+          6.24,
+          -4.35
+        ]
+      }
+    }
+  },
+  "conditionsLabel": "Dess–Martin periodinane · CH₂Cl₂ · 25 °C",
+  "reactionClasses": [
+    "substitution",
+    "elimination"
+  ],
+  "reactionVersion": 1,
+  "mechanismSummary": "Benzyl alcohol replaces an acetate on the iodine(V) of Dess–Martin periodinane and loses its O–H proton. After a second acetate leaves iodine, that acetate removes the hydrogen on the alcohol carbon: the C=O forms and the O–I pair goes to iodine, which is reduced to iodine(III). Benzaldehyde is formed under neutral conditions at room temperature, with no over-oxidation.",
+  "abbreviatedGroups": [
+    {
+      "groupLabel": "OAc",
+      "mapNumbers": [
+        19,
+        20,
+        21,
+        22
+      ],
+      "attachmentMapNumber": 19
+    },
+    {
+      "groupLabel": "Ph",
+      "mapNumbers": [
+        34,
+        35,
+        36,
+        37,
+        38,
+        39
+      ],
+      "attachmentMapNumber": 34
+    }
+  ],
+  "dailyPuzzleEligible": true,
+  "spectatorMapNumbers": [],
+  "atomRoleToMapNumbers": {
+    "iodine": [
+      1
+    ],
+    "alcoholOxygen": [
+      32
+    ],
+    "alphaHydrogen": [
+      31
+    ]
+  },
+  "previousReactionVersion": null
+}

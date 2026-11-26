@@ -1,0 +1,966 @@
+{
+  "steps": [
+    {
+      "stepKey": "conjugate-addition",
+      "stepKind": "polar",
+      "toStateId": "zwitterion",
+      "fromStateId": "reactants",
+      "canonicalArrows": [
+        "lp N1 -> σ N1-C9",
+        "π C9-C10 -> π C10-C11",
+        "π C11-O12 -> lp O12"
+      ],
+      "routePreference": "preferred",
+      "explanationAfterStep": "DABCO adds 1,4 to the acrylate. This turns the electrophilic alkene into a nucleophilic enolate."
+    },
+    {
+      "stepKey": "aldol-addition",
+      "stepKind": "polar",
+      "toStateId": "alkoxide",
+      "fromStateId": "zwitterion",
+      "canonicalArrows": [
+        "lp O12 -> π C11-O12",
+        "π C10-C11 -> σ C10-C16",
+        "π C16-O17 -> lp O17"
+      ],
+      "routePreference": "preferred",
+      "explanationAfterStep": "An aldol-type addition. Benzaldehyde has no α-hydrogens, so it is only ever the electrophile."
+    },
+    {
+      "stepKey": "alkoxide-protonation",
+      "stepKind": "polar",
+      "toStateId": "alcohol",
+      "fromStateId": "alkoxide",
+      "canonicalArrows": [
+        "lp O17 -> σ O17-H25",
+        "σ O24-H25 -> lp O24"
+      ],
+      "routePreference": "preferred",
+      "explanationAfterStep": "Methanol protonates the alkoxide. Protic solvents speed up the Baylis–Hillman reaction by passing protons like this."
+    },
+    {
+      "stepKey": "second-deprotonation",
+      "stepKind": "polar",
+      "toStateId": "enolate",
+      "fromStateId": "alcohol",
+      "canonicalArrows": [
+        "lp O24 -> σ O24-H15",
+        "σ C10-H15 -> π C10-C11",
+        "π C11-O12 -> lp O12"
+      ],
+      "routePreference": "preferred",
+      "explanationAfterStep": "The C–H next to the ester is acidic, and the nearby positive nitrogen makes it more so. This proton transfer is the slow step."
+    },
+    {
+      "stepKey": "loss-of-dabco",
+      "stepKind": "polar",
+      "toStateId": "products",
+      "fromStateId": "enolate",
+      "canonicalArrows": [
+        "lp O12 -> π C11-O12",
+        "π C10-C11 -> π C9-C10",
+        "σ C9-N1 -> lp N1"
+      ],
+      "routePreference": "preferred",
+      "explanationAfterStep": "E1cB: the enolate pushes out DABCO, which is free to start again. The net result adds the α-carbon of an acrylate to an aldehyde while keeping the C=C."
+    }
+  ],
+  "title": "Baylis–Hillman reaction",
+  "authors": [
+    {
+      "url": null,
+      "name": "Maksim"
+    }
+  ],
+  "licence": "CC-BY-SA-4.0",
+  "subtitle": "DABCO turns methyl acrylate into a nucleophile for benzaldehyde",
+  "references": [
+    "Clayden, Greeves and Warren, Organic Chemistry, 2nd edition (Oxford University Press), chapter 22"
+  ],
+  "reactionSlug": "baylis-hillman-reaction",
+  "startStateId": "reactants",
+  "formatVersion": 1,
+  "difficultyTier": 3,
+  "stateIdToState": {
+    "alcohol": {
+      "caption": "ammonium alcohol + methoxide",
+      "hintTiers": [
+        "Which C–H sits next to the ester C=O and can form an enolate?",
+        "Methoxide takes the drawn hydrogen on the carbon next to the ester. The C–H pair forms a C=C bond to the carbonyl carbon, and the C=O π pair moves onto oxygen. Three arrows.",
+        "Methoxide lone pair → new bond to the drawn hydrogen; that C–H bond → a π bond to the ester carbonyl carbon; C=O π bond → a lone pair on oxygen."
+      ],
+      "mappedSmiles": "[N+:1]12([CH2:9][C:10]([H:15])([C:11](=[O:12])[O:13][CH3:14])[CH:16]([O:17][H:25])[C:18]9=[CH:19][CH:20]=[CH:21][CH:22]=[CH:23]9)[CH2:2][CH2:3][N:4]([CH2:5][CH2:6]1)[CH2:7][CH2:8]2.[O-:24][CH3:26]",
+      "learnerPrompt": "Methoxide removes the acidic C–H.",
+      "misconceptions": [
+        {
+          "severity": "plausible",
+          "arrowPattern": "lp O24 -> C11",
+          "feedbackMessage": "Methoxide adding to a methyl ester only swaps methoxide for methoxide. Use it as a base.",
+          "misconceptionId": "methoxide-adds-to-ester",
+          "misconceptionTag": "unproductive-addition"
+        },
+        {
+          "severity": "plausible",
+          "arrowPattern": "σ C10-H15 -> π C9-C10",
+          "feedbackMessage": "The textbook route is stepwise (E1cB): form the enolate first, and let it push DABCO out in the next step.",
+          "misconceptionId": "e2-elimination",
+          "misconceptionTag": "e2-instead-of-e1cb"
+        },
+        {
+          "severity": "plausible",
+          "arrowPattern": "lp O24 -> σ O24-H25",
+          "feedbackMessage": "Taking back the proton from the OH reverses the last step. Remove the C–H next to the ester.",
+          "misconceptionId": "take-proton-back",
+          "misconceptionTag": "reverse-step"
+        }
+      ],
+      "mapNumberToCoordinates": {
+        "1": [
+          1.5,
+          0
+        ],
+        "2": [
+          0.75,
+          1.3
+        ],
+        "3": [
+          -0.75,
+          1.3
+        ],
+        "4": [
+          -1.5,
+          0
+        ],
+        "5": [
+          -0.75,
+          -1.3
+        ],
+        "6": [
+          0.75,
+          -1.3
+        ],
+        "7": [
+          -0.68,
+          -0.05
+        ],
+        "8": [
+          0.68,
+          -0.05
+        ],
+        "9": [
+          3,
+          0
+        ],
+        "10": [
+          3.75,
+          1.3
+        ],
+        "11": [
+          2.45,
+          2.05
+        ],
+        "12": [
+          1.5,
+          1.78
+        ],
+        "13": [
+          2.45,
+          3.55
+        ],
+        "14": [
+          1.15,
+          4.3
+        ],
+        "15": [
+          4.5,
+          2.6
+        ],
+        "16": [
+          5.05,
+          0.55
+        ],
+        "17": [
+          5.05,
+          -0.95
+        ],
+        "18": [
+          6.35,
+          1.3
+        ],
+        "19": [
+          7.65,
+          0.55
+        ],
+        "20": [
+          8.95,
+          1.3
+        ],
+        "21": [
+          8.95,
+          2.8
+        ],
+        "22": [
+          7.65,
+          3.55
+        ],
+        "23": [
+          6.35,
+          2.8
+        ],
+        "24": [
+          0.9,
+          6.72
+        ],
+        "25": [
+          6.35,
+          -1.7
+        ],
+        "26": [
+          -0.4,
+          5.97
+        ]
+      },
+      "partialProgressMessages": [
+        {
+          "learnerArrows": [
+            "lp O24 -> σ O24-H15",
+            "σ C10-H15 -> π C10-C11"
+          ],
+          "feedbackMessage": "Good: methoxide takes the proton and a C=C bond forms. Now move the C=O π pair onto oxygen."
+        }
+      ]
+    },
+    "enolate": {
+      "caption": "ammonium enolate + methanol",
+      "hintTiers": [
+        "Electrons from the enolate oxygen can flow along the C=C towards the carbon bonded to the positive nitrogen.",
+        "The O⁻ lone pair re-forms C=O, the C=C π pair moves one bond along to the CH₂, and the C–N bond breaks onto nitrogen. Three arrows.",
+        "Enolate O⁻ lone pair → C=O π bond; C=C π bond → a π bond to the CH₂ carbon; C–N bond → a lone pair on nitrogen."
+      ],
+      "mappedSmiles": "[N+:1]12([CH2:9][C:10](=[C:11]([O-:12])[O:13][CH3:14])[CH:16]([O:17][H:25])[C:18]9=[CH:19][CH:20]=[CH:21][CH:22]=[CH:23]9)[CH2:2][CH2:3][N:4]([CH2:5][CH2:6]1)[CH2:7][CH2:8]2.[H:15][O:24][CH3:26]",
+      "learnerPrompt": "The enolate pushes out DABCO.",
+      "misconceptions": [
+        {
+          "severity": "plausible",
+          "arrowPattern": "* -> σ C10-H15",
+          "feedbackMessage": "Taking the proton back reverses the last step. Let the enolate push DABCO out instead.",
+          "misconceptionId": "enolate-reprotonated",
+          "misconceptionTag": "reverse-step"
+        },
+        {
+          "severity": "wrong",
+          "arrowPattern": "π C10-C11 -> π C10-C16",
+          "feedbackMessage": "Hydroxide is a poor leaving group here, and the conjugated product keeps its OH. The neutral amine DABCO is the leaving group.",
+          "misconceptionId": "hydroxide-leaves",
+          "misconceptionTag": "poor-leaving-group"
+        }
+      ],
+      "mapNumberToCoordinates": {
+        "1": [
+          1.5,
+          0
+        ],
+        "2": [
+          0.75,
+          1.3
+        ],
+        "3": [
+          -0.75,
+          1.3
+        ],
+        "4": [
+          -1.5,
+          0
+        ],
+        "5": [
+          -0.75,
+          -1.3
+        ],
+        "6": [
+          0.75,
+          -1.3
+        ],
+        "7": [
+          -0.68,
+          -0.05
+        ],
+        "8": [
+          0.68,
+          -0.05
+        ],
+        "9": [
+          3,
+          0
+        ],
+        "10": [
+          3.75,
+          1.3
+        ],
+        "11": [
+          5.25,
+          1.3
+        ],
+        "12": [
+          6,
+          2.6
+        ],
+        "13": [
+          6,
+          0
+        ],
+        "14": [
+          7.5,
+          0
+        ],
+        "15": [
+          2.38,
+          8.34
+        ],
+        "16": [
+          3,
+          2.6
+        ],
+        "17": [
+          1.5,
+          2.6
+        ],
+        "18": [
+          3.75,
+          3.9
+        ],
+        "19": [
+          5.25,
+          3.9
+        ],
+        "20": [
+          6,
+          5.2
+        ],
+        "21": [
+          5.25,
+          6.5
+        ],
+        "22": [
+          3.75,
+          6.5
+        ],
+        "23": [
+          3,
+          5.2
+        ],
+        "24": [
+          1.08,
+          9.09
+        ],
+        "25": [
+          0.75,
+          3.9
+        ],
+        "26": [
+          -0.21,
+          8.34
+        ]
+      },
+      "partialProgressMessages": [
+        {
+          "learnerArrows": [
+            "σ C9-N1 -> lp N1"
+          ],
+          "feedbackMessage": "DABCO does leave here, but only because the enolate pushes it out. Add the arrows from the O⁻ lone pair and the C=C bond."
+        }
+      ]
+    },
+    "alkoxide": {
+      "caption": "ammonium alkoxide + methanol",
+      "hintTiers": [
+        "The alkoxide is a base. Methanol, the solvent, is a proton source.",
+        "The O⁻ lone pair takes the drawn hydrogen of methanol, and the O–H pair stays on methanol's oxygen. Two arrows.",
+        "Alkoxide lone pair → new O–H bond to the hydrogen of methanol; that O–H bond → a lone pair on methanol's oxygen."
+      ],
+      "mappedSmiles": "[N+:1]12([CH2:9][C:10]([H:15])([C:11](=[O:12])[O:13][CH3:14])[CH:16]([O-:17])[C:18]9=[CH:19][CH:20]=[CH:21][CH:22]=[CH:23]9)[CH2:2][CH2:3][N:4]([CH2:5][CH2:6]1)[CH2:7][CH2:8]2.[H:25][O:24][CH3:26]",
+      "learnerPrompt": "Protonate the alkoxide.",
+      "misconceptions": [
+        {
+          "severity": "plausible",
+          "arrowPattern": "σ C10-C16 -> *",
+          "feedbackMessage": "Breaking the new C–C bond reverses the aldol step. Protonate the alkoxide.",
+          "misconceptionId": "retro-aldol",
+          "misconceptionTag": "reverse-step"
+        },
+        {
+          "severity": "plausible",
+          "arrowPattern": "lp O17 -> σ O17-H15",
+          "feedbackMessage": "A direct hop of the α-proton onto the alkoxide oxygen goes through a strained four-membered ring and is slow. In methanol the solvent passes the proton: protonate the alkoxide first.",
+          "misconceptionId": "intramolecular-proton-transfer",
+          "misconceptionTag": "proton-transfer-too-far"
+        },
+        {
+          "severity": "wrong",
+          "arrowPattern": "σ N1-C9 -> lp N1",
+          "feedbackMessage": "DABCO leaves only once an enolate can push it out. Move the protons first.",
+          "misconceptionId": "dabco-leaves-now",
+          "misconceptionTag": "wrong-order"
+        }
+      ],
+      "mapNumberToCoordinates": {
+        "1": [
+          3.75,
+          -1.3
+        ],
+        "2": [
+          5.25,
+          -1.3
+        ],
+        "3": [
+          6,
+          -2.6
+        ],
+        "4": [
+          5.25,
+          -3.9
+        ],
+        "5": [
+          3.75,
+          -3.9
+        ],
+        "6": [
+          3,
+          -2.6
+        ],
+        "7": [
+          4.8,
+          -3.21
+        ],
+        "8": [
+          4.12,
+          -2.04
+        ],
+        "9": [
+          3,
+          0
+        ],
+        "10": [
+          3.75,
+          1.3
+        ],
+        "11": [
+          2.45,
+          2.05
+        ],
+        "12": [
+          2.45,
+          3.55
+        ],
+        "13": [
+          1.15,
+          1.3
+        ],
+        "14": [
+          -0.15,
+          2.05
+        ],
+        "15": [
+          4.5,
+          2.6
+        ],
+        "16": [
+          5.05,
+          0.55
+        ],
+        "17": [
+          5.29,
+          -0.41
+        ],
+        "18": [
+          6.35,
+          1.3
+        ],
+        "19": [
+          7.65,
+          0.55
+        ],
+        "20": [
+          8.95,
+          1.3
+        ],
+        "21": [
+          8.95,
+          2.8
+        ],
+        "22": [
+          7.65,
+          3.55
+        ],
+        "23": [
+          6.35,
+          2.8
+        ],
+        "24": [
+          0.42,
+          6.47
+        ],
+        "25": [
+          1.72,
+          5.72
+        ],
+        "26": [
+          -0.88,
+          5.72
+        ]
+      },
+      "partialProgressMessages": [
+        {
+          "learnerArrows": [
+            "lp O17 -> σ O17-H25"
+          ],
+          "feedbackMessage": "Good: the alkoxide takes the proton. Where does the O–H bonding pair of methanol go?"
+        }
+      ]
+    },
+    "products": {
+      "caption": "methyl 2-(hydroxy(phenyl)methyl)acrylate + DABCO + methanol",
+      "mappedSmiles": "[CH2:9]=[C:10]([C:11](=[O:12])[O:13][CH3:14])[CH:16]([O:17][H:25])[C:18]9=[CH:19][CH:20]=[CH:21][CH:22]=[CH:23]9.[N:1]12[CH2:2][CH2:3][N:4]([CH2:5][CH2:6]1)[CH2:7][CH2:8]2.[H:15][O:24][CH3:26]",
+      "mapNumberToCoordinates": {
+        "1": [
+          0.95,
+          4.83
+        ],
+        "2": [
+          0.2,
+          6.13
+        ],
+        "3": [
+          -1.3,
+          6.13
+        ],
+        "4": [
+          -2.05,
+          4.83
+        ],
+        "5": [
+          -1.3,
+          3.53
+        ],
+        "6": [
+          0.2,
+          3.53
+        ],
+        "7": [
+          -1.23,
+          4.78
+        ],
+        "8": [
+          0.12,
+          4.78
+        ],
+        "9": [
+          5.25,
+          -1.3
+        ],
+        "10": [
+          3.75,
+          -1.3
+        ],
+        "11": [
+          3,
+          -2.6
+        ],
+        "12": [
+          3.75,
+          -3.9
+        ],
+        "13": [
+          1.5,
+          -2.6
+        ],
+        "14": [
+          0.75,
+          -3.9
+        ],
+        "15": [
+          9.85,
+          0.2
+        ],
+        "16": [
+          3,
+          0
+        ],
+        "17": [
+          3.75,
+          1.3
+        ],
+        "18": [
+          1.5,
+          0
+        ],
+        "19": [
+          0.75,
+          1.3
+        ],
+        "20": [
+          -0.75,
+          1.3
+        ],
+        "21": [
+          -1.5,
+          0
+        ],
+        "22": [
+          -0.75,
+          -1.3
+        ],
+        "23": [
+          0.75,
+          -1.3
+        ],
+        "24": [
+          8.55,
+          0.95
+        ],
+        "25": [
+          5.25,
+          1.3
+        ],
+        "26": [
+          7.25,
+          0.2
+        ]
+      }
+    },
+    "reactants": {
+      "caption": "DABCO + methyl acrylate + benzaldehyde + methanol",
+      "hintTiers": [
+        "DABCO's nitrogen is a good nucleophile but a poor base towards C–H. Methyl acrylate is a Michael acceptor.",
+        "One nitrogen lone pair forms a new bond to the CH₂ end of the acrylate. The C=C pair moves next to the carbonyl carbon, and the C=O π pair moves onto oxygen. Three arrows.",
+        "Nitrogen lone pair → new N–C bond to the terminal CH₂ of the acrylate; C=C π bond → a π bond between the α-carbon and the carbonyl carbon; C=O π bond → a lone pair on oxygen."
+      ],
+      "mappedSmiles": "[N:1]12[CH2:2][CH2:3][N:4]([CH2:5][CH2:6]1)[CH2:7][CH2:8]2.[CH2:9]=[C:10]([H:15])[C:11](=[O:12])[O:13][CH3:14].[O:17]=[CH:16][C:18]9=[CH:19][CH:20]=[CH:21][CH:22]=[CH:23]9.[H:25][O:24][CH3:26]",
+      "learnerPrompt": "DABCO is a nucleophilic amine catalyst. Where does it add first?",
+      "misconceptions": [
+        {
+          "severity": "plausible",
+          "arrowPattern": "lp N1 -> C16",
+          "feedbackMessage": "A tertiary amine can add to the aldehyde, but the adduct falls apart again and leads nowhere. DABCO adds to the acrylate.",
+          "misconceptionId": "amine-adds-to-aldehyde",
+          "misconceptionTag": "unproductive-addition"
+        },
+        {
+          "severity": "plausible",
+          "arrowPattern": "lp N1 -> C11",
+          "feedbackMessage": "Attack at the ester carbonyl is slow and reversible. The amine adds to the far end of the C=C.",
+          "misconceptionId": "amine-adds-to-ester",
+          "misconceptionTag": "direct-instead-of-conjugate"
+        },
+        {
+          "severity": "wrong",
+          "arrowPattern": "lp N1 -> C10",
+          "feedbackMessage": "The carbon next to the C=O is not electron-poor. Conjugation makes the terminal CH₂ the electrophilic end.",
+          "misconceptionId": "attack-alpha-carbon",
+          "misconceptionTag": "attack-non-electrophile"
+        }
+      ],
+      "mapNumberToCoordinates": {
+        "1": [
+          1.5,
+          0
+        ],
+        "2": [
+          0.75,
+          1.3
+        ],
+        "3": [
+          -0.75,
+          1.3
+        ],
+        "4": [
+          -1.5,
+          0
+        ],
+        "5": [
+          -0.75,
+          -1.3
+        ],
+        "6": [
+          0.75,
+          -1.3
+        ],
+        "7": [
+          -0.68,
+          -0.05
+        ],
+        "8": [
+          0.68,
+          -0.05
+        ],
+        "9": [
+          3.71,
+          0.65
+        ],
+        "10": [
+          5,
+          1.4
+        ],
+        "11": [
+          5,
+          2.9
+        ],
+        "12": [
+          6.3,
+          3.65
+        ],
+        "13": [
+          3.71,
+          3.65
+        ],
+        "14": [
+          3.71,
+          5.15
+        ],
+        "15": [
+          6.3,
+          0.65
+        ],
+        "16": [
+          0.7,
+          6.41
+        ],
+        "17": [
+          1.45,
+          5.11
+        ],
+        "18": [
+          -0.8,
+          6.41
+        ],
+        "19": [
+          -1.55,
+          7.71
+        ],
+        "20": [
+          -3.05,
+          7.71
+        ],
+        "21": [
+          -3.8,
+          6.41
+        ],
+        "22": [
+          -3.05,
+          5.11
+        ],
+        "23": [
+          -1.55,
+          5.11
+        ],
+        "24": [
+          2.75,
+          9.3
+        ],
+        "25": [
+          4.05,
+          8.55
+        ],
+        "26": [
+          1.45,
+          8.55
+        ]
+      },
+      "partialProgressMessages": [
+        {
+          "learnerArrows": [
+            "lp N1 -> σ N1-C9",
+            "π C9-C10 -> π C10-C11"
+          ],
+          "feedbackMessage": "Good: nitrogen bonds to the CH₂ and the C=C moves along. Now the carbonyl carbon has five bonds: move the C=O π pair onto oxygen."
+        }
+      ]
+    },
+    "zwitterion": {
+      "caption": "ammonium enolate (a zwitterion) + benzaldehyde + methanol",
+      "hintTiers": [
+        "The conjugate addition has made an enolate. Which carbon of benzaldehyde is electron-poor?",
+        "The O⁻ lone pair re-forms C=O, the C=C π pair forms a new C–C bond to the aldehyde carbon, and the aldehyde C=O π pair moves onto oxygen. Three arrows.",
+        "Enolate O⁻ lone pair → C=O π bond; C=C π bond → new C–C bond to the aldehyde carbon; aldehyde C=O π bond → a lone pair on its oxygen."
+      ],
+      "mappedSmiles": "[N+:1]12([CH2:9][C:10]([H:15])=[C:11]([O-:12])[O:13][CH3:14])[CH2:2][CH2:3][N:4]([CH2:5][CH2:6]1)[CH2:7][CH2:8]2.[O:17]=[CH:16][C:18]9=[CH:19][CH:20]=[CH:21][CH:22]=[CH:23]9.[H:25][O:24][CH3:26]",
+      "learnerPrompt": "The enolate attacks benzaldehyde.",
+      "misconceptions": [
+        {
+          "severity": "plausible",
+          "arrowPattern": "lp O12 -> C16",
+          "feedbackMessage": "O-attack is reversible and gets nowhere. Make the C–C bond: attack with the α-carbon.",
+          "misconceptionId": "oxygen-attacks",
+          "misconceptionTag": "ambident-wrong-end"
+        },
+        {
+          "severity": "plausible",
+          "arrowPattern": "* -> σ C10-H25",
+          "feedbackMessage": "Protonating the enolate just gives an ammonium salt and stalls. The enolate attacks the aldehyde first.",
+          "misconceptionId": "methanol-protonates-enolate",
+          "misconceptionTag": "wrong-order"
+        },
+        {
+          "severity": "wrong",
+          "arrowPattern": "π C10-C11 -> O17",
+          "feedbackMessage": "The carbonyl oxygen is electron-rich. Attack the aldehyde carbon.",
+          "misconceptionId": "attack-aldehyde-oxygen",
+          "misconceptionTag": "attack-electron-rich-atom"
+        }
+      ],
+      "mapNumberToCoordinates": {
+        "1": [
+          1.5,
+          0
+        ],
+        "2": [
+          0.75,
+          1.3
+        ],
+        "3": [
+          -0.75,
+          1.3
+        ],
+        "4": [
+          -1.5,
+          0
+        ],
+        "5": [
+          -0.75,
+          -1.3
+        ],
+        "6": [
+          0.75,
+          -1.3
+        ],
+        "7": [
+          -0.68,
+          -0.05
+        ],
+        "8": [
+          0.68,
+          -0.05
+        ],
+        "9": [
+          3,
+          0
+        ],
+        "10": [
+          3.75,
+          1.3
+        ],
+        "11": [
+          3,
+          2.6
+        ],
+        "12": [
+          3.75,
+          3.9
+        ],
+        "13": [
+          1.5,
+          2.6
+        ],
+        "14": [
+          0.75,
+          3.9
+        ],
+        "15": [
+          5.25,
+          1.3
+        ],
+        "16": [
+          2.86,
+          7.49
+        ],
+        "17": [
+          3.61,
+          6.19
+        ],
+        "18": [
+          1.36,
+          7.49
+        ],
+        "19": [
+          0.61,
+          8.79
+        ],
+        "20": [
+          -0.89,
+          8.79
+        ],
+        "21": [
+          -1.64,
+          7.49
+        ],
+        "22": [
+          -0.89,
+          6.19
+        ],
+        "23": [
+          0.61,
+          6.19
+        ],
+        "24": [
+          8.35,
+          0.65
+        ],
+        "25": [
+          9.65,
+          -0.1
+        ],
+        "26": [
+          7.05,
+          -0.1
+        ]
+      },
+      "partialProgressMessages": [
+        {
+          "learnerArrows": [
+            "π C10-C11 -> σ C10-C16",
+            "π C16-O17 -> lp O17"
+          ],
+          "feedbackMessage": "Right bonds, but this leaves a positive carbon next to O⁻ on the ester. Push the O⁻ lone pair in to re-form C=O."
+        }
+      ]
+    }
+  },
+  "conditionsLabel": "PhCHO · DABCO (cat.) · MeOH · 25 °C",
+  "reactionClasses": [
+    "addition",
+    "elimination",
+    "carbonyl"
+  ],
+  "reactionVersion": 1,
+  "mechanismSummary": "DABCO adds to the terminal carbon of methyl acrylate (conjugate addition), giving an ammonium enolate. The enolate attacks benzaldehyde. Methanol protonates the alkoxide, and methoxide removes the proton next to the ester to form a new enolate, which pushes out DABCO (E1cB). The product is methyl 2-(hydroxy(phenyl)methyl)acrylate, and DABCO is a catalyst.",
+  "abbreviatedGroups": [
+    {
+      "groupLabel": "Ph",
+      "mapNumbers": [
+        18,
+        19,
+        20,
+        21,
+        22,
+        23
+      ],
+      "attachmentMapNumber": 18
+    }
+  ],
+  "dailyPuzzleEligible": true,
+  "spectatorMapNumbers": [],
+  "atomRoleToMapNumbers": {
+    "alphaCarbon": [
+      10
+    ],
+    "nucleophile": [
+      1
+    ],
+    "aldehydeCarbon": [
+      16
+    ],
+    "michaelAcceptorCarbon": [
+      9
+    ]
+  },
+  "previousReactionVersion": null
+}
