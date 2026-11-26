@@ -6,18 +6,23 @@ it("lets the owner do everything", () => {
   expect(siteActionsOf("owner")).toEqual(SITE_ACTIONS);
 });
 
-it("lets a reviewer see every reaction, publish and review", () => {
+it("lets a reviewer review others, but not publish their own directly or manage users", () => {
   expect(siteActionsOf("reviewer")).toEqual([
     "createReactions",
     "seeEveryReaction",
     "submitForReview",
-    "publish",
     "review",
   ]);
+  expect(mayPerform("reviewer", "publish")).toBe(false);
+  expect(mayPerform("reviewer", "manageUsers")).toBe(false);
 });
 
 it("lets a contributor create and submit, nothing more", () => {
   expect(siteActionsOf("contributor")).toEqual(["createReactions", "submitForReview"]);
   expect(mayPerform("contributor", "publish")).toBe(false);
   expect(mayPerform("contributor", "seeEveryReaction")).toBe(false);
+});
+
+it("lets a blocked user do nothing", () => {
+  expect(siteActionsOf("blocked")).toEqual([]);
 });

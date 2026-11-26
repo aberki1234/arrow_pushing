@@ -3,7 +3,8 @@
  * Component tests for Create (the decisions are tested in editorSession.ts, createView.ts and
  * src/reactionEditing; these check the wiring): a new mechanism from its name and SMILES, a step
  * drawn with the keyboard alone, undone, saved by itself; the Teaching to-do list; Publish's
- * checks going to their place; Play as learner; on the server, sign in, Edit and Publish.
+ * checks going to their place; Play as learner; on the server, sign in, Edit and Publish, a
+ * contributor's Submit for review, and a reviewer's queue and decision.
  * Layout is checked by eye in a browser, not here.
  */
 import { cleanup, fireEvent, render, screen, waitFor, within } from "@testing-library/svelte";
@@ -12,6 +13,12 @@ import { loadChemistryToolkit } from "../chemistryToolkit/chemistryToolkit.js";
 import EditorApp from "./EditorApp.svelte";
 import { lintRequestAnswerer } from "../reactionEditing/lintRequests.js";
 import { exampleReaction } from "../testSupport/reactionEdits.js";
+import type {
+  ContributorClient,
+  RequestOutcome,
+  ReviewDecision,
+  SignInProvider,
+} from "./contributorClient.js";
 import type { ListedReactionFile, ReactionFileStore } from "./reactionFileStore.js";
 import type { PublishOutcome, ServerReactionStore } from "./serverReactionStore.js";
 import type { DraftLinter } from "./workerLinter.js";
@@ -249,6 +256,10 @@ const ALDOL_LISTING: ListedReactionFile = {
   title: "Aldol addition",
   newestReactionVersion: 1,
   newestSubmissionStatus: "published",
+  ownerUserId: "owner-id",
+  ownerName: "Owner Name",
+  newestAuthorUserId: "owner-id",
+  newestAuthorName: "Owner Name",
   creationProgress: {
     arrowStepCount: 3,
     teachingDoneCount: 14,
@@ -279,8 +290,9 @@ function memoryServerStore(
       return Promise.resolve();
     },
     signedInUser: () =>
-      Promise.resolve(signedIn ? { displayName: "Owner Name", siteActions } : null),
-    signInAddress: () => Promise.resolve("https://github.com/login/oauth/authorize?state=x"),
+      Promise.resolve(
+        signedIn ? { userId: "owner-id", displayName: "Owner Name", siteActions } : null,
+      ),
     publish: (reactionSlug, licenceAgreed): Promise<PublishOutcome> => {
       calls.push(`publish ${reactionSlug} ${String(licenceAgreed)}`);
       return Promise.resolve({
@@ -298,28 +310,80 @@ function memoryServerStore(
   };
 }
 
+/** The contributor and review API, in memory: one SN2 submission waiting. `calls` records each. */
+function memoryContributorClient(calls: string[]): ContributorClient {
+  const sn2 = exampleReaction("sn2-hydroxide-bromomethane.json");
+  return {
+    signInProviders: (): Promise<SignInProvider[]> => Promise.resolve(["github", "google"]),
+    signInAddress: (provider) => Promise.resolve(`https://${provider}.example/authorize?state=x`),
+    submit: (reactionSlug, licenceAgreed, submissionNote): Promise<RequestOutcome> => {
+      calls.push(`submit ${reactionSlug} ${String(licenceAgreed)} ${submissionNote}`);
+      return Promise.resolve({ outcome: "done" });
+    },
+    reviewNotes: () => Promise.resolve(null),
+    reviewQueue: () =>
+      Promise.resolve([
+        {
+          reactionSlug: "sn2-hydroxide-bromomethane",
+          reactionVersion: 1,
+          title: "SN2 substitution",
+          authorName: "Sam Lee",
+          ownerName: "Sam Lee",
+          submittedAt: new Date().toISOString(),
+          submissionNote: "First one",
+          queueKind: "newReaction",
+        },
+      ]),
+    reviewMaterial: (reactionSlug) =>
+      Promise.resolve({
+        reactionSlug,
+        reactionVersion: 1,
+        submitted: sn2,
+        previousPublished: null,
+        previousVersion: null,
+        authorName: "Sam Lee",
+        submissionNote: "First one",
+      }),
+    review: (
+      reactionSlug,
+      decision: { reviewDecision: ReviewDecision; comment: string },
+    ): Promise<RequestOutcome> => {
+      calls.push(`review ${reactionSlug} ${decision.reviewDecision} ${decision.comment}`);
+      return Promise.resolve({ outcome: "done" });
+    },
+    users: () => Promise.resolve([]),
+    setRole: () => Promise.resolve({ outcome: "done" }),
+  };
+}
+
 function renderOnServer(
-  serverStore: ServerReactionStore,
+  serverStore: ServerReactionStore & { calls?: string[] },
   goToAddress?: (address: string) => void,
+  autosaveDelayMilliseconds = 0,
 ): void {
   render(EditorApp, {
     props: {
       toolkitLoading: loadChemistryToolkit(),
       fileStore: serverStore,
       publishing: serverStore,
+      contributing: memoryContributorClient(serverStore.calls ?? []),
       lintDraft,
-      autosaveDelayMilliseconds: 0,
+      autosaveDelayMilliseconds,
       ...(goToAddress === undefined ? {} : { goToAddress }),
     },
   });
 }
 
-test("on the server, not signed in: Sign in with GitHub goes to GitHub's address", async () => {
+test("on the server, not signed in: each provider's button goes to its address", async () => {
   const visitedAddresses: string[] = [];
   renderOnServer(memoryServerStore(false), (address) => visitedAddresses.push(address));
   await fireEvent.click(await screen.findByRole("button", { name: "Sign in with GitHub" }));
+  await fireEvent.click(await screen.findByRole("button", { name: "Sign in with Google" }));
   await waitFor(() => {
-    expect(visitedAddresses).toEqual(["https://github.com/login/oauth/authorize?state=x"]);
+    expect(visitedAddresses).toEqual([
+      "https://github.example/authorize?state=x",
+      "https://google.example/authorize?state=x",
+    ]);
   });
 });
 
@@ -362,4 +426,56 @@ test("there is no Publish in file mode, nor for a role that may not publish", as
   await createSn2Draft(contributorStore, { rendered: true });
   await fireEvent.click(stageButton("Publish"));
   expect(screen.queryByRole("button", { name: "Publish" })).toBeNull();
+});
+
+test("a contributor submits for review: saved first, with the tick and the note", async () => {
+  const contributorStore = memoryServerStore(true, ["createReactions", "submitForReview"]);
+  renderOnServer(contributorStore);
+  await createSn2Draft(contributorStore, { rendered: true });
+  await fireEvent.click(stageButton("Publish"));
+  await fireEvent.click(screen.getByRole("checkbox", { name: /CC BY-SA 4\.0/ }));
+  await fireEvent.input(screen.getByLabelText(/Note for the reviewer/), {
+    target: { value: "Please check" },
+  });
+  await fireEvent.click(screen.getByRole("button", { name: "Submit for review" }));
+  await waitFor(() => {
+    expect(screen.getByText("Submitted for review.")).toBeTruthy();
+  });
+  expect(contributorStore.calls.slice(-2)).toEqual([
+    "save sn2-test.json",
+    "submit sn2-test true Please check",
+  ]);
+});
+
+test("a reviewer opens the queue, reviews a submission and requests changes", async () => {
+  const reviewerStore = memoryServerStore(true, ["createReactions", "review"]);
+  renderOnServer(reviewerStore);
+  const reviewTab = await screen.findByRole("button", { name: /^Review/ });
+  await waitFor(() => {
+    expect(reviewTab.textContent).toContain("1");
+  });
+  expect(screen.queryByRole("button", { name: "Users" })).toBeNull();
+  await fireEvent.click(reviewTab);
+  await fireEvent.click(await screen.findByRole("button", { name: "Review SN2 substitution" }));
+  await screen.findByRole("article", { name: "Name" });
+  await fireEvent.input(screen.getByLabelText(/Overall note/), { target: { value: "Nearly" } });
+  await fireEvent.click(screen.getByRole("button", { name: "Request changes" }));
+  await screen.findByText(/Changes requested on SN2 substitution/);
+  expect(reviewerStore.calls).toContain(
+    "review sn2-hydroxide-bromomethane changes_requested Nearly",
+  );
+});
+
+test("an edit submitted before the autosave's wait is not saved again after Submit", async () => {
+  const contributorStore = memoryServerStore(true, ["createReactions", "submitForReview"]);
+  renderOnServer(contributorStore, undefined, 150);
+  await createSn2Draft(contributorStore, { rendered: true });
+  await fireEvent.click(stageButton("Publish"));
+  await fireEvent.change(screen.getByLabelText(/One-line description/), {
+    target: { value: "Hydroxide displaces bromide" },
+  });
+  await fireEvent.click(screen.getByRole("button", { name: "Submit for review" }));
+  await screen.findByText("Submitted for review.");
+  await new Promise((resolve) => setTimeout(resolve, 400));
+  expect(contributorStore.calls.at(-1)).toMatch(/^submit sn2-test/);
 });

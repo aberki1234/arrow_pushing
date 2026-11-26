@@ -1,7 +1,8 @@
 /**
- * Tests for authentication.ts: signing in with GitHub through Better Auth's real routes, with a
- * fake GitHub (testSupport/serverTesting.ts). The reference is the rules in the module comment:
- * only allow-listed GitHub ids get a user and a session, as owners, for 30 days.
+ * Tests for authentication.ts: signing in with GitHub or Google through Better Auth's real routes,
+ * with a fake GitHub and Google (testSupport/serverTesting.ts). The reference is the rules in the
+ * module comment: anyone gets a user (a contributor) and a 30-day session; the allow-listed GitHub
+ * account is the owner; one verified email links a person's two accounts.
  */
 import { getSchema } from "better-auth/db";
 import type { Kysely } from "kysely";
@@ -12,6 +13,7 @@ import {
   FAKE_GITHUB_ACCESS_TOKEN,
   OWNER_PROFILE,
   signInWithFakeGithub,
+  signInWithFakeGoogle,
   TEST_BASE_URL,
   testServerSettings,
 } from "../testSupport/serverTesting.js";
@@ -20,11 +22,7 @@ import {
   emptyAllTables,
   newMigratedDatabase,
 } from "../testSupport/temporaryDatabase.js";
-import {
-  createAuthentication,
-  isAllowedGithubProfile,
-  SESSION_LIFETIME_DAYS,
-} from "./authentication.js";
+import { createAuthentication, SESSION_LIFETIME_DAYS, signInProviders } from "./authentication.js";
 import { createServerApplication } from "./serverApplication.js";
 
 let connection: DatabaseConnection;
@@ -92,19 +90,20 @@ describe("the tables", () => {
   });
 });
 
-describe("the allow-list check", () => {
-  it("allows a profile whose numeric id is listed, and nothing else", () => {
-    expect(isAllowedGithubProfile({ id: 1001, login: "owner" }, ["1001"])).toBe(true);
-    expect(isAllowedGithubProfile({ id: 2002 }, ["1001"])).toBe(false);
-    expect(isAllowedGithubProfile({ id: "1001" }, ["1001"])).toBe(false);
-    expect(isAllowedGithubProfile({ login: "1001" }, ["1001"])).toBe(false);
-    expect(isAllowedGithubProfile(undefined, ["1001"])).toBe(false);
-    expect(isAllowedGithubProfile({ id: 1001 }, [])).toBe(false);
+describe("the providers offered", () => {
+  it("offers Google only when its settings are given", async () => {
+    expect(signInProviders(testServerSettings())).toEqual(["github", "google"]);
+    const githubOnly = testServerSettings({
+      signIn: { ...testServerSettings().signIn, google: null },
+    });
+    expect(signInProviders(githubOnly)).toEqual(["github"]);
+    const answer = await application.request(`${TEST_BASE_URL}/api/sign-in-providers`);
+    expect(await answer.json()).toEqual(["github", "google"]);
   });
 });
 
-describe("signing in an allowed GitHub account", () => {
-  it("signs in an allowed account as owner, with a 30-day session", async () => {
+describe("signing in the owner's GitHub account", () => {
+  it("signs in the allow-listed account as owner, with a 30-day session", async () => {
     const before = Date.now();
     const { callbackResponse, sessionCookieHeader } = await signInWithFakeGithub(
       application,
@@ -143,31 +142,76 @@ describe("signing in an allowed GitHub account", () => {
   });
 });
 
-describe("refusing other GitHub accounts", () => {
-  it("refuses an account not on the allow-list: no user, no session", async () => {
-    const { callbackResponse, sessionCookieHeader } = await signInWithFakeGithub(
-      application,
-      STRANGER_PROFILE,
-    );
-    expect(callbackResponse.status).toBe(302);
-    expect(callbackResponse.headers.get("location")).toMatch(/error=/);
-    expect(sessionCookieHeader).not.toContain("session_token");
-    expect(await rowCounts()).toEqual({ users: 0, sessions: 0 });
+async function storedUsers(): Promise<{ name: string; siteRole: string }[]> {
+  return connection.database
+    .selectFrom("arrowpush.users")
+    .select(["name", "siteRole"])
+    .orderBy("name")
+    .execute();
+}
+
+async function storedProviders(): Promise<string[]> {
+  const accountRows = await connection.database
+    .selectFrom("arrowpush.accounts")
+    .select("providerId")
+    .orderBy("providerId")
+    .execute();
+  return accountRows.map((accountRow) => accountRow.providerId);
+}
+
+const GOOGLE_PROFILE = {
+  sub: "google-77",
+  name: "Sam Lee",
+  email: "sam@example.com",
+  emailVerified: true,
+};
+
+describe("anyone signs in as a contributor", () => {
+  it("signs in a GitHub account not on the allow-list as a contributor", async () => {
+    const { sessionCookieHeader } = await signInWithFakeGithub(application, STRANGER_PROFILE);
+    expect(sessionCookieHeader).toContain("arrowpush.session_token=");
+    expect(await storedUsers()).toEqual([{ name: "stranger", siteRole: "contributor" }]);
   });
 
-  it("refuses a known user whose GitHub id has been taken off the allow-list", async () => {
-    await signInWithFakeGithub(application, OWNER_PROFILE);
-    const withoutOwner = createServerApplication({
-      database: connection.database,
-      settings: testServerSettings({
-        signIn: { ...testServerSettings().signIn, allowedGithubUserIds: ["3003"] },
-      }),
-      lintDocument: () => [],
-      fetchFunction: () => Promise.reject(new Error("unused")),
+  it("signs in with Google as a contributor", async () => {
+    const { callbackResponse, sessionCookieHeader } = await signInWithFakeGoogle(
+      application,
+      GOOGLE_PROFILE,
+    );
+    expect(callbackResponse.headers.get("location")).toBe("/");
+    expect(sessionCookieHeader).toContain("arrowpush.session_token=");
+    expect(await storedUsers()).toEqual([{ name: "Sam Lee", siteRole: "contributor" }]);
+    expect(await storedProviders()).toEqual(["google"]);
+  });
+
+  it("keeps a blocked user able to sign in, as blocked", async () => {
+    const { sessionCookieHeader } = await signInWithFakeGithub(application, STRANGER_PROFILE);
+    await connection.database.updateTable("arrowpush.users").set({ siteRole: "blocked" }).execute();
+    const meResponse = await application.request(`${TEST_BASE_URL}/api/me`, {
+      headers: { cookie: sessionCookieHeader },
     });
-    const { sessionCookieHeader } = await signInWithFakeGithub(withoutOwner, OWNER_PROFILE);
+    expect(await meResponse.json()).toMatchObject({ siteRole: "blocked", siteActions: [] });
+  });
+});
+
+describe("one person's two accounts", () => {
+  it("links Google and GitHub with one verified email, the GitHub owner as owner", async () => {
+    await signInWithFakeGoogle(application, { ...GOOGLE_PROFILE, email: OWNER_PROFILE.email });
+    const { sessionCookieHeader } = await signInWithFakeGithub(application, OWNER_PROFILE);
+    expect(sessionCookieHeader).toContain("arrowpush.session_token=");
+    expect(await storedUsers()).toEqual([{ name: "Sam Lee", siteRole: "owner" }]);
+    expect(await storedProviders()).toEqual(["github", "google"]);
+  });
+
+  it("does not link an unverified Google email to an existing user", async () => {
+    await signInWithFakeGithub(application, STRANGER_PROFILE);
+    const { sessionCookieHeader } = await signInWithFakeGoogle(application, {
+      ...GOOGLE_PROFILE,
+      email: STRANGER_PROFILE.email,
+      emailVerified: false,
+    });
     expect(sessionCookieHeader).not.toContain("session_token");
-    expect((await rowCounts()).sessions).toBe(1);
+    expect(await storedProviders()).toEqual(["github"]);
   });
 });
 
@@ -179,9 +223,17 @@ describe("the session", () => {
     });
     expect(meResponse.status).toBe(200);
     expect(await meResponse.json()).toEqual({
+      userId: expect.any(String) as unknown,
       displayName: "Owner Name",
       siteRole: "owner",
-      siteActions: ["createReactions", "seeEveryReaction", "submitForReview", "publish", "review"],
+      siteActions: [
+        "createReactions",
+        "seeEveryReaction",
+        "submitForReview",
+        "publish",
+        "review",
+        "manageUsers",
+      ],
     });
     const signOutResponse = await application.request(`${TEST_BASE_URL}/api/auth/sign-out`, {
       method: "POST",

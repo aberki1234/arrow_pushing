@@ -325,8 +325,12 @@ then a halobenzene (deactivating but ortho/para). The track ends with a checkpoi
     Home · Daily · Learn · Practice · Progress · **Create** on the learner site and on Create alike
     (`learnerSite/siteNavigation.ts`, `SiteHeader.svelte`), so they read as one site. The learner site's Create
     tab links to `VITE_CREATE_ADDRESS` (the deploy workflow passes the `BACKEND_URL` variable); Create's other
-    tabs link to `VITE_LEARNER_SITE_ADDRESS`. Anyone not on the allow-list who signs in sees "Creating is
-    invite-only for now".
+    tabs link to `VITE_LEARNER_SITE_ADDRESS`. (Until 8e, anyone not on the allow-list who signed in saw
+    "Creating is invite-only for now"; since 8e anyone signs in as a contributor.)
+  - **The theme is shared by both sites (fixed 2026-11-26 at the owner's report):** the light/dark choice is
+    kept in a cookie on the parent domain (`arrowpush_theme`, Domain=`arrowpushing.com`, a year) as well as in
+    the learner's progress, and each site reads the cookie first at start (`learnerSite/sharedTheme.ts`);
+    `localStorage` alone is per origin, so the two sites never saw each other's choice.
   - **Defaults chosen while building the pages (2026-11-26):** the draft **saves by itself** about 1.5 s
     after the last change to it, and at once on going back to Your mechanisms (no Save button; Download the
     JSON file stays on Publish); a new draft names the signed-in user as its author; Publish's checks list
@@ -379,6 +383,21 @@ then a halobenzene (deactivating but ortho/para). The track ends with a checkpoi
     - **Submitted drafts stay editable**; saving one takes it out of review (back to draft).
     - **Review notes** clear when the contributor submits again.
     - **A reviewer cannot review their own submission**; the owner may still publish their own directly.
+  - **Defaults chosen while building 8e (2026-11-26; open to change):**
+    - Only the **owner** publishes directly; a reviewer's own versions go through review like anyone's (read
+      from "a reviewer cannot review their own submission; the owner may still publish their own"). A reviewer's
+      own submissions are left out of their queue.
+    - The owner is made by the GitHub allow-list when that GitHub account is created or linked; Google
+      accounts are linked to a GitHub one only when both providers verified the same email.
+    - Your mechanisms lists the reactions whose newest version the user wrote, and their own published ones;
+      someone else's published reactions are only under "Improve a published one" ("Suggest version n").
+    - An author is added to the next version's `authors` once (not if they wrote a version of it before, or
+      own it). Saving the same document again leaves a submitted version in review (only a changed draft is
+      taken out); Create skips an autosave already done by Submit or Publish.
+    - What changed is listed per item: each reaction field, each state's structure, prompt, caption, labels,
+      each hint, each wrong answer (by its id), each partial answer, each step's arrows, partial arrow sets,
+      caption, explanation and details. A changed or removed text shows deletions and insertions word by word;
+      a new wrong answer is drawn with its arrows when they are exact.
 
 ## 7. Mockups (done 2026-11-24)
 

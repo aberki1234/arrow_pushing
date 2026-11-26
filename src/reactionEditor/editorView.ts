@@ -3,7 +3,7 @@
  * own drawing code, so the author sees what the learner will), the arrows drawn on it, and a
  * state's mapped SMILES. Kept out of the Svelte components so it can be tested.
  */
-import type { CurvedArrow } from "../arrowNotation/curvedArrowNotation.js";
+import { type CurvedArrow, parseCurvedArrow } from "../arrowNotation/curvedArrowNotation.js";
 import { graphOf } from "../attemptAssessment/preparedReaction.js";
 import { type DrawnCurvedArrow, drawCurvedArrow } from "../moleculeDrawing/curvedArrowGeometry.js";
 import { drawState, type StateDrawing } from "../moleculeDrawing/stateDrawing.js";
@@ -53,4 +53,22 @@ export function mappedSmilesOf(document: ReactionDocument, stateId: string): str
       ? state.mappedSmiles
       : "";
   return typeof smiles === "string" ? smiles : "";
+}
+
+/**
+ * The curves of a wrong answer's arrow pattern, for the review screen: each part written as an
+ * exact arrow ("lp O1 -> σ O1-C2"; reactionEditing/drawnAnswers.ts stores drawn answers so) is
+ * drawn; a loosened part ("lp O1 -> Br3", "@nucleophile") cannot be drawn and is left out.
+ */
+export function patternArrowsOn(
+  drawing: StateDrawing,
+  arrowPattern: string,
+): { drawn: DrawnCurvedArrow; arrowClass: string }[] {
+  return arrowPattern.split(";").flatMap((part) => {
+    try {
+      return drawnArrowsOn(drawing, [parseCurvedArrow(part.trim())]);
+    } catch {
+      return [];
+    }
+  });
 }

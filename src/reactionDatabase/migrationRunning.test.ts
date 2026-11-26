@@ -45,6 +45,7 @@ describe("applying the migrations", () => {
     expect(firstRunMigrationNames).toEqual([
       "0001_arrowpush_tables.sql",
       "0002_read_only_role.sql",
+      "0003_contributors.sql",
     ]);
     expect(await applyMigrations(connection)).toEqual([]);
   });

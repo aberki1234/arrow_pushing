@@ -92,7 +92,10 @@
           <tr><td><b>creation stage</b></td><td>One of Create's four stages: start, mechanism, teaching, publish.</td></tr>
       <tr><td><b>teaching item</b></td><td>One entry of the Teaching to-do list (a state's question, hints or wrong answers, a step's explanation or caption, the summary), marked needed / recommended / optional and missing / started / done. Built from what the draft contains, not from the checks.</td></tr>
       <tr><td><b>check task</b></td><td>A lint finding as Create's Publish stage shows it: in plain words, with the stage that fixes it.</td></tr>
-      <tr><td><b>site role / site action</b></td><td>A user's role (owner, reviewer, contributor) and what it allows (create reactions, see every reaction, submit for review, publish, review), decided in one place on the server.</td></tr>
+      <tr><td><b>site role / site action</b></td><td>A user's role (owner, reviewer, contributor, blocked) and what it allows (create reactions, see every reaction, submit for review, publish directly (you only), review, manage users), decided in one place on the server.</td></tr>
+      <tr><td><b>version author</b></td><td>Who wrote a version of a reaction; only they save it. Not the reaction's owner, who made version 1.</td></tr>
+      <tr><td><b>review decision</b></td><td>A reviewer's “publish” or “request changes” on a submitted version, with an overall note and notes pinned to changes.</td></tr>
+      <tr><td><b>change key / version change</b></td><td>What the review screen compares between two versions: each reaction detail, each state's structure and texts (each hint, each wrong answer), each step's arrows and texts. A change key names one of them in both versions, and a pinned note points at it.</td></tr>
     </tbody></table></div>
     <p class="muted">Abbreviations: lp = lone pair; rad = radical (unpaired electron); SMILES = simplified molecular-input line-entry system; e⁻ = electron.</p>
 
@@ -475,10 +478,10 @@ verifications(id uuid pk, identifier, value, expires_at, …)   -- the OAuth sta
             </ul></li>
           <li><b>8e</b> Contributors (decided 2026-11-26, <a href="spec.html#community">spec §6</a>; design <a href="../mockups/review.html">mockups/review.html</a>). Proposed in four parts:
             <ul>
-              <li><b>Part 1, database and server:</b> anyone can sign in as a contributor (your GitHub id stays the owner); Google as a second sign-in, one person's GitHub and Google accounts joined by the same verified email; the new rule for who saves which version (anyone may start a published reaction's next version and is added to its authors); at most 5 open drafts; Submit (checks and licence), editing taking it out of review; the review queue, publishing or requesting changes (never on your own submission), the Users page's roles and Blocked.</li>
-              <li><b>Part 2, decisions:</b> the list of what changed between two versions, with a word-by-word text diff; review notes and where they point.</li>
-              <li><b>Part 3, the pages:</b> sign-in, Create's sub-navigation, the contributor's Publish stage and Your mechanisms, the review queue and screen, the Users page; checked in a browser with a second account.</li>
-              <li><b>Part 4, your setup:</b> a Google sign-in app (callback <code>https://create.arrowpushing.com/api/auth/callback/google</code>), its two settings on Render, and an end-to-end check with a second account.</li>
+              <li><b>Part 1, database and server <span class="tag">done 2026-11-26</span>:</b> anyone can sign in as a contributor (your GitHub id stays the owner); Google as a second sign-in, one person's GitHub and Google accounts joined by the same verified email; the new rule for who saves which version (anyone may start a published reaction's next version and is added to its authors); at most 5 open drafts; Submit (checks and licence), editing taking it out of review; the review queue, publishing or requesting changes (never on your own submission), the Users page's roles and Blocked.</li>
+              <li><b>Part 2, decisions <span class="tag">done 2026-11-26</span>:</b> the list of what changed between two versions, with a word-by-word text diff; review notes and where they point.</li>
+              <li><b>Part 3, the pages <span class="tag">done 2026-11-26</span>:</b> sign-in, Create's sub-navigation, the contributor's Publish stage and Your mechanisms, the review queue and screen, the Users page; checked in a browser with a second account (a GitHub owner and a Google contributor, on a test database): suggest version 2, submit, changes requested with a pinned note, the banner and “Go there →”, resubmit, publish, change a role.</li>
+              <li><b>Part 4, your setup <span class="tag">to do</span>:</b> a Google sign-in app (callback <code>https://create.arrowpushing.com/api/auth/callback/google</code>), its two settings on Render, and an end-to-end check with a second account.</li>
             </ul></li>
         </ul>
       </li>

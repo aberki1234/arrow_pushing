@@ -21,6 +21,7 @@
   import { showField } from "./fieldFocus.js";
   import MechanismStage from "./MechanismStage.svelte";
   import PublishStage from "./PublishStage.svelte";
+  import type { SubmitControls } from "./reviewView.js";
   import StageStepper from "./StageStepper.svelte";
   import StartStage from "./StartStage.svelte";
   import TeachingStage from "./TeachingStage.svelte";
@@ -36,6 +37,7 @@
     onPlay,
     onDownload,
     onPublish,
+    submitting,
   }: {
     session: EditorSession;
     update: (next: EditorSession) => void;
@@ -47,6 +49,7 @@
     onPlay: (stateId: string) => void;
     onDownload: () => void;
     onPublish?: ((licenceAgreed: boolean) => void) | undefined;
+    submitting?: SubmitControls | undefined;
   } = $props();
 
   const LINT_DELAY_MILLISECONDS = 300;
@@ -170,5 +173,14 @@
 {:else if session.stage === "teaching"}
   <TeachingStage {session} {update} {findings} />
 {:else}
-  <PublishStage {session} {update} {findings} {linting} {onPlay} {onDownload} {onPublish} />
+  <PublishStage
+    {session}
+    {update}
+    {findings}
+    {linting}
+    {onPlay}
+    {onDownload}
+    {onPublish}
+    {submitting}
+  />
 {/if}

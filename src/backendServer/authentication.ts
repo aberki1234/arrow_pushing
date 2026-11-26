@@ -1,22 +1,25 @@
 /**
- * Signing in with GitHub through Better Auth (docs/SPEC.md §5, backend, "Sign-in").
+ * Signing in with GitHub or Google through Better Auth (docs/SPEC.md §5, backend, "Sign-in", and
+ * §6, "Contributors").
  *
  * Terms
- *   allow-list  ALLOWED_GITHUB_USER_IDS: the numeric GitHub user ids that may sign in.
+ *   allow-list  ALLOWED_GITHUB_USER_IDS: the numeric GitHub user ids of the owner.
  * Rules
- *   - GitHub is the only way to sign in (no email and password).
- *   - user.validateUserInfo refuses (403) every GitHub profile whose id is not on the allow-list,
- *     before a user is created and again at each sign-in; it fails closed if it throws.
- *   - Users are owners (site role "owner"): in 8c only the owner is on the allow-list. Contributors
- *     (8d) will change this.
+ *   - GitHub, and Google when its settings are given (no email and password).
+ *   - Anyone may sign in: a new user is a contributor. A GitHub account on the allow-list makes
+ *     its user the owner when the account is created or linked (an "after create" hook, which
+ *     Better Auth runs once the user and account are committed).
+ *   - One person's GitHub and Google accounts are one user when both providers verified the same
+ *     email (Better Auth's account linking, with no provider trusted without verification).
+ *   - A blocked user still signs in (sitePermissions.ts stops them saving).
  *   - Sessions last 30 days; the cookie (prefix "arrowpush") is httpOnly, SameSite=Lax, Secure
- *     on https, and signed with BETTER_AUTH_SECRET. GitHub tokens are stored encrypted. Telemetry
- *     stays off (Better Auth's default).
+ *     on https, and signed with BETTER_AUTH_SECRET. Provider tokens are stored encrypted.
+ *     Telemetry stays off (Better Auth's default).
  *   - Tables: arrowpush.users, sessions, accounts, verifications (migration 0001); user ids are
  *     uuids, so reactions.owner_user_id can refer to them.
  * Routes: Better Auth's, under /api/auth (sign-in: POST /api/auth/sign-in/social with
- * {provider: "github"}; GitHub returns to /api/auth/callback/github; sign-out: POST
- * /api/auth/sign-out; the session: GET /api/auth/get-session).
+ * {provider: "github" | "google"}; the provider returns to /api/auth/callback/<provider>;
+ * sign-out: POST /api/auth/sign-out; the session: GET /api/auth/get-session).
  */
 import { betterAuth } from "better-auth";
 import type { MiddlewareHandler } from "hono";
@@ -30,32 +33,36 @@ export const AUTHENTICATION_BASE_PATH = "/api/auth";
 
 const SECONDS_PER_DAY = 24 * 60 * 60;
 
-/** The site role of every user made at sign-in (8c: the owner is the only one allowed). */
-const SITE_ROLE_OF_NEW_USERS: SiteRole = "owner";
+/** The site role of every user made at sign-in. */
+const SITE_ROLE_OF_NEW_USERS: SiteRole = "contributor";
 
-const SITE_ROLES: readonly string[] = ["contributor", "reviewer", "owner"];
+const SITE_ROLES: readonly string[] = ["contributor", "reviewer", "owner", "blocked"];
+
+export type SignInProvider = "github" | "google";
 
 /** The Better Auth instance: its request handler and its server-side API. */
 export type Authentication = Pick<ReturnType<typeof betterAuth>, "handler" | "api" | "options">;
 
-/** Whether a raw GitHub profile (the /user answer) is on the allow-list, by its numeric id. */
-export function isAllowedGithubProfile(
-  githubProfile: Readonly<Record<string, unknown>> | undefined,
-  allowedGithubUserIds: readonly string[],
-): boolean {
-  const githubUserId = githubProfile?.id;
-  // GitHub sends the id as a JSON number; anything else is not a GitHub profile.
-  if (typeof githubUserId !== "number" || !Number.isInteger(githubUserId)) {
-    return false;
-  }
-  return allowedGithubUserIds.includes(String(githubUserId));
+/** The sign-in providers the settings set up, in the order the sign-in page shows them. */
+export function signInProviders(settings: ServerSettings): SignInProvider[] {
+  return settings.signIn.google === null ? ["github"] : ["github", "google"];
 }
 
-/** user.validateUserInfo's refusal, as Better Auth reports it to the browser. */
-const NOT_ALLOWED_REFUSAL = {
-  error: "account_not_allowed",
-  errorDescription: "this GitHub account may not sign in to the editor",
-};
+/** Make the account's user the owner if it is an allow-listed GitHub account. */
+async function promoteAllowListedOwner(
+  database: ReactionDatabase,
+  allowedGithubUserIds: readonly string[],
+  account: { readonly providerId: string; readonly accountId: string; readonly userId: string },
+): Promise<void> {
+  if (account.providerId !== "github" || !allowedGithubUserIds.includes(account.accountId)) {
+    return;
+  }
+  await database
+    .updateTable("arrowpush.users")
+    .set({ siteRole: "owner", updatedAt: new Date() })
+    .where("id", "=", account.userId)
+    .execute();
+}
 
 /** Better Auth configured as in the module comment, on `database`. */
 export function createAuthentication(
@@ -70,6 +77,7 @@ export function createAuthentication(
     database: { db: database, type: "postgres", schemaName: "arrowpush" },
     socialProviders: {
       github: { clientId: signIn.githubClientId, clientSecret: signIn.githubClientSecret },
+      ...(signIn.google === null ? {} : { google: { ...signIn.google, prompt: "select_account" } }),
     },
     user: {
       modelName: "users",
@@ -81,19 +89,21 @@ export function createAuthentication(
           defaultValue: SITE_ROLE_OF_NEW_USERS,
         },
       },
-      validateUserInfo: ({ source }) => {
-        try {
-          const isAllowed =
-            source.oauth?.providerId === "github" &&
-            isAllowedGithubProfile(source.oauth.profile, signIn.allowedGithubUserIds);
-          return isAllowed ? undefined : NOT_ALLOWED_REFUSAL;
-        } catch {
-          return NOT_ALLOWED_REFUSAL;
-        }
+    },
+    databaseHooks: {
+      account: {
+        create: {
+          after: (account) =>
+            promoteAllowListedOwner(database, signIn.allowedGithubUserIds, account),
+        },
       },
     },
     session: { modelName: "sessions", expiresIn: SESSION_LIFETIME_DAYS * SECONDS_PER_DAY },
-    account: { modelName: "accounts", encryptOAuthTokens: true },
+    account: {
+      modelName: "accounts",
+      encryptOAuthTokens: true,
+      accountLinking: { enabled: true, trustedProviders: [] },
+    },
     verification: { modelName: "verifications" },
     advanced: { cookiePrefix: "arrowpush", database: { generateId: "uuid" } },
   });

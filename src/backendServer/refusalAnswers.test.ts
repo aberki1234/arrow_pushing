@@ -10,12 +10,19 @@ import { refusalBody, refusalHttpStatus } from "./refusalAnswers.js";
 
 const CODE_TO_STATUS: Record<RefusalCode, number> = {
   "document-has-no-slug": 400,
-  "not-reaction-owner": 403,
+  "role-not-assignable": 400,
   "not-allowed-to-publish": 403,
+  "not-version-author": 403,
+  "not-allowed": 403,
+  "own-submission": 403,
   "reaction-not-found": 404,
   "version-not-found": 404,
+  "user-not-found": 404,
   "no-unpublished-version": 409,
   "unpublished-version-exists": 409,
+  "too-many-open-drafts": 409,
+  "not-submittable": 409,
+  "not-submitted": 409,
   "draft-has-lint-errors": 422,
   "licence-not-agreed": 422,
 };

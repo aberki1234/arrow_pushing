@@ -3,18 +3,21 @@
  * session (401 otherwise); refusals of the database become the answers of refusalAnswers.ts.
  *
  * Routes (bodies and answers are JSON)
- *   GET  /api/reactions                               the reaction listings (reactionVersions.ts):
- *                                                     every reaction, or only the user's own
- *                                                     without "seeEveryReaction"
- *                                                     (sitePermissions.ts), each with its
+ *   GET  /api/reactions                               the reaction listings (reactionVersions.ts
+ *                                                     listReactionsFor: every reaction with
+ *                                                     "seeEveryReaction", else the user's own and
+ *                                                     every published one), each with its
  *                                                     creationProgress instead of its document
  *   GET  /api/reactions/:slug                         the newest version (as one stored version)
  *   GET  /api/reactions/:slug/versions/:version       one stored version
  *   PUT  /api/reactions/:slug/draft                   body: the reaction document; its
  *                                                     reactionSlug must be :slug (400)
- *   POST /api/reactions/:slug/next-version            "Edit": version n+1 as a draft
+ *   POST /api/reactions/:slug/next-version            "Edit" (or "Suggest version n+1" of
+ *                                                     someone else's): version n+1 as a draft
  *   POST /api/reactions/:slug/publish                 body {licenceAgreed: boolean}; answers the
- *                                                     publish summary and {deployStart}
+ *                                                     publish summary and {deployStart} (one's
+ *                                                     own version; others' go through review,
+ *                                                     contributorRoutes.ts)
  *   GET  /api/published-versions                      every published version (no session: they
  *                                                     are public on the learner site anyway)
  */
@@ -23,10 +26,9 @@ import type { ReactionDatabase } from "../reactionDatabase/databaseTables.js";
 import { publishedVersionsForExport } from "../reactionDatabase/publishedExport.js";
 import { publishDraft } from "../reactionDatabase/publishing.js";
 import { ReactionDatabaseError } from "../reactionDatabase/reactionDatabaseErrors.js";
-import { mayPerform } from "../reactionDatabase/sitePermissions.js";
 import {
   findReaction,
-  listReactions,
+  listReactionsFor,
   readReactionVersion,
   saveDraft,
   startNextVersion,
@@ -43,7 +45,7 @@ function isJsonObject(value: unknown): value is ReactionDocument {
 }
 
 /** The request's JSON body if it is an object, else undefined (no body, bad JSON, an array). */
-async function jsonObjectBody(context: Context): Promise<ReactionDocument | undefined> {
+export async function jsonObjectBody(context: Context): Promise<ReactionDocument | undefined> {
   try {
     const body: unknown = await context.req.json();
     return isJsonObject(body) ? body : undefined;
@@ -63,9 +65,7 @@ function versionNumberFrom(versionText: string): number {
 /** Listing, reading, saving a draft and "Edit" (version n+1). */
 function addVersionRoutes(routes: Hono<ServerEnvironment>, database: ReactionDatabase): void {
   routes.get("/reactions", async (context) => {
-    const { userId, siteRole } = context.get("signedInUser");
-    const filter = mayPerform(siteRole, "seeEveryReaction") ? {} : { ownerUserId: userId };
-    const listings = await listReactions(database, filter);
+    const listings = await listReactionsFor(database, context.get("signedInUser").userId);
     return context.json(
       listings.map(({ newestReactionDocument, ...listing }) => ({
         ...listing,

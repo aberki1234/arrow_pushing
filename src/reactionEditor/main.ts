@@ -6,14 +6,17 @@
  *   `make editor` (Vite's development server): content/reactions/, through the development
  *   server's reaction-file requests (editorFileServer).
  *   The built editor (`make editor-build`, served by the backend): the server's database, with
- *   sign-in, Publish and Edit (serverReactionStore.ts).
+ *   sign-in, Publish and Edit (serverReactionStore.ts), submitting, review and users
+ *   (contributorClient.ts).
  */
 import { mount } from "svelte";
 import rdkitWasmUrl from "@rdkit/rdkit/RDKit_minimal.wasm?url";
 import { loadChemistryToolkit } from "../chemistryToolkit/chemistryToolkit.js";
 import "../learnerSite/site.css";
+import { applySavedTheme } from "../learnerSite/sharedTheme.js";
 import "./editor.css";
 import EditorApp from "./EditorApp.svelte";
+import { contributorClient } from "./contributorClient.js";
 import { httpReactionFileStore } from "./reactionFileStore.js";
 import { serverReactionStore } from "./serverReactionStore.js";
 import { browserWorkerPort, workerLinter } from "./workerLinter.js";
@@ -23,6 +26,9 @@ function learnerSiteAddressFromBuild(): string | null {
   const address: unknown = import.meta.env["VITE_LEARNER_SITE_ADDRESS"];
   return typeof address === "string" && address !== "" ? address : null;
 }
+
+// The theme chosen last time, here or on the learner site.
+applySavedTheme();
 
 const appElement = document.getElementById("app");
 if (appElement === null) {
@@ -35,6 +41,7 @@ mount(EditorApp, {
     toolkitLoading: loadChemistryToolkit({ wasmLocation: rdkitWasmUrl }),
     fileStore: serverStore ?? httpReactionFileStore(),
     publishing: serverStore,
+    contributing: serverStore === undefined ? undefined : contributorClient(),
     learnerSiteAddress: learnerSiteAddressFromBuild(),
     lintDraft: workerLinter(
       browserWorkerPort(

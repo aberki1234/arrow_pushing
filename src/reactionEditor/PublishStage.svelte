@@ -1,8 +1,8 @@
 <script lang="ts">
   // Create's Publish stage (docs/SPEC.md §5, "Create", stage 4): try it as a learner; the checks
   // as tasks (reactionEditing/checkTasks.ts) with Fix →; the library details, the suggested
-  // difficulty, More details and Advanced; then the licence and Publish (on the server, for a
-  // role that may publish: reactionDatabase/sitePermissions.ts).
+  // difficulty, More details and Advanced; then the licence and Publish (on the server, for the
+  // owner: reactionDatabase/sitePermissions.ts) or Submit for review (SubmitForReview.svelte).
   import { publishChecks } from "../reactionEditing/checkTasks.js";
   import { suggestedDifficultyTier } from "../reactionEditing/difficultySuggestion.js";
   import { REACTION_CLASSES, setReactionField } from "../reactionEditing/fieldEdits.js";
@@ -16,6 +16,9 @@
     goToPlace,
   } from "./editorSession.js";
   import PublishDetails from "./PublishDetails.svelte";
+  import type { SubmitControls } from "./reviewView.js";
+  import ReviewerNotes from "./ReviewerNotes.svelte";
+  import SubmitForReview from "./SubmitForReview.svelte";
 
   const {
     session,
@@ -25,6 +28,7 @@
     onPlay,
     onDownload,
     onPublish,
+    submitting,
   }: {
     session: EditorSession;
     update: (next: EditorSession) => void;
@@ -34,6 +38,8 @@
     onDownload: () => void;
     /** Present when the signed-in role may publish on the server. */
     onPublish?: ((licenceAgreed: boolean) => void) | undefined;
+    /** Present when the signed-in user submits for review instead. */
+    submitting?: SubmitControls | undefined;
   } = $props();
 
   const TIERS = [
@@ -43,6 +49,7 @@
   ];
 
   let licenceAgreed = $state(false);
+  const reviewNotes = $derived(onPublish === undefined ? (submitting?.reviewNotes ?? null) : null);
   const document = $derived(currentDraft(session));
   const tasks = $derived(publishChecks(document, findings));
   const readiness = $derived(previewReadiness(document));
@@ -70,7 +77,10 @@
 </script>
 
 <div class="narrow mt">
-  <section class="card hero row spread" aria-label="Try it">
+  {#if reviewNotes !== null}
+    <ReviewerNotes {session} {update} notes={reviewNotes} />
+  {/if}
+  <section class={`card hero row spread${reviewNotes === null ? "" : " mt"}`} aria-label="Try it">
     <div>
       <h3>Try it as a learner first</h3>
       <span class="muted small">
@@ -167,29 +177,33 @@
     <PublishDetails {document} apply={applyEdit} />
   </section>
 
-  <section class="card mt" aria-label="Publish">
-    {#if onPublish === undefined}
-      <p class="small muted">
-        Publishing happens on the server. Here, the draft is saved in content/reactions/.
-      </p>
-      <button class="btn sm" onclick={onDownload}>Download the JSON file</button>
-    {:else}
-      <label class="row small">
-        <input type="checkbox" bind:checked={licenceAgreed} />
-        I publish this under CC BY-SA 4.0, with my name shown on the reaction (needed once)
-      </label>
-      <div class="row spread mt">
+  {#if submitting !== undefined && onPublish === undefined}
+    <SubmitForReview {submitting} {onDownload} />
+  {:else}
+    <section class="card mt" aria-label="Publish">
+      {#if onPublish === undefined}
+        <p class="small muted">
+          Publishing happens on the server. Here, the draft is saved in content/reactions/.
+        </p>
         <button class="btn sm" onclick={onDownload}>Download the JSON file</button>
-        <button
-          class="btn primary"
-          title="Save, then publish: the server checks the draft first"
-          onclick={() => {
-            onPublish(licenceAgreed);
-          }}
-        >
-          Publish
-        </button>
-      </div>
-    {/if}
-  </section>
+      {:else}
+        <label class="row small">
+          <input type="checkbox" bind:checked={licenceAgreed} />
+          I publish this under CC BY-SA 4.0, with my name shown on the reaction (needed once)
+        </label>
+        <div class="row spread mt">
+          <button class="btn sm" onclick={onDownload}>Download the JSON file</button>
+          <button
+            class="btn primary"
+            title="Save, then publish: the server checks the draft first"
+            onclick={() => {
+              onPublish(licenceAgreed);
+            }}
+          >
+            Publish
+          </button>
+        </div>
+      {/if}
+    </section>
+  {/if}
 </div>

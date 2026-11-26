@@ -112,10 +112,10 @@ describe("refusing to save a draft", () => {
     );
   });
 
-  it("refuses another user's reaction", async () => {
+  it("refuses another user's unpublished version", async () => {
     await saveDraft(database, sn2Document(), ownerUserId);
     const otherUserId = await insertUser(connection, "someone else", "contributor");
-    await expectRefusal(saveDraft(database, sn2Document(), otherUserId), "not-reaction-owner");
+    await expectRefusal(saveDraft(database, sn2Document(), otherUserId), "not-version-author");
   });
 
   it("refuses a reaction whose versions are all published (Edit comes first)", async () => {
@@ -155,12 +155,8 @@ describe("Edit: starting the next version", () => {
     );
   });
 
-  it("refuses an unknown slug and another user's reaction", async () => {
+  it("refuses an unknown slug", async () => {
     await expectRefusal(startNextVersion(database, "no-such", ownerUserId), "reaction-not-found");
-    await saveDraft(database, sn2Document(), ownerUserId);
-    await markAllPublished(SN2_SLUG);
-    const otherUserId = await insertUser(connection, "someone else", "contributor");
-    await expectRefusal(startNextVersion(database, SN2_SLUG, otherUserId), "not-reaction-owner");
   });
 });
 
@@ -177,6 +173,9 @@ describe("listing and reading", () => {
       {
         reactionSlug: "aldol-addition-base",
         ownerUserId,
+        ownerName: "owner",
+        newestAuthorUserId: ownerUserId,
+        newestAuthorName: "owner",
         title: null,
         newestReactionDocument: untitled,
         newestReactionVersion: 1,
@@ -187,6 +186,9 @@ describe("listing and reading", () => {
       {
         reactionSlug: SN2_SLUG,
         ownerUserId,
+        ownerName: "owner",
+        newestAuthorUserId: ownerUserId,
+        newestAuthorName: "owner",
         title: "SN2 substitution",
         newestReactionDocument: {
           ...sn2Document(),

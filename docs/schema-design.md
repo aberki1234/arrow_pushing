@@ -61,7 +61,10 @@ Each term below means exactly one thing in the docs, the JSON and the code.
 | **creation stage** | One of Create's four stages: `start`, `mechanism`, `teaching`, `publish` (SPEC §5 "Create"). |
 | **teaching item** | One entry of the Teaching to-do list (a state's learner prompt, hint tiers or misconceptions, a step's explanation or caption, the mechanism summary), with its need (needed / recommended / optional) and status (missing / started / done). Built from the draft's fields, not from lint. |
 | **check task** | A lint finding as Create's Publish stage shows it: plain words, the creation stage that fixes it, and its place. |
-| **site role / site action** | A user's role (`owner`, `reviewer`, `contributor`) and what it allows (`createReactions`, `seeEveryReaction`, `submitForReview`, `publish`, `review`); decided only in `reactionDatabase/sitePermissions.ts`. |
+| **site role / site action** | A user's role (`owner`, `reviewer`, `contributor`, `blocked`) and what it allows (`createReactions`, `seeEveryReaction`, `submitForReview`, `publish` (directly, the owner only), `review`, `manageUsers`); decided only in `reactionDatabase/sitePermissions.ts`. |
+| **version author** | The user who wrote a reaction version (`reaction_versions.author_user_id`); only they save it. Not the reaction's owner, who made version 1. |
+| **review decision** | A reviewer's `publish` or `changes_requested` on a submitted version, stored in `reviews` with an overall comment and **pinned notes**. Not an attempt assessment. |
+| **compared entry / change key / version change** | What the review screen compares between two versions: one reaction field, a state's structure or one of its learner texts, a step's arrows or texts (`reactionEditing/versionChanges.ts`). Its **change key** names it in both versions (`state:reactants hintTiers:1`) and is what a pinned note points at; a **version change** is one added, removed or changed. |
 
 Abbreviations: `lp` = lone pair; `rad` = radical (unpaired electron); SMILES = simplified molecular-input line-entry
 system; e⁻ = electron.
@@ -773,7 +776,17 @@ RDKit (RDKit.js) on every valid SMILES case and every example state (`src/chemis
        and Create on `create.<domain>` (Render), the GitHub sign-in app's callback and the server's public
        address moved there; checked end to end.
    * **8e** Contributors (decided 2026-11-26, SPEC §6; design `mockups/review.html`). Proposed in four parts:
-     - **Part 1, database and server** (TDD on PGlite): migration 0003 (site role `blocked`; `reviews.pinned_notes`
+     - **Part 1, database and server. Done 2026-11-26.** Built: migration 0003; `reactionDatabase/siteUsers.ts`
+       (`requireSiteAction`, the Users page's list and roles), `submissions.ts` (Submit, the queue, a review,
+       the author's notes, what a reviewer compares), the new rules in `reactionVersions.ts` (version author,
+       5 open drafts, blocked, authors added on a next version, `listReactionsFor`, an unchanged save keeping
+       a submission in review) and `publishing.ts` (direct publish: the owner, on their own version;
+       `publishNewestVersion` shared with a review); `sitePermissions.ts` with `manageUsers`, `blocked`, and
+       reviewers without direct `publish`; `backendServer/authentication.ts` (open sign-in as contributor, the
+       allow-listed GitHub account made owner in an after-create hook, Google when `GOOGLE_CLIENT_ID`/`SECRET`
+       are set, linking by verified email), `contributorRoutes.ts`, `/api/sign-in-providers`, `/api/me`'s
+       `userId`; a fake Google in `testSupport/serverTesting.ts`. The refusal `not-reaction-owner` is gone
+       (now `not-version-author`). Planned as (TDD on PGlite): migration 0003 (site role `blocked`; `reviews.pinned_notes`
        jsonb beside its overall `comment`; `reaction_versions.submission_note`); sign-in open to anyone as
        `contributor`, the GitHub ids of `ALLOWED_GITHUB_USER_IDS` becoming `owner`; Google as a second provider
        (optional settings `GOOGLE_CLIENT_ID`/`GOOGLE_CLIENT_SECRET`), one person's GitHub and Google accounts
@@ -782,13 +795,22 @@ RDKit (RDKit.js) on every valid SMILES case and every example state (`src/chemis
        5-open-drafts limit; Submit (server lint, licence), saving a submitted version returning it to draft;
        the review queue, a review (publish or request changes, never one's own), the Users page's roles; all
        through `sitePermissions.ts` (new actions `manageUsers`, `reviewOthers`), with routes and refusals.
-     - **Part 2, decisions** (pure TypeScript): the change list between two versions of a reaction (states,
+     - **Part 2, decisions. Done 2026-11-26.** Built: `reactionEditing/textDiff.ts` (word-level diff),
+       `versionChanges.ts` (the change list and `placeOfChangeKey`), `reactionEditor/reviewView.ts` (Your
+       mechanisms and Improve lists, the banner, the queue's lines, the sub-navigation, the Users page's
+       words), `editorView.patternArrowsOn`. Planned as (pure TypeScript): the change list between two versions of a reaction (states,
        steps, every learner text, misconceptions, metadata) with a word-level text diff; the review notes and
        where they point; the contributor's banner and queue labels.
-     - **Part 3, the pages:** the sign-in page, Create's sub-navigation, the contributor's Publish stage and Your
+     - **Part 3, the pages. Done 2026-11-26.** Built in `src/reactionEditor/`: `contributorClient.ts` (the
+       API), `SignInCard`, `CreateSubnav`, `CreateHome` (banner, open drafts, Suggest version n),
+       `ReviewerNotes` and `SubmitForReview` on the Publish stage, `ReviewQueue`, `ReviewScreen` (`ChangeCard`,
+       `ReviewDrawing`), `UsersPage`, wired in `EditorApp`. Checked in headless Chromium with two accounts
+       (GitHub owner, Google contributor) on PGlite: suggest version 2 → submit → changes requested with a
+       pinned note → banner, notes, Go there → resubmit → published → role changed; light and dark; only the
+       signed-out 401 in the console. Planned as: the sign-in page, Create's sub-navigation, the contributor's Publish stage and Your
        mechanisms, the review queue and review screen (Play as learner on the submitted version), the Users page;
        checked in headless Chromium with a second account.
-     - **Part 4, the owner's setup:** a Google OAuth app (callback
+     - **Part 4, the owner's setup (to do, by the owner):** a Google OAuth app (callback
        `https://create.arrowpushing.com/api/auth/callback/google`), its two settings on Render, and an end-to-end
        check: a second account submits, the owner requests changes, it is resubmitted and published.
 9. Learn: tracks and problem sets (scoped 2026-11-25, SPEC §5 "Learn", §6.1 here), before 8d. In three parts:

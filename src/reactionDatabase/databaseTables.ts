@@ -4,7 +4,8 @@
  * Terms
  *   submission status  draft, submitted, changes_requested or published: where a reaction version
  *                      is on its way to learners. Not a step's route preference.
- *   site role          contributor, reviewer or owner: what a signed-in user may do.
+ *   site role          contributor, reviewer, owner or blocked: what a signed-in user may do
+ *                      (sitePermissions.ts).
  *   database connection  A Kysely query builder over one Postgres (node-postgres on the server,
  *                      PGlite in tests), plus a way to run a whole SQL script (the migrations).
  *
@@ -13,7 +14,7 @@
  */
 import { CamelCasePlugin, type ColumnType, type Generated, type Kysely } from "kysely";
 
-export type SiteRole = "contributor" | "reviewer" | "owner";
+export type SiteRole = "contributor" | "reviewer" | "owner" | "blocked";
 
 export type SubmissionStatus = "draft" | "submitted" | "changes_requested" | "published";
 
@@ -56,6 +57,14 @@ export interface ReactionVersionsTable {
   updatedAt: TimestampWithDefault;
   submittedAt: Date | null;
   publishedAt: Date | null;
+  /** The author's note for the reviewer, given at Submit. */
+  submissionNote: string | null;
+}
+
+/** A reviewer's note pinned to one change of the version (reactionEditing's change list). */
+export interface PinnedNote {
+  readonly changeKey: string;
+  readonly note: string;
 }
 
 export interface ReviewsTable {
@@ -64,7 +73,9 @@ export interface ReviewsTable {
   reactionVersion: number;
   reviewerUserId: string;
   reviewDecision: "publish" | "changes_requested";
+  /** The overall note. */
   comment: string | null;
+  pinnedNotes: ColumnType<PinnedNote[], string | undefined, string>;
   createdAt: TimestampWithDefault;
 }
 

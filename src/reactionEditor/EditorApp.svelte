@@ -3,6 +3,8 @@
   // draft open in its stages (CreateWorkspace.svelte); "Play as learner" shows the learner's own
   // step screen (learnerSite/StepPlay.svelte) on the draft. A draft is saved by itself about
   // autosaveDelayMilliseconds after the last edit (on the server, or in content/reactions/).
+  // On the server, Create's sub-navigation adds Review (reviewers) and Users (the owner), and the
+  // Publish stage submits for review for anyone but the owner (docs/SPEC.md §6, "Contributors").
   import { onMount } from "svelte";
   import type { ChemistryToolkit } from "../chemistryToolkit/chemistryToolkit.js";
   import StepPlay from "../learnerSite/StepPlay.svelte";
@@ -12,7 +14,14 @@
   import SiteHeader from "../learnerSite/SiteHeader.svelte";
   import { navigationTabs } from "../learnerSite/siteNavigation.js";
   import CreateHome from "./CreateHome.svelte";
+  import CreateSubnav from "./CreateSubnav.svelte";
   import CreateWorkspace from "./CreateWorkspace.svelte";
+  import type {
+    ContributorClient,
+    QueuedSubmission,
+    ReviewNotes,
+    SignInProvider,
+  } from "./contributorClient.js";
   import { createdDraft, type DraftStart } from "./draftCreation.js";
   import { currentDraft, type EditorSession, openDraft } from "./editorSession.js";
   import type { ListedReactionFile, ReactionFileStore } from "./reactionFileStore.js";
@@ -22,7 +31,11 @@
     type SignedInUser,
     slugOfFileName,
   } from "./serverReactionStore.js";
+  import ReviewQueue from "./ReviewQueue.svelte";
+  import ReviewScreen from "./ReviewScreen.svelte";
+  import { type CreateSection, createSections, type SubmitControls } from "./reviewView.js";
   import StageStepper from "./StageStepper.svelte";
+  import UsersPage from "./UsersPage.svelte";
   import StartStage from "./StartStage.svelte";
   import type { DraftLinter } from "./workerLinter.js";
 
@@ -31,6 +44,7 @@
     fileStore,
     lintDraft,
     publishing,
+    contributing,
     learnerSiteAddress = null,
     autosaveDelayMilliseconds = 1500,
     goToAddress = (address: string): void => {
@@ -43,6 +57,8 @@
     lintDraft: DraftLinter;
     /** The built editor on the server: signing in, Publish and Edit. Absent with make editor. */
     publishing?: ReactionPublishing | undefined;
+    /** The built editor on the server: signing in, submitting, review and users. */
+    contributing?: ContributorClient | undefined;
     /** The learner site, for the top bar's tabs (null: make editor, only Create's tab). */
     learnerSiteAddress?: string | null;
     autosaveDelayMilliseconds?: number;
@@ -62,7 +78,38 @@
   let saveStatus = $state("Saved");
   let lastSavedDraft: ReactionDocument | null = null;
 
+  let signInProviders = $state.raw<SignInProvider[]>(["github"]);
+  let section = $state<CreateSection>("mine");
+  let reviewSlug = $state<string | null>(null);
+  let queue = $state.raw<QueuedSubmission[] | null>(null);
+  let queueMessage = $state("");
+  // The open draft's submission status as last known, and the reviewer's notes on it.
+  let draftStatus = $state("draft");
+  let reviewNotes = $state.raw<ReviewNotes | null>(null);
+
   const mayPublish = $derived(signedInUser?.siteActions.includes("publish") === true);
+  const sections = $derived(createSections(signedInUser?.siteActions ?? []));
+  const submitting = $derived<SubmitControls | undefined>(
+    contributing !== undefined &&
+      !mayPublish &&
+      signedInUser?.siteActions.includes("submitForReview") === true
+      ? { reviewNotes, submissionStatus: draftStatus, onSubmit: submitCurrent }
+      : undefined,
+  );
+
+  function loadQueue(): void {
+    if (contributing === undefined || !sections.includes("review")) {
+      return;
+    }
+    contributing.reviewQueue().then(
+      (loaded) => {
+        queue = loaded;
+      },
+      () => {
+        queue = [];
+      },
+    );
+  }
 
   function listFiles(): void {
     fileStore.list().then(
@@ -88,6 +135,14 @@
       signInNeeded = user === null;
       if (!signInNeeded) {
         listFiles();
+        loadQueue();
+      } else {
+        contributing?.signInProviders().then(
+          (providers) => {
+            signInProviders = providers;
+          },
+          () => undefined,
+        );
       }
     });
   });
@@ -97,6 +152,17 @@
   }
 
   function showDraft(document: ReactionDocument, fileName: string): void {
+    const listing = files?.find((file) => file.fileName === fileName);
+    draftStatus = listing?.newestSubmissionStatus ?? "draft";
+    reviewNotes = null;
+    if (contributing !== undefined && draftStatus === "changes_requested") {
+      contributing.reviewNotes(slugOfFileName(fileName)).then(
+        (notes) => {
+          reviewNotes = notes;
+        },
+        () => undefined,
+      );
+    }
     session = openDraft(document, fileName);
     lastSavedDraft = document;
     saveStatus = "Saved";
@@ -114,6 +180,14 @@
       await save(leaving);
     }
     listFiles();
+    loadQueue();
+  }
+
+  function showSection(next: CreateSection): void {
+    section = next;
+    reviewSlug = null;
+    queueMessage = "";
+    void goHome();
   }
 
   function leaveToHome(): void {
@@ -159,6 +233,8 @@
     const fileName = `${String(creation.document.reactionSlug)}.json`;
     session = openDraft(creation.document, fileName);
     lastSavedDraft = null;
+    draftStatus = "draft";
+    reviewNotes = null;
     view = "draft";
   }
 
@@ -168,6 +244,10 @@
     try {
       await fileStore.save(current.fileName, savedDraft);
       lastSavedDraft = savedDraft;
+      // Saving a submitted version takes it out of review (reactionDatabase/reactionVersions.ts).
+      if (draftStatus === "submitted") {
+        draftStatus = "draft";
+      }
       if (session !== null && currentDraft(session) === savedDraft) {
         saveStatus = "Saved";
       }
@@ -188,7 +268,9 @@
     }
     saveStatus = "Not saved yet";
     const timer = setTimeout(() => {
-      if (session !== null) {
+      // Submit or Publish may have saved this draft already (a late save would take a
+      // submitted version out of review).
+      if (session !== null && currentDraft(session) !== lastSavedDraft) {
         void save(session);
       }
     }, autosaveDelayMilliseconds);
@@ -197,10 +279,44 @@
     };
   });
 
-  function signIn(): void {
-    publishing?.signInAddress().then(goToAddress, (error: unknown) => {
+  function signIn(provider: SignInProvider): void {
+    contributing?.signInAddress(provider).then(goToAddress, (error: unknown) => {
       homeMessage = reasonOf(error);
     });
+  }
+
+  /** Save first, so that what is submitted is what is on screen. */
+  async function saveAndSubmit(
+    current: EditorSession,
+    licenceAgreed: boolean,
+    submissionNote: string,
+  ): Promise<void> {
+    if (contributing === undefined) {
+      return;
+    }
+    await save(current);
+    const outcome = await contributing.submit(
+      slugOfFileName(current.fileName),
+      licenceAgreed,
+      submissionNote,
+    );
+    if (outcome.outcome === "refused") {
+      const findingsNote = outcome.lintFindingCount > 0 ? " (see the checks above)" : "";
+      session = {
+        ...current,
+        message: { tone: "bad", text: `Not submitted: ${outcome.reason}${findingsNote}` },
+      };
+      return;
+    }
+    draftStatus = "submitted";
+    reviewNotes = null;
+    session = { ...current, message: { tone: "good", text: "Submitted for review." } };
+  }
+
+  function submitCurrent(licenceAgreed: boolean, submissionNote: string): void {
+    if (session !== null) {
+      void saveAndSubmit(session, licenceAgreed, submissionNote);
+    }
   }
 
   function editNextVersion(fileName: string): void {
@@ -245,12 +361,44 @@
   onCurrentTab={leaveToHome}
 />
 <main class="wrap">
-  {#if view === "home"}
+  {#if view === "home" && !signInNeeded}
+    <CreateSubnav
+      {sections}
+      current={section}
+      reviewCount={queue === null ? null : queue.length}
+      onSection={showSection}
+    />
+  {/if}
+  {#if view === "home" && section === "review" && contributing !== undefined}
+    {#if reviewSlug === null}
+      <ReviewQueue
+        {queue}
+        message={queueMessage}
+        onReview={(reactionSlug: string) => {
+          reviewSlug = reactionSlug;
+        }}
+      />
+    {:else}
+      <ReviewScreen
+        client={contributing}
+        reactionSlug={reviewSlug}
+        onBack={(message: string) => {
+          reviewSlug = null;
+          queueMessage = message;
+          loadQueue();
+        }}
+      />
+    {/if}
+  {:else if view === "home" && section === "users" && contributing !== undefined}
+    <UsersPage client={contributing} />
+  {:else if view === "home"}
     <CreateHome
       {files}
       storagePlace={fileStore.storagePlace}
       message={homeMessage}
       {signInNeeded}
+      userId={signedInUser?.userId ?? null}
+      {signInProviders}
       onNew={() => {
         homeMessage = "";
         view = "new";
@@ -318,6 +466,7 @@
             void saveAndPublish(current, licenceAgreed);
           }
         : undefined}
+      {submitting}
     />
   {/if}
 </main>

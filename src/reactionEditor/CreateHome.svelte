@@ -1,14 +1,27 @@
 <script lang="ts">
-  // Create's home, "Your mechanisms" (docs/SPEC.md §5, "Create"): a new mechanism, improving a
-  // published one (its next version), and every saved reaction with its status and progress.
+  // Create's home, "Your mechanisms" (docs/SPEC.md §5, "Create", and §6, "Contributors"): a new
+  // mechanism, improving any published one (its next version), and the user's own reactions with
+  // their status and progress; a banner while a reviewer has asked for changes. On the server,
+  // before signing in, the sign-in card instead.
   import { creationProgressLine } from "../reactionEditing/creationProgress.js";
+  import type { SignInProvider } from "./contributorClient.js";
   import type { ListedReactionFile } from "./reactionFileStore.js";
+  import {
+    changesRequestedBanner,
+    openDraftsLine,
+    publishedToImprove,
+    yourMechanisms,
+    yourRowNote,
+  } from "./reviewView.js";
+  import SignInCard from "./SignInCard.svelte";
 
   const {
     files,
     storagePlace,
     message,
     signInNeeded = false,
+    userId = null,
+    signInProviders = ["github"],
     onNew,
     onOpen,
     onOpenLocal,
@@ -20,10 +33,13 @@
     message: string;
     /** On the server, before signing in: the list waits for it. */
     signInNeeded?: boolean;
+    /** The signed-in user (on the server), else null: every listed file is one's own. */
+    userId?: string | null;
+    signInProviders?: readonly SignInProvider[];
     onNew: () => void;
     onOpen: (fileName: string) => void;
     onOpenLocal: (file: File) => void;
-    onSignIn?: (() => void) | undefined;
+    onSignIn?: ((provider: SignInProvider) => void) | undefined;
     /** On the server: a published reaction's next version as a draft. */
     onEdit?: ((fileName: string) => void) | undefined;
   } = $props();
@@ -35,22 +51,31 @@
     published: { text: "Published", pillClass: "good" },
   };
 
-  const published = $derived(
-    (files ?? []).filter((file) => file.newestSubmissionStatus === "published"),
+  const shownFiles = $derived(
+    userId === null ? (files ?? []) : yourMechanisms(files ?? [], userId),
   );
+  const toImproveOptions = $derived(publishedToImprove(files ?? [], userId ?? ""));
+  const banner = $derived(userId === null ? null : changesRequestedBanner(files ?? [], userId));
   const unreachableText = $derived(
     `Nothing to list: ${storagePlace} cannot be reached. Start the editor with make editor, ` +
       "or open a file below.",
   );
   let chosenToImprove = $state("");
   const toImprove = $derived(
-    published.some((file) => file.fileName === chosenToImprove)
-      ? chosenToImprove
-      : (published[0]?.fileName ?? ""),
+    toImproveOptions.find((option) => option.fileName === chosenToImprove) ?? toImproveOptions[0],
   );
 
   function nextVersionOf(file: ListedReactionFile | undefined): string {
     return String((file?.newestReactionVersion ?? 0) + 1);
+  }
+
+  /** "Edit as version n" on one's own reaction, "Suggest version n" on someone else's. */
+  function nextVersionLabel(file: ListedReactionFile | undefined): string {
+    const verb =
+      userId === null || file?.ownerUserId === undefined || file.ownerUserId === userId
+        ? "Edit as"
+        : "Suggest";
+    return `${verb} version ${nextVersionOf(file)}`;
   }
 </script>
 
@@ -67,40 +92,52 @@
   <p class="small message bad" role="status">{message}</p>
 {/if}
 {#if signInNeeded}
-  <section class="card mt" aria-label="Sign in">
-    <h2>Sign in to create</h2>
-    <p class="small muted">Creating is invite-only for now.</p>
-    <button class="btn primary" onclick={onSignIn}>Sign in with GitHub</button>
-  </section>
+  <SignInCard
+    providers={signInProviders}
+    onSignIn={(provider: SignInProvider) => onSignIn?.(provider)}
+  />
 {:else}
+  {#if banner !== null}
+    <div class="note warn mt" role="status">
+      <h4>{banner}</h4>
+      Open it to see the notes on its Publish stage; submit again when you're done.
+    </div>
+  {/if}
   <div class="grid g2 mt">
     <button class="card hero bigchoice" onclick={onNew}>
       <span class="ic" aria-hidden="true">✚</span>
       <span class="choice-title">New mechanism</span>
       <span class="muted">Paste the starting materials, then push arrows.</span>
+      {#if userId !== null}
+        <span class="small muted">{openDraftsLine(files ?? [], userId)}</span>
+      {/if}
     </button>
     <section class="card bigchoice" aria-label="Improve a published one">
       <span class="ic" aria-hidden="true">✎</span>
       <span class="choice-title">Improve a published one</span>
-      {#if onEdit === undefined || published.length === 0}
+      {#if onEdit === undefined || toImprove === undefined}
         <span class="muted small">
           Published reactions appear here; editing one makes its next version, and learners keep the
           old one until the new one is published.
         </span>
       {:else}
+        <span class="muted small">
+          Any published reaction, yours or not: your copy goes to review as its next version, and
+          you're credited beside its author.
+        </span>
         <span class="row">
           <select aria-label="Published reaction" bind:value={chosenToImprove}>
-            {#each published as file (file.fileName)}
-              <option value={file.fileName}>{file.title ?? file.fileName}</option>
+            {#each toImproveOptions as option (option.fileName)}
+              <option value={option.fileName}>{option.label}</option>
             {/each}
           </select>
           <button
             class="btn sm"
             onclick={() => {
-              onEdit(toImprove);
+              onEdit(toImprove.fileName);
             }}
           >
-            Edit as version {nextVersionOf(published.find((file) => file.fileName === toImprove))}
+            {nextVersionLabel((files ?? []).find((file) => file.fileName === toImprove.fileName))}
           </button>
         </span>
       {/if}
@@ -113,10 +150,10 @@
       <p class="small muted">
         {unreachableText}
       </p>
-    {:else if files.length === 0}
+    {:else if shownFiles.length === 0}
       <p class="small muted">None yet: start with New mechanism.</p>
     {/if}
-    {#each files ?? [] as file (file.fileName)}
+    {#each shownFiles as file (file.fileName)}
       {@const pill = STATUS_TO_PILL[file.newestSubmissionStatus ?? "draft"]}
       <div class="item">
         <div class="grow">
@@ -127,6 +164,9 @@
               : creationProgressLine(file.creationProgress)}
             {#if file.newestReactionVersion !== undefined}
               · version {String(file.newestReactionVersion)}
+            {/if}
+            {#if userId !== null && yourRowNote(file, userId) !== ""}
+              · {yourRowNote(file, userId)}
             {/if}
           </div>
         </div>
@@ -140,7 +180,7 @@
               onEdit(file.fileName);
             }}
           >
-            Edit as version {nextVersionOf(file)}
+            {nextVersionLabel(file)}
           </button>
         {:else}
           <button

@@ -6,6 +6,7 @@
 import { afterAll, afterEach, beforeAll, beforeEach, describe, expect, it, vi } from "vitest";
 import { loadChemistryToolkit } from "../chemistryToolkit/chemistryToolkit.js";
 import type { DatabaseConnection } from "../reactionDatabase/databaseTables.js";
+import { contributorClient } from "../reactionEditor/contributorClient.js";
 import { serverReactionStore } from "../reactionEditor/serverReactionStore.js";
 import { lintReaction } from "../reactionLinting/reactionLint.js";
 import { exampleReaction } from "../testSupport/reactionEdits.js";
@@ -73,15 +74,29 @@ async function signedInStore(): Promise<ReturnType<typeof serverReactionStore>> 
 describe("signing in", () => {
   it("knows who is signed in, and no one without a session", async () => {
     expect(await (await signedInStore()).signedInUser()).toEqual({
+      userId: expect.any(String) as unknown,
       displayName: "Owner Name",
-      siteActions: ["createReactions", "seeEveryReaction", "submitForReview", "publish", "review"],
+      siteActions: [
+        "createReactions",
+        "seeEveryReaction",
+        "submitForReview",
+        "publish",
+        "review",
+        "manageUsers",
+      ],
     });
     expect(await serverReactionStore(browserFetch("")).signedInUser()).toBeNull();
   });
 
-  it("gets GitHub's sign-in address", async () => {
-    const signInAddress = await serverReactionStore(browserFetch("")).signInAddress();
-    expect(signInAddress).toMatch(/^https:\/\/github\.com\/login\/oauth\/authorize\?/);
+  it("gets the providers and each one's sign-in address", async () => {
+    const client = contributorClient(browserFetch(""));
+    expect(await client.signInProviders()).toEqual(["github", "google"]);
+    expect(await client.signInAddress("github")).toMatch(
+      /^https:\/\/github\.com\/login\/oauth\/authorize\?/,
+    );
+    expect(await client.signInAddress("google")).toMatch(
+      /^https:\/\/accounts\.google\.com\/o\/oauth2\/v2\/auth\?/,
+    );
   });
 });
 
@@ -93,21 +108,33 @@ const SN2_PROGRESS = {
   neededLeftCount: 0,
 };
 
+/** The store's list: the owner's SN2 draft alone. */
+async function expectSn2ListedAsDraft(
+  store: ReturnType<typeof serverReactionStore>,
+): Promise<void> {
+  const ownerUserId = (await store.signedInUser())?.userId;
+  const owner = { ownerUserId, ownerName: "Owner Name" };
+  const author = { newestAuthorUserId: ownerUserId, newestAuthorName: "Owner Name" };
+  expect(await store.list()).toEqual([
+    {
+      fileName: SN2_FILE_NAME,
+      reactionSlug: SN2_SLUG,
+      title: exampleReaction(SN2_FILE_NAME).title,
+      newestReactionVersion: 1,
+      newestSubmissionStatus: "draft",
+      ...owner,
+      ...author,
+      creationProgress: SN2_PROGRESS,
+    },
+  ]);
+}
+
 describe("a reaction from draft to published, from the editor", () => {
   it("saves, lists, reads, refuses Publish without the licence, publishes and edits", async () => {
     const store = await signedInStore();
     expect(store.storagePlace).toBe("the server");
     await store.save(SN2_FILE_NAME, exampleReaction(SN2_FILE_NAME));
-    expect(await store.list()).toEqual([
-      {
-        fileName: SN2_FILE_NAME,
-        reactionSlug: SN2_SLUG,
-        title: exampleReaction(SN2_FILE_NAME).title,
-        newestReactionVersion: 1,
-        newestSubmissionStatus: "draft",
-        creationProgress: SN2_PROGRESS,
-      },
-    ]);
+    await expectSn2ListedAsDraft(store);
     expect(await store.read(SN2_FILE_NAME)).toEqual(exampleReaction(SN2_FILE_NAME));
     expect(await store.publish(SN2_SLUG, false)).toMatchObject({
       outcome: "refused",

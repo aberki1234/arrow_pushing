@@ -56,7 +56,10 @@ export default tseslint.config(
           selector: "property",
           format: null,
           filter: {
-            regex: "^([A-Z][A-Z0-9_]*|event_type|access_token|token_type|avatar_url|Variables)$",
+            // Keys of other services' JSON (GitHub, Google, GitHub Actions) and Hono's Variables.
+            regex:
+              "^([A-Z][A-Z0-9_]*|event_type|access_token|token_type|avatar_url|id_token|" +
+              "expires_in|email_verified|Variables)$",
             match: true,
           },
         },

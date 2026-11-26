@@ -34,7 +34,13 @@ services:
         sync: false
       - key: GITHUB_CLIENT_SECRET
         sync: false
+      # The owner's numeric GitHub user id; anyone else who signs in is a contributor.
       - key: ALLOWED_GITHUB_USER_IDS
+        sync: false
+      # Optional, together: the Google sign-in app (callback <PUBLIC_BASE_URL>/api/auth/callback/google).
+      - key: GOOGLE_CLIENT_ID
+        sync: false
+      - key: GOOGLE_CLIENT_SECRET
         sync: false
       - key: DEPLOY_REPOSITORY
         sync: false

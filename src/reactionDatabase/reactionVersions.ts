@@ -11,11 +11,18 @@
  *     ("Edit"): version n+1 starts as a copy of version n.
  *   - The database, not the editor, numbers the versions: the stored document's reactionVersion
  *     and previousReactionVersion are set to the row's (previousReactionVersion null for 1).
- *   - Only the reaction's owner saves or edits it.
+ *   - The author of the unpublished version saves it (docs/SPEC.md §6, "Contributors"); anyone
+ *     may start the next version of a published reaction, and becomes an author of its document.
+ *   - Saving a changed document over a submitted version takes it out of review (back to draft);
+ *     saving the same document again (a late autosave) leaves it in review.
+ *   - An author has at most MAXIMUM_OPEN_DRAFTS unpublished versions.
+ *   - A blocked user saves and starts nothing.
  */
 import { sql } from "kysely";
 import type { ReactionDatabase, SubmissionStatus } from "./databaseTables.js";
 import { ReactionDatabaseError } from "./reactionDatabaseErrors.js";
+import { mayPerform } from "./sitePermissions.js";
+import { requireSiteAction, siteRoleOf } from "./siteUsers.js";
 
 type ReactionDocument = Readonly<Record<string, unknown>>;
 
@@ -29,10 +36,16 @@ export interface WrittenVersion {
   readonly submissionStatus: SubmissionStatus;
 }
 
+/** The most unpublished versions (draft, submitted, changes requested) one author may have. */
+export const MAXIMUM_OPEN_DRAFTS = 5;
+
 /** One reaction in the editor's list: its newest version. */
 export interface ReactionListing {
   readonly reactionSlug: string;
   readonly ownerUserId: string;
+  readonly ownerName: string;
+  readonly newestAuthorUserId: string;
+  readonly newestAuthorName: string;
   /** The newest version's title, or null if its document has none yet. */
   readonly title: string | null;
   /** For the progress Create shows (reactionEditing/creationProgress.ts). */
@@ -116,23 +129,36 @@ export async function findReaction(
   };
 }
 
-/** The reaction, if `userId` owns it. Refusals: reaction-not-found, not-reaction-owner. */
-async function ownedReaction(
+/** The reaction. Refusal: reaction-not-found. */
+async function existingReaction(
   database: ReactionDatabase,
   reactionSlug: string,
-  userId: string,
 ): Promise<ReactionWithNewestVersion> {
   const reaction = await findReaction(database, reactionSlug);
   if (reaction === undefined) {
     throw new ReactionDatabaseError("reaction-not-found", `no reaction "${reactionSlug}"`);
   }
-  if (reaction.ownerUserId !== userId) {
+  return reaction;
+}
+
+/** Refusal too-many-open-drafts when the author already has MAXIMUM_OPEN_DRAFTS open versions. */
+async function requireRoomForOpenDraft(
+  database: ReactionDatabase,
+  authorUserId: string,
+): Promise<void> {
+  const openCount = await database
+    .selectFrom("arrowpush.reactionVersions")
+    .select(sql<number>`count(*)::int`.as("openCount"))
+    .where("authorUserId", "=", authorUserId)
+    .where("submissionStatus", "<>", "published")
+    .executeTakeFirstOrThrow();
+  if (openCount.openCount >= MAXIMUM_OPEN_DRAFTS) {
     throw new ReactionDatabaseError(
-      "not-reaction-owner",
-      `reaction "${reactionSlug}" belongs to another user`,
+      "too-many-open-drafts",
+      `at most ${String(MAXIMUM_OPEN_DRAFTS)} unpublished versions at once: ` +
+        "submit or delete one first",
     );
   }
-  return reaction;
 }
 
 async function insertDraftVersion(
@@ -161,6 +187,7 @@ async function createReaction(
   reactionDocument: ReactionDocument,
   authorUserId: string,
 ): Promise<WrittenVersion> {
+  await requireRoomForOpenDraft(database, authorUserId);
   const reaction = await database
     .insertInto("arrowpush.reactions")
     .values({ reactionSlug, ownerUserId: authorUserId })
@@ -172,8 +199,9 @@ async function createReaction(
 
 /**
  * Save `reactionDocument` as the draft of its reaction (by its reactionSlug). Refusals
- * (ReactionDatabaseError): document-has-no-slug, not-reaction-owner, no-unpublished-version (all
- * versions are published: use startNextVersion).
+ * (ReactionDatabaseError): document-has-no-slug, not-allowed (blocked), too-many-open-drafts (a
+ * new reaction), no-unpublished-version (all versions are published: use startNextVersion),
+ * not-version-author.
  */
 export function saveDraft(
   database: ReactionDatabase,
@@ -187,39 +215,102 @@ export function saveDraft(
     );
   }
   return database.transaction().execute(async (transaction) => {
-    if ((await findReaction(transaction, reactionSlug)) === undefined) {
+    await requireSiteAction(transaction, authorUserId, "createReactions");
+    const reaction = await findReaction(transaction, reactionSlug);
+    if (reaction === undefined) {
       return createReaction(transaction, reactionSlug, reactionDocument, authorUserId);
     }
-    const reaction = await ownedReaction(transaction, reactionSlug, authorUserId);
-    if (reaction.newestSubmissionStatus === "published") {
-      throw new ReactionDatabaseError(
-        "no-unpublished-version",
-        `every version of "${reactionSlug}" is published: start the next version with Edit`,
-      );
-    }
-    await transaction
-      .updateTable("arrowpush.reactionVersions")
-      .set({
-        reactionDocument: JSON.stringify(
-          numberedDocument(reactionDocument, reaction.newestReactionVersion),
-        ),
-        formatVersion: formatVersionOf(reactionDocument),
-        updatedAt: new Date(),
-      })
-      .where("reactionId", "=", reaction.reactionId)
-      .where("reactionVersion", "=", reaction.newestReactionVersion)
-      .execute();
-    return {
-      reactionSlug,
-      reactionVersion: reaction.newestReactionVersion,
-      submissionStatus: reaction.newestSubmissionStatus,
-    };
+    return replaceDraft(transaction, reaction, reactionDocument, authorUserId);
   });
 }
 
+/** saveDraft() on an existing reaction: its unpublished version, if `authorUserId` wrote it. */
+async function replaceDraft(
+  database: ReactionDatabase,
+  reaction: ReactionWithNewestVersion,
+  reactionDocument: ReactionDocument,
+  authorUserId: string,
+): Promise<WrittenVersion> {
+  const reactionSlug = String(reactionDocument.reactionSlug);
+  if (reaction.newestSubmissionStatus === "published") {
+    throw new ReactionDatabaseError(
+      "no-unpublished-version",
+      `every version of "${reactionSlug}" is published: start the next version with Edit`,
+    );
+  }
+  if (reaction.newestAuthorUserId !== authorUserId) {
+    throw new ReactionDatabaseError(
+      "not-version-author",
+      `version ${String(reaction.newestReactionVersion)} of "${reactionSlug}" is another ` +
+        "user's",
+    );
+  }
+  const documentJson = JSON.stringify(
+    numberedDocument(reactionDocument, reaction.newestReactionVersion),
+  );
+  const isChanged = !(await isStoredDocument(database, reaction, documentJson));
+  const submissionStatus =
+    reaction.newestSubmissionStatus === "submitted" && isChanged
+      ? "draft"
+      : reaction.newestSubmissionStatus;
+  await database
+    .updateTable("arrowpush.reactionVersions")
+    .set({
+      reactionDocument: documentJson,
+      formatVersion: formatVersionOf(reactionDocument),
+      submissionStatus,
+      updatedAt: new Date(),
+    })
+    .where("reactionId", "=", reaction.reactionId)
+    .where("reactionVersion", "=", reaction.newestReactionVersion)
+    .execute();
+  return { reactionSlug, reactionVersion: reaction.newestReactionVersion, submissionStatus };
+}
+
+/** Whether the newest version already holds this document (compared as JSONB, key order aside). */
+async function isStoredDocument(
+  database: ReactionDatabase,
+  reaction: ReactionWithNewestVersion,
+  documentJson: string,
+): Promise<boolean> {
+  const comparison = await database
+    .selectFrom("arrowpush.reactionVersions")
+    .select(sql<boolean>`reaction_document = ${documentJson}::jsonb`.as("isSame"))
+    .where("reactionId", "=", reaction.reactionId)
+    .where("reactionVersion", "=", reaction.newestReactionVersion)
+    .executeTakeFirstOrThrow();
+  return comparison.isSame;
+}
+
+/** The document's authors with the user added, unless they already wrote a version of it. */
+async function authorsWith(
+  database: ReactionDatabase,
+  reaction: ReactionWithNewestVersion,
+  authorUserId: string,
+): Promise<unknown[]> {
+  const authors = reaction.newestReactionDocument.authors;
+  const authorList: unknown[] = Array.isArray(authors) ? [...(authors as unknown[])] : [];
+  const earlierVersion = await database
+    .selectFrom("arrowpush.reactionVersions")
+    .select("reactionVersion")
+    .where("reactionId", "=", reaction.reactionId)
+    .where("authorUserId", "=", authorUserId)
+    .executeTakeFirst();
+  if (earlierVersion !== undefined || reaction.ownerUserId === authorUserId) {
+    return authorList;
+  }
+  const author = await database
+    .selectFrom("arrowpush.users")
+    .select("name")
+    .where("id", "=", authorUserId)
+    .executeTakeFirstOrThrow();
+  return [...authorList, { name: author.name, url: null }];
+}
+
 /**
- * "Edit" a published reaction: version n+1 as a draft, a copy of version n. Refusals:
- * reaction-not-found, not-reaction-owner, unpublished-version-exists.
+ * "Edit" a published reaction: version n+1 as a draft, a copy of version n, by anyone (adding them
+ * to the authors). Refusals: not-allowed (blocked), reaction-not-found,
+ * unpublished-version-exists, too-many-open-drafts.
  */
 export function startNextVersion(
   database: ReactionDatabase,
@@ -227,7 +318,8 @@ export function startNextVersion(
   authorUserId: string,
 ): Promise<WrittenVersion> {
   return database.transaction().execute(async (transaction) => {
-    const reaction = await ownedReaction(transaction, reactionSlug, authorUserId);
+    await requireSiteAction(transaction, authorUserId, "createReactions");
+    const reaction = await existingReaction(transaction, reactionSlug);
     if (reaction.newestSubmissionStatus !== "published") {
       throw new ReactionDatabaseError(
         "unpublished-version-exists",
@@ -235,33 +327,72 @@ export function startNextVersion(
           "published yet: edit that one",
       );
     }
+    await requireRoomForOpenDraft(transaction, authorUserId);
     const nextVersion = reaction.newestReactionVersion + 1;
+    const authors = await authorsWith(transaction, reaction, authorUserId);
     await insertDraftVersion(
       transaction,
       reaction.reactionId,
       nextVersion,
-      reaction.newestReactionDocument,
+      { ...reaction.newestReactionDocument, authors },
       authorUserId,
     );
     return { reactionSlug, reactionVersion: nextVersion, submissionStatus: "draft" };
   });
 }
 
-/** Every reaction (or only `ownerUserId`'s) with its newest version, by slug. */
+type ListedFromNewest =
+  | "newestAuthorUserId"
+  | "newestAuthorName"
+  | "newestReactionDocument"
+  | "newestReactionVersion"
+  | "newestSubmissionStatus"
+  | "publishedVersionCount";
+
+interface VersionRowFields {
+  readonly authorUserId: string;
+  readonly authorName: string;
+  readonly reactionDocument: Record<string, unknown>;
+  readonly reactionVersion: number;
+  readonly submissionStatus: SubmissionStatus;
+}
+
+/** Which reactions a listing holds: every one, one owner's, or what one contributor sees. */
+export interface ListingFilter {
+  readonly ownerUserId?: string;
+  /** Their own reactions, those with a version they wrote, and every published one. */
+  readonly visibleToUserId?: string;
+}
+
+/** Every reaction (or those of the filter) with its newest version, by slug. */
 export async function listReactions(
   database: ReactionDatabase,
-  filter: { readonly ownerUserId?: string } = {},
+  filter: ListingFilter = {},
 ): Promise<ReactionListing[]> {
   let query = database
     .selectFrom("arrowpush.reactions as reaction")
-    .innerJoin("arrowpush.reactionVersions as version", "version.reactionId", "reaction.id");
+    .innerJoin("arrowpush.reactionVersions as version", "version.reactionId", "reaction.id")
+    .innerJoin("arrowpush.users as owner", "owner.id", "reaction.ownerUserId")
+    .innerJoin("arrowpush.users as author", "author.id", "version.authorUserId");
   if (filter.ownerUserId !== undefined) {
     query = query.where("reaction.ownerUserId", "=", filter.ownerUserId);
+  }
+  const { visibleToUserId } = filter;
+  if (visibleToUserId !== undefined) {
+    query = query.where(
+      sql<boolean>`(reaction.owner_user_id = ${visibleToUserId} OR EXISTS (
+        SELECT 1 FROM arrowpush.reaction_versions other WHERE other.reaction_id = reaction.id
+          AND (other.submission_status = 'published'
+            OR other.author_user_id = ${visibleToUserId})))`,
+    );
   }
   const versionRows = await query
     .select([
       "reaction.reactionSlug",
       "reaction.ownerUserId",
+      "owner.name as ownerName",
+      "version.authorUserId",
+      "author.name as authorName",
       "version.reactionDocument",
       "version.reactionVersion",
       "version.submissionStatus",
@@ -271,6 +402,13 @@ export async function listReactions(
     .orderBy("reaction.reactionSlug")
     .orderBy("version.reactionVersion")
     .execute();
+  return listingsFromRows(versionRows);
+}
+
+/** One listing per reaction from its version rows (in version order): the newest one's. */
+function listingsFromRows(
+  versionRows: readonly (Omit<ReactionListing, ListedFromNewest> & VersionRowFields)[],
+): ReactionListing[] {
   const slugToListing = new Map<string, ReactionListing>();
   for (const versionRow of versionRows) {
     const earlierListing = slugToListing.get(versionRow.reactionSlug);
@@ -278,6 +416,9 @@ export async function listReactions(
     slugToListing.set(versionRow.reactionSlug, {
       reactionSlug: versionRow.reactionSlug,
       ownerUserId: versionRow.ownerUserId,
+      ownerName: versionRow.ownerName,
+      newestAuthorUserId: versionRow.authorUserId,
+      newestAuthorName: versionRow.authorName,
       title: versionRow.title,
       newestReactionDocument: versionRow.reactionDocument,
       newestReactionVersion: versionRow.reactionVersion,
@@ -318,4 +459,17 @@ export async function readReactionVersion(
     );
   }
   return versionRow;
+}
+
+/**
+ * The listings `userId` sees: every reaction with seeEveryReaction, else their own, those with a
+ * version they wrote, and every published one ("Improve a published one").
+ */
+export async function listReactionsFor(
+  database: ReactionDatabase,
+  userId: string,
+): Promise<ReactionListing[]> {
+  const siteRole = await siteRoleOf(database, userId);
+  const seesEveryReaction = siteRole !== undefined && mayPerform(siteRole, "seeEveryReaction");
+  return listReactions(database, seesEveryReaction ? {} : { visibleToUserId: userId });
 }

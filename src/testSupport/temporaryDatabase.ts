@@ -9,6 +9,7 @@ import {
   type ArrowpushTables,
   CAMEL_CASE_PLUGIN,
   type DatabaseConnection,
+  type SiteRole,
 } from "../reactionDatabase/databaseTables.js";
 import { applyMigrations } from "../reactionDatabase/migrationRunning.js";
 
@@ -53,7 +54,7 @@ export async function emptyAllTables(connection: DatabaseConnection): Promise<vo
 export async function insertUser(
   connection: DatabaseConnection,
   displayName: string,
-  siteRole: "contributor" | "reviewer" | "owner" = "owner",
+  siteRole: SiteRole = "owner",
 ): Promise<string> {
   const insertedUser = await connection.database
     .insertInto("arrowpush.users")

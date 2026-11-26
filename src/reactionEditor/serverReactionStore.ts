@@ -1,7 +1,8 @@
 /**
  * The built editor's store: reactions in the backend's database, through its API
  * (backendServer/reactionRoutes.ts), on the same address as the editor, so the browser sends the
- * session cookie itself. Besides listing, reading and saving drafts it signs in and publishes.
+ * session cookie itself. Besides listing, reading and saving drafts it says who is signed in and
+ * publishes (signing in, submitting and review: contributorClient.ts).
  *
  * A reaction is named "<slug>.json" here too, as in content/reactions/ (reactionFileStore.ts).
  * Reading one reads its newest version.
@@ -31,6 +32,7 @@ export type PublishOutcome =
 
 /** Who is signed in, and what their site role allows (reactionDatabase/sitePermissions.ts). */
 export interface SignedInUser {
+  readonly userId: string;
   readonly displayName: string;
   readonly siteActions: readonly string[];
 }
@@ -38,8 +40,6 @@ export interface SignedInUser {
 export interface ReactionPublishing {
   /** The signed-in user, or null when not signed in. */
   signedInUser(): Promise<SignedInUser | null>;
-  /** GitHub's sign-in address to send the browser to; it comes back to the editor at "/". */
-  signInAddress(): Promise<string>;
   publish(reactionSlug: string, licenceAgreed: boolean): Promise<PublishOutcome>;
   /** "Edit": the next version as a draft; returns its number. */
   startNextVersion(reactionSlug: string): Promise<number>;
@@ -60,6 +60,10 @@ interface ServerListing {
   readonly title: string | null;
   readonly newestReactionVersion: number;
   readonly newestSubmissionStatus: string;
+  readonly ownerUserId: string;
+  readonly ownerName: string;
+  readonly newestAuthorUserId: string;
+  readonly newestAuthorName: string;
   readonly creationProgress: CreationProgress;
 }
 
@@ -102,6 +106,10 @@ function listedReactionOf(listing: ServerListing): ListedReactionFile {
     title: listing.title,
     newestReactionVersion: listing.newestReactionVersion,
     newestSubmissionStatus: listing.newestSubmissionStatus,
+    ownerUserId: listing.ownerUserId,
+    ownerName: listing.ownerName,
+    newestAuthorUserId: listing.newestAuthorUserId,
+    newestAuthorName: listing.newestAuthorName,
     creationProgress: listing.creationProgress,
   };
 }
@@ -132,7 +140,11 @@ function signedInUserOf(meAnswer: ServerAnswer): SignedInUser | null {
   if (meAnswer.status !== 200 || typeof displayName !== "string") {
     return null;
   }
-  return { displayName, siteActions: Array.isArray(siteActions) ? siteActions.map(String) : [] };
+  return {
+    userId: String(bodyField(meAnswer, "userId")),
+    displayName,
+    siteActions: Array.isArray(siteActions) ? siteActions.map(String) : [],
+  };
 }
 
 /** The store over the API; `fetchFunction` is the browser's fetch unless a test passes another. */
@@ -156,12 +168,6 @@ export function serverReactionStore(fetchFunction: typeof fetch = fetch): Server
     },
     signedInUser: async (): Promise<SignedInUser | null> =>
       signedInUserOf(await request("/api/me")),
-    signInAddress: async (): Promise<string> => {
-      const signInRequest = jsonRequest("POST", { provider: "github", callbackURL: "/" });
-      const signInAnswer = await request("/api/auth/sign-in/social", signInRequest);
-      successfulBody(signInAnswer);
-      return String(bodyField(signInAnswer, "url"));
-    },
     publish: async (reactionSlug, licenceAgreed): Promise<PublishOutcome> =>
       publishOutcomeOf(
         await request(

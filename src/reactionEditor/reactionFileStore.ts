@@ -15,6 +15,11 @@ export interface ListedReactionFile {
   /** The server's only: the newest version's number and submission status. */
   readonly newestReactionVersion?: number;
   readonly newestSubmissionStatus?: string;
+  /** The server's only: whose reaction it is, and who wrote its newest version. */
+  readonly ownerUserId?: string;
+  readonly ownerName?: string;
+  readonly newestAuthorUserId?: string;
+  readonly newestAuthorName?: string;
   /** How far the draft has come in Create; null for a file that is not a reaction. */
   readonly creationProgress: CreationProgress | null;
 }

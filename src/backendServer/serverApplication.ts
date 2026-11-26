@@ -12,7 +12,13 @@ import { Hono } from "hono";
 import { csrf } from "hono/csrf";
 import { HTTPException } from "hono/http-exception";
 import { ReactionDatabaseError } from "../reactionDatabase/reactionDatabaseErrors.js";
-import { AUTHENTICATION_BASE_PATH, createAuthentication, requireSignIn } from "./authentication.js";
+import {
+  AUTHENTICATION_BASE_PATH,
+  createAuthentication,
+  requireSignIn,
+  signInProviders,
+} from "./authentication.js";
+import { contributorRoutes } from "./contributorRoutes.js";
 import { reactionRoutes } from "./reactionRoutes.js";
 import { refusalBody, refusalHttpStatus } from "./refusalAnswers.js";
 import type { ServerDependencies, ServerEnvironment } from "./serverDependencies.js";
@@ -26,11 +32,13 @@ export function createServerApplication(dependencies: ServerDependencies): Hono<
   application.on(["GET", "POST"], `${AUTHENTICATION_BASE_PATH}/*`, (context) =>
     authentication.handler(context.req.raw),
   );
+  application.get("/api/sign-in-providers", (context) => context.json(signInProviders(settings)));
   application.get("/api/me", requireSignIn(authentication), (context) => {
-    const { displayName, siteRole } = context.get("signedInUser");
-    return context.json({ displayName, siteRole, siteActions: siteActionsOf(siteRole) });
+    const { userId, displayName, siteRole } = context.get("signedInUser");
+    return context.json({ userId, displayName, siteRole, siteActions: siteActionsOf(siteRole) });
   });
   application.route("/api", reactionRoutes(dependencies, authentication));
+  application.route("/api", contributorRoutes(dependencies, authentication));
   application.all("/api/*", (context) => context.json({ error: "no such API route" }, 404));
   // Without a built editor (tests, the API alone) every other address is 404.
   if (existsSync(settings.editorFilesFolder)) {

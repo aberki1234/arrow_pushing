@@ -6,14 +6,21 @@ import type { LintFinding } from "../reactionLinting/lintFindings.js";
 
 export type RefusalCode =
   | "document-has-no-slug"
-  | "not-reaction-owner"
   | "no-unpublished-version"
   | "unpublished-version-exists"
   | "reaction-not-found"
   | "version-not-found"
   | "not-allowed-to-publish"
   | "draft-has-lint-errors"
-  | "licence-not-agreed";
+  | "licence-not-agreed"
+  | "not-version-author"
+  | "not-allowed"
+  | "too-many-open-drafts"
+  | "not-submittable"
+  | "not-submitted"
+  | "own-submission"
+  | "user-not-found"
+  | "role-not-assignable";
 
 export class ReactionDatabaseError extends Error {
   override readonly name = "ReactionDatabaseError";

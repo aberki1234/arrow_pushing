@@ -8,14 +8,17 @@
  *                             does not trust Supabase's own root CA, so it is named here (the
  *                             file is Supabase Root 2021 CA, as the pooler presents it).
  *   PUBLIC_BASE_URL           The server's own address, "https://create.arrowpushing.com"
- *                             (GitHub sends the browser back to
- *                             <PUBLIC_BASE_URL>/api/auth/callback/github).
+ *                             (GitHub and Google send the browser back to
+ *                             <PUBLIC_BASE_URL>/api/auth/callback/github or …/google).
  *   BETTER_AUTH_SECRET        At least 32 random characters: Better Auth signs session cookies
  *                             and encrypts stored GitHub tokens with it.
  *   GITHUB_CLIENT_ID          The GitHub OAuth app's client id and secret (OAuth = open
  *   GITHUB_CLIENT_SECRET      authorization, the sign-in protocol).
- *   ALLOWED_GITHUB_USER_IDS   Comma-separated numeric GitHub user ids that may sign in (the
- *                             owner's only, in 8c). Ids, not logins: a login can be renamed.
+ *   ALLOWED_GITHUB_USER_IDS   Comma-separated numeric GitHub user ids of the owner: anyone may
+ *                             sign in (as a contributor), these GitHub accounts as the owner.
+ *                             Ids, not logins: a login can be renamed.
+ *   GOOGLE_CLIENT_ID          Optional, together: the Google OAuth app's client id and secret;
+ *   GOOGLE_CLIENT_SECRET      without them only GitHub is offered.
  *   DEPLOY_REPOSITORY         Optional, together: "owner/name" of the repository whose deploy
  *   DEPLOY_DISPATCH_TOKEN     workflow Publish starts, and a token allowed to start it.
  *   EDITOR_FILES_FOLDER       Optional: the built editor (default "build/editor").
@@ -29,8 +32,10 @@ export interface SignInSettings {
   readonly betterAuthSecret: string;
   readonly githubClientId: string;
   readonly githubClientSecret: string;
-  /** GitHub's numeric user ids, as text. */
+  /** GitHub's numeric user ids of the owner, as text. */
   readonly allowedGithubUserIds: readonly string[];
+  /** null when Google sign-in is not set up. */
+  readonly google: { readonly clientId: string; readonly clientSecret: string } | null;
 }
 
 export interface DeploySettings {
@@ -118,12 +123,21 @@ function settingsProblems(environment: Environment): string[] {
   if (parsedPort(trimmedValue(environment, "PORT")) === null) {
     problems.push("PORT must be a port number");
   }
-  const hasRepository = trimmedValue(environment, "DEPLOY_REPOSITORY") !== "";
-  const hasDispatchToken = trimmedValue(environment, "DEPLOY_DISPATCH_TOKEN") !== "";
-  if (hasRepository !== hasDispatchToken) {
-    problems.push("set both DEPLOY_REPOSITORY and DEPLOY_DISPATCH_TOKEN, or neither");
-  }
+  problems.push(...pairProblems(environment));
   return problems;
+}
+
+/** Optional variables that are set together or not at all. */
+const VARIABLE_PAIRS = [
+  ["DEPLOY_REPOSITORY", "DEPLOY_DISPATCH_TOKEN"],
+  ["GOOGLE_CLIENT_ID", "GOOGLE_CLIENT_SECRET"],
+] as const;
+
+function pairProblems(environment: Environment): string[] {
+  return VARIABLE_PAIRS.filter(
+    ([first, second]) =>
+      (trimmedValue(environment, first) !== "") !== (trimmedValue(environment, second) !== ""),
+  ).map(([first, second]) => `set both ${first} and ${second}, or neither`);
 }
 
 /** The settings from `environment` (process.env). Throws ServerSettingsError with the problems. */
@@ -143,6 +157,13 @@ export function readServerSettings(environment: Environment): ServerSettings {
       githubClientSecret: trimmedValue(environment, "GITHUB_CLIENT_SECRET"),
       allowedGithubUserIds:
         parsedGithubUserIds(trimmedValue(environment, "ALLOWED_GITHUB_USER_IDS")) ?? [],
+      google:
+        trimmedValue(environment, "GOOGLE_CLIENT_ID") === ""
+          ? null
+          : {
+              clientId: trimmedValue(environment, "GOOGLE_CLIENT_ID"),
+              clientSecret: trimmedValue(environment, "GOOGLE_CLIENT_SECRET"),
+            },
     },
     deploy:
       repository === ""

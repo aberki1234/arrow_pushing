@@ -3,7 +3,7 @@ import { describe, expect, it } from "vitest";
 import { parseCurvedArrow } from "../arrowNotation/curvedArrowNotation.js";
 import { newReactionDraft } from "../reactionEditing/reactionDraft.js";
 import { exampleReaction } from "../testSupport/reactionEdits.js";
-import { draftDrawing, drawnArrowsOn, mappedSmilesOf } from "./editorView.js";
+import { draftDrawing, drawnArrowsOn, mappedSmilesOf, patternArrowsOn } from "./editorView.js";
 
 describe("draftDrawing", () => {
   it("draws any state of the draft at the reaction's scale, with pick targets", () => {
@@ -44,5 +44,14 @@ describe("mappedSmilesOf", () => {
     const sn2 = exampleReaction("sn2-hydroxide-bromomethane.json");
     expect(mappedSmilesOf(sn2, "reactants")).toBe("[OH-:1].[CH3:2][Br:3].[Na+:4]");
     expect(mappedSmilesOf(sn2, "elsewhere")).toBe("");
+  });
+});
+
+describe("patternArrowsOn", () => {
+  it("draws the exact arrows of a pattern and leaves out loosened parts", () => {
+    const sn2 = exampleReaction("sn2-hydroxide-bromomethane.json");
+    const { drawing } = draftDrawing(sn2, "reactants");
+    expect(patternArrowsOn(drawing, "lp O1 -> σ O1-C2; σ C2-Br3 -> lp Br3")).toHaveLength(2);
+    expect(patternArrowsOn(drawing, "lp O1 -> Br3; lp @nucleophile -> C2")).toHaveLength(0);
   });
 });

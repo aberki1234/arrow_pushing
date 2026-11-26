@@ -150,13 +150,19 @@ describe("refusing to publish", () => {
     await expectRefusal(publishDraft(database, publishRequest()), "no-unpublished-version");
   });
 
-  it("refuses a contributor", async () => {
-    await saveDraft(database, sn2Document(), ownerUserId);
+  it("refuses a contributor, even on their own draft", async () => {
     const contributorUserId = await insertUser(connection, "contributor", "contributor");
+    await saveDraft(database, sn2Document(), contributorUserId);
     await expectRefusal(
       publishDraft(database, publishRequest({ publisherUserId: contributorUserId })),
       "not-allowed-to-publish",
     );
+  });
+
+  it("refuses someone else's draft: that goes through review", async () => {
+    const contributorUserId = await insertUser(connection, "contributor", "contributor");
+    await saveDraft(database, sn2Document(), contributorUserId);
+    await expectRefusal(publishDraft(database, publishRequest()), "not-version-author");
   });
 });
 

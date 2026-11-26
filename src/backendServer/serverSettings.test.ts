@@ -14,6 +14,8 @@ const COMPLETE_ENVIRONMENT = {
   ALLOWED_GITHUB_USER_IDS: " 1001, 2002 ",
   DEPLOY_REPOSITORY: "owner/mech_training",
   DEPLOY_DISPATCH_TOKEN: "dispatch-token",
+  GOOGLE_CLIENT_ID: "google-client-id",
+  GOOGLE_CLIENT_SECRET: "google-client-secret",
   EDITOR_FILES_FOLDER: "/srv/editor",
   PORT: "10000",
 };
@@ -38,6 +40,7 @@ describe("reading the settings", () => {
         githubClientId: "client-id",
         githubClientSecret: "client-secret",
         allowedGithubUserIds: ["1001", "2002"],
+        google: { clientId: "google-client-id", clientSecret: "google-client-secret" },
       },
       deploy: { repository: "owner/mech_training", dispatchToken: "dispatch-token" },
       editorFilesFolder: "/srv/editor",
@@ -45,16 +48,21 @@ describe("reading the settings", () => {
     });
   });
 
-  it("applies the defaults: no deploy, build/editor, port 3000", () => {
+  it("applies the defaults: no deploy, no Google, build/editor, port 3000", () => {
     const {
       DEPLOY_REPOSITORY: deployRepository,
       DEPLOY_DISPATCH_TOKEN: dispatchToken,
+      GOOGLE_CLIENT_ID: googleClientId,
+      GOOGLE_CLIENT_SECRET: googleClientSecret,
       EDITOR_FILES_FOLDER: editorFilesFolder,
       PORT: port,
       ...required
     } = COMPLETE_ENVIRONMENT;
-    expect([deployRepository, dispatchToken, editorFilesFolder, port]).toHaveLength(4);
-    expect(readServerSettings(required)).toMatchObject({
+    expect([deployRepository, dispatchToken, googleClientId, googleClientSecret]).toHaveLength(4);
+    expect([editorFilesFolder, port]).toHaveLength(2);
+    const settings = readServerSettings(required);
+    expect(settings.signIn.google).toBeNull();
+    expect(settings).toMatchObject({
       deploy: null,
       editorFilesFolder: "build/editor",
       port: 3000,
@@ -85,12 +93,15 @@ describe("refusing settings", () => {
     expect(settingsProblem({ ...COMPLETE_ENVIRONMENT, PORT: "http" })).toContain("PORT");
   });
 
-  it("refuses a base address that is not http(s), and half of the deploy settings", () => {
+  it("refuses a base address not http(s), and half of the deploy or Google pair", () => {
     expect(
       settingsProblem({ ...COMPLETE_ENVIRONMENT, PUBLIC_BASE_URL: "arrowpush.com" }),
     ).toContain("PUBLIC_BASE_URL");
     expect(settingsProblem({ ...COMPLETE_ENVIRONMENT, DEPLOY_DISPATCH_TOKEN: "" })).toContain(
       "DEPLOY_REPOSITORY and DEPLOY_DISPATCH_TOKEN",
+    );
+    expect(settingsProblem({ ...COMPLETE_ENVIRONMENT, GOOGLE_CLIENT_SECRET: " " })).toContain(
+      "GOOGLE_CLIENT_ID and GOOGLE_CLIENT_SECRET",
     );
   });
 });
