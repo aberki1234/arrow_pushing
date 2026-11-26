@@ -81,6 +81,21 @@ reactions, track `aromatic-chemistry`, problem sets in this order:
   O short of an octet, or losing a σ bond to an arrow already drawn in this set) opens the same menu: "① forms a π
   bond" (A=Y, first and focused, as before) or "② shifts across" (B moves to Y: hydride or alkyl shift). Not offered
   when a drawn arrow already bonds B to something else (a base taking the H).
+  **Superseded by "point and snap" (decided 2026-11-26 from `mockups/prototype-new-bonds.html`, variant C; build item
+  10g):** after a source is picked, the destination is the place nearest the pointer, previewed as a ghost arrow: an
+  atom, an existing bond, or a **new bond** (drawn dashed between its two atoms); a click commits. There is no "which
+  atom forms the bond?" menu for bond sources and no shift menu: the learner points at the bond they mean, with the
+  arrowhead at its middle as in textbooks. **Touch** (no hover): the possible new bonds are drawn as faint dashed
+  lines once a source is picked; tapping a line forms that bond; atoms and bonds are tapped as before. Keyboard: Tab
+  also reaches each possible new bond ("new bond C1–C6"). In the prototype this took Diels–Alder from 8 taps and 2
+  menus to 6 taps, and every other scene to 4 taps with no menus.
+  - **Possible new bonds shown:** between molecules, atoms near each other in the drawing; within one molecule, two
+    bonds apart only when the receiving atom is electron-poor (the 10f rule: a 1,2-shift), never three bonds apart,
+    and four or more apart when near (ring closure).
+  - **To monitor (owner, 2026-11-26):** targets that sit close together. Re-aromatisation is the known case: after the
+    C–H bond is picked, the ghost for H shifting to the C⁺ ends beside that C⁺ atom, which is the usual target (π
+    bond). A touch tap therefore picks the target nearest the tap (atom centre, bond or ghost midpoint) rather than
+    whichever hit area lies on top; watch learners' wrong taps on such steps once it ships.
 - **Drawing (decided 2026-11-25):** every heavy atom is **labelled** with its implicit H and charge (CH₃, OH⁻) in v1;
   skeletal display may come later as a setting. **Every lone pair is drawn**, spread evenly through the free space
   round the atom (showing only the relevant ones would give the answer away). One **scale per reaction** (56 px per
