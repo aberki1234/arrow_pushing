@@ -1,0 +1,973 @@
+{
+  "steps": [
+    {
+      "stepKey": "carbonyl-protonation",
+      "stepKind": "polar",
+      "toStateId": "protonated-aldehyde",
+      "fromStateId": "reactants",
+      "canonicalArrows": [
+        "lp O2 -> σ O2-H22",
+        "σ O20-H22 -> lp O20"
+      ],
+      "routePreference": "preferred",
+      "explanationAfterStep": "In methanol with a little HCl the acid is protonated methanol. Protonation makes the carbonyl carbon much more electrophilic."
+    },
+    {
+      "stepKey": "first-addition",
+      "stepKind": "polar",
+      "toStateId": "first-adduct",
+      "fromStateId": "protonated-aldehyde",
+      "canonicalArrows": [
+        "lp O30 -> σ C1-O30",
+        "π C1-O2 -> lp O2"
+      ],
+      "routePreference": "preferred",
+      "explanationAfterStep": "Methanol, a weak nucleophile, adds easily to the protonated carbonyl."
+    },
+    {
+      "stepKey": "first-deprotonation",
+      "stepKind": "polar",
+      "toStateId": "hemiacetal",
+      "fromStateId": "first-adduct",
+      "canonicalArrows": [
+        "lp O20 -> σ O20-H32",
+        "σ O30-H32 -> lp O30"
+      ],
+      "routePreference": "preferred",
+      "explanationAfterStep": "The hemiacetal forms. In acid it does not stop here: it can lose water."
+    },
+    {
+      "stepKey": "hydroxyl-protonation",
+      "stepKind": "polar",
+      "toStateId": "protonated-hemiacetal",
+      "fromStateId": "hemiacetal",
+      "canonicalArrows": [
+        "lp O2 -> σ O2-H32",
+        "σ O20-H32 -> lp O20"
+      ],
+      "routePreference": "preferred",
+      "explanationAfterStep": "Protonated OH leaves as water, a stable neutral molecule."
+    },
+    {
+      "stepKey": "loss-of-water",
+      "stepKind": "polar",
+      "toStateId": "oxocarbenium",
+      "fromStateId": "protonated-hemiacetal",
+      "canonicalArrows": [
+        "lp O30 -> π C1-O30",
+        "σ C1-O2 -> lp O2"
+      ],
+      "routePreference": "preferred",
+      "explanationAfterStep": "The OMe lone pair pushes water out and stabilises the cation: the oxocarbenium ion. This is an SN1-like step; the cation drawn on carbon is a resonance form of the same ion."
+    },
+    {
+      "stepKey": "second-addition",
+      "stepKind": "polar",
+      "toStateId": "second-adduct",
+      "fromStateId": "oxocarbenium",
+      "canonicalArrows": [
+        "lp O40 -> σ C1-O40",
+        "π C1-O30 -> lp O30"
+      ],
+      "routePreference": "preferred",
+      "explanationAfterStep": "A second methanol adds to the oxocarbenium ion."
+    },
+    {
+      "stepKey": "second-deprotonation",
+      "stepKind": "polar",
+      "toStateId": "products",
+      "fromStateId": "second-adduct",
+      "canonicalArrows": [
+        "lp O20 -> σ O20-H42",
+        "σ O40-H42 -> lp O40"
+      ],
+      "routePreference": "preferred",
+      "explanationAfterStep": "The acetal forms and protonated methanol is regenerated: the acid is a catalyst. Every step is reversible; a large excess of methanol, or removing water, drives the reaction to the acetal."
+    }
+  ],
+  "title": "Dimethyl acetal formation",
+  "authors": [
+    {
+      "url": null,
+      "name": "Maksim"
+    }
+  ],
+  "licence": "CC-BY-SA-4.0",
+  "subtitle": "Benzaldehyde and methanol give the acetal through an oxocarbenium ion",
+  "references": [
+    "Clayden, Greeves and Warren, Organic Chemistry, 2nd edition (Oxford University Press), chapter 11"
+  ],
+  "reactionSlug": "benzaldehyde-dimethyl-acetal",
+  "startStateId": "reactants",
+  "formatVersion": 1,
+  "difficultyTier": 3,
+  "stateIdToState": {
+    "products": {
+      "caption": "benzaldehyde dimethyl acetal + water + protonated methanol",
+      "mappedSmiles": "[CH3:31][O:30][CH:1]([C:11]1=[CH:12][CH:13]=[CH:14][CH:15]=[CH:16]1)[O:40][CH3:41].[H:22][O:2][H:32].[CH3:21][OH+:20][H:42].[Cl-:50]",
+      "mapNumberToCoordinates": {
+        "1": [
+          3,
+          0
+        ],
+        "2": [
+          0,
+          4.05
+        ],
+        "11": [
+          1.5,
+          0
+        ],
+        "12": [
+          0.75,
+          1.3
+        ],
+        "13": [
+          -0.75,
+          1.3
+        ],
+        "14": [
+          -1.5,
+          0
+        ],
+        "15": [
+          -0.75,
+          -1.3
+        ],
+        "16": [
+          0.75,
+          -1.3
+        ],
+        "20": [
+          4.49,
+          4.27
+        ],
+        "21": [
+          3.19,
+          3.52
+        ],
+        "22": [
+          1.3,
+          4.8
+        ],
+        "30": [
+          3.75,
+          -1.3
+        ],
+        "31": [
+          5.25,
+          -1.3
+        ],
+        "32": [
+          -1.3,
+          4.8
+        ],
+        "40": [
+          3.75,
+          1.3
+        ],
+        "41": [
+          5.25,
+          1.3
+        ],
+        "42": [
+          5.79,
+          3.52
+        ],
+        "50": [
+          0,
+          6.65
+        ]
+      }
+    },
+    "reactants": {
+      "caption": "benzaldehyde + methanol + protonated methanol",
+      "hintTiers": [
+        "Methanol is a weak nucleophile. Which species is the acid, and where does it put its proton?",
+        "The carbonyl oxygen takes the proton of protonated methanol. Two arrows.",
+        "Carbonyl oxygen lone pair → new O–H bond to the proton of protonated methanol; that O–H bond → lone pair on its oxygen."
+      ],
+      "mappedSmiles": "[O:2]=[CH:1][C:11]1=[CH:12][CH:13]=[CH:14][CH:15]=[CH:16]1.[CH3:21][OH+:20][H:22].[Cl-:50].[CH3:31][O:30][H:32].[CH3:41][O:40][H:42]",
+      "learnerPrompt": "Activate the aldehyde.",
+      "misconceptions": [
+        {
+          "severity": "plausible",
+          "arrowPattern": "lp O30 -> C1",
+          "feedbackMessage": "Methanol adds only slowly to a neutral aldehyde. Use the acid first: protonate the carbonyl oxygen.",
+          "misconceptionId": "methanol-attacks-neutral-aldehyde",
+          "misconceptionTag": "attack-before-activation"
+        },
+        {
+          "severity": "plausible",
+          "arrowPattern": "lp O30 -> H22",
+          "feedbackMessage": "Moving the proton from one methanol to another changes nothing. Protonate the carbonyl oxygen.",
+          "misconceptionId": "protonate-methanol",
+          "misconceptionTag": "unproductive-protonation"
+        }
+      ],
+      "mapNumberToCoordinates": {
+        "1": [
+          3,
+          0
+        ],
+        "2": [
+          3.75,
+          -1.3
+        ],
+        "11": [
+          1.5,
+          0
+        ],
+        "12": [
+          0.75,
+          1.3
+        ],
+        "13": [
+          -0.75,
+          1.3
+        ],
+        "14": [
+          -1.5,
+          0
+        ],
+        "15": [
+          -0.75,
+          -1.3
+        ],
+        "16": [
+          0.75,
+          -1.3
+        ],
+        "20": [
+          1.5,
+          4.27
+        ],
+        "21": [
+          0.2,
+          3.52
+        ],
+        "22": [
+          2.8,
+          3.52
+        ],
+        "30": [
+          3.44,
+          7.21
+        ],
+        "31": [
+          2.15,
+          6.46
+        ],
+        "32": [
+          4.74,
+          6.46
+        ],
+        "40": [
+          6.87,
+          0.81
+        ],
+        "41": [
+          5.57,
+          0.06
+        ],
+        "42": [
+          8.17,
+          0.06
+        ],
+        "50": [
+          -0.09,
+          5.92
+        ]
+      },
+      "partialProgressMessages": [
+        {
+          "learnerArrows": [
+            "lp O2 -> σ O2-H22"
+          ],
+          "feedbackMessage": "Good: the carbonyl oxygen takes the proton. Where does that O–H bonding pair go?"
+        }
+      ]
+    },
+    "hemiacetal": {
+      "caption": "hemiacetal + protonated methanol",
+      "hintTiers": [
+        "Hydroxide is a poor leaving group. How does acid turn the OH into a good one?",
+        "The OH oxygen takes the proton of protonated methanol. Two arrows.",
+        "OH oxygen lone pair → new O–H bond to the proton of protonated methanol; that O–H bond → lone pair on its oxygen."
+      ],
+      "mappedSmiles": "[H:22][O:2][CH:1]([C:11]1=[CH:12][CH:13]=[CH:14][CH:15]=[CH:16]1)[O:30][CH3:31].[CH3:21][OH+:20][H:32].[Cl-:50].[CH3:41][O:40][H:42]",
+      "learnerPrompt": "Turn the OH into a leaving group.",
+      "misconceptions": [
+        {
+          "severity": "plausible",
+          "arrowPattern": "lp O30 -> H32",
+          "feedbackMessage": "Protonating the OMe oxygen would let methanol leave, which leads back to the aldehyde. Protonate the OH, so that water can leave.",
+          "misconceptionId": "protonate-methoxy-oxygen",
+          "misconceptionTag": "unproductive-protonation"
+        },
+        {
+          "severity": "wrong",
+          "arrowPattern": "σ C1-O2 -> lp O2",
+          "feedbackMessage": "Hydroxide is a poor leaving group. Protonate the OH first, so that neutral water leaves.",
+          "misconceptionId": "hydroxide-leaves",
+          "misconceptionTag": "heterolysis-without-help"
+        }
+      ],
+      "mapNumberToCoordinates": {
+        "1": [
+          3,
+          0
+        ],
+        "2": [
+          3.75,
+          -1.3
+        ],
+        "11": [
+          1.5,
+          0
+        ],
+        "12": [
+          0.75,
+          1.3
+        ],
+        "13": [
+          -0.75,
+          1.3
+        ],
+        "14": [
+          -1.5,
+          0
+        ],
+        "15": [
+          -0.75,
+          -1.3
+        ],
+        "16": [
+          0.75,
+          -1.3
+        ],
+        "20": [
+          1,
+          4.28
+        ],
+        "21": [
+          -0.29,
+          3.53
+        ],
+        "22": [
+          5.25,
+          -1.3
+        ],
+        "30": [
+          3.75,
+          1.3
+        ],
+        "31": [
+          5.25,
+          1.3
+        ],
+        "32": [
+          2.3,
+          3.53
+        ],
+        "40": [
+          3.99,
+          6.59
+        ],
+        "41": [
+          2.69,
+          5.84
+        ],
+        "42": [
+          5.29,
+          5.84
+        ],
+        "50": [
+          -0.21,
+          6.23
+        ]
+      },
+      "partialProgressMessages": [
+        {
+          "learnerArrows": [
+            "lp O2 -> σ O2-H32"
+          ],
+          "feedbackMessage": "Good: the OH takes the proton. Where does that O–H bonding pair go?"
+        }
+      ]
+    },
+    "first-adduct": {
+      "caption": "protonated hemiacetal",
+      "hintTiers": [
+        "The oxygen that just bonded carries a positive charge and a proton. Which base is in the flask?",
+        "A methanol molecule takes that proton, and the O–H bonding pair stays on the oxygen. Two arrows.",
+        "Methanol oxygen lone pair → new O–H bond to the proton on the positive oxygen; that O–H bond → lone pair on that oxygen."
+      ],
+      "mappedSmiles": "[H:22][O:2][CH:1]([C:11]1=[CH:12][CH:13]=[CH:14][CH:15]=[CH:16]1)[O+:30]([CH3:31])[H:32].[CH3:21][OH:20].[Cl-:50].[CH3:41][O:40][H:42]",
+      "learnerPrompt": "Remove the proton from the positive oxygen.",
+      "misconceptions": [
+        {
+          "severity": "plausible",
+          "arrowPattern": "σ C1-O30 -> lp O30",
+          "feedbackMessage": "Losing methanol again just reverses the addition. Remove the proton from the positive oxygen.",
+          "misconceptionId": "methanol-leaves-again",
+          "misconceptionTag": "reverse-step"
+        },
+        {
+          "severity": "wrong",
+          "arrowPattern": "lp O* -> H22",
+          "feedbackMessage": "That OH group is neutral and not acidic. The proton to remove is on the positive oxygen.",
+          "misconceptionId": "deprotonate-neutral-hydroxyl",
+          "misconceptionTag": "wrong-proton"
+        }
+      ],
+      "mapNumberToCoordinates": {
+        "1": [
+          3,
+          0
+        ],
+        "2": [
+          3.75,
+          -1.3
+        ],
+        "11": [
+          1.5,
+          0
+        ],
+        "12": [
+          0.75,
+          1.3
+        ],
+        "13": [
+          -0.75,
+          1.3
+        ],
+        "14": [
+          -1.5,
+          0
+        ],
+        "15": [
+          -0.75,
+          -1.3
+        ],
+        "16": [
+          0.75,
+          -1.3
+        ],
+        "20": [
+          1.3,
+          4.35
+        ],
+        "21": [
+          0,
+          3.6
+        ],
+        "22": [
+          5.25,
+          -1.3
+        ],
+        "30": [
+          3.75,
+          1.3
+        ],
+        "31": [
+          3,
+          2.6
+        ],
+        "32": [
+          5.25,
+          1.3
+        ],
+        "40": [
+          1.73,
+          7.19
+        ],
+        "41": [
+          0.43,
+          6.44
+        ],
+        "42": [
+          3.03,
+          6.44
+        ],
+        "50": [
+          7.12,
+          -0.04
+        ]
+      },
+      "partialProgressMessages": [
+        {
+          "learnerArrows": [
+            "lp O20 -> σ O20-H32"
+          ],
+          "feedbackMessage": "Good: methanol takes the proton. Where does the O–H bonding pair go?"
+        }
+      ]
+    },
+    "oxocarbenium": {
+      "caption": "oxocarbenium ion + water",
+      "hintTiers": [
+        "The oxocarbenium ion is a strong electrophile. Which molecule attacks it?",
+        "A methanol oxygen bonds to the carbon, and the C=O π pair moves onto the positive oxygen. Two arrows.",
+        "Methanol oxygen lone pair → new O–C bond to the oxocarbenium carbon; C=O π bond → lone pair on the OMe oxygen."
+      ],
+      "mappedSmiles": "[CH3:31][O+:30]=[CH:1][C:11]1=[CH:12][CH:13]=[CH:14][CH:15]=[CH:16]1.[H:22][O:2][H:32].[CH3:21][OH:20].[Cl-:50].[CH3:41][O:40][H:42]",
+      "learnerPrompt": "A second methanol adds.",
+      "misconceptions": [
+        {
+          "severity": "plausible",
+          "arrowPattern": "lp O2 -> C1",
+          "feedbackMessage": "Water adding back just reverses the last step. Methanol is the solvent: there is far more methanol than water.",
+          "misconceptionId": "water-adds-back",
+          "misconceptionTag": "reverse-step"
+        },
+        {
+          "severity": "wrong",
+          "arrowPattern": "π C1-O30 -> C1",
+          "feedbackMessage": "The C=O π electrons move towards the positive oxygen, not onto carbon.",
+          "misconceptionId": "pi-to-cation-carbon",
+          "misconceptionTag": "pi-to-own-atom"
+        }
+      ],
+      "mapNumberToCoordinates": {
+        "1": [
+          3,
+          0
+        ],
+        "2": [
+          0,
+          5.8
+        ],
+        "11": [
+          1.5,
+          0
+        ],
+        "12": [
+          0.75,
+          1.3
+        ],
+        "13": [
+          -0.75,
+          1.3
+        ],
+        "14": [
+          -1.5,
+          0
+        ],
+        "15": [
+          -0.75,
+          -1.3
+        ],
+        "16": [
+          0.75,
+          -1.3
+        ],
+        "20": [
+          -0.99,
+          3.72
+        ],
+        "21": [
+          -2.29,
+          2.97
+        ],
+        "22": [
+          1.3,
+          6.55
+        ],
+        "30": [
+          3.75,
+          -1.3
+        ],
+        "31": [
+          5.25,
+          -1.3
+        ],
+        "32": [
+          -1.3,
+          6.55
+        ],
+        "40": [
+          4.61,
+          5.02
+        ],
+        "41": [
+          3.31,
+          4.27
+        ],
+        "42": [
+          5.91,
+          4.27
+        ],
+        "50": [
+          7.08,
+          0.05
+        ]
+      },
+      "partialProgressMessages": [
+        {
+          "learnerArrows": [
+            "lp O40 -> σ C1-O40"
+          ],
+          "feedbackMessage": "Right: methanol attacks. Carbon now has five bonds: move the C=O π pair."
+        }
+      ]
+    },
+    "second-adduct": {
+      "caption": "protonated acetal + water + methanol",
+      "hintTiers": [
+        "Which oxygen is positive, and which molecule is the most plentiful base?",
+        "A methanol molecule takes the proton on the positive oxygen. Two arrows.",
+        "Methanol oxygen lone pair → new O–H bond to the proton on the positive oxygen; that O–H bond → lone pair on that oxygen."
+      ],
+      "mappedSmiles": "[CH3:31][O:30][CH:1]([C:11]1=[CH:12][CH:13]=[CH:14][CH:15]=[CH:16]1)[O+:40]([CH3:41])[H:42].[H:22][O:2][H:32].[CH3:21][OH:20].[Cl-:50]",
+      "learnerPrompt": "Remove the last proton.",
+      "misconceptions": [
+        {
+          "severity": "plausible",
+          "arrowPattern": "lp O2 -> H42",
+          "feedbackMessage": "Water could take the proton too, but methanol, the solvent, is far more plentiful. Use a methanol molecule.",
+          "misconceptionId": "water-as-base",
+          "misconceptionTag": "less-plentiful-base"
+        },
+        {
+          "severity": "plausible",
+          "arrowPattern": "σ C1-O40 -> lp O40",
+          "feedbackMessage": "Losing methanol again just reverses the addition. Remove the proton instead.",
+          "misconceptionId": "second-methanol-leaves-again",
+          "misconceptionTag": "reverse-step"
+        }
+      ],
+      "mapNumberToCoordinates": {
+        "1": [
+          3,
+          0
+        ],
+        "2": [
+          0,
+          5.35
+        ],
+        "11": [
+          1.5,
+          0
+        ],
+        "12": [
+          0.75,
+          1.3
+        ],
+        "13": [
+          -0.75,
+          1.3
+        ],
+        "14": [
+          -1.5,
+          0
+        ],
+        "15": [
+          -0.75,
+          -1.3
+        ],
+        "16": [
+          0.75,
+          -1.3
+        ],
+        "20": [
+          -1.36,
+          3.49
+        ],
+        "21": [
+          -2.66,
+          2.74
+        ],
+        "22": [
+          1.3,
+          6.1
+        ],
+        "30": [
+          3.75,
+          -1.3
+        ],
+        "31": [
+          5.25,
+          -1.3
+        ],
+        "32": [
+          -1.3,
+          6.1
+        ],
+        "40": [
+          3.75,
+          1.3
+        ],
+        "41": [
+          3,
+          2.6
+        ],
+        "42": [
+          5.25,
+          1.3
+        ],
+        "50": [
+          7.12,
+          -0.04
+        ]
+      },
+      "partialProgressMessages": [
+        {
+          "learnerArrows": [
+            "lp O20 -> σ O20-H42"
+          ],
+          "feedbackMessage": "Good: methanol takes the proton. Where does the O–H bonding pair go?"
+        }
+      ]
+    },
+    "protonated-aldehyde": {
+      "caption": "protonated aldehyde + methanol",
+      "hintTiers": [
+        "The protonated carbonyl carbon is very electrophilic. Which molecule is the nucleophile?",
+        "A methanol oxygen bonds to the carbonyl carbon, and the C=O π pair moves onto the positive oxygen. Two arrows.",
+        "Methanol oxygen lone pair → new O–C bond to the carbonyl carbon; C=O π bond → lone pair on the carbonyl oxygen."
+      ],
+      "mappedSmiles": "[H:22][O+:2]=[CH:1][C:11]1=[CH:12][CH:13]=[CH:14][CH:15]=[CH:16]1.[CH3:21][OH:20].[Cl-:50].[CH3:31][O:30][H:32].[CH3:41][O:40][H:42]",
+      "learnerPrompt": "Methanol adds.",
+      "misconceptions": [
+        {
+          "severity": "wrong",
+          "arrowPattern": "π C1-O2 -> C1",
+          "feedbackMessage": "The C=O π electrons move towards the positive oxygen, not onto carbon.",
+          "misconceptionId": "pi-to-carbonyl-carbon",
+          "misconceptionTag": "pi-to-own-atom"
+        },
+        {
+          "severity": "plausible",
+          "arrowPattern": "lp O* -> H22",
+          "feedbackMessage": "Taking that proton off again just reverses the last step. The protonated aldehyde is ready for a nucleophile.",
+          "misconceptionId": "methanol-takes-proton-back",
+          "misconceptionTag": "reverse-step"
+        }
+      ],
+      "mapNumberToCoordinates": {
+        "1": [
+          3,
+          0
+        ],
+        "2": [
+          3.75,
+          -1.3
+        ],
+        "11": [
+          1.5,
+          0
+        ],
+        "12": [
+          0.75,
+          1.3
+        ],
+        "13": [
+          -0.75,
+          1.3
+        ],
+        "14": [
+          -1.5,
+          0
+        ],
+        "15": [
+          -0.75,
+          -1.3
+        ],
+        "16": [
+          0.75,
+          -1.3
+        ],
+        "20": [
+          1.02,
+          4.28
+        ],
+        "21": [
+          -0.28,
+          3.53
+        ],
+        "22": [
+          5.25,
+          -1.3
+        ],
+        "30": [
+          4.07,
+          6.52
+        ],
+        "31": [
+          2.77,
+          5.77
+        ],
+        "32": [
+          5.37,
+          5.77
+        ],
+        "40": [
+          -0.12,
+          8.19
+        ],
+        "41": [
+          -1.42,
+          7.44
+        ],
+        "42": [
+          1.18,
+          7.44
+        ],
+        "50": [
+          7.08,
+          0.05
+        ]
+      },
+      "partialProgressMessages": [
+        {
+          "learnerArrows": [
+            "lp O30 -> σ C1-O30"
+          ],
+          "feedbackMessage": "Right: methanol attacks. The carbonyl carbon now has five bonds: move the C=O π pair."
+        }
+      ]
+    },
+    "protonated-hemiacetal": {
+      "caption": "hemiacetal protonated on the OH",
+      "hintTiers": [
+        "Water is now a good leaving group. Which lone pair can help push it out?",
+        "The OMe oxygen's lone pair forms a C=O π bond as the C–O bond to the water breaks. Two arrows.",
+        "OMe oxygen lone pair → new C=O π bond; C–O bond to the water → lone pair on the water oxygen."
+      ],
+      "mappedSmiles": "[H:22][O+:2]([H:32])[CH:1]([C:11]1=[CH:12][CH:13]=[CH:14][CH:15]=[CH:16]1)[O:30][CH3:31].[CH3:21][OH:20].[Cl-:50].[CH3:41][O:40][H:42]",
+      "learnerPrompt": "Water leaves.",
+      "misconceptions": [
+        {
+          "severity": "wrong",
+          "arrowPattern": "σ C1-O30 -> lp O30",
+          "feedbackMessage": "Methoxide is a poor leaving group. The protonated OH leaves as neutral water.",
+          "misconceptionId": "methoxide-leaves",
+          "misconceptionTag": "wrong-group-leaves"
+        },
+        {
+          "severity": "plausible",
+          "arrowPattern": "lp O20 -> H*",
+          "feedbackMessage": "Taking a proton off the oxygen just reverses the last step. Let water leave.",
+          "misconceptionId": "water-takes-proton-back",
+          "misconceptionTag": "reverse-step"
+        }
+      ],
+      "mapNumberToCoordinates": {
+        "1": [
+          3,
+          0
+        ],
+        "2": [
+          3.75,
+          -1.3
+        ],
+        "11": [
+          1.5,
+          0
+        ],
+        "12": [
+          0.75,
+          1.3
+        ],
+        "13": [
+          -0.75,
+          1.3
+        ],
+        "14": [
+          -1.5,
+          0
+        ],
+        "15": [
+          -0.75,
+          -1.3
+        ],
+        "16": [
+          0.75,
+          -1.3
+        ],
+        "20": [
+          0.72,
+          4.29
+        ],
+        "21": [
+          -0.58,
+          3.54
+        ],
+        "22": [
+          5.25,
+          -1.3
+        ],
+        "30": [
+          3.75,
+          1.3
+        ],
+        "31": [
+          5.25,
+          1.3
+        ],
+        "32": [
+          3,
+          -2.6
+        ],
+        "40": [
+          3.96,
+          6.22
+        ],
+        "41": [
+          2.66,
+          5.47
+        ],
+        "42": [
+          5.26,
+          5.47
+        ],
+        "50": [
+          7.12,
+          0.04
+        ]
+      },
+      "partialProgressMessages": [
+        {
+          "learnerArrows": [
+            "lp O30 -> π C1-O30"
+          ],
+          "feedbackMessage": "Right: the OMe lone pair pushes in. Carbon now has five bonds: which bond breaks?"
+        }
+      ]
+    }
+  },
+  "conditionsLabel": "MeOH (solvent) · HCl (cat.)",
+  "reactionClasses": [
+    "carbonyl"
+  ],
+  "reactionVersion": 1,
+  "mechanismSummary": "Protonated methanol protonates the carbonyl oxygen, methanol adds and loses a proton: the hemiacetal. Protonating its OH turns it into a leaving group; the OMe lone pair pushes water out, giving an oxocarbenium ion. A second methanol adds and loses a proton: the acetal, with the acid regenerated.",
+  "abbreviatedGroups": [
+    {
+      "groupLabel": "Ph",
+      "mapNumbers": [
+        11,
+        12,
+        13,
+        14,
+        15,
+        16
+      ],
+      "attachmentMapNumber": 11
+    }
+  ],
+  "dailyPuzzleEligible": true,
+  "spectatorMapNumbers": [
+    50
+  ],
+  "atomRoleToMapNumbers": {
+    "carbonylCarbon": [
+      1
+    ],
+    "carbonylOxygen": [
+      2
+    ]
+  },
+  "previousReactionVersion": null
+}
