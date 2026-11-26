@@ -90,6 +90,16 @@ describe("the tables", () => {
   });
 });
 
+describe("the client's address, for rate limiting", () => {
+  it("is read from CF-Connecting-IP first (Render's Cloudflare edge), then X-Forwarded-For", () => {
+    const { options } = createAuthentication(connection.database, testServerSettings());
+    expect(options.advanced?.ipAddress?.ipAddressHeaders).toEqual([
+      "cf-connecting-ip",
+      "x-forwarded-for",
+    ]);
+  });
+});
+
 describe("the providers offered", () => {
   it("offers Google only when its settings are given", async () => {
     expect(signInProviders(testServerSettings())).toEqual(["github", "google"]);

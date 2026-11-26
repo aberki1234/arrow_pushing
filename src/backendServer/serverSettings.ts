@@ -18,7 +18,9 @@
  *                             sign in (as a contributor), these GitHub accounts as the owner.
  *                             Ids, not logins: a login can be renamed.
  *   GOOGLE_CLIENT_ID          Optional, together: the Google OAuth app's client id and secret;
- *   GOOGLE_CLIENT_SECRET      without them only GitHub is offered.
+ *   GOOGLE_CLIENT_SECRET      without them only GitHub is offered. The id is a web client's,
+ *                             "….apps.googleusercontent.com" (a GitHub id here makes Google
+ *                             answer "Error 401: invalid_client", so it is refused at start).
  *   DEPLOY_REPOSITORY         Optional, together: "owner/name" of the repository whose deploy
  *   DEPLOY_DISPATCH_TOKEN     workflow Publish starts, and a token allowed to start it.
  *   EDITOR_FILES_FOLDER       Optional: the built editor (default "build/editor").
@@ -67,6 +69,8 @@ const REQUIRED_VARIABLES = [
   "GITHUB_CLIENT_SECRET",
   "ALLOWED_GITHUB_USER_IDS",
 ] as const;
+
+const GOOGLE_CLIENT_ID_ENDING = ".apps.googleusercontent.com";
 
 const DEFAULT_EDITOR_FILES_FOLDER = "build/editor";
 
@@ -124,6 +128,13 @@ function settingsProblems(environment: Environment): string[] {
     problems.push("PORT must be a port number");
   }
   problems.push(...pairProblems(environment));
+  const googleClientId = trimmedValue(environment, "GOOGLE_CLIENT_ID");
+  if (googleClientId !== "" && !googleClientId.endsWith(GOOGLE_CLIENT_ID_ENDING)) {
+    problems.push(
+      `GOOGLE_CLIENT_ID must end in ${GOOGLE_CLIENT_ID_ENDING} (the Google web client's id, ` +
+        "from Google Cloud Console → Credentials)",
+    );
+  }
   return problems;
 }
 

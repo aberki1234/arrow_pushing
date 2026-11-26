@@ -12,6 +12,7 @@
  *   - One person's GitHub and Google accounts are one user when both providers verified the same
  *     email (Better Auth's account linking, with no provider trusted without verification).
  *   - A blocked user still signs in (sitePermissions.ts stops them saving).
+ *   - Rate limiting (Better Auth's) counts by the client's address: CLIENT_ADDRESS_HEADERS.
  *   - Sessions last 30 days; the cookie (prefix "arrowpush") is httpOnly, SameSite=Lax, Secure
  *     on https, and signed with BETTER_AUTH_SECRET. Provider tokens are stored encrypted.
  *     Telemetry stays off (Better Auth's default).
@@ -32,6 +33,13 @@ export const SESSION_LIFETIME_DAYS = 30;
 export const AUTHENTICATION_BASE_PATH = "/api/auth";
 
 const SECONDS_PER_DAY = 24 * 60 * 60;
+
+/**
+ * Where Better Auth's rate limiting finds the client's address. Render's edge is Cloudflare, which
+ * sets CF-Connecting-IP to the visitor's address (replacing any the visitor sent); X-Forwarded-For
+ * there is a chain of proxies, which Better Auth trusts only when it holds one address.
+ */
+const CLIENT_ADDRESS_HEADERS = ["cf-connecting-ip", "x-forwarded-for"];
 
 /** The site role of every user made at sign-in. */
 const SITE_ROLE_OF_NEW_USERS: SiteRole = "contributor";
@@ -105,7 +113,11 @@ export function createAuthentication(
       accountLinking: { enabled: true, trustedProviders: [] },
     },
     verification: { modelName: "verifications" },
-    advanced: { cookiePrefix: "arrowpush", database: { generateId: "uuid" } },
+    advanced: {
+      cookiePrefix: "arrowpush",
+      database: { generateId: "uuid" },
+      ipAddress: { ipAddressHeaders: CLIENT_ADDRESS_HEADERS },
+    },
   });
 }
 

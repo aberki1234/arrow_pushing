@@ -14,7 +14,7 @@ const COMPLETE_ENVIRONMENT = {
   ALLOWED_GITHUB_USER_IDS: " 1001, 2002 ",
   DEPLOY_REPOSITORY: "owner/mech_training",
   DEPLOY_DISPATCH_TOKEN: "dispatch-token",
-  GOOGLE_CLIENT_ID: "google-client-id",
+  GOOGLE_CLIENT_ID: "1234-abc.apps.googleusercontent.com",
   GOOGLE_CLIENT_SECRET: "google-client-secret",
   EDITOR_FILES_FOLDER: "/srv/editor",
   PORT: "10000",
@@ -40,7 +40,10 @@ describe("reading the settings", () => {
         githubClientId: "client-id",
         githubClientSecret: "client-secret",
         allowedGithubUserIds: ["1001", "2002"],
-        google: { clientId: "google-client-id", clientSecret: "google-client-secret" },
+        google: {
+          clientId: "1234-abc.apps.googleusercontent.com",
+          clientSecret: "google-client-secret",
+        },
       },
       deploy: { repository: "owner/mech_training", dispatchToken: "dispatch-token" },
       editorFilesFolder: "/srv/editor",
@@ -103,5 +106,11 @@ describe("refusing settings", () => {
     expect(settingsProblem({ ...COMPLETE_ENVIRONMENT, GOOGLE_CLIENT_SECRET: " " })).toContain(
       "GOOGLE_CLIENT_ID and GOOGLE_CLIENT_SECRET",
     );
+  });
+
+  it("refuses a GOOGLE_CLIENT_ID that is not a Google web client id (a GitHub one, say)", () => {
+    expect(
+      settingsProblem({ ...COMPLETE_ENVIRONMENT, GOOGLE_CLIENT_ID: "Ov23lif0Rs6CGSYbOWQK" }),
+    ).toContain("GOOGLE_CLIENT_ID must end in .apps.googleusercontent.com");
   });
 });
