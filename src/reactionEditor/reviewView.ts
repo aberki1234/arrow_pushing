@@ -20,7 +20,7 @@ import type {
 import type { ListedReactionFile } from "./reactionFileStore.js";
 
 /** As reactionDatabase/reactionVersions.ts. */
-export const MAXIMUM_OPEN_DRAFTS = 5;
+export const MAXIMUM_OPEN_DRAFTS = 20;
 
 export type CreateSection = "mine" | "review" | "users";
 

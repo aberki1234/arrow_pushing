@@ -37,7 +37,7 @@ export interface WrittenVersion {
 }
 
 /** The most unpublished versions (draft, submitted, changes requested) one author may have. */
-export const MAXIMUM_OPEN_DRAFTS = 5;
+export const MAXIMUM_OPEN_DRAFTS = 20;
 
 /** One reaction in the editor's list: its newest version. */
 export interface ReactionListing {

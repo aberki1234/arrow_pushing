@@ -784,7 +784,7 @@ RDKit (RDKit.js) on every valid SMILES case and every example state (`src/chemis
      - **Part 1, database and server. Done 2026-11-26.** Built: migration 0003; `reactionDatabase/siteUsers.ts`
        (`requireSiteAction`, the Users page's list and roles), `submissions.ts` (Submit, the queue, a review,
        the author's notes, what a reviewer compares), the new rules in `reactionVersions.ts` (version author,
-       5 open drafts, blocked, authors added on a next version, `listReactionsFor`, an unchanged save keeping
+       open-drafts limit (5; 20 since 2026-11-26), blocked, authors added on a next version, `listReactionsFor`, an unchanged save keeping
        a submission in review) and `publishing.ts` (direct publish: the owner, on their own version;
        `publishNewestVersion` shared with a review); `sitePermissions.ts` with `manageUsers`, `blocked`, and
        reviewers without direct `publish`; `backendServer/authentication.ts` (open sign-in as contributor, the

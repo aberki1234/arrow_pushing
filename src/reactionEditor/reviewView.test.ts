@@ -5,9 +5,11 @@
 import { describe, expect, it } from "vitest";
 import type { QueuedSubmission, SiteUser } from "./contributorClient.js";
 import type { ListedReactionFile } from "./reactionFileStore.js";
+import { MAXIMUM_OPEN_DRAFTS as SERVER_LIMIT } from "../reactionDatabase/reactionVersions.js";
 import {
   changesRequestedBanner,
   createSections,
+  MAXIMUM_OPEN_DRAFTS,
   openDraftsLine,
   publishedToImprove,
   queueLine,
@@ -84,7 +86,7 @@ describe("Your mechanisms and Improve a published one", () => {
   });
 
   it("counts open drafts against the limit, and names changes requested", () => {
-    expect(openDraftsLine(FILES, "me")).toBe("You have 3 of 5 open drafts.");
+    expect(openDraftsLine(FILES, "me")).toBe("You have 3 of 20 open drafts.");
     expect(changesRequestedBanner(FILES, "me")).toBe("A reviewer asked for changes to pinacol");
     expect(changesRequestedBanner(FILES.slice(1), "me")).toBeNull();
     const two = [
@@ -153,5 +155,11 @@ describe("the Users page", () => {
     expect(userReactionsText({ ...user, openVersionCount: 0, publishedVersionCount: 0 })).toBe(
       "none yet",
     );
+  });
+});
+
+describe("the open-draft limit", () => {
+  it("is the server's", () => {
+    expect(MAXIMUM_OPEN_DRAFTS).toBe(SERVER_LIMIT);
   });
 });
