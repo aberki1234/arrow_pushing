@@ -31,14 +31,14 @@ pinacol, Beckmann, Fischer esterification, Michael addition, Friedel–Crafts ac
 **Plus a few radical entries** (radical bromination: initiation/propagation/termination; Barton–McCombie).
 Diels–Alder needs a concerted multi-arrow step (3 arrows) — the model must support it from day one.
 
-**First Learn track (decided 2026-11-25): "Aromatic chemistry"**, which adds SEAr (electrophilic aromatic
+**First Learn track (decided 2026-11-25): "Electrophilic aromatic substitution"** (renamed from "Aromatic chemistry" on 2026-11-26, slug `electrophilic-aromatic-substitution`: too generic a name), which adds SEAr (electrophilic aromatic
 substitution) reactions to the list above. Problem set **"The arenium ion"**: bromination of benzene (FeBr₃),
 nitration, sulfonation, Friedel–Crafts alkylation (with its carbocation rearrangement trap), Friedel–Crafts acylation.
 Problem set **"Directing effects"**: nitration of anisole (ortho/para) against nitrobenzene (meta) as a contrast pair,
 then a halobenzene (deactivating but ortho/para). The track ends with a checkpoint.
 
 **The first SEAr batch (decided 2026-11-26; drafted by the assistant, §6 "Drafting with an assistant"):** about 21
-reactions, track `aromatic-chemistry`, problem sets in this order:
+reactions, track `electrophilic-aromatic-substitution`, problem sets in this order:
   1. **Making the electrophile**, each its own reaction: nitronium from HNO₃/H₂SO₄; Br₂/FeBr₃; the acylium ion from
      RCOCl/AlCl₃; the carbocation from RCl/AlCl₃ (with the n-propyl → isopropyl rearrangement); SO₃ in H₂SO₄.
   2. **The arenium ion**: nitration, bromination, Friedel–Crafts alkylation and acylation, sulfonation of benzene.
@@ -64,7 +64,7 @@ reactions, track `aromatic-chemistry`, problem sets in this order:
 - **Heteroaromatics** (pyrrole/furan at C2, pyridine at C3, harsh) are a second, short batch; naphthalene and indole
   are left out.
 - **As drafted (2026-11-26, 16 drafts after the 3 published pilot reactions; all 19 published by
-  the owner on 2026-11-26; the track is live from `content/tracks/aromatic-chemistry.json`):** Br₂ is activated by **AlBr₃** (the strict
+  the owner on 2026-11-26; the track is live from `content/tracks/electrophilic-aromatic-substitution.json`):** Br₂ is activated by **AlBr₃** (the strict
   reader has no Fe; the conditions say "or FeBr₃"); SO₃ is the electrophile of sulfonation directly (no separate
   "SO₃ in H₂SO₄" reaction); set 3 is toluene (para preferred, ortho accepted), anisole, phenol (Br₂, pushed from the
   OH), acetanilide, chlorobenzene and nitrobenzene (benzaldehyde left out); set 4 as agreed, chlorination of toluene
@@ -534,7 +534,7 @@ Publish stage, the review queue, the review screen (only what changed, notes) an
   "mostly fine" per the user; the decisions in §4 are settled, and details may still be refined.
 - Branding beyond the name (logo, colours). Name and domain decided 2026-11-26: ArrowPush, `arrowpushing.com`.
 - Which exact reactions beyond the list above; authoring order of the first content set.
-- Tracks after "Aromatic chemistry" (e.g. Zaitsev versus Hofmann, kinetic versus thermodynamic enolates) and their
+- Tracks after "Electrophilic aromatic substitution" (e.g. Zaitsev versus Hofmann, kinetic versus thermodynamic enolates) and their
   problem sets. (Problem sets themselves were scoped on 2026-11-25: §1, §2, §5 "Learn".)
 - Deferred features: whole-mechanism mode, stereo validation, learner accounts/leaderboards/sync, visual editor polish (v2).
 - The phase-2 MCP server's detailed design (§6 "Drafting with an assistant").

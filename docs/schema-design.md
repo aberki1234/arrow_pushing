@@ -887,7 +887,7 @@ RDKit (RDKit.js) on every valid SMILES case and every example state (`src/chemis
      Checked in headless Chromium on the aldol: hover preview with the dashed C3–C9, a touch tap on its middle
      drawing "π C3=C5 → new bond C3–C9", faint lines after a touch.
    * **10d** The SEAr pilot (nitronium formation, nitration of benzene, nitration of anisole with resonance steps)
-     drafted and pushed; reviewed by the owner; then the rest of the batch and `content/tracks/aromatic-chemistry.json`.
+     drafted and pushed; reviewed by the owner; then the rest of the batch and `content/tracks/electrophilic-aromatic-substitution.json` (renamed from `aromatic-chemistry`, 2026-11-26).
    Phase 2 (design deferred until after the batch): the MCP server at `/mcp` over the same module and tokens, and a
    token page in Create.
 
