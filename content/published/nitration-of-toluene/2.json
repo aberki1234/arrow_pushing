@@ -1,0 +1,606 @@
+{
+  "steps": [
+    {
+      "stepKey": "para-attack",
+      "stepKind": "polar",
+      "toStateId": "para-arenium-ion",
+      "fromStateId": "reactants",
+      "canonicalArrows": [
+        "π C13-C14 -> σ C14-N2",
+        "π N2-O3 -> lp O3"
+      ],
+      "routePreference": "preferred",
+      "explanationAfterStep": "Attack para to CH₃. The charge sits in turn on the two carbons next to the new C–N bond and on the carbon bearing CH₃."
+    },
+    {
+      "stepKey": "charge-moves-to-ipso-carbon",
+      "stepKind": "polar",
+      "toStateId": "para-tertiary-form",
+      "fromStateId": "para-arenium-ion",
+      "canonicalArrows": [
+        "π C11-C12 -> π C12-C13"
+      ],
+      "routePreference": "preferred",
+      "explanationAfterStep": "A resonance form, not a new species: here the positive charge is on a tertiary carbon, stabilised by the methyl group."
+    },
+    {
+      "stepKey": "para-deprotonation",
+      "stepKind": "polar",
+      "toStateId": "para-product",
+      "fromStateId": "para-tertiary-form",
+      "canonicalArrows": [
+        "lp O4 -> σ O4-H17",
+        "σ C14-H17 -> π C13-C14",
+        "π C12-C13 -> π C11-C12"
+      ],
+      "routePreference": "preferred",
+      "explanationAfterStep": "From any resonance form, losing H⁺ gives the same aromatic product."
+    },
+    {
+      "stepKey": "ortho-attack",
+      "stepKind": "polar",
+      "toStateId": "ortho-arenium-ion",
+      "fromStateId": "reactants",
+      "canonicalArrows": [
+        "π C11-C12 -> σ C12-N2",
+        "π N2-O3 -> lp O3"
+      ],
+      "routePreference": "accepted",
+      "explanationAfterStep": "Ortho attack is also correct: it puts the positive charge straight onto the carbon bearing CH₃. Toluene gives more ortho than para product (two ortho positions)."
+    },
+    {
+      "stepKey": "ortho-deprotonation",
+      "stepKind": "polar",
+      "toStateId": "ortho-product",
+      "fromStateId": "ortho-arenium-ion",
+      "canonicalArrows": [
+        "lp O4 -> σ O4-H22",
+        "σ C12-H22 -> π C11-C12"
+      ],
+      "routePreference": "accepted",
+      "explanationAfterStep": "2-Nitrotoluene: the ortho product."
+    }
+  ],
+  "title": "Nitration of toluene",
+  "authors": [
+    {
+      "url": null,
+      "name": "Maksim"
+    }
+  ],
+  "licence": "CC-BY-SA-4.0",
+  "subtitle": "A methyl group directs ortho and para",
+  "references": [
+    "Clayden, Greeves and Warren, Organic Chemistry, 2nd edition (Oxford University Press), chapter 21"
+  ],
+  "reactionSlug": "nitration-of-toluene",
+  "startStateId": "reactants",
+  "formatVersion": 1,
+  "difficultyTier": 3,
+  "stateIdToState": {
+    "reactants": {
+      "caption": "nitronium ion + hydrogen sulfate + toluene",
+      "hintTiers": [
+        "Number round the ring from the carbon bearing CH₃: which carbon is para (opposite) to it?",
+        "The ring π bond to the para carbon forms the new C–N bond; an N=O π pair moves onto oxygen. Two arrows.",
+        "π bond to the para carbon → new C–N bond; one N=O π bond → lone pair on that oxygen."
+      ],
+      "mappedSmiles": "[O:1]=[N+:2]=[O:3].[O-:4][S:5](=[O:6])(=[O:7])[OH:8].[CH3:18][C:11]1=[C:12]([H:22])[CH:13]=[C:14]([H:17])[CH:15]=[CH:16]1",
+      "learnerPrompt": "Toluene attacks the nitronium ion. Attack para to the methyl group.",
+      "misconceptions": [
+        {
+          "severity": "wrong",
+          "arrowPattern": "* -> σ C13-N2",
+          "feedbackMessage": "That carbon is meta to CH₃. After meta attack, no resonance form puts the positive charge on the carbon bearing the methyl group. Try para.",
+          "misconceptionId": "meta-attack-13",
+          "misconceptionTag": "wrong-regiochemistry-meta"
+        },
+        {
+          "severity": "wrong",
+          "arrowPattern": "* -> σ C15-N2",
+          "feedbackMessage": "That carbon is meta to CH₃. After meta attack, no resonance form puts the positive charge on the carbon bearing the methyl group. Try para.",
+          "misconceptionId": "meta-attack-15",
+          "misconceptionTag": "wrong-regiochemistry-meta"
+        }
+      ],
+      "mapNumberToCoordinates": {
+        "1": [
+          0,
+          6.6
+        ],
+        "2": [
+          0,
+          5.1
+        ],
+        "3": [
+          0,
+          3.6
+        ],
+        "4": [
+          4,
+          0
+        ],
+        "5": [
+          5.3,
+          0.75
+        ],
+        "6": [
+          6.6,
+          1.5
+        ],
+        "7": [
+          6.05,
+          -0.55
+        ],
+        "8": [
+          4.55,
+          2.05
+        ],
+        "11": [
+          0.24,
+          -1.26
+        ],
+        "12": [
+          -0.51,
+          0.04
+        ],
+        "13": [
+          -2.01,
+          0.04
+        ],
+        "14": [
+          -2.76,
+          -1.26
+        ],
+        "15": [
+          -2.01,
+          -2.56
+        ],
+        "16": [
+          -0.51,
+          -2.56
+        ],
+        "17": [
+          -4.26,
+          -1.26
+        ],
+        "18": [
+          1.74,
+          -1.26
+        ],
+        "22": [
+          0.24,
+          1.34
+        ]
+      },
+      "partialProgressMessages": [
+        {
+          "learnerArrows": [
+            "π C13-C14 -> σ C14-N2"
+          ],
+          "feedbackMessage": "Right place. Nitrogen now has five bonds: move an N=O π pair onto oxygen."
+        }
+      ]
+    },
+    "para-product": {
+      "caption": "4-nitrotoluene (para product, about 38%)",
+      "mappedSmiles": "[CH3:18][C:11]1=[C:12]([H:22])[CH:13]=[C:14]([N+:2](=[O:1])[O-:3])[CH:15]=[CH:16]1.[H:17][O:4][S:5](=[O:6])(=[O:7])[OH:8]",
+      "mapNumberToCoordinates": {
+        "1": [
+          -3.75,
+          1.3
+        ],
+        "2": [
+          -3,
+          0
+        ],
+        "3": [
+          -3.75,
+          -1.3
+        ],
+        "4": [
+          3.04,
+          6.72
+        ],
+        "5": [
+          1.74,
+          5.97
+        ],
+        "6": [
+          0.44,
+          5.22
+        ],
+        "7": [
+          0.99,
+          7.27
+        ],
+        "8": [
+          2.49,
+          4.67
+        ],
+        "11": [
+          1.5,
+          0
+        ],
+        "12": [
+          0.75,
+          1.3
+        ],
+        "13": [
+          -0.75,
+          1.3
+        ],
+        "14": [
+          -1.5,
+          0
+        ],
+        "15": [
+          -0.75,
+          -1.3
+        ],
+        "16": [
+          0.75,
+          -1.3
+        ],
+        "17": [
+          3.04,
+          8.22
+        ],
+        "18": [
+          3,
+          0
+        ],
+        "22": [
+          1.5,
+          2.6
+        ]
+      }
+    },
+    "ortho-product": {
+      "caption": "2-nitrotoluene (ortho product, about 58%)",
+      "mappedSmiles": "[CH3:18][C:11]1=[C:12]([N+:2](=[O:1])[O-:3])[CH:13]=[C:14]([H:17])[CH:15]=[CH:16]1.[H:22][O:4][S:5](=[O:6])(=[O:7])[OH:8]",
+      "mapNumberToCoordinates": {
+        "1": [
+          0.75,
+          3.9
+        ],
+        "2": [
+          1.5,
+          2.6
+        ],
+        "3": [
+          3,
+          2.6
+        ],
+        "4": [
+          2.74,
+          7.72
+        ],
+        "5": [
+          1.44,
+          6.97
+        ],
+        "6": [
+          0.14,
+          6.22
+        ],
+        "7": [
+          0.69,
+          8.27
+        ],
+        "8": [
+          2.19,
+          5.67
+        ],
+        "11": [
+          1.5,
+          0
+        ],
+        "12": [
+          0.75,
+          1.3
+        ],
+        "13": [
+          -0.75,
+          1.3
+        ],
+        "14": [
+          -1.5,
+          0
+        ],
+        "15": [
+          -0.75,
+          -1.3
+        ],
+        "16": [
+          0.75,
+          -1.3
+        ],
+        "17": [
+          -3,
+          0
+        ],
+        "18": [
+          3,
+          0
+        ],
+        "22": [
+          2.74,
+          9.22
+        ]
+      }
+    },
+    "para-arenium-ion": {
+      "caption": "arenium ion after para attack",
+      "hintTiers": [
+        "A π bond next to the cationic carbon can shift towards it.",
+        "The π bond from the carbon bearing CH₃ moves over to the positive carbon: the charge moves onto the carbon that carries the methyl group. One arrow.",
+        "π C(CH₃)=C → π bond to the positive carbon."
+      ],
+      "mappedSmiles": "[CH3:18][C:11]1=[C:12]([H:22])[CH+:13][C:14]([H:17])([N+:2](=[O:1])[O-:3])[CH:15]=[CH:16]1.[O-:4][S:5](=[O:6])(=[O:7])[OH:8]",
+      "learnerPrompt": "Move the positive charge onto the carbon bearing CH₃.",
+      "misconceptions": [],
+      "mapNumberToCoordinates": {
+        "1": [
+          -2.39,
+          2.44
+        ],
+        "2": [
+          -2.65,
+          0.96
+        ],
+        "3": [
+          -4.06,
+          0.45
+        ],
+        "4": [
+          0.46,
+          5.21
+        ],
+        "5": [
+          1.76,
+          5.96
+        ],
+        "6": [
+          3.05,
+          6.71
+        ],
+        "7": [
+          2.51,
+          4.66
+        ],
+        "8": [
+          1.01,
+          7.26
+        ],
+        "11": [
+          1.5,
+          0
+        ],
+        "12": [
+          0.75,
+          1.3
+        ],
+        "13": [
+          -0.75,
+          1.3
+        ],
+        "14": [
+          -1.5,
+          0
+        ],
+        "15": [
+          -0.75,
+          -1.3
+        ],
+        "16": [
+          0.75,
+          -1.3
+        ],
+        "17": [
+          -2.65,
+          -0.96
+        ],
+        "18": [
+          3,
+          0
+        ],
+        "22": [
+          1.5,
+          2.6
+        ]
+      }
+    },
+    "ortho-arenium-ion": {
+      "caption": "arenium ion after ortho attack (charge already on the carbon bearing CH₃)",
+      "hintTiers": [
+        "The sp³ ring carbon has an H. What can take it?",
+        "Hydrogen sulfate takes the H on the carbon bearing NO₂, and the C–H pair re-forms the ring π bond to the carbon bearing CH₃. Two arrows.",
+        "Hydrogen sulfate's O⁻ lone pair → that H; σ C–H → π to the positive carbon bearing CH₃."
+      ],
+      "mappedSmiles": "[CH3:18][C+:11]1[C:12]([H:22])([N+:2](=[O:1])[O-:3])[CH:13]=[C:14]([H:17])[CH:15]=[CH:16]1.[O-:4][S:5](=[O:6])(=[O:7])[OH:8]",
+      "learnerPrompt": "Restore the aromatic ring.",
+      "misconceptions": [],
+      "mapNumberToCoordinates": {
+        "1": [
+          2.42,
+          3.29
+        ],
+        "2": [
+          2.16,
+          1.81
+        ],
+        "3": [
+          3.31,
+          0.85
+        ],
+        "4": [
+          0.16,
+          6.13
+        ],
+        "5": [
+          1.46,
+          6.88
+        ],
+        "6": [
+          2.76,
+          7.63
+        ],
+        "7": [
+          2.21,
+          5.58
+        ],
+        "8": [
+          0.71,
+          8.18
+        ],
+        "11": [
+          1.5,
+          0
+        ],
+        "12": [
+          0.75,
+          1.3
+        ],
+        "13": [
+          -0.75,
+          1.3
+        ],
+        "14": [
+          -1.5,
+          0
+        ],
+        "15": [
+          -0.75,
+          -1.3
+        ],
+        "16": [
+          0.75,
+          -1.3
+        ],
+        "17": [
+          -3,
+          0
+        ],
+        "18": [
+          3,
+          0
+        ],
+        "22": [
+          0.49,
+          2.78
+        ]
+      }
+    },
+    "para-tertiary-form": {
+      "caption": "the key resonance form: a tertiary carbocation",
+      "hintTiers": [
+        "The C–H bonding pair must end up in the ring, and the π electrons must shift to fill the positive carbon bearing CH₃.",
+        "Hydrogen sulfate takes the H on the carbon bearing NO₂; σ C–H forms a π bond to its neighbour; the next ring π bond shifts over to the carbon bearing CH₃. Three arrows.",
+        "Hydrogen sulfate's O⁻ lone pair → that H; σ C–H → π to the neighbouring carbon; the next ring π bond → π to the carbon bearing CH₃."
+      ],
+      "mappedSmiles": "[CH3:18][C+:11]1[C:12]([H:22])=[CH:13][C:14]([H:17])([N+:2](=[O:1])[O-:3])[CH:15]=[CH:16]1.[O-:4][S:5](=[O:6])(=[O:7])[OH:8]",
+      "learnerPrompt": "Hydrogen sulfate removes the proton and the ring is aromatic again.",
+      "misconceptions": [],
+      "mapNumberToCoordinates": {
+        "1": [
+          -2.39,
+          2.44
+        ],
+        "2": [
+          -2.65,
+          0.96
+        ],
+        "3": [
+          -4.06,
+          0.45
+        ],
+        "4": [
+          0.46,
+          5.21
+        ],
+        "5": [
+          1.76,
+          5.96
+        ],
+        "6": [
+          3.05,
+          6.71
+        ],
+        "7": [
+          2.51,
+          4.66
+        ],
+        "8": [
+          1.01,
+          7.26
+        ],
+        "11": [
+          1.5,
+          0
+        ],
+        "12": [
+          0.75,
+          1.3
+        ],
+        "13": [
+          -0.75,
+          1.3
+        ],
+        "14": [
+          -1.5,
+          0
+        ],
+        "15": [
+          -0.75,
+          -1.3
+        ],
+        "16": [
+          0.75,
+          -1.3
+        ],
+        "17": [
+          -2.65,
+          -0.96
+        ],
+        "18": [
+          3,
+          0
+        ],
+        "22": [
+          1.5,
+          2.6
+        ]
+      },
+      "partialProgressMessages": [
+        {
+          "learnerArrows": [
+            "lp O4 -> σ O4-H17",
+            "σ C14-H17 -> π C13-C14"
+          ],
+          "feedbackMessage": "Good start, but the carbon next to the one bearing NO₂ now has five bonds. Shift its other π bond on towards the carbon bearing CH₃."
+        }
+      ]
+    }
+  },
+  "conditionsLabel": "conc. HNO₃ · conc. H₂SO₄ · 30 °C",
+  "reactionClasses": [
+    "aromatic substitution"
+  ],
+  "reactionVersion": 2,
+  "mechanismSummary": "Attack para (or ortho) to the methyl group gives an arenium ion with a resonance form in which the positive charge is on the carbon bearing CH₃: a tertiary carbocation, stabilised by the methyl group. Meta attack has no such form. Toluene gives about 58% ortho, 38% para and 4% meta product; para is drawn as the main route here, ortho is accepted.",
+  "dailyPuzzleEligible": true,
+  "spectatorMapNumbers": [],
+  "atomRoleToMapNumbers": {
+    "base": [
+      4
+    ],
+    "electrophile": [
+      2
+    ],
+    "methylCarbon": [
+      18
+    ]
+  },
+  "previousReactionVersion": 1
+}
