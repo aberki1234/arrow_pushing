@@ -1,0 +1,288 @@
+{
+  "steps": [
+    {
+      "stepKey": "electrophilic-attack",
+      "stepKind": "polar",
+      "toStateId": "arenium-ion",
+      "fromStateId": "reactants",
+      "canonicalArrows": [
+        "π C13-C14 -> σ C14-Br1",
+        "σ Br1-Br2 -> lp Br2"
+      ],
+      "routePreference": "preferred",
+      "explanationAfterStep": "AlBr₄⁻ is a good leaving group, which is why the Lewis acid is needed. The arenium ion has lost aromaticity: this is the slow step."
+    },
+    {
+      "stepKey": "deprotonation",
+      "stepKind": "polar",
+      "toStateId": "product",
+      "fromStateId": "arenium-ion",
+      "canonicalArrows": [
+        "lp Br2 -> σ Br2-H17",
+        "σ C14-H17 -> π C14-C13",
+        "σ Br2-Al3 -> lp Br2"
+      ],
+      "routePreference": "preferred",
+      "explanationAfterStep": "HBr is given off and AlBr₃ is regenerated: a catalyst."
+    }
+  ],
+  "title": "Bromination of benzene",
+  "authors": [
+    {
+      "url": null,
+      "name": "Maksim"
+    }
+  ],
+  "licence": "CC-BY-SA-4.0",
+  "subtitle": "Benzene attacks bromine activated by AlBr₃",
+  "references": [
+    "Clayden, Greeves and Warren, Organic Chemistry, 2nd edition (Oxford University Press), chapter 21"
+  ],
+  "reactionSlug": "bromination-of-benzene",
+  "startStateId": "reactants",
+  "formatVersion": 1,
+  "difficultyTier": 1,
+  "stateIdToState": {
+    "product": {
+      "caption": "bromobenzene + HBr + AlBr₃",
+      "mappedSmiles": "[CH:11]1=[CH:12][CH:13]=[C:14]([Br:1])[CH:15]=[CH:16]1.[H:17][Br:2].[Al:3]([Br:4])([Br:5])[Br:6]",
+      "mapNumberToCoordinates": {
+        "1": [
+          -3,
+          0
+        ],
+        "2": [
+          3.79,
+          0.14
+        ],
+        "3": [
+          0.14,
+          5
+        ],
+        "4": [
+          1.43,
+          5.75
+        ],
+        "5": [
+          -1.16,
+          5.75
+        ],
+        "6": [
+          0.14,
+          3.5
+        ],
+        "11": [
+          1.5,
+          0
+        ],
+        "12": [
+          0.75,
+          1.3
+        ],
+        "13": [
+          -0.75,
+          1.3
+        ],
+        "14": [
+          -1.5,
+          0
+        ],
+        "15": [
+          -0.75,
+          -1.3
+        ],
+        "16": [
+          0.75,
+          -1.3
+        ],
+        "17": [
+          5.09,
+          0.89
+        ]
+      }
+    },
+    "reactants": {
+      "caption": "Br₂–AlBr₃ complex + benzene",
+      "hintTiers": [
+        "Which bromine is electron-poor: the one on aluminium or the outer one?",
+        "A ring π bond forms a bond to the outer bromine, and the Br–Br bond breaks towards the bromine on aluminium. Two arrows.",
+        "π C13=C14 → new C14–Br1 bond; σ Br1–Br2 → lone pair on Br2."
+      ],
+      "mappedSmiles": "[Br:1][Br+:2][Al-:3]([Br:4])([Br:5])[Br:6].[CH:11]1=[CH:12][CH:13]=[C:14]([H:17])[CH:15]=[CH:16]1",
+      "learnerPrompt": "Benzene attacks the activated bromine.",
+      "misconceptions": [
+        {
+          "severity": "wrong",
+          "arrowPattern": "lp Br2 -> H17",
+          "feedbackMessage": "A benzene C–H is not acidic (pKa about 43). The proton only becomes acidic after the electrophile has added.",
+          "misconceptionId": "deprotonate-first",
+          "misconceptionTag": "deprotonate-too-early"
+        },
+        {
+          "severity": "wrong",
+          "arrowPattern": "* -> σ C*-Br2",
+          "feedbackMessage": "The bromine on aluminium carries the positive charge but is the one leaving with AlBr₃. The ring attacks the outer bromine.",
+          "misconceptionId": "attack-br-on-al",
+          "misconceptionTag": "attack-wrong-bromine"
+        }
+      ],
+      "mapNumberToCoordinates": {
+        "1": [
+          2.25,
+          2.5
+        ],
+        "2": [
+          1.5,
+          3.8
+        ],
+        "3": [
+          0,
+          3.8
+        ],
+        "4": [
+          -1.5,
+          3.8
+        ],
+        "5": [
+          0,
+          5.3
+        ],
+        "6": [
+          0,
+          2.3
+        ],
+        "11": [
+          1.22,
+          -1.23
+        ],
+        "12": [
+          0.47,
+          0.07
+        ],
+        "13": [
+          -1.03,
+          0.07
+        ],
+        "14": [
+          -1.78,
+          -1.23
+        ],
+        "15": [
+          -1.03,
+          -2.53
+        ],
+        "16": [
+          0.47,
+          -2.53
+        ],
+        "17": [
+          -3.28,
+          -1.23
+        ]
+      },
+      "partialProgressMessages": [
+        {
+          "learnerArrows": [
+            "π C13-C14 -> σ C14-Br1"
+          ],
+          "feedbackMessage": "Right: a ring π bond attacks Br1. Bromine cannot keep two bonds: which bond breaks?"
+        }
+      ]
+    },
+    "arenium-ion": {
+      "caption": "arenium (Wheland) ion",
+      "hintTiers": [
+        "Which carbon is sp³ now, and which group on it can leave to restore the ring?",
+        "A bromide of AlBr₄⁻ takes the proton; the C–H pair becomes a ring π bond; the Br–Al bond breaks back to bromine. Three arrows.",
+        "Br2 lone pair → H17; σ C14–H17 → π C13=C14; σ Br2–Al3 → lone pair on Br2."
+      ],
+      "mappedSmiles": "[CH:11]1=[CH:12][CH+:13][C:14]([H:17])([Br:1])[CH:15]=[CH:16]1.[Br:2][Al-:3]([Br:4])([Br:5])[Br:6]",
+      "learnerPrompt": "Restore the aromatic ring.",
+      "misconceptions": [
+        {
+          "severity": "plausible",
+          "arrowPattern": "lp Br2 -> C13",
+          "feedbackMessage": "Adding the anion to the carbocation would leave a non-aromatic ring. Losing H⁺ restores aromaticity, which wins.",
+          "misconceptionId": "adds-instead-of-losing-h",
+          "misconceptionTag": "addition-instead-of-substitution"
+        }
+      ],
+      "mapNumberToCoordinates": {
+        "1": [
+          -2.65,
+          0.96
+        ],
+        "2": [
+          1.71,
+          5.02
+        ],
+        "3": [
+          0.21,
+          5.02
+        ],
+        "4": [
+          -1.29,
+          5.02
+        ],
+        "5": [
+          0.21,
+          6.52
+        ],
+        "6": [
+          0.21,
+          3.52
+        ],
+        "11": [
+          1.5,
+          0
+        ],
+        "12": [
+          0.75,
+          1.3
+        ],
+        "13": [
+          -0.75,
+          1.3
+        ],
+        "14": [
+          -1.5,
+          0
+        ],
+        "15": [
+          -0.75,
+          -1.3
+        ],
+        "16": [
+          0.75,
+          -1.3
+        ],
+        "17": [
+          -2.65,
+          -0.96
+        ]
+      },
+      "partialProgressMessages": [
+        {
+          "learnerArrows": [
+            "lp Br2 -> σ Br2-H17"
+          ],
+          "feedbackMessage": "Good: the base takes the proton. Where does the C–H bonding pair go?"
+        }
+      ]
+    }
+  },
+  "conditionsLabel": "Br₂ · AlBr₃ (or FeBr₃) · rt",
+  "reactionClasses": [
+    "aromatic substitution"
+  ],
+  "reactionVersion": 1,
+  "mechanismSummary": "A ring π bond attacks the outer bromine of the Br₂–AlBr₃ complex as AlBr₄⁻ leaves, giving the arenium ion. AlBr₄⁻ then takes the proton, giving bromobenzene, HBr and AlBr₃ back again.",
+  "dailyPuzzleEligible": true,
+  "spectatorMapNumbers": [],
+  "atomRoleToMapNumbers": {
+    "electrophile": [
+      1
+    ]
+  },
+  "previousReactionVersion": null
+}
