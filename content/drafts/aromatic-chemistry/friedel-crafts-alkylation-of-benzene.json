@@ -35,13 +35,6 @@
           "severity": "wrong",
           "arrowPattern": "lp Cl4 -> H17",
           "feedbackMessage": "A benzene C–H is not acidic (pKa about 43). The proton only becomes acidic after the electrophile has added."
-        },
-        {
-          "misconceptionId": "attack-methyl",
-          "misconceptionTag": "attack-non-electrophile",
-          "severity": "wrong",
-          "arrowPattern": "* -> σ C*-C1",
-          "feedbackMessage": "A methyl carbon has its octet. The ring attacks the carbon carrying the positive charge."
         }
       ],
       "mapNumberToCoordinates": {
@@ -58,52 +51,52 @@
           2.3
         ],
         "4": [
-          1.5,
-          5.55
+          1.21,
+          6.21
         ],
         "5": [
-          0,
-          5.55
+          -0.29,
+          6.21
         ],
         "6": [
-          -1.5,
-          5.55
+          -1.79,
+          6.21
         ],
         "7": [
-          0,
-          7.05
+          -0.29,
+          7.71
         ],
         "8": [
-          0,
-          4.05
+          -0.29,
+          4.71
         ],
         "11": [
-          1.5,
-          0
+          0.63,
+          -1.29
         ],
         "12": [
-          0.75,
-          1.3
+          -0.12,
+          0.01
         ],
         "13": [
-          -0.75,
-          1.3
+          -1.62,
+          0.01
         ],
         "14": [
-          -1.5,
-          0
+          -2.37,
+          -1.29
         ],
         "15": [
-          -0.75,
-          -1.3
+          -1.62,
+          -2.58
         ],
         "16": [
-          0.75,
-          -1.3
+          -0.12,
+          -2.58
         ],
         "17": [
-          -3,
-          0
+          -3.87,
+          -1.29
         ]
       }
     },
@@ -213,24 +206,24 @@
           -1.3
         ],
         "4": [
-          2.5,
-          0
+          3.8,
+          0.11
         ],
         "5": [
-          0,
-          3.8
+          0.38,
+          5.04
         ],
         "6": [
-          1.3,
-          4.55
+          1.68,
+          5.79
         ],
         "7": [
-          -1.3,
-          4.55
+          -0.92,
+          5.79
         ],
         "8": [
-          0,
-          2.3
+          0.38,
+          3.54
         ],
         "11": [
           1.5,
@@ -257,8 +250,8 @@
           -1.3
         ],
         "17": [
-          3.8,
-          0.75
+          5.09,
+          0.86
         ]
       }
     }
