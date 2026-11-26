@@ -95,9 +95,12 @@ reactions, track `aromatic-chemistry`, problem sets in this order:
   lines once a source is picked; tapping a line forms that bond; atoms and bonds are tapped as before. Keyboard: Tab
   also reaches each possible new bond ("new bond C1–C6"). In the prototype this took Diels–Alder from 8 taps and 2
   menus to 6 taps, and every other scene to 4 taps with no menus.
-  - **Possible new bonds shown:** between molecules, atoms near each other in the drawing; within one molecule, two
+  - **Possible new bonds shown:** between molecules, **however far apart they are drawn** (corrected 2026-11-26:
+    molecules are laid out apart, and a 2.1-bond-length limit hid every SEAr attack); within one molecule, two
     bonds apart only when the receiving atom is electron-poor (the 10f rule: a 1,2-shift), never three bonds apart,
-    and four or more apart when near (ring closure).
+    and four or more apart when drawn near (ring closure). The receiving atom must be able to take a bond (now also
+    a positively charged atom, the P⁺ of a Wittig). Two fish-hooks meeting in one new bond each see it offered.
+    A test checks that every authored arrow of the example reactions can be picked.
   - **Fixes from the SEAr review (2026-11-26):** a new bond is offered only to an atom that can take one
     (electron-poor, with a π bond to give up, a radical, an H on O/N/S/halogen, or bonded to O, S or a halogen),
     so no ghosts to a methyl carbon; pointing at the **far atom** of a new bond (the acylium carbon) picks that bond,

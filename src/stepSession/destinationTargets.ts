@@ -6,9 +6,9 @@
  *
  * Places
  *   atom, bond   every atom and bond pick target that arrowPicking.ts accepts as a destination
- *   new bond     each bond of newBondDestinations.ts whose atoms are drawn (and tappable) within
- *                NEW_BOND_REACH bond lengths of each other, or that is a 1,2-shift (always shown:
- *                however it is drawn, it lands two bonds away)
+ *   new bond     each bond of newBondDestinations.ts between tappable atoms: always to another
+ *                molecule (molecules are laid out apart, so distance says nothing) and for a
+ *                1,2-shift; a ring closure only within NEW_BOND_REACH bond lengths
  * The nearest place is measured to its anchors: the atom; the bond's midpoint; the new bond's
  * midpoint and its far atom (the one not in the source), so pointing at the atom the electrons
  * go to picks the new bond to it, from the nearer end of the source bond. Atoms and bonds come
@@ -30,7 +30,7 @@ import {
   type StateDrawing,
   drawnAtomOf,
 } from "../moleculeDrawing/stateDrawing.js";
-import { type StateGraph, bondKey } from "../stateGraphs/stateGraph.js";
+import { type StateGraph, bondKey, bondKeyMapNumbers } from "../stateGraphs/stateGraph.js";
 import {
   type ArrowType,
   type TappedPlace,
@@ -39,7 +39,7 @@ import {
 } from "./arrowPicking.js";
 import { newBondDestinations } from "./newBondDestinations.js";
 
-/** New bonds between atoms drawn further apart than this many bond lengths are not offered. */
+/** Ring closures between atoms drawn further apart than this many bond lengths are not offered. */
 export const NEW_BOND_REACH = 2.1;
 /** A pointer further than this from every place points at none. */
 export const NEAREST_PLACE_PIXELS = 0.8 * BOND_LENGTH_PIXELS;
@@ -116,6 +116,28 @@ function newBondTarget(
   };
 }
 
+/** Whether two atoms are in the same molecule (joined by bonds). */
+function sameMolecule(graph: StateGraph, first: number, second: number): boolean {
+  const reached = new Set([first]);
+  const queue = [first];
+  for (let current = queue.shift(); current !== undefined; current = queue.shift()) {
+    for (const key of graph.bondToOrder.keys()) {
+      const [atomA, atomB] = bondKeyMapNumbers(key);
+      const next = atomA === current ? atomB : atomB === current ? atomA : undefined;
+      if (next !== undefined && !reached.has(next)) {
+        reached.add(next);
+        queue.push(next);
+      }
+    }
+  }
+  return reached.has(second);
+}
+
+/**
+ * Whether a new bond is shown: both atoms tappable, and either in different molecules (however
+ * far apart they are drawn: molecules are laid out apart), a 1,2-shift, or a ring closure drawn
+ * within NEW_BOND_REACH bond lengths.
+ */
 function isShownNewBond(
   drawing: StateDrawing,
   graph: StateGraph,
@@ -130,6 +152,9 @@ function isShownNewBond(
   const [first, second] = destination.atoms.map((atom) => atom.mapNumber) as [number, number];
   if (!tappable.has(first) || !tappable.has(second)) {
     return false;
+  }
+  if (!sameMolecule(graph, first, second)) {
+    return true;
   }
   const sourceAtoms = source.atoms.map((atom) => atom.mapNumber);
   const isShift = [first, second].some(

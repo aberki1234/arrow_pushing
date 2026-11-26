@@ -5,9 +5,10 @@
  * of them are near enough in the drawing to show is moleculeDrawing's (newBondTargets.ts).
  *
  * Rules, for a source bond A–B and a new bond from B to an atom Y (and likewise from A):
- *   - Y must be able to take a bond (canTakeBond): electron-poor, or with a π bond to give up, a
- *     radical, an H on O, N, S or a halogen (passed across), or bonded to a leaving group
- *     (O, S or a halogen). So a methyl carbon or water's oxygen is never offered.
+ *   - Y must be able to take a bond (canTakeBond): electron-poor, positively charged (P⁺ of an
+ *     ylide), with a π bond to give up, a radical, an H on O, N, S or a halogen (passed across),
+ *     or bonded to a leaving group (O, S or a halogen). So a methyl carbon or water's oxygen is
+ *     never offered.
  *   - Y in another molecule: kept.
  *   - Y two bonds from B: kept only as a 1,2-shift (Y bonded to A, B moving across) onto an
  *     electron-poor Y (C, N or O short of an octet, or losing a σ bond to an arrow already drawn
@@ -26,6 +27,11 @@ import { type StateGraph, bondKey, bondKeyMapNumbers } from "../stateGraphs/stat
 
 /** Atoms short of an octet here are electron-poor (a carbocation, a Lewis acid). */
 const OCTET_ELEMENTS = new Set(["B", "Al", "C", "N", "O"]);
+/** Valence electrons of the neutral atom, for formal charges. */
+const VALENCE_ELECTRONS: ReadonlyMap<string, number> = new Map([
+  ["H", 1], ["B", 3], ["C", 4], ["N", 5], ["O", 6], ["F", 7], ["Al", 3], ["Si", 4], ["P", 5],
+  ["S", 6], ["Cl", 7], ["Br", 7], ["I", 7],
+]); // prettier-ignore
 /** An H bonded to one of these can be passed across to a new bond. */
 const PROTON_DONOR_ELEMENTS = new Set(["N", "O", "S", "F", "Cl", "Br", "I"]);
 /** A bond from an atom to one of these can break as the atom takes a new bond. */
@@ -105,8 +111,15 @@ function canTakeBond(
   if (atom.element === "H") {
     return neighbourElements.some((element) => PROTON_DONOR_ELEMENTS.has(element));
   }
+  const bondOrderSum = bonds.reduce((sum, [, order]) => sum + order, 0);
+  const formalCharge =
+    (VALENCE_ELECTRONS.get(atom.element) ?? 0) -
+    atom.nonbondingElectronCount -
+    bondOrderSum -
+    atom.hydrogenCount;
   return (
     isElectronPoor(graph, mapNumber, drawnArrows) ||
+    formalCharge > 0 ||
     bonds.some(([, order]) => order > 1) ||
     atom.nonbondingElectronCount % 2 === 1 ||
     neighbourElements.some((element) => LEAVING_GROUP_ELEMENTS.has(element))
@@ -140,6 +153,22 @@ function isOffered(
   return distance >= SMALLEST_RING_CLOSURE_DISTANCE;
 }
 
+/**
+ * The new bonds the drawn arrows have already given their pair. Two fish-hooks meet in one bond,
+ * so a bond is formed (and its atoms taken) only once it has both electrons.
+ */
+function formedBondKeys(drawnArrows: readonly CurvedArrow[]): Set<string> {
+  const keyToElectrons = new Map<string, number>();
+  for (const { destination, electronsMoved } of drawnArrows) {
+    if (destination.locusKind === "sigmaBond") {
+      const [atomA, atomB] = destination.atoms;
+      const key = bondKey(atomA.mapNumber, atomB.mapNumber);
+      keyToElectrons.set(key, (keyToElectrons.get(key) ?? 0) + electronsMoved);
+    }
+  }
+  return new Set([...keyToElectrons].filter(([, electrons]) => electrons >= 2).map(([key]) => key));
+}
+
 /** The σ bonds the source bond could form, in map number order; none for an atom source. */
 export function newBondDestinations(
   graph: StateGraph,
@@ -150,16 +179,9 @@ export function newBondDestinations(
   if (first === undefined || second === undefined) {
     return [];
   }
-  const formed = new Set(
-    drawnArrows
-      .map(({ destination }) => destination)
-      .filter((destination): destination is BondLocus => destination.locusKind === "sigmaBond")
-      .map(({ atoms: [first, second] }) => bondKey(first.mapNumber, second.mapNumber)),
-  );
+  const formed = formedBondKeys(drawnArrows);
   const alreadyBonding = (mapNumber: number): boolean =>
-    drawnArrows.some(
-      ({ destination }) => destination.locusKind === "sigmaBond" && touches(destination, mapNumber),
-    );
+    [...formed].some((key) => bondKeyMapNumbers(key).includes(mapNumber));
   const keys = new Set<string>();
   for (const [former, other] of [
     [first, second],

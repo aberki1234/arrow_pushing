@@ -1,20 +1,29 @@
 /** Tests for destinationTargets.ts: the places a picked source can go, on example drawings. */
 import { describe, expect, test } from "vitest";
-import { parseCurvedArrow } from "../arrowNotation/curvedArrowNotation.js";
+import {
+  type CurvedArrow,
+  formatCurvedArrow,
+  formatElectronLocus,
+  parseCurvedArrow,
+} from "../arrowNotation/curvedArrowNotation.js";
 import { graphOf } from "../attemptAssessment/preparedReaction.js";
 import { reactionScale } from "../moleculeDrawing/drawingLayout.js";
-import { distanceBetween } from "../moleculeDrawing/planeGeometry.js";
 import { type StateDrawing, drawState, drawnAtomOf } from "../moleculeDrawing/stateDrawing.js";
 import type { StateGraph } from "../stateGraphs/stateGraph.js";
 import { exampleSessionReaction } from "../testSupport/exampleSessions.js";
 import {
   type DestinationTarget,
-  NEW_BOND_REACH,
   destinationTargets,
   nearestDestinationTarget,
 } from "./destinationTargets.js";
-import { BOND_LENGTH_PIXELS } from "../moleculeDrawing/drawingLayout.js";
 import { newBondDestinations } from "./newBondDestinations.js";
+
+const EXAMPLE_SLUGS = [
+  "sn2-hydroxide-bromomethane",
+  "aldol-addition-base",
+  "wittig-methylenation-cyclohexanone",
+  "radical-bromination-methane",
+];
 
 function drawingOf(slug: string, stateId: string): { drawing: StateDrawing; graph: StateGraph } {
   const reaction = exampleSessionReaction(slug);
@@ -60,23 +69,15 @@ describe("places", () => {
     expect(newBond?.preview.pathData).toMatch(/^M /);
   });
 
-  test("new bonds between atoms drawn far apart are left out", () => {
+  test("a new bond to another molecule is offered however far apart they are drawn", () => {
     const { drawing, graph } = drawingOf("aldol-addition-base", "enolate-and-aldehyde");
     const source = parseCurvedArrow("π C3-C5 -> lp C3").source;
     const shown = new Set(
       ids(destinationTargets(drawing, graph, { source, arrowType: "pair", drawnArrows: [] })),
     );
     for (const destination of newBondDestinations(graph, source, [])) {
-      const [first = 0, second = 0] = destination.atoms.map((atom) => atom.mapNumber);
-      const drawnLength = distanceBetween(
-        drawnAtomOf(drawing, first).point,
-        drawnAtomOf(drawing, second).point,
-      );
-      const isNear = drawnLength <= NEW_BOND_REACH * BOND_LENGTH_PIXELS;
-      expect(
-        shown.has(`newBond:${String(first)}-${String(second)}`),
-        `${String(first)}-${String(second)}`,
-      ).toBe(isNear);
+      const [first, second] = destination.atoms.map((atom) => atom.mapNumber);
+      expect(shown.has(`newBond:${String(first)}-${String(second)}`)).toBe(true);
     }
   });
 
@@ -114,5 +115,28 @@ describe("the nearest place", () => {
     expect(nearestDestinationTarget(targets, c9)?.target.pickTargetId).toBe("newBond:3-9");
     const c5 = drawnAtomOf(drawing, 5).point;
     expect(nearestDestinationTarget(targets, c5)?.target.pickTargetId).toBe("atom:5");
+  });
+});
+
+describe("every authored arrow can be picked", () => {
+  test.each(EXAMPLE_SLUGS)("%s", (slug) => {
+    const reaction = exampleSessionReaction(slug);
+    for (const step of reaction.steps) {
+      const { drawing, graph } = drawingOf(slug, step.fromStateId);
+      const drawnArrows: CurvedArrow[] = [];
+      for (const curvedArrow of step.canonicalArrows) {
+        const places = destinationTargets(drawing, graph, {
+          source: curvedArrow.source,
+          arrowType: curvedArrow.electronsMoved === 2 ? "pair" : "fishHook",
+          drawnArrows,
+        });
+        const wanted = formatElectronLocus(curvedArrow.destination);
+        expect(
+          places.map((place) => formatElectronLocus(place.destination)),
+          `${step.stepKey}: ${formatCurvedArrow(curvedArrow)}`,
+        ).toContain(wanted);
+        drawnArrows.push(curvedArrow);
+      }
+    }
   });
 });
