@@ -1,5 +1,5 @@
 {
-  "description": "Edits that make the clean example track (fixtures/tracks/first-mechanisms.json) break track lint rules (src/reactionLinting/trackLint.ts). The published reactions are the four examples in fixtures/reactions. Edits work as in reaction_edits.json. expectedLintRuleIds is the sorted list of distinct rule ids the linter must report, and nothing else.",
+  "description": "Edits that make the clean example track (fixtures/tracks/first-mechanisms.json) break track lint rules (src/tooling/reactionLinting/tracks/trackLint.ts). The published reactions are the four examples in fixtures/reactions. Edits work as in reaction_edits.json. expectedLintRuleIds is the sorted list of distinct rule ids the linter must report, and nothing else.",
   "cases": [
     {"caseName": "schema violation stops the lint",
      "edits": [{"pathToDelete": ["goal"]}, {"pathToSet": ["problemSets", 1, "problemSetSlug"], "newValue": "polar-steps"}],

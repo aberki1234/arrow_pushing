@@ -1,5 +1,5 @@
 {
-  "description": "Shared cases for applying the curved arrows of one step to a state (src/stateGraphs/arrowApplication.ts). All arrows of a step are applied together. validCases: the state, the arrows, and the mapped SMILES of the state they must give. invalidCases: arrows that must be refused with the given generic rule id. Rule ids and the order they are checked in: docs/schema-design.md section 4.",
+  "description": "Shared cases for applying the curved arrows of one step to a state (src/core/stateGraphs/arrowApplication.ts). All arrows of a step are applied together. validCases: the state, the arrows, and the mapped SMILES of the state they must give. invalidCases: arrows that must be refused with the given generic rule id. Rule ids and the order they are checked in: docs/schema-design.md section 4.",
   "validCases": [
     {"caseName": "SN2: lone pair forms a bond while a bond breaks",
      "mappedSmiles": "[OH-:1].[CH3:2][Br:3].[Na+:4]",

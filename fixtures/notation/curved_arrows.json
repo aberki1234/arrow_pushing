@@ -1,5 +1,5 @@
 {
-  "description": "Shared cases for the curved-arrow notation parser and printer (src/arrowNotation/curvedArrowNotation.ts). validCases: the notation, the structure it must parse to, and its printed (canonical) form: σ/π symbols, bond atoms in ascending map-number order. invalidCases: notation that must be refused with the given error code. Notation: docs/schema-design.md section 2.",
+  "description": "Shared cases for the curved-arrow notation parser and printer (src/core/arrowNotation/curvedArrowNotation.ts). validCases: the notation, the structure it must parse to, and its printed (canonical) form: σ/π symbols, bond atoms in ascending map-number order. invalidCases: notation that must be refused with the given error code. Notation: docs/schema-design.md section 2.",
   "validCases": [
     {"notation": "lp O1 -> σ O1-C2", "printed": "lp O1 -> σ O1-C2",
      "curvedArrow": {"electronsMoved": 2,

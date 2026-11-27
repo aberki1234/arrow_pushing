@@ -116,12 +116,12 @@ false: owner, 2026-11-26),
 
 **Checks, all must pass before you report:** from the repository root, with
 `export PATH=$HOME/miniconda3/envs/mech_training/bin:$PATH`:
-- `npx tsx src/reactionLinting/runFromShell.ts seed-coordinates <files>` (lays out each state; molecules kept apart),
-- `npx tsx src/reactionLinting/runFromShell.ts lint <files>`: 0 errors, and no warnings you cannot justify,
+- `npx tsx src/tooling/reactionLinting/shell/runFromShell.ts seed-coordinates <files>` (lays out each state; molecules kept apart),
+- `npx tsx src/tooling/reactionLinting/shell/runFromShell.ts lint <files>`: 0 errors, and no warnings you cannot justify,
 - `npx tsx /tmp/claude-1000/-home-u6938219-mech-training/81adec37-d5f6-4ece-a10a-0decb0bf84d7/scratchpad/check_drawable.ts <files>`:
   every arrow can be drawn with the app's picking,
 - the track file: copy your reaction files and the published ones it uses (`content/published/<slug>/1.json`) into a
-  temporary folder outside the repository and run `npx tsx src/reactionLinting/runFromShell.ts lint-tracks
+  temporary folder outside the repository and run `npx tsx src/tooling/reactionLinting/shell/runFromShell.ts lint-tracks
   <folder>/track.json --published-folder <that folder>`.
 
 Do not change anything outside the track's folder, do not run `make test` or Vitest, do not commit, push or run

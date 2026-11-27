@@ -1,5 +1,5 @@
 {
-  "description": "Edits that make a clean example reaction break lint rules (src/reactionLinting). Each case names the example (baseReactionFile in fixtures/reactions) and a list of edits applied in order. An edit sets newValue at pathToSet, copies the value found at copyFromPath to pathToSet, or deletes the key or list position at pathToDelete; a list position one past the end appends. expectedLintRuleIds is the sorted list of distinct rule ids the linter must report, and nothing else.",
+  "description": "Edits that make a clean example reaction break lint rules (src/tooling/reactionLinting). Each case names the example (baseReactionFile in fixtures/reactions) and a list of edits applied in order. An edit sets newValue at pathToSet, copies the value found at copyFromPath to pathToSet, or deletes the key or list position at pathToDelete; a list position one past the end appends. expectedLintRuleIds is the sorted list of distinct rule ids the linter must report, and nothing else.",
   "cases": [
     {"caseName": "schema violation stops the lint", "baseReactionFile": "sn2-hydroxide-bromomethane.json",
      "edits": [{"pathToDelete": ["startStateId"]}],

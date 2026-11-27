@@ -2,7 +2,7 @@
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "$id": "https://arrowpush.example/schema/catalogue.schema.json",
   "title": "Catalogue of published reactions and the daily calendar",
-  "description": "catalogue.json, written by the catalogue build (src/catalogueBuilding) and read by the learner site (src/catalogue). See docs/schema-design.md section 6.",
+  "description": "catalogue.json, written by the catalogue build (src/tooling/catalogueBuilding) and read by the learner site (src/core/catalogue). See docs/schema-design.md section 6.",
   "type": "object",
   "additionalProperties": false,
   "required": ["formatVersion", "builtAt", "reactions", "dateToDailyReactionVersionRef"],
