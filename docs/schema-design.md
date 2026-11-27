@@ -276,7 +276,7 @@ off the screen. A change step must be the only step leaving its state.
 7. No misconception on a state matches an arrow set that §4 would accept (it would hide a correct answer).
 
 **Built (item 5; in TypeScript since item 8.0):** `src/tooling/reactionLinting/`, run as
-`npx tsx src/tooling/reactionLinting/runFromShell.ts lint FILE... [--json]`
+`npx tsx src/tooling/reactionLinting/shell/runFromShell.ts lint FILE... [--json]`
 (exit status 1 on any error) and `... seed-coordinates FILE...` (RDKit layout for every state whose coordinates are not
 exactly its atoms; the file is rewritten as 2-space JSON). `make lint` lints the example reactions. Each case in
 `fixtures/lint_cases/reaction_edits.json` breaks rules on purpose. Rule ids, in the order checked (a group stops the
@@ -310,7 +310,7 @@ lint when the rest could not run):
 at most 6 characters. A group is drawn as its label wherever it is intact (all its atoms present, one bond from the
 attachment atom joining it to the rest) and in full elsewhere. Nothing in it can be tapped, the attachment bond
 included. Screen readers read the label. Drawing: `src/drawing/moleculeDrawing/abbreviatedGroups.ts`; lint:
-`src/tooling/reactionLinting/abbreviatedGroupRules.ts`.
+`src/tooling/reactionLinting/rules/abbreviatedGroupRules.ts`.
 
 Arrow sets are checked with the validator itself (`assess_attempt`, with the step being checked as the only one
 leaving its state), so the linter accepts exactly what the browser accepts.
@@ -538,8 +538,8 @@ One hand-written file per track, `content/tracks/<trackSlug>.json` (shape: `sche
   several problem sets, at most once in each. Problem-set membership does not affect `dailyPuzzleEligible`.
 * `checkpoint` is required (`false` on an ordinary problem set). `conceptFigurePaths` are `figures/<name>.svg`,
   relative to the track file's folder (so `content/tracks/figures/`).
-* **Lint** (built in 9a: `src/tooling/reactionLinting/trackLint.ts`, `conceptFigureChecks.ts`, `trackFileLint.ts`;
-  `npx tsx src/tooling/reactionLinting/runFromShell.ts lint-tracks FILE... --published-folder FOLDER`, where the published
+* **Lint** (built in 9a: `src/tooling/reactionLinting/tracks/trackLint.ts`, `conceptFigureChecks.ts`, `trackFileLint.ts`;
+  `npx tsx src/tooling/reactionLinting/shell/runFromShell.ts lint-tracks FILE... --published-folder FOLDER`, where the published
   reactions are the reaction files anywhere under FOLDER; `make lint-tracks`). Rule ids:
   `schema-violation` (error; nothing else is checked then), `problem-set-slug-repeated` (error),
   `set-item-reaction-repeated` (error, at the second appearance), `set-item-not-published` (**warning**),

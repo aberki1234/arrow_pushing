@@ -23,12 +23,12 @@ import {
   parseArrowPattern,
 } from "../../../core/attemptAssessment/arrowPatterns.js";
 import { prepareReaction } from "../../../core/attemptAssessment/preparedReaction.js";
-import { readLintedReaction } from "../../../tooling/reactionLinting/lintedReaction.js";
+import { readLintedReaction } from "../../../tooling/reactionLinting/findings/lintedReaction.js";
 import {
   misconceptionMatchingFindings,
   withoutInvalidPatterns,
-} from "../../../tooling/reactionLinting/misconceptionRules.js";
-import { assessForStepAlone } from "../../../tooling/reactionLinting/stepReproduction.js";
+} from "../../../tooling/reactionLinting/rules/misconceptionRules.js";
+import { assessForStepAlone } from "../../../tooling/reactionLinting/rules/stepReproduction.js";
 import { type ReactionDocument, statesOf, stepsOf } from "../draft/reactionDraft.js";
 
 export type AnswerEdit =

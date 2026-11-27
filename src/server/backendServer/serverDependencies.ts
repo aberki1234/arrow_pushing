@@ -3,10 +3,10 @@
  * request), so that tests can pass PGlite, a fake GitHub and the linter with RDKit.js loaded.
  */
 import type { ReactionDatabase, SiteRole } from "../reactionDatabase/databaseTables.js";
-import type { LintFinding } from "../../tooling/reactionLinting/lintFindings.js";
+import type { LintFinding } from "../../tooling/reactionLinting/findings/lintFindings.js";
 import type { ServerSettings } from "./serverSettings.js";
 
-/** The full linter (reactionLinting/reactionLint.lintReaction with RDKit.js loaded). */
+/** The full linter (reactionLinting/rules/reactionLint.lintReaction with RDKit.js loaded). */
 export type LintDocument = (reactionDocument: Readonly<Record<string, unknown>>) => LintFinding[];
 
 /** The global fetch, or a fake in tests. */

@@ -15,7 +15,7 @@
  *     submitting again clears them.
  */
 import { sql, type Updateable } from "kysely";
-import type { LintFinding } from "../../tooling/reactionLinting/lintFindings.js";
+import type { LintFinding } from "../../tooling/reactionLinting/findings/lintFindings.js";
 import type { PinnedNote, ReactionDatabase, ReactionVersionsTable } from "./databaseTables.js";
 import {
   licenceAgreementDate,

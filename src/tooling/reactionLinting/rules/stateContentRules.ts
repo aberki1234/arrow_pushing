@@ -12,13 +12,16 @@
  *                                          the symmetry cap, so equivalent atoms there are not
  *                                          accepted (docs/schema-design.md §4)
  */
-import { graphOf, type PreparedReaction } from "../../core/attemptAssessment/preparedReaction.js";
+import {
+  graphOf,
+  type PreparedReaction,
+} from "../../../core/attemptAssessment/preparedReaction.js";
 import {
   MAXIMUM_SKELETON_SYMMETRIES,
   skeletonSymmetriesWithinCap,
-} from "../../core/attemptAssessment/skeletonSymmetry.js";
-import type { LintedReaction } from "./lintedReaction.js";
-import { type LintFinding, lintError, lintWarning } from "./lintFindings.js";
+} from "../../../core/attemptAssessment/skeletonSymmetry.js";
+import type { LintedReaction } from "../findings/lintedReaction.js";
+import { type LintFinding, lintError, lintWarning } from "../findings/lintFindings.js";
 
 const FULL_HINT_LADDER_LENGTH = 3; // conceptual, narrowing, reveal
 

@@ -9,7 +9,7 @@ endif
 
 # The two Node command-line tools (TypeScript run by tsx): the reaction linter and the catalogue
 # build (src/tooling/reactionLinting, src/tooling/catalogueBuilding).
-REACTION_LINTING = npx tsx src/tooling/reactionLinting/runFromShell.ts
+REACTION_LINTING = npx tsx src/tooling/reactionLinting/shell/runFromShell.ts
 CATALOGUE_BUILDING = npx tsx src/tooling/catalogueBuilding/runFromShell.ts
 
 # Tests run at the lowest priority and, where systemd's user manager runs (WSL with systemd, most

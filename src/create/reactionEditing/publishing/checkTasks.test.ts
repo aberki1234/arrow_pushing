@@ -1,6 +1,6 @@
 /** Tests for checkTasks.ts: lint findings as tasks in plain words on Create's Publish stage. */
 import { expect, it } from "vitest";
-import type { LintFinding } from "../../../tooling/reactionLinting/lintFindings.js";
+import type { LintFinding } from "../../../tooling/reactionLinting/findings/lintFindings.js";
 import { exampleReaction } from "../../../testSupport/reactionEdits.js";
 import { checkTasks, publishChecks } from "./checkTasks.js";
 

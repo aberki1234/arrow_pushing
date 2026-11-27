@@ -11,8 +11,8 @@ import {
   type ChemistryToolkit,
   loadChemistryToolkit,
 } from "../../tooling/chemistryToolkit/chemistryToolkit.js";
-import type { LintFinding } from "../../tooling/reactionLinting/lintFindings.js";
-import { lintReaction } from "../../tooling/reactionLinting/reactionLint.js";
+import type { LintFinding } from "../../tooling/reactionLinting/findings/lintFindings.js";
+import { lintReaction } from "../../tooling/reactionLinting/rules/reactionLint.js";
 import { newTemporaryFolder } from "../../testSupport/reactionCopies.js";
 import { exampleReaction } from "../../testSupport/reactionEdits.js";
 import {

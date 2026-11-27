@@ -19,8 +19,8 @@ import {
   CURRICULUM_LEVEL_TO_LETTER,
   type TrackDocument,
   trackSchemaViolations,
-} from "../../core/trackFiles/trackSchemaViolations.js";
-import { type LintFinding, lintError, lintWarning } from "./lintFindings.js";
+} from "../../../core/trackFiles/trackSchemaViolations.js";
+import { type LintFinding, lintError, lintWarning } from "../findings/lintFindings.js";
 
 function schemaFindings(trackDocument: unknown): LintFinding[] {
   return trackSchemaViolations(trackDocument).map((violation) => ({

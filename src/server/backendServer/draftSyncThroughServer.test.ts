@@ -11,7 +11,7 @@ import { afterAll, beforeAll, beforeEach, describe, expect, it } from "vitest";
 import { mintAccessToken } from "../reactionDatabase/accessTokens.js";
 import type { DatabaseConnection } from "../reactionDatabase/databaseTables.js";
 import { saveDraft } from "../reactionDatabase/reactionVersions.js";
-import type { LintFinding } from "../../tooling/reactionLinting/lintFindings.js";
+import type { LintFinding } from "../../tooling/reactionLinting/findings/lintFindings.js";
 import { exampleReaction } from "../../testSupport/reactionEdits.js";
 import {
   OWNER_PROFILE,

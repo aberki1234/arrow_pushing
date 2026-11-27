@@ -4,7 +4,7 @@
  * that drawing never waits for it.
  */
 import type { LintAnswer, LintRequest } from "./lintRequests.js";
-import type { LintFinding } from "../../../tooling/reactionLinting/lintFindings.js";
+import type { LintFinding } from "../../../tooling/reactionLinting/findings/lintFindings.js";
 import type { ReactionDocument } from "../../reactionEditing/draft/reactionDraft.js";
 
 /** The part of a Worker used here (a test passes a fake one). */

@@ -20,7 +20,7 @@
 import { existsSync, readFileSync, writeFileSync } from "node:fs";
 import { basename, dirname, join } from "node:path";
 import { contentHashOf } from "../catalogueBuilding/staticFileNaming.js";
-import type { LintFinding } from "../reactionLinting/lintFindings.js";
+import type { LintFinding } from "../reactionLinting/findings/lintFindings.js";
 
 export const SYNC_STATE_FILE_NAME = ".draft-sync.json";
 
@@ -31,7 +31,7 @@ export interface DraftSyncSettings {
   readonly serverUrl: string;
   readonly accessToken: string;
   readonly fetchFunction: DraftSyncFetch;
-  /** The full linter (reactionLinting/reactionLint.lintReaction with RDKit.js loaded). */
+  /** The full linter (reactionLinting/rules/reactionLint.lintReaction with RDKit.js loaded). */
   readonly lintDocument: (reactionDocument: Readonly<Record<string, unknown>>) => LintFinding[];
 }
 

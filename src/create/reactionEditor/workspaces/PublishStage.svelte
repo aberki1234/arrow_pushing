@@ -8,7 +8,7 @@
   import { suggestedDifficultyTier } from "../../reactionEditing/publishing/difficultySuggestion.js";
   import { REACTION_CLASSES, setReactionField } from "../../reactionEditing/draft/fieldEdits.js";
   import { previewReadiness } from "../../reactionEditing/publishing/learnerPreview.js";
-  import type { LintFinding } from "../../../tooling/reactionLinting/lintFindings.js";
+  import type { LintFinding } from "../../../tooling/reactionLinting/findings/lintFindings.js";
   import {
     applyDocumentEdit,
     currentDraft,

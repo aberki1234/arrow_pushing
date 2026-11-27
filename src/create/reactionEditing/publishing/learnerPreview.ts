@@ -5,9 +5,9 @@
  * still be missing (8b).
  */
 import { prepareReaction } from "../../../core/attemptAssessment/preparedReaction.js";
-import { readLintedReaction } from "../../../tooling/reactionLinting/lintedReaction.js";
-import { withoutInvalidPatterns } from "../../../tooling/reactionLinting/misconceptionRules.js";
-import { stepReproductionFindings } from "../../../tooling/reactionLinting/stepReproduction.js";
+import { readLintedReaction } from "../../../tooling/reactionLinting/findings/lintedReaction.js";
+import { withoutInvalidPatterns } from "../../../tooling/reactionLinting/rules/misconceptionRules.js";
+import { stepReproductionFindings } from "../../../tooling/reactionLinting/rules/stepReproduction.js";
 import { readSessionReaction } from "../../../learner/stepSession/sessionReaction.js";
 import { sessionAtState, type StepSession } from "../../../learner/stepSession/stepSession.js";
 import { type ReactionDocument, stepsOf } from "../draft/reactionDraft.js";

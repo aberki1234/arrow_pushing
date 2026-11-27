@@ -19,7 +19,7 @@
  *
  * The document is assumed schema-valid.
  */
-import type { ChemistryToolkit, ToolkitAtom } from "../chemistryToolkit/chemistryToolkit.js";
+import type { ChemistryToolkit, ToolkitAtom } from "../../chemistryToolkit/chemistryToolkit.js";
 
 type DocumentRecord = Readonly<Record<string, unknown>>;
 

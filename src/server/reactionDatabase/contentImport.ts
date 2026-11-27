@@ -7,7 +7,7 @@
  * without leaving a draft behind.
  */
 import { readFileSync } from "node:fs";
-import type { LintFinding } from "../../tooling/reactionLinting/lintFindings.js";
+import type { LintFinding } from "../../tooling/reactionLinting/findings/lintFindings.js";
 import type { ReactionDatabase } from "./databaseTables.js";
 import { publishDraft } from "./publishing.js";
 import { ReactionDatabaseError } from "./reactionDatabaseErrors.js";

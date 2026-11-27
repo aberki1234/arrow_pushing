@@ -8,7 +8,7 @@ import {
   type ChemistryToolkit,
   loadChemistryToolkit,
 } from "../../../tooling/chemistryToolkit/chemistryToolkit.js";
-import { lintReaction } from "../../../tooling/reactionLinting/reactionLint.js";
+import { lintReaction } from "../../../tooling/reactionLinting/rules/reactionLint.js";
 import { exampleReaction } from "../../../testSupport/reactionEdits.js";
 import { type ReactionDocument, statesOf } from "../draft/reactionDraft.js";
 import type { DraftState } from "../draft/startState.js";

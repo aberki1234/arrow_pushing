@@ -9,7 +9,7 @@ import { loadChemistryToolkit } from "../../tooling/chemistryToolkit/chemistryTo
 import type { DatabaseConnection } from "../reactionDatabase/databaseTables.js";
 import { contributorClient } from "../../create/reactionEditor/io/contributorClient.js";
 import { serverReactionStore } from "../../create/reactionEditor/io/serverReactionStore.js";
-import { lintReaction } from "../../tooling/reactionLinting/reactionLint.js";
+import { lintReaction } from "../../tooling/reactionLinting/rules/reactionLint.js";
 import { exampleReaction } from "../../testSupport/reactionEdits.js";
 import {
   OWNER_PROFILE,

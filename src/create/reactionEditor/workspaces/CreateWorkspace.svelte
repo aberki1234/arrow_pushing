@@ -8,7 +8,7 @@
   import type { CreationStage } from "../../reactionEditing/publishing/creationProgress.js";
   import { canRedo, canUndo } from "../../reactionEditing/mechanism/editHistory.js";
   import { previewReadiness } from "../../reactionEditing/publishing/learnerPreview.js";
-  import type { LintFinding } from "../../../tooling/reactionLinting/lintFindings.js";
+  import type { LintFinding } from "../../../tooling/reactionLinting/findings/lintFindings.js";
   import {
     applyDocumentEdit,
     currentDraft,

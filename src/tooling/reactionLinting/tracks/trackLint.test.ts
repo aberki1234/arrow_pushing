@@ -6,15 +6,15 @@
  * the rule ids expected, worked out by hand from the rules in docs/schema-design.md §6.1.
  */
 import { expect, it } from "vitest";
-import type { TrackDocument } from "../../core/trackFiles/trackSchemaViolations.js";
+import type { TrackDocument } from "../../../core/trackFiles/trackSchemaViolations.js";
 import {
   EXAMPLE_REACTION_SLUGS,
   editedTrack,
   exampleTrack,
   exampleTracksFolder,
   trackEditCases,
-} from "../../testSupport/trackEdits.js";
-import { newTemporaryFolder } from "../../testSupport/reactionCopies.js";
+} from "../../../testSupport/trackEdits.js";
+import { newTemporaryFolder } from "../../../testSupport/reactionCopies.js";
 import { missingConceptFigureFindings } from "./conceptFigureChecks.js";
 import { lintTrack } from "./trackLint.js";
 

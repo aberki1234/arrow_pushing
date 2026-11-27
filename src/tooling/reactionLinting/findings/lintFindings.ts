@@ -9,7 +9,7 @@
  *                  advice. Not to be confused with a misconception's severity (wrong / plausible).
  *   instance path  A JSON pointer such as "/steps/0/canonicalArrows" ("" is the whole file).
  */
-import { jsonPointer } from "../../core/reactionFiles/schemaViolations.js";
+import { jsonPointer } from "../../../core/reactionFiles/schemaViolations.js";
 
 export type LintLevel = "error" | "warning";
 

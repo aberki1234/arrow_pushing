@@ -7,7 +7,7 @@ import { afterAll, afterEach, beforeAll, beforeEach, describe, expect, it, vi } 
 import { contentHashOf } from "../../tooling/catalogueBuilding/staticFileNaming.js";
 import { loadChemistryToolkit } from "../../tooling/chemistryToolkit/chemistryToolkit.js";
 import type { DatabaseConnection } from "../reactionDatabase/databaseTables.js";
-import { lintReaction } from "../../tooling/reactionLinting/reactionLint.js";
+import { lintReaction } from "../../tooling/reactionLinting/rules/reactionLint.js";
 import { exampleReaction } from "../../testSupport/reactionEdits.js";
 import {
   OWNER_PROFILE,

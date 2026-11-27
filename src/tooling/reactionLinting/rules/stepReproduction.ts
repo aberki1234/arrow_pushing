@@ -15,32 +15,32 @@
  * reaction where the step being checked is the only one leaving its state, so the linter accepts
  * exactly what the browser accepts, for that step.
  */
-import type { CurvedArrow } from "../../core/arrowNotation/curvedArrowNotation.js";
+import type { CurvedArrow } from "../../../core/arrowNotation/curvedArrowNotation.js";
 import {
   assessAttempt,
   type CorrectAssessment,
-} from "../../core/attemptAssessment/attemptAssessment.js";
+} from "../../../core/attemptAssessment/attemptAssessment.js";
 import {
   graphOf,
   type PreparedReaction,
   type PreparedStep,
   symmetriesOf,
-} from "../../core/attemptAssessment/preparedReaction.js";
-import { compareStates } from "../../core/attemptAssessment/resonanceEquivalence.js";
-import { relabelStateGraph } from "../../core/attemptAssessment/skeletonSymmetry.js";
+} from "../../../core/attemptAssessment/preparedReaction.js";
+import { compareStates } from "../../../core/attemptAssessment/resonanceEquivalence.js";
+import { relabelStateGraph } from "../../../core/attemptAssessment/skeletonSymmetry.js";
 import {
   ArrowApplicationError,
   applyCurvedArrows,
   applySpeciesChange,
   SpeciesChangeError,
-} from "../../core/stateGraphs/arrowApplication.js";
+} from "../../../core/stateGraphs/arrowApplication.js";
 import {
   MappedSmilesError,
   stateGraphFromMappedSmiles,
-} from "../../core/stateGraphs/mappedSmilesReading.js";
-import { stateGraphsEqual } from "../../core/stateGraphs/stateGraph.js";
-import type { LintedReaction, LintedStep } from "./lintedReaction.js";
-import { type LintFinding, lintError } from "./lintFindings.js";
+} from "../../../core/stateGraphs/mappedSmilesReading.js";
+import { stateGraphsEqual } from "../../../core/stateGraphs/stateGraph.js";
+import type { LintedReaction, LintedStep } from "../findings/lintedReaction.js";
+import { type LintFinding, lintError } from "../findings/lintFindings.js";
 
 function preparedStepOf(prepared: PreparedReaction, step: LintedStep): PreparedStep {
   const found = (prepared.stateIdToLeavingSteps.get(step.fromStateId) ?? []).find(

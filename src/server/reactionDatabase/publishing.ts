@@ -18,7 +18,7 @@
  * lint report is committed; publishDraft() throws it afterwards.
  */
 import { contentHashOf } from "../../tooling/catalogueBuilding/staticFileNaming.js";
-import type { LintFinding } from "../../tooling/reactionLinting/lintFindings.js";
+import type { LintFinding } from "../../tooling/reactionLinting/findings/lintFindings.js";
 import type { ReactionDatabase } from "./databaseTables.js";
 import { ReactionDatabaseError } from "./reactionDatabaseErrors.js";
 import { findReaction, type ReactionWithNewestVersion } from "./reactionVersions.js";
@@ -29,7 +29,7 @@ export interface PublishRequest {
   readonly publisherUserId: string;
   /** The publisher ticked the licence agreement for this publish. */
   readonly licenceAgreedNow: boolean;
-  /** The full linter (reactionLinting/reactionLint.lintReaction with RDKit.js loaded). */
+  /** The full linter (reactionLinting/rules/reactionLint.lintReaction with RDKit.js loaded). */
   readonly lintDocument: (reactionDocument: Readonly<Record<string, unknown>>) => LintFinding[];
 }
 

@@ -7,7 +7,7 @@ import {
   type ChemistryToolkit,
   loadChemistryToolkit,
 } from "../../../tooling/chemistryToolkit/chemistryToolkit.js";
-import { lintReaction } from "../../../tooling/reactionLinting/reactionLint.js";
+import { lintReaction } from "../../../tooling/reactionLinting/rules/reactionLint.js";
 import reactionSchemaJson from "../../../../schema/reaction.schema.json";
 import { exampleReaction } from "../../../testSupport/reactionEdits.js";
 import {

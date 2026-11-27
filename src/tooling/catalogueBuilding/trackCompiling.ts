@@ -14,7 +14,7 @@ import {
   type CatalogueTrack,
   conceptFigureFilePath,
 } from "../../core/catalogue/catalogueReading.js";
-import { lintTrackFile } from "../reactionLinting/trackFileLint.js";
+import { lintTrackFile } from "../reactionLinting/tracks/trackFileLint.js";
 import {
   CURRICULUM_LEVELS,
   type ProblemSet,

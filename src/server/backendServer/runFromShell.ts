@@ -9,7 +9,7 @@ import { importReactionFiles } from "../reactionDatabase/contentImport.js";
 import type { DatabaseConnection } from "../reactionDatabase/databaseTables.js";
 import { applyMigrations } from "../reactionDatabase/migrationRunning.js";
 import { newPostgresConnection } from "../reactionDatabase/postgresConnection.js";
-import { lintReaction } from "../../tooling/reactionLinting/reactionLint.js";
+import { lintReaction } from "../../tooling/reactionLinting/rules/reactionLint.js";
 import { type BackendCommand, parseBackendCommand } from "./commandLine.js";
 import { userIdForGithubAccount } from "./ownerAccount.js";
 import type { LintDocument } from "./serverDependencies.js";

@@ -3,8 +3,8 @@ import { copyFileSync, mkdirSync, mkdtempSync, readFileSync, writeFileSync } fro
 import { tmpdir } from "node:os";
 import { dirname, join } from "node:path";
 import { beforeEach, expect, it } from "vitest";
-import { exampleReactionPaths, exampleReactionPath } from "../../testSupport/fixtureFiles.js";
-import { exampleTracksFolder } from "../../testSupport/trackEdits.js";
+import { exampleReactionPaths, exampleReactionPath } from "../../../testSupport/fixtureFiles.js";
+import { exampleTracksFolder } from "../../../testSupport/trackEdits.js";
 import { runReactionLinting } from "./commandLine.js";
 
 const SN2_REACTION_PATH = exampleReactionPath("sn2-hydroxide-bromomethane.json");

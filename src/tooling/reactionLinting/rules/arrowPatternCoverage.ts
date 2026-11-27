@@ -24,14 +24,14 @@
  * The test is sound but not complete: when it says "covers", the wider entry really always matches
  * first; some covered entries are missed (the warning is advice only).
  */
-import type { LocusKind } from "../../core/arrowNotation/curvedArrowNotation.js";
+import type { LocusKind } from "../../../core/arrowNotation/curvedArrowNotation.js";
 import {
   type ArrowPattern,
   type AtomSelector,
   BARE_ATOM_KIND_WORD,
   type LocusPattern,
   type SingleArrowPattern,
-} from "../../core/attemptAssessment/arrowPatterns.js";
+} from "../../../core/attemptAssessment/arrowPatterns.js";
 
 // The locus kinds a stored kind word accepts, by how many atoms it names.
 const SINGLE_ATOM_KINDS: ReadonlySet<LocusKind> = new Set(["lonePair", "unpairedElectron"]);

@@ -9,7 +9,7 @@ import {
   type ChemistryToolkit,
   loadChemistryToolkit,
 } from "../../../tooling/chemistryToolkit/chemistryToolkit.js";
-import { lintReaction } from "../../../tooling/reactionLinting/reactionLint.js";
+import { lintReaction } from "../../../tooling/reactionLinting/rules/reactionLint.js";
 import { exampleReaction } from "../../../testSupport/reactionEdits.js";
 import { positionInLargestGap } from "./atomPlacement.js";
 import { type HydrogenShowing, showHydrogen } from "./explicitHydrogens.js";

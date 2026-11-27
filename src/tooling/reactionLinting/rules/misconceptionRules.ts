@@ -22,15 +22,20 @@ import {
   ArrowPatternError,
   arrowPatternMatches,
   parseArrowPattern,
-} from "../../core/attemptAssessment/arrowPatterns.js";
+} from "../../../core/attemptAssessment/arrowPatterns.js";
 import {
   type PreparedReaction,
   symmetriesOf,
-} from "../../core/attemptAssessment/preparedReaction.js";
-import { relabelCurvedArrow } from "../../core/attemptAssessment/skeletonSymmetry.js";
+} from "../../../core/attemptAssessment/preparedReaction.js";
+import { relabelCurvedArrow } from "../../../core/attemptAssessment/skeletonSymmetry.js";
 import { arrowPatternCovers } from "./arrowPatternCoverage.js";
-import type { LintedReaction } from "./lintedReaction.js";
-import { type LintFinding, lintError, lintWarning, type PathPart } from "./lintFindings.js";
+import type { LintedReaction } from "../findings/lintedReaction.js";
+import {
+  type LintFinding,
+  lintError,
+  lintWarning,
+  type PathPart,
+} from "../findings/lintFindings.js";
 import { assessForStepAlone } from "./stepReproduction.js";
 
 type DocumentRecord = Readonly<Record<string, unknown>>;

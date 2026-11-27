@@ -5,9 +5,9 @@
  */
 import { readdirSync, readFileSync } from "node:fs";
 import { dirname, join } from "node:path";
-import type { TrackDocument } from "../../core/trackFiles/trackSchemaViolations.js";
+import type { TrackDocument } from "../../../core/trackFiles/trackSchemaViolations.js";
 import { missingConceptFigureFindings } from "./conceptFigureChecks.js";
-import type { LintFinding } from "./lintFindings.js";
+import type { LintFinding } from "../findings/lintFindings.js";
 import { lintTrack } from "./trackLint.js";
 
 /** `trackDocument` is null when the file cannot be read as JSON or breaks the schema. */

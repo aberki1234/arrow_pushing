@@ -5,8 +5,8 @@
  * comes. A draft the linter cannot read at all gives one "lint-failed" error.
  */
 import type { ChemistryToolkit } from "../../../tooling/chemistryToolkit/chemistryToolkit.js";
-import type { LintFinding } from "../../../tooling/reactionLinting/lintFindings.js";
-import { lintReaction } from "../../../tooling/reactionLinting/reactionLint.js";
+import type { LintFinding } from "../../../tooling/reactionLinting/findings/lintFindings.js";
+import { lintReaction } from "../../../tooling/reactionLinting/rules/reactionLint.js";
 
 export interface LintRequest {
   readonly requestId: number;

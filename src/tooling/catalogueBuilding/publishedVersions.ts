@@ -12,8 +12,8 @@
  */
 import { readFileSync } from "node:fs";
 import type { ChemistryToolkit } from "../chemistryToolkit/chemistryToolkit.js";
-import type { LintFinding } from "../reactionLinting/lintFindings.js";
-import { lintReaction } from "../reactionLinting/reactionLint.js";
+import type { LintFinding } from "../reactionLinting/findings/lintFindings.js";
+import { lintReaction } from "../reactionLinting/rules/reactionLint.js";
 import { CatalogueBuildError } from "./catalogueBuildErrors.js";
 import { contentHashOf, reactionVersionRef } from "./staticFileNaming.js";
 

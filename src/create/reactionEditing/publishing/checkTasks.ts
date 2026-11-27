@@ -5,7 +5,10 @@
  * Findings that become the same task (a new draft's schema violations about having no step yet)
  * are listed once.
  */
-import type { LintFinding, LintLevel } from "../../../tooling/reactionLinting/lintFindings.js";
+import type {
+  LintFinding,
+  LintLevel,
+} from "../../../tooling/reactionLinting/findings/lintFindings.js";
 import type { CreationStage } from "./creationProgress.js";
 import { type LintPlace, placeOfFinding } from "../draft/lintPlaces.js";
 import { type ReactionDocument, statesOf, stepsOf } from "../draft/reactionDraft.js";

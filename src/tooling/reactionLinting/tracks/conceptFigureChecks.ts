@@ -4,8 +4,8 @@
  */
 import { existsSync, statSync } from "node:fs";
 import { join } from "node:path";
-import type { TrackDocument } from "../../core/trackFiles/trackSchemaViolations.js";
-import { type LintFinding, lintError } from "./lintFindings.js";
+import type { TrackDocument } from "../../../core/trackFiles/trackSchemaViolations.js";
+import { type LintFinding, lintError } from "../findings/lintFindings.js";
 
 /**
  * A finding for each concept figure that is not a file under `trackFolder` (the folder holding

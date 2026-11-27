@@ -237,7 +237,7 @@
       <li>No misconception matches an arrow set that would be accepted.</li>
     </ol>
     <h3>The linter <span class="tag ok">built</span></h3>
-    <p><code>src/tooling/reactionLinting/</code> (in TypeScript since item 8.0). Run <code>npx tsx src/tooling/reactionLinting/runFromShell.ts lint FILE… [--json]</code> (exit status 1 on any error), or <code>… seed-coordinates FILE…</code> to give every state whose coordinates don't match its atoms an RDKit layout (the file is rewritten). <code>make lint</code> lints the four examples. Rules, in the order checked; a ⛔ group stops the lint, because the later checks could not run:</p>
+    <p><code>src/tooling/reactionLinting/</code> (in TypeScript since item 8.0). Run <code>npx tsx src/tooling/reactionLinting/shell/runFromShell.ts lint FILE… [--json]</code> (exit status 1 on any error), or <code>… seed-coordinates FILE…</code> to give every state whose coordinates don't match its atoms an RDKit layout (the file is rewritten). <code>make lint</code> lints the four examples. Rules, in the order checked; a ⛔ group stops the lint, because the later checks could not run:</p>
     <table>
       <tr><th>Rule id</th><th>Level</th><th>What it checks</th></tr>
       <tr><td><code>file-not-readable</code> ⛔</td><td>error</td><td>not JSON (command line only)</td></tr>

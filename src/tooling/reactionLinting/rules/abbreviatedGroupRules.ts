@@ -18,15 +18,24 @@
  *   misconception-in-abbreviated-group   (warning) a misconception pattern names an atom of the
  *                                        group: the learner cannot draw it, so it never fires
  */
-import { parseCurvedArrow } from "../../core/arrowNotation/curvedArrowNotation.js";
+import { parseCurvedArrow } from "../../../core/arrowNotation/curvedArrowNotation.js";
 import {
   ArrowPatternError,
   parseArrowPattern,
-} from "../../core/attemptAssessment/arrowPatterns.js";
-import { stateGraphFromMappedSmiles } from "../../core/stateGraphs/mappedSmilesReading.js";
-import { bondKeyMapNumbers, type StateGraph } from "../../core/stateGraphs/stateGraph.js";
-import type { LintedAbbreviatedGroup, LintedReaction, LintedStep } from "./lintedReaction.js";
-import { type LintFinding, lintError, lintWarning, type PathPart } from "./lintFindings.js";
+} from "../../../core/attemptAssessment/arrowPatterns.js";
+import { stateGraphFromMappedSmiles } from "../../../core/stateGraphs/mappedSmilesReading.js";
+import { bondKeyMapNumbers, type StateGraph } from "../../../core/stateGraphs/stateGraph.js";
+import type {
+  LintedAbbreviatedGroup,
+  LintedReaction,
+  LintedStep,
+} from "../findings/lintedReaction.js";
+import {
+  type LintFinding,
+  lintError,
+  lintWarning,
+  type PathPart,
+} from "../findings/lintFindings.js";
 
 const byNumber = (first: number, second: number): number => first - second;
 

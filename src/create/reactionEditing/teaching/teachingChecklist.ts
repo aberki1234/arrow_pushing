@@ -11,7 +11,7 @@
  * and the linter then stops before its learner-text rules. Lint findings at an item's place are
  * attached to it, so the page can show them there.
  */
-import type { LintFinding } from "../../../tooling/reactionLinting/lintFindings.js";
+import type { LintFinding } from "../../../tooling/reactionLinting/findings/lintFindings.js";
 import { type LintPlace, placeOfFinding } from "../draft/lintPlaces.js";
 import { type ReactionDocument, statesOf, stepsOf } from "../draft/reactionDraft.js";
 import { stateStripRows } from "../outline/stateStrip.js";

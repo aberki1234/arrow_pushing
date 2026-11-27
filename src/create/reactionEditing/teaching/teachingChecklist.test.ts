@@ -1,6 +1,6 @@
 /** Tests for teachingChecklist.ts: Create's Teaching to-do list. */
 import { expect, it } from "vitest";
-import type { LintFinding } from "../../../tooling/reactionLinting/lintFindings.js";
+import type { LintFinding } from "../../../tooling/reactionLinting/findings/lintFindings.js";
 import { exampleReaction } from "../../../testSupport/reactionEdits.js";
 import { newReactionDraft } from "../draft/reactionDraft.js";
 import {

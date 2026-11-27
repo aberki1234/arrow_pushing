@@ -2,7 +2,7 @@
   // Create's Teaching stage (docs/SPEC.md §5, "Create", stage 3): the to-do list
   // (reactionEditing/teaching/teachingChecklist.ts), grouped by step, and the one item open beside
   // it.
-  import type { LintFinding } from "../../../tooling/reactionLinting/lintFindings.js";
+  import type { LintFinding } from "../../../tooling/reactionLinting/findings/lintFindings.js";
   import {
     nextTeachingItemKey,
     teachingChecklist,

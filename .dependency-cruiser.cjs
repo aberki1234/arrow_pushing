@@ -40,6 +40,7 @@ const tiersLowestFirst = [
 // Folders with ordered subfolders (folders of 10 or more files). Such a folder keeps no files of
 // its own: every file sits in one of its subfolders.
 const folderToSubfoldersLowestFirst = {
+  "tooling/reactionLinting": ["findings", "rules", "tracks", "shell"],
   "learner/learnerSite": ["model", "components", "io", "workspaces", "pages", "app"],
   "create/reactionEditor": ["model", "components", "io", "workspaces", "pages", "app"],
   "create/reactionEditing": ["draft", "mechanism", "outline", "teaching", "publishing", "review"],

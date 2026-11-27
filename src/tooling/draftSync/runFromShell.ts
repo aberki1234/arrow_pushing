@@ -3,8 +3,8 @@
  * `npx tsx src/tooling/draftSync/runFromShell.ts check|push-draft|pull-draft …`.
  */
 import { loadChemistryToolkit } from "../chemistryToolkit/chemistryToolkit.js";
-import type { LintFinding } from "../reactionLinting/lintFindings.js";
-import { lintReaction } from "../reactionLinting/reactionLint.js";
+import type { LintFinding } from "../reactionLinting/findings/lintFindings.js";
+import { lintReaction } from "../reactionLinting/rules/reactionLint.js";
 import {
   type DraftSyncCommand,
   parseDraftSyncCommand,

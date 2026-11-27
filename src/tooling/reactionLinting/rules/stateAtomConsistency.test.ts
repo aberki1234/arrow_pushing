@@ -9,8 +9,8 @@ import { beforeAll, expect, it } from "vitest";
 import {
   type ChemistryToolkit,
   loadChemistryToolkit,
-} from "../chemistryToolkit/chemistryToolkit.js";
-import { exampleReactionDocuments, isRecord } from "../../testSupport/fixtureFiles.js";
+} from "../../chemistryToolkit/chemistryToolkit.js";
+import { exampleReactionDocuments, isRecord } from "../../../testSupport/fixtureFiles.js";
 import { stateAtomProblems } from "./stateAtomConsistency.js";
 
 let toolkit: ChemistryToolkit;

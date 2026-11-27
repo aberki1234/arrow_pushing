@@ -24,8 +24,8 @@
  *   unknownStateIdFindings() runs first: the other rules assume every state id exists.
  *   mechanismGraphFindings() then checks the rest, in the order listed above.
  */
-import type { LintedReaction } from "./lintedReaction.js";
-import { type LintFinding, lintError, lintWarning } from "./lintFindings.js";
+import type { LintedReaction } from "../findings/lintedReaction.js";
+import { type LintFinding, lintError, lintWarning } from "../findings/lintFindings.js";
 
 /** step-state-id-unknown, at "/steps/<position>/fromStateId" or ".../toStateId". */
 export function unknownStateIdFindings(reaction: LintedReaction): LintFinding[] {

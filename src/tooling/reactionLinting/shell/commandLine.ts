@@ -1,5 +1,5 @@
 /**
- * The linter's command line, run with `npx tsx src/tooling/reactionLinting/runFromShell.ts`.
+ * The linter's command line, run with `npx tsx src/tooling/reactionLinting/shell/runFromShell.ts`.
  *
  * Commands
  *   lint FILE... [--json]
@@ -19,11 +19,11 @@
  */
 import { readFileSync, writeFileSync } from "node:fs";
 import { parseArgs } from "node:util";
-import { loadChemistryToolkit } from "../chemistryToolkit/chemistryToolkit.js";
-import { seedMissingCoordinates } from "../chemistryToolkit/coordinateSeeding.js";
-import type { LintFinding } from "./lintFindings.js";
-import { lintReaction } from "./reactionLint.js";
-import { lintTrackFile, publishedReactionSlugsInFolder } from "./trackFileLint.js";
+import { loadChemistryToolkit } from "../../chemistryToolkit/chemistryToolkit.js";
+import { seedMissingCoordinates } from "../../chemistryToolkit/coordinateSeeding.js";
+import type { LintFinding } from "../findings/lintFindings.js";
+import { lintReaction } from "../rules/reactionLint.js";
+import { lintTrackFile, publishedReactionSlugsInFolder } from "../tracks/trackFileLint.js";
 
 const EXIT_SUCCESS = 0;
 const EXIT_FAILURE = 1; // an error-level finding, or a file that is not JSON

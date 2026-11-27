@@ -9,14 +9,14 @@ import { beforeAll, describe, expect, it } from "vitest";
 import {
   type ChemistryToolkit,
   loadChemistryToolkit,
-} from "../chemistryToolkit/chemistryToolkit.js";
-import { exampleReactionDocuments } from "../../testSupport/fixtureFiles.js";
+} from "../../chemistryToolkit/chemistryToolkit.js";
+import { exampleReactionDocuments } from "../../../testSupport/fixtureFiles.js";
 import {
   applyReactionEdits,
   editedReaction,
   exampleReaction,
   reactionEditCases,
-} from "../../testSupport/reactionEdits.js";
+} from "../../../testSupport/reactionEdits.js";
 import { lintReaction } from "./reactionLint.js";
 
 const WARNING_RULE_IDS = new Set([

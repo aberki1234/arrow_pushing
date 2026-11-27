@@ -7,7 +7,7 @@
  * destination) are expected false: the test is sound, not complete.
  */
 import { expect, it } from "vitest";
-import { parseArrowPattern } from "../../core/attemptAssessment/arrowPatterns.js";
+import { parseArrowPattern } from "../../../core/attemptAssessment/arrowPatterns.js";
 import { arrowPatternCovers } from "./arrowPatternCoverage.js";
 
 const ROLES = { nucleophile: [1], halogens: [3, 5] };
