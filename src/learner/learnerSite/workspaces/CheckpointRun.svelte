@@ -4,19 +4,12 @@
   // Each finished run is saved with the checkpoint's problemSetRef. `endAttempt` returns to the
   // checkpoint's page.
   import type { Catalogue, CatalogueTrack } from "../../../core/catalogue/catalogueReading.js";
-  import {
-    readProgress,
-    runRecordOf,
-    withRun,
-    writeProgress,
-  } from "../../learnerProgress/learnerProgress.js";
-  import { type StepSession, startStepSession } from "../../stepSession/stepSession.js";
+  import type { StepSession } from "../../stepSession/stepSession.js";
   import type { ProblemSet, SetItem } from "../../../core/trackFiles/trackSchemaViolations.js";
-  import { browserStorage } from "../io/browserStorage.js";
+  import { runDependencies } from "../io/runDependencies.js";
   import { learnHash } from "../model/learnView.js";
-  import { loadSessionReaction } from "../io/reactionLoading.js";
+  import { type LearnerRun, loadRun, runAfterStep } from "../model/learnerRun.js";
   import RunSummary from "../components/RunSummary.svelte";
-  import { type FinishedViewExtras, finishedViewExtras } from "../model/runSummaryView.js";
   import StepPlay from "./StepPlay.svelte";
 
   const {
@@ -34,11 +27,10 @@
   } = $props();
 
   let position = $state(0);
-  let session: StepSession | null = $state.raw(null);
-  let startedAt = new Date().toISOString();
-  let loadError: string | null = $state(null);
-  let extras: FinishedViewExtras | null = $state.raw(null);
+  let run: LearnerRun | null = $state.raw(null);
+  let missingFromCatalogue = $state(false);
 
+  const dependencies = $derived(runDependencies(catalogue));
   const problemSetRef = $derived(`${track.trackSlug}/${problemSet.problemSetSlug}`);
   const itemCount = $derived(attemptOrder.length);
 
@@ -47,30 +39,25 @@
     const entry = catalogue.reactions.find(
       (candidate) => candidate.reactionSlug === setItem?.reactionSlug,
     );
-    if (setItem === undefined || entry === undefined) {
-      loadError = "This reaction is no longer in the catalogue.";
+    run = null;
+    missingFromCatalogue = setItem === undefined || entry === undefined;
+    if (entry === undefined) {
       return;
     }
-    session = null;
-    extras = null;
-    loadSessionReaction(catalogue, `${entry.reactionSlug}@${String(entry.latestReactionVersion)}`)
-      .then((reaction) => {
-        startedAt = new Date().toISOString();
-        session = startStepSession(reaction, "checkpoint");
-      })
-      .catch((error: unknown) => {
-        loadError = String(error);
-      });
+    const setting = {
+      runMode: "checkpoint",
+      reactionVersionRef: `${entry.reactionSlug}@${String(entry.latestReactionVersion)}`,
+      problemSetRef,
+    } as const;
+    void loadRun(setting, dependencies).then((loaded) => {
+      run = loaded;
+    });
   });
 
   function update(next: StepSession): void {
-    if (next.phase === "complete" && session?.phase !== "complete") {
-      const before = readProgress(browserStorage);
-      const after = withRun(before, runRecordOf(next, startedAt, problemSetRef));
-      writeProgress(browserStorage, after);
-      extras = { ...finishedViewExtras(catalogue, next.reaction, before, after), relatedCards: [] };
+    if (run !== null) {
+      run = runAfterStep(run, next, dependencies);
     }
-    session = next;
   }
 </script>
 
@@ -78,16 +65,25 @@
   <a href={learnHash(track.trackSlug)}>{track.title}</a> › {problemSet.title} · reaction
   {position + 1} of {itemCount}
 </p>
-{#if loadError !== null}
+{#if missingFromCatalogue || run?.runPhase === "loadFailed"}
   <div class="card mt" role="alert">
     <h2>This reaction could not be loaded</h2>
-    <p class="muted">{loadError}</p>
+    <p class="muted">
+      {run?.runPhase === "loadFailed"
+        ? run.loadError
+        : "This reaction is no longer in the catalogue."}
+    </p>
     <button class="btn" type="button" onclick={endAttempt}>Back to the checkpoint</button>
   </div>
-{:else if session === null}
+{:else if run === null}
   <p class="muted mt">Loading the reaction…</p>
-{:else if session.phase === "complete"}
-  <RunSummary reaction={session.reaction} stepResults={session.stepResults} daily={null} {extras}>
+{:else if run.runPhase === "finished"}
+  <RunSummary
+    reaction={run.reaction}
+    stepResults={run.stepResults}
+    daily={null}
+    extras={run.extras}
+  >
     {#snippet actions()}
       {#if position + 1 < itemCount}
         <button
@@ -105,9 +101,9 @@
       <button class="btn" type="button" onclick={endAttempt}>Back to the checkpoint</button>
     {/snippet}
   </RunSummary>
-{:else}
+{:else if run.runPhase === "playing"}
   <StepPlay
-    {session}
+    session={run.session}
     {update}
     heading={`${problemSet.title} · reaction ${String(position + 1)} of ${String(itemCount)}`}
     subtitle="Mystery reaction: its name is revealed when you finish it."

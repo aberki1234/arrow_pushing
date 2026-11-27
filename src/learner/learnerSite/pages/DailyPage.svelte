@@ -1,40 +1,17 @@
 <script lang="ts">
   // Today's daily puzzle (decided 2026-11-25, item 7b): before → in progress → finished. The
   // puzzle is fixed when the page opens, so one finished after midnight counts for the day it was
-  // started. An unfinished puzzle is saved after every check and step, and resumed on return.
+  // started. The daily run (model/learnerRun.ts) is saved after every check and step, resumed on
+  // return, and records its daily result when complete.
   import { type Catalogue, localDateText } from "../../../core/catalogue/catalogueReading.js";
-  import {
-    type DailyPageState,
-    dailyPageStateOf,
-    dailyPuzzleOn,
-    dailyResultOf,
-    stepCountText,
-    streakOn,
-  } from "../../dailyPuzzle/dailyPuzzle.js";
-  import {
-    type LearnerProgress,
-    clearDailyInProgress,
-    readDailyInProgress,
-    readProgress,
-    runOfDailyResult,
-    runRecordOf,
-    withDailyResult,
-    withRun,
-    writeDailyInProgress,
-    writeProgress,
-  } from "../../learnerProgress/learnerProgress.js";
-  import { resumeStepSession, sessionSnapshot } from "../../stepSession/sessionSnapshot.js";
-  import {
-    type SessionReaction,
-    preferredArrowStepsFrom,
-  } from "../../stepSession/sessionReaction.js";
-  import { type StepSession, startStepSession } from "../../stepSession/stepSession.js";
-  import { browserStorage } from "../io/browserStorage.js";
-  import { loadSessionReaction } from "../io/reactionLoading.js";
+  import { dailyPuzzleOn, stepCountText, streakOn } from "../../dailyPuzzle/dailyPuzzle.js";
+  import { preferredArrowStepsFrom } from "../../stepSession/sessionReaction.js";
+  import type { StepSession } from "../../stepSession/stepSession.js";
+  import { runDependencies } from "../io/runDependencies.js";
+  import { type LearnerRun, loadRun, runAfterStep, startRun } from "../model/learnerRun.js";
   import ReactionScheme from "../components/ReactionScheme.svelte";
   import RunSummary from "../components/RunSummary.svelte";
   import StepPlay from "../workspaces/StepPlay.svelte";
-  import { type FinishedViewExtras, finishedViewExtras } from "../model/runSummaryView.js";
   import { siteRouteHash } from "../model/siteRoutes.js";
 
   const { catalogue }: { catalogue: Catalogue } = $props();
@@ -52,84 +29,27 @@
           (entry) => entry.reactionSlug === puzzle.reactionVersionRef.split("@")[0],
         ),
   );
-  let progress: LearnerProgress = $state.raw(readProgress(browserStorage));
-  let pageState: DailyPageState | null = $state.raw(null);
-  let reaction: SessionReaction | null = $state.raw(null);
-  let session: StepSession | null = $state.raw(null);
-  let startedAt = "";
-  let loadError: string | null = $state(null);
-  let extras: FinishedViewExtras | null = $state.raw(null);
+  const dependencies = $derived(runDependencies(catalogue));
+  let run: LearnerRun | null = $state.raw(null);
 
   $effect(() => {
     if (puzzle === null) {
       return;
     }
-    const opened = dailyPageStateOf(puzzle, progress, readDailyInProgress(browserStorage));
-    if (opened.pageState === "before" && opened.dropSavedPuzzle) {
-      clearDailyInProgress(browserStorage);
-    }
-    loadSessionReaction(catalogue, puzzle.reactionVersionRef)
-      .then((loaded) => {
-        reaction = loaded;
-        if (opened.pageState === "inProgress") {
-          startedAt = opened.saved.startedAt;
-          session = resumeStepSession(loaded, opened.saved.snapshot);
-        }
-        pageState = opened;
-      })
-      .catch((error: unknown) => {
-        loadError = String(error);
-      });
+    void loadRun({ runMode: "daily", puzzle }, dependencies).then((loaded) => {
+      run = loaded;
+    });
   });
 
-  function saveUnfinished(next: StepSession): void {
-    if (puzzle === null) {
-      return;
-    }
-    writeDailyInProgress(browserStorage, {
-      formatVersion: 1,
-      localDate: puzzle.localDate,
-      puzzleNumber: puzzle.puzzleNumber,
-      reactionVersionRef: puzzle.reactionVersionRef,
-      startedAt,
-      snapshot: sessionSnapshot(next),
-    });
-  }
-
-  function finish(next: StepSession): void {
-    if (puzzle === null) {
-      return;
-    }
-    const run = runRecordOf(next, startedAt);
-    const dailyResult = dailyResultOf(puzzle, run);
-    const before = readProgress(browserStorage);
-    progress = withDailyResult(withRun(before, run), puzzle.localDate, dailyResult);
-    extras = finishedViewExtras(catalogue, next.reaction, before, progress);
-    writeProgress(browserStorage, progress);
-    clearDailyInProgress(browserStorage);
-    pageState = { pageState: "finished", dailyResult };
-  }
-
   function start(): void {
-    if (reaction === null || puzzle === null) {
-      return;
+    if (run !== null) {
+      run = startRun(run, dependencies);
     }
-    startedAt = new Date().toISOString();
-    session = startStepSession(reaction, "daily");
-    saveUnfinished(session);
-    pageState = { pageState: "inProgress", saved: readDailyInProgress(browserStorage) ?? never() };
-  }
-
-  function never(): never {
-    throw new Error("the daily puzzle just saved could not be read back");
   }
 
   function update(next: StepSession): void {
-    session = next;
-    if (next.phase === "complete") {
-      finish(next);
-    } else {
-      saveUnfinished(next);
+    if (run !== null) {
+      run = runAfterStep(run, next, dependencies);
     }
   }
 
@@ -144,23 +64,22 @@
     <p class="muted">There is no daily puzzle for today's date yet. Try a reaction in practice.</p>
     <a class="btn primary" href="#/practice">Practise a reaction</a>
   </div>
-{:else if loadError !== null}
+{:else if run === null}
+  <p class="muted mt">Loading today's puzzle…</p>
+{:else if run.runPhase === "loadFailed"}
   <div class="card mt" role="alert">
     <h2>Today's puzzle could not be loaded</h2>
-    <p class="muted">{loadError}</p>
+    <p class="muted">{run.loadError}</p>
   </div>
-{:else if reaction === null || pageState === null}
-  <p class="muted mt">Loading today's puzzle…</p>
-{:else if pageState.pageState === "finished"}
-  {@const run = runOfDailyResult(progress, pageState.dailyResult)}
+{:else if run.runPhase === "finished"}
   <RunSummary
-    {reaction}
-    stepResults={run?.stepResults ?? []}
+    reaction={run.reaction}
+    stepResults={run.stepResults}
     daily={{
       puzzleNumber: puzzle.puzzleNumber,
-      streak: streakOn(progress.dateToDailyResult, puzzle.localDate),
+      streak: streakOn(run.progress.dateToDailyResult, puzzle.localDate),
     }}
-    extras={extras ?? finishedViewExtras(catalogue, reaction, progress, progress)}
+    extras={run.extras}
   >
     {#snippet actions()}
       <a
@@ -172,9 +91,9 @@
       <a class="btn primary" href="#/practice">Other reactions</a>
     {/snippet}
   </RunSummary>
-{:else if pageState.pageState === "inProgress" && session !== null}
+{:else if run.runPhase === "playing"}
   <StepPlay
-    {session}
+    session={run.session}
     {update}
     heading={`Daily puzzle #${String(puzzle.puzzleNumber)}`}
     subtitle="Mystery named reaction: the name is revealed at the end."
@@ -182,8 +101,10 @@
 {:else}
   <section class="card hero mt" aria-labelledby="daily-heading">
     <div class="row small muted">
-      <span>Difficulty <span class="dots">{difficultyDots(reaction.difficultyTier)}</span></span>
-      <span>🔥 Streak {streakOn(progress.dateToDailyResult, puzzle.localDate)}</span>
+      <span>
+        Difficulty <span class="dots">{difficultyDots(run.reaction.difficultyTier)}</span>
+      </span>
+      <span>🔥 Streak {streakOn(run.progress.dateToDailyResult, puzzle.localDate)}</span>
     </div>
     <h1 id="daily-heading" style="margin-top:8px">Daily puzzle #{puzzle.puzzleNumber}</h1>
     <p><b>Mystery named reaction.</b> {INTRODUCTION}</p>
@@ -196,7 +117,7 @@
       />
     {/if}
     <p class="muted">
-      {stepCountText(preferredArrowStepsFrom(reaction, reaction.startStateId))}
+      {stepCountText(preferredArrowStepsFrom(run.reaction, run.reaction.startStateId))}
     </p>
     <button class="btn primary" type="button" onclick={start}>Start</button>
   </section>

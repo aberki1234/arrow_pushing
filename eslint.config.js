@@ -37,6 +37,8 @@ export default tseslint.config(
   {
     ignores: [
       "node_modules",
+      // Git worktrees of other working sessions: each is linted in its own checkout.
+      ".claude",
       "dist",
       "build",
       "vendor",

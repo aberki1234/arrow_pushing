@@ -57,6 +57,7 @@ Each term below means exactly one thing in the docs, the JSON and the code.
 | **Next up** | The first set item, in track order, that is not done. |
 | **done (set item)** | Its reaction has a finished run in any mode; in a checkpoint, a finished run in that checkpoint. Not the same as **mastered** (most recent run at 100%). |
 | **checkpoint** | A problem set marked `checkpoint: true` that ends a track: earlier reactions shuffled, names hidden, played in the `checkpoint` run mode with the daily rules. |
+| **run** | One play-through of a reaction version in one run mode, from its start time to completion. It is recorded in learner progress once, when complete; an unfinished daily run is saved and can be resumed (`learnerSite/model/learnerRun.ts`). |
 | **run mode** | How a run is played and scored: `practice`, `daily` or `checkpoint` (§7). |
 | **access token** | A personal token (`Authorization: Bearer …`) standing for one user, stored hashed, revocable, expiring; it may only read that user's reactions and save drafts (item 10). Not a session, which a browser holds. |
 | **draft sync** | Pushing a local, lint-clean reaction file to the server as a draft (`push-draft`) and fetching a draft back (`pull-draft`), refused when the draft changed since it was last seen (item 10). |

@@ -1,23 +1,16 @@
 <script lang="ts">
-  // Practice mode: loads one reaction version and holds its step session. When the run is
-  // complete it is saved to the learner's progress and the finished view replaces the screen.
+  // Practice mode: one practice run of a reaction version (model/learnerRun.ts), which records
+  // itself in the learner's progress when complete; the finished view then replaces the screen.
   // Played from a problem set (learnContext, item 9b) it shows the breadcrumb, and the finished
   // view offers Next in set instead of related reactions.
   import type { Catalogue } from "../../../core/catalogue/catalogueReading.js";
-  import {
-    readProgress,
-    runRecordOf,
-    withRun,
-    writeProgress,
-  } from "../../learnerProgress/learnerProgress.js";
-  import { type StepSession, startStepSession } from "../../stepSession/stepSession.js";
+  import type { StepSession } from "../../stepSession/stepSession.js";
   import type { LearnPlayContext } from "../../learnTracks/learnPlayContext.js";
-  import { browserStorage } from "../io/browserStorage.js";
+  import { runDependencies } from "../io/runDependencies.js";
   import { learnHash } from "../model/learnView.js";
-  import { loadSessionReaction } from "../io/reactionLoading.js";
+  import { type LearnerRun, loadRun, runAfterStep, startRun } from "../model/learnerRun.js";
   import RunSummary from "../components/RunSummary.svelte";
   import StepPlay from "./StepPlay.svelte";
-  import { type FinishedViewExtras, finishedViewExtras } from "../model/runSummaryView.js";
 
   const {
     catalogue,
@@ -29,36 +22,29 @@
     learnContext?: LearnPlayContext | null;
   } = $props();
 
-  let session: StepSession | null = $state.raw(null);
-  let startedAt = new Date().toISOString();
-  let loadError: string | null = $state(null);
-  let extras: FinishedViewExtras | null = $state.raw(null);
+  const dependencies = $derived(runDependencies(catalogue));
+  let run: LearnerRun | null = $state.raw(null);
 
   $effect(() => {
-    loadSessionReaction(catalogue, reactionVersionRef)
-      .then((reaction) => {
-        session = startStepSession(reaction);
-      })
-      .catch((error: unknown) => {
-        loadError = String(error);
-      });
+    const setting = {
+      runMode: "practice",
+      reactionVersionRef,
+      inProblemSet: learnContext !== null,
+    } as const;
+    void loadRun(setting, dependencies).then((loaded) => {
+      run = loaded;
+    });
   });
 
   function update(next: StepSession): void {
-    if (next.phase === "complete" && session?.phase !== "complete") {
-      const before = readProgress(browserStorage);
-      const after = withRun(before, runRecordOf(next, startedAt));
-      writeProgress(browserStorage, after);
-      const allExtras = finishedViewExtras(catalogue, next.reaction, before, after);
-      extras = learnContext === null ? allExtras : { ...allExtras, relatedCards: [] };
+    if (run !== null) {
+      run = runAfterStep(run, next, dependencies);
     }
-    session = next;
   }
 
   function restart(): void {
-    if (session !== null) {
-      startedAt = new Date().toISOString();
-      session = startStepSession(session.reaction);
+    if (run !== null) {
+      run = startRun(run, dependencies);
     }
   }
 </script>
@@ -94,16 +80,21 @@
     </a>
   </p>
 {/if}
-{#if loadError !== null}
+{#if run === null}
+  <p class="muted mt">Loading the reaction…</p>
+{:else if run.runPhase === "loadFailed"}
   <div class="card mt" role="alert">
     <h2>This reaction could not be loaded</h2>
-    <p class="muted">{loadError}</p>
+    <p class="muted">{run.loadError}</p>
     <a class="btn" href="#/practice">Back to the reactions</a>
   </div>
-{:else if session === null}
-  <p class="muted mt">Loading the reaction…</p>
-{:else if session.phase === "complete"}
-  <RunSummary reaction={session.reaction} stepResults={session.stepResults} daily={null} {extras}>
+{:else if run.runPhase === "finished"}
+  <RunSummary
+    reaction={run.reaction}
+    stepResults={run.stepResults}
+    daily={null}
+    extras={run.extras}
+  >
     {#snippet actions()}
       <button class="btn" type="button" onclick={restart}>↺ Play again</button>
       {#if learnContext === null}
@@ -113,11 +104,11 @@
       {/if}
     {/snippet}
   </RunSummary>
-{:else}
+{:else if run.runPhase === "playing"}
   <StepPlay
-    {session}
+    session={run.session}
     {update}
-    heading={session.reaction.title}
-    subtitle={session.reaction.subtitle}
+    heading={run.reaction.title}
+    subtitle={run.reaction.subtitle}
   />
 {/if}
