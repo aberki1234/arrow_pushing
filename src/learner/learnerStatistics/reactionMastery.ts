@@ -8,6 +8,7 @@
 import type { Catalogue } from "../../core/catalogue/catalogueReading.js";
 import type { LearnerProgress, RunRecord } from "../learnerProgress/learnerProgress.js";
 import { maximumPoints, totalPoints } from "../stepSession/stepScoring.js";
+import { splitReactionVersionRef } from "../../core/catalogue/reactionVersionRefs.js";
 
 export const MASTERED_PERCENT = 100;
 const PERCENT = 100;
@@ -27,12 +28,6 @@ export interface ClassMastery {
   readonly masteryPercent: number;
 }
 
-/** The slug and version of a reaction version ref, "aldol@3" -> ["aldol", 3]. */
-export function refParts(reactionVersionRef: string): [string, number] {
-  const at = reactionVersionRef.lastIndexOf("@");
-  return [reactionVersionRef.slice(0, at), Number(reactionVersionRef.slice(at + 1))];
-}
-
 function percentOf(points: number, maximum: number): number {
   return maximum === 0 ? 0 : Math.round((PERCENT * points) / maximum);
 }
@@ -41,7 +36,7 @@ function percentOf(points: number, maximum: number): number {
 export function masteryBySlug(progress: LearnerProgress): Map<string, ReactionMastery> {
   const slugToLastRun = new Map<string, RunRecord>();
   for (const run of progress.runs) {
-    const [reactionSlug] = refParts(run.reactionVersionRef);
+    const [reactionSlug] = splitReactionVersionRef(run.reactionVersionRef);
     const kept = slugToLastRun.get(reactionSlug);
     if (kept === undefined || run.startedAt > kept.startedAt) {
       slugToLastRun.set(reactionSlug, run);
@@ -57,7 +52,7 @@ export function masteryBySlug(progress: LearnerProgress): Map<string, ReactionMa
           maximumPoints(lastRun.stepResults),
         ),
         lastRun,
-        lastReactionVersion: refParts(lastRun.reactionVersionRef)[1],
+        lastReactionVersion: splitReactionVersionRef(lastRun.reactionVersionRef)[1],
       },
     ]),
   );

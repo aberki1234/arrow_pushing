@@ -25,7 +25,7 @@ import { endOfPreferredRoute } from "../../../core/reactionFiles/preferredRoute.
 import { CatalogueBuildError } from "../naming/catalogueBuildErrors.js";
 import { appendedDailyCalendar } from "../naming/dailyCalendar.js";
 import type { PublishedVersion } from "./publishedVersions.js";
-import { reactionVersionRef } from "../naming/staticFileNaming.js";
+import { reactionVersionRef } from "../../../core/catalogue/reactionVersionRefs.js";
 
 const CATALOGUE_FORMAT_VERSION = 1;
 

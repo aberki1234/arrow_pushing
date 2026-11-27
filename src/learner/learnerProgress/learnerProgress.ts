@@ -16,6 +16,7 @@ import { Ajv2020 } from "ajv/dist/2020.js";
 import progressSchemaJson from "../../../schema/progress.schema.json";
 import type { SessionSnapshot } from "../stepSession/sessionSnapshot.js";
 import type { SessionMode, StepResult, StepSession } from "../stepSession/stepSession.js";
+import { reactionVersionRef } from "../../core/catalogue/reactionVersionRefs.js";
 
 export const PROGRESS_STORAGE_KEY = "arrowpush.progress";
 export const UNREADABLE_PROGRESS_STORAGE_KEY = "arrowpush.progress.unreadable";
@@ -159,6 +160,11 @@ export function runOfDailyResult(
   );
 }
 
+/** The runs, newest first (by start time). */
+export function runsNewestFirst(progress: LearnerProgress): RunRecord[] {
+  return [...progress.runs].sort((one, other) => other.startedAt.localeCompare(one.startedAt));
+}
+
 /** The unfinished daily puzzle; null when there is none or it cannot be read (then removed). */
 export function readDailyInProgress(storage: ProgressStorage): DailyInProgress | null {
   const text = storage.getItem(DAILY_IN_PROGRESS_STORAGE_KEY);
@@ -192,7 +198,7 @@ export function runRecordOf(
 ): RunRecord {
   const { reactionSlug, reactionVersion } = session.reaction;
   const run: RunRecord = {
-    reactionVersionRef: `${reactionSlug}@${String(reactionVersion)}`,
+    reactionVersionRef: reactionVersionRef(reactionSlug, reactionVersion),
     mode: session.mode,
     startedAt,
     stepResults: session.stepResults,

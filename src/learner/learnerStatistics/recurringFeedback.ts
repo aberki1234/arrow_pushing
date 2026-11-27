@@ -5,10 +5,10 @@
  * they have one (the same mistake in different reactions), otherwise by their id, and shown with
  * the authored message. Rows come most frequent first.
  */
-import type { LearnerProgress, RunRecord } from "../learnerProgress/learnerProgress.js";
+import { type LearnerProgress, runsNewestFirst } from "../learnerProgress/learnerProgress.js";
 import { GENERIC_RULE_ID_TO_HEADING } from "../stepSession/feedbackText.js";
 import type { SessionReaction } from "../stepSession/sessionReaction.js";
-import { refParts } from "./reactionMastery.js";
+import { splitReactionVersionRef } from "../../core/catalogue/reactionVersionRefs.js";
 
 export const RECURRING_ROW_LIMIT = 5;
 
@@ -38,14 +38,10 @@ function headingFromSlug(slug: string): string {
   return words.charAt(0).toUpperCase() + words.slice(1);
 }
 
-function runsMostRecentFirst(progress: LearnerProgress): RunRecord[] {
-  return [...progress.runs].sort((one, other) => other.startedAt.localeCompare(one.startedAt));
-}
-
 /** The slugs of reactions whose misconception messages are needed, most recent first. */
 export function misconceptionSlugsShown(progress: LearnerProgress): string[] {
   const slugs: string[] = [];
-  for (const run of runsMostRecentFirst(progress)) {
+  for (const run of runsNewestFirst(progress)) {
     for (const feedbackId of run.stepResults.flatMap((stepResult) => stepResult.feedbackIdsShown)) {
       const slug = feedbackId.startsWith(MISCONCEPTION_PREFIX)
         ? feedbackId.slice(MISCONCEPTION_PREFIX.length).split("/")[0]
@@ -120,8 +116,8 @@ export function recurringFeedback(
   onlySlug: string | null = null,
 ): RecurringFeedbackRow[] {
   const keyToRow = new Map<string, MutableRow>();
-  for (const run of runsMostRecentFirst(progress)) {
-    const [slug] = refParts(run.reactionVersionRef);
+  for (const run of runsNewestFirst(progress)) {
+    const [slug] = splitReactionVersionRef(run.reactionVersionRef);
     if (onlySlug !== null && slug !== onlySlug) {
       continue;
     }

@@ -13,6 +13,7 @@
 import type { Catalogue } from "../../core/catalogue/catalogueReading.js";
 import type { StepResult } from "../stepSession/stepSession.js";
 import type { ReactionMastery } from "./reactionMastery.js";
+import { reactionVersionRef } from "../../core/catalogue/reactionVersionRefs.js";
 
 export const PRACTISE_NEXT_COUNT = 3;
 const MASTERED_PERCENT = 100;
@@ -31,10 +32,6 @@ function compareText(first: string, second: string): number {
     return 0;
   }
   return first < second ? -1 : 1;
-}
-
-function versionRefOf(reactionSlug: string, reactionVersion: number): string {
-  return `${reactionSlug}@${String(reactionVersion)}`;
 }
 
 export function practiseNext(
@@ -61,7 +58,7 @@ export function practiseNext(
               title: catalogueEntry.title,
               masteryPercent: entry.masteryPercent,
               lastStepResults: entry.lastRun.stepResults,
-              reactionVersionRef: versionRefOf(
+              reactionVersionRef: reactionVersionRef(
                 entry.reactionSlug,
                 catalogueEntry.latestReactionVersion,
               ),

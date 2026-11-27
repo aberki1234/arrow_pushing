@@ -9,6 +9,7 @@ import {
   misconceptionInfoOf,
 } from "../../learnerStatistics/recurringFeedback.js";
 import { loadSessionReaction } from "./reactionLoading.js";
+import { reactionVersionRef } from "../../../core/catalogue/reactionVersionRefs.js";
 
 export async function loadMisconceptionInfo(
   catalogue: Catalogue,
@@ -23,7 +24,7 @@ export async function loadMisconceptionInfo(
         return null;
       }
       try {
-        const ref = `${reactionSlug}@${String(entry.latestReactionVersion)}`;
+        const ref = reactionVersionRef(reactionSlug, entry.latestReactionVersion);
         return [
           reactionSlug,
           misconceptionInfoOf(await loadSessionReaction(catalogue, ref)),

@@ -8,6 +8,7 @@ import {
   catalogueTracks,
 } from "../../core/catalogue/catalogueReading.js";
 import type { ProblemSet } from "../../core/trackFiles/trackSchemaViolations.js";
+import { reactionVersionRef } from "../../core/catalogue/reactionVersionRefs.js";
 
 /** After the run: the next set item of the same problem set, or the problem set is complete. */
 export type AfterRun =
@@ -88,7 +89,7 @@ export function learnPlayContext(
   return {
     track,
     problemSet,
-    reactionVersionRef: `${reactionSlug}@${String(entry.latestReactionVersion)}`,
+    reactionVersionRef: reactionVersionRef(reactionSlug, entry.latestReactionVersion),
     breadcrumbText:
       `${track.title} › ${problemSet.title} · ` +
       `${String(setItemPosition + 1)} of ${String(itemCount)}`,

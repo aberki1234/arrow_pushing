@@ -7,6 +7,7 @@
  */
 import type { Catalogue } from "../../core/catalogue/catalogueReading.js";
 import { MASTERED_PERCENT, type ReactionMastery } from "./reactionMastery.js";
+import { reactionVersionRef } from "../../core/catalogue/reactionVersionRefs.js";
 
 export type PracticeStatus = "new" | "practised" | "mastered";
 
@@ -93,7 +94,7 @@ export function practiceCards(
     const learned = mastery.get(entry.reactionSlug);
     return {
       reactionSlug: entry.reactionSlug,
-      reactionVersionRef: `${entry.reactionSlug}@${String(entry.latestReactionVersion)}`,
+      reactionVersionRef: reactionVersionRef(entry.reactionSlug, entry.latestReactionVersion),
       title: entry.title,
       subtitle: entry.subtitle ?? "",
       reactionClasses: entry.reactionClasses,

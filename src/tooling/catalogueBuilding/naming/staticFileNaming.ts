@@ -49,10 +49,6 @@ export function contentHashOf(document: unknown): string {
   return createHash("sha256").update(canonicalJsonBytes(document)).digest("hex");
 }
 
-export function reactionVersionRef(reactionSlug: string, reactionVersion: number): string {
-  return `${reactionSlug}@${String(reactionVersion)}`;
-}
-
 /** "aldol@3" -> ["aldol", 3]. Throws for text that is not a reaction version ref. */
 export function parseReactionVersionRef(versionRef: string): [string, number] {
   const refMatch = REACTION_VERSION_REF_PATTERN.exec(versionRef);

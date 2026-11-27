@@ -7,8 +7,8 @@ import {
   contentHashOf,
   parseReactionVersionRef,
   reactionFilePath,
-  reactionVersionRef,
 } from "./staticFileNaming.js";
+import { reactionVersionRef } from "../../../core/catalogue/reactionVersionRefs.js";
 
 const asText = (bytes: Uint8Array): string => new TextDecoder().decode(bytes);
 
@@ -37,7 +37,7 @@ it("the content hash is the sha256 hex digest of the canonical bytes", () => {
   expect(expectedHash).toHaveLength(64);
 });
 
-it("a reaction version ref round-trips", () => {
+it("a reaction version ref round-trips through the strict reader", () => {
   expect(reactionVersionRef("aldol-addition-base", 3)).toBe("aldol-addition-base@3");
   expect(parseReactionVersionRef("aldol-addition-base@3")).toEqual(["aldol-addition-base", 3]);
 });

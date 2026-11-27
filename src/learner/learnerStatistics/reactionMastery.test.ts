@@ -4,7 +4,7 @@ import { type Catalogue, readCatalogue } from "../../core/catalogue/catalogueRea
 import { emptyProgress, withRun } from "../learnerProgress/learnerProgress.js";
 import { isRecord, readFixtureJson } from "../../testSupport/fixtureFiles.js";
 import { runOf, stepOf } from "../../testSupport/progressExamples.js";
-import { masteredCount, masteryByClass, masteryBySlug, refParts } from "./reactionMastery.js";
+import { masteredCount, masteryByClass, masteryBySlug } from "./reactionMastery.js";
 
 function exampleCatalogue(): Catalogue {
   const cases = readFixtureJson("catalogue/catalogue_reading_cases.json");
@@ -13,10 +13,6 @@ function exampleCatalogue(): Catalogue {
 
 const SN2 = "sn2-hydroxide-bromomethane";
 const ALDOL = "aldol-addition-base";
-
-test("a ref's slug and version", () => {
-  expect(refParts("aldol-addition-base@3")).toEqual(["aldol-addition-base", 3]);
-});
 
 test("mastery is the most recent run's points over its maximum, across versions", () => {
   let progress = withRun(

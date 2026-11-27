@@ -15,7 +15,8 @@ import type { ChemistryToolkit } from "../../chemistryToolkit/chemistryToolkit.j
 import type { LintFinding } from "../../reactionLinting/findings/lintFindings.js";
 import { lintReaction } from "../../reactionLinting/rules/reactionLint.js";
 import { CatalogueBuildError } from "../naming/catalogueBuildErrors.js";
-import { contentHashOf, reactionVersionRef } from "../naming/staticFileNaming.js";
+import { contentHashOf } from "../naming/staticFileNaming.js";
+import { reactionVersionRef } from "../../../core/catalogue/reactionVersionRefs.js";
 
 export interface PublishedVersion {
   readonly reactionSlug: string;

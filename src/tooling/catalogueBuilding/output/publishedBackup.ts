@@ -13,7 +13,8 @@
  */
 import { mkdirSync, writeFileSync } from "node:fs";
 import { join } from "node:path";
-import { contentHashOf, reactionVersionRef } from "../naming/staticFileNaming.js";
+import { contentHashOf } from "../naming/staticFileNaming.js";
+import { reactionVersionRef } from "../../../core/catalogue/reactionVersionRefs.js";
 
 /** One published version as the server exports it. */
 export interface ExportedVersion {

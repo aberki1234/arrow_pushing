@@ -15,9 +15,9 @@ import {
   MASTERED_PERCENT,
   type ReactionMastery,
   masteryBySlug,
-  refParts,
 } from "../learnerStatistics/reactionMastery.js";
 import type { ProblemSet, SetItem } from "../../core/trackFiles/trackSchemaViolations.js";
+import { splitReactionVersionRef } from "../../core/catalogue/reactionVersionRefs.js";
 
 export interface SetItemMark {
   readonly setItem: SetItem;
@@ -53,7 +53,7 @@ export interface NextUp {
 
 /** The slugs with a finished run that marks ordinary (not checkpoint) set items done. */
 function finishedReactionSlugs(progress: LearnerProgress): Set<string> {
-  return new Set(progress.runs.map((run) => refParts(run.reactionVersionRef)[0]));
+  return new Set(progress.runs.map((run) => splitReactionVersionRef(run.reactionVersionRef)[0]));
 }
 
 /** The slugs finished in the checkpoint `problemSetRef` ("<trackSlug>/<problemSetSlug>"). */
@@ -64,7 +64,7 @@ export function slugsDoneInCheckpoint(
   return new Set(
     progress.runs
       .filter((run) => run.mode === "checkpoint" && run.problemSetRef === problemSetRef)
-      .map((run) => refParts(run.reactionVersionRef)[0]),
+      .map((run) => splitReactionVersionRef(run.reactionVersionRef)[0]),
   );
 }
 

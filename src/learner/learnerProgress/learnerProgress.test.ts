@@ -16,6 +16,7 @@ import {
   readProgress,
   runRecordOf,
   runOfDailyResult,
+  runsNewestFirst,
   withDailyResult,
   withLastProblemSetRef,
   withRun,
@@ -187,4 +188,23 @@ test("a checkpoint run records its problem set and is saved and read back", () =
 test("a run outside a checkpoint records no problem set", () => {
   const session = startStepSession(exampleSessionReaction("sn2-hydroxide-bromomethane"));
   expect("problemSetRef" in runRecordOf(session, "2026-12-01T09:00:00.000Z")).toBe(false);
+});
+
+test("runs newest first: by start time, latest first, whatever order they were saved in", () => {
+  const run = (startedAt: string): RunRecord => ({
+    reactionVersionRef: "sn2-hydroxide-bromomethane@1",
+    mode: "practice",
+    startedAt,
+    stepResults: [],
+  });
+  const progress = {
+    ...emptyProgress(),
+    runs: [run("2026-12-02T09:00:00Z"), run("2026-12-03T09:00:00Z"), run("2026-12-01T09:00:00Z")],
+  };
+  expect(runsNewestFirst(progress).map((each) => each.startedAt)).toEqual([
+    "2026-12-03T09:00:00Z",
+    "2026-12-02T09:00:00Z",
+    "2026-12-01T09:00:00Z",
+  ]);
+  expect(progress.runs[0]?.startedAt).toBe("2026-12-02T09:00:00Z");
 });

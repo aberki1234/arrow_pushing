@@ -13,6 +13,7 @@
   import RunSummary from "../components/RunSummary.svelte";
   import StepPlay from "../workspaces/StepPlay.svelte";
   import { siteRouteHash } from "../model/siteRoutes.js";
+  import { splitReactionVersionRef } from "../../../core/catalogue/reactionVersionRefs.js";
 
   const { catalogue }: { catalogue: Catalogue } = $props();
 
@@ -26,7 +27,7 @@
     puzzle === null
       ? undefined
       : catalogue.reactions.find(
-          (entry) => entry.reactionSlug === puzzle.reactionVersionRef.split("@")[0],
+          (entry) => entry.reactionSlug === splitReactionVersionRef(puzzle.reactionVersionRef)[0],
         ),
   );
   const dependencies = $derived(runDependencies(catalogue));

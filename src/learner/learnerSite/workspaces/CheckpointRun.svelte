@@ -11,6 +11,7 @@
   import { type LearnerRun, loadRun, runAfterStep } from "../model/learnerRun.js";
   import RunSummary from "../components/RunSummary.svelte";
   import StepPlay from "./StepPlay.svelte";
+  import { reactionVersionRef } from "../../../core/catalogue/reactionVersionRefs.js";
 
   const {
     catalogue,
@@ -46,7 +47,7 @@
     }
     const setting = {
       runMode: "checkpoint",
-      reactionVersionRef: `${entry.reactionSlug}@${String(entry.latestReactionVersion)}`,
+      reactionVersionRef: reactionVersionRef(entry.reactionSlug, entry.latestReactionVersion),
       problemSetRef,
     } as const;
     void loadRun(setting, dependencies).then((loaded) => {

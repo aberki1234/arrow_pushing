@@ -19,13 +19,13 @@
     readDailyInProgress,
     readProgress,
     runOfDailyResult,
+    runsNewestFirst,
   } from "../../learnerProgress/learnerProgress.js";
   import { firstTryRates } from "../../learnerStatistics/learningHistory.js";
   import {
     masteredCount,
     masteryByClass,
     masteryBySlug,
-    refParts,
   } from "../../learnerStatistics/reactionMastery.js";
   import {
     type MisconceptionInfo,
@@ -43,6 +43,10 @@
   import { loadSessionReaction } from "../io/reactionLoading.js";
   import ResultTiles from "../components/ResultTiles.svelte";
   import { siteRouteHash } from "../model/siteRoutes.js";
+  import {
+    reactionVersionRef,
+    splitReactionVersionRef,
+  } from "../../../core/catalogue/reactionVersionRefs.js";
 
   const { catalogue }: { catalogue: Catalogue } = $props();
 
@@ -62,9 +66,7 @@
   const learning = $derived(continueLearning(catalogue, progress));
   const firstTrack = $derived(catalogueTracks(catalogue)[0]);
   const rates = firstTryRates(progress, new Date());
-  const lastPractice = [...progress.runs]
-    .filter((run) => run.mode === "practice")
-    .sort((one, other) => other.startedAt.localeCompare(one.startedAt))[0];
+  const lastPractice = runsNewestFirst(progress).find((run) => run.mode === "practice");
   let puzzleStepCount: number | null = $state(null);
   let slugToInfo: ReadonlyMap<string, ReadonlyMap<string, MisconceptionInfo>> = $state.raw(
     new Map(),
@@ -112,7 +114,7 @@
       <h2 id="today-heading">No puzzle today</h2>
       <p class="muted">Practise a reaction instead.</p>
     {:else}
-      {@const entry = entryOf(refParts(puzzle.reactionVersionRef)[0])}
+      {@const entry = entryOf(splitReactionVersionRef(puzzle.reactionVersionRef)[0])}
       <h2 id="today-heading">Daily puzzle #{puzzle.puzzleNumber}</h2>
       {#if pageState.pageState === "finished"}
         {@const run = runOfDailyResult(progress, pageState.dailyResult)}
@@ -208,7 +210,7 @@
     {#if lastPractice === undefined}
       <p class="muted">Nothing practised yet. <a href="#/practice">Pick a reaction</a>.</p>
     {:else}
-      {@const [lastSlug] = refParts(lastPractice.reactionVersionRef)}
+      {@const [lastSlug] = splitReactionVersionRef(lastPractice.reactionVersionRef)}
       {@const lastEntry = entryOf(lastSlug)}
       <p>
         <b>{lastEntry?.title ?? lastSlug}</b>
@@ -222,7 +224,7 @@
           class="btn sm"
           href={siteRouteHash({
             routeName: "play",
-            reactionVersionRef: `${lastSlug}@${String(lastEntry.latestReactionVersion)}`,
+            reactionVersionRef: reactionVersionRef(lastSlug, lastEntry.latestReactionVersion),
           })}
         >
           Practise again
