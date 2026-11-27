@@ -1,0 +1,42 @@
+# Checks every pull request (forks included) and every push to main: the same `make lint` and
+# `make test` as the pre-push hook, then the learner site's build. No secrets are used, and
+# pull_request (not pull_request_target) runs a fork's code without access to the repository's
+# secrets or a write token.
+#
+# Tests: Vitest runs at most 4 files at once (vite.config.ts); a PGlite + RDKit.js worker peaks
+# near 1.1 GB, which fits GitHub's standard runner (16 GB). The Makefile's systemd-run memory cap
+# applies only where systemd's user manager runs; otherwise it is plain `nice`.
+#
+# Actions are pinned to commit SHAs (the tag in the comment), so a moved tag cannot change them.
+name: CI
+
+on:
+  pull_request:
+  push:
+    branches: [main]
+
+permissions:
+  contents: read
+
+# A new push to the same pull request cancels its older run.
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
+      - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4
+        with:
+          node-version: 24
+          cache: npm
+      - run: npm ci
+      - name: Lint (Prettier, ESLint, tsc, svelte-check, dependency-cruiser, reaction and track linters)
+        run: make lint
+      - name: Test (Vitest)
+        run: make test
+      - name: Build the learner site
+        run: make site
