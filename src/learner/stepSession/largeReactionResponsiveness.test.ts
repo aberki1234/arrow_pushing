@@ -15,7 +15,10 @@
  * be repeated counts its fastest of REPEATS runs, so a busy machine (`make test` runs four files
  * at once) does not fail it while a slow algorithm still does; the first check at a state is cold
  * and runs once. Before the fix the worst actions here took 1–14 s (picks) and 2–26 s (checks);
- * after it, under 5 ms and 40 ms (90 ms for a first check), measured alone.
+ * after it, under 5 ms and 40 ms (90 ms for a first check), measured alone. The budgets sit far
+ * above that (a cold first check took 285 ms with other work on the machine) and at most half the
+ * fastest time before the fix, so machine load cannot fail them but a return of the slow
+ * algorithm still does.
  */
 import { describe, expect, test } from "vitest";
 import {
@@ -34,9 +37,9 @@ import { type DestinationTarget, destinationTargets } from "./destinationTargets
 import { type SessionReaction, type SessionStep, readSessionReaction } from "./sessionReaction.js";
 
 /** The longest a source pick, a check, and the first check at a state may take, in Node. */
-const PICK_BUDGET_MILLISECONDS = 50;
-const CHECK_BUDGET_MILLISECONDS = 100;
-const FIRST_CHECK_BUDGET_MILLISECONDS = 250;
+const PICK_BUDGET_MILLISECONDS = 250;
+const CHECK_BUDGET_MILLISECONDS = 500;
+const FIRST_CHECK_BUDGET_MILLISECONDS = 1000;
 /** Runs of a repeatable action; its fastest counts. */
 const REPEATS = 3;
 
