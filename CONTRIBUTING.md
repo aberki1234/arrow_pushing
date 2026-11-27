@@ -16,7 +16,7 @@ from npm.
 
 ```bash
 git clone <your fork>
-cd mech_training
+cd arrow_pushing
 npm ci
 git config core.hooksPath .githooks   # the pre-push hook: runs `make check` before every push
 make check                            # lint and the whole test suite: should pass on a fresh clone

@@ -45,8 +45,8 @@ You need **Node.js 24**. Everything else, RDKit.js included, comes from npm. You
 secrets to run the tests, the learner site or the editor.
 
 ```bash
-git clone https://github.com/aberki1234/mech_training.git
-cd mech_training
+git clone https://github.com/aberki1234/arrow_pushing.git
+cd arrow_pushing
 npm ci
 git config core.hooksPath .githooks   # run `make check` before every push
 make check                            # lint and the whole test suite

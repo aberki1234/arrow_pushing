@@ -67,7 +67,7 @@ it("links straight to the source code where the learner site's address is unknow
     label: "Source code",
     href: SOURCE_CODE_ADDRESS,
   });
-  expect(SOURCE_CODE_ADDRESS).toBe("https://github.com/aberki1234/mech_training");
+  expect(SOURCE_CODE_ADDRESS).toBe("https://github.com/aberki1234/arrow_pushing");
 });
 
 it("gives a top bar its tabs and About link together", () => {
