@@ -30,6 +30,7 @@ import {
 } from "../../../tooling/reactionLinting/rules/misconceptionRules.js";
 import { assessForStepAlone } from "../../../tooling/reactionLinting/rules/stepReproduction.js";
 import { type ReactionDocument, statesOf, stepsOf } from "../draft/reactionDraft.js";
+import { isRecord } from "../../../core/jsonValues/jsonValues.js";
 
 export type AnswerEdit =
   | { readonly outcome: "edited"; readonly document: ReactionDocument }
@@ -46,10 +47,6 @@ type JsonRecord = Readonly<Record<string, unknown>>;
 const SLUG_PATTERN = /^[a-z0-9]+(?:-[a-z0-9]+)*$/;
 const edited = (document: ReactionDocument): AnswerEdit => ({ outcome: "edited", document });
 const refused = (reason: string): AnswerEdit => ({ outcome: "refused", reason });
-
-function isRecord(value: unknown): value is JsonRecord {
-  return typeof value === "object" && value !== null && !Array.isArray(value);
-}
 
 function recordsIn(value: unknown): JsonRecord[] {
   return Array.isArray(value) ? value.filter(isRecord) : [];

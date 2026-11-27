@@ -4,10 +4,7 @@
  * Screen y points down, stored y points up (RDKit units); positions are rounded to 0.01.
  */
 import { type ReactionDocument, statesOf } from "../draft/reactionDraft.js";
-
-function isRecord(value: unknown): value is Readonly<Record<string, unknown>> {
-  return typeof value === "object" && value !== null && !Array.isArray(value);
-}
+import { isRecord } from "../../../core/jsonValues/jsonValues.js";
 
 const rounded = (value: number): number => Math.round(value * 100) / 100 + 0;
 

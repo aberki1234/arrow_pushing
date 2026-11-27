@@ -31,6 +31,7 @@ import {
   stateFromPastedSmiles,
 } from "../draft/startState.js";
 import { routePreferenceFor } from "./stepGeneration.js";
+import { isRecord } from "../../../core/jsonValues/jsonValues.js";
 
 export type ChangeStepAddition =
   | {
@@ -49,10 +50,6 @@ export interface SpeciesChange {
 
 function refused(reason: string): ChangeStepAddition {
   return { outcome: "refused", reason };
-}
-
-function isRecord(value: unknown): value is Readonly<Record<string, unknown>> {
-  return typeof value === "object" && value !== null && !Array.isArray(value);
 }
 
 /** The arriving molecules as a state numbered from the first free map number, or why not. */

@@ -20,12 +20,9 @@
  * The document is assumed schema-valid.
  */
 import type { ChemistryToolkit, ToolkitAtom } from "../../chemistryToolkit/chemistryToolkit.js";
+import { isRecord } from "../../../core/jsonValues/jsonValues.js";
 
 type DocumentRecord = Readonly<Record<string, unknown>>;
-
-function isDocumentRecord(value: unknown): value is DocumentRecord {
-  return typeof value === "object" && value !== null && !Array.isArray(value);
-}
 
 /** Each map number's element. Rules 2 and 3 are reported into `problems`. */
 function mapNumberToElementOf(
@@ -81,11 +78,9 @@ export function stateAtomProblems(
   const problems: string[] = [];
   // The first state where each map number was seen, and its element there (for rule 4).
   const mapNumberToFirstSeen = new Map<number, { stateId: string; element: string }>();
-  const states = isDocumentRecord(reactionDocument.stateIdToState)
-    ? reactionDocument.stateIdToState
-    : {};
+  const states = isRecord(reactionDocument.stateIdToState) ? reactionDocument.stateIdToState : {};
   for (const [stateId, state] of Object.entries(states)) {
-    const record = isDocumentRecord(state) ? state : {};
+    const record = isRecord(state) ? state : {};
     const mappedSmiles = typeof record.mappedSmiles === "string" ? record.mappedSmiles : "";
     const atoms = toolkit.readAtoms(mappedSmiles);
     if (atoms === undefined) {
@@ -103,7 +98,7 @@ export function stateAtomProblems(
         );
       }
     }
-    const coordinates = isDocumentRecord(record.mapNumberToCoordinates)
+    const coordinates = isRecord(record.mapNumberToCoordinates)
       ? record.mapNumberToCoordinates
       : {};
     problems.push(

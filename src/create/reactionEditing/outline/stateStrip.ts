@@ -14,6 +14,10 @@
  *   "Intermediate N" for the others, numbered in the order the rows show them.
  */
 import { mechanismOutline, type OutlineRow } from "./mechanismOutline.js";
+import {
+  endOfPreferredRoute,
+  routeOfDocument,
+} from "../../../core/reactionFiles/preferredRoute.js";
 import { type ReactionDocument, stepsOf } from "../draft/reactionDraft.js";
 
 export type StripFrame =
@@ -119,24 +123,6 @@ export function stateStripRows(document: ReactionDocument): StateStripRow[] {
   return building.rows;
 }
 
-/** Where following the preferred steps from the start state stops. */
-function endOfPreferredRoute(document: ReactionDocument): string {
-  const steps = stepsOf(document);
-  const passed = new Set<string>();
-  let stateId = String(document.startStateId);
-  for (;;) {
-    passed.add(stateId);
-    const preferred = steps.find(
-      (step) => step.fromStateId === stateId && step.routePreference === "preferred",
-    );
-    const nextStateId = preferred === undefined ? undefined : String(preferred.toStateId);
-    if (nextStateId === undefined || passed.has(nextStateId)) {
-      return stateId;
-    }
-    stateId = nextStateId;
-  }
-}
-
 /** Product states (no step leaves them) in strip order, the main product first. */
 function productsMainFirst(document: ReactionDocument, stateIdsInOrder: string[]): string[] {
   const steps = stepsOf(document);
@@ -147,7 +133,7 @@ function productsMainFirst(document: ReactionDocument, stateIdsInOrder: string[]
     (stateId) =>
       stateId !== document.startStateId && !steps.some((step) => step.fromStateId === stateId),
   );
-  const mainProduct = endOfPreferredRoute(document);
+  const mainProduct = endOfPreferredRoute(routeOfDocument(document));
   return products.includes(mainProduct)
     ? [mainProduct, ...products.filter((stateId) => stateId !== mainProduct)]
     : products;

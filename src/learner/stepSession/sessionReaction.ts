@@ -14,6 +14,7 @@ import type {
   AbbreviatedGroup,
   StateDisplayFields,
 } from "../../drawing/moleculeDrawing/state/stateDrawing.js";
+import { isRecord } from "../../core/jsonValues/jsonValues.js";
 
 export interface SessionState {
   readonly stateId: string;
@@ -57,10 +58,6 @@ export interface SessionReaction {
 
 type DocumentRecord = Readonly<Record<string, unknown>>;
 
-function isDocumentRecord(value: unknown): value is DocumentRecord {
-  return typeof value === "object" && value !== null && !Array.isArray(value);
-}
-
 function textOr(record: DocumentRecord, key: string, fallback: string): string {
   const value = record[key];
   return typeof value === "string" ? value : fallback;
@@ -87,7 +84,7 @@ function numberList(value: unknown): number[] {
 }
 
 function abbreviatedGroupsIn(value: unknown): AbbreviatedGroup[] {
-  return (Array.isArray(value) ? value : []).filter(isDocumentRecord).map((group) => ({
+  return (Array.isArray(value) ? value : []).filter(isRecord).map((group) => ({
     groupLabel: requiredText(group, "groupLabel"),
     attachmentMapNumber: Number(group["attachmentMapNumber"]),
     mapNumbers: numberList(group["mapNumbers"]),
@@ -121,12 +118,12 @@ function sessionStepOf(step: DocumentRecord): SessionStep {
 }
 
 export function readSessionReaction(reactionDocument: DocumentRecord): SessionReaction {
-  const states = isDocumentRecord(reactionDocument["stateIdToState"])
+  const states = isRecord(reactionDocument["stateIdToState"])
     ? reactionDocument["stateIdToState"]
     : {};
   const stateIdToState = new Map<string, SessionState>();
   for (const [stateId, state] of Object.entries(states)) {
-    if (isDocumentRecord(state)) {
+    if (isRecord(state)) {
       stateIdToState.set(stateId, sessionStateOf(stateId, state));
     }
   }
@@ -143,7 +140,7 @@ export function readSessionReaction(reactionDocument: DocumentRecord): SessionRe
     conditionsLabel: textOr(reactionDocument, "conditionsLabel", ""),
     mechanismSummary: textOr(reactionDocument, "mechanismSummary", ""),
     authors: (Array.isArray(reactionDocument["authors"]) ? reactionDocument["authors"] : [])
-      .filter(isDocumentRecord)
+      .filter(isRecord)
       .map((author) => ({
         name: textOr(author, "name", ""),
         url: typeof author["url"] === "string" ? author["url"] : null,
@@ -154,7 +151,7 @@ export function readSessionReaction(reactionDocument: DocumentRecord): SessionRe
     spectatorMapNumbers: numberList(reactionDocument["spectatorMapNumbers"]),
     abbreviatedGroups: abbreviatedGroupsIn(reactionDocument["abbreviatedGroups"]),
     stateIdToState,
-    steps: steps.filter(isDocumentRecord).map(sessionStepOf),
+    steps: steps.filter(isRecord).map(sessionStepOf),
     prepared: prepareReaction(reactionDocument),
   };
 }

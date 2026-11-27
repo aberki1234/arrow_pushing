@@ -22,6 +22,10 @@
  * Arrows are stored in their printed form.
  */
 import {
+  preferredRouteStateIds,
+  routeOfDocument,
+} from "../../../core/reactionFiles/preferredRoute.js";
+import {
   type CurvedArrow,
   formatCurvedArrow,
 } from "../../../core/arrowNotation/curvedArrowNotation.js";
@@ -50,6 +54,7 @@ import {
   statesOf,
   stepsOf,
 } from "../draft/reactionDraft.js";
+import { isRecord } from "../../../core/jsonValues/jsonValues.js";
 
 export type StepGeneration =
   | {
@@ -70,10 +75,6 @@ interface StateMatch {
 
 function refused(reason: string): StepGeneration {
   return { outcome: "refused", reason };
-}
-
-function isRecord(value: unknown): value is Readonly<Record<string, unknown>> {
-  return typeof value === "object" && value !== null && !Array.isArray(value);
 }
 
 function graphOfState(document: ReactionDocument, stateId: string): StateGraph | undefined {
@@ -126,23 +127,6 @@ function leadsTo(document: ReactionDocument, fromStateId: string, toStateId: str
     }
   }
   return reached.has(toStateId);
-}
-
-/** The start state and every state reached from it by preferred steps. */
-function preferredRouteStateIds(document: ReactionDocument): Set<string> {
-  const onRoute = new Set([String(document.startStateId)]);
-  let stateId = String(document.startStateId);
-  for (;;) {
-    const preferred = stepsOf(document).find(
-      (step) => step.fromStateId === stateId && step.routePreference === "preferred",
-    );
-    const next = preferred === undefined ? undefined : String(preferred.toStateId);
-    if (next === undefined || onRoute.has(next)) {
-      return onRoute;
-    }
-    onRoute.add(next);
-    stateId = next;
-  }
 }
 
 /** Why joining `stateId` is refused, or undefined if it may be joined. */
@@ -253,7 +237,7 @@ export function routePreferenceFor(document: ReactionDocument, fromStateId: stri
   const preferredLeaves = stepsOf(document).some(
     (step) => step.fromStateId === fromStateId && step.routePreference === "preferred",
   );
-  return preferredRouteStateIds(document).has(fromStateId) && !preferredLeaves
+  return preferredRouteStateIds(routeOfDocument(document)).includes(fromStateId) && !preferredLeaves
     ? "preferred"
     : "accepted";
 }

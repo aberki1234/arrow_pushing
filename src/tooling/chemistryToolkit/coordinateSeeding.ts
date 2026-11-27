@@ -15,6 +15,7 @@
  *      not exactly its map numbers (missing, incomplete or stale), and leaves the rest.
  */
 import type { ChemistryToolkit, LaidOutAtom } from "./chemistryToolkit.js";
+import { isRecord } from "../../core/jsonValues/jsonValues.js";
 
 const COORDINATE_DECIMAL_PLACES = 2; // 0.01 RDKit units: far below what a screen shows
 const ROUNDING_FACTOR = 10 ** COORDINATE_DECIMAL_PLACES;
@@ -126,10 +127,6 @@ function sameKeys(first: Readonly<Record<string, unknown>>, second: object): boo
   const firstKeys = Object.keys(first);
   const secondKeys = new Set(Object.keys(second));
   return firstKeys.length === secondKeys.size && firstKeys.every((key) => secondKeys.has(key));
-}
-
-function isRecord(value: unknown): value is Record<string, unknown> {
-  return typeof value === "object" && value !== null && !Array.isArray(value);
 }
 
 /**

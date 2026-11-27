@@ -8,6 +8,7 @@ const tiersLowestFirst = [
   [
     "core",
     [
+      "jsonValues",
       "arrowNotation",
       "stateGraphs",
       "attemptAssessment",

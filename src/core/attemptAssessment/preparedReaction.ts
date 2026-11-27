@@ -14,6 +14,7 @@ import {
   skeletonSymmetries,
   withHydrogensFolded,
 } from "./skeletonSymmetry.js";
+import { isRecord } from "../jsonValues/jsonValues.js";
 
 /** An arrow step leaving a state, with its known arrow sets parsed (canonical arrows first). */
 export interface PreparedStep {
@@ -50,12 +51,8 @@ export interface PreparedReaction {
 
 type DocumentRecord = Readonly<Record<string, unknown>>;
 
-function isDocumentRecord(value: unknown): value is DocumentRecord {
-  return typeof value === "object" && value !== null && !Array.isArray(value);
-}
-
 function recordsIn(value: unknown): DocumentRecord[] {
-  return Array.isArray(value) ? value.filter(isDocumentRecord) : [];
+  return Array.isArray(value) ? value.filter(isRecord) : [];
 }
 
 function textIn(record: DocumentRecord, key: string): string {
@@ -74,7 +71,7 @@ function arrowsIn(value: unknown): CurvedArrow[] {
 
 function roleTableIn(value: unknown): Record<string, number[]> {
   const roleTable: Record<string, number[]> = {};
-  for (const [roleName, mapNumbers] of Object.entries(isDocumentRecord(value) ? value : {})) {
+  for (const [roleName, mapNumbers] of Object.entries(isRecord(value) ? value : {})) {
     roleTable[roleName] = Array.isArray(mapNumbers)
       ? mapNumbers.filter((item): item is number => typeof item === "number")
       : [];
@@ -124,14 +121,12 @@ export function prepareReaction(
   reactionDocument: Readonly<Record<string, unknown>>,
 ): PreparedReaction {
   const roles = roleTableIn(reactionDocument.atomRoleToMapNumbers);
-  const states = isDocumentRecord(reactionDocument.stateIdToState)
-    ? reactionDocument.stateIdToState
-    : {};
+  const states = isRecord(reactionDocument.stateIdToState) ? reactionDocument.stateIdToState : {};
   const stateIdToGraph = new Map<string, StateGraph>();
   const stateIdToMisconceptions = new Map<string, PreparedMisconception[]>();
   const stateIdToPartialProgressMessages = new Map<string, PartialProgressMessage[]>();
   for (const [stateId, state] of Object.entries(states)) {
-    if (!isDocumentRecord(state)) {
+    if (!isRecord(state)) {
       throw new Error(`reaction file: state "${stateId}" must be an object`);
     }
     stateIdToGraph.set(stateId, stateGraphFromMappedSmiles(textIn(state, "mappedSmiles")));

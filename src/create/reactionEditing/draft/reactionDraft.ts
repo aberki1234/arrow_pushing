@@ -9,16 +9,13 @@
  */
 import type { DraftState } from "./startState.js";
 import { stateGraphFromMappedSmiles } from "../../../core/stateGraphs/mappedSmilesReading.js";
+import { isRecord } from "../../../core/jsonValues/jsonValues.js";
 
 /** A reaction file's JSON, read only; edits make new documents. */
 export type ReactionDocument = Readonly<Record<string, unknown>>;
 
 const FORMAT_VERSION = 1;
 const LICENCE = "CC-BY-SA-4.0";
-
-function isRecord(value: unknown): value is Readonly<Record<string, unknown>> {
-  return typeof value === "object" && value !== null && !Array.isArray(value);
-}
 
 export function statesOf(document: ReactionDocument): Readonly<Record<string, unknown>> {
   return isRecord(document.stateIdToState) ? document.stateIdToState : {};

@@ -18,6 +18,7 @@ import {
   tapToSourceLocus,
 } from "../../../learner/stepSession/arrowPicking.js";
 import { type ReactionDocument, statesOf } from "../draft/reactionDraft.js";
+import { isRecord } from "../../../core/jsonValues/jsonValues.js";
 
 export interface ArrowDrawing {
   readonly stateId: string;
@@ -27,10 +28,6 @@ export interface ArrowDrawing {
   readonly pendingSource: ElectronLocus | null;
   /** Why the last tap was refused, for the author. */
   readonly pickMessage: string | null;
-}
-
-function isRecord(value: unknown): value is Readonly<Record<string, unknown>> {
-  return typeof value === "object" && value !== null && !Array.isArray(value);
 }
 
 /** No arrows yet; fish-hooks first in a reaction classed as radical. */

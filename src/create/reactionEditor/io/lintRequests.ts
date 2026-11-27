@@ -7,6 +7,7 @@
 import type { ChemistryToolkit } from "../../../tooling/chemistryToolkit/chemistryToolkit.js";
 import type { LintFinding } from "../../../tooling/reactionLinting/findings/lintFindings.js";
 import { lintReaction } from "../../../tooling/reactionLinting/rules/reactionLint.js";
+import { isRecord } from "../../../core/jsonValues/jsonValues.js";
 
 export interface LintRequest {
   readonly requestId: number;
@@ -16,10 +17,6 @@ export interface LintRequest {
 export interface LintAnswer {
   readonly requestId: number;
   readonly lintFindings: readonly LintFinding[];
-}
-
-function isRecord(value: unknown): value is Readonly<Record<string, unknown>> {
-  return typeof value === "object" && value !== null && !Array.isArray(value);
 }
 
 export function lintRequestAnswerer(

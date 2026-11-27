@@ -24,6 +24,7 @@
  *   unknownStateIdFindings() runs first: the other rules assume every state id exists.
  *   mechanismGraphFindings() then checks the rest, in the order listed above.
  */
+import { endOfPreferredRoute } from "../../../core/reactionFiles/preferredRoute.js";
 import type { LintedReaction } from "../findings/lintedReaction.js";
 import { type LintFinding, lintError, lintWarning } from "../findings/lintFindings.js";
 
@@ -170,7 +171,7 @@ function preferredStepPositionsByState(reaction: LintedReaction): Map<string, nu
 /** Rule 3: every alternative product says what it is, once the main product is known. */
 function alternativeProductFindings(reaction: LintedReaction): LintFinding[] {
   const productIds = productStateIds(reaction);
-  const mainProductId = endOfPreferredRoute(reaction, preferredStepPositionsByState(reaction));
+  const mainProductId = endOfPreferredRoute(reaction);
   if (!productIds.includes(mainProductId)) {
     return [];
   }
@@ -185,22 +186,6 @@ function alternativeProductFindings(reaction: LintedReaction): LintFinding[] {
           `"${mainProductId}"): give it a caption saying what it is, e.g. "ortho product (minor)"`,
       ),
     );
-}
-
-/** Where following the preferred steps from the start state stops. */
-function endOfPreferredRoute(
-  reaction: LintedReaction,
-  stateIdToPreferredPositions: ReadonlyMap<string, readonly number[]>,
-): string {
-  let stateId = reaction.startStateId;
-  const passed = new Set<string>();
-  let position = stateIdToPreferredPositions.get(stateId)?.[0];
-  while (position !== undefined && !passed.has(stateId)) {
-    passed.add(stateId);
-    stateId = toStateIdAt(reaction, position);
-    position = stateIdToPreferredPositions.get(stateId)?.[0];
-  }
-  return stateId;
 }
 
 /**
@@ -223,7 +208,7 @@ function preferredStepFindings(reaction: LintedReaction): LintFinding[] {
   if (findings.length > 0) {
     return findings;
   }
-  const routeEnd = endOfPreferredRoute(reaction, stateIdToPreferredPositions);
+  const routeEnd = endOfPreferredRoute(reaction);
   if (productStateIds(reaction).includes(routeEnd)) {
     return [];
   }

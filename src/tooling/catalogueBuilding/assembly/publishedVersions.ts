@@ -17,6 +17,7 @@ import { lintReaction } from "../../reactionLinting/rules/reactionLint.js";
 import { CatalogueBuildError } from "../naming/catalogueBuildErrors.js";
 import { contentHashOf } from "../naming/staticFileNaming.js";
 import { reactionVersionRef } from "../../../core/catalogue/reactionVersionRefs.js";
+import { isRecord } from "../../../core/jsonValues/jsonValues.js";
 
 export interface PublishedVersion {
   readonly reactionSlug: string;
@@ -24,10 +25,6 @@ export interface PublishedVersion {
   readonly reactionDocument: Readonly<Record<string, unknown>>;
   readonly contentHash: string;
   readonly sourcePath: string;
-}
-
-function isRecord(value: unknown): value is Record<string, unknown> {
-  return typeof value === "object" && value !== null && !Array.isArray(value);
 }
 
 function readReactionFile(reactionPath: string): Record<string, unknown> {

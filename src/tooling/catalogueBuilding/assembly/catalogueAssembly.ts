@@ -21,7 +21,10 @@ import {
   type SchemeState,
   catalogueSchemaViolations,
 } from "../../../core/catalogue/catalogueReading.js";
-import { endOfPreferredRoute } from "../../../core/reactionFiles/preferredRoute.js";
+import {
+  endOfPreferredRoute,
+  routeOfDocument,
+} from "../../../core/reactionFiles/preferredRoute.js";
 import { CatalogueBuildError } from "../naming/catalogueBuildErrors.js";
 import { appendedDailyCalendar } from "../naming/dailyCalendar.js";
 import type { PublishedVersion } from "./publishedVersions.js";
@@ -203,7 +206,7 @@ export function withShowcaseProducts(
       return track;
     }
     const document = showcase.reactionDocument;
-    const productState = schemeStateOf(document, endOfPreferredRoute(document));
+    const productState = schemeStateOf(document, endOfPreferredRoute(routeOfDocument(document)));
     return productState === null ? track : { ...track, showcaseProductState: productState };
   });
 }

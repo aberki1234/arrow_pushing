@@ -7,6 +7,7 @@
  * States keep the order of stateIdToState, steps the order of "steps" (findings point at steps by
  * position).
  */
+import { isRecord } from "../../../core/jsonValues/jsonValues.js";
 
 type DocumentRecord = Readonly<Record<string, unknown>>;
 
@@ -49,13 +50,9 @@ export interface LintedReaction {
   readonly abbreviatedGroups: readonly LintedAbbreviatedGroup[];
 }
 
-function isDocumentRecord(value: unknown): value is DocumentRecord {
-  return typeof value === "object" && value !== null && !Array.isArray(value);
-}
-
 function recordAt(record: DocumentRecord, key: string): DocumentRecord {
   const value = record[key];
-  if (!isDocumentRecord(value)) {
+  if (!isRecord(value)) {
     throw new Error(`reaction file: "${key}" must be an object`);
   }
   return value;
@@ -93,7 +90,7 @@ function numberList(value: unknown, key: string): number[] {
 
 function recordsAt(record: DocumentRecord, key: string): DocumentRecord[] {
   return listAt(record, key).map((item) => {
-    if (!isDocumentRecord(item)) {
+    if (!isRecord(item)) {
       throw new Error(`reaction file: every entry of "${key}" must be an object`);
     }
     return item;
@@ -134,14 +131,14 @@ function lintedStep(step: DocumentRecord): LintedStep {
 
 /** Read a schema-valid reaction file. */
 export function readLintedReaction(reactionDocument: DocumentRecord): LintedReaction {
-  const roles = isDocumentRecord(reactionDocument.atomRoleToMapNumbers)
+  const roles = isRecord(reactionDocument.atomRoleToMapNumbers)
     ? reactionDocument.atomRoleToMapNumbers
     : {};
   return {
     startStateId: textAt(reactionDocument, "startStateId"),
     stateIdToState: new Map(
       Object.entries(recordAt(reactionDocument, "stateIdToState")).map(([stateId, state]) => {
-        if (!isDocumentRecord(state)) {
+        if (!isRecord(state)) {
           throw new Error(`reaction file: state "${stateId}" must be an object`);
         }
         return [stateId, lintedState(state)];

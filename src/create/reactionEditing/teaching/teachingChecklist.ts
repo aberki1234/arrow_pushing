@@ -15,6 +15,7 @@ import type { LintFinding } from "../../../tooling/reactionLinting/findings/lint
 import { type LintPlace, placeOfFinding } from "../draft/lintPlaces.js";
 import { type ReactionDocument, statesOf, stepsOf } from "../draft/reactionDraft.js";
 import { stateStripRows } from "../outline/stateStrip.js";
+import { isRecord } from "../../../core/jsonValues/jsonValues.js";
 
 export type TeachingItemKind =
   | "learnerPrompt"
@@ -53,8 +54,6 @@ export interface TeachingCounts {
   readonly neededLeftCount: number;
 }
 
-type JsonRecord = Readonly<Record<string, unknown>>;
-
 /** The full hint ladder: conceptual, narrowing, reveal (lint: fewer-than-three-hint-tiers). */
 export const FULL_HINT_LADDER_LENGTH = 3;
 
@@ -63,10 +62,6 @@ const LINT_RULE_TO_FIELD: Readonly<Record<string, string>> = {
   "learner-prompt-missing": "learnerPrompt",
   "hint-tiers-missing": "hintTiers",
 };
-
-function isRecord(value: unknown): value is JsonRecord {
-  return typeof value === "object" && value !== null && !Array.isArray(value);
-}
 
 function filledTextCount(value: unknown): number {
   return typeof value === "string" && value.trim() !== "" ? 1 : 0;

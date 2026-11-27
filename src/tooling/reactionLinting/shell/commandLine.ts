@@ -24,6 +24,7 @@ import { seedMissingCoordinates } from "../../chemistryToolkit/coordinateSeeding
 import type { LintFinding } from "../findings/lintFindings.js";
 import { lintReaction } from "../rules/reactionLint.js";
 import { lintTrackFile, publishedReactionSlugsInFolder } from "../tracks/trackFileLint.js";
+import { isRecord } from "../../../core/jsonValues/jsonValues.js";
 
 const EXIT_SUCCESS = 0;
 const EXIT_FAILURE = 1; // an error-level finding, or a file that is not JSON
@@ -41,10 +42,6 @@ interface LintReport {
   readonly lintFindings: readonly LintFinding[];
   readonly errorCount: number;
   readonly warningCount: number;
-}
-
-function isRecord(value: unknown): value is Record<string, unknown> {
-  return typeof value === "object" && value !== null && !Array.isArray(value);
 }
 
 /** The parsed file, or the reason it cannot be read. */

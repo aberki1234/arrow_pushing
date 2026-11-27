@@ -23,6 +23,7 @@ import {
   bondKeyMapNumbers,
 } from "../../../core/stateGraphs/stateGraph.js";
 import { type ReactionDocument, statesOf, stepsOf } from "./reactionDraft.js";
+import { isRecord } from "../../../core/jsonValues/jsonValues.js";
 
 export type FieldEdit =
   | { readonly outcome: "edited"; readonly document: ReactionDocument }
@@ -48,10 +49,6 @@ const OPTIONAL_REACTION_TEXTS = new Set(["subtitle"]);
 
 const edited = (document: ReactionDocument): FieldEdit => ({ outcome: "edited", document });
 const refused = (reason: string): FieldEdit => ({ outcome: "refused", reason });
-
-function isRecord(value: unknown): value is JsonRecord {
-  return typeof value === "object" && value !== null && !Array.isArray(value);
-}
 
 function isWholeNumberList(value: unknown): value is number[] {
   return Array.isArray(value) && value.every((item) => Number.isInteger(item) && Number(item) > 0);

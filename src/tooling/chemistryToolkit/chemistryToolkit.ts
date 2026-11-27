@@ -15,6 +15,7 @@
  * them.
  */
 import initRDKitModule, { type MainModule as RDKitModule, type Mol } from "@rdkit/rdkit";
+import { isRecord } from "../../core/jsonValues/jsonValues.js";
 
 /** `mapNumber` is 0 for an atom written without one. */
 export interface ToolkitAtom {
@@ -109,17 +110,10 @@ function molblockAtoms(molblock: string): LaidOutAtom[] {
   });
 }
 
-type JsonRecord = Readonly<Record<string, unknown>>;
-
-function isJsonRecord(value: unknown): value is JsonRecord {
-  return typeof value === "object" && value !== null && !Array.isArray(value);
-}
-
 /** A number field of an RDKit JSON atom or bond, falling back to the file's default. */
 function jsonNumber(item: unknown, defaults: unknown, key: string): number {
   const value =
-    (isJsonRecord(item) ? item[key] : undefined) ??
-    (isJsonRecord(defaults) ? defaults[key] : undefined);
+    (isRecord(item) ? item[key] : undefined) ?? (isRecord(defaults) ? defaults[key] : undefined);
   if (typeof value !== "number") {
     throw new Error(`RDKit JSON: no number "${key}"`);
   }
@@ -129,16 +123,16 @@ function jsonNumber(item: unknown, defaults: unknown, key: string): number {
 /** The structure in RDKit's JSON ("rdkitjson"), with symbols and map numbers from the molblock. */
 function writtenStructure(molecule: Mol): WrittenStructure {
   const document: unknown = JSON.parse(molecule.get_json());
-  const defaults = isJsonRecord(document) ? document.defaults : undefined;
+  const defaults = isRecord(document) ? document.defaults : undefined;
   const molecules: unknown[] =
-    isJsonRecord(document) && Array.isArray(document.molecules) ? document.molecules : [];
+    isRecord(document) && Array.isArray(document.molecules) ? document.molecules : [];
   const [moleculeJson] = molecules;
-  const atomDefaults = isJsonRecord(defaults) ? defaults.atom : undefined;
-  const bondDefaults = isJsonRecord(defaults) ? defaults.bond : undefined;
+  const atomDefaults = isRecord(defaults) ? defaults.atom : undefined;
+  const bondDefaults = isRecord(defaults) ? defaults.bond : undefined;
   const atomsJson: unknown[] =
-    isJsonRecord(moleculeJson) && Array.isArray(moleculeJson.atoms) ? moleculeJson.atoms : [];
+    isRecord(moleculeJson) && Array.isArray(moleculeJson.atoms) ? moleculeJson.atoms : [];
   const bondsJson: unknown[] =
-    isJsonRecord(moleculeJson) && Array.isArray(moleculeJson.bonds) ? moleculeJson.bonds : [];
+    isRecord(moleculeJson) && Array.isArray(moleculeJson.bonds) ? moleculeJson.bonds : [];
   const symbolAtoms = molblockAtoms(molecule.get_molblock());
   return {
     atoms: atomsJson.map((atom, index) => ({
@@ -148,8 +142,7 @@ function writtenStructure(molecule: Mol): WrittenStructure {
       formalCharge: jsonNumber(atom, atomDefaults, "chg"),
     })),
     bonds: bondsJson.map((bond) => {
-      const atomIndexes: unknown[] =
-        isJsonRecord(bond) && Array.isArray(bond.atoms) ? bond.atoms : [];
+      const atomIndexes: unknown[] = isRecord(bond) && Array.isArray(bond.atoms) ? bond.atoms : [];
       const [firstAtomIndex, secondAtomIndex] = atomIndexes;
       if (typeof firstAtomIndex !== "number" || typeof secondAtomIndex !== "number") {
         throw new Error("RDKit JSON: a bond without two atoms");

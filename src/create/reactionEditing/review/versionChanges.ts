@@ -22,6 +22,7 @@ import type { LintPlace } from "../draft/lintPlaces.js";
 import { type ReactionDocument, statesOf, stepsOf } from "../draft/reactionDraft.js";
 import { stateDisplayNames } from "../outline/stateStrip.js";
 import { type TextPiece, textDiff } from "./textDiff.js";
+import { isRecord } from "../../../core/jsonValues/jsonValues.js";
 
 export type EntryKind = "text" | "structure" | "misconception" | "details";
 
@@ -85,10 +86,6 @@ const STEP_DETAIL_FIELDS = [
   "addedSpecies",
   "removedFragmentMapNumbers",
 ];
-
-function isRecord(value: unknown): value is JsonRecord {
-  return typeof value === "object" && value !== null && !Array.isArray(value);
-}
 
 function textOf(value: unknown): string {
   if (value === undefined || value === null) {

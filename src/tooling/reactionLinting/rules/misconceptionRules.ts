@@ -37,15 +37,12 @@ import {
   type PathPart,
 } from "../findings/lintFindings.js";
 import { assessForStepAlone } from "./stepReproduction.js";
+import { isRecord } from "../../../core/jsonValues/jsonValues.js";
 
 type DocumentRecord = Readonly<Record<string, unknown>>;
 
-function isDocumentRecord(value: unknown): value is DocumentRecord {
-  return typeof value === "object" && value !== null && !Array.isArray(value);
-}
-
 function isWritableRecord(value: unknown): value is Record<string, unknown> {
-  return isDocumentRecord(value);
+  return isRecord(value);
 }
 
 function misconceptionPath(stateId: string, position: number): PathPart[] {
@@ -84,7 +81,7 @@ export function withoutInvalidPatterns(
   reaction: LintedReaction,
 ): Record<string, unknown> {
   const documentCopy = structuredClone({ ...reactionDocument });
-  const states = isDocumentRecord(documentCopy.stateIdToState) ? documentCopy.stateIdToState : {};
+  const states = isRecord(documentCopy.stateIdToState) ? documentCopy.stateIdToState : {};
   for (const [stateId, state] of Object.entries(states)) {
     if (isWritableRecord(state) && Array.isArray(state.misconceptions)) {
       const misconceptions: unknown[] = state.misconceptions;

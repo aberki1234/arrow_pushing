@@ -17,6 +17,7 @@
 import { existsSync, mkdirSync, readdirSync, readFileSync, writeFileSync } from "node:fs";
 import { join } from "node:path";
 import { creationProgress } from "../reactionEditing/publishing/creationProgress.js";
+import { isRecord } from "../../core/jsonValues/jsonValues.js";
 
 export interface FileRequest {
   readonly method: string;
@@ -35,10 +36,6 @@ const FILE_NAME_PATTERN = /^[a-z0-9]+(?:-[a-z0-9]+)*\.json$/;
 
 function answer(status: number, value: unknown): FileResponse {
   return { status, contentType: "application/json", body: JSON.stringify(value) };
-}
-
-function isRecord(value: unknown): value is Record<string, unknown> {
-  return typeof value === "object" && value !== null && !Array.isArray(value);
 }
 
 function parsedObject(text: string): Record<string, unknown> | undefined {

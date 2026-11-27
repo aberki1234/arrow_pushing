@@ -9,6 +9,7 @@ import {
   reactionFilePath,
 } from "../../core/catalogue/catalogueReading.js";
 import { schemaViolations } from "../../core/reactionFiles/schemaViolations.js";
+import { isRecord } from "../../core/jsonValues/jsonValues.js";
 
 export const CATALOGUE_PATH = "catalogue.json";
 
@@ -47,10 +48,6 @@ export async function loadCatalogue(fetcher: JsonFetcher): Promise<Catalogue> {
   }
 }
 
-function isDocumentRecord(value: unknown): value is Readonly<Record<string, unknown>> {
-  return typeof value === "object" && value !== null && !Array.isArray(value);
-}
-
 /** The reaction file of `reactionVersionRef`, schema-checked, its slug and version matching. */
 export async function loadReactionDocument(
   fetcher: JsonFetcher,
@@ -66,7 +63,7 @@ export async function loadReactionDocument(
   }
   const reactionDocument = await fetcher(filePath);
   const violations = schemaViolations(reactionDocument);
-  if (!isDocumentRecord(reactionDocument) || violations.length > 0) {
+  if (!isRecord(reactionDocument) || violations.length > 0) {
     const places = violations.map((violation) => violation.instancePath || "/").join(", ");
     throw new SiteDataError(
       "invalid-reaction-file",

@@ -37,6 +37,7 @@ import {
 } from "../../../core/stateGraphs/stateGraph.js";
 import { type Coordinates, placedClearOf, positionInLargestGap } from "./atomPlacement.js";
 import { type ReactionDocument, statesOf, stepsOf } from "../draft/reactionDraft.js";
+import { isRecord } from "../../../core/jsonValues/jsonValues.js";
 
 export type StateEdit =
   | { readonly outcome: "edited"; readonly document: ReactionDocument }
@@ -50,10 +51,6 @@ export interface StateRegeneration {
 }
 
 type JsonRecord = Readonly<Record<string, unknown>>;
-
-function isRecord(value: unknown): value is JsonRecord {
-  return typeof value === "object" && value !== null && !Array.isArray(value);
-}
 
 function coordinatesOf(state: JsonRecord): Coordinates {
   return (

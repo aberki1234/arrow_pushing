@@ -8,6 +8,7 @@
  *   1  the preferred route has at most one arrow step, of at most two arrows;
  *   2  otherwise.
  */
+import { preferredRoute, routeOfDocument } from "../../../core/reactionFiles/preferredRoute.js";
 import { type ReactionDocument, stepsOf } from "../draft/reactionDraft.js";
 
 export type DifficultyTier = 1 | 2 | 3;
@@ -19,26 +20,11 @@ const EASY_ARROW_COUNT = 2;
 
 /** The arrow counts of the arrow steps on the preferred route from the start state. */
 function preferredRouteArrowCounts(document: ReactionDocument): number[] {
-  const steps = stepsOf(document);
-  const arrowCounts: number[] = [];
-  const visited = new Set<unknown>();
-  let stateId = document.startStateId;
-  while (!visited.has(stateId)) {
-    visited.add(stateId);
-    const preferred = steps.find(
-      (step) => step.fromStateId === stateId && step.routePreference === "preferred",
+  return preferredRoute(routeOfDocument(document))
+    .filter(({ step }) => step["stepKind"] !== "change")
+    .map(({ step }) =>
+      Array.isArray(step["canonicalArrows"]) ? step["canonicalArrows"].length : 0,
     );
-    if (preferred === undefined) {
-      break;
-    }
-    if (preferred.stepKind !== "change") {
-      arrowCounts.push(
-        Array.isArray(preferred.canonicalArrows) ? preferred.canonicalArrows.length : 0,
-      );
-    }
-    stateId = preferred.toStateId;
-  }
-  return arrowCounts;
 }
 
 export function suggestedDifficultyTier(document: ReactionDocument): DifficultyTier {

@@ -25,6 +25,7 @@ import {
   statesOf,
   stepsOf,
 } from "../draft/reactionDraft.js";
+import { isRecord } from "../../../core/jsonValues/jsonValues.js";
 
 export type HydrogenShowing =
   | {
@@ -35,10 +36,6 @@ export type HydrogenShowing =
       readonly statesWithoutHydrogen: readonly string[];
     }
   | { readonly outcome: "refused"; readonly reason: string };
-
-function isRecord(value: unknown): value is Readonly<Record<string, unknown>> {
-  return typeof value === "object" && value !== null && !Array.isArray(value);
-}
 
 function neighboursOf(graph: StateGraph, mapNumber: number): number[] {
   return [...graph.bondToOrder.keys()]

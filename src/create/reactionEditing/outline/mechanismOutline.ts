@@ -9,6 +9,10 @@
  *   Within a branch, a state's first leaving step (preferred first, then file order) continues at
  *   the same depth and the others branch again. States no route reaches come last, at depth 0.
  */
+import {
+  preferredRouteStateIds,
+  routeOfDocument,
+} from "../../../core/reactionFiles/preferredRoute.js";
 import { type ReactionDocument, statesOf, stepsOf } from "../draft/reactionDraft.js";
 
 export type OutlineRow =
@@ -69,26 +73,10 @@ function shown(outlining: Outlining, stateId: string): boolean {
   return outlining.rows.some((row) => row.rowKind === "state" && row.stateId === stateId);
 }
 
-/** The states on the preferred route from the start state. */
-function preferredRoute(outlining: Outlining, startStateId: string): string[] {
-  const route = [startStateId];
-  for (;;) {
-    const lastStateId = route.at(-1) ?? startStateId;
-    const preferred = outlining.steps.find(
-      (step) => step.fromStateId === lastStateId && step.routePreference === "preferred",
-    );
-    const next = preferred === undefined ? undefined : String(preferred.toStateId);
-    if (next === undefined || route.includes(next)) {
-      return route;
-    }
-    route.push(next);
-  }
-}
-
 export function mechanismOutline(document: ReactionDocument): OutlineRow[] {
   const startStateId = String(document.startStateId);
   const outlining: Outlining = { steps: stepsOf(document), rows: [], claimed: new Set() };
-  for (const stateId of preferredRoute(outlining, startStateId)) {
+  for (const stateId of preferredRouteStateIds(routeOfDocument(document))) {
     outlining.claimed.add(stateId);
   }
   outlineFrom(outlining, startStateId, 0);
