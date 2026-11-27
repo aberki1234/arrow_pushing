@@ -18,12 +18,14 @@
  *   different           not a resonance form of the target
  */
 import {
-  bondKeyMapNumbers,
+  bondOrderBetween,
+  bondedNeighbours,
   formalCharge,
   type StateGraph,
   stateGraphsEqual,
   unpairedElectronCount,
 } from "../stateGraphs/stateGraph.js";
+import { type MapNumberRelabelling, relabelledSkeletonMatches } from "./skeletonSymmetry.js";
 
 export type StateComparison = "identical" | "resonanceForm" | "minorResonanceForm" | "different";
 
@@ -45,15 +47,8 @@ function molecules(graph: StateGraph): Set<number>[] {
     const molecule = new Set([startMapNumber]);
     const frontier = [startMapNumber];
     for (let current = frontier.pop(); current !== undefined; current = frontier.pop()) {
-      for (const key of graph.bondToOrder.keys()) {
-        const [firstMapNumber, secondMapNumber] = bondKeyMapNumbers(key);
-        const neighbour =
-          current === firstMapNumber
-            ? secondMapNumber
-            : current === secondMapNumber
-              ? firstMapNumber
-              : undefined;
-        if (neighbour !== undefined && !molecule.has(neighbour)) {
+      for (const { mapNumber: neighbour } of bondedNeighbours(graph, current)) {
+        if (!molecule.has(neighbour)) {
           molecule.add(neighbour);
           frontier.push(neighbour);
         }
@@ -119,4 +114,95 @@ export function compareStates(result: StateGraph, target: StateGraph): StateComp
   return chargedAtomCount(result) > chargedAtomCount(target)
     ? "minorResonanceForm"
     : "resonanceForm";
+}
+
+/** Charge and unpaired electrons, the two counts a molecule keeps through resonance. */
+interface ElectronCounts {
+  readonly charge: number;
+  readonly unpaired: number;
+}
+
+function countsAt(graph: StateGraph, mapNumber: number): ElectronCounts {
+  return { charge: formalCharge(graph, mapNumber), unpaired: unpairedAt(graph, mapNumber) };
+}
+
+function hasStereoMarks(graph: StateGraph): boolean {
+  return (
+    (graph.mapNumberToTetrahedralMark?.size ?? 0) > 0 ||
+    (graph.bondToDoubleBondRelation?.size ?? 0) > 0
+  );
+}
+
+/** Same lone-pair electrons on each atom and same bond orders, once the σ skeletons match. */
+function sameElectronsUnder(
+  result: StateGraph,
+  relabelling: MapNumberRelabelling,
+  target: StateGraph,
+): boolean {
+  const imageOf = (mapNumber: number): number => relabelling.get(mapNumber) ?? mapNumber;
+  return [...result.mapNumberToAtom].every(
+    ([mapNumber, atom]) =>
+      target.mapNumberToAtom.get(imageOf(mapNumber))?.nonbondingElectronCount ===
+        atom.nonbondingElectronCount &&
+      bondedNeighbours(result, mapNumber).every(
+        (neighbour) =>
+          bondOrderBetween(target, imageOf(mapNumber), imageOf(neighbour.mapNumber)) ===
+          neighbour.bondOrder,
+      ),
+  );
+}
+
+/**
+ * compareStates(relabelStateGraph(result, relabelling), target) for many relabellings, without
+ * building each relabelled state (issue #1). What does not depend on the relabelling is worked
+ * out once: the target's molecules and their counts, each result atom's counts, and both charged
+ * atom counts (a relabelling only renumbers atoms). Each relabelling must renumber the result's
+ * atoms one to one, as a skeleton symmetry of the state it came from does. A relabelled state
+ * has no stereo marks, so it is identical only to a target without them.
+ */
+export function relabelledComparison(
+  result: StateGraph,
+  target: StateGraph,
+): (relabelling: MapNumberRelabelling) => StateComparison {
+  const targetMolecules = molecules(target);
+  const mapNumberToMolecule = new Map<number, number>();
+  targetMolecules.forEach((molecule, index) => {
+    molecule.forEach((mapNumber) => mapNumberToMolecule.set(mapNumber, index));
+  });
+  const targetCounts = targetMolecules.map((molecule) => {
+    const members = [...molecule].map((mapNumber) => countsAt(target, mapNumber));
+    return {
+      charge: members.reduce((sum, counts) => sum + counts.charge, 0),
+      unpaired: members.reduce((sum, counts) => sum + counts.unpaired, 0),
+    };
+  });
+  const resultCounts = [...result.mapNumberToAtom.keys()].map(
+    (mapNumber) => [mapNumber, countsAt(result, mapNumber)] as const,
+  );
+  const formOtherwise: StateComparison =
+    chargedAtomCount(result) > chargedAtomCount(target) ? "minorResonanceForm" : "resonanceForm";
+  const canBeIdentical = !hasStereoMarks(target);
+  const sameCountsPerMolecule = (relabelling: MapNumberRelabelling): boolean => {
+    const sums = targetCounts.map(() => ({ charge: 0, unpaired: 0 }));
+    for (const [mapNumber, counts] of resultCounts) {
+      const sum = sums[mapNumberToMolecule.get(relabelling.get(mapNumber) ?? mapNumber) ?? -1];
+      if (sum !== undefined) {
+        sum.charge += counts.charge;
+        sum.unpaired += counts.unpaired;
+      }
+    }
+    return sums.every(
+      (sum, index) =>
+        sum.charge === targetCounts[index]?.charge && sum.unpaired === targetCounts[index].unpaired,
+    );
+  };
+  return (relabelling) => {
+    if (!relabelledSkeletonMatches(result, relabelling, target)) {
+      return "different";
+    }
+    if (canBeIdentical && sameElectronsUnder(result, relabelling, target)) {
+      return "identical";
+    }
+    return sameCountsPerMolecule(relabelling) ? formOtherwise : "different";
+  };
 }

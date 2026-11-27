@@ -20,11 +20,12 @@
  *   new bond X–Y  σ X-Y, if newBondDestinations.ts offers it (else refused)
  * An atom a 1,2-shift from the source bond lands on means that shift (the π bond to it is chosen
  * as the bond itself); every way of choosing a place (tap, keyboard, pointer) goes through
- * tapToDestinationLocus, so a place means the same thing however it is chosen.
+ * destinationDecision, so a place means the same thing however it is chosen.
  * Tapping a lone pair or an unpaired electron as a destination means tapping its atom.
  */
 import type {
   AtomLabel,
+  BondLocus,
   CurvedArrow,
   ElectronLocus,
 } from "../../core/arrowNotation/curvedArrowNotation.js";
@@ -226,19 +227,21 @@ function shiftOnto(
   });
 }
 
-/**
- * The one rule for what a chosen place means, whether it was tapped, chosen by keyboard or
- * pointed at (destinationTargets.ts lays the same places out on the drawing): see the module
- * comment and docs/schema-design.md §2 "Where the electrons can go".
- */
-export function tapToDestinationLocus(
+/** The destination decision for one picked source: see destinationDecision(). */
+export interface DestinationDecision {
+  /** The new bonds the source could form (newBondDestinations.ts). */
+  readonly offeredNewBonds: readonly BondLocus[];
+  /** What a chosen place means for this source. */
+  readonly destinationOf: (tapped: TappedPlace) => DestinationPick;
+}
+
+function destinationAmong(
   graph: StateGraph,
   source: ElectronLocus,
   tapped: TappedPlace,
   arrowType: ArrowType,
-  drawnArrows: readonly CurvedArrow[] = [],
+  offered: readonly BondLocus[],
 ): DestinationPick {
-  const offered = newBondDestinations(graph, source, drawnArrows);
   if (tapped.placeKind === "newBond") {
     const wanted = bondKey(...tapped.mapNumbers);
     const newBond = offered.find(
@@ -262,4 +265,34 @@ export function tapToDestinationLocus(
     }
   }
   return fromBondSource(graph, [first, second], tapped, arrowType);
+}
+
+/**
+ * The one rule for what a chosen place means, whether it was tapped, chosen by keyboard or
+ * pointed at (destinationTargets.ts lays the same places out on the drawing): see the module
+ * comment and docs/schema-design.md §2 "Where the electrons can go". The new bonds offered are
+ * worked out once, so deciding many places for one source stays quick (issue #1).
+ */
+export function destinationDecision(
+  graph: StateGraph,
+  source: ElectronLocus,
+  arrowType: ArrowType,
+  drawnArrows: readonly CurvedArrow[] = [],
+): DestinationDecision {
+  const offeredNewBonds = newBondDestinations(graph, source, drawnArrows);
+  return {
+    offeredNewBonds,
+    destinationOf: (tapped) => destinationAmong(graph, source, tapped, arrowType, offeredNewBonds),
+  };
+}
+
+/** What one chosen place means for the source (destinationDecision() for a single place). */
+export function tapToDestinationLocus(
+  graph: StateGraph,
+  source: ElectronLocus,
+  tapped: TappedPlace,
+  arrowType: ArrowType,
+  drawnArrows: readonly CurvedArrow[] = [],
+): DestinationPick {
+  return destinationDecision(graph, source, arrowType, drawnArrows).destinationOf(tapped);
 }

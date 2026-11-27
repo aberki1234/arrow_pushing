@@ -49,18 +49,31 @@ export function textListField(entry: Record<string, unknown>, key: string): stri
   return value;
 }
 
-/** Every example reaction under fixtures/reactions, as [file name, parsed document], by name. */
-export function exampleReactionDocuments(): [string, Record<string, unknown>][] {
-  return readdirSync(join(fixturesFolder, "reactions"))
+/** Every reaction file in a folder under fixtures/, as [file name, parsed document], by name. */
+function reactionDocumentsIn(folder: string): [string, Record<string, unknown>][] {
+  return readdirSync(join(fixturesFolder, folder))
     .filter((name) => name.endsWith(".json"))
     .sort()
     .map((name) => {
-      const document = readFixtureJson(`reactions/${name}`);
+      const document = readFixtureJson(`${folder}/${name}`);
       if (!isRecord(document)) {
-        throw new Error(`reactions/${name} must hold a JSON object`);
+        throw new Error(`${folder}/${name} must hold a JSON object`);
       }
       return [name, document];
     });
+}
+
+/** Every example reaction under fixtures/reactions, as [file name, parsed document], by name. */
+export function exampleReactionDocuments(): [string, Record<string, unknown>][] {
+  return reactionDocumentsIn("reactions");
+}
+
+/**
+ * The large published reactions under fixtures/performance_reactions (copied as published, not
+ * linted as examples), as [file name, parsed document]: the responsiveness profiles.
+ */
+export function performanceReactionDocuments(): [string, Record<string, unknown>][] {
+  return reactionDocumentsIn("performance_reactions");
 }
 
 /** The path of an example reaction file, e.g. "sn2-hydroxide-bromomethane.json". */

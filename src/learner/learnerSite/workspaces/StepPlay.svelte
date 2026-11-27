@@ -19,10 +19,10 @@
   import StepTiles from "../components/StepTiles.svelte";
   import {
     canvasInstruction,
-    currentStateDrawing,
     destinationsOf,
     drawingScaleOf,
     feedbackPanelText,
+    stateDrawingOf,
     tappedPlaceOf,
   } from "../model/stepScreenView.js";
 
@@ -47,7 +47,10 @@
 
   const reaction = $derived(session.reaction);
   const scale = $derived(drawingScaleOf(reaction));
-  const drawing = $derived(currentStateDrawing(session, scale));
+  // Derived from the reaction and the state id only: a tap makes a new session but keeps both, so
+  // the drawing (and the canvas) is not rebuilt while arrows are drawn (issue #1).
+  const currentStateId = $derived(session.currentStateId);
+  const drawing = $derived(stateDrawingOf(reaction, currentStateId, scale));
   const arrowClass = $derived(session.phase === "stepCorrect" ? "good" : "");
   const drawnArrows = $derived([
     ...[...ghostArrows(session), ...revealedArrows(session)].map((curvedArrow) => ({

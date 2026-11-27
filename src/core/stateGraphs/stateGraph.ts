@@ -126,15 +126,60 @@ export function bondKeyMapNumbers(key: string): [number, number] {
   return [smaller, larger];
 }
 
+/** One bond seen from one of its atoms: the atom at the other end and the bond order. */
+export interface BondedNeighbour {
+  readonly mapNumber: number;
+  readonly bondOrder: number;
+}
+
+const NO_NEIGHBOURS: readonly BondedNeighbour[] = [];
+
+// Worked out once per bond map: a state graph is never changed once built (its maps are
+// read-only), and scanning every bond for each atom made large reactions slow (issue #1).
+const bondsToNeighbourLists = new WeakMap<
+  ReadonlyMap<string, number>,
+  ReadonlyMap<number, readonly BondedNeighbour[]>
+>();
+
+function neighbourListsOf(graph: StateGraph): ReadonlyMap<number, readonly BondedNeighbour[]> {
+  const known = bondsToNeighbourLists.get(graph.bondToOrder);
+  if (known !== undefined) {
+    return known;
+  }
+  const mapNumberToNeighbours = new Map<number, BondedNeighbour[]>();
+  const add = (from: number, to: number, bondOrder: number): void => {
+    const neighbours = mapNumberToNeighbours.get(from) ?? [];
+    neighbours.push({ mapNumber: to, bondOrder });
+    mapNumberToNeighbours.set(from, neighbours);
+  };
+  for (const [key, bondOrder] of graph.bondToOrder) {
+    const [first, second] = bondKeyMapNumbers(key);
+    add(first, second, bondOrder);
+    add(second, first, bondOrder);
+  }
+  bondsToNeighbourLists.set(graph.bondToOrder, mapNumberToNeighbours);
+  return mapNumberToNeighbours;
+}
+
+/** The atoms bonded to `mapNumber`, each with the bond's order. */
+export function bondedNeighbours(graph: StateGraph, mapNumber: number): readonly BondedNeighbour[] {
+  return neighbourListsOf(graph).get(mapNumber) ?? NO_NEIGHBOURS;
+}
+
+/** The order of the bond between two atoms, or undefined when they are not bonded. */
+export function bondOrderBetween(
+  graph: StateGraph,
+  firstMapNumber: number,
+  secondMapNumber: number,
+): number | undefined {
+  return bondedNeighbours(graph, firstMapNumber).find(
+    (neighbour) => neighbour.mapNumber === secondMapNumber,
+  )?.bondOrder;
+}
+
 /** The sum of the orders of the atom's bonds to other mapped atoms (implicit H excluded). */
 export function bondOrderSum(graph: StateGraph, mapNumber: number): number {
-  let orderSum = 0;
-  for (const [key, order] of graph.bondToOrder) {
-    if (bondKeyMapNumbers(key).includes(mapNumber)) {
-      orderSum += order;
-    }
-  }
-  return orderSum;
+  return bondedNeighbours(graph, mapNumber).reduce((sum, { bondOrder }) => sum + bondOrder, 0);
 }
 
 /** valence electrons - nonbonding electrons - bond orders - hydrogen count. */
@@ -203,7 +248,38 @@ export function stateGraphToJson(graph: StateGraph): StateGraphJson {
   };
 }
 
-/** True when both graphs have the same atoms, electron counts and bonds. */
+function sameAtom(first: StateAtom, second: StateAtom | undefined): boolean {
+  return (
+    second !== undefined &&
+    first.mapNumber === second.mapNumber &&
+    first.element === second.element &&
+    first.hydrogenCount === second.hydrogenCount &&
+    first.nonbondingElectronCount === second.nonbondingElectronCount
+  );
+}
+
+/** Same keys with the same values; an absent map counts as empty. */
+function sameEntries<Key, Value>(
+  first: ReadonlyMap<Key, Value> | undefined,
+  second: ReadonlyMap<Key, Value> | undefined,
+): boolean {
+  const firstMap = first ?? new Map<Key, Value>();
+  const secondMap = second ?? new Map<Key, Value>();
+  return (
+    firstMap.size === secondMap.size &&
+    [...firstMap].every(([key, value]) => secondMap.has(key) && secondMap.get(key) === value)
+  );
+}
+
+/** True when both graphs have the same atoms, electron counts, bonds and stereo marks. */
 export function stateGraphsEqual(first: StateGraph, second: StateGraph): boolean {
-  return JSON.stringify(stateGraphToJson(first)) === JSON.stringify(stateGraphToJson(second));
+  return (
+    first.mapNumberToAtom.size === second.mapNumberToAtom.size &&
+    [...first.mapNumberToAtom].every(([mapNumber, atom]) =>
+      sameAtom(atom, second.mapNumberToAtom.get(mapNumber)),
+    ) &&
+    sameEntries(first.bondToOrder, second.bondToOrder) &&
+    sameEntries(first.mapNumberToTetrahedralMark, second.mapNumberToTetrahedralMark) &&
+    sameEntries(first.bondToDoubleBondRelation, second.bondToDoubleBondRelation)
+  );
 }

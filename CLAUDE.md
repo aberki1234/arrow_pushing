@@ -21,7 +21,9 @@ Do not change agreed decisions without asking; update `docs/SPEC.md` and `docs/s
   `notation/` (curved-arrow notation cases), `state_graphs/` (SMILES reading and arrow application cases),
   `assessment/` (symmetry, resonance, misconception-pattern and attempt cases), `lint_cases/` (edits that break lint rules),
   `catalogue/` (daily calendar cases, catalogue reading cases), `tracks/` (the example Learn track and its figure;
-  its lint cases are `lint_cases/track_edits.json`).
+  its lint cases are `lint_cases/track_edits.json`), `performance_reactions/` (the slowest published reactions,
+  copied as published: the responsiveness budgets in `learner/stepSession/largeReactionResponsiveness.test.ts`,
+  issue #1; not linted as examples).
 - `src/` — all code is TypeScript (no Python since build item 8.0). **Read `docs/code-layout.md`** before adding or
   moving a file: six tiers, folders in each, and ordered subfolders in folders of 10+ files; at every level a part
   imports only the parts before it (`.dependency-cruiser.cjs`). Tiers and folders, lowest first:
