@@ -7,15 +7,15 @@
  * bonded to one other atom, which the mechanism needs but skeletal formulas fold away: it is
  * counted with that atom's hydrogens instead (left out on a carbon, "OH" on an oxygen).
  */
-import { stateGraphFromMappedSmiles } from "../../core/stateGraphs/mappedSmilesReading.js";
+import { stateGraphFromMappedSmiles } from "../../../core/stateGraphs/mappedSmilesReading.js";
 import {
   type StateAtom,
   type StateGraph,
   bondKeyMapNumbers,
-} from "../../core/stateGraphs/stateGraph.js";
-import { type AbbreviatedGroup, stateDisplayPlan } from "./abbreviatedGroups.js";
-import { DEFAULT_BOND_LENGTH_UNITS, type MapNumberToCoordinates } from "./drawingLayout.js";
-import type { Point } from "./planeGeometry.js";
+} from "../../../core/stateGraphs/stateGraph.js";
+import { type AbbreviatedGroup, stateDisplayPlan } from "../shared/abbreviatedGroups.js";
+import { DEFAULT_BOND_LENGTH_UNITS, type MapNumberToCoordinates } from "../shared/drawingLayout.js";
+import type { Point } from "../shared/planeGeometry.js";
 
 /** Pixels; the cards use one bond length everywhere. */
 export const SCHEME_BOND_LENGTH = 20;

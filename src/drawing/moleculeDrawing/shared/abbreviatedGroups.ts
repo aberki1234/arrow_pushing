@@ -9,7 +9,7 @@
  *   untappable atom    A spectator, or any atom of an intact group: no pick target is made for it,
  *                      for its electrons, or for a bond that touches it.
  */
-import { type StateGraph, bondKeyMapNumbers } from "../../core/stateGraphs/stateGraph.js";
+import { type StateGraph, bondKeyMapNumbers } from "../../../core/stateGraphs/stateGraph.js";
 
 export interface AbbreviatedGroup {
   readonly groupLabel: string;

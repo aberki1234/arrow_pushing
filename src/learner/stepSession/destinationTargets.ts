@@ -27,18 +27,18 @@ import type {
 import {
   type DrawnCurvedArrow,
   drawCurvedArrow,
-} from "../../drawing/moleculeDrawing/curvedArrowGeometry.js";
-import { BOND_LENGTH_PIXELS } from "../../drawing/moleculeDrawing/drawingLayout.js";
+} from "../../drawing/moleculeDrawing/state/curvedArrowGeometry.js";
+import { BOND_LENGTH_PIXELS } from "../../drawing/moleculeDrawing/shared/drawingLayout.js";
 import {
   type Point,
   distanceBetween,
   pointBetween,
-} from "../../drawing/moleculeDrawing/planeGeometry.js";
+} from "../../drawing/moleculeDrawing/shared/planeGeometry.js";
 import {
   type PickTarget,
   type StateDrawing,
   drawnAtomOf,
-} from "../../drawing/moleculeDrawing/stateDrawing.js";
+} from "../../drawing/moleculeDrawing/state/stateDrawing.js";
 import { type StateGraph, bondKey, bondKeyMapNumbers } from "../../core/stateGraphs/stateGraph.js";
 import {
   type ArrowType,

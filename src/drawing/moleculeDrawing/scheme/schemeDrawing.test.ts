@@ -4,7 +4,7 @@
  * hand: their bonds are 1.5 units long, so the scale is 20 / 1.5 pixels per unit and y flips.
  */
 import { expect, it } from "vitest";
-import { exampleReactionDocuments } from "../../testSupport/fixtureFiles.js";
+import { exampleReactionDocuments } from "../../../testSupport/fixtureFiles.js";
 import {
   SCHEME_BOND_LENGTH,
   SCHEME_DOUBLE_BOND_SPACING,

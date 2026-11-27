@@ -7,13 +7,13 @@ import {
   parseCurvedArrow,
 } from "../../core/arrowNotation/curvedArrowNotation.js";
 import { graphOf } from "../../core/attemptAssessment/preparedReaction.js";
-import { reactionScale } from "../../drawing/moleculeDrawing/drawingLayout.js";
+import { reactionScale } from "../../drawing/moleculeDrawing/shared/drawingLayout.js";
 import {
   type StateDisplayFields,
   type StateDrawing,
   drawState,
   drawnAtomOf,
-} from "../../drawing/moleculeDrawing/stateDrawing.js";
+} from "../../drawing/moleculeDrawing/state/stateDrawing.js";
 import type { StateGraph } from "../../core/stateGraphs/stateGraph.js";
 import { exampleSessionReaction } from "../../testSupport/exampleSessions.js";
 import {

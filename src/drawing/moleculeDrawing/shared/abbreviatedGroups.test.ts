@@ -1,6 +1,6 @@
 /** Tests for abbreviatedGroups.ts. */
 import { expect, test } from "vitest";
-import { stateGraphFromMappedSmiles } from "../../core/stateGraphs/mappedSmilesReading.js";
+import { stateGraphFromMappedSmiles } from "../../../core/stateGraphs/mappedSmilesReading.js";
 import { isGroupIntact, stateDisplayPlan } from "./abbreviatedGroups.js";
 
 // Methoxy on a carbonyl carbon: C1(=O2)–O3–C4, the OMe group being O3 and C4.

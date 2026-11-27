@@ -14,10 +14,10 @@
  *   counter-ion  A charged species made only of metal atoms (Na⁺, Li⁺): left out, since the
  *                conditions name the salt (NaCN), unless the state holds nothing else.
  */
-import { formalCharge } from "../../core/stateGraphs/stateGraph.js";
-import type { AbbreviatedGroup } from "./abbreviatedGroups.js";
-import type { ViewBox } from "./drawingLayout.js";
-import type { Point } from "./planeGeometry.js";
+import { formalCharge } from "../../../core/stateGraphs/stateGraph.js";
+import type { AbbreviatedGroup } from "../shared/abbreviatedGroups.js";
+import type { ViewBox } from "../shared/drawingLayout.js";
+import type { Point } from "../shared/planeGeometry.js";
 import { type SchemeLine, type SchemeWedge, bondParts } from "./schemeBonds.js";
 import {
   LABEL_HALF_HEIGHT,

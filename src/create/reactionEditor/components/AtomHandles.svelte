@@ -2,7 +2,7 @@
   // Handles on every atom of the drawing, drawn inside MoleculeCanvas's SVG (its overlay): in
   // "move atoms" mode an atom is dragged (the move is reported on release, in drawing pixels);
   // in "show H" mode a tap or Enter picks the atom.
-  import type { StateDrawing } from "../../../drawing/moleculeDrawing/stateDrawing.js";
+  import type { StateDrawing } from "../../../drawing/moleculeDrawing/state/stateDrawing.js";
 
   const {
     drawing,

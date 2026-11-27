@@ -840,7 +840,7 @@ svg.mol {
 }
 
 /* Reaction schemes and cards (item 11, mockups/layout.html): structures in RSC / ACS document
-   style (src/drawing/moleculeDrawing/schemeDrawing.ts), the conditions in the same typeface. */
+   style (src/drawing/moleculeDrawing/scheme/schemeDrawing.ts), the conditions in the same typeface. */
 .scheme {
   display: flex;
   align-items: center;

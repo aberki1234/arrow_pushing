@@ -309,7 +309,7 @@ lint when the rest could not run):
 **Abbreviated groups** (decided 2026-11-25): listed explicitly by the author (no automatic detection), `groupLabel`
 at most 6 characters. A group is drawn as its label wherever it is intact (all its atoms present, one bond from the
 attachment atom joining it to the rest) and in full elsewhere. Nothing in it can be tapped, the attachment bond
-included. Screen readers read the label. Drawing: `src/drawing/moleculeDrawing/abbreviatedGroups.ts`; lint:
+included. Screen readers read the label. Drawing: `src/drawing/moleculeDrawing/shared/abbreviatedGroups.ts`; lint:
 `src/tooling/reactionLinting/rules/abbreviatedGroupRules.ts`.
 
 Arrow sets are checked with the validator itself (`assess_attempt`, with the step being checked as the only one
@@ -965,7 +965,7 @@ RDKit (RDKit.js) on every valid SMILES case and every example state (`src/toolin
      reaction has them; a track's `showcase` is `{ reactionSlug, productState }`, the product being where the
      preferred route from the start state ends (`reactionFiles/preferredRoute.ts`). All optional in the schema, so
      the previous catalogue still validates.
-   * **11c Done 2026-11-26.** `moleculeDrawing/schemeDrawing.ts`: a state as the cards draw it (SPEC §5 "Drawing
+   * **11c Done 2026-11-26.** `moleculeDrawing/scheme/schemeDrawing.ts`: a state as the cards draw it (SPEC §5 "Drawing
      in the cards"): species split and placed left to right, skeletal labels, bonds cut at label boxes, ring double
      bonds inside, wedges and hashes, text runs with sub- and superscripts; `conditionsLabelParts` (above / below).
      Built in four files: `schemeText.ts` (runs, shifts, Arial widths, the conditions split), `schemeStructure.ts`

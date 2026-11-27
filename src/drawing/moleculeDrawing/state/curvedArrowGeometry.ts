@@ -12,7 +12,10 @@
  *                        two fish-hooks forming one bond meet in the middle
  *   lp / rad X (dest.)   just outside X, in its widest free gap
  */
-import type { CurvedArrow, ElectronLocus } from "../../core/arrowNotation/curvedArrowNotation.js";
+import type {
+  CurvedArrow,
+  ElectronLocus,
+} from "../../../core/arrowNotation/curvedArrowNotation.js";
 import { widestGapAngle } from "./electronDotPlacement.js";
 import {
   type Point,
@@ -20,7 +23,7 @@ import {
   distanceBetween,
   pointAtAngle,
   pointBetween,
-} from "./planeGeometry.js";
+} from "../shared/planeGeometry.js";
 import { type StateDrawing, drawnAtomOf } from "./stateDrawing.js";
 
 /** How far the middle of an arrow bends out, as a fraction of its length, and at least this. */

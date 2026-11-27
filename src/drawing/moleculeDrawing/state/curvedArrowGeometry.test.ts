@@ -1,9 +1,9 @@
 /** Tests for curvedArrowGeometry.ts on the SN2 and radical bromination example states. */
 import { expect, test } from "vitest";
-import { parseCurvedArrow } from "../../core/arrowNotation/curvedArrowNotation.js";
-import { stateGraphFromMappedSmiles } from "../../core/stateGraphs/mappedSmilesReading.js";
+import { parseCurvedArrow } from "../../../core/arrowNotation/curvedArrowNotation.js";
+import { stateGraphFromMappedSmiles } from "../../../core/stateGraphs/mappedSmilesReading.js";
 import { ARROW_END_CLEARANCE_PIXELS, drawCurvedArrow } from "./curvedArrowGeometry.js";
-import { type Point, angleFrom, distanceBetween, pointBetween } from "./planeGeometry.js";
+import { type Point, angleFrom, distanceBetween, pointBetween } from "../shared/planeGeometry.js";
 import { type StateDrawing, drawState, drawnAtomOf } from "./stateDrawing.js";
 
 const SN2_DRAWING = drawState(

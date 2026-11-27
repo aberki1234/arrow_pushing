@@ -11,7 +11,10 @@ import {
   startStepSession,
   tapPlace,
 } from "../../stepSession/stepSession.js";
-import type { PickTarget, PickTargetKind } from "../../../drawing/moleculeDrawing/stateDrawing.js";
+import type {
+  PickTarget,
+  PickTargetKind,
+} from "../../../drawing/moleculeDrawing/state/stateDrawing.js";
 import {
   canvasInstruction,
   tappedPlaceOf,

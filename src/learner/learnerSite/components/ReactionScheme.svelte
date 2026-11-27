@@ -1,8 +1,8 @@
 <script lang="ts">
   // A reaction as the cards show it (decided 2026-11-26, item 11): the start state's species
   // with "+" between them, an arrow with the conditions above and below, then the product or a
-  // "?" box. The drawing is worked out in src/drawing/moleculeDrawing/schemeDrawing.ts (RSC / ACS
-  // document style); this only renders it.
+  // "?" box. The drawing is worked out in src/drawing/moleculeDrawing/scheme/schemeDrawing.ts (RSC
+  // / ACS document style); this only renders it.
   import type {
     CatalogueAbbreviatedGroup,
     SchemeState,
@@ -17,7 +17,7 @@
     drawSchemeState,
     textRunShifts,
     textRuns,
-  } from "../../../drawing/moleculeDrawing/schemeDrawing.js";
+  } from "../../../drawing/moleculeDrawing/scheme/schemeDrawing.js";
 
   const {
     startState,

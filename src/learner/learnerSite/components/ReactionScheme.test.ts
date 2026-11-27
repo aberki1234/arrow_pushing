@@ -3,7 +3,7 @@
  * Component tests for ReactionScheme.svelte (item 11): the species of a state with "+" between
  * them (none before a counter-ion), the conditions above and below the arrow with real
  * subscripts, and the "?" box or the product after the arrow. The drawing itself is tested in
- * src/drawing/moleculeDrawing/schemeDrawing.test.ts.
+ * src/drawing/moleculeDrawing/scheme/schemeDrawing.test.ts.
  */
 import { render, screen } from "@testing-library/svelte";
 import { expect, test } from "vitest";

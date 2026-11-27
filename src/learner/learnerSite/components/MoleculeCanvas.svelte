@@ -1,5 +1,5 @@
 <script lang="ts">
-  // Renders one state drawing (moleculeDrawing/stateDrawing.ts) as SVG: bonds, atom labels,
+  // Renders one state drawing (moleculeDrawing/state/stateDrawing.ts) as SVG: bonds, atom labels,
   // electron dots, annotations, curved arrows, and the pick targets the learner taps or reaches
   // with Tab and Enter. With a source picked (`destinations`, point and snap: docs/SPEC.md §3,
   // item 10g) the place nearest the pointer is previewed as a ghost arrow, a new bond as a dashed
@@ -7,9 +7,12 @@
   // and a tap picks the nearest place. Possible new bonds are keyboard targets too.
   // The editor may pass an `overlay` (its drag and show-H handles), drawn on top.
   import type { Snippet } from "svelte";
-  import type { DrawnCurvedArrow } from "../../../drawing/moleculeDrawing/curvedArrowGeometry.js";
-  import type { Point } from "../../../drawing/moleculeDrawing/planeGeometry.js";
-  import type { PickTarget, StateDrawing } from "../../../drawing/moleculeDrawing/stateDrawing.js";
+  import type { DrawnCurvedArrow } from "../../../drawing/moleculeDrawing/state/curvedArrowGeometry.js";
+  import type { Point } from "../../../drawing/moleculeDrawing/shared/planeGeometry.js";
+  import type {
+    PickTarget,
+    StateDrawing,
+  } from "../../../drawing/moleculeDrawing/state/stateDrawing.js";
   import {
     type DestinationTarget,
     nearestDestinationTarget,

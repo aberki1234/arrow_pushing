@@ -9,9 +9,9 @@
  * for a lone O, S or halogen (H₂O, HBr, HO⁻); the element is centred on its atom. A label's box
  * holds its charge, so a bond to that side stops short of it.
  */
-import { formalCharge } from "../../core/stateGraphs/stateGraph.js";
-import { type AtomLabelText, atomLabelText } from "./atomLabels.js";
-import type { Point } from "./planeGeometry.js";
+import { formalCharge } from "../../../core/stateGraphs/stateGraph.js";
+import { type AtomLabelText, atomLabelText } from "../shared/atomLabels.js";
+import type { Point } from "../shared/planeGeometry.js";
 import { SCHEME_FONT_SIZE, type TextRun, runsWidth, textRuns } from "./schemeText.js";
 import { type Structure, atomOf, neighboursOf, pointOf } from "./schemeStructure.js";
 

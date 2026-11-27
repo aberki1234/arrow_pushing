@@ -5,7 +5,7 @@
   // on.
   import MoleculeCanvas from "../../../learner/learnerSite/components/MoleculeCanvas.svelte";
   import { tappedPlaceOf } from "../../../learner/learnerSite/model/stepScreenView.js";
-  import type { PickTarget } from "../../../drawing/moleculeDrawing/stateDrawing.js";
+  import type { PickTarget } from "../../../drawing/moleculeDrawing/state/stateDrawing.js";
   import { cancelPick } from "../../reactionEditing/mechanism/arrowDrawing.js";
   import { destinationTargets } from "../../../learner/stepSession/destinationTargets.js";
   import AtomHandles from "./AtomHandles.svelte";

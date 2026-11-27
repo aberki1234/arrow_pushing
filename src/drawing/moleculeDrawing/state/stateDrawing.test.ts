@@ -1,10 +1,10 @@
 /** Tests for stateDrawing.ts on states of the example reactions (fixtures/reactions). */
 import { describe, expect, test } from "vitest";
-import { stateGraphFromMappedSmiles } from "../../core/stateGraphs/mappedSmilesReading.js";
-import { exampleReactionDocuments, isRecord } from "../../testSupport/fixtureFiles.js";
-import { plainLabel } from "./atomLabels.js";
-import { reactionScale } from "./drawingLayout.js";
-import { distanceBetween } from "./planeGeometry.js";
+import { stateGraphFromMappedSmiles } from "../../../core/stateGraphs/mappedSmilesReading.js";
+import { exampleReactionDocuments, isRecord } from "../../../testSupport/fixtureFiles.js";
+import { plainLabel } from "../shared/atomLabels.js";
+import { reactionScale } from "../shared/drawingLayout.js";
+import { distanceBetween } from "../shared/planeGeometry.js";
 import {
   type AbbreviatedGroup,
   ELECTRON_DOT_DISTANCE,

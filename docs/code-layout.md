@@ -63,7 +63,7 @@ Every other subfolder is named after its domain concept (`rules/`, `scheme/`, `m
 | create/reactionEditor | model → components → io → workspaces → pages → app | done |
 | learner/learnerSite | model → components → io → workspaces → pages → app | done |
 | tooling/reactionLinting | findings → rules → tracks → shell | done |
-| drawing/moleculeDrawing | shared → state → scheme | planned |
+| drawing/moleculeDrawing | shared → state → scheme | done |
 | server/reactionDatabase | model → connection → users → reactions → transfer | planned |
 | server/backendServer | requests → settings → routes → shell | planned |
 | tooling/catalogueBuilding | naming → assembly → output → shell | planned |

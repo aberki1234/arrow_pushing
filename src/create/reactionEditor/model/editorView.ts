@@ -11,8 +11,11 @@ import { graphOf } from "../../../core/attemptAssessment/preparedReaction.js";
 import {
   type DrawnCurvedArrow,
   drawCurvedArrow,
-} from "../../../drawing/moleculeDrawing/curvedArrowGeometry.js";
-import { drawState, type StateDrawing } from "../../../drawing/moleculeDrawing/stateDrawing.js";
+} from "../../../drawing/moleculeDrawing/state/curvedArrowGeometry.js";
+import {
+  drawState,
+  type StateDrawing,
+} from "../../../drawing/moleculeDrawing/state/stateDrawing.js";
 import { type ReactionDocument, statesOf } from "../../reactionEditing/draft/reactionDraft.js";
 import { readSessionReaction } from "../../../learner/stepSession/sessionReaction.js";
 import { drawingScaleOf } from "../../../learner/learnerSite/model/stepScreenView.js";

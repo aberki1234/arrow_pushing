@@ -16,20 +16,20 @@ import {
   formalCharge,
   lonePairCount,
   unpairedElectronCount,
-} from "../../core/stateGraphs/stateGraph.js";
+} from "../../../core/stateGraphs/stateGraph.js";
 import {
   type AbbreviatedGroup,
   type StateDisplayPlan,
   stateDisplayPlan,
-} from "./abbreviatedGroups.js";
-import { type AtomLabelText, atomLabelText } from "./atomLabels.js";
+} from "../shared/abbreviatedGroups.js";
+import { type AtomLabelText, atomLabelText } from "../shared/atomLabels.js";
 import { type BondLines, type WedgeStyle, bondLines } from "./bondLines.js";
 import {
   type MapNumberToCoordinates,
   type ViewBox,
   screenPoints,
   viewBoxAround,
-} from "./drawingLayout.js";
+} from "../shared/drawingLayout.js";
 import { type ElectronDotKind, placeElectronDots } from "./electronDotPlacement.js";
 import {
   CHARGE_DIRECTION,
@@ -39,7 +39,7 @@ import {
   labelEnds,
   labelTextPlacement,
 } from "./labelPlacement.js";
-import { type Point, angleFrom, pointAtAngle } from "./planeGeometry.js";
+import { type Point, angleFrom, pointAtAngle } from "../shared/planeGeometry.js";
 
 export const ATOM_TARGET_RADIUS = 16;
 export const BOND_TARGET_RADIUS = 13;
@@ -58,7 +58,7 @@ export interface StateDisplayFields {
   readonly caption?: string;
 }
 
-export type { AbbreviatedGroup } from "./abbreviatedGroups.js";
+export type { AbbreviatedGroup } from "../shared/abbreviatedGroups.js";
 export {
   ANNOTATION_DISTANCE,
   CHARGE_DIRECTION,

@@ -6,7 +6,7 @@
  * BOND_LENGTH_PIXELS long; bonds therefore keep their length from step to step. The y axis is
  * flipped for SVG. Each state's view box fits its own drawing.
  */
-import type { StateGraph } from "../../core/stateGraphs/stateGraph.js";
+import type { StateGraph } from "../../../core/stateGraphs/stateGraph.js";
 import type { Point } from "./planeGeometry.js";
 
 export const BOND_LENGTH_PIXELS = 56;

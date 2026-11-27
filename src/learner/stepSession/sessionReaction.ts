@@ -13,7 +13,7 @@ import {
 import type {
   AbbreviatedGroup,
   StateDisplayFields,
-} from "../../drawing/moleculeDrawing/stateDrawing.js";
+} from "../../drawing/moleculeDrawing/state/stateDrawing.js";
 
 export interface SessionState {
   readonly stateId: string;

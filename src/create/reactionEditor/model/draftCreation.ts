@@ -15,7 +15,7 @@ import {
   StructureEntryError,
   stateFromPastedSmiles,
 } from "../../reactionEditing/draft/startState.js";
-import type { StateDrawing } from "../../../drawing/moleculeDrawing/stateDrawing.js";
+import type { StateDrawing } from "../../../drawing/moleculeDrawing/state/stateDrawing.js";
 
 export type DraftCreation =
   | { readonly outcome: "created"; readonly document: ReactionDocument }

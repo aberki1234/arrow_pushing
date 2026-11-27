@@ -3,7 +3,7 @@
  * short so it starts and ends outside the atom labels. A wedge or dash (display only, stereo is
  * not validated) is drawn on a single bond with its wide end at the second atom.
  */
-import type { Point } from "./planeGeometry.js";
+import type { Point } from "../shared/planeGeometry.js";
 
 export const LABEL_CLEARANCE_PIXELS = 11;
 export const MULTIPLE_BOND_SPACING_PIXELS = 6;

@@ -3,8 +3,8 @@
   // practice or daily mode. All decisions live in stepSession/ and stepScreenView.ts; this only
   // wires them. The parent shows the finished view once the session is complete.
   import { fade } from "svelte/transition";
-  import { drawCurvedArrow } from "../../../drawing/moleculeDrawing/curvedArrowGeometry.js";
-  import type { PickTarget } from "../../../drawing/moleculeDrawing/stateDrawing.js";
+  import { drawCurvedArrow } from "../../../drawing/moleculeDrawing/state/curvedArrowGeometry.js";
+  import type { PickTarget } from "../../../drawing/moleculeDrawing/state/stateDrawing.js";
   import {
     type StepSession,
     cancelPick,

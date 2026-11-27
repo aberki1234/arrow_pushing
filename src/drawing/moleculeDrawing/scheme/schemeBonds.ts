@@ -5,7 +5,7 @@
  * two lines straddle the axis; in a chain the second line goes to the side of the neighbours);
  * triple bonds as three lines; wedges and dashes with the narrow end at the key's first atom.
  */
-import type { Point } from "./planeGeometry.js";
+import type { Point } from "../shared/planeGeometry.js";
 import { type LabelBox, clearanceOf } from "./schemeLabels.js";
 import {
   SCHEME_BOND_LENGTH,

@@ -3,8 +3,8 @@
  * element, how far the label reaches (for the view box), and where an annotation sits.
  * Distances are screen pixels at the 19 px label font.
  */
-import type { AtomLabelText, HydrogenSide } from "./atomLabels.js";
-import { type Point, pointAtAngle } from "./planeGeometry.js";
+import type { AtomLabelText, HydrogenSide } from "../shared/atomLabels.js";
+import { type Point, pointAtAngle } from "../shared/planeGeometry.js";
 
 /** How far an annotation sits from its atom. */
 export const ANNOTATION_DISTANCE = 34;

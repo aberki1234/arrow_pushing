@@ -1,6 +1,6 @@
 /** Tests for planeGeometry.ts and drawingLayout.ts. */
 import { expect, test } from "vitest";
-import { stateGraphFromMappedSmiles } from "../../core/stateGraphs/mappedSmilesReading.js";
+import { stateGraphFromMappedSmiles } from "../../../core/stateGraphs/mappedSmilesReading.js";
 import {
   BOND_LENGTH_PIXELS,
   DEFAULT_BOND_LENGTH_UNITS,

@@ -7,7 +7,7 @@
  */
 import { fireEvent, render, screen } from "@testing-library/svelte";
 import { expect, test } from "vitest";
-import type { PickTarget } from "../../../drawing/moleculeDrawing/stateDrawing.js";
+import type { PickTarget } from "../../../drawing/moleculeDrawing/state/stateDrawing.js";
 import type { TappedPlace } from "../../stepSession/arrowPicking.js";
 import {
   checkArrows,

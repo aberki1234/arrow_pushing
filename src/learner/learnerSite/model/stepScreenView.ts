@@ -4,12 +4,12 @@
  * components only render it.
  */
 import { graphOf } from "../../../core/attemptAssessment/preparedReaction.js";
-import { reactionScale } from "../../../drawing/moleculeDrawing/drawingLayout.js";
+import { reactionScale } from "../../../drawing/moleculeDrawing/shared/drawingLayout.js";
 import {
   type PickTarget,
   type StateDrawing,
   drawState,
-} from "../../../drawing/moleculeDrawing/stateDrawing.js";
+} from "../../../drawing/moleculeDrawing/state/stateDrawing.js";
 import type { TappedPlace } from "../../stepSession/arrowPicking.js";
 import {
   type DestinationTarget,
