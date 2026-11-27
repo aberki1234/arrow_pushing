@@ -3,8 +3,8 @@
  * repository_dispatch event, which the workflow listens for. It exports the published versions,
  * commits the backup, builds the learner site and deploys it to Cloudflare Pages.
  */
-import type { FetchFunction } from "./serverDependencies.js";
-import type { DeploySettings } from "./serverSettings.js";
+import type { FetchFunction } from "../settings/serverDependencies.js";
+import type { DeploySettings } from "../settings/serverSettings.js";
 
 /** The repository_dispatch event type the deploy workflow listens for. */
 export const DEPLOY_EVENT_TYPE = "reaction-published";

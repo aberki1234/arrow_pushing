@@ -3,7 +3,8 @@
  *
  * Terms
  *   access token  `ap_` + 32 random bytes in base64url, standing for one user. What a token may
- *                 do is decided by the server (backendServer/accessTokenRequests.ts): read that
+ *                 do is decided by the server (backendServer/requests/accessTokenRequests.ts): read
+ * that
  *                 user's reactions and save drafts, nothing else.
  * Rules
  *   - Only the token's SHA-256 is stored; the plain token is returned once, at minting.

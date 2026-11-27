@@ -3,21 +3,21 @@
  * the fake GitHub): the user found must be the one that sign-in made.
  */
 import { afterAll, afterEach, beforeAll, beforeEach, describe, expect, it, vi } from "vitest";
-import type { DatabaseConnection } from "../reactionDatabase/model/databaseTables.js";
+import type { DatabaseConnection } from "../../reactionDatabase/model/databaseTables.js";
 import {
   OWNER_GITHUB_USER_ID,
   OWNER_PROFILE,
   signInWithFakeGithub,
   testServerSettings,
-} from "../../testSupport/serverTesting.js";
+} from "../../../testSupport/serverTesting.js";
 import {
   DATABASE_SETUP_TIMEOUT_MS,
   emptyAllTables,
   insertUser,
   newMigratedDatabase,
-} from "../../testSupport/temporaryDatabase.js";
+} from "../../../testSupport/temporaryDatabase.js";
 import { OwnerAccountError, userIdForGithubAccount } from "./ownerAccount.js";
-import { createServerApplication } from "./serverApplication.js";
+import { createServerApplication } from "../routes/serverApplication.js";
 
 let connection: DatabaseConnection;
 

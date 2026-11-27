@@ -40,6 +40,7 @@ const tiersLowestFirst = [
 // Folders with ordered subfolders (folders of 10 or more files). Such a folder keeps no files of
 // its own: every file sits in one of its subfolders.
 const folderToSubfoldersLowestFirst = {
+  "server/backendServer": ["requests", "settings", "routes", "shell"],
   "server/reactionDatabase": ["model", "connection", "users", "reactions", "transfer"],
   "drawing/moleculeDrawing": ["shared", "state", "scheme"],
   "tooling/reactionLinting": ["findings", "rules", "tracks", "shell"],

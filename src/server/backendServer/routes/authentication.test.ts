@@ -7,7 +7,7 @@
 import { getSchema } from "better-auth/db";
 import type { Kysely } from "kysely";
 import { afterAll, afterEach, beforeAll, beforeEach, describe, expect, it, vi } from "vitest";
-import type { DatabaseConnection } from "../reactionDatabase/model/databaseTables.js";
+import type { DatabaseConnection } from "../../reactionDatabase/model/databaseTables.js";
 import {
   cookieHeaderFrom,
   FAKE_GITHUB_ACCESS_TOKEN,
@@ -16,12 +16,12 @@ import {
   signInWithFakeGoogle,
   TEST_BASE_URL,
   testServerSettings,
-} from "../../testSupport/serverTesting.js";
+} from "../../../testSupport/serverTesting.js";
 import {
   DATABASE_SETUP_TIMEOUT_MS,
   emptyAllTables,
   newMigratedDatabase,
-} from "../../testSupport/temporaryDatabase.js";
+} from "../../../testSupport/temporaryDatabase.js";
 import { createAuthentication, SESSION_LIFETIME_DAYS, signInProviders } from "./authentication.js";
 import { createServerApplication } from "./serverApplication.js";
 

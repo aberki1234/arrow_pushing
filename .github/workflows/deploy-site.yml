@@ -1,7 +1,7 @@
 # Deploy the learner site after a Publish (docs/SPEC.md §5, backend, "Publishing").
 #
 # The backend starts this with a repository_dispatch event "reaction-published"
-# (src/server/backendServer/deployDispatch.ts); a push to main that changes content/tracks/ (the Learn
+# (src/server/backendServer/routes/deployDispatch.ts); a push to main that changes content/tracks/ (the Learn
 # tracks, docs/schema-design.md §6.1) also starts it, and it can be run by hand.
 #   1. Fetch every published version from the backend's export and commit them to
 #      content/published/ (the repository's backup).

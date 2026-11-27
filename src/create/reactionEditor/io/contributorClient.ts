@@ -1,7 +1,8 @@
 /**
- * The built editor's calls for contributors and review (backendServer/contributorRoutes.ts, and
- * the sign-in providers): Submit for review, the reviewer's notes, the review queue and a review,
- * and the owner's Users page. Same address as the editor, so the browser sends the session cookie.
+ * The built editor's calls for contributors and review (backendServer/routes/contributorRoutes.ts,
+ * and the sign-in providers): Submit for review, the reviewer's notes, the review queue and a
+ * review, and the owner's Users page. Same address as the editor, so the browser sends the session
+ * cookie.
  */
 import type { ReactionDocument } from "../../reactionEditing/draft/reactionDraft.js";
 import type {

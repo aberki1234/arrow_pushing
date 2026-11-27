@@ -11,7 +11,7 @@ services:
     # --include=dev: the build (Vite) and the start (tsx) use development packages.
     # fetch-ketcher: the structure editor's pinned release, served at /ketcher/ (item 10h).
     buildCommand: npm ci --include=dev && npx tsx src/tooling/buildTools/runFromShell.ts fetch-ketcher && npx vite build --config vite.editor.config.ts
-    startCommand: npx tsx src/server/backendServer/runFromShell.ts serve
+    startCommand: npx tsx src/server/backendServer/shell/runFromShell.ts serve
     healthCheckPath: /
     autoDeploy: true
     envVars:

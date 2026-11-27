@@ -5,13 +5,13 @@
 import { mkdirSync, writeFileSync } from "node:fs";
 import { join } from "node:path";
 import { afterAll, beforeAll, describe, expect, it } from "vitest";
-import type { DatabaseConnection } from "../reactionDatabase/model/databaseTables.js";
-import { newTemporaryFolder } from "../../testSupport/reactionCopies.js";
-import { TEST_BASE_URL, testServerSettings } from "../../testSupport/serverTesting.js";
+import type { DatabaseConnection } from "../../reactionDatabase/model/databaseTables.js";
+import { newTemporaryFolder } from "../../../testSupport/reactionCopies.js";
+import { TEST_BASE_URL, testServerSettings } from "../../../testSupport/serverTesting.js";
 import {
   DATABASE_SETUP_TIMEOUT_MS,
   newMigratedDatabase,
-} from "../../testSupport/temporaryDatabase.js";
+} from "../../../testSupport/temporaryDatabase.js";
 import { createServerApplication } from "./serverApplication.js";
 
 let connection: DatabaseConnection;

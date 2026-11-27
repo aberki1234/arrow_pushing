@@ -5,22 +5,22 @@
  * resubmit, publish (starting the deploy); the Users page for the owner only.
  */
 import { afterAll, afterEach, beforeAll, beforeEach, describe, expect, it, vi } from "vitest";
-import { loadChemistryToolkit } from "../../tooling/chemistryToolkit/chemistryToolkit.js";
-import type { DatabaseConnection } from "../reactionDatabase/model/databaseTables.js";
-import { lintReaction } from "../../tooling/reactionLinting/rules/reactionLint.js";
-import { exampleReaction } from "../../testSupport/reactionEdits.js";
+import { loadChemistryToolkit } from "../../../tooling/chemistryToolkit/chemistryToolkit.js";
+import type { DatabaseConnection } from "../../reactionDatabase/model/databaseTables.js";
+import { lintReaction } from "../../../tooling/reactionLinting/rules/reactionLint.js";
+import { exampleReaction } from "../../../testSupport/reactionEdits.js";
 import {
   OWNER_PROFILE,
   signInWithFakeGithub,
   signInWithFakeGoogle,
   TEST_BASE_URL,
   testServerSettings,
-} from "../../testSupport/serverTesting.js";
+} from "../../../testSupport/serverTesting.js";
 import {
   DATABASE_SETUP_TIMEOUT_MS,
   emptyAllTables,
   newMigratedDatabase,
-} from "../../testSupport/temporaryDatabase.js";
+} from "../../../testSupport/temporaryDatabase.js";
 import { createServerApplication } from "./serverApplication.js";
 
 let connection: DatabaseConnection;

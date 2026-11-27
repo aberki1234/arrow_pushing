@@ -86,10 +86,10 @@ ketcher:
 	npx tsx src/tooling/buildTools/runFromShell.ts fetch-ketcher
 
 # The backend server (src/server/backendServer): sign-in, the reaction API and the built editor. Settings
-# come from environment variables (src/server/backendServer/serverSettings.ts); it applies migrations first.
+# come from environment variables (src/server/backendServer/settings/serverSettings.ts); it applies migrations first.
 .PHONY: server
 server:
-	npx tsx src/server/backendServer/runFromShell.ts serve
+	npx tsx src/server/backendServer/shell/runFromShell.ts serve
 
 .PHONY: test
 test:

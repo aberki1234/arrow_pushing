@@ -8,11 +8,11 @@
  *        not-submittable, not-submitted, draft-changed (the reaction's state conflicts)
  *   422  draft-has-lint-errors, licence-not-agreed (the draft cannot be published as it is)
  */
-import type { LintFinding } from "../../tooling/reactionLinting/findings/lintFindings.js";
+import type { LintFinding } from "../../../tooling/reactionLinting/findings/lintFindings.js";
 import type {
   ReactionDatabaseError,
   RefusalCode,
-} from "../reactionDatabase/model/reactionDatabaseErrors.js";
+} from "../../reactionDatabase/model/reactionDatabaseErrors.js";
 
 export type RefusalHttpStatus = 400 | 403 | 404 | 409 | 422;
 

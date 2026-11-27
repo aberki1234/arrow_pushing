@@ -2,8 +2,8 @@
  * What the server is given: the database, the settings, the linter and fetch (for the deploy
  * request), so that tests can pass PGlite, a fake GitHub and the linter with RDKit.js loaded.
  */
-import type { ReactionDatabase, SiteRole } from "../reactionDatabase/model/databaseTables.js";
-import type { LintFinding } from "../../tooling/reactionLinting/findings/lintFindings.js";
+import type { ReactionDatabase, SiteRole } from "../../reactionDatabase/model/databaseTables.js";
+import type { LintFinding } from "../../../tooling/reactionLinting/findings/lintFindings.js";
 import type { ServerSettings } from "./serverSettings.js";
 
 /** The full linter (reactionLinting/rules/reactionLint.lintReaction with RDKit.js loaded). */

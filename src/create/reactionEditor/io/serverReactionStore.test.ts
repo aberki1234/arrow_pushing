@@ -1,6 +1,6 @@
 /**
  * Tests for serverReactionStore.ts's own decisions: names and messages. The requests themselves
- * are tested against the real server in backendServer/editorThroughServer.test.ts.
+ * are tested against the real server in backendServer/routes/editorThroughServer.test.ts.
  */
 import { describe, expect, it } from "vitest";
 import { publishOutcomeMessage, slugOfFileName } from "./serverReactionStore.js";

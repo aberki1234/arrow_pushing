@@ -24,15 +24,15 @@
  */
 import { betterAuth } from "better-auth";
 import type { MiddlewareHandler } from "hono";
-import { userOfAccessToken } from "../reactionDatabase/users/accessTokens.js";
-import type { ReactionDatabase, SiteRole } from "../reactionDatabase/model/databaseTables.js";
+import { userOfAccessToken } from "../../reactionDatabase/users/accessTokens.js";
+import type { ReactionDatabase, SiteRole } from "../../reactionDatabase/model/databaseTables.js";
 import {
   ACCESS_TOKEN_REFUSAL,
   accessTokenMayRequest,
   bearerTokenOf,
-} from "./accessTokenRequests.js";
-import type { ServerEnvironment, SignedInUser } from "./serverDependencies.js";
-import type { ServerSettings } from "./serverSettings.js";
+} from "../requests/accessTokenRequests.js";
+import type { ServerEnvironment, SignedInUser } from "../settings/serverDependencies.js";
+import type { ServerSettings } from "../settings/serverSettings.js";
 
 export const SESSION_LIFETIME_DAYS = 30;
 

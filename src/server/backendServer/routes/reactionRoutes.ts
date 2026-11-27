@@ -26,21 +26,21 @@
  *                                                     are public on the learner site anyway)
  */
 import { type Context, Hono } from "hono";
-import type { ReactionDatabase } from "../reactionDatabase/model/databaseTables.js";
-import { publishedVersionsForExport } from "../reactionDatabase/transfer/publishedExport.js";
-import { saveDraftIfUnchanged } from "../reactionDatabase/reactions/draftChangeCheck.js";
-import { publishDraft } from "../reactionDatabase/reactions/publishing.js";
-import { ReactionDatabaseError } from "../reactionDatabase/model/reactionDatabaseErrors.js";
+import type { ReactionDatabase } from "../../reactionDatabase/model/databaseTables.js";
+import { publishedVersionsForExport } from "../../reactionDatabase/transfer/publishedExport.js";
+import { saveDraftIfUnchanged } from "../../reactionDatabase/reactions/draftChangeCheck.js";
+import { publishDraft } from "../../reactionDatabase/reactions/publishing.js";
+import { ReactionDatabaseError } from "../../reactionDatabase/model/reactionDatabaseErrors.js";
 import {
   findReaction,
   listReactionsFor,
   readReactionVersion,
   startNextVersion,
-} from "../reactionDatabase/reactions/reactionVersions.js";
-import { creationProgress } from "../../create/reactionEditing/publishing/creationProgress.js";
+} from "../../reactionDatabase/reactions/reactionVersions.js";
+import { creationProgress } from "../../../create/reactionEditing/publishing/creationProgress.js";
 import { type Authentication, requireSignIn } from "./authentication.js";
 import { startDeploy } from "./deployDispatch.js";
-import type { ServerDependencies, ServerEnvironment } from "./serverDependencies.js";
+import type { ServerDependencies, ServerEnvironment } from "../settings/serverDependencies.js";
 
 type ReactionDocument = Record<string, unknown>;
 

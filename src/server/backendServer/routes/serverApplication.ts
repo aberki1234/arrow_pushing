@@ -11,7 +11,7 @@ import { serveStatic } from "@hono/node-server/serve-static";
 import { Hono } from "hono";
 import { csrf } from "hono/csrf";
 import { HTTPException } from "hono/http-exception";
-import { ReactionDatabaseError } from "../reactionDatabase/model/reactionDatabaseErrors.js";
+import { ReactionDatabaseError } from "../../reactionDatabase/model/reactionDatabaseErrors.js";
 import {
   AUTHENTICATION_BASE_PATH,
   createAuthentication,
@@ -20,9 +20,9 @@ import {
 } from "./authentication.js";
 import { contributorRoutes } from "./contributorRoutes.js";
 import { reactionRoutes } from "./reactionRoutes.js";
-import { refusalBody, refusalHttpStatus } from "./refusalAnswers.js";
-import type { ServerDependencies, ServerEnvironment } from "./serverDependencies.js";
-import { siteActionsOf } from "../reactionDatabase/model/sitePermissions.js";
+import { refusalBody, refusalHttpStatus } from "../requests/refusalAnswers.js";
+import type { ServerDependencies, ServerEnvironment } from "../settings/serverDependencies.js";
+import { siteActionsOf } from "../../reactionDatabase/model/sitePermissions.js";
 
 export function createServerApplication(dependencies: ServerDependencies): Hono<ServerEnvironment> {
   const { settings } = dependencies;

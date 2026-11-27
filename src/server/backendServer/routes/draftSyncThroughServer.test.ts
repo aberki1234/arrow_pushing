@@ -8,27 +8,27 @@ import { tmpdir } from "node:os";
 import { join } from "node:path";
 import { sql } from "kysely";
 import { afterAll, beforeAll, beforeEach, describe, expect, it } from "vitest";
-import { mintAccessToken } from "../reactionDatabase/users/accessTokens.js";
-import type { DatabaseConnection } from "../reactionDatabase/model/databaseTables.js";
-import { saveDraft } from "../reactionDatabase/reactions/reactionVersions.js";
-import type { LintFinding } from "../../tooling/reactionLinting/findings/lintFindings.js";
-import { exampleReaction } from "../../testSupport/reactionEdits.js";
+import { mintAccessToken } from "../../reactionDatabase/users/accessTokens.js";
+import type { DatabaseConnection } from "../../reactionDatabase/model/databaseTables.js";
+import { saveDraft } from "../../reactionDatabase/reactions/reactionVersions.js";
+import type { LintFinding } from "../../../tooling/reactionLinting/findings/lintFindings.js";
+import { exampleReaction } from "../../../testSupport/reactionEdits.js";
 import {
   OWNER_PROFILE,
   signInWithFakeGithub,
   TEST_BASE_URL,
   testServerSettings,
-} from "../../testSupport/serverTesting.js";
+} from "../../../testSupport/serverTesting.js";
 import {
   DATABASE_SETUP_TIMEOUT_MS,
   emptyAllTables,
   newMigratedDatabase,
-} from "../../testSupport/temporaryDatabase.js";
+} from "../../../testSupport/temporaryDatabase.js";
 import {
   type DraftSyncSettings,
   pullDraftFile,
   pushDraftFile,
-} from "../../tooling/draftSync/draftSync.js";
+} from "../../../tooling/draftSync/draftSync.js";
 import { createServerApplication } from "./serverApplication.js";
 
 const SN2_SLUG = "sn2-hydroxide-bromomethane";

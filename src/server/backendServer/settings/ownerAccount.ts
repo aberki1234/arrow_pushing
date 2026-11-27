@@ -3,7 +3,7 @@
  * whose GitHub sign-in account (accounts.provider_id "github") has the allow-list's first id.
  * The owner must have signed in once, so that Better Auth made the user and the account.
  */
-import type { ReactionDatabase } from "../reactionDatabase/model/databaseTables.js";
+import type { ReactionDatabase } from "../../reactionDatabase/model/databaseTables.js";
 
 export class OwnerAccountError extends Error {
   override readonly name = "OwnerAccountError";

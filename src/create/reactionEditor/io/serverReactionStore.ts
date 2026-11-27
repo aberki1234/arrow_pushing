@@ -1,8 +1,8 @@
 /**
  * The built editor's store: reactions in the backend's database, through its API
- * (backendServer/reactionRoutes.ts), on the same address as the editor, so the browser sends the
- * session cookie itself. Besides listing, reading and saving drafts it says who is signed in and
- * publishes (signing in, submitting and review: contributorClient.ts).
+ * (backendServer/routes/reactionRoutes.ts), on the same address as the editor, so the browser sends
+ * the session cookie itself. Besides listing, reading and saving drafts it says who is signed in
+ * and publishes (signing in, submitting and review: contributorClient.ts).
  *
  * A reaction is named "<slug>.json" here too, as in content/reactions/ (reactionFileStore.ts).
  * Reading one reads its newest version.
@@ -12,7 +12,7 @@ import type { ListedReactionFile, ReactionFileStore } from "../model/reactionFil
 
 export const SERVER_STORAGE_PLACE = "the server";
 
-/** Whether Publish asked the deploy workflow to run (backendServer/deployDispatch.ts). */
+/** Whether Publish asked the deploy workflow to run (backendServer/routes/deployDispatch.ts). */
 export type DeployStart = "started" | "not-configured" | "failed";
 
 export type PublishOutcome =

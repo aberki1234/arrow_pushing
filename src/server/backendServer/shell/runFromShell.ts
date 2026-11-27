@@ -3,18 +3,18 @@
  * (`make server`). Settings come from the environment (serverSettings.ts).
  */
 import { serve } from "@hono/node-server";
-import { loadChemistryToolkit } from "../../tooling/chemistryToolkit/chemistryToolkit.js";
-import { mintAccessToken, revokeAccessToken } from "../reactionDatabase/users/accessTokens.js";
-import { importReactionFiles } from "../reactionDatabase/transfer/contentImport.js";
-import type { DatabaseConnection } from "../reactionDatabase/model/databaseTables.js";
-import { applyMigrations } from "../reactionDatabase/connection/migrationRunning.js";
-import { newPostgresConnection } from "../reactionDatabase/connection/postgresConnection.js";
-import { lintReaction } from "../../tooling/reactionLinting/rules/reactionLint.js";
+import { loadChemistryToolkit } from "../../../tooling/chemistryToolkit/chemistryToolkit.js";
+import { mintAccessToken, revokeAccessToken } from "../../reactionDatabase/users/accessTokens.js";
+import { importReactionFiles } from "../../reactionDatabase/transfer/contentImport.js";
+import type { DatabaseConnection } from "../../reactionDatabase/model/databaseTables.js";
+import { applyMigrations } from "../../reactionDatabase/connection/migrationRunning.js";
+import { newPostgresConnection } from "../../reactionDatabase/connection/postgresConnection.js";
+import { lintReaction } from "../../../tooling/reactionLinting/rules/reactionLint.js";
 import { type BackendCommand, parseBackendCommand } from "./commandLine.js";
-import { userIdForGithubAccount } from "./ownerAccount.js";
-import type { LintDocument } from "./serverDependencies.js";
-import { createServerApplication } from "./serverApplication.js";
-import { readServerSettings, type ServerSettings } from "./serverSettings.js";
+import { userIdForGithubAccount } from "../settings/ownerAccount.js";
+import type { LintDocument } from "../settings/serverDependencies.js";
+import { createServerApplication } from "../routes/serverApplication.js";
+import { readServerSettings, type ServerSettings } from "../settings/serverSettings.js";
 
 async function fullLinter(): Promise<LintDocument> {
   const toolkit = await loadChemistryToolkit();

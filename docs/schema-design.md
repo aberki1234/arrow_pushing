@@ -830,7 +830,7 @@ RDKit (RDKit.js) on every valid SMILES case and every example state (`src/toolin
        open-drafts limit (5; 20 since 2026-11-26), blocked, authors added on a next version, `listReactionsFor`, an unchanged save keeping
        a submission in review) and `publishing.ts` (direct publish: the owner, on their own version;
        `publishNewestVersion` shared with a review); `sitePermissions.ts` with `manageUsers`, `blocked`, and
-       reviewers without direct `publish`; `backendServer/authentication.ts` (open sign-in as contributor, the
+       reviewers without direct `publish`; `backendServer/routes/authentication.ts` (open sign-in as contributor, the
        allow-listed GitHub account made owner in an after-create hook, Google when `GOOGLE_CLIENT_ID`/`SECRET`
        are set, linking by verified email), `contributorRoutes.ts`, `/api/sign-in-providers`, `/api/me`'s
        `userId`; a fake Google in `testSupport/serverTesting.ts`. The refusal `not-reaction-owner` is gone
@@ -891,7 +891,7 @@ RDKit (RDKit.js) on every valid SMILES case and every example state (`src/toolin
      session for reading the user's reactions and saving drafts only (a site action that a token-authenticated
      request never gets for anything else); the server command `create-token --user <email> [--days n]` and
      `revoke-token`. Built: migration 0004, `reactionDatabase/users/accessTokens.ts`,
-     `backendServer/accessTokenRequests.ts` (the routes open to a token: GET /api/me, GET /api/reactions[/…],
+     `backendServer/requests/accessTokenRequests.ts` (the routes open to a token: GET /api/me, GET /api/reactions[/…],
      PUT …/draft; elsewhere 403), `requireSignIn(authentication, database)`, the two commands (default name
      "drafting", 90 days).
    * **10c Done 2026-11-26.** Draft sync: saving a draft may name the content hash (§1, canonical JSON) of the draft the client last
@@ -902,7 +902,7 @@ RDKit (RDKit.js) on every valid SMILES case and every example state (`src/toolin
      `content/reactions/`. Built: `reactionDatabase/reactions/draftChangeCheck.ts` (`saveDraftIfUnchanged`, refusal
      `draft-changed` 409; `If-None-Match: *` / `If-Match: <hash>` on PUT …/draft, which now answers
      `draftContentHash`), `src/tooling/draftSync/` (`draftSync.ts`, `commandLine.ts`, `runFromShell.ts`); end to end in
-     `backendServer/draftSyncThroughServer.test.ts`.
+     `backendServer/routes/draftSyncThroughServer.test.ts`.
    * **10e Done 2026-11-26.** Alternative products (rule 3 revised, §3.5): `not-exactly-one-product-state` gone,
      `alternative-product-without-caption` (warning) added in `mechanismGraphRules.ts` (`LintedState.hasCaption`);
      Create names the main product "Product" and the others "Other product" (numbered when several;
@@ -946,7 +946,7 @@ RDKit (RDKit.js) on every valid SMILES case and every example state (`src/toolin
      also accepts a reaction whose versions are all published when the document's `previousReactionVersion` is the
      newest; the server starts version n+1 (`startNextVersionIn`, one transaction with the save) and saves the file
      into it. Built: `reactionDatabase/reactions/draftChangeCheck.ts` (`buildsOnPublished`), `reactionVersions.startNextVersionIn`;
-     tests in `draftChangeCheck.test.ts` and end to end in `backendServer/draftSyncThroughServer.test.ts`.
+     tests in `draftChangeCheck.test.ts` and end to end in `backendServer/routes/draftSyncThroughServer.test.ts`.
    * **10d** The SEAr pilot (nitronium formation, nitration of benzene, nitration of anisole with resonance steps)
      drafted and pushed; reviewed by the owner; then the rest of the batch and `content/tracks/electrophilic-aromatic-substitution.json` (renamed from `aromatic-chemistry`, 2026-11-26).
    Phase 2 (design deferred until after the batch): the MCP server at `/mcp` over the same module and tokens, and a

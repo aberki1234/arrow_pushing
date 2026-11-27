@@ -66,7 +66,7 @@ Every other subfolder is named after its domain concept (`rules/`, `scheme/`, `m
 | tooling/reactionLinting | findings → rules → tracks → shell | done |
 | drawing/moleculeDrawing | shared → state → scheme | done |
 | server/reactionDatabase | model → connection → users → reactions → transfer | done |
-| server/backendServer | requests → settings → routes → shell | planned |
+| server/backendServer | requests → settings → routes → shell | done |
 | tooling/catalogueBuilding | naming → assembly → output → shell | planned |
 
 What each subfolder holds:
