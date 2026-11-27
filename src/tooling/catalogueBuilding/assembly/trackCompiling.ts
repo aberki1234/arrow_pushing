@@ -13,14 +13,14 @@ import { join } from "node:path";
 import {
   type CatalogueTrack,
   conceptFigureFilePath,
-} from "../../core/catalogue/catalogueReading.js";
-import { lintTrackFile } from "../reactionLinting/tracks/trackFileLint.js";
+} from "../../../core/catalogue/catalogueReading.js";
+import { lintTrackFile } from "../../reactionLinting/tracks/trackFileLint.js";
 import {
   CURRICULUM_LEVELS,
   type ProblemSet,
   type TrackDocument,
-} from "../../core/trackFiles/trackSchemaViolations.js";
-import { CatalogueBuildError } from "./catalogueBuildErrors.js";
+} from "../../../core/trackFiles/trackSchemaViolations.js";
+import { CatalogueBuildError } from "../naming/catalogueBuildErrors.js";
 
 /** A concept figure: the file to read and its path in the built site. */
 export interface ConceptFigureCopy {

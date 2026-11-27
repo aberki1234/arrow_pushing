@@ -5,10 +5,10 @@
 import { readFileSync } from "node:fs";
 import { join } from "node:path";
 import { describe, expect, it } from "vitest";
-import { exampleReaction } from "../../testSupport/reactionEdits.js";
-import { newTemporaryFolder } from "../../testSupport/reactionCopies.js";
+import { exampleReaction } from "../../../testSupport/reactionEdits.js";
+import { newTemporaryFolder } from "../../../testSupport/reactionCopies.js";
 import { checkedExport, PublishedBackupError, writePublishedBackup } from "./publishedBackup.js";
-import { contentHashOf } from "./staticFileNaming.js";
+import { contentHashOf } from "../naming/staticFileNaming.js";
 
 function exportedSn2(): Record<string, unknown> {
   const reactionDocument = exampleReaction("sn2-hydroxide-bromomethane.json");

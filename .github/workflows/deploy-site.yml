@@ -51,7 +51,7 @@ jobs:
         env:
           BACKEND_URL: ${{ vars.BACKEND_URL }}
         run: >
-          npx tsx src/tooling/catalogueBuilding/backupFromShell.ts
+          npx tsx src/tooling/catalogueBuilding/shell/backupFromShell.ts
           --from "$BACKEND_URL/api/published-versions" --out content/published
 
       - name: Commit the backup
@@ -82,7 +82,7 @@ jobs:
           # Create's address, for the Create tab in the top bar (src/learner/learnerSite/model/siteNavigation.ts).
           VITE_CREATE_ADDRESS: ${{ vars.BACKEND_URL }}
         run: |
-          npx tsx src/tooling/catalogueBuilding/runFromShell.ts build content/published/*/*.json \
+          npx tsx src/tooling/catalogueBuilding/shell/runFromShell.ts build content/published/*/*.json \
             --out build/site $CALENDAR_OPTION --tracks-folder content/tracks
           npx vite build
           cp -r build/app/. build/site/

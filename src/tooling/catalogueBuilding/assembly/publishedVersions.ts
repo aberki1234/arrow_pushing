@@ -11,11 +11,11 @@
  *      not exactly 1..n.
  */
 import { readFileSync } from "node:fs";
-import type { ChemistryToolkit } from "../chemistryToolkit/chemistryToolkit.js";
-import type { LintFinding } from "../reactionLinting/findings/lintFindings.js";
-import { lintReaction } from "../reactionLinting/rules/reactionLint.js";
-import { CatalogueBuildError } from "./catalogueBuildErrors.js";
-import { contentHashOf, reactionVersionRef } from "./staticFileNaming.js";
+import type { ChemistryToolkit } from "../../chemistryToolkit/chemistryToolkit.js";
+import type { LintFinding } from "../../reactionLinting/findings/lintFindings.js";
+import { lintReaction } from "../../reactionLinting/rules/reactionLint.js";
+import { CatalogueBuildError } from "../naming/catalogueBuildErrors.js";
+import { contentHashOf, reactionVersionRef } from "../naming/staticFileNaming.js";
 
 export interface PublishedVersion {
   readonly reactionSlug: string;

@@ -12,12 +12,13 @@
  *      neither, the publish is refused.
  *   4. submitted (unless it already is), then published: the status, submitted_at, published_at
  *      and the content hash of
- *      the document (catalogueBuilding/staticFileNaming.contentHashOf, as the static build names
+ *      the document (catalogueBuilding/naming/staticFileNaming.contentHashOf, as the static build
+ * names
  *      its files).
  * A refusal after step 2 is returned from the transaction, not thrown in it, so that the saved
  * lint report is committed; publishDraft() throws it afterwards.
  */
-import { contentHashOf } from "../../../tooling/catalogueBuilding/staticFileNaming.js";
+import { contentHashOf } from "../../../tooling/catalogueBuilding/naming/staticFileNaming.js";
 import type { LintFinding } from "../../../tooling/reactionLinting/findings/lintFindings.js";
 import type { ReactionDatabase } from "../model/databaseTables.js";
 import { ReactionDatabaseError } from "../model/reactionDatabaseErrors.js";

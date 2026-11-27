@@ -20,12 +20,12 @@ import {
   type CatalogueTrack,
   type SchemeState,
   catalogueSchemaViolations,
-} from "../../core/catalogue/catalogueReading.js";
-import { endOfPreferredRoute } from "../../core/reactionFiles/preferredRoute.js";
-import { CatalogueBuildError } from "./catalogueBuildErrors.js";
-import { appendedDailyCalendar } from "./dailyCalendar.js";
+} from "../../../core/catalogue/catalogueReading.js";
+import { endOfPreferredRoute } from "../../../core/reactionFiles/preferredRoute.js";
+import { CatalogueBuildError } from "../naming/catalogueBuildErrors.js";
+import { appendedDailyCalendar } from "../naming/dailyCalendar.js";
 import type { PublishedVersion } from "./publishedVersions.js";
-import { reactionVersionRef } from "./staticFileNaming.js";
+import { reactionVersionRef } from "../naming/staticFileNaming.js";
 
 const CATALOGUE_FORMAT_VERSION = 1;
 

@@ -487,7 +487,7 @@ its showcase reaction's preferred route ends (`reactionFiles/preferredRoute.ts`)
 
 The **daily calendar is a list in the build that only grows**. It is not `hash(date) mod N`, which would reshuffle past
 and future days whenever a reaction is added. Built (item 6, 2026-11-25; in TypeScript since item 8.0) as `src/tooling/catalogueBuilding/`
-(`npx tsx src/tooling/catalogueBuilding/runFromShell.ts build FILE... --out DIR (--previous-catalogue FILE |
+(`npx tsx src/tooling/catalogueBuilding/shell/runFromShell.ts build FILE... --out DIR (--previous-catalogue FILE |
 --start-new-calendar)`); the
 browser reads it with `src/core/catalogue/`. Decided 2026-11-25:
 
@@ -509,7 +509,7 @@ browser reads it with `src/core/catalogue/`. Decided 2026-11-25:
 * **The learner's local date** picks the daily puzzle (each learner's own midnight); a date outside the calendar
   has no puzzle (`null`). The slug in the catalogue reveals the daily reaction's name to anyone reading the network
   traffic; accepted for v1.
-* **The build refuses** (error codes in `src/tooling/catalogueBuilding/catalogueBuildErrors.ts`, nothing written) on:
+* **The build refuses** (error codes in `src/tooling/catalogueBuilding/naming/catalogueBuildErrors.ts`, nothing written) on:
   a schema failure or lint error in any input (warnings are printed); a slug/version given twice or versions not
   1..n; a version in the previous catalogue missing from the inputs; a published version whose content hash changed;
   a calendar ref to a version not given; a non-empty output folder.
@@ -548,7 +548,7 @@ One hand-written file per track, `content/tracks/<trackSlug>.json` (shape: `sche
   `curriculum-code-wrong-level` (error: the code's letter F / C / A / G is not the level's) and
   `showcase-not-in-track` (error: the showcase reaction is no set item of the track). Cases:
   `fixtures/lint_cases/track_edits.json` on the example track `fixtures/tracks/first-mechanisms.json`.
-* **Catalogue build** (built in 9a: `src/tooling/catalogueBuilding/trackCompiling.ts`; `build … --tracks-folder FOLDER`):
+* **Catalogue build** (built in 9a: `src/tooling/catalogueBuilding/assembly/trackCompiling.ts`; `build … --tracks-folder FOLDER`):
   every `*.json` in the folder is linted (an error refuses the build: `track-file-not-readable`,
   `track-file-has-lint-errors`; warnings are printed), then compiled into the catalogue's optional **`tracks`**:
   each track without `formatVersion`, set items with no published reaction left out, then empty problem sets,
@@ -774,7 +774,7 @@ RDKit (RDKit.js) on every valid SMILES case and every example state (`src/toolin
      reactions on the server (`reactionEditor/io/serverReactionStore.ts`, `GET /api/reactions/:slug` = the newest
      version): Sign in with GitHub, each reaction's status, "Edit as version n+1", and Publish (saves first, the
      licence tick, the outcome message) (`PublishControls.svelte`); `make editor` keeps content/reactions/.
-     `catalogueBuilding/publishedBackup.ts` + `backupFromShell.ts` (export → `content/published/<slug>/<n>.json`,
+     `catalogueBuilding/output/publishedBackup.ts` + `backupFromShell.ts` (export → `content/published/<slug>/<n>.json`,
      hashes checked); `.github/workflows/deploy-site.yml` (backup commit, build with the live catalogue,
      Cloudflare Pages), `.github/workflows/database-upkeep.yml` (daily query, weekly `pg_dump`), `render.yaml`.
      Checked in headless Chromium against the server on PGlite (sign-in, open, lint, Publish, Edit offered).

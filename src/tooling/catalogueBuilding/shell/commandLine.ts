@@ -1,6 +1,6 @@
 /**
  * The catalogue build's command line, run with `npx tsx
- * src/tooling/catalogueBuilding/runFromShell.ts`.
+ * src/tooling/catalogueBuilding/shell/runFromShell.ts`.
  *
  * Command
  *   build FILE... --out FOLDER (--previous-catalogue FILE | --start-new-calendar)
@@ -17,16 +17,16 @@
  */
 import { readFileSync } from "node:fs";
 import { parseArgs } from "node:util";
-import { loadChemistryToolkit } from "../chemistryToolkit/chemistryToolkit.js";
-import { assembleCatalogue } from "./catalogueAssembly.js";
-import { CatalogueBuildError } from "./catalogueBuildErrors.js";
+import { loadChemistryToolkit } from "../../chemistryToolkit/chemistryToolkit.js";
+import { assembleCatalogue } from "../assembly/catalogueAssembly.js";
+import { CatalogueBuildError } from "../naming/catalogueBuildErrors.js";
 import {
   checkVersionNumbering,
   type PublishedVersion,
   readPublishedVersion,
-} from "./publishedVersions.js";
-import { checkOutputFolderUsable, writeSite } from "./siteWriting.js";
-import { compileTracks, readTrackFolder } from "./trackCompiling.js";
+} from "../assembly/publishedVersions.js";
+import { checkOutputFolderUsable, writeSite } from "../output/siteWriting.js";
+import { compileTracks, readTrackFolder } from "../assembly/trackCompiling.js";
 
 const EXIT_SUCCESS = 0;
 const EXIT_FAILURE = 1; // the build refused

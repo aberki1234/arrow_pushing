@@ -8,7 +8,7 @@
  * nothing is written), 2 for a malformed command.
  */
 import { parseArgs } from "node:util";
-import { checkedExport, writePublishedBackup } from "./publishedBackup.js";
+import { checkedExport, writePublishedBackup } from "../output/publishedBackup.js";
 
 const EXIT_FAILURE = 1;
 const EXIT_MALFORMED_COMMAND = 2;

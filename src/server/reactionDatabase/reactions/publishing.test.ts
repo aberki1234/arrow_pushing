@@ -4,7 +4,7 @@
  * against catalogueBuilding's contentHashOf, which names the static build's files.
  */
 import { afterAll, beforeAll, beforeEach, describe, expect, it } from "vitest";
-import { contentHashOf } from "../../../tooling/catalogueBuilding/staticFileNaming.js";
+import { contentHashOf } from "../../../tooling/catalogueBuilding/naming/staticFileNaming.js";
 import {
   type ChemistryToolkit,
   loadChemistryToolkit,

@@ -9,7 +9,7 @@ import {
   isRecord,
   textField,
   textListField,
-} from "../../testSupport/fixtureFiles.js";
+} from "../../../testSupport/fixtureFiles.js";
 import { CatalogueBuildError } from "./catalogueBuildErrors.js";
 import { appendedDailyCalendar, DAILY_CALENDAR_DAYS_AHEAD } from "./dailyCalendar.js";
 

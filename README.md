@@ -72,7 +72,7 @@ Tools on the command line (TypeScript, run by `tsx`):
 ```bash
 npx tsx src/tooling/reactionLinting/shell/runFromShell.ts lint fixtures/reactions/*.json [--json]
 npx tsx src/tooling/reactionLinting/shell/runFromShell.ts seed-coordinates FILE...   # RDKit coordinates for states missing them
-npx tsx src/tooling/catalogueBuilding/runFromShell.ts build FILE... --out DIR (--previous-catalogue FILE | --start-new-calendar)
+npx tsx src/tooling/catalogueBuilding/shell/runFromShell.ts build FILE... --out DIR (--previous-catalogue FILE | --start-new-calendar)
 ```
 
 ## Repository layout

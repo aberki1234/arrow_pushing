@@ -7,7 +7,7 @@ import {
   exampleReactionDocuments,
   isRecord,
   readFixtureJson,
-} from "../../testSupport/fixtureFiles.js";
+} from "../../../testSupport/fixtureFiles.js";
 import {
   assembleCatalogue,
   type BuiltCatalogue,
@@ -16,9 +16,9 @@ import {
   checkAgainstPreviousCatalogue,
   eligibleVersionRefs,
 } from "./catalogueAssembly.js";
-import { CatalogueBuildError } from "./catalogueBuildErrors.js";
+import { CatalogueBuildError } from "../naming/catalogueBuildErrors.js";
 import type { PublishedVersion } from "./publishedVersions.js";
-import { contentHashOf } from "./staticFileNaming.js";
+import { contentHashOf } from "../naming/staticFileNaming.js";
 
 const BUILT_AT = "2026-12-01T10:00:00Z";
 

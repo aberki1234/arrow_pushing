@@ -6,7 +6,7 @@
 import { writeFileSync } from "node:fs";
 import { join } from "node:path";
 import { afterAll, beforeAll, beforeEach, describe, expect, it } from "vitest";
-import { contentHashOf } from "../../../tooling/catalogueBuilding/staticFileNaming.js";
+import { contentHashOf } from "../../../tooling/catalogueBuilding/naming/staticFileNaming.js";
 import {
   type ChemistryToolkit,
   loadChemistryToolkit,

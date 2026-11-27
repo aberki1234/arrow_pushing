@@ -8,11 +8,11 @@
  */
 import { copyFileSync, existsSync, mkdirSync, readdirSync, statSync, writeFileSync } from "node:fs";
 import { dirname, join } from "node:path";
-import type { BuiltCatalogue } from "./catalogueAssembly.js";
-import { CatalogueBuildError } from "./catalogueBuildErrors.js";
-import type { PublishedVersion } from "./publishedVersions.js";
-import { canonicalJsonBytes, reactionFilePath } from "./staticFileNaming.js";
-import type { ConceptFigureCopy } from "./trackCompiling.js";
+import type { BuiltCatalogue } from "../assembly/catalogueAssembly.js";
+import { CatalogueBuildError } from "../naming/catalogueBuildErrors.js";
+import type { PublishedVersion } from "../assembly/publishedVersions.js";
+import { canonicalJsonBytes, reactionFilePath } from "../naming/staticFileNaming.js";
+import type { ConceptFigureCopy } from "../assembly/trackCompiling.js";
 
 const CATALOGUE_FILE_NAME = "catalogue.json";
 

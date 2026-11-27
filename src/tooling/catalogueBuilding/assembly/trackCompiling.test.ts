@@ -7,14 +7,14 @@
 import { copyFileSync, mkdirSync, writeFileSync } from "node:fs";
 import { join } from "node:path";
 import { expect, it } from "vitest";
-import type { TrackDocument } from "../../core/trackFiles/trackSchemaViolations.js";
-import { newTemporaryFolder } from "../../testSupport/reactionCopies.js";
+import type { TrackDocument } from "../../../core/trackFiles/trackSchemaViolations.js";
+import { newTemporaryFolder } from "../../../testSupport/reactionCopies.js";
 import {
   EXAMPLE_REACTION_SLUGS,
   exampleTrack,
   exampleTracksFolder,
-} from "../../testSupport/trackEdits.js";
-import { CatalogueBuildError } from "./catalogueBuildErrors.js";
+} from "../../../testSupport/trackEdits.js";
+import { CatalogueBuildError } from "../naming/catalogueBuildErrors.js";
 import { compileTracks, readTrackFolder } from "./trackCompiling.js";
 
 const SN2_SLUG = "sn2-hydroxide-bromomethane";

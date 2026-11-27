@@ -4,7 +4,7 @@
  * comment and refusalAnswers.ts's statuses.
  */
 import { afterAll, afterEach, beforeAll, beforeEach, describe, expect, it, vi } from "vitest";
-import { contentHashOf } from "../../../tooling/catalogueBuilding/staticFileNaming.js";
+import { contentHashOf } from "../../../tooling/catalogueBuilding/naming/staticFileNaming.js";
 import { loadChemistryToolkit } from "../../../tooling/chemistryToolkit/chemistryToolkit.js";
 import type { DatabaseConnection } from "../../reactionDatabase/model/databaseTables.js";
 import { lintReaction } from "../../../tooling/reactionLinting/rules/reactionLint.js";

@@ -4,7 +4,7 @@
  */
 import { sql } from "kysely";
 import { afterAll, beforeAll, beforeEach, describe, expect, it } from "vitest";
-import { contentHashOf } from "../../../tooling/catalogueBuilding/staticFileNaming.js";
+import { contentHashOf } from "../../../tooling/catalogueBuilding/naming/staticFileNaming.js";
 import { exampleReaction } from "../../../testSupport/reactionEdits.js";
 import {
   DATABASE_SETUP_TIMEOUT_MS,

@@ -5,21 +5,21 @@ import { beforeAll, beforeEach, describe, expect, it } from "vitest";
 import {
   type ChemistryToolkit,
   loadChemistryToolkit,
-} from "../chemistryToolkit/chemistryToolkit.js";
-import { exampleReactionPath } from "../../testSupport/fixtureFiles.js";
+} from "../../chemistryToolkit/chemistryToolkit.js";
+import { exampleReactionPath } from "../../../testSupport/fixtureFiles.js";
 import {
   copyExampleReaction,
   leaveOneHintTier,
   newTemporaryFolder,
   readJsonFile,
-} from "../../testSupport/reactionCopies.js";
-import { CatalogueBuildError } from "./catalogueBuildErrors.js";
+} from "../../../testSupport/reactionCopies.js";
+import { CatalogueBuildError } from "../naming/catalogueBuildErrors.js";
 import {
   checkVersionNumbering,
   type PublishedVersion,
   readPublishedVersion,
 } from "./publishedVersions.js";
-import { contentHashOf } from "./staticFileNaming.js";
+import { contentHashOf } from "../naming/staticFileNaming.js";
 
 const SN2_SLUG = "sn2-hydroxide-bromomethane";
 

@@ -37,7 +37,7 @@ Do not change agreed decisions without asking; update `docs/SPEC.md` and `docs/s
   - `tooling/`: `chemistryToolkit/` (RDKit.js: atoms, 2D layout and coordinate seeding, a structure as written),
     `reactionLinting/` (the linter, reactions and tracks; state atom checks; command line
     `npx tsx src/tooling/reactionLinting/shell/runFromShell.ts lint|seed-coordinates|lint-tracks`), `catalogueBuilding/`
-    (the static catalogue and daily calendar: `npx tsx src/tooling/catalogueBuilding/runFromShell.ts build`;
+    (the static catalogue and daily calendar: `npx tsx src/tooling/catalogueBuilding/shell/runFromShell.ts build`;
     `make catalogue`), `draftSync/` (item 10c: pushing lint-clean reaction files to Create as drafts with an access
     token and pulling them back: `npx tsx src/tooling/draftSync/runFromShell.ts check|push-draft|pull-draft`,
     settings `ARROWPUSH_ACCESS_TOKEN`, `ARROWPUSH_SERVER_URL`; hashes in `.draft-sync.json`, not in git),

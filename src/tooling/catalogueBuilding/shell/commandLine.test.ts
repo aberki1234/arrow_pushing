@@ -3,17 +3,17 @@ import { createHash } from "node:crypto";
 import { existsSync, mkdirSync, readdirSync, readFileSync, writeFileSync } from "node:fs";
 import { join, relative } from "node:path";
 import { beforeEach, describe, expect, it } from "vitest";
-import { exampleReactionPath, exampleReactionPaths } from "../../testSupport/fixtureFiles.js";
+import { exampleReactionPath, exampleReactionPaths } from "../../../testSupport/fixtureFiles.js";
 import {
   copyExampleReaction,
   leaveOneHintTier,
   newTemporaryFolder,
   readJsonFile,
-} from "../../testSupport/reactionCopies.js";
-import { exampleTracksFolder } from "../../testSupport/trackEdits.js";
-import { catalogueSchemaViolationPaths } from "./catalogueAssembly.js";
+} from "../../../testSupport/reactionCopies.js";
+import { exampleTracksFolder } from "../../../testSupport/trackEdits.js";
+import { catalogueSchemaViolationPaths } from "../assembly/catalogueAssembly.js";
 import { runCatalogueBuilding } from "./commandLine.js";
-import { canonicalJsonBytes } from "./staticFileNaming.js";
+import { canonicalJsonBytes } from "../naming/staticFileNaming.js";
 
 const FIXED_TIMES = ["--build-date", "2026-12-01", "--built-at", "2026-12-01T10:00:00Z"];
 const SN2_SLUG = "sn2-hydroxide-bromomethane";
