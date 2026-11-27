@@ -17,6 +17,10 @@ Do not change agreed decisions without asking; update `docs/SPEC.md` and `docs/s
 - `schema/reaction.schema.json` — JSON Schema of one reaction file (shape only); `schema/track.schema.json` — one
   Learn track file (`content/tracks/<trackSlug>.json`); `schema/catalogue.schema.json` — the learner site's
   `catalogue.json`; `schema/progress.schema.json` — learner progress in `localStorage`.
+- `content/` — `published/` (the deploy workflow's backup of every published version), `tracks/` (the live Learn
+  tracks), `LICENSE` (CC BY-SA 4.0). `content/drafts/` is gitignored: drafting work (reaction drafts, plans,
+  reports) stays local and goes to Create as drafts; the repository is public, so no working notes or local paths
+  in tracked files.
 - `fixtures/` — shared test cases read by Vitest: `reactions/` (example reactions), `schema_cases/` (invalid edits),
   `notation/` (curved-arrow notation cases), `state_graphs/` (SMILES reading and arrow application cases),
   `assessment/` (symmetry, resonance, misconception-pattern and attempt cases), `lint_cases/` (edits that break lint rules),
