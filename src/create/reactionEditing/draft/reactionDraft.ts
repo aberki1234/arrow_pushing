@@ -10,6 +10,8 @@
 import type { DraftState } from "./startState.js";
 import { stateGraphFromMappedSmiles } from "../../../core/stateGraphs/mappedSmilesReading.js";
 import { isRecord } from "../../../core/jsonValues/jsonValues.js";
+import type { ReactionMechanism } from "../../../core/reactionFiles/reactionFile.js";
+import { readReactionMechanism } from "../../../core/reactionFiles/reactionFileReading.js";
 
 /** A reaction file's JSON, read only; edits make new documents. */
 export type ReactionDocument = Readonly<Record<string, unknown>>;
@@ -23,6 +25,20 @@ export function statesOf(document: ReactionDocument): Readonly<Record<string, un
 
 export function stepsOf(document: ReactionDocument): readonly Readonly<Record<string, unknown>>[] {
   return Array.isArray(document.steps) ? document.steps.filter(isRecord) : [];
+}
+
+/**
+ * The draft's mechanism, typed, for assessing, previewing and drawing. Create writes every state
+ * and step itself, so a draft's mechanism always passes its schema check; one that does not is a
+ * bug, and throws.
+ */
+export function draftMechanism(document: ReactionDocument): ReactionMechanism {
+  const reading = readReactionMechanism(document);
+  if (!("reactionMechanism" in reading)) {
+    const [first] = reading.schemaViolations;
+    throw new Error(`the draft's mechanism breaks the schema at "${first?.instancePath ?? ""}"`);
+  }
+  return reading.reactionMechanism;
 }
 
 /** "<prefix>-N" for the smallest N from 1 not in `usedNames`. */

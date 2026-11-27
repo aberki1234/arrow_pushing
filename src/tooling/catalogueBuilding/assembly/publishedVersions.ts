@@ -18,16 +18,19 @@ import { CatalogueBuildError } from "../naming/catalogueBuildErrors.js";
 import { contentHashOf } from "../naming/staticFileNaming.js";
 import { reactionVersionRef } from "../../../core/catalogue/reactionVersionRefs.js";
 import { isRecord } from "../../../core/jsonValues/jsonValues.js";
+import type { ReactionFile } from "../../../core/reactionFiles/reactionFile.js";
+import { readReactionFile } from "../../../core/reactionFiles/reactionFileReading.js";
 
 export interface PublishedVersion {
   readonly reactionSlug: string;
   readonly reactionVersion: number;
-  readonly reactionDocument: Readonly<Record<string, unknown>>;
+  /** The file, schema-checked and lint-clean. */
+  readonly reactionDocument: ReactionFile;
   readonly contentHash: string;
   readonly sourcePath: string;
 }
 
-function readReactionFile(reactionPath: string): Record<string, unknown> {
+function readReactionJson(reactionPath: string): Record<string, unknown> {
   let document: unknown;
   try {
     document = JSON.parse(readFileSync(reactionPath, "utf-8"));
@@ -56,7 +59,7 @@ export function readPublishedVersion(
   reactionPath: string,
   toolkit: Pick<ChemistryToolkit, "readAtoms">,
 ): { publishedVersion: PublishedVersion; lintWarnings: LintFinding[] } {
-  const reactionDocument = readReactionFile(reactionPath);
+  const reactionDocument = readReactionJson(reactionPath);
   const lintFindings = lintReaction(reactionDocument, toolkit);
   const lintErrors = lintFindings.filter((finding) => finding.lintLevel === "error");
   if (lintErrors.length > 0) {
@@ -65,12 +68,17 @@ export function readPublishedVersion(
       `${reactionPath}: ${lintErrors.map(findingLine).join("; ")}`,
     );
   }
-  // The lint passed, so the schema holds: the slug is text and the version a number.
+  // The lint passed, so the schema holds.
+  const reading = readReactionFile(reactionDocument);
+  if (!("reactionFile" in reading)) {
+    throw new Error(`${reactionPath}: lint-clean but not a reaction file`);
+  }
+  const { reactionFile } = reading;
   const publishedVersion: PublishedVersion = {
-    reactionSlug: String(reactionDocument.reactionSlug),
-    reactionVersion: Number(reactionDocument.reactionVersion),
-    reactionDocument,
-    contentHash: contentHashOf(reactionDocument),
+    reactionSlug: reactionFile.reactionSlug,
+    reactionVersion: reactionFile.reactionVersion,
+    reactionDocument: reactionFile,
+    contentHash: contentHashOf(reactionFile),
     sourcePath: reactionPath,
   };
   return { publishedVersion, lintWarnings: lintFindings };

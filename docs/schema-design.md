@@ -57,6 +57,7 @@ Each term below means exactly one thing in the docs, the JSON and the code.
 | **Next up** | The first set item, in track order, that is not done. |
 | **done (set item)** | Its reaction has a finished run in any mode; in a checkpoint, a finished run in that checkpoint. Not the same as **mastered** (most recent run at 100%). |
 | **checkpoint** | A problem set marked `checkpoint: true` that ends a track: earlier reactions shuffled, names hidden, played in the `checkpoint` run mode with the daily rules. |
+| **mechanism** | A reaction file's start state, states, steps, atom roles and abbreviated groups (`ReactionMechanism`, `core/reactionFiles/reactionFile.ts`): what assessing, drawing and Create's checks read. An unfinished draft always has a valid mechanism even while its Publish fields are empty; a **reaction file** (`ReactionFile`) is the mechanism plus everything else, valid against the whole schema. |
 | **run** | One play-through of a reaction version in one run mode, from its start time to completion. It is recorded in learner progress once, when complete; an unfinished daily run is saved and can be resumed (`learnerSite/model/learnerRun.ts`). |
 | **run mode** | How a run is played and scored: `practice`, `daily` or `checkpoint` (§7). |
 | **access token** | A personal token (`Authorization: Bearer …`) standing for one user, stored hashed, revocable, expiring; it may only read that user's reactions and save drafts (item 10). Not a session, which a browser holds. |

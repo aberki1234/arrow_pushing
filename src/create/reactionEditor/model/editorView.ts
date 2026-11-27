@@ -16,6 +16,7 @@ import {
   drawState,
   type StateDrawing,
 } from "../../../drawing/moleculeDrawing/state/stateDrawing.js";
+import { previewReactionFile } from "../../reactionEditing/draft/previewReactionFile.js";
 import { type ReactionDocument, statesOf } from "../../reactionEditing/draft/reactionDraft.js";
 import { readSessionReaction } from "../../../learner/stepSession/sessionReaction.js";
 import { drawingScaleOf } from "../../../learner/learnerSite/model/stepScreenView.js";
@@ -25,7 +26,7 @@ export function draftDrawing(
   document: ReactionDocument,
   stateId: string,
 ): { drawing: StateDrawing; pixelsPerUnit: number } {
-  const reaction = readSessionReaction(document);
+  const reaction = readSessionReaction(previewReactionFile(document));
   const state = reaction.stateIdToState.get(stateId);
   if (state === undefined) {
     throw new Error(`no state "${stateId}"`);

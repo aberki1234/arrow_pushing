@@ -20,7 +20,7 @@ the same subfolder, or in a folder without subfolders, may import each other fre
 
 | Tier | Folders, lowest first | What it holds |
 | --- | --- | --- |
-| **core** | jsonValues, arrowNotation, stateGraphs, attemptAssessment, reactionFiles, trackFiles, catalogue | The domain model and the reaction and track file formats. Pure, shared by everything. |
+| **core** | jsonValues, arrowNotation, stateGraphs, reactionFiles, attemptAssessment, trackFiles, catalogue | The domain model and the reaction and track file formats. Pure, shared by everything. |
 | **drawing** | moleculeDrawing | Turning states into SVG drawings. Pure. |
 | **learner** | stepSession, learnerProgress, dailyPuzzle, learnerStatistics, learnTracks, siteData, learnerSite | Everything the learner site needs, from a step session to the Svelte app. Never reaches RDKit.js or Node. |
 | **tooling** | chemistryToolkit, reactionLinting, catalogueBuilding, draftSync, buildTools | RDKit.js and the Node tools that check, build and push content. |

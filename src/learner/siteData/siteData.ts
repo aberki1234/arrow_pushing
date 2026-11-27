@@ -8,8 +8,9 @@ import {
   readCatalogue,
   reactionFilePath,
 } from "../../core/catalogue/catalogueReading.js";
-import { schemaViolations } from "../../core/reactionFiles/schemaViolations.js";
-import { isRecord } from "../../core/jsonValues/jsonValues.js";
+import { reactionVersionRef as refOfVersion } from "../../core/catalogue/reactionVersionRefs.js";
+import type { ReactionFile } from "../../core/reactionFiles/reactionFile.js";
+import { readReactionFile } from "../../core/reactionFiles/reactionFileReading.js";
 
 export const CATALOGUE_PATH = "catalogue.json";
 
@@ -49,11 +50,11 @@ export async function loadCatalogue(fetcher: JsonFetcher): Promise<Catalogue> {
 }
 
 /** The reaction file of `reactionVersionRef`, schema-checked, its slug and version matching. */
-export async function loadReactionDocument(
+export async function loadReactionFile(
   fetcher: JsonFetcher,
   catalogue: Catalogue,
   reactionVersionRef: string,
-): Promise<Readonly<Record<string, unknown>>> {
+): Promise<ReactionFile> {
   const filePath = reactionFilePath(catalogue, reactionVersionRef);
   if (filePath === null) {
     throw new SiteDataError(
@@ -61,22 +62,21 @@ export async function loadReactionDocument(
       `the catalogue has no reaction version ${reactionVersionRef}`,
     );
   }
-  const reactionDocument = await fetcher(filePath);
-  const violations = schemaViolations(reactionDocument);
-  if (!isRecord(reactionDocument) || violations.length > 0) {
-    const places = violations.map((violation) => violation.instancePath || "/").join(", ");
+  const reading = readReactionFile(await fetcher(filePath));
+  if (!("reactionFile" in reading)) {
+    const places = reading.schemaViolations.map((violation) => violation.instancePath || "/");
     throw new SiteDataError(
       "invalid-reaction-file",
-      `${filePath} is not a valid reaction file: ${places}`,
+      `${filePath} is not a valid reaction file: ${places.join(", ")}`,
     );
   }
-  const slug = String(reactionDocument["reactionSlug"]);
-  const fileRef = `${slug}@${String(reactionDocument["reactionVersion"])}`;
+  const { reactionFile } = reading;
+  const fileRef = refOfVersion(reactionFile.reactionSlug, reactionFile.reactionVersion);
   if (fileRef !== reactionVersionRef) {
     throw new SiteDataError(
       "invalid-reaction-file",
       `${filePath} holds ${fileRef}, not ${reactionVersionRef}`,
     );
   }
-  return reactionDocument;
+  return reactionFile;
 }

@@ -37,13 +37,7 @@ import {
   type PathPart,
 } from "../findings/lintFindings.js";
 import { assessForStepAlone } from "./stepReproduction.js";
-import { isRecord } from "../../../core/jsonValues/jsonValues.js";
-
-type DocumentRecord = Readonly<Record<string, unknown>>;
-
-function isWritableRecord(value: unknown): value is Record<string, unknown> {
-  return isRecord(value);
-}
+import type { ReactionMechanism } from "../../../core/reactionFiles/reactionFile.js";
 
 function misconceptionPath(stateId: string, position: number): PathPart[] {
   return ["stateIdToState", stateId, "misconceptions", position];
@@ -73,24 +67,27 @@ function positionsOfParsablePatterns(reaction: LintedReaction, stateId: string):
 }
 
 /**
- * A copy of the document without the misconceptions whose patterns do not parse, so that
+ * The mechanism without the misconceptions whose patterns do not parse, so that
  * prepareReaction() can read it.
  */
 export function withoutInvalidPatterns(
-  reactionDocument: DocumentRecord,
+  mechanism: ReactionMechanism,
   reaction: LintedReaction,
-): Record<string, unknown> {
-  const documentCopy = structuredClone({ ...reactionDocument });
-  const states = isRecord(documentCopy.stateIdToState) ? documentCopy.stateIdToState : {};
-  for (const [stateId, state] of Object.entries(states)) {
-    if (isWritableRecord(state) && Array.isArray(state.misconceptions)) {
-      const misconceptions: unknown[] = state.misconceptions;
-      state.misconceptions = positionsOfParsablePatterns(reaction, stateId).map(
-        (position) => misconceptions[position],
-      );
-    }
-  }
-  return documentCopy;
+): ReactionMechanism {
+  const stateIdToState = Object.fromEntries(
+    Object.entries(mechanism.stateIdToState).map(([stateId, state]) => {
+      const misconceptions = state.misconceptions;
+      if (misconceptions === undefined) {
+        return [stateId, state];
+      }
+      const parsable = positionsOfParsablePatterns(reaction, stateId).flatMap((position) => {
+        const misconception = misconceptions[position];
+        return misconception === undefined ? [] : [misconception];
+      });
+      return [stateId, { ...state, misconceptions: parsable }];
+    }),
+  );
+  return { ...mechanism, stateIdToState };
 }
 
 /**

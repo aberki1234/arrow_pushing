@@ -15,16 +15,13 @@
  */
 import {
   type Catalogue,
-  type CatalogueAbbreviatedGroup,
   type CatalogueEntry,
   type CatalogueTrack,
   type SchemeState,
   catalogueSchemaViolations,
 } from "../../../core/catalogue/catalogueReading.js";
-import {
-  endOfPreferredRoute,
-  routeOfDocument,
-} from "../../../core/reactionFiles/preferredRoute.js";
+import { endOfPreferredRoute } from "../../../core/reactionFiles/preferredRoute.js";
+import type { ReactionFile } from "../../../core/reactionFiles/reactionFile.js";
 import { CatalogueBuildError } from "../naming/catalogueBuildErrors.js";
 import { appendedDailyCalendar } from "../naming/dailyCalendar.js";
 import type { PublishedVersion } from "./publishedVersions.js";
@@ -115,48 +112,30 @@ function latestVersions(publishedVersions: readonly PublishedVersion[]): Publish
   );
 }
 
-function textOrNull(value: unknown): string | null {
-  return typeof value === "string" ? value : null;
-}
-
-function recordOrNull(value: unknown): Readonly<Record<string, unknown>> | null {
-  return typeof value === "object" && value !== null && !Array.isArray(value)
-    ? (value as Readonly<Record<string, unknown>>)
-    : null;
-}
-
-/** The drawing fields of the document's state `stateId`, or null if it has no such state. */
-function schemeStateOf(
-  document: Readonly<Record<string, unknown>>,
-  stateId: string,
-): SchemeState | null {
-  const state = recordOrNull(recordOrNull(document["stateIdToState"])?.[stateId]);
-  if (state === null) {
+/** The drawing fields of the file's state `stateId`, or null if it has no such state. */
+function schemeStateOf(reactionFile: ReactionFile, stateId: string): SchemeState | null {
+  const state = reactionFile.stateIdToState[stateId];
+  if (state === undefined) {
     return null;
   }
-  // The reaction file passed its schema, so these fields have the shapes SchemeState names.
-  const wedges = state["bondToWedgeStyle"] as SchemeState["bondToWedgeStyle"];
+  const { mappedSmiles, mapNumberToCoordinates, bondToWedgeStyle } = state;
   return {
-    mappedSmiles: String(state["mappedSmiles"]),
-    mapNumberToCoordinates: state[
-      "mapNumberToCoordinates"
-    ] as SchemeState["mapNumberToCoordinates"],
-    ...(wedges === undefined ? {} : { bondToWedgeStyle: wedges }),
+    mappedSmiles,
+    mapNumberToCoordinates,
+    ...(bondToWedgeStyle === undefined ? {} : { bondToWedgeStyle }),
   };
 }
 
 /** What the reaction's card draws: the conditions, the start state, the abbreviated groups. */
 function schemeFieldsOf(
-  document: Readonly<Record<string, unknown>>,
+  reactionFile: ReactionFile,
 ): Pick<CatalogueEntry, "conditionsLabel" | "startState" | "abbreviatedGroups"> {
-  const startState = schemeStateOf(document, String(document["startStateId"]));
-  const groups = document["abbreviatedGroups"];
+  const startState = schemeStateOf(reactionFile, reactionFile.startStateId);
+  const groups = reactionFile.abbreviatedGroups;
   return {
-    ...(typeof document["conditionsLabel"] === "string"
-      ? { conditionsLabel: document["conditionsLabel"] }
-      : {}),
+    conditionsLabel: reactionFile.conditionsLabel,
     ...(startState === null ? {} : { startState }),
-    ...(Array.isArray(groups) ? { abbreviatedGroups: groups as CatalogueAbbreviatedGroup[] } : {}),
+    ...(groups === undefined ? {} : { abbreviatedGroups: groups }),
   };
 }
 
@@ -174,13 +153,11 @@ export function catalogueEntries(publishedVersions: readonly PublishedVersion[])
       reactionSlug: latest.reactionSlug,
       latestReactionVersion: latest.reactionVersion,
       reactionVersionToContentHash: versionToHash,
-      title: String(document.title),
-      subtitle: textOrNull(document.subtitle),
-      reactionClasses: Array.isArray(document.reactionClasses)
-        ? document.reactionClasses.map(String)
-        : [],
-      difficultyTier: Number(document.difficultyTier),
-      dailyPuzzleEligible: document.dailyPuzzleEligible === true,
+      title: document.title,
+      subtitle: document.subtitle ?? null,
+      reactionClasses: [...document.reactionClasses],
+      difficultyTier: document.difficultyTier,
+      dailyPuzzleEligible: document.dailyPuzzleEligible,
       ...schemeFieldsOf(document),
     };
   });
@@ -206,7 +183,7 @@ export function withShowcaseProducts(
       return track;
     }
     const document = showcase.reactionDocument;
-    const productState = schemeStateOf(document, endOfPreferredRoute(routeOfDocument(document)));
+    const productState = schemeStateOf(document, endOfPreferredRoute(document));
     return productState === null ? track : { ...track, showcaseProductState: productState };
   });
 }
@@ -214,7 +191,7 @@ export function withShowcaseProducts(
 /** The latest version ref of each slug whose latest version is dailyPuzzleEligible, sorted. */
 export function eligibleVersionRefs(publishedVersions: readonly PublishedVersion[]): string[] {
   return latestVersions(publishedVersions)
-    .filter((latest) => latest.reactionDocument.dailyPuzzleEligible === true)
+    .filter((latest) => latest.reactionDocument.dailyPuzzleEligible)
     .map((latest) => reactionVersionRef(latest.reactionSlug, latest.reactionVersion));
 }
 

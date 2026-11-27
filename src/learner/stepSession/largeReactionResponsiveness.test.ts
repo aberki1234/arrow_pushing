@@ -14,11 +14,11 @@
  * Budgets are per action, measured in Node; a phone is several times slower. An action that can
  * be repeated counts its fastest of REPEATS runs, so a busy machine (`make test` runs four files
  * at once) does not fail it while a slow algorithm still does; the first check at a state is cold
- * and runs once. Before the fix the worst actions here took 1–14 s (picks) and 2–26 s (checks);
- * after it, under 5 ms and 40 ms (90 ms for a first check), measured alone. The budgets sit far
- * above that (a cold first check took 285 ms with other work on the machine) and at most half the
- * fastest time before the fix, so machine load cannot fail them but a return of the slow
- * algorithm still does.
+ * and runs once, and again (cold again) only while it is over budget. Before the fix the worst
+ * actions here took 1–14 s (picks) and 2–26 s (checks); after it, under 5 ms and 40 ms (90 ms for a
+ * first check), measured alone. The budgets sit far above that (with other work on the machine a
+ * cold first check has taken over 1 s once) and at most half the fastest time before the fix, so
+ * machine load cannot fail them but a return of the slow algorithm still does.
  */
 import { describe, expect, test } from "vitest";
 import {
@@ -35,6 +35,7 @@ import { type StateDrawing, drawState } from "../../drawing/moleculeDrawing/stat
 import { performanceReactionDocuments } from "../../testSupport/fixtureFiles.js";
 import { type DestinationTarget, destinationTargets } from "./destinationTargets.js";
 import { type SessionReaction, type SessionStep, readSessionReaction } from "./sessionReaction.js";
+import { asReactionFile } from "../../testSupport/exampleReactionFiles.js";
 
 /** The longest a source pick, a check, and the first check at a state may take, in Node. */
 const PICK_BUDGET_MILLISECONDS = 250;
@@ -129,6 +130,12 @@ function pickEachSource(
   return [records, actions];
 }
 
+/** The state's symmetries forgotten, so the next check there is cold again. */
+function forgetSymmetries(reaction: SessionReaction, stateId: string): void {
+  reaction.prepared.stateIdToSymmetries.delete(stateId);
+  reaction.prepared.stateIdToFoldedSymmetries.delete(stateId);
+}
+
 /**
  * Check the canonical arrows, then each change of the last arrow to another offered place. The
  * canonical check is the first at the state (cold, run once) unless another step from it was
@@ -155,11 +162,26 @@ function checkCanonicalAndNeighbours(
       () => assessAttempt(reaction.prepared, step.fromStateId, learnerArrows),
       runs,
     );
-  const [canonicalAssessment, canonicalAction] = check(
-    `${step.stepKey}: check canonical`,
+  const canonicalName = `${step.stepKey}: check canonical`;
+  const [canonicalAssessment, firstCanonicalAction] = check(
+    canonicalName,
     step.canonicalArrows,
     isFirstAtState ? 1 : REPEATS,
   );
+  let canonicalAction = firstCanonicalAction;
+  // A cold check over budget is timed again, cold again (the state's symmetries forgotten), at
+  // most REPEATS times in all: load on the machine slows one run, a slow algorithm every one.
+  for (
+    let run = 1;
+    isFirstAtState &&
+    run < REPEATS &&
+    canonicalAction.milliseconds >= FIRST_CHECK_BUDGET_MILLISECONDS;
+    run++
+  ) {
+    forgetSymmetries(reaction, step.fromStateId);
+    const [, again] = check(canonicalName, step.canonicalArrows, 1);
+    canonicalAction = again.milliseconds < canonicalAction.milliseconds ? again : canonicalAction;
+  }
   const neighbourActions = lastTargets.map(
     (target) =>
       check(`${step.stepKey}: check last arrow to ${target.target.pickTargetId}`, [
@@ -171,7 +193,7 @@ function checkCanonicalAndNeighbours(
 }
 
 describe.each(performanceReactionDocuments())("responsiveness on %s", (unusedName, document) => {
-  const reaction = readSessionReaction(document);
+  const reaction = readSessionReaction(asReactionFile(document));
 
   test("every source pick offers the canonical place, within budget", () => {
     const actions = arrowSteps(reaction).flatMap((step) => {

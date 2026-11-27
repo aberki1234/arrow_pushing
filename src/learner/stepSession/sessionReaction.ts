@@ -1,6 +1,8 @@
 /**
- * The parts of a (schema-valid) reaction file a step session uses, read once: its states and
- * steps, typed, plus the reaction prepared for assessing attempts.
+ * The parts of a reaction file a step session uses, read once: its states and steps, typed, plus
+ * the mechanism prepared for assessing attempts. The file has passed its schema check
+ * (core/reactionFiles/reactionFileReading.ts); only fields the schema leaves optional get a
+ * fallback here (no prompt, no subtitle, no explanation, no caption).
  */
 import {
   type CurvedArrow,
@@ -11,10 +13,17 @@ import {
   prepareReaction,
 } from "../../core/attemptAssessment/attemptAssessment.js";
 import type {
+  ReactionFile,
+  ReactionState,
+  ReactionStep,
+} from "../../core/reactionFiles/reactionFile.js";
+import type {
   AbbreviatedGroup,
   StateDisplayFields,
 } from "../../drawing/moleculeDrawing/state/stateDrawing.js";
-import { isRecord } from "../../core/jsonValues/jsonValues.js";
+
+/** The prompt of a state that has none (lint warns about it). */
+const DEFAULT_LEARNER_PROMPT = "Draw the arrows for the next step.";
 
 export interface SessionState {
   readonly stateId: string;
@@ -56,103 +65,53 @@ export interface SessionReaction {
   readonly prepared: PreparedReaction;
 }
 
-type DocumentRecord = Readonly<Record<string, unknown>>;
-
-function textOr(record: DocumentRecord, key: string, fallback: string): string {
-  const value = record[key];
-  return typeof value === "string" ? value : fallback;
-}
-
-function requiredText(record: DocumentRecord, key: string): string {
-  const value = record[key];
-  if (typeof value !== "string") {
-    throw new Error(`reaction file: "${key}" must be text`);
-  }
-  return value;
-}
-
-function textList(value: unknown): string[] {
-  return Array.isArray(value)
-    ? value.filter((item): item is string => typeof item === "string")
-    : [];
-}
-
-function numberList(value: unknown): number[] {
-  return Array.isArray(value)
-    ? value.filter((item): item is number => typeof item === "number")
-    : [];
-}
-
-function abbreviatedGroupsIn(value: unknown): AbbreviatedGroup[] {
-  return (Array.isArray(value) ? value : []).filter(isRecord).map((group) => ({
-    groupLabel: requiredText(group, "groupLabel"),
-    attachmentMapNumber: Number(group["attachmentMapNumber"]),
-    mapNumbers: numberList(group["mapNumbers"]),
-  }));
-}
-
-function sessionStateOf(stateId: string, state: DocumentRecord): SessionState {
+function sessionStateOf(stateId: string, state: ReactionState): SessionState {
   return {
     stateId,
-    mappedSmiles: requiredText(state, "mappedSmiles"),
-    // The schema has checked the display fields' shape.
-    displayFields: state as unknown as StateDisplayFields,
-    learnerPrompt: textOr(state, "learnerPrompt", "Draw the arrows for the next step."),
-    hintTiers: textList(state["hintTiers"]),
+    mappedSmiles: state.mappedSmiles,
+    displayFields: state,
+    learnerPrompt: state.learnerPrompt ?? DEFAULT_LEARNER_PROMPT,
+    hintTiers: state.hintTiers ?? [],
   };
 }
 
-function sessionStepOf(step: DocumentRecord): SessionStep {
-  const stepKind = requiredText(step, "stepKind");
-  const routePreference = requiredText(step, "routePreference");
+function sessionStepOf(step: ReactionStep): SessionStep {
   return {
-    stepKey: requiredText(step, "stepKey"),
-    fromStateId: requiredText(step, "fromStateId"),
-    toStateId: requiredText(step, "toStateId"),
-    stepKind: stepKind === "radical" || stepKind === "change" ? stepKind : "polar",
-    routePreference: routePreference === "accepted" ? "accepted" : "preferred",
-    canonicalArrows: textList(step["canonicalArrows"]).map(parseCurvedArrow),
-    explanationAfterStep: textOr(step, "explanationAfterStep", ""),
-    caption: textOr(step, "caption", ""),
+    stepKey: step.stepKey,
+    fromStateId: step.fromStateId,
+    toStateId: step.toStateId,
+    stepKind: step.stepKind,
+    routePreference: step.routePreference,
+    canonicalArrows: step.stepKind === "change" ? [] : step.canonicalArrows.map(parseCurvedArrow),
+    explanationAfterStep: step.explanationAfterStep ?? "",
+    caption: step.caption ?? "",
   };
 }
 
-export function readSessionReaction(reactionDocument: DocumentRecord): SessionReaction {
-  const states = isRecord(reactionDocument["stateIdToState"])
-    ? reactionDocument["stateIdToState"]
-    : {};
-  const stateIdToState = new Map<string, SessionState>();
-  for (const [stateId, state] of Object.entries(states)) {
-    if (isRecord(state)) {
-      stateIdToState.set(stateId, sessionStateOf(stateId, state));
-    }
-  }
-  const steps = Array.isArray(reactionDocument["steps"]) ? reactionDocument["steps"] : [];
-  const reactionVersion = reactionDocument["reactionVersion"];
-  const difficultyTier = reactionDocument["difficultyTier"];
+export function readSessionReaction(reactionFile: ReactionFile): SessionReaction {
   return {
-    reactionSlug: requiredText(reactionDocument, "reactionSlug"),
-    reactionVersion: typeof reactionVersion === "number" ? reactionVersion : 1,
-    title: requiredText(reactionDocument, "title"),
-    subtitle: textOr(reactionDocument, "subtitle", ""),
-    reactionClasses: textList(reactionDocument["reactionClasses"]),
-    difficultyTier: typeof difficultyTier === "number" ? difficultyTier : 1,
-    conditionsLabel: textOr(reactionDocument, "conditionsLabel", ""),
-    mechanismSummary: textOr(reactionDocument, "mechanismSummary", ""),
-    authors: (Array.isArray(reactionDocument["authors"]) ? reactionDocument["authors"] : [])
-      .filter(isRecord)
-      .map((author) => ({
-        name: textOr(author, "name", ""),
-        url: typeof author["url"] === "string" ? author["url"] : null,
-      })),
-    licence: textOr(reactionDocument, "licence", ""),
-    references: textList(reactionDocument["references"]),
-    startStateId: requiredText(reactionDocument, "startStateId"),
-    spectatorMapNumbers: numberList(reactionDocument["spectatorMapNumbers"]),
-    abbreviatedGroups: abbreviatedGroupsIn(reactionDocument["abbreviatedGroups"]),
-    stateIdToState,
-    steps: steps.filter(isRecord).map(sessionStepOf),
-    prepared: prepareReaction(reactionDocument),
+    reactionSlug: reactionFile.reactionSlug,
+    reactionVersion: reactionFile.reactionVersion,
+    title: reactionFile.title,
+    subtitle: reactionFile.subtitle ?? "",
+    reactionClasses: reactionFile.reactionClasses,
+    difficultyTier: reactionFile.difficultyTier,
+    conditionsLabel: reactionFile.conditionsLabel,
+    mechanismSummary: reactionFile.mechanismSummary,
+    authors: reactionFile.authors,
+    licence: reactionFile.licence,
+    references: reactionFile.references,
+    startStateId: reactionFile.startStateId,
+    spectatorMapNumbers: reactionFile.spectatorMapNumbers,
+    abbreviatedGroups: reactionFile.abbreviatedGroups ?? [],
+    stateIdToState: new Map(
+      Object.entries(reactionFile.stateIdToState).map(([stateId, state]) => [
+        stateId,
+        sessionStateOf(stateId, state),
+      ]),
+    ),
+    steps: reactionFile.steps.map(sessionStepOf),
+    prepared: prepareReaction(reactionFile),
   };
 }
 

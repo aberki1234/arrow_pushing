@@ -1,15 +1,14 @@
 /**
- * A schema-valid reaction file read into the typed shape the lint rules use.
- *
- * The linter runs these rules only after the JSON schema passed, so every required field is
- * there; each field is still checked as it is read, instead of being cast, and a field of the
- * wrong type throws (a bug in the schema or here, never a lint finding).
+ * A reaction's mechanism in the shape the lint rules use (core/reactionFiles/reactionFile.ts is
+ * the typed reaction). The linter reads it only after the schema check passed.
  * States keep the order of stateIdToState, steps the order of "steps" (findings point at steps by
  * position).
  */
-import { isRecord } from "../../../core/jsonValues/jsonValues.js";
-
-type DocumentRecord = Readonly<Record<string, unknown>>;
+import type {
+  ReactionMechanism,
+  ReactionState,
+  ReactionStep,
+} from "../../../core/reactionFiles/reactionFile.js";
 
 export interface LintedMisconception {
   readonly misconceptionId: string;
@@ -29,8 +28,8 @@ export interface LintedStep {
   readonly stepKey: string;
   readonly fromStateId: string;
   readonly toStateId: string;
-  readonly stepKind: string;
-  readonly routePreference: string;
+  readonly stepKind: ReactionStep["stepKind"];
+  readonly routePreference: ReactionStep["routePreference"];
   readonly canonicalArrows: readonly string[];
   readonly partialArrowSets: readonly (readonly string[])[];
   readonly addedSpecies: string | undefined;
@@ -50,107 +49,48 @@ export interface LintedReaction {
   readonly abbreviatedGroups: readonly LintedAbbreviatedGroup[];
 }
 
-function recordAt(record: DocumentRecord, key: string): DocumentRecord {
-  const value = record[key];
-  if (!isRecord(value)) {
-    throw new Error(`reaction file: "${key}" must be an object`);
-  }
-  return value;
-}
-
-function textAt(record: DocumentRecord, key: string): string {
-  const value = record[key];
-  if (typeof value !== "string") {
-    throw new Error(`reaction file: "${key}" must be text`);
-  }
-  return value;
-}
-
-function listAt(record: DocumentRecord, key: string): unknown[] {
-  const value = record[key] ?? [];
-  if (!Array.isArray(value)) {
-    throw new Error(`reaction file: "${key}" must be a list`);
-  }
-  return value;
-}
-
-function textList(value: unknown, key: string): string[] {
-  if (!Array.isArray(value) || !value.every((item) => typeof item === "string")) {
-    throw new Error(`reaction file: "${key}" must be a list of text`);
-  }
-  return value;
-}
-
-function numberList(value: unknown, key: string): number[] {
-  if (!Array.isArray(value) || !value.every((item) => typeof item === "number")) {
-    throw new Error(`reaction file: "${key}" must be a list of numbers`);
-  }
-  return value;
-}
-
-function recordsAt(record: DocumentRecord, key: string): DocumentRecord[] {
-  return listAt(record, key).map((item) => {
-    if (!isRecord(item)) {
-      throw new Error(`reaction file: every entry of "${key}" must be an object`);
-    }
-    return item;
-  });
-}
-
-function lintedState(state: DocumentRecord): LintedState {
+function lintedState(state: ReactionState): LintedState {
   return {
-    mappedSmiles: textAt(state, "mappedSmiles"),
-    hasLearnerPrompt: "learnerPrompt" in state,
-    hasCaption: typeof state.caption === "string" && state.caption.trim() !== "",
-    hintTierCount: listAt(state, "hintTiers").length,
-    misconceptions: recordsAt(state, "misconceptions").map((entry) => ({
-      misconceptionId: textAt(entry, "misconceptionId"),
-      arrowPattern: textAt(entry, "arrowPattern"),
+    mappedSmiles: state.mappedSmiles,
+    hasLearnerPrompt: state.learnerPrompt !== undefined,
+    hasCaption: (state.caption ?? "").trim() !== "",
+    hintTierCount: (state.hintTiers ?? []).length,
+    misconceptions: (state.misconceptions ?? []).map(({ misconceptionId, arrowPattern }) => ({
+      misconceptionId,
+      arrowPattern,
     })),
   };
 }
 
-function lintedStep(step: DocumentRecord): LintedStep {
+function lintedStep(step: ReactionStep): LintedStep {
+  const isChange = step.stepKind === "change";
   return {
-    stepKey: textAt(step, "stepKey"),
-    fromStateId: textAt(step, "fromStateId"),
-    toStateId: textAt(step, "toStateId"),
-    stepKind: textAt(step, "stepKind"),
-    routePreference: textAt(step, "routePreference"),
-    canonicalArrows: textList(step.canonicalArrows ?? [], "canonicalArrows"),
-    partialArrowSets: listAt(step, "partialArrowSets").map((arrowSet) =>
-      textList(arrowSet, "partialArrowSets"),
-    ),
-    addedSpecies: typeof step.addedSpecies === "string" ? step.addedSpecies : undefined,
-    removedFragmentMapNumbers: numberList(
-      step.removedFragmentMapNumbers ?? [],
-      "removedFragmentMapNumbers",
-    ),
+    stepKey: step.stepKey,
+    fromStateId: step.fromStateId,
+    toStateId: step.toStateId,
+    stepKind: step.stepKind,
+    routePreference: step.routePreference,
+    canonicalArrows: isChange ? [] : step.canonicalArrows,
+    partialArrowSets: isChange ? [] : (step.partialArrowSets ?? []),
+    addedSpecies: isChange ? step.addedSpecies : undefined,
+    removedFragmentMapNumbers: isChange ? (step.removedFragmentMapNumbers ?? []) : [],
   };
 }
 
-/** Read a schema-valid reaction file. */
-export function readLintedReaction(reactionDocument: DocumentRecord): LintedReaction {
-  const roles = isRecord(reactionDocument.atomRoleToMapNumbers)
-    ? reactionDocument.atomRoleToMapNumbers
-    : {};
+/** Read a mechanism that has passed its schema check. */
+export function readLintedReaction(mechanism: ReactionMechanism): LintedReaction {
   return {
-    startStateId: textAt(reactionDocument, "startStateId"),
+    startStateId: mechanism.startStateId,
     stateIdToState: new Map(
-      Object.entries(recordAt(reactionDocument, "stateIdToState")).map(([stateId, state]) => {
-        if (!isRecord(state)) {
-          throw new Error(`reaction file: state "${stateId}" must be an object`);
-        }
-        return [stateId, lintedState(state)];
-      }),
+      Object.entries(mechanism.stateIdToState).map(([stateId, state]) => [
+        stateId,
+        lintedState(state),
+      ]),
     ),
-    steps: recordsAt(reactionDocument, "steps").map(lintedStep),
-    atomRoleToMapNumbers: Object.fromEntries(
-      Object.entries(roles).map(([role, mapNumbers]) => [role, numberList(mapNumbers, role)]),
+    steps: mechanism.steps.map(lintedStep),
+    atomRoleToMapNumbers: mechanism.atomRoleToMapNumbers ?? {},
+    abbreviatedGroups: (mechanism.abbreviatedGroups ?? []).map(
+      ({ attachmentMapNumber, mapNumbers }) => ({ attachmentMapNumber, mapNumbers }),
     ),
-    abbreviatedGroups: recordsAt(reactionDocument, "abbreviatedGroups").map((group) => ({
-      attachmentMapNumber: Number(group.attachmentMapNumber),
-      mapNumbers: numberList(group.mapNumbers, "mapNumbers"),
-    })),
   };
 }

@@ -118,7 +118,10 @@ describe("addChangeStep refusing", () => {
     const sn2 = newReactionDraft({
       reactionSlug: "test",
       title: "Test",
-      startState: { mappedSmiles: "[OH-:1].[CH3:2][Br:3]", mapNumberToCoordinates: {} },
+      startState: {
+        mappedSmiles: "[OH-:1].[CH3:2][Br:3]",
+        mapNumberToCoordinates: { "1": [-3, 0], "2": [0, 0], "3": [1.9, 0] },
+      },
     });
     const arrows = ["lp O1 -> σ O1-C2", "σ C2-Br3 -> lp Br3"].map(parseCurvedArrow);
     const withArrowStep = addArrowStep(sn2, "state-1", arrows);

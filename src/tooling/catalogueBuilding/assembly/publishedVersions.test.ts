@@ -6,6 +6,7 @@ import {
   type ChemistryToolkit,
   loadChemistryToolkit,
 } from "../../chemistryToolkit/chemistryToolkit.js";
+import { standInReactionFile } from "../../../testSupport/exampleReactionFiles.js";
 import { exampleReactionPath } from "../../../testSupport/fixtureFiles.js";
 import {
   copyExampleReaction,
@@ -90,11 +91,10 @@ describe("readPublishedVersion", () => {
 });
 
 function standInVersion(versionRef: string): PublishedVersion {
-  const [reactionSlug = "", versionText = ""] = versionRef.split("@");
-  const reactionDocument = { reactionSlug, reactionVersion: Number(versionText) };
+  const reactionDocument = standInReactionFile(versionRef);
   return {
-    reactionSlug,
-    reactionVersion: Number(versionText),
+    reactionSlug: reactionDocument.reactionSlug,
+    reactionVersion: reactionDocument.reactionVersion,
     reactionDocument,
     contentHash: contentHashOf(reactionDocument),
     sourcePath: versionRef,

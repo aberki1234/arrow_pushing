@@ -29,7 +29,12 @@ import {
   withoutInvalidPatterns,
 } from "../../../tooling/reactionLinting/rules/misconceptionRules.js";
 import { assessForStepAlone } from "../../../tooling/reactionLinting/rules/stepReproduction.js";
-import { type ReactionDocument, statesOf, stepsOf } from "../draft/reactionDraft.js";
+import {
+  type ReactionDocument,
+  statesOf,
+  stepsOf,
+  draftMechanism,
+} from "../draft/reactionDraft.js";
 import { isRecord } from "../../../core/jsonValues/jsonValues.js";
 
 export type AnswerEdit =
@@ -88,7 +93,7 @@ function stepAccepting(
   stateId: string,
   curvedArrows: readonly CurvedArrow[],
 ): string | undefined {
-  const prepared = prepareReaction(document);
+  const prepared = prepareReaction(draftMechanism(document));
   return (prepared.stateIdToLeavingSteps.get(stateId) ?? []).find(
     (step) => assessForStepAlone(prepared, step, stateId, curvedArrows) !== undefined,
   )?.stepKey;
@@ -96,8 +101,9 @@ function stepAccepting(
 
 /** Whether the linter finds that the misconception hides a correct answer. */
 function hidesCorrectAnswer(document: ReactionDocument, misconceptionId: string): boolean {
-  const reaction = readLintedReaction(document);
-  const prepared = prepareReaction(withoutInvalidPatterns(document, reaction));
+  const mechanism = draftMechanism(document);
+  const reaction = readLintedReaction(mechanism);
+  const prepared = prepareReaction(withoutInvalidPatterns(mechanism, reaction));
   return misconceptionMatchingFindings(reaction, prepared).some(
     (finding) =>
       finding.lintRuleId === "misconception-hides-correct-answer" &&
@@ -337,7 +343,7 @@ export function addPartialArrowSet(
   ) {
     return refused("the step already has this arrow set");
   }
-  const prepared = prepareReaction(document);
+  const prepared = prepareReaction(draftMechanism(document));
   const fromStateId = String(step.fromStateId);
   const preparedStep = (prepared.stateIdToLeavingSteps.get(fromStateId) ?? []).find(
     (candidate) => candidate.stepKey === stepKey,

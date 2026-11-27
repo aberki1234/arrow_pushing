@@ -3,6 +3,7 @@
  * the previous catalogue, and the assembled catalogue.
  */
 import { describe, expect, it } from "vitest";
+import { asReactionFile, standInReactionFile } from "../../../testSupport/exampleReactionFiles.js";
 import {
   exampleReactionDocuments,
   isRecord,
@@ -22,21 +23,19 @@ import { contentHashOf } from "../naming/staticFileNaming.js";
 
 const BUILT_AT = "2026-12-01T10:00:00Z";
 
-/** A published version holding only the keys the catalogue reads. */
+/** A published version: the SN2 example under another slug and version, with these fields. */
 function standInVersion(
   versionRef: string,
   { eligible = true, subtitle }: { eligible?: boolean; subtitle?: string } = {},
 ): PublishedVersion {
   const [reactionSlug = "", versionText = ""] = versionRef.split("@");
-  const reactionDocument: Record<string, unknown> = {
-    reactionSlug,
-    reactionVersion: Number(versionText),
+  const reactionDocument = standInReactionFile(versionRef, {
     title: `${reactionSlug} v${versionText}`,
     reactionClasses: ["substitution"],
     difficultyTier: 2,
     dailyPuzzleEligible: eligible,
-    ...(subtitle === undefined ? {} : { subtitle }),
-  };
+    subtitle,
+  });
   return {
     reactionSlug,
     reactionVersion: Number(versionText),
@@ -64,7 +63,8 @@ it("gives one entry per slug, sorted, read from the latest version", () => {
   const entries = catalogueEntries([sn2Second, standInVersion("aldol@1"), sn2First]);
   expect(entries.map((entry) => entry.reactionSlug)).toEqual(["aldol", "sn2"]);
   expect(entries[0]?.subtitle).toBeNull();
-  expect(entries[1]).toEqual({
+  // The texts and facets come from the latest version (the scheme fields: the tests below).
+  expect(entries[1]).toMatchObject({
     reactionSlug: "sn2",
     latestReactionVersion: 2,
     reactionVersionToContentHash: { "1": sn2First.contentHash, "2": sn2Second.contentHash },
@@ -85,8 +85,9 @@ function exampleVersion(
   if (found === undefined) {
     throw new Error(`no example reaction ${reactionSlug}`);
   }
-  const reactionDocument = structuredClone(found[1]);
-  edit(reactionDocument);
+  const edited = structuredClone(found[1]);
+  edit(edited);
+  const reactionDocument = asReactionFile(edited);
   return {
     reactionSlug,
     reactionVersion: 1,

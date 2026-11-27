@@ -21,6 +21,7 @@
 import type { ChemistryToolkit } from "../../chemistryToolkit/chemistryToolkit.js";
 import { prepareReaction } from "../../../core/attemptAssessment/preparedReaction.js";
 import { MAXIMUM_SKELETON_SYMMETRIES } from "../../../core/attemptAssessment/skeletonSymmetry.js";
+import { readReactionFile } from "../../../core/reactionFiles/reactionFileReading.js";
 import { schemaViolations } from "../../../core/reactionFiles/schemaViolations.js";
 import { stateAtomProblems } from "./stateAtomConsistency.js";
 import {
@@ -94,7 +95,12 @@ export function lintReaction(
   if (shapeFindings.length > 0) {
     return shapeFindings;
   }
-  const reaction = readLintedReaction(reactionDocument);
+  const reading = readReactionFile(reactionDocument);
+  if (!("reactionFile" in reading)) {
+    throw new Error("a reaction with no schema findings must read as a reaction file");
+  }
+  const { reactionFile } = reading;
+  const reaction = readLintedReaction(reactionFile);
   for (const blockingFindings of [
     (): LintFinding[] => stateReadingFindings(reactionDocument, reaction, toolkit),
     (): LintFinding[] => unknownStateIdFindings(reaction),
@@ -104,7 +110,7 @@ export function lintReaction(
       return findings;
     }
   }
-  const prepared = prepareReaction(withoutInvalidPatterns(reactionDocument, reaction));
+  const prepared = prepareReaction(withoutInvalidPatterns(reactionFile, reaction));
   return [
     ...mechanismGraphFindings(reaction),
     ...learnerTextFindings(reaction),

@@ -10,7 +10,8 @@ import { withoutInvalidPatterns } from "../../../tooling/reactionLinting/rules/m
 import { stepReproductionFindings } from "../../../tooling/reactionLinting/rules/stepReproduction.js";
 import { readSessionReaction } from "../../../learner/stepSession/sessionReaction.js";
 import { sessionAtState, type StepSession } from "../../../learner/stepSession/stepSession.js";
-import { type ReactionDocument, stepsOf } from "../draft/reactionDraft.js";
+import { previewReactionFile } from "../draft/previewReactionFile.js";
+import { type ReactionDocument, draftMechanism, stepsOf } from "../draft/reactionDraft.js";
 
 export type PreviewReadiness =
   { readonly ready: true } | { readonly ready: false; readonly reason: string };
@@ -19,8 +20,9 @@ export function previewReadiness(document: ReactionDocument): PreviewReadiness {
   if (stepsOf(document).length === 0) {
     return { ready: false, reason: "Draw a first step to play it." };
   }
-  const reaction = readLintedReaction(document);
-  const prepared = prepareReaction(withoutInvalidPatterns(document, reaction));
+  const mechanism = draftMechanism(document);
+  const reaction = readLintedReaction(mechanism);
+  const prepared = prepareReaction(withoutInvalidPatterns(mechanism, reaction));
   const [firstProblem] = stepReproductionFindings(reaction, prepared);
   return firstProblem === undefined
     ? { ready: true }
@@ -29,7 +31,7 @@ export function previewReadiness(document: ReactionDocument): PreviewReadiness {
 
 /** A practice session on the draft, at `stateId` (the start state when not given). */
 export function startPreview(document: ReactionDocument, stateId?: string): StepSession {
-  const reaction = readSessionReaction(document);
+  const reaction = readSessionReaction(previewReactionFile(document));
   return sessionAtState(reaction, "practice", stateId ?? reaction.startStateId, {
     stepResults: [],
     wrongCheckCount: 0,

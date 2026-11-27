@@ -27,9 +27,10 @@ Do not change agreed decisions without asking; update `docs/SPEC.md` and `docs/s
 - `src/` — all code is TypeScript (no Python since build item 8.0). **Read `docs/code-layout.md`** before adding or
   moving a file: six tiers, folders in each, and ordered subfolders in folders of 10+ files; at every level a part
   imports only the parts before it (`.dependency-cruiser.cjs`). Tiers and folders, lowest first:
-  - `core/`: `jsonValues/` (checks on plain JSON values: `isRecord`), `arrowNotation/`, `stateGraphs/` (strict mapped-SMILES parser, applying arrows), `attemptAssessment/`
-    (the validator's decision), `reactionFiles/` (Ajv, the preferred route), `trackFiles/` (the track schema and types), `catalogue/`
-    (reading `catalogue.json`).
+  - `core/`: `jsonValues/` (checks on plain JSON values: `isRecord`), `arrowNotation/`, `stateGraphs/` (strict
+    mapped-SMILES parser, applying arrows), `reactionFiles/` (the typed reaction file and its two readers, Ajv, the
+    preferred route), `attemptAssessment/` (the validator's decision), `trackFiles/` (the track schema and types),
+    `catalogue/` (reading `catalogue.json`, reaction version refs).
   - `drawing/`: `moleculeDrawing/` (state → SVG primitives and pick targets, curved-arrow geometry, the scheme).
   - `learner/`: `stepSession/` (taps → arrows, a run through a reaction, scoring, snapshots, feedback text),
     `learnerProgress/` (`localStorage` progress, export / import), `dailyPuzzle/` (today's puzzle, streak, share

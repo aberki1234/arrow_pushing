@@ -13,6 +13,7 @@ import {
   textListField,
 } from "../../testSupport/fixtureFiles.js";
 import { assessAttempt, type AttemptAssessment, prepareReaction } from "./attemptAssessment.js";
+import { asReactionFile, asReactionMechanism } from "../../testSupport/exampleReactionFiles.js";
 
 const attemptCases = fixtureCaseEntries("assessment/attempt_cases.json", "cases").map((entry) => ({
   caseName: textField(entry, "caseName"),
@@ -53,16 +54,20 @@ function assessNotation(
   stateId: string,
   notations: string[],
 ): AttemptAssessment {
-  const prepared = prepareReaction(reactionWithExtraMisconceptions(reactionFile, stateId, []));
+  const prepared = prepareReaction(
+    asReactionFile(reactionWithExtraMisconceptions(reactionFile, stateId, [])),
+  );
   return assessAttempt(prepared, stateId, notations.map(parseCurvedArrow));
 }
 
 test.each(attemptCases)("$caseName", (attemptCase) => {
   const prepared = prepareReaction(
-    reactionWithExtraMisconceptions(
-      attemptCase.reactionFile,
-      attemptCase.stateId,
-      attemptCase.extraMisconceptions,
+    asReactionFile(
+      reactionWithExtraMisconceptions(
+        attemptCase.reactionFile,
+        attemptCase.stateId,
+        attemptCase.extraMisconceptions,
+      ),
     ),
   );
   const assessment = assessAttempt(
@@ -99,6 +104,8 @@ test("a state left only by a change step cannot be assessed", () => {
  * deprotonation needs it. That one explicit hydrogen must not make attack at C10 (its mirror
  * image) wrong: hydrogens are compared as counts.
  */
+const AT_ORIGIN = { "1": [0, 0] };
+
 function benzeneNitration(): Record<string, unknown> {
   const benzene = "[C:9]1([H:15])=[CH:10][CH:11]=[CH:12][CH:13]=[CH:14]1";
   const arenium = "[O:1]=[N+:2]([O-:3])[C:9]1([H:15])[CH+:10][CH:11]=[CH:12][CH:13]=[CH:14]1";
@@ -106,8 +113,12 @@ function benzeneNitration(): Record<string, unknown> {
     startStateId: "reactants",
     atomRoleToMapNumbers: {},
     stateIdToState: {
-      reactants: { mappedSmiles: `[O:1]=[N+:2]=[O:3].${benzene}` },
-      arenium: { mappedSmiles: arenium },
+      // Assessment never reads coordinates; the schema needs some.
+      reactants: {
+        mappedSmiles: `[O:1]=[N+:2]=[O:3].${benzene}`,
+        mapNumberToCoordinates: AT_ORIGIN,
+      },
+      arenium: { mappedSmiles: arenium, mapNumberToCoordinates: AT_ORIGIN },
     },
     steps: [
       {
@@ -123,7 +134,7 @@ function benzeneNitration(): Record<string, unknown> {
 }
 
 test("attack at the mirror-image carbon of a ring with one drawn H is correct", () => {
-  const prepared = prepareReaction(benzeneNitration());
+  const prepared = prepareReaction(asReactionMechanism(benzeneNitration()));
   const assess = (arrows: string[]): AttemptAssessment =>
     assessAttempt(prepared, "reactants", arrows.map(parseCurvedArrow));
   expect(assess(["π C9-C10 -> σ C9-N2", "π N2-O3 -> lp O3"]).assessmentKind).toBe("correct");

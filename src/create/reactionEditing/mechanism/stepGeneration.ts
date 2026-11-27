@@ -53,6 +53,7 @@ import {
   type ReactionDocument,
   statesOf,
   stepsOf,
+  draftMechanism,
 } from "../draft/reactionDraft.js";
 import { isRecord } from "../../../core/jsonValues/jsonValues.js";
 
@@ -171,7 +172,7 @@ function validatorProblem(
   stepKey: string,
   curvedArrows: readonly CurvedArrow[],
 ): string | undefined {
-  const prepared = prepareReaction(document);
+  const prepared = prepareReaction(draftMechanism(document));
   const onlyStep = (prepared.stateIdToLeavingSteps.get(fromStateId) ?? []).filter(
     (step) => step.stepKey === stepKey,
   );

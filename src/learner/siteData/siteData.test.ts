@@ -10,7 +10,7 @@ import {
   type JsonFetcher,
   SiteDataError,
   loadCatalogue,
-  loadReactionDocument,
+  loadReactionFile,
 } from "./siteData.js";
 
 function exampleCatalogue(): Record<string, unknown> {
@@ -67,7 +67,7 @@ test("a reaction version is fetched from its hashed path", async () => {
     "r/sn2-hydroxide-bromomethane/1.aaaaaaaa.json": sn2Document(),
   });
   const catalogue = await loadCatalogue(fetcher);
-  const document = await loadReactionDocument(fetcher, catalogue, "sn2-hydroxide-bromomethane@1");
+  const document = await loadReactionFile(fetcher, catalogue, "sn2-hydroxide-bromomethane@1");
   expect(document["title"]).toBe("SN2 substitution");
 });
 
@@ -80,7 +80,7 @@ test("unknown refs, missing files, invalid files and mismatched files are refuse
     "r/aldol-addition-base/1.01234567.json": { title: "not a reaction" },
   });
   const catalogue = await loadCatalogue(fetcher);
-  const load = (ref: string): Promise<unknown> => loadReactionDocument(fetcher, catalogue, ref);
+  const load = (ref: string): Promise<unknown> => loadReactionFile(fetcher, catalogue, ref);
   expect(await errorCodeOf(load("e2-elimination@1"))).toBe("unknown-reaction-version");
   expect(await errorCodeOf(load("sn2-hydroxide-bromomethane@1"))).toBe("not-found");
   expect(await errorCodeOf(load("aldol-addition-base@1"))).toBe("invalid-reaction-file");

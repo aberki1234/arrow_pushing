@@ -1,11 +1,15 @@
 /**
- * A reaction file read once for assessing attempts: state graphs, the arrow steps leaving each
- * state, parsed misconceptions and partial-progress messages, and each state's symmetries.
- *
- * The document is assumed schema-valid; its fields are still checked as they are read, instead of
- * being cast.
+ * A reaction's mechanism prepared once for assessing attempts: state graphs, the arrow steps
+ * leaving each state, parsed misconceptions and partial-progress messages, and each state's
+ * symmetries. The mechanism has passed its schema check (reactionFiles/reactionFileReading.ts);
+ * parsing a state's SMILES, an arrow or an arrow pattern can still throw.
  */
 import { type CurvedArrow, parseCurvedArrow } from "../arrowNotation/curvedArrowNotation.js";
+import type {
+  Misconception,
+  ReactionMechanism,
+  ReactionStep,
+} from "../reactionFiles/reactionFile.js";
 import { stateGraphFromMappedSmiles } from "../stateGraphs/mappedSmilesReading.js";
 import type { StateGraph } from "../stateGraphs/stateGraph.js";
 import { type ArrowPattern, parseArrowPattern } from "./arrowPatterns.js";
@@ -14,13 +18,12 @@ import {
   skeletonSymmetries,
   withHydrogensFolded,
 } from "./skeletonSymmetry.js";
-import { isRecord } from "../jsonValues/jsonValues.js";
 
 /** An arrow step leaving a state, with its known arrow sets parsed (canonical arrows first). */
 export interface PreparedStep {
   readonly stepKey: string;
   readonly stepKind: "polar" | "radical";
-  readonly routePreference: string;
+  readonly routePreference: ReactionStep["routePreference"];
   readonly toStateId: string;
   readonly knownArrowSets: readonly (readonly CurvedArrow[])[];
 }
@@ -28,7 +31,7 @@ export interface PreparedStep {
 export interface PreparedMisconception {
   readonly misconceptionId: string;
   readonly misconceptionTag: string | null;
-  readonly severity: string;
+  readonly severity: Misconception["severity"];
   readonly arrowPattern: ArrowPattern;
   readonly feedbackMessage: string;
 }
@@ -38,7 +41,7 @@ export interface PartialProgressMessage {
   readonly feedbackMessage: string;
 }
 
-/** A reaction file read once for assessing. Symmetries are filled in as they are needed. */
+/** A mechanism prepared for assessing. Symmetries are filled in as they are needed. */
 export interface PreparedReaction {
   readonly stateIdToGraph: ReadonlyMap<string, StateGraph>;
   readonly stateIdToLeavingSteps: ReadonlyMap<string, readonly PreparedStep[]>;
@@ -49,102 +52,66 @@ export interface PreparedReaction {
   readonly stateIdToFoldedSymmetries: Map<string, MapNumberRelabelling[]>;
 }
 
-type DocumentRecord = Readonly<Record<string, unknown>>;
-
-function recordsIn(value: unknown): DocumentRecord[] {
-  return Array.isArray(value) ? value.filter(isRecord) : [];
-}
-
-function textIn(record: DocumentRecord, key: string): string {
-  const value = record[key];
-  if (typeof value !== "string") {
-    throw new Error(`reaction file: "${key}" must be text`);
-  }
-  return value;
-}
-
-function arrowsIn(value: unknown): CurvedArrow[] {
-  return Array.isArray(value)
-    ? value.filter((item): item is string => typeof item === "string").map(parseCurvedArrow)
-    : [];
-}
-
-function roleTableIn(value: unknown): Record<string, number[]> {
-  const roleTable: Record<string, number[]> = {};
-  for (const [roleName, mapNumbers] of Object.entries(isRecord(value) ? value : {})) {
-    roleTable[roleName] = Array.isArray(mapNumbers)
-      ? mapNumbers.filter((item): item is number => typeof item === "number")
-      : [];
-  }
-  return roleTable;
-}
-
 function appendTo<Item>(table: Map<string, Item[]>, key: string, item: Item): void {
   table.set(key, [...(table.get(key) ?? []), item]);
 }
 
 /** The arrow steps leaving each state (change steps are events, not attempts). */
-function preparedSteps(reactionDocument: DocumentRecord): Map<string, PreparedStep[]> {
+function preparedSteps(mechanism: ReactionMechanism): Map<string, PreparedStep[]> {
   const stateIdToLeavingSteps = new Map<string, PreparedStep[]>();
-  for (const step of recordsIn(reactionDocument.steps)) {
-    const stepKind = textIn(step, "stepKind");
-    if (stepKind !== "polar" && stepKind !== "radical") {
+  for (const step of mechanism.steps) {
+    if (step.stepKind === "change") {
       continue;
     }
-    const partialArrowSets = Array.isArray(step.partialArrowSets) ? step.partialArrowSets : [];
-    appendTo(stateIdToLeavingSteps, textIn(step, "fromStateId"), {
-      stepKey: textIn(step, "stepKey"),
-      stepKind,
-      routePreference: textIn(step, "routePreference"),
-      toStateId: textIn(step, "toStateId"),
-      knownArrowSets: [arrowsIn(step.canonicalArrows), ...partialArrowSets.map(arrowsIn)],
+    appendTo(stateIdToLeavingSteps, step.fromStateId, {
+      stepKey: step.stepKey,
+      stepKind: step.stepKind,
+      routePreference: step.routePreference,
+      toStateId: step.toStateId,
+      knownArrowSets: [step.canonicalArrows, ...(step.partialArrowSets ?? [])].map((arrows) =>
+        arrows.map(parseCurvedArrow),
+      ),
     });
   }
   return stateIdToLeavingSteps;
 }
 
 function preparedMisconception(
-  entry: DocumentRecord,
-  roles: Record<string, number[]>,
+  misconception: Misconception,
+  roles: Readonly<Record<string, readonly number[]>>,
 ): PreparedMisconception {
   return {
-    misconceptionId: textIn(entry, "misconceptionId"),
-    misconceptionTag: typeof entry.misconceptionTag === "string" ? entry.misconceptionTag : null,
-    severity: textIn(entry, "severity"),
-    arrowPattern: parseArrowPattern(textIn(entry, "arrowPattern"), roles),
-    feedbackMessage: textIn(entry, "feedbackMessage"),
+    misconceptionId: misconception.misconceptionId,
+    misconceptionTag: misconception.misconceptionTag ?? null,
+    severity: misconception.severity,
+    arrowPattern: parseArrowPattern(misconception.arrowPattern, roles),
+    feedbackMessage: misconception.feedbackMessage,
   };
 }
 
-/** Read a (schema-valid) reaction file for assessing attempts. */
-export function prepareReaction(
-  reactionDocument: Readonly<Record<string, unknown>>,
-): PreparedReaction {
-  const roles = roleTableIn(reactionDocument.atomRoleToMapNumbers);
-  const states = isRecord(reactionDocument.stateIdToState) ? reactionDocument.stateIdToState : {};
+/** Prepare a mechanism (a reaction file's, or a draft's) for assessing attempts. */
+export function prepareReaction(mechanism: ReactionMechanism): PreparedReaction {
+  const roles = mechanism.atomRoleToMapNumbers ?? {};
   const stateIdToGraph = new Map<string, StateGraph>();
   const stateIdToMisconceptions = new Map<string, PreparedMisconception[]>();
   const stateIdToPartialProgressMessages = new Map<string, PartialProgressMessage[]>();
-  for (const [stateId, state] of Object.entries(states)) {
-    if (!isRecord(state)) {
-      throw new Error(`reaction file: state "${stateId}" must be an object`);
-    }
-    stateIdToGraph.set(stateId, stateGraphFromMappedSmiles(textIn(state, "mappedSmiles")));
+  for (const [stateId, state] of Object.entries(mechanism.stateIdToState)) {
+    stateIdToGraph.set(stateId, stateGraphFromMappedSmiles(state.mappedSmiles));
     stateIdToMisconceptions.set(
       stateId,
-      recordsIn(state.misconceptions).map((entry) => preparedMisconception(entry, roles)),
+      (state.misconceptions ?? []).map((entry) => preparedMisconception(entry, roles)),
     );
     stateIdToPartialProgressMessages.set(
       stateId,
-      recordsIn(state.partialProgressMessages).map((entry) => ({
-        learnerArrows: arrowsIn(entry.learnerArrows),
-        feedbackMessage: textIn(entry, "feedbackMessage"),
+      (state.partialProgressMessages ?? []).map((entry) => ({
+        learnerArrows: entry.learnerArrows.map(parseCurvedArrow),
+        feedbackMessage: entry.feedbackMessage,
       })),
     );
   }
   return {
     stateIdToGraph,
-    stateIdToLeavingSteps: preparedSteps(reactionDocument),
+    stateIdToLeavingSteps: preparedSteps(mechanism),
     stateIdToMisconceptions,
     stateIdToPartialProgressMessages,
     stateIdToSymmetries: new Map(),
