@@ -405,7 +405,9 @@ reactions, track `electrophilic-aromatic-substitution`, problem sets in this ord
     Edit"); only the reaction's owner saves or edits it; the owner or a reviewer publishes.
   - **Defaults chosen with 8c part 3 (2026-11-25):** the first deploy is run by hand with "start a new
     calendar"; every later deploy must fetch the live `catalogue.json`, so a failed fetch never resets the
-    calendar. The weekly dump leaves out session, account and verification rows (sign-in tokens). Publish in
+    calendar. The weekly dump leaves out session, account and verification rows (sign-in tokens), and is
+    uploaded only encrypted with age to the owner's public key (repository variable `DUMP_AGE_RECIPIENT`; 2026-11-27,
+    from the open-source audit: a public repository's artifacts are downloadable by anyone). Publish in
     the editor saves the draft first.
   - **Read-only role (decided 2026-11-25):** the dump connects as `arrowpush_readonly`, which migration 0002
     gives SELECT and one read policy per table (`--enable-row-security`), not BYPASSRLS. The server's role owns
