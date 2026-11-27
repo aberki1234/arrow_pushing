@@ -9,9 +9,9 @@
 
 A website to practise and learn **reaction mechanisms of named reactions** by **drawing curved arrows**, with the system
 validating the arrows and giving guided feedback. Comparable in spirit to nrochemistry.com's advanced chemistry quiz and
-chemdle.com, but with arrow-pushing input and dynamic guidance. `~/synkit/synkit-mechanism` (esp. `review-app-design.md`)
-is a conceptual reference only: it chose "correct by choosing, not by drawing"; this product deliberately does the opposite
-(free arrow input + validation). Reusable ideas from it: state → arrow group → next state data model, origin/verdict tracking.
+chemdle.com, but with arrow-pushing input and dynamic guidance. Where a quiz is "correct by choosing, not by drawing",
+this product deliberately does the opposite (free arrow input + validation). Its data model is state → arrow group →
+next state, with origin/verdict tracking.
 
 - **Audience:** undergrad → grad students revising named reactions; each reaction has a difficulty tier (●○○ … ●●●).
 - **Core loop:** show a state; learner draws the arrows for **one elementary step**; app validates; shows resulting
