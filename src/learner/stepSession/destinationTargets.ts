@@ -39,14 +39,13 @@ import {
   type StateDrawing,
   drawnAtomOf,
 } from "../../drawing/moleculeDrawing/state/stateDrawing.js";
-import { type StateGraph, bondKey, bondKeyMapNumbers } from "../../core/stateGraphs/stateGraph.js";
+import { type StateGraph, bondKey, bondedNeighbours } from "../../core/stateGraphs/stateGraph.js";
 import {
   type ArrowType,
   type TappedPlace,
   electronsMovedBy,
-  tapToDestinationLocus,
+  destinationDecision,
 } from "./arrowPicking.js";
-import { newBondDestinations } from "./newBondDestinations.js";
 
 /** Ring closures between atoms drawn further apart than this many bond lengths are not offered. */
 export const NEW_BOND_REACH = 2.1;
@@ -130,10 +129,8 @@ function sameMolecule(graph: StateGraph, first: number, second: number): boolean
   const reached = new Set([first]);
   const queue = [first];
   for (let current = queue.shift(); current !== undefined; current = queue.shift()) {
-    for (const key of graph.bondToOrder.keys()) {
-      const [atomA, atomB] = bondKeyMapNumbers(key);
-      const next = atomA === current ? atomB : atomB === current ? atomA : undefined;
-      if (next !== undefined && !reached.has(next)) {
+    for (const { mapNumber: next } of bondedNeighbours(graph, current)) {
+      if (!reached.has(next)) {
         reached.add(next);
         queue.push(next);
       }
@@ -152,12 +149,8 @@ function isShownNewBond(
   graph: StateGraph,
   source: ElectronLocus,
   destination: BondLocus,
+  tappable: ReadonlySet<number>,
 ): boolean {
-  const tappable = new Set(
-    drawing.pickTargets
-      .filter((target) => target.targetKind === "atom")
-      .flatMap((target) => target.mapNumbers),
-  );
   const [first, second] = destination.atoms.map((atom) => atom.mapNumber) as [number, number];
   if (!tappable.has(first) || !tappable.has(second)) {
     return false;
@@ -196,18 +189,14 @@ export function destinationTargets(
   graph: StateGraph,
   picked: PickedSource,
 ): DestinationTarget[] {
+  // Decided once for the source: every place below reuses its offered new bonds (issue #1).
+  const decision = destinationDecision(graph, picked.source, picked.arrowType, picked.drawnArrows);
   const drawnPlaces = drawing.pickTargets.flatMap((target) => {
     const place = placeOf(target);
     if (place === null) {
       return [];
     }
-    const pick = tapToDestinationLocus(
-      graph,
-      picked.source,
-      place,
-      picked.arrowType,
-      picked.drawnArrows,
-    );
+    const pick = decision.destinationOf(place);
     return pick.pickOutcome === "destination"
       ? [
           {
@@ -218,8 +207,13 @@ export function destinationTargets(
         ]
       : [];
   });
-  const newBonds = newBondDestinations(graph, picked.source, picked.drawnArrows)
-    .filter((destination) => isShownNewBond(drawing, graph, picked.source, destination))
+  const tappable = new Set(
+    drawing.pickTargets
+      .filter((target) => target.targetKind === "atom")
+      .flatMap((target) => target.mapNumbers),
+  );
+  const newBonds = decision.offeredNewBonds
+    .filter((destination) => isShownNewBond(drawing, graph, picked.source, destination, tappable))
     .map((destination) => newBondTarget(drawing, picked, destination))
     .sort((first, second) => newBondLength(first) - newBondLength(second));
   // An atom whose meaning is a new bond (the atom a 1,2-shift lands on) is shown as that new bond,

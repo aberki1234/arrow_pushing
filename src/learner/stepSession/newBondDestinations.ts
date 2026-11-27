@@ -25,7 +25,12 @@ import type {
   CurvedArrow,
   ElectronLocus,
 } from "../../core/arrowNotation/curvedArrowNotation.js";
-import { type StateGraph, bondKey, bondKeyMapNumbers } from "../../core/stateGraphs/stateGraph.js";
+import {
+  type StateGraph,
+  bondKey,
+  bondKeyMapNumbers,
+  bondedNeighbours,
+} from "../../core/stateGraphs/stateGraph.js";
 
 /** Atoms short of an octet here are electron-poor (a carbocation, a Lewis acid). */
 const OCTET_ELEMENTS = new Set(["B", "Al", "C", "N", "O"]);
@@ -41,10 +46,7 @@ const LEAVING_GROUP_ELEMENTS = new Set(["O", "S", "F", "Cl", "Br", "I"]);
 const SMALLEST_RING_CLOSURE_DISTANCE = 4;
 
 function neighboursOf(graph: StateGraph, mapNumber: number): number[] {
-  return [...graph.bondToOrder.keys()]
-    .map(bondKeyMapNumbers)
-    .filter((pair) => pair.includes(mapNumber))
-    .map(([first, second]) => (first === mapNumber ? second : first));
+  return bondedNeighbours(graph, mapNumber).map((neighbour) => neighbour.mapNumber);
 }
 
 /** Bonds between `start` and every atom of its molecule (breadth first). */
@@ -65,10 +67,8 @@ function bondDistancesFrom(graph: StateGraph, start: number): Map<number, number
 function valenceElectronsOf(graph: StateGraph, mapNumber: number): number {
   const atom = graph.mapNumberToAtom.get(mapNumber);
   let bondingElectrons = 2 * (atom?.hydrogenCount ?? 0);
-  for (const [key, bondOrder] of graph.bondToOrder) {
-    if (bondKeyMapNumbers(key).includes(mapNumber)) {
-      bondingElectrons += 2 * bondOrder;
-    }
+  for (const { bondOrder } of bondedNeighbours(graph, mapNumber)) {
+    bondingElectrons += 2 * bondOrder;
   }
   return bondingElectrons + (atom?.nonbondingElectronCount ?? 0);
 }
@@ -94,8 +94,8 @@ function isElectronPoor(
   );
 }
 
-function bondsOf(graph: StateGraph, mapNumber: number): [string, number][] {
-  return [...graph.bondToOrder].filter(([key]) => bondKeyMapNumbers(key).includes(mapNumber));
+function bondOrdersOf(graph: StateGraph, mapNumber: number): number[] {
+  return bondedNeighbours(graph, mapNumber).map((neighbour) => neighbour.bondOrder);
 }
 
 function formalChargeOf(graph: StateGraph, mapNumber: number): number {
@@ -103,7 +103,7 @@ function formalChargeOf(graph: StateGraph, mapNumber: number): number {
   if (atom === undefined) {
     return 0;
   }
-  const bondOrderSum = bondsOf(graph, mapNumber).reduce((sum, [, order]) => sum + order, 0);
+  const bondOrderSum = bondOrdersOf(graph, mapNumber).reduce((sum, order) => sum + order, 0);
   return (
     (VALENCE_ELECTRONS.get(atom.element) ?? 0) -
     atom.nonbondingElectronCount -
@@ -113,7 +113,7 @@ function formalChargeOf(graph: StateGraph, mapNumber: number): number {
 }
 
 function hasPiBond(graph: StateGraph, mapNumber: number): boolean {
-  return bondsOf(graph, mapNumber).some(([, order]) => order > 1);
+  return bondOrdersOf(graph, mapNumber).some((order) => order > 1);
 }
 
 function elementOf(graph: StateGraph, mapNumber: number): string {
@@ -172,14 +172,17 @@ function sigmaBond(graph: StateGraph, first: number, second: number): BondLocus 
   return { locusKind: "sigmaBond", atoms: [label(smaller), label(larger)] };
 }
 
-/** Whether a new bond from `former` (one end of the source bond) to `target` is offered. */
+/**
+ * Whether a new bond from `former` (one end of the source bond) to `target` is offered, given the
+ * bond distances from `former` (worked out once per source end, not once per target: issue #1).
+ */
 function isOffered(
   graph: StateGraph,
-  [former, other]: readonly [number, number],
-  target: number,
+  [other, target]: readonly [number, number],
+  distancesFromFormer: ReadonlyMap<number, number>,
   drawnArrows: readonly CurvedArrow[],
 ): boolean {
-  const distance = bondDistancesFrom(graph, former).get(target);
+  const distance = distancesFromFormer.get(target);
   if (distance === undefined) {
     return true;
   }
@@ -240,6 +243,7 @@ export function newBondDestinations(
     if (alreadyBonding(former)) {
       continue;
     }
+    const distancesFromFormer = bondDistancesFrom(graph, former);
     for (const target of graph.mapNumberToAtom.keys()) {
       const key = bondKey(former, target);
       const isCandidate =
@@ -248,7 +252,7 @@ export function newBondDestinations(
         !graph.bondToOrder.has(key) &&
         !formed.has(key) &&
         canTakeBond(graph, target, drawnArrows) &&
-        isOffered(graph, [former, other], target, drawnArrows);
+        isOffered(graph, [other, target], distancesFromFormer, drawnArrows);
       if (isCandidate) {
         keys.add(key);
       }

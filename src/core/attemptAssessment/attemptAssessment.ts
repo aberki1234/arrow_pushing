@@ -41,13 +41,14 @@ import {
   foldedSymmetriesOf,
   symmetriesOf,
 } from "./preparedReaction.js";
-import { compareStates, type StateComparison } from "./resonanceEquivalence.js";
+import type { StateComparison } from "./resonanceEquivalence.js";
 import {
-  type MapNumberRelabelling,
-  relabelCurvedArrow,
-  relabelStateGraph,
-  withHydrogensFolded,
-} from "./skeletonSymmetry.js";
+  type RelabelledArrowSet,
+  type StateSymmetries,
+  arrowMultiset,
+  bestComparison,
+  relabelledArrowSets,
+} from "./upToSymmetry.js";
 
 export { prepareReaction, type PreparedReaction } from "./preparedReaction.js";
 
@@ -60,13 +61,6 @@ const STEP_KIND_TO_ELECTRONS_MOVED: Readonly<Record<"polar" | "radical", 1 | 2>>
   polar: 2,
   radical: 1,
 };
-// Comparisons from best to worst: a better one wins when several symmetries give a match.
-const COMPARISONS_BEST_FIRST: readonly StateComparison[] = [
-  "identical",
-  "resonanceForm",
-  "minorResonanceForm",
-  "different",
-];
 const MINOR_RESONANCE_FORM_MESSAGE =
   "This is a charge-separated resonance form of the expected structure: it has more charged " +
   "atoms. Move the electrons that would cancel those charges.";
@@ -116,8 +110,8 @@ export type AttemptAssessment =
 
 // ---- One attempt ----
 
-/** One attempt being assessed, with what is worked out once and used by several checks. */
-interface Attempt {
+/** One attempt being assessed: what is known before any check runs. */
+interface AttemptFacts extends StateSymmetries {
   readonly prepared: PreparedReaction;
   readonly leavingSteps: readonly PreparedStep[];
   readonly stateId: string;
@@ -126,9 +120,23 @@ interface Attempt {
   readonly result: StateGraph | undefined;
   readonly applicationError: ArrowApplicationError | undefined;
   readonly cancellingArrows: readonly CurvedArrow[] | undefined;
-  readonly symmetries: readonly MapNumberRelabelling[];
-  /** The state's symmetries with drawn hydrogens folded, for comparing results only. */
-  readonly foldedSymmetries: readonly MapNumberRelabelling[];
+}
+
+/** One attempt being assessed, with what is worked out once and used by several checks. */
+interface Attempt extends AttemptFacts {
+  /** stepComparisons(), worked out on first use: checks 1 and 4 both need it. */
+  readonly stepComparisons: () => readonly (readonly [PreparedStep, StateComparison])[];
+  /** relabelledArrowSets(), worked out on first use: checks 3 to 5 need it. */
+  readonly relabelledArrowSets: () => readonly RelabelledArrowSet[];
+}
+
+/** `compute` run on the first call only; later calls return the same value. */
+function onFirstUse<Value>(compute: () => Value): () => Value {
+  let computed: { readonly value: Value } | undefined;
+  return () => {
+    computed ??= { value: compute() };
+    return computed.value;
+  };
 }
 
 function applied(
@@ -198,31 +206,13 @@ function cancellingArrowsOf(
   return undefined;
 }
 
-/**
- * The best comparison of the result with a step's to-state over the state's symmetries, and
- * again with drawn hydrogens folded into counts (so a mirror-image attack on a ring where only
- * one H is drawn still matches).
- */
-function bestComparison(attempt: Attempt, result: StateGraph, target: StateGraph): StateComparison {
-  const foldedTarget = withHydrogensFolded(target);
-  const comparisons = new Set([
-    ...attempt.symmetries.map((symmetry) =>
-      compareStates(relabelStateGraph(result, symmetry), target),
-    ),
-    ...attempt.foldedSymmetries.map((symmetry) =>
-      compareStates(withHydrogensFolded(relabelStateGraph(result, symmetry)), foldedTarget),
-    ),
-  ]);
-  return COMPARISONS_BEST_FIRST.find((comparison) => comparisons.has(comparison)) ?? "different";
-}
-
 function arrowTypesFit(step: PreparedStep, learnerArrows: readonly CurvedArrow[]): boolean {
   const electronsMoved = STEP_KIND_TO_ELECTRONS_MOVED[step.stepKind];
   return learnerArrows.every((curvedArrow) => curvedArrow.electronsMoved === electronsMoved);
 }
 
 /** Each leaving step whose arrow type fits, with how the result compares to its to-state. */
-function stepComparisons(attempt: Attempt): [PreparedStep, StateComparison][] {
+function stepComparisons(attempt: AttemptFacts): [PreparedStep, StateComparison][] {
   const { result } = attempt;
   if (result === undefined) {
     return [];
@@ -240,7 +230,7 @@ function correctAssessment(attempt: Attempt): CorrectAssessment | undefined {
   if (attempt.cancellingArrows !== undefined) {
     return undefined;
   }
-  const comparisons = stepComparisons(attempt);
+  const comparisons = attempt.stepComparisons();
   for (const [wanted, isDifferentDrawing] of [
     ["identical", false],
     ["resonanceForm", true],
@@ -259,17 +249,13 @@ function correctAssessment(attempt: Attempt): CorrectAssessment | undefined {
   return undefined;
 }
 
-function relabelledArrows(attempt: Attempt, symmetry: MapNumberRelabelling): CurvedArrow[] {
-  return attempt.learnerArrows.map((curvedArrow) => relabelCurvedArrow(curvedArrow, symmetry));
-}
-
 /** Check 3: the first misconception whose pattern matches, up to symmetry. */
 function misconceptionAssessment(attempt: Attempt): MisconceptionAssessment | undefined {
   const misconceptions = attempt.prepared.stateIdToMisconceptions.get(attempt.stateId) ?? [];
   const found = misconceptions.find((misconception) =>
-    attempt.symmetries.some((symmetry) =>
-      arrowPatternMatches(misconception.arrowPattern, relabelledArrows(attempt, symmetry)),
-    ),
+    attempt
+      .relabelledArrowSets()
+      .some((arrowSet) => arrowPatternMatches(misconception.arrowPattern, arrowSet.curvedArrows)),
   );
   if (found === undefined) {
     return undefined;
@@ -282,16 +268,6 @@ function misconceptionAssessment(attempt: Attempt): MisconceptionAssessment | un
     severity,
     feedbackMessage,
   };
-}
-
-/** How many times each printed arrow occurs. */
-function arrowMultiset(curvedArrows: readonly CurvedArrow[]): Map<string, number> {
-  const printedToCount = new Map<string, number>();
-  for (const curvedArrow of curvedArrows) {
-    const printed = formatCurvedArrow(curvedArrow);
-    printedToCount.set(printed, (printedToCount.get(printed) ?? 0) + 1);
-  }
-  return printedToCount;
 }
 
 /** True when `part` is a strictly smaller part of `whole` (both as multisets). */
@@ -323,15 +299,8 @@ function arrowsStillMissing(attempt: Attempt): number | null {
   const drawnSize = attempt.learnerArrows.length;
   for (const knownArrowSet of attempt.leavingSteps.flatMap((step) => step.knownArrowSets)) {
     const known = arrowMultiset(knownArrowSet);
-    for (const symmetry of attempt.symmetries) {
-      if (
-        isStrictPart(
-          arrowMultiset(relabelledArrows(attempt, symmetry)),
-          known,
-          drawnSize,
-          knownArrowSet.length,
-        )
-      ) {
+    for (const arrowSet of attempt.relabelledArrowSets()) {
+      if (isStrictPart(arrowSet.printedToCount, known, drawnSize, knownArrowSet.length)) {
         missingCounts.push(knownArrowSet.length - drawnSize);
       }
     }
@@ -341,14 +310,12 @@ function arrowsStillMissing(attempt: Attempt): number | null {
 
 function authoredPartialMessage(attempt: Attempt): string | null {
   const messages = attempt.prepared.stateIdToPartialProgressMessages.get(attempt.stateId) ?? [];
-  const found = messages.find((message) =>
-    attempt.symmetries.some((symmetry) =>
-      sameMultiset(
-        arrowMultiset(relabelledArrows(attempt, symmetry)),
-        arrowMultiset(message.learnerArrows),
-      ),
-    ),
-  );
+  const found = messages.find((message) => {
+    const wanted = arrowMultiset(message.learnerArrows);
+    return attempt
+      .relabelledArrowSets()
+      .some((arrowSet) => sameMultiset(arrowSet.printedToCount, wanted));
+  });
   return found?.feedbackMessage ?? null;
 }
 
@@ -356,9 +323,9 @@ function authoredPartialMessage(attempt: Attempt): string | null {
 function partialProgressAssessment(attempt: Attempt): PartialProgressAssessment | undefined {
   const missing = arrowsStillMissing(attempt);
   const authoredMessage = authoredPartialMessage(attempt);
-  const isMinorForm = stepComparisons(attempt).some(
-    ([, comparison]) => comparison === "minorResonanceForm",
-  );
+  const isMinorForm = attempt
+    .stepComparisons()
+    .some(([, comparison]) => comparison === "minorResonanceForm");
   if (missing === null && authoredMessage === null && !isMinorForm) {
     return undefined;
   }
@@ -388,8 +355,8 @@ function reversedArrow(attempt: Attempt): CurvedArrow | undefined {
       .flatMap((step) => step.knownArrowSets.flat())
       .map((known) => atomFlow(known, true)),
   );
-  for (const symmetry of attempt.symmetries) {
-    const index = relabelledArrows(attempt, symmetry).findIndex((relabelled) =>
+  for (const arrowSet of attempt.relabelledArrowSets()) {
+    const index = arrowSet.curvedArrows.findIndex((relabelled) =>
       knownReversed.has(atomFlow(relabelled, false)),
     );
     if (index >= 0) {
@@ -455,7 +422,7 @@ export function assessAttempt(
     return { assessmentKind: "wrong" };
   }
   const [result, applicationError] = applied(graphOf(prepared, stateId), learnerArrows);
-  const attempt: Attempt = {
+  const facts: AttemptFacts = {
     prepared,
     leavingSteps,
     stateId,
@@ -465,6 +432,13 @@ export function assessAttempt(
     cancellingArrows: cancellingArrowsOf(learnerArrows),
     symmetries: symmetriesOf(prepared, stateId),
     foldedSymmetries: foldedSymmetriesOf(prepared, stateId),
+  };
+  const attempt: Attempt = {
+    ...facts,
+    stepComparisons: onFirstUse(() => stepComparisons(facts)),
+    relabelledArrowSets: onFirstUse(() =>
+      relabelledArrowSets(facts.learnerArrows, facts.symmetries),
+    ),
   };
   const meaningless: GenericRuleAssessment | undefined =
     applicationError !== undefined && MEANINGLESS_ARROW_RULE_IDS.has(applicationError.genericRuleId)

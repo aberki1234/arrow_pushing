@@ -15,9 +15,10 @@
  *                      and hydrogen count and maps bonded pairs to bonded pairs (an automorphism)
  *
  * Steps
- *   1. skeletonSymmetriesWithinCap() lists them by backtracking over atoms in map-number order,
- *      trying for each atom the unused atoms with the same element, hydrogen count and number of
- *      bonds, and keeping bonds to atoms already placed. The identity comes first.
+ *   1. skeletonSymmetriesWithinCap() lists them by backtracking over atoms breadth first through
+ *      each molecule, trying for each atom the unused atoms with the same element, hydrogen count
+ *      and number of bonds next to its placed neighbour's image, and keeping bonds to atoms
+ *      already placed. The list is sorted so the identity comes first.
  *   2. relabelStateGraph() and relabelCurvedArrow() apply one symmetry.
  * Molecules here are small (the Wittig reactants have 96 symmetries). Above
  * MAXIMUM_SKELETON_SYMMETRIES, a safety cap rather than a chemistry number, skeletonSymmetries()
@@ -32,6 +33,8 @@ import type {
 import {
   bondKey,
   bondKeyMapNumbers,
+  bondedNeighbours,
+  bondOrderBetween,
   type StateAtom,
   type StateGraph,
 } from "../stateGraphs/stateGraph.js";
@@ -43,44 +46,82 @@ export type MapNumberRelabelling = ReadonlyMap<number, number>;
 
 /** What the backtracking search shares while it places atoms one by one. */
 interface SymmetrySearch {
-  readonly mapNumbers: readonly number[];
-  readonly mapNumberToNeighbours: ReadonlyMap<number, ReadonlySet<number>>;
+  /**
+   * Atoms in the order they are placed: breadth first through each molecule, so every atom after
+   * a molecule's first has a neighbour placed before it (placing in map-number order left most
+   * atoms with nothing placed to check them against: issue #1).
+   */
+  readonly placingOrder: readonly number[];
+  readonly mapNumbersAscending: readonly number[];
+  readonly mapNumberToNeighbours: ReadonlyMap<number, readonly number[]>;
+  readonly mapNumberToNeighbourSet: ReadonlyMap<number, ReadonlySet<number>>;
   /** Element, hydrogen count and number of bonds: a symmetry keeps all three. */
   readonly mapNumberToSignature: ReadonlyMap<number, string>;
+  readonly signatureToMapNumbers: ReadonlyMap<string, readonly number[]>;
   readonly maximumSymmetries: number;
   readonly symmetriesFound: Map<number, number>[];
 }
 
-function neighboursOf(search: SymmetrySearch, mapNumber: number): ReadonlySet<number> {
-  return search.mapNumberToNeighbours.get(mapNumber) ?? new Set();
+const NO_ATOMS: readonly number[] = [];
+const NO_NEIGHBOURS: ReadonlySet<number> = new Set();
+
+function neighboursOf(search: SymmetrySearch, mapNumber: number): readonly number[] {
+  return search.mapNumberToNeighbours.get(mapNumber) ?? NO_ATOMS;
 }
 
-/** Mapping `atom` onto `candidate` keeps every bond (and non-bond) to the atoms placed so far. */
+/**
+ * Mapping `atom` onto `candidate` keeps every bond (and non-bond) to the atoms placed so far:
+ * each placed neighbour of `atom` lands on a neighbour of `candidate`, and `candidate` has no
+ * other placed images around it.
+ */
 function keepsBonds(
   search: SymmetrySearch,
-  atom: number,
-  candidate: number,
-  placed: ReadonlyMap<number, number>,
-): boolean {
-  const atomNeighbours = neighboursOf(search, atom);
-  const candidateNeighbours = neighboursOf(search, candidate);
-  return [...placed].every(
-    ([placedAtom, image]) => atomNeighbours.has(placedAtom) === candidateNeighbours.has(image),
-  );
-}
-
-function canPlace(
-  search: SymmetrySearch,
-  atom: number,
-  candidate: number,
+  [atom, candidate]: readonly [number, number],
   placed: ReadonlyMap<number, number>,
   usedImages: ReadonlySet<number>,
 ): boolean {
-  return (
-    !usedImages.has(candidate) &&
-    search.mapNumberToSignature.get(candidate) === search.mapNumberToSignature.get(atom) &&
-    keepsBonds(search, atom, candidate, placed)
+  const candidateNeighbours = search.mapNumberToNeighbourSet.get(candidate) ?? NO_NEIGHBOURS;
+  let placedNeighbourCount = 0;
+  for (const neighbour of neighboursOf(search, atom)) {
+    const image = placed.get(neighbour);
+    if (image !== undefined) {
+      placedNeighbourCount += 1;
+      if (!candidateNeighbours.has(image)) {
+        return false;
+      }
+    }
+  }
+  const imagesAround = neighboursOf(search, candidate).filter((next) => usedImages.has(next));
+  return imagesAround.length === placedNeighbourCount;
+}
+
+/** The atoms `atom` could map onto: next to a placed neighbour's image, else any alike atom. */
+function candidatesFor(
+  search: SymmetrySearch,
+  atom: number,
+  placed: ReadonlyMap<number, number>,
+): readonly number[] {
+  const signature = search.mapNumberToSignature.get(atom) ?? "";
+  const placedNeighbour = neighboursOf(search, atom).find((neighbour) => placed.has(neighbour));
+  const image = placedNeighbour === undefined ? undefined : placed.get(placedNeighbour);
+  if (image === undefined) {
+    return search.signatureToMapNumbers.get(signature) ?? NO_ATOMS;
+  }
+  return neighboursOf(search, image).filter(
+    (next) => search.mapNumberToSignature.get(next) === signature,
   );
+}
+
+/** The symmetry `placed` describes, keyed in map-number order. */
+function foundSymmetry(
+  search: SymmetrySearch,
+  placed: ReadonlyMap<number, number>,
+): Map<number, number> {
+  const symmetry = new Map<number, number>();
+  for (const mapNumber of search.mapNumbersAscending) {
+    symmetry.set(mapNumber, placed.get(mapNumber) ?? mapNumber);
+  }
+  return symmetry;
 }
 
 /** Place the next atom in every possible way. Returns false once the cap is passed. */
@@ -89,15 +130,13 @@ function extend(
   placed: Map<number, number>,
   usedImages: Set<number>,
 ): boolean {
-  const atom = search.mapNumbers[placed.size];
+  const atom = search.placingOrder[placed.size];
   if (atom === undefined) {
-    search.symmetriesFound.push(new Map(placed));
+    search.symmetriesFound.push(foundSymmetry(search, placed));
     return search.symmetriesFound.length <= search.maximumSymmetries;
   }
-  // Trying the atom itself first makes the identity the first symmetry found.
-  const candidates = [atom, ...search.mapNumbers.filter((other) => other !== atom)];
-  for (const candidate of candidates) {
-    if (!canPlace(search, atom, candidate, placed, usedImages)) {
+  for (const candidate of candidatesFor(search, atom, placed)) {
+    if (usedImages.has(candidate) || !keepsBonds(search, [atom, candidate], placed, usedImages)) {
       continue;
     }
     placed.set(atom, candidate);
@@ -117,6 +156,101 @@ function atomSignature(atom: StateAtom, bondCount: number): string {
   return `${atom.element}/${String(atom.hydrogenCount)}/${String(bondCount)}`;
 }
 
+/** Breadth first through each molecule, molecules by their lowest map number. */
+function breadthFirstOrder(
+  mapNumbersAscending: readonly number[],
+  mapNumberToNeighbours: ReadonlyMap<number, readonly number[]>,
+): number[] {
+  const order: number[] = [];
+  const reached = new Set<number>();
+  for (const start of mapNumbersAscending) {
+    if (reached.has(start)) {
+      continue;
+    }
+    reached.add(start);
+    order.push(start);
+    for (let position = order.length - 1; position < order.length; position++) {
+      for (const next of mapNumberToNeighbours.get(order[position] ?? start) ?? NO_ATOMS) {
+        if (!reached.has(next)) {
+          reached.add(next);
+          order.push(next);
+        }
+      }
+    }
+  }
+  return order;
+}
+
+/**
+ * The order the search listed symmetries in when it placed atoms in map-number order, kept so
+ * every caller sees the same list: atom by atom in map-number order, an atom mapped onto itself
+ * first, then by the image's map number. The identity comes first.
+ */
+function compareSymmetries(
+  mapNumbersAscending: readonly number[],
+  first: MapNumberRelabelling,
+  second: MapNumberRelabelling,
+): number {
+  const rank = (mapNumber: number, image: number | undefined): number =>
+    image === mapNumber ? Number.NEGATIVE_INFINITY : (image ?? 0);
+  for (const mapNumber of mapNumbersAscending) {
+    const firstRank = rank(mapNumber, first.get(mapNumber));
+    const secondRank = rank(mapNumber, second.get(mapNumber));
+    if (firstRank !== secondRank) {
+      return firstRank < secondRank ? -1 : 1;
+    }
+  }
+  return 0;
+}
+
+/** Each signature's atoms, in map-number order. */
+function atomsBySignature(
+  mapNumbersAscending: readonly number[],
+  mapNumberToSignature: ReadonlyMap<number, string>,
+): Map<string, number[]> {
+  const signatureToMapNumbers = new Map<string, number[]>();
+  for (const mapNumber of mapNumbersAscending) {
+    const signature = mapNumberToSignature.get(mapNumber) ?? "";
+    signatureToMapNumbers.set(signature, [
+      ...(signatureToMapNumbers.get(signature) ?? []),
+      mapNumber,
+    ]);
+  }
+  return signatureToMapNumbers;
+}
+
+function symmetrySearchOf(graph: StateGraph, maximumSymmetries: number): SymmetrySearch {
+  const mapNumbersAscending = [...graph.mapNumberToAtom.keys()].sort(
+    (first, second) => first - second,
+  );
+  const mapNumberToNeighbours = new Map(
+    mapNumbersAscending.map((mapNumber) => [
+      mapNumber,
+      bondedNeighbours(graph, mapNumber)
+        .map((neighbour) => neighbour.mapNumber)
+        .sort((first, second) => first - second),
+    ]),
+  );
+  const mapNumberToSignature = new Map(
+    [...graph.mapNumberToAtom].map(([mapNumber, atom]) => [
+      mapNumber,
+      atomSignature(atom, mapNumberToNeighbours.get(mapNumber)?.length ?? 0),
+    ]),
+  );
+  return {
+    placingOrder: breadthFirstOrder(mapNumbersAscending, mapNumberToNeighbours),
+    mapNumbersAscending,
+    mapNumberToNeighbours,
+    mapNumberToNeighbourSet: new Map(
+      [...mapNumberToNeighbours].map(([mapNumber, neighbours]) => [mapNumber, new Set(neighbours)]),
+    ),
+    mapNumberToSignature,
+    signatureToMapNumbers: atomsBySignature(mapNumbersAscending, mapNumberToSignature),
+    maximumSymmetries,
+    symmetriesFound: [],
+  };
+}
+
 /**
  * Every skeleton symmetry of `graph`, the identity first; undefined when there are more than
  * `maximumSymmetries` (the linter warns about such states).
@@ -125,29 +259,13 @@ export function skeletonSymmetriesWithinCap(
   graph: StateGraph,
   maximumSymmetries: number = MAXIMUM_SKELETON_SYMMETRIES,
 ): MapNumberRelabelling[] | undefined {
-  const mapNumbers = [...graph.mapNumberToAtom.keys()].sort((first, second) => first - second);
-  const mapNumberToNeighbours = new Map(
-    mapNumbers.map((mapNumber) => [mapNumber, new Set<number>()]),
-  );
-  for (const key of graph.bondToOrder.keys()) {
-    const [firstMapNumber, secondMapNumber] = bondKeyMapNumbers(key);
-    mapNumberToNeighbours.get(firstMapNumber)?.add(secondMapNumber);
-    mapNumberToNeighbours.get(secondMapNumber)?.add(firstMapNumber);
+  const search = symmetrySearchOf(graph, maximumSymmetries);
+  if (!extend(search, new Map(), new Set())) {
+    return undefined;
   }
-  const mapNumberToSignature = new Map(
-    [...graph.mapNumberToAtom].map(([mapNumber, atom]) => [
-      mapNumber,
-      atomSignature(atom, mapNumberToNeighbours.get(mapNumber)?.size ?? 0),
-    ]),
+  return search.symmetriesFound.sort((first, second) =>
+    compareSymmetries(search.mapNumbersAscending, first, second),
   );
-  const search: SymmetrySearch = {
-    mapNumbers,
-    mapNumberToNeighbours,
-    mapNumberToSignature,
-    maximumSymmetries,
-    symmetriesFound: [],
-  };
-  return extend(search, new Map(), new Set()) ? search.symmetriesFound : undefined;
 }
 
 /** Every skeleton symmetry of `graph`, the identity first; only the identity above the cap. */
@@ -184,6 +302,40 @@ export function relabelStateGraph(
     );
   }
   return { mapNumberToAtom, bondToOrder };
+}
+
+/**
+ * Whether relabelStateGraph(graph, relabelling) has the same σ skeleton as `target` (atoms with
+ * their elements and hydrogen counts, and the bonded pairs), found without building it. Most
+ * symmetries fail here at once, so comparing a result under thousands of them stays quick
+ * (issue #1). `relabelling` is a symmetry of the state the result came from, so it renumbers
+ * the result's atoms one to one.
+ */
+export function relabelledSkeletonMatches(
+  graph: StateGraph,
+  relabelling: MapNumberRelabelling,
+  target: StateGraph,
+): boolean {
+  if (
+    graph.mapNumberToAtom.size !== target.mapNumberToAtom.size ||
+    graph.bondToOrder.size !== target.bondToOrder.size
+  ) {
+    return false;
+  }
+  for (const [mapNumber, atom] of graph.mapNumberToAtom) {
+    const image = relabelled(mapNumber, relabelling);
+    const targetAtom = target.mapNumberToAtom.get(image);
+    if (targetAtom?.element !== atom.element || targetAtom.hydrogenCount !== atom.hydrogenCount) {
+      return false;
+    }
+    for (const neighbour of bondedNeighbours(graph, mapNumber)) {
+      const neighbourImage = relabelled(neighbour.mapNumber, relabelling);
+      if (bondOrderBetween(target, image, neighbourImage) === undefined) {
+        return false;
+      }
+    }
+  }
+  return true;
 }
 
 function relabelAtom(atom: AtomLabel, relabelling: MapNumberRelabelling): AtomLabel {

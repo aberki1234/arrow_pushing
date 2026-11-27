@@ -59,17 +59,28 @@ export function drawingScaleOf(reaction: SessionReaction): number {
   );
 }
 
-export function currentStateDrawing(session: StepSession, scale: number): StateDrawing {
-  const { reaction, currentStateId } = session;
+/**
+ * The drawing of one state. It depends on nothing a tap changes, so the screen derives it from
+ * the reaction and the state id alone and keeps it while arrows are drawn (issue #1).
+ */
+export function stateDrawingOf(
+  reaction: SessionReaction,
+  stateId: string,
+  scale: number,
+): StateDrawing {
   return drawState(
-    graphOf(reaction.prepared, currentStateId),
-    stateOf(reaction, currentStateId).displayFields,
+    graphOf(reaction.prepared, stateId),
+    stateOf(reaction, stateId).displayFields,
     scale,
     {
       spectatorMapNumbers: reaction.spectatorMapNumbers,
       abbreviatedGroups: reaction.abbreviatedGroups,
     },
   );
+}
+
+export function currentStateDrawing(session: StepSession, scale: number): StateDrawing {
+  return stateDrawingOf(session.reaction, session.currentStateId, scale);
 }
 
 /** Arrow steps still ahead after the steps taken (the current one included while drawing). */
