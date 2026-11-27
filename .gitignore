@@ -14,3 +14,7 @@ build/
 
 # Ketcher's release, fetched at build time (make ketcher)
 vendor/
+
+# Local drafting work: reaction drafts on their way to Create, plans and reports. Drafts live in
+# Create's database; tracks go live in content/tracks/. Kept out of the public repository.
+content/drafts/

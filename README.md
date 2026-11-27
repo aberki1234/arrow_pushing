@@ -108,7 +108,7 @@ npx tsx src/tooling/draftSync/runFromShell.ts check|push-draft|pull-draft ...   
 | Path | Contents |
 |---|---|
 | [`src/`](src/) | All the code, in six tiers, lowest first: `core` (arrow notation, state graphs, assessment, file formats), `drawing` (molecules and arrows as SVG), `learner` (the step session, progress, daily puzzle, Learn, and the Svelte app in `learnerSite/`), `tooling` (RDKit.js, the linter, the catalogue build, draft sync), `create` (the editor's logic and its Svelte app), `server` (the database and the backend). Each tier imports only from the tiers before it; see [`docs/code-layout.md`](docs/code-layout.md). Tests sit beside the code as `*.test.ts`. |
-| [`content/`](content/) | `published/`: every published reaction version, backed up from the database by the deploy workflow. `tracks/`: the Learn tracks. `drafts/`: reactions being written. |
+| [`content/`](content/) | `published/`: every published reaction version, backed up from the database by the deploy workflow. `tracks/`: the Learn tracks. `LICENSE`: the content's licence. |
 | [`schema/`](schema/) | JSON Schemas: a reaction file, a Learn track, `catalogue.json`, learner progress. |
 | [`fixtures/`](fixtures/) | Example reactions and track, and the shared test cases. |
 | [`docs/`](docs/) | The design. [`SPEC.md`](docs/SPEC.md): every product decision so far. [`schema-design.md`](docs/schema-design.md): the reaction format, arrow notation, how attempts are assessed, lint rules, the database. [`curriculum.md`](docs/curriculum.md): the Learn roadmap. [`code-layout.md`](docs/code-layout.md): how `src/` is arranged. Each has an HTML copy for reading in a browser. |
