@@ -525,6 +525,10 @@ reactions, track `electrophilic-aromatic-substitution`, problem sets in this ord
       (`reactionEditor/io/batchPublishing.ts`).
     - Your mechanisms lists the reactions whose newest version the user wrote, and their own published ones;
       someone else's published reactions are only under "Improve a published one" ("Suggest version n").
+    - **Who reads an unpublished version** (2026-11-27, security fix from the open-source audit): its author,
+      the reaction's owner, and reviewers and the owner of the site (`seeEveryReaction`). Anyone else gets 404, as
+      if it did not exist, and "the newest version" of a reaction is the newest one they may read (its newest
+      published version). Published versions are public (`reactionDatabase/reactions/versionReading.ts`).
     - An author is added to the next version's `authors` once (not if they wrote a version of it before, or
       own it). Saving the same document again leaves a submitted version in review (only a changed draft is
       taken out); Create skips an autosave already done by Submit or Publish.
