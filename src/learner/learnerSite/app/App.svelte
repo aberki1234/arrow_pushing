@@ -12,7 +12,8 @@
   import SiteHeader from "./SiteHeader.svelte";
   import StepScreen from "../workspaces/StepScreen.svelte";
   import TrackPage from "../pages/TrackPage.svelte";
-  import { navigationTabs, type NavigationTabName } from "../model/siteNavigation.js";
+  import AboutPage from "../pages/AboutPage.svelte";
+  import { aboutLink, navigationTabs, type NavigationTabName } from "../model/siteNavigation.js";
   import { parseSiteRoute } from "../model/siteRoutes.js";
 
   const {
@@ -27,7 +28,9 @@
   const tabs = $derived(navigationTabs({ learnerSiteAddress: "", createAddress }));
   // A page with a tab of its own marks it; playing a reaction marks none.
   const currentTab = $derived<NavigationTabName | null>(
-    tabs.find((tab) => tab.tabName === route.routeName)?.tabName ?? null,
+    route.routeName === "about"
+      ? "about"
+      : (tabs.find((tab) => tab.tabName === route.routeName)?.tabName ?? null),
   );
 
   onMount(() => {
@@ -41,51 +44,56 @@
   });
 </script>
 
-<SiteHeader {tabs} {currentTab} brandHref="#/" />
+<SiteHeader {tabs} about={aboutLink("")} {currentTab} brandHref="#/" />
 <main class="wrap">
-  {#await cataloguePromise}
-    <p class="muted mt">Loading reactions…</p>
-  {:then catalogue}
-    {#if route.routeName === "daily"}
-      <DailyPage {catalogue} />
-    {:else if route.routeName === "play"}
-      {#key route.reactionVersionRef}
-        <StepScreen {catalogue} reactionVersionRef={route.reactionVersionRef} />
-      {/key}
-    {:else if route.routeName === "learn"}
-      {#if route.trackSlug === null}
-        <LearnPage {catalogue} />
-      {:else if route.problemSetSlug === null}
-        <TrackPage {catalogue} trackSlug={route.trackSlug} />
-      {:else if route.reactionSlug === null}
-        {#key route.problemSetSlug}
-          <ProblemSetPage
-            {catalogue}
-            trackSlug={route.trackSlug}
-            problemSetSlug={route.problemSetSlug}
-          />
+  <!-- About needs no catalogue: the source code is offered even if the reactions fail to load. -->
+  {#if route.routeName === "about"}
+    <AboutPage {createAddress} />
+  {:else}
+    {#await cataloguePromise}
+      <p class="muted mt">Loading reactions…</p>
+    {:then catalogue}
+      {#if route.routeName === "daily"}
+        <DailyPage {catalogue} />
+      {:else if route.routeName === "play"}
+        {#key route.reactionVersionRef}
+          <StepScreen {catalogue} reactionVersionRef={route.reactionVersionRef} />
         {/key}
+      {:else if route.routeName === "learn"}
+        {#if route.trackSlug === null}
+          <LearnPage {catalogue} />
+        {:else if route.problemSetSlug === null}
+          <TrackPage {catalogue} trackSlug={route.trackSlug} />
+        {:else if route.reactionSlug === null}
+          {#key route.problemSetSlug}
+            <ProblemSetPage
+              {catalogue}
+              trackSlug={route.trackSlug}
+              problemSetSlug={route.problemSetSlug}
+            />
+          {/key}
+        {:else}
+          {#key `${route.problemSetSlug}/${route.reactionSlug}`}
+            <LearnPlay
+              {catalogue}
+              trackSlug={route.trackSlug}
+              problemSetSlug={route.problemSetSlug}
+              reactionSlug={route.reactionSlug}
+            />
+          {/key}
+        {/if}
+      {:else if route.routeName === "practice"}
+        <PracticePage {catalogue} practiceQuery={route.practiceQuery} />
+      {:else if route.routeName === "progress"}
+        <ProgressPage {catalogue} />
       {:else}
-        {#key `${route.problemSetSlug}/${route.reactionSlug}`}
-          <LearnPlay
-            {catalogue}
-            trackSlug={route.trackSlug}
-            problemSetSlug={route.problemSetSlug}
-            reactionSlug={route.reactionSlug}
-          />
-        {/key}
+        <HomePage {catalogue} />
       {/if}
-    {:else if route.routeName === "practice"}
-      <PracticePage {catalogue} practiceQuery={route.practiceQuery} />
-    {:else if route.routeName === "progress"}
-      <ProgressPage {catalogue} />
-    {:else}
-      <HomePage {catalogue} />
-    {/if}
-  {:catch loadError}
-    <div class="card mt" role="alert">
-      <h2>The reactions could not be loaded</h2>
-      <p class="muted">{String(loadError)}</p>
-    </div>
-  {/await}
+    {:catch loadError}
+      <div class="card mt" role="alert">
+        <h2>The reactions could not be loaded</h2>
+        <p class="muted">{String(loadError)}</p>
+      </div>
+    {/await}
+  {/if}
 </main>

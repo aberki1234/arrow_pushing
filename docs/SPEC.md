@@ -482,8 +482,13 @@ reactions, track `electrophilic-aromatic-substitution`, problem sets in this ord
 - **Licence:** CC BY-SA 4.0, contributor's name shown on the reaction page, agreed at submission.
 - **Code licence (2026-11-27, ahead of open-sourcing):** AGPL-3.0-or-later (`LICENSE`), `"license"` in
   `package.json`; reaction content stays CC BY-SA 4.0 (`content/LICENSE`, and each reaction file's `licence`).
-  The AGPL asks that users of the network service be offered the source: both apps are to link to the
-  repository (not built yet).
+  The AGPL asks that users of the network service be offered the source, so both apps link to it.
+- **About (2026-11-27, the owner's request):** an **About** link in the shared top bar, just left of Theme (after
+  Sign out on Create), opens the learner site's `#/about`: the source code on GitHub, the two licences with
+  their full texts, the credits (the author, the reactions' authors, Clayden et al., RDKit, Ketcher and the
+  rest of the stack) and how to contribute. It needs no catalogue, so it shows even if the reactions fail to
+  load. Where Create does not know the learner site's address it reads **Source code** and links the
+  repository itself (`learnerSite/model/siteNavigation.ts` `aboutLink`, `pages/AboutPage.svelte`).
 - **Contributors (item 8e, decided 2026-11-26):**
   - **Anyone who signs in is a contributor** (site role `contributor`): they draft and submit; nothing goes live
     without a review. The GitHub allow-list stops deciding who may sign in (it keeps naming the owner).

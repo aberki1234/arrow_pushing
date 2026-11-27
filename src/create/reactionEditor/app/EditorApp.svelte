@@ -12,7 +12,7 @@
   import { startPreview } from "../../reactionEditing/publishing/learnerPreview.js";
   import type { StepSession } from "../../../learner/stepSession/stepSession.js";
   import SiteHeader from "../../../learner/learnerSite/app/SiteHeader.svelte";
-  import { navigationTabs } from "../../../learner/learnerSite/model/siteNavigation.js";
+  import { topBarLinks } from "../../../learner/learnerSite/model/siteNavigation.js";
   import { publishAndDescribe } from "../io/batchPublishing.js";
   import CreateHome from "../pages/CreateHome.svelte";
   import CreateSubnav from "../components/CreateSubnav.svelte";
@@ -374,7 +374,7 @@
 </script>
 
 <SiteHeader
-  tabs={navigationTabs({ learnerSiteAddress, createAddress: "/" })}
+  {...topBarLinks({ learnerSiteAddress, createAddress: "/" })}
   currentTab="create"
   brandHref={learnerSiteAddress === null ? "/" : `${learnerSiteAddress.replace(/\/$/, "")}/#/`}
   onCurrentTab={leaveToHome}

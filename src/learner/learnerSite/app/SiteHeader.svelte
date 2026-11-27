@@ -3,18 +3,22 @@
   // Home · Daily · Learn · Practice · Progress · Create, and a light/dark theme switch remembered
   // for both sites (sharedTheme.ts). Create passes onCurrentTab, so that its own tab
   // goes back to Your mechanisms without reloading the page, and onSignOut while someone is
-  // signed in, for a Sign out button beside Theme.
+  // signed in, for a Sign out button beside Theme. About (the source code, licences and credits)
+  // sits just left of Theme.
   import { saveTheme } from "../io/sharedTheme.js";
   import type { NavigationTab, NavigationTabName } from "../model/siteNavigation.js";
 
   const {
     tabs,
+    about,
     currentTab,
     brandHref,
     onCurrentTab,
     onSignOut,
   }: {
     tabs: readonly NavigationTab[];
+    /** The About link (siteNavigation.ts aboutLink). */
+    about: NavigationTab;
     currentTab: NavigationTabName | null;
     /** Where the brand goes: the learner site's home. */
     brandHref: string;
@@ -74,6 +78,13 @@
     {#if onSignOut !== undefined}
       <button class="iconbtn" type="button" onclick={onSignOut}>Sign out</button>
     {/if}
+    <a
+      class="tab"
+      href={about.href}
+      aria-current={currentTab === about.tabName ? "page" : undefined}
+    >
+      {about.label}
+    </a>
     <button
       class="iconbtn"
       type="button"

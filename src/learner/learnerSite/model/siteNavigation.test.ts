@@ -1,6 +1,6 @@
 /** Tests for siteNavigation.ts: the tabs both top bars show, the learner site's and Create's. */
 import { expect, it } from "vitest";
-import { navigationTabs } from "./siteNavigation.js";
+import { aboutLink, navigationTabs, SOURCE_CODE_ADDRESS, topBarLinks } from "./siteNavigation.js";
 
 const hrefsOf = (tabs: ReturnType<typeof navigationTabs>): string[] =>
   tabs.map((tab) => `${tab.label} ${tab.href}`);
@@ -50,4 +50,30 @@ it("shows only Create where the learner site's address is unknown (make editor)"
   expect(hrefsOf(navigationTabs({ learnerSiteAddress: null, createAddress: "/" }))).toEqual([
     "Create /",
   ]);
+});
+
+it("links About to the learner site's About page, from either site", () => {
+  expect(aboutLink("")).toEqual({ tabName: "about", label: "About", href: "#/about" });
+  expect(aboutLink("https://arrowpushing.com")).toEqual({
+    tabName: "about",
+    label: "About",
+    href: "https://arrowpushing.com/#/about",
+  });
+});
+
+it("links straight to the source code where the learner site's address is unknown", () => {
+  expect(aboutLink(null)).toEqual({
+    tabName: "about",
+    label: "Source code",
+    href: SOURCE_CODE_ADDRESS,
+  });
+  expect(SOURCE_CODE_ADDRESS).toBe("https://github.com/aberki1234/mech_training");
+});
+
+it("gives a top bar its tabs and About link together", () => {
+  const addresses = { learnerSiteAddress: "https://arrowpushing.com", createAddress: "/" };
+  expect(topBarLinks(addresses)).toEqual({
+    tabs: navigationTabs(addresses),
+    about: aboutLink("https://arrowpushing.com"),
+  });
 });
