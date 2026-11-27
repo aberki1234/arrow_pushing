@@ -165,6 +165,17 @@ Contributions are welcome:
 
 ## Licence
 
-Reaction content (`content/`, and the reactions in `fixtures/`) is published under
-**[CC BY-SA 4.0](https://creativecommons.org/licenses/by-sa/4.0/)**, with each author named on the reaction.
-The code's licence has not been added yet.
+Copyright © 2026 Maksim Lisau and the ArrowPush contributors.
+
+- **Code**: everything outside `content/`, unless a file says otherwise. It is licensed under the
+  **[GNU Affero General Public License v3.0 or later](LICENSE)** (AGPL-3.0-or-later). You may use, change and share
+  it. If you run a changed version as a website or other network service, you must offer its users the source
+  code of your version under the same licence.
+- **Reaction content**: `content/`, and the reaction files in `fixtures/`, each of which says
+  `"licence": "CC-BY-SA-4.0"`. It is licensed under
+  **[Creative Commons Attribution-ShareAlike 4.0](content/LICENSE)** (CC BY-SA 4.0). Credit the authors named in
+  each reaction file, and share what you adapt under the same licence.
+- **Third-party software** keeps its own licence:
+  - RDKit.js is BSD-3-Clause, and [Ketcher](https://github.com/epam/ketcher) is Apache-2.0.
+  - Ketcher is fetched at build time and is not part of this repository.
+  - npm packages are listed in `package-lock.json`.
