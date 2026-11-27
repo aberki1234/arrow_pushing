@@ -1,6 +1,6 @@
-// Vite builds the learner site (src/learnerSite) as a static single-page app; Vitest runs every
-// *.test.ts under src/. The site's data (catalogue.json and r/…) is the catalogue build's output
-// in build/site/, served as Vite's public folder in development (make catalogue first).
+// Vite builds the learner site (src/learner/learnerSite) as a static single-page app; Vitest runs
+// every *.test.ts under src/. The site's data (catalogue.json and r/…) is the catalogue build's
+// output in build/site/, served as Vite's public folder in development (make catalogue first).
 // `make site` builds the app into build/app/ and merges it with a fresh catalogue in build/site/.
 import { fileURLToPath } from "node:url";
 import { svelte } from "@sveltejs/vite-plugin-svelte";
@@ -12,7 +12,7 @@ function fromProjectRoot(relativePath: string): string {
 }
 
 export default defineConfig({
-  root: fromProjectRoot("src/learnerSite/"),
+  root: fromProjectRoot("src/learner/learnerSite/"),
   publicDir: fromProjectRoot("build/site/"),
   base: "./",
   build: { outDir: fromProjectRoot("build/app/"), emptyOutDir: true },

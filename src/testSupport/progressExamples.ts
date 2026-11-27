@@ -1,6 +1,6 @@
 /** Hand-made runs and daily results for the learner statistics tests. */
-import type { DailyResult, RunRecord } from "../learnerProgress/learnerProgress.js";
-import type { SessionMode, StepOutcome, StepResult } from "../stepSession/stepSession.js";
+import type { DailyResult, RunRecord } from "../learner/learnerProgress/learnerProgress.js";
+import type { SessionMode, StepOutcome, StepResult } from "../learner/stepSession/stepSession.js";
 
 /** A step result: attempts and hints follow from the outcome unless given. */
 export function stepOf(

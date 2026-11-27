@@ -1,6 +1,6 @@
 # The backend on Render (docs/SPEC.md §5, backend, "Server"): one Node web service that applies
 # the migrations, then serves sign-in, the reaction API and the built editor.
-# Variables marked sync: false are entered in Render's dashboard (src/backendServer/
+# Variables marked sync: false are entered in Render's dashboard (src/server/backendServer/
 # serverSettings.ts describes each); Render generates BETTER_AUTH_SECRET.
 services:
   - type: web
@@ -10,8 +10,8 @@ services:
     # Choose the region nearest the Supabase project when creating the service.
     # --include=dev: the build (Vite) and the start (tsx) use development packages.
     # fetch-ketcher: the structure editor's pinned release, served at /ketcher/ (item 10h).
-    buildCommand: npm ci --include=dev && npx tsx src/buildTools/runFromShell.ts fetch-ketcher && npx vite build --config vite.editor.config.ts
-    startCommand: npx tsx src/backendServer/runFromShell.ts serve
+    buildCommand: npm ci --include=dev && npx tsx src/tooling/buildTools/runFromShell.ts fetch-ketcher && npx vite build --config vite.editor.config.ts
+    startCommand: npx tsx src/server/backendServer/runFromShell.ts serve
     healthCheckPath: /
     autoDeploy: true
     envVars:

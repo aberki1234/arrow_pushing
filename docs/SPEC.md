@@ -205,18 +205,23 @@ reactions, track `electrophilic-aromatic-substitution`, problem sets in this ord
   the Node tools, **never on the learner site**, which keeps its strict mapped-SMILES parser. Tests compare that
   parser with RDKit.js on the shared fixtures. After the port (build item **8.0**) the Python packages, `tools/*.py`
   and pytest are deleted; the conda environment stays only to provide Node. **Done 2026-11-25**:
-  `src/chemistryToolkit/`, `src/reactionLinting/`, `src/catalogueBuilding/`; the agreement test is
-  `src/chemistryToolkit/strictReaderAgreement.test.ts`.
+  `src/tooling/chemistryToolkit/`, `src/tooling/reactionLinting/`, `src/tooling/catalogueBuilding/`; the agreement test is
+  `src/tooling/chemistryToolkit/strictReaderAgreement.test.ts`.
+- **Code layout (decided 2026-11-27):** `src/` is six tiers, lowest first: core → drawing → learner → tooling →
+  create → server. Folders of 10 or more files get ordered subfolders, split by role first (in the two apps: model →
+  components → io → workspaces → pages → app) and concept second; at every level a part imports only the parts
+  before it, enforced by dependency-cruiser. Tooling above learner keeps RDKit.js out of the learner site by the
+  order alone. Details and the role definitions: `docs/code-layout.md`.
 - **Rendering:** structures drawn in our own **SVG layer** using **precomputed 2D coordinates per state** (seed from RDKit,
   hand-adjust; stored in content). RDKit is for chemistry, not layout. Avoids layout reshuffles between steps.
 - **Learner site (decided 2026-11-25):** **Svelte 5 + Vite, no SvelteKit**: a static single-page app with hash routes
   (`#/`, `#/play/<slug>@<version>`), reading `catalogue.json` and the hashed reaction files. All decisions live in
-  pure TypeScript (`src/moleculeDrawing/`, `src/stepSession/`, `src/siteData/`), tested first; Svelte components
-  (`src/learnerSite/`) stay thin, with a few component tests. `make site` builds it into `build/site/`; `make dev`
+  pure TypeScript (`src/drawing/moleculeDrawing/`, `src/learner/stepSession/`, `src/learner/siteData/`), tested first; Svelte components
+  (`src/learner/learnerSite/`) stay thin, with a few component tests. `make site` builds it into `build/site/`; `make dev`
   serves it. Item 7 is split: **7a** step screen in practice mode (built 2026-11-25), **7b** daily mode, completion
   page and `localStorage` progress, **7c** home, practice list and progress page.
 - **Learner progress:** `localStorage` only, with export/import; **no learner accounts in v1**. Built in item 7b
-  (`src/learnerProgress/`, `schema/progress.schema.json`; export/import arrives with the progress page in 7c).
+  (`src/learner/learnerProgress/`, `schema/progress.schema.json`; export/import arrives with the progress page in 7c).
 - **Daily mode (decided 2026-11-25, item 7b):** each step is worth **3 points**, −1 per wrong check, −1 per hint, never
   below 0. After the 3rd wrong check the step is **missed** (0 points, 🟥): its arrows are shown dashed and the puzzle
   continues from the textbook step's result. Hints cost a point (the third shows ghost arrows). The name and subtitle
@@ -309,11 +314,11 @@ reactions, track `electrophilic-aromatic-substitution`, problem sets in this ord
   arrows, route preference, optional partial arrow sets, explanation), mechanism summary, version, author, licence.
 - **Dev tooling:** a command-line linter checks that arrows applied to each state reproduce the next one and seeds
   coordinates from RDKit. Built in item 5 (2026-11-24) in Python, ported to TypeScript in item 8.0:
-  `src/reactionLinting/` (`npx tsx src/reactionLinting/runFromShell.ts lint|seed-coordinates`), using the validator
+  `src/tooling/reactionLinting/` (`npx tsx src/tooling/reactionLinting/runFromShell.ts lint|seed-coordinates`), using the validator
   itself; rules and ids in `docs/schema-design.md` §3.5.
-- **Catalogue build** (item 6, built 2026-11-25; ported to TypeScript in item 8.0): `src/catalogueBuilding/` turns published reaction files into
+- **Catalogue build** (item 6, built 2026-11-25; ported to TypeScript in item 8.0): `src/tooling/catalogueBuilding/` turns published reaction files into
   `catalogue.json` (with the daily calendar) and content-hashed reaction files; the browser reads it with
-  `src/catalogue/`. The calendar is frozen and append-only, filled in whole cycles 60 days ahead, and the daily
+  `src/core/catalogue/`. The calendar is frozen and append-only, filled in whole cycles 60 days ahead, and the daily
   puzzle follows the **learner's local date**. Rules: `docs/schema-design.md` §6.
 - **Visual editor from the start** (needed for community content):
   1. author draws/pastes start state (embedded sketcher — e.g. Ketcher, Apache-2.0 — for **initial structures only**; it has no curved arrows);
@@ -325,10 +330,10 @@ reactions, track `electrophilic-aromatic-substitution`, problem sets in this ord
   The editor reuses the validator's arrow-application code.
   **Decided 2026-11-25 (item 8 grilling).** Item 8 is split: **8.0** the TypeScript port (above), **8a** editor
   core, **8b** form fields and live lint, **8c** backend.
-  - The editor is a **second Vite page** (`src/reactionEditor/index.html`, `make editor` on port 5174), never
+  - The editor is a **second Vite page** (`src/create/reactionEditor/index.html`, `make editor` on port 5174), never
     deployed to the learner host:
-    its decisions in plain TypeScript in `src/reactionEditing/`, the thin Svelte app in `src/reactionEditor/`, the
-    dev-server file plugin in `src/editorFileServer/` (agreed 2026-11-25 with the 8a plan). "Play as learner" runs the unsaved document in the real step screen (practice
+    its decisions in plain TypeScript in `src/create/reactionEditing/`, the thin Svelte app in `src/create/reactionEditor/`, the
+    dev-server file plugin in `src/create/editorFileServer/` (agreed 2026-11-25 with the 8a plan). "Play as learner" runs the unsaved document in the real step screen (practice
     mode), from the start or the selected state, once every step reproduces its to-state.
   - Until 8c, authored reactions live in **`content/reactions/`** (the test examples stay in `fixtures/reactions/`);
     the catalogue build reads from there. A Vite dev-server plugin lists, opens and saves files there; Download /
@@ -411,9 +416,9 @@ reactions, track `electrophilic-aromatic-substitution`, problem sets in this ord
 - **Create (item 8d, decided 2026-11-26 from the mockup `mockups/create.html`):** the editor is **reskinned** into a
   staged flow that shows only the fields the current stage needs (the 8b editor showed every field at once). It is
   **for the owner alone**, built so that opening it to contributors (8e) is a small step.
-  - **What stays:** every decision in `src/reactionEditing/`, the server's API, the database, Play as learner, live
+  - **What stays:** every decision in `src/create/reactionEditing/`, the server's API, the database, Play as learner, live
     lint in a worker, and `make editor`'s file mode (the new pages work on `content/reactions/` too). Mostly the
-    Svelte pages in `src/reactionEditor/` change.
+    Svelte pages in `src/create/reactionEditor/` change.
   - **Create home ("Your mechanisms"):** each reaction with a thumbnail, its status (draft / submitted / changes
     requested / published) and a progress line ("mechanism done, teaching 4 of 9"); **New mechanism**; **Improve a
     published one** (Edit → version n+1, as in 8c).
@@ -501,7 +506,7 @@ reactions, track `electrophilic-aromatic-substitution`, problem sets in this ord
     - **Notifications in the site only** for now (the Review count, the contributor's banner); email later.
     - **At most 20 open drafts per user** (draft, submitted or changes requested; raised from 5 on 2026-11-26 so an
       assistant's batch fits at once). **The owner has no limit** (2026-11-27, the owner's request: site action
-      `keepUnlimitedDrafts`, `src/reactionDatabase/sitePermissions.ts`); Create shows them only the count.
+      `keepUnlimitedDrafts`, `src/server/reactionDatabase/sitePermissions.ts`); Create shows them only the count.
     - **Submitted drafts stay editable**; saving one takes it out of review (back to draft).
     - **Review notes** clear when the contributor submits again.
     - **A reviewer cannot review their own submission**; the owner may still publish their own directly.

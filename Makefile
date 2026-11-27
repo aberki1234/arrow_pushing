@@ -8,9 +8,9 @@ export PATH := $(CONDA_PREFIX)/bin:$(PATH)
 endif
 
 # The two Node command-line tools (TypeScript run by tsx): the reaction linter and the catalogue
-# build (src/reactionLinting, src/catalogueBuilding).
-REACTION_LINTING = npx tsx src/reactionLinting/runFromShell.ts
-CATALOGUE_BUILDING = npx tsx src/catalogueBuilding/runFromShell.ts
+# build (src/tooling/reactionLinting, src/tooling/catalogueBuilding).
+REACTION_LINTING = npx tsx src/tooling/reactionLinting/runFromShell.ts
+CATALOGUE_BUILDING = npx tsx src/tooling/catalogueBuilding/runFromShell.ts
 
 # Tests run at the lowest priority and, where systemd's user manager runs (WSL with systemd, most
 # Linux desktops), in a memory-capped scope without swap: past TEST_MEMORY the kernel kills the
@@ -56,7 +56,7 @@ catalogue:
 	$(CATALOGUE_BUILDING) build fixtures/reactions/*.json --out build/site --start-new-calendar \
 		--tracks-folder fixtures/tracks
 
-# The learner site (src/learnerSite, Vite): the app built into build/app/, then merged with a
+# The learner site (src/learner/learnerSite, Vite): the app built into build/app/, then merged with a
 # fresh catalogue in build/site/ (open it with a static server, e.g. npx vite preview).
 .PHONY: site
 site: catalogue
@@ -68,7 +68,7 @@ site: catalogue
 dev:
 	npx vite
 
-# The reaction editor (src/reactionEditor), served with its reaction-file server: drafts are read
+# The reaction editor (src/create/reactionEditor), served with its reaction-file server: drafts are read
 # from and saved to content/reactions/. Development only; open http://localhost:5174/.
 .PHONY: editor
 editor: ketcher
@@ -83,13 +83,13 @@ editor-build: ketcher
 # vendor/editor-public/ketcher (not in git; skipped when that version is already there).
 .PHONY: ketcher
 ketcher:
-	npx tsx src/buildTools/runFromShell.ts fetch-ketcher
+	npx tsx src/tooling/buildTools/runFromShell.ts fetch-ketcher
 
-# The backend server (src/backendServer): sign-in, the reaction API and the built editor. Settings
-# come from environment variables (src/backendServer/serverSettings.ts); it applies migrations first.
+# The backend server (src/server/backendServer): sign-in, the reaction API and the built editor. Settings
+# come from environment variables (src/server/backendServer/serverSettings.ts); it applies migrations first.
 .PHONY: server
 server:
-	npx tsx src/backendServer/runFromShell.ts serve
+	npx tsx src/server/backendServer/runFromShell.ts serve
 
 .PHONY: test
 test:

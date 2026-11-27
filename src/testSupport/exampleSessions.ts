@@ -1,6 +1,9 @@
 /** Example reactions read as session reactions, for the step session tests. */
 import { exampleReactionDocuments } from "./fixtureFiles.js";
-import { type SessionReaction, readSessionReaction } from "../stepSession/sessionReaction.js";
+import {
+  type SessionReaction,
+  readSessionReaction,
+} from "../learner/stepSession/sessionReaction.js";
 
 export function exampleSessionReaction(reactionSlug: string): SessionReaction {
   const found = exampleReactionDocuments().find(([name]) => name === `${reactionSlug}.json`);

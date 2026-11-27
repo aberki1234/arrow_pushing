@@ -10,8 +10,8 @@ import {
   CAMEL_CASE_PLUGIN,
   type DatabaseConnection,
   type SiteRole,
-} from "../reactionDatabase/databaseTables.js";
-import { applyMigrations } from "../reactionDatabase/migrationRunning.js";
+} from "../server/reactionDatabase/databaseTables.js";
+import { applyMigrations } from "../server/reactionDatabase/migrationRunning.js";
 
 /**
  * Time limit for a beforeAll() that makes a database. PGlite's start sets up a new data folder

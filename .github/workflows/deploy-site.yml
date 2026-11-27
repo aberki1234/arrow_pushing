@@ -1,7 +1,7 @@
 # Deploy the learner site after a Publish (docs/SPEC.md §5, backend, "Publishing").
 #
 # The backend starts this with a repository_dispatch event "reaction-published"
-# (src/backendServer/deployDispatch.ts); a push to main that changes content/tracks/ (the Learn
+# (src/server/backendServer/deployDispatch.ts); a push to main that changes content/tracks/ (the Learn
 # tracks, docs/schema-design.md §6.1) also starts it, and it can be run by hand.
 #   1. Fetch every published version from the backend's export and commit them to
 #      content/published/ (the repository's backup).
@@ -51,7 +51,7 @@ jobs:
         env:
           BACKEND_URL: ${{ vars.BACKEND_URL }}
         run: >
-          npx tsx src/catalogueBuilding/backupFromShell.ts
+          npx tsx src/tooling/catalogueBuilding/backupFromShell.ts
           --from "$BACKEND_URL/api/published-versions" --out content/published
 
       - name: Commit the backup
@@ -79,10 +79,10 @@ jobs:
 
       - name: Build the site
         env:
-          # Create's address, for the Create tab in the top bar (src/learnerSite/siteNavigation.ts).
+          # Create's address, for the Create tab in the top bar (src/learner/learnerSite/siteNavigation.ts).
           VITE_CREATE_ADDRESS: ${{ vars.BACKEND_URL }}
         run: |
-          npx tsx src/catalogueBuilding/runFromShell.ts build content/published/*/*.json \
+          npx tsx src/tooling/catalogueBuilding/runFromShell.ts build content/published/*/*.json \
             --out build/site $CALENDAR_OPTION --tracks-folder content/tracks
           npx vite build
           cp -r build/app/. build/site/

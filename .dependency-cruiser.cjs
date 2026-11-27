@@ -1,65 +1,101 @@
-// Import rules for the TypeScript code under src/.
-// Folders under src/, lowest layer first: a folder may import only folders listed before it. Add
-// each new folder here. testSupport/ is for tests only.
-const layersLowestFirst = [
-  "arrowNotation",
-  "stateGraphs",
-  "chemistryToolkit",
-  "attemptAssessment",
-  "reactionFiles",
-  "trackFiles",
-  "reactionLinting",
-  "catalogue",
-  "catalogueBuilding",
-  "draftSync",
-  "reactionDatabase",
-  "moleculeDrawing",
-  "stepSession",
-  "reactionEditing",
-  "learnerProgress",
-  "dailyPuzzle",
-  "learnerStatistics",
-  "learnTracks",
-  "siteData",
-  "learnerSite",
-  "reactionEditor",
-  "editorFileServer",
-  "backendServer",
-  "buildTools",
+// Import rules for the TypeScript code under src/ (see docs/code-layout.md).
+// Each list runs lowest first, and the same rule holds at every level: a tier may import only the
+// tiers before it, a folder only the folders before it in its tier (and earlier tiers), and a
+// subfolder only the subfolders before it in its folder. Files in one subfolder (or in a folder
+// without subfolders) may import each other. Add each new folder or subfolder here.
+// testSupport/ is for tests only.
+const tiersLowestFirst = [
+  [
+    "core",
+    [
+      "arrowNotation",
+      "stateGraphs",
+      "attemptAssessment",
+      "reactionFiles",
+      "trackFiles",
+      "catalogue",
+    ],
+  ],
+  ["drawing", ["moleculeDrawing"]],
+  [
+    "learner",
+    [
+      "stepSession",
+      "learnerProgress",
+      "dailyPuzzle",
+      "learnerStatistics",
+      "learnTracks",
+      "siteData",
+      "learnerSite",
+    ],
+  ],
+  [
+    "tooling",
+    ["chemistryToolkit", "reactionLinting", "catalogueBuilding", "draftSync", "buildTools"],
+  ],
+  ["create", ["reactionEditing", "reactionEditor", "editorFileServer"]],
+  ["server", ["reactionDatabase", "backendServer"]],
 ];
 
-const layerRules = layersLowestFirst.slice(0, -1).map((layer, position) => ({
-  name: `layer-${layer}`,
-  severity: "error",
-  comment: `${layer} may import only the layers listed before it.`,
-  from: { path: `^src/${layer}/` },
-  to: { path: `^src/(${layersLowestFirst.slice(position + 1).join("|")})/` },
-}));
+// Folders with ordered subfolders (folders of 10 or more files). Such a folder keeps no files of
+// its own: every file sits in one of its subfolders.
+const folderToSubfoldersLowestFirst = {};
+
+const foldersLowestFirst = tiersLowestFirst.flatMap(([tier, folders]) =>
+  folders.map((folder) => `${tier}/${folder}`),
+);
+
+function orderRules(kind, parent, namesLowestFirst) {
+  return namesLowestFirst.slice(0, -1).map((name, position) => ({
+    name: `${kind}-${parent}${name}`,
+    severity: "error",
+    comment: `${parent}${name} may import only the ${kind}s listed before it.`,
+    from: { path: `^src/${parent}${name}/` },
+    to: { path: `^src/${parent}(${namesLowestFirst.slice(position + 1).join("|")})/` },
+  }));
+}
+
+const tierRules = orderRules(
+  "tier",
+  "",
+  tiersLowestFirst.map(([tier]) => tier),
+);
+const folderRules = orderRules("folder", "", foldersLowestFirst);
+const subfolderRules = Object.entries(folderToSubfoldersLowestFirst).flatMap(
+  ([folder, subfolders]) => [
+    ...orderRules("subfolder", `${folder}/`, subfolders),
+    {
+      name: `unknown-subfolder-${folder}`,
+      severity: "error",
+      comment: `Every file in ${folder} sits in a subfolder listed for it.`,
+      from: { path: `^src/${folder}/`, pathNot: `^src/${folder}/(${subfolders.join("|")})/` },
+      to: {},
+    },
+  ],
+);
 
 /** @type {import('dependency-cruiser').IConfiguration} */
 module.exports = {
   forbidden: [
-    ...layerRules,
+    ...tierRules,
+    ...folderRules,
+    ...subfolderRules,
     {
-      name: "unknown-layer",
+      name: "unknown-folder",
       severity: "error",
-      comment: "Every folder under src/ must be listed in layersLowestFirst (or be testSupport).",
-      from: { path: "^src/", pathNot: `^src/(${layersLowestFirst.join("|")}|testSupport)/` },
+      comment: "Every folder under src/ must be listed in tiersLowestFirst (or be testSupport).",
+      from: { path: "^src/", pathNot: `^src/(${foldersLowestFirst.join("|")}|testSupport)/` },
       to: {},
     },
     {
       name: "learner-site-never-loads-node-tools",
       severity: "error",
       comment:
-        "The learner site stays small and static: RDKit.js, the linter and the catalogue build " +
-        "(Node tools, later the editor) must not be reachable from its entry point.",
-      from: { path: "^src/learnerSite/main\\.ts$" },
-      to: {
-        path:
-          "^src/(chemistryToolkit|reactionLinting|catalogueBuilding|draftSync|reactionDatabase|" +
-          "reactionEditing|reactionEditor|editorFileServer|backendServer)/",
-        reachable: true,
-      },
+        "The learner site stays small and static: RDKit.js, the linter, the catalogue build, " +
+        "Create and the server must not be reachable from its entry point. The tier order " +
+        "already forbids this; this rule says why.",
+      from: { path: "^src/learner/learnerSite/main\\.ts$" },
+      to: { path: "^src/(tooling|create|server)/", reachable: true },
     },
     {
       name: "test-support-only-in-tests",

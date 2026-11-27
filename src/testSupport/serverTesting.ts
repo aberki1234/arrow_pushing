@@ -12,7 +12,7 @@
  */
 import type { Hono } from "hono";
 import { vi } from "vitest";
-import type { ServerSettings } from "../backendServer/serverSettings.js";
+import type { ServerSettings } from "../server/backendServer/serverSettings.js";
 
 export const TEST_BASE_URL = "http://localhost:3000";
 

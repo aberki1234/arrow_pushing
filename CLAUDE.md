@@ -6,7 +6,8 @@ Do not change agreed decisions without asking; update `docs/SPEC.md` and `docs/s
 - `mockups/` — throwaway static HTML sketches (done). Open `mockups/index.html`.
 - `docs/` — `SPEC.md` (for the assistant) and `spec.html` (for the user); `schema-design.md` / `schema-design.html` =
   reaction file format, Postgres schema, arrow notation and how answers are assessed (mostly agreed); `curriculum.md` /
-  `curriculum.html` = the Learn tracks roadmap, first year to graduate. Keep each pair in sync.
+  `curriculum.html` = the Learn tracks roadmap, first year to graduate; `code-layout.md` / `code-layout.html` = how
+  `src/` is arranged (tiers, subfolder order, subfolder roles). Keep each pair in sync.
 - Documents meant for the user to read are written as **HTML** (a `.md` copy for the assistant may sit beside them).
 - Real build follows the user's global strict-TDD protocol and global "Code conventions" (naming, lint, complexity).
   Build order and progress: `docs/schema-design.md` §10.
@@ -21,31 +22,38 @@ Do not change agreed decisions without asking; update `docs/SPEC.md` and `docs/s
   `assessment/` (symmetry, resonance, misconception-pattern and attempt cases), `lint_cases/` (edits that break lint rules),
   `catalogue/` (daily calendar cases, catalogue reading cases), `tracks/` (the example Learn track and its figure;
   its lint cases are `lint_cases/track_edits.json`).
-- `src/` — all code is TypeScript (no Python since build item 8.0). Layers lowest first (`.dependency-cruiser.cjs`):
-  `arrowNotation/`, `stateGraphs/` (strict mapped-SMILES parser, applying arrows), `chemistryToolkit/` (RDKit.js:
-  atoms, 2D layout, a structure as written; never reachable from the learner site), `attemptAssessment/` (the
-  validator's decision), `reactionFiles/` (Ajv, state atom checks), `trackFiles/` (the track schema and types),
-  `reactionLinting/` (the linter, reactions and tracks; command line
-  `npx tsx src/reactionLinting/runFromShell.ts lint|seed-coordinates|lint-tracks`), `catalogue/` (reading `catalogue.json`),
-  `catalogueBuilding/` (the static catalogue and daily calendar: `npx tsx src/catalogueBuilding/runFromShell.ts
-  build`; `make catalogue`), `draftSync/` (item 10c: pushing lint-clean reaction files to Create as drafts with an
-  access token and pulling them back: `npx tsx src/draftSync/runFromShell.ts check|push-draft|pull-draft`, settings
-  `ARROWPUSH_ACCESS_TOKEN`, `ARROWPUSH_SERVER_URL`; hashes in `.draft-sync.json`, not in git), `reactionDatabase/` (8c: Postgres via Kysely, schema `arrowpush`; SQL migrations,
-  drafts, versions, publishing, export, import; tests on PGlite with `testSupport/temporaryDatabase.ts`), `moleculeDrawing/` (state → SVG primitives and pick targets, curved-arrow
-  geometry), `stepSession/` (taps → arrows, a run through a reaction, scoring, snapshots, feedback text),
-  `learnerProgress/` (`localStorage` progress, export / import), `dailyPuzzle/` (today's puzzle, streak, share text),
-  `learnerStatistics/` (mastery, history, recurring feedback, the practice list), `learnTracks/` (Learn: done and
-  mastered per set item, Next up, Next in set, the concept card's text), `reactionEditing/` (the editor's
-  decisions: drafts, drawn arrows → steps, change steps, show H, regeneration, deletion, undo, the mechanism outline,
-  Play as learner), `siteData/` (loading the
-  catalogue and reaction files), `learnerSite/` (Svelte 5 + Vite app; `make site` → `build/site/`, `make dev`),
-  `reactionEditor/` (Create, item 8d: Your mechanisms and the Start / Mechanism / Teaching / Publish stages,
-  Svelte; `make editor` → http://localhost:5174/ on `content/reactions/`; built for the Render server),
-  `editorFileServer/` (the dev server's reading and saving of `content/reactions/`), `buildTools/` (`make ketcher`:
-  the pinned Ketcher release, Create's structure editor, into `vendor/editor-public/ketcher`, not in git).
-  `testSupport/` (fixture reading for tests). Tests sit beside the code as `*.test.ts`; Svelte component tests start
-  with `// @vitest-environment jsdom`. Tests that load RDKit.js get it once with `loadChemistryToolkit()` in
-  `beforeAll`.
+- `src/` — all code is TypeScript (no Python since build item 8.0). **Read `docs/code-layout.md`** before adding or
+  moving a file: six tiers, folders in each, and ordered subfolders in folders of 10+ files; at every level a part
+  imports only the parts before it (`.dependency-cruiser.cjs`). Tiers and folders, lowest first:
+  - `core/`: `arrowNotation/`, `stateGraphs/` (strict mapped-SMILES parser, applying arrows), `attemptAssessment/`
+    (the validator's decision), `reactionFiles/` (Ajv), `trackFiles/` (the track schema and types), `catalogue/`
+    (reading `catalogue.json`).
+  - `drawing/`: `moleculeDrawing/` (state → SVG primitives and pick targets, curved-arrow geometry, the scheme).
+  - `learner/`: `stepSession/` (taps → arrows, a run through a reaction, scoring, snapshots, feedback text),
+    `learnerProgress/` (`localStorage` progress, export / import), `dailyPuzzle/` (today's puzzle, streak, share
+    text), `learnerStatistics/` (mastery, history, recurring feedback, the practice list), `learnTracks/` (Learn:
+    done and mastered per set item, Next up, Next in set, the concept card's text), `siteData/` (loading the
+    catalogue and reaction files), `learnerSite/` (Svelte 5 + Vite app; `make site` → `build/site/`, `make dev`).
+  - `tooling/`: `chemistryToolkit/` (RDKit.js: atoms, 2D layout and coordinate seeding, a structure as written),
+    `reactionLinting/` (the linter, reactions and tracks; state atom checks; command line
+    `npx tsx src/tooling/reactionLinting/runFromShell.ts lint|seed-coordinates|lint-tracks`), `catalogueBuilding/`
+    (the static catalogue and daily calendar: `npx tsx src/tooling/catalogueBuilding/runFromShell.ts build`;
+    `make catalogue`), `draftSync/` (item 10c: pushing lint-clean reaction files to Create as drafts with an access
+    token and pulling them back: `npx tsx src/tooling/draftSync/runFromShell.ts check|push-draft|pull-draft`,
+    settings `ARROWPUSH_ACCESS_TOKEN`, `ARROWPUSH_SERVER_URL`; hashes in `.draft-sync.json`, not in git),
+    `buildTools/` (`make ketcher`: the pinned Ketcher release, Create's structure editor, into
+    `vendor/editor-public/ketcher`, not in git).
+  - `create/`: `reactionEditing/` (the editor's decisions: drafts, drawn arrows → steps, change steps, show H,
+    regeneration, deletion, undo, the mechanism outline, Play as learner), `reactionEditor/` (Create, item 8d: Your
+    mechanisms and the Start / Mechanism / Teaching / Publish stages, Svelte; the lint worker; `make editor` →
+    http://localhost:5174/ on `content/reactions/`; built for the Render server), `editorFileServer/` (the dev
+    server's reading and saving of `content/reactions/`).
+  - `server/`: `reactionDatabase/` (8c: Postgres via Kysely, schema `arrowpush`; SQL migrations, drafts, versions,
+    publishing, export, import; tests on PGlite with `testSupport/temporaryDatabase.ts`), `backendServer/`.
+
+  `testSupport/` (fixture reading for tests) sits outside the tiers. Tests sit beside the code as `*.test.ts`; Svelte
+  component tests start with `// @vitest-environment jsdom`. Tests that load RDKit.js get it once with
+  `loadChemistryToolkit()` in `beforeAll`.
 
 ## Code conventions specific to this project
 
@@ -69,5 +77,5 @@ Do not change agreed decisions without asking; update `docs/SPEC.md` and `docs/s
   MemorySwapMax=0 nice -n 19 npx vitest run <file>`. Never run Vitest with its default worker count.
 - **Checks**: `make lint` (`make lint-typescript`, then the reaction linter on the examples and `make lint-tracks`), `make test` (Vitest),
   `make check`. `make lint-typescript`: Prettier check (TS/JS, Svelte, `src/**/*.css`), ESLint with the size and
-  complexity limits (Svelte files too), `tsc`, `svelte-check`, dependency-cruiser (layers of `src/`; add each new
-  folder there).
+  complexity limits (Svelte files too), `tsc`, `svelte-check`, dependency-cruiser (the tiers, folders and subfolders of
+  `src/`; add each new folder or subfolder there and to `docs/code-layout.md`).

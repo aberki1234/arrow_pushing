@@ -3,7 +3,7 @@
  * fixtures/lint_cases/track_edits.json, which make it break track lint rules.
  */
 import { join } from "node:path";
-import { type Catalogue, readCatalogue } from "../catalogue/catalogueReading.js";
+import { type Catalogue, readCatalogue } from "../core/catalogue/catalogueReading.js";
 import {
   exampleReactionDocuments,
   fixtureCaseEntries,

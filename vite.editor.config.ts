@@ -1,14 +1,14 @@
-// The reaction editor (src/reactionEditor). `make editor`: Vite's development server, where the
-// plugin below passes /editor-api/reactions requests to the reaction-file handler
-// (src/editorFileServer), which reads and writes content/reactions/. `make editor-build`: the
-// editor built into build/editor/, which the backend serves (it then saves to the database). It
+// The reaction editor (src/create/reactionEditor). `make editor`: Vite's development server, where
+// the plugin below passes /editor-api/reactions requests to the reaction-file handler
+// (src/create/editorFileServer), which reads and writes content/reactions/. `make editor-build`:
+// the editor built into build/editor/, which the backend serves (it then saves to the database). It
 // is never part of the learner site.
 import type { IncomingMessage } from "node:http";
 import { fileURLToPath } from "node:url";
 import { svelte } from "@sveltejs/vite-plugin-svelte";
 import { defineConfig, type Plugin } from "vite";
-import { handleReactionFileRequest } from "./src/editorFileServer/reactionFileRequests.js";
-import { REACTION_FILES_PATH } from "./src/reactionEditor/reactionFileStore.js";
+import { handleReactionFileRequest } from "./src/create/editorFileServer/reactionFileRequests.js";
+import { REACTION_FILES_PATH } from "./src/create/reactionEditor/reactionFileStore.js";
 
 function fromProjectRoot(relativePath: string): string {
   return fileURLToPath(new URL(relativePath, import.meta.url));
@@ -49,7 +49,7 @@ function reactionFilesPlugin(): Plugin {
 }
 
 export default defineConfig({
-  root: fromProjectRoot("src/reactionEditor/"),
+  root: fromProjectRoot("src/create/reactionEditor/"),
   server: { port: EDITOR_PORT },
   build: { outDir: fromProjectRoot("build/editor/"), emptyOutDir: true },
   // Ketcher, the structure editor (item 10h): fetched by `make ketcher` into vendor/editor-public/

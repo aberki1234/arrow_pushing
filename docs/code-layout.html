@@ -1,0 +1,127 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>ArrowPush — code layout</title>
+<style>
+  :root { --bg:#f7f5f0; --surface:#fff; --ink:#1d2433; --muted:#5d667a; --line:#e2ded3; --accent:#5b4bdb; --soft:#ece9ff; --warn:#fff0c7; --warnink:#7a4f00; --pure:#d8f5e3; --pureink:#11683a; --glue:#e3e7ff; --glueink:#3a3fa8; --comp:#fff0c7; --compink:#7a4f00; }
+  @media (prefers-color-scheme: dark) { :root { --bg:#12141c; --surface:#1b1e2a; --ink:#eceef6; --muted:#a0a8bd; --line:#2e3345; --accent:#8c80ff; --soft:#2a2755; --warn:#3a2f10; --warnink:#f1b73e; --pure:#123d27; --pureink:#7fe0a8; --glue:#22264d; --glueink:#aab2ff; --comp:#3a2f10; --compink:#f1b73e; } }
+  * { box-sizing: border-box; }
+  body { margin:0; background:var(--bg); color:var(--ink); font:16px/1.6 ui-rounded,"Segoe UI",system-ui,sans-serif; }
+  .layout { max-width:1060px; margin:0 auto; padding:24px 16px 80px; display:grid; grid-template-columns:210px minmax(0,1fr); gap:32px; }
+  @media (max-width:820px){ .layout{grid-template-columns:1fr} nav.toc{position:static!important} }
+  nav.toc { position:sticky; top:16px; align-self:start; font-size:.9rem; }
+  nav.toc a { display:block; padding:5px 10px; border-radius:8px; color:var(--muted); text-decoration:none; font-weight:600; }
+  nav.toc a:hover { background:var(--soft); color:var(--accent); }
+  h1 { font-size:2rem; margin:0 0 4px; } h2 { font-size:1.35rem; margin:40px 0 10px; padding-top:8px; border-top:1px solid var(--line); } h3 { font-size:1.02rem; margin:20px 0 6px; }
+  p, li { margin:0 0 .6em; } ul { padding-left:20px; margin:0 0 1em; } .muted { color:var(--muted); }
+  .note { background:var(--warn); color:var(--warnink); border-radius:12px; padding:10px 14px; font-size:.92rem; margin:14px 0; }
+  .card { background:var(--surface); border:1px solid var(--line); border-radius:14px; padding:14px 18px; margin:12px 0; }
+  code { background:var(--soft); border-radius:6px; padding:1px 6px; font-size:.9em; }
+  .tag { display:inline-block; font-size:.72rem; font-weight:800; padding:2px 9px; border-radius:99px; background:var(--soft); color:var(--accent); vertical-align:2px; letter-spacing:.03em; }
+  table { width:100%; border-collapse:collapse; font-size:.92rem; } th,td { text-align:left; padding:8px; border-bottom:1px solid var(--line); vertical-align:top; } th { color:var(--muted); font-size:.75rem; text-transform:uppercase; letter-spacing:.05em; }
+  a { color:var(--accent); }
+  .stack { display:flex; flex-direction:column-reverse; gap:6px; margin:12px 0; }
+  .band { border-radius:10px; padding:8px 14px; display:flex; gap:12px; align-items:baseline; }
+  .band b { min-width:110px; } .band span { color:var(--muted); font-size:.9rem; }
+  .pure { background:var(--pure); color:var(--pureink); } .glue { background:var(--glue); color:var(--glueink); } .comp { background:var(--comp); color:var(--compink); }
+  .done { background:#d8f5e3; color:#11683a; } .planned { background:var(--line); color:var(--muted); }
+  @media (prefers-color-scheme: dark) { .done { background:#123d27; color:#7fe0a8; } }
+</style>
+</head>
+<body>
+<div class="layout">
+  <nav class="toc" aria-label="Sections"><a href="#rule">The one rule</a><a href="#tiers">Tiers</a><a href="#roles">Subfolder roles</a><a href="#folders">Folders with subfolders</a><a href="#notes">Placement notes</a><a href="#later">Follow-ups</a></nav>
+  <main>
+<h1>Code layout <span class="tag">2026-11-27</span></h1>
+<p class="muted">How the TypeScript under <code>src/</code> is arranged: which tier each folder belongs to, the order of subfolders inside large folders, and what each subfolder role means.</p>
+<div class="note">This page is the human copy. The same content for the assistant lives in <code>docs/code-layout.md</code>; update both together. <code>.dependency-cruiser.cjs</code> enforces every order on this page (<code>make lint</code>).</div>
+
+<h2 id="rule">The one rule</h2>
+<p><code>src/</code> has three levels: <b>tiers</b>, <b>folders</b> and, in large folders, <b>subfolders</b>. At every level the parts run in one line, lowest first, and a part may import only the parts before it (and anything in earlier tiers). Files in the same subfolder, or in a folder without subfolders, may import each other freely. Import cycles are never allowed.</p>
+<ul>
+  <li>A folder with 10 or more source files gets subfolders. Such a folder keeps no files of its own: every file, including its main file, sits in a subfolder.</li>
+  <li>Subfolders are split by <b>role</b> first (pure, then glue, then components) and by domain concept second.</li>
+  <li>Folder names carry no numbers; the order lives in <code>.dependency-cruiser.cjs</code>.</li>
+  <li>Tests sit beside the code they test. <code>src/testSupport/</code> sits outside the tiers; only tests may import it.</li>
+</ul>
+
+<h2 id="tiers">Tiers</h2>
+<div class="stack">
+  <div class="band pure"><b>core</b><span>arrowNotation · stateGraphs · attemptAssessment · reactionFiles · trackFiles · catalogue</span></div>
+  <div class="band pure"><b>drawing</b><span>moleculeDrawing</span></div>
+  <div class="band comp"><b>learner</b><span>stepSession · learnerProgress · dailyPuzzle · learnerStatistics · learnTracks · siteData · learnerSite</span></div>
+  <div class="band glue"><b>tooling</b><span>chemistryToolkit · reactionLinting · catalogueBuilding · draftSync · buildTools</span></div>
+  <div class="band comp"><b>create</b><span>reactionEditing · reactionEditor · editorFileServer</span></div>
+  <div class="band glue"><b>server</b><span>reactionDatabase · backendServer</span></div>
+</div>
+<p class="muted">Highest at the top. Each tier may import only the tiers below it.</p>
+<table><thead><tr><th>Tier</th><th>What it holds</th></tr></thead><tbody>
+<tr><td><b>core</b></td><td>The domain model and the reaction and track file formats. Pure, shared by everything.</td></tr>
+<tr><td><b>drawing</b></td><td>Turning states into SVG drawings. Pure.</td></tr>
+<tr><td><b>learner</b></td><td>Everything the learner site needs, from a step session to the Svelte app. Never reaches RDKit.js or Node.</td></tr>
+<tr><td><b>tooling</b></td><td>RDKit.js and the Node tools that check, build and push content.</td></tr>
+<tr><td><b>create</b></td><td>The authoring decisions and the Create app.</td></tr>
+<tr><td><b>server</b></td><td>Postgres and the HTTP server.</td></tr>
+</tbody></table>
+<p>Tooling sits above learner on purpose: the tier order alone keeps RDKit.js, the linter, Create and the server out of the learner site.</p>
+
+<h2 id="roles">Subfolder roles</h2>
+<h3>In the two apps (<code>learnerSite/</code>, <code>reactionEditor/</code>)</h3>
+<div class="stack">
+  <div class="band pure"><b>model</b><span>Pure TypeScript: decisions, view text, routes, and the interfaces that io adapters satisfy. No DOM, no fetch, no storage.</span></div>
+  <div class="band comp"><b>components</b><span>Svelte that renders what it is given and reports what the user did through callbacks. May use model. No I/O, owns no task.</span></div>
+  <div class="band glue"><b>io</b><span>Talks to the outside world (fetch, storage, cookies, the lint worker, focus): the adapters, and for now files that mix pure logic with I/O.</span></div>
+  <div class="band comp"><b>workspaces</b><span>Svelte that owns one task (a run through a reaction, a stage of a draft). Combines components; may use io.</span></div>
+  <div class="band comp"><b>pages</b><span>What the app routes to. Loads what it needs; hosts workspaces and components.</span></div>
+  <div class="band glue"><b>app</b><span>The root component, routing, the entry point, index.html and the site CSS.</span></div>
+</div>
+<p class="muted">Highest at the top. <b>components</b> sits below <b>io</b>, so the import rule itself stops a component doing I/O.</p>
+<h3>Shared by other folders</h3>
+<table><thead><tr><th>Role</th><th>What it holds</th></tr></thead><tbody>
+<tr><td><b>model</b></td><td>The pure types, errors and rules of a folder that is mostly I/O (e.g. <code>reactionDatabase/model/</code>).</td></tr>
+<tr><td><b>shell</b></td><td>Command-line parsing and the <code>runFromShell.ts</code> entry.</td></tr>
+</tbody></table>
+<p>Every other subfolder is named after its domain concept (<code>rules/</code>, <code>scheme/</code>, <code>mechanism/</code>, …).</p>
+
+<h2 id="folders">Folders with subfolders</h2>
+<table><thead><tr><th>Folder</th><th>Subfolders, lowest first</th><th>Status</th></tr></thead><tbody>
+<tr><td>create/reactionEditing</td><td>draft → mechanism → outline → teaching → publishing → review</td><td><span class="tag planned">planned</span></td></tr>
+<tr><td>create/reactionEditor</td><td>model → components → io → workspaces → pages → app</td><td><span class="tag planned">planned</span></td></tr>
+<tr><td>learner/learnerSite</td><td>model → components → io → workspaces → pages → app</td><td><span class="tag planned">planned</span></td></tr>
+<tr><td>tooling/reactionLinting</td><td>findings → rules → tracks → shell</td><td><span class="tag planned">planned</span></td></tr>
+<tr><td>drawing/moleculeDrawing</td><td>shared → state → scheme</td><td><span class="tag planned">planned</span></td></tr>
+<tr><td>server/reactionDatabase</td><td>model → connection → users → reactions → transfer</td><td><span class="tag planned">planned</span></td></tr>
+<tr><td>server/backendServer</td><td>requests → settings → routes → shell</td><td><span class="tag planned">planned</span></td></tr>
+<tr><td>tooling/catalogueBuilding</td><td>naming → assembly → output → shell</td><td><span class="tag planned">planned</span></td></tr>
+</tbody></table>
+<div class="card">
+<ul>
+  <li><b>reactionEditing</b>: <code>draft/</code> reading and editing the draft document; <code>mechanism/</code> drawing arrows into steps, atoms, regeneration, Show H, deletion, undo, structure exchange with Ketcher; <code>outline/</code> the mechanism outline and state strip; <code>teaching/</code> drawn wrong answers and the Teaching checklist; <code>publishing/</code> Publish tasks, the progress line, suggestions, Play as learner; <code>review/</code> the reviewer's diff.</li>
+  <li><b>reactionEditor</b>: <code>model/</code> the editor session, views, field text, draft creation, Your mechanisms text and the store interfaces; <code>io/</code> the file-store and server adapters, the contributor client, batch publishing, the lint worker, field focus; <code>workspaces/</code> the four stages, the Teaching item pane, the workspace, reviewer notes, sign-in; <code>pages/</code> Your mechanisms, the review queue and screen, users; <code>app/</code> EditorApp and the entry.</li>
+  <li><b>learnerSite</b>: <code>model/</code> view models and routes; <code>components/</code> tiles, cards, the scheme, the molecule canvas, arrow controls, the run summary; <code>io/</code> storage, loading, the theme cookie; <code>workspaces/</code> StepPlay, StepScreen, CheckpointRun; <code>pages/</code> the routed pages; <code>app/</code> App, the header and the entry.</li>
+  <li><b>reactionLinting</b>: <code>findings/</code> the finding type and the linter's reading of a reaction; <code>rules/</code> the rule files and <code>reactionLint.ts</code>; <code>tracks/</code> track lint; <code>shell/</code> the command line.</li>
+  <li><b>moleculeDrawing</b>: <code>shared/</code> geometry, layout, labels, abbreviated groups; <code>state/</code> a state's drawing and curved arrows; <code>scheme/</code> the catalogue card scheme.</li>
+  <li><b>reactionDatabase</b>: <code>model/</code> table types, errors, permissions; <code>connection/</code> Postgres and migrations; <code>users/</code> site users and access tokens; <code>reactions/</code> versions, drafts, publishing, submissions; <code>transfer/</code> export and import.</li>
+  <li><b>backendServer</b>: <code>requests/</code> pure request and refusal answers; <code>settings/</code> settings, dependencies, the owner account; <code>routes/</code> authentication and the HTTP routes; <code>shell/</code> the command line.</li>
+  <li><b>catalogueBuilding</b>: <code>naming/</code> content-hashed names, errors, the daily calendar; <code>assembly/</code> reading published versions and tracks, assembling the catalogue; <code>output/</code> writing the site and the backup; <code>shell/</code> the command lines.</li>
+</ul>
+</div>
+
+<h2 id="notes">Placement notes</h2>
+<ul>
+  <li><code>coordinateSeeding.ts</code> (laying out a state's 2D coordinates with RDKit.js) lives in <code>tooling/chemistryToolkit/</code>: both the linter's <code>seed-coordinates</code> command and <code>reactionEditing</code> use it, so it must sit below both.</li>
+  <li><code>stateAtomConsistency.ts</code> lives in <code>tooling/reactionLinting/</code> (its only user), so <code>core/</code> never needs RDKit.js.</li>
+  <li><code>lintRequests.ts</code> (the lint worker's request protocol) lives with the worker in <code>reactionEditor/</code>.</li>
+</ul>
+
+<h2 id="later">Follow-ups (not done yet)</h2>
+<ul>
+  <li>Merge <code>trackFiles</code> into <code>reactionFiles</code>, and <code>siteData</code> into <code>learnerSite</code>; move <code>staticFileNaming</code> out of <code>catalogueBuilding</code>.</li>
+  <li>A rule that code outside a folder imports only that folder's entry file.</li>
+  <li>Split the files that mix pure logic with I/O (<code>io/</code> holds them for now).</li>
+</ul>
+  </main>
+</div>
+</body>
+</html>

@@ -70,9 +70,9 @@ make dev          # http://localhost:5173/
 Tools on the command line (TypeScript, run by `tsx`):
 
 ```bash
-npx tsx src/reactionLinting/runFromShell.ts lint fixtures/reactions/*.json [--json]
-npx tsx src/reactionLinting/runFromShell.ts seed-coordinates FILE...   # RDKit coordinates for states missing them
-npx tsx src/catalogueBuilding/runFromShell.ts build FILE... --out DIR (--previous-catalogue FILE | --start-new-calendar)
+npx tsx src/tooling/reactionLinting/runFromShell.ts lint fixtures/reactions/*.json [--json]
+npx tsx src/tooling/reactionLinting/runFromShell.ts seed-coordinates FILE...   # RDKit coordinates for states missing them
+npx tsx src/tooling/catalogueBuilding/runFromShell.ts build FILE... --out DIR (--previous-catalogue FILE | --start-new-calendar)
 ```
 
 ## Repository layout
@@ -92,9 +92,9 @@ npx tsx src/catalogueBuilding/runFromShell.ts build FILE... --out DIR (--previou
 
 1. Write the reaction file in the format of [`docs/schema-design.md`](docs/schema-design.md) §3. The examples in
    `fixtures/reactions/` are complete references, and the Wittig example shows branches and abbreviated groups.
-2. Seed missing coordinates with `npx tsx src/reactionLinting/runFromShell.ts seed-coordinates FILE`, then tidy them by hand: lay the
+2. Seed missing coordinates with `npx tsx src/tooling/reactionLinting/runFromShell.ts seed-coordinates FILE`, then tidy them by hand: lay the
    molecules out along the reaction, with the reacting atoms facing each other.
-3. Lint until it is clean: `npx tsx src/reactionLinting/runFromShell.ts lint FILE`. Errors block publishing; warnings are advice.
+3. Lint until it is clean: `npx tsx src/tooling/reactionLinting/runFromShell.ts lint FILE`. Errors block publishing; warnings are advice.
 4. Play it with `make catalogue && make dev`.
 
 A visual editor for this is items 8a and 8b.

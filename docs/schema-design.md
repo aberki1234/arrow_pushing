@@ -113,7 +113,7 @@ Examples: SN2 is `lp O1 -> σ O1-C2`, `σ C2-Br3 -> lp Br3`. H-abstraction is `r
 `σ C3-H2 ~> σ Br1-H2`, `σ C3-H2 ~> rad C3`.
 
 **Parser and printer** (build item 2:
-`src/arrowNotation/curvedArrowNotation.ts`, shared cases in `fixtures/notation/curved_arrows.json`):
+`src/core/arrowNotation/curvedArrowNotation.ts`, shared cases in `fixtures/notation/curved_arrows.json`):
 * **Printed form**: `σ`/`π` symbols (`sigma`/`pi` accepted on input), bond atoms in ascending map-number order
   (`σ C3-H2` prints as `σ H2-C3`), single spaces. Equal arrows parse to equal structures.
 * **Error codes**, checked in this order: `malformed-arrow`, `malformed-locus`, `malformed-atom-label`,
@@ -124,7 +124,7 @@ Examples: SN2 is `lp O1 -> σ O1-C2`, `σ C2-Br3 -> lp Br3`. H-abstraction is `r
 
 **Where the electrons can go** (the arrow layer's one model; rewritten 2026-11-26 in the coherence pass). The learner
 picks a source locus, then a **place**: an atom, a bond, or a **new bond** (drawn dashed between two atoms). One pure
-function, `tapToDestinationLocus(state, source, place, arrowType, drawnArrows)` in `src/stepSession/arrowPicking.ts`,
+function, `tapToDestinationLocus(state, source, place, arrowType, drawnArrows)` in `src/learner/stepSession/arrowPicking.ts`,
 says what a place means, **however it was chosen** (tap, keyboard, or pointing: `destinationTargets.ts` lays the
 same places out on the drawing and picks the nearest to the pointer). Learner screen and Create share it.
 
@@ -275,8 +275,8 @@ off the screen. A change step must be the only step leaving its state.
 6. Each step's canonical arrows and partial arrow sets, applied to its from-state, reproduce its to-state (§4).
 7. No misconception on a state matches an arrow set that §4 would accept (it would hide a correct answer).
 
-**Built (item 5; in TypeScript since item 8.0):** `src/reactionLinting/`, run as
-`npx tsx src/reactionLinting/runFromShell.ts lint FILE... [--json]`
+**Built (item 5; in TypeScript since item 8.0):** `src/tooling/reactionLinting/`, run as
+`npx tsx src/tooling/reactionLinting/runFromShell.ts lint FILE... [--json]`
 (exit status 1 on any error) and `... seed-coordinates FILE...` (RDKit layout for every state whose coordinates are not
 exactly its atoms; the file is rewritten as 2-space JSON). `make lint` lints the example reactions. Each case in
 `fixtures/lint_cases/reaction_edits.json` breaks rules on purpose. Rule ids, in the order checked (a group stops the
@@ -309,8 +309,8 @@ lint when the rest could not run):
 **Abbreviated groups** (decided 2026-11-25): listed explicitly by the author (no automatic detection), `groupLabel`
 at most 6 characters. A group is drawn as its label wherever it is intact (all its atoms present, one bond from the
 attachment atom joining it to the rest) and in full elsewhere. Nothing in it can be tapped, the attachment bond
-included. Screen readers read the label. Drawing: `src/moleculeDrawing/abbreviatedGroups.ts`; lint:
-`src/reactionLinting/abbreviatedGroupRules.ts`.
+included. Screen readers read the label. Drawing: `src/drawing/moleculeDrawing/abbreviatedGroups.ts`; lint:
+`src/tooling/reactionLinting/abbreviatedGroupRules.ts`.
 
 Arrow sets are checked with the validator itself (`assess_attempt`, with the step being checked as the only one
 leaving its state), so the linter accepts exactly what the browser accepts.
@@ -345,10 +345,10 @@ Input: the current state `S`, the steps leaving it, and the learner's arrow set 
 1. **Each arrow is legal** on `S`: the source locus exists and holds the electrons, the destination locus is well
    formed, and the arrow type fits some step leaving `S`.
 2. **Apply** `A` to `S`, giving the result `R`, and check the bookkeeping: octet/duet (H ≤ 2 e⁻, period 2 ≤ 8,
-   period ≥ 3 up to 12). **Built (item 3):** `src/stateGraphs/`. All arrows of a step move
+   period ≥ 3 up to 12). **Built (item 3):** `src/core/stateGraphs/`. All arrows of a step move
    their electrons at once. Electrons are counted, and formal charge is derived as valence electrons − nonbonding −
    bond orders − H, so electrons and charge are conserved by construction. The rules, in the order checked, are
-   listed in `src/stateGraphs/arrowApplication.ts`; an even nonbonding count is read as lone pairs, an odd one
+   listed in `src/core/stateGraphs/arrowApplication.ts`; an even nonbonding count is read as lone pairs, an odd one
    as one unpaired electron (triplet carbenes are out of scope).
 3. **No redundant arrows**: no group of the learner's arrows may together move no electrons (an arrow and its reverse,
    or a longer cycle). Removing such a group leaves `R` unchanged, so a correct answer padded with it is not accepted;
@@ -395,7 +395,7 @@ arrows that give the right formula but move the wrong atoms also fail.
 The validator returns an **attempt assessment** (`assessmentKind`): `correct` (step key, route preference,
 `isDifferentDrawing`), `misconception` (id, tag, severity, message), `genericRule` (rule id, message),
 `partialProgress` (see §5.3) or `wrong`. Built in build item 4:
-`src/attemptAssessment/`, shared cases in `fixtures/assessment/`. **Decided 2026-11-24 (user):** partial progress comes
+`src/core/attemptAssessment/`, shared cases in `fixtures/assessment/`. **Decided 2026-11-24 (user):** partial progress comes
 **before** the generic chemistry rules, because a correct but incomplete concerted step nearly always breaks one (the
 first SN2 arrow alone gives carbon 10 electrons). The new order replaces the list below it. Checks, first match wins:
 
@@ -486,10 +486,10 @@ The cards' fields (item 11) come from each slug's latest version; a track's `sho
 its showcase reaction's preferred route ends (`reactionFiles/preferredRoute.ts`). About 2 kB per reaction.
 
 The **daily calendar is a list in the build that only grows**. It is not `hash(date) mod N`, which would reshuffle past
-and future days whenever a reaction is added. Built (item 6, 2026-11-25; in TypeScript since item 8.0) as `src/catalogueBuilding/`
-(`npx tsx src/catalogueBuilding/runFromShell.ts build FILE... --out DIR (--previous-catalogue FILE |
+and future days whenever a reaction is added. Built (item 6, 2026-11-25; in TypeScript since item 8.0) as `src/tooling/catalogueBuilding/`
+(`npx tsx src/tooling/catalogueBuilding/runFromShell.ts build FILE... --out DIR (--previous-catalogue FILE |
 --start-new-calendar)`); the
-browser reads it with `src/catalogue/`. Decided 2026-11-25:
+browser reads it with `src/core/catalogue/`. Decided 2026-11-25:
 
 * **Files in, files out.** The build reads published reaction files (later exported from Postgres) and writes into a
   new or empty folder: `catalogue.json` plus `r/<slug>/<version>.<first 8 hex>.json` for every published version. A
@@ -509,7 +509,7 @@ browser reads it with `src/catalogue/`. Decided 2026-11-25:
 * **The learner's local date** picks the daily puzzle (each learner's own midnight); a date outside the calendar
   has no puzzle (`null`). The slug in the catalogue reveals the daily reaction's name to anyone reading the network
   traffic; accepted for v1.
-* **The build refuses** (error codes in `src/catalogueBuilding/catalogueBuildErrors.ts`, nothing written) on:
+* **The build refuses** (error codes in `src/tooling/catalogueBuilding/catalogueBuildErrors.ts`, nothing written) on:
   a schema failure or lint error in any input (warnings are printed); a slug/version given twice or versions not
   1..n; a version in the previous catalogue missing from the inputs; a published version whose content hash changed;
   a calendar ref to a version not given; a non-empty output folder.
@@ -538,8 +538,8 @@ One hand-written file per track, `content/tracks/<trackSlug>.json` (shape: `sche
   several problem sets, at most once in each. Problem-set membership does not affect `dailyPuzzleEligible`.
 * `checkpoint` is required (`false` on an ordinary problem set). `conceptFigurePaths` are `figures/<name>.svg`,
   relative to the track file's folder (so `content/tracks/figures/`).
-* **Lint** (built in 9a: `src/reactionLinting/trackLint.ts`, `conceptFigureChecks.ts`, `trackFileLint.ts`;
-  `npx tsx src/reactionLinting/runFromShell.ts lint-tracks FILE... --published-folder FOLDER`, where the published
+* **Lint** (built in 9a: `src/tooling/reactionLinting/trackLint.ts`, `conceptFigureChecks.ts`, `trackFileLint.ts`;
+  `npx tsx src/tooling/reactionLinting/runFromShell.ts lint-tracks FILE... --published-folder FOLDER`, where the published
   reactions are the reaction files anywhere under FOLDER; `make lint-tracks`). Rule ids:
   `schema-violation` (error; nothing else is checked then), `problem-set-slug-repeated` (error),
   `set-item-reaction-repeated` (error, at the second appearance), `set-item-not-published` (**warning**),
@@ -548,14 +548,14 @@ One hand-written file per track, `content/tracks/<trackSlug>.json` (shape: `sche
   `curriculum-code-wrong-level` (error: the code's letter F / C / A / G is not the level's) and
   `showcase-not-in-track` (error: the showcase reaction is no set item of the track). Cases:
   `fixtures/lint_cases/track_edits.json` on the example track `fixtures/tracks/first-mechanisms.json`.
-* **Catalogue build** (built in 9a: `src/catalogueBuilding/trackCompiling.ts`; `build … --tracks-folder FOLDER`):
+* **Catalogue build** (built in 9a: `src/tooling/catalogueBuilding/trackCompiling.ts`; `build … --tracks-folder FOLDER`):
   every `*.json` in the folder is linted (an error refuses the build: `track-file-not-readable`,
   `track-file-has-lint-errors`; warnings are printed), then compiled into the catalogue's optional **`tracks`**:
   each track without `formatVersion`, set items with no published reaction left out, then empty problem sets,
   then empty tracks, and a showcase whose reaction is not published; listed by level, then by the number of
   the curriculum code (since item 11; before it, by `trackSlug`). Two files with one slug refuse the build
   (`track-slug-duplicated`), as do two with one curriculum code (`curriculum-code-duplicated`). Concept figures
-  are copied to **`t/<trackSlug>/figures/<name>.svg`** (`conceptFigureFilePath` in `src/catalogue/`). Without the
+  are copied to **`t/<trackSlug>/figures/<name>.svg`** (`conceptFigureFilePath` in `src/core/catalogue/`). Without the
   option, or if the folder does not exist, `tracks` is `[]`; catalogues built before item 9 have no `tracks` key,
   read as none (`catalogueTracks`). A push to `main` changing `content/tracks/` also runs the deploy workflow.
 * Tracks move into Postgres, with an editor screen, only once contributors author problem sets.
@@ -575,7 +575,7 @@ One hand-written file per track, `content/tracks/<trackSlug>.json` (shape: `sche
   "settings": { "theme": "auto" } }
 ```
 
-Built in item 7b (2026-11-25): `src/learnerProgress/`, checked against `schema/progress.schema.json` when read.
+Built in item 7b (2026-11-25): `src/learner/learnerProgress/`, checked against `schema/progress.schema.json` when read.
 A daily result also stores its `puzzleNumber` and `runStartedAt` (with the ref, that identifies its run). If the saved
 text cannot be read, the site starts afresh and keeps the old text under `arrowpush.progress.unreadable`. An unfinished
 daily puzzle is kept under **`arrowpush.dailyInProgress`** (`$defs/dailyInProgress` in the same schema): the local
@@ -590,10 +590,10 @@ current state the wrong checks, hints and feedback shown; not the arrows being d
   below 0; missed = 0; the maximum is 3 × steps taken. Hints work as in practice (the third shows ghost arrows) but
   cost a point. The puzzle belongs to the local date it was started on; an unfinished one from an earlier day is
   dropped. **Streak:** consecutive local days with a finished daily, ending today or yesterday. **Share text:**
-  `ArrowPush #<n> 🟩🟨🟥 <points>/<maximum>`, no link yet. Code: `src/dailyPuzzle/`, `src/stepSession/stepScoring.ts`.
+  `ArrowPush #<n> 🟩🟨🟥 <points>/<maximum>`, no link yet. Code: `src/learner/dailyPuzzle/`, `src/learner/stepSession/stepScoring.ts`.
 * The daily share grid has **one tile per step taken**, so its length depends on the route. A preferred or accepted
   step on the first try both give 🟩.
-* **Item 7c (decided 2026-11-25, `src/learnerStatistics/`):** a reaction's **mastery** is the points of its most recent
+* **Item 7c (decided 2026-11-25, `src/learner/learnerStatistics/`):** a reaction's **mastery** is the points of its most recent
   finished run ÷ that run's maximum (both modes, same scoring), **mastered** at 100%; class mastery averages all
   catalogue reactions of the class, untried as 0%. The first-try rate covers steps of runs started in the last 7 days.
   Recurring feedback is counted from `feedbackIdsShown`: a rule id is one row, misconceptions are grouped by
@@ -653,7 +653,7 @@ verifications(id uuid pk, identifier, value, expires_at, created_at, updated_at)
 
 `fixtures/` at the repo root, read by the Vitest tests. Since item 8.0 there is one implementation (TypeScript), so the
 fixtures pin its behaviour rather than keep two languages in step. Our strict SMILES reader is still checked against
-RDKit (RDKit.js) on every valid SMILES case and every example state (`src/chemistryToolkit/strictReaderAgreement.test.ts`).
+RDKit (RDKit.js) on every valid SMILES case and every example state (`src/tooling/chemistryToolkit/strictReaderAgreement.test.ts`).
 
 * `notation/*.json`: arrow strings → parsed loci, plus the error cases.
 * `apply/*.json`: state + arrow set → expected state, or the expected generic rule id.
@@ -671,7 +671,7 @@ RDKit (RDKit.js) on every valid SMILES case and every example state (`src/chemis
 
 1. **Done 2026-11-24.** JSON Schema file (`schema/reaction.schema.json`) plus the four example reactions
    (`fixtures/reactions/`), validated in both languages (`python/reaction_files/schema_violations.py`,
-   `src/reactionFiles/schemaViolations.ts`) against shared invalid cases (`fixtures/schema_cases/`). Also
+   `src/core/reactionFiles/schemaViolations.ts`) against shared invalid cases (`fixtures/schema_cases/`). Also
    `python/reaction_files/state_atom_consistency.py` (RDKit): SMILES readable, fully mapped, map numbers keep their
    element across states, coordinates exactly for the mapped atoms. Notes: `reactionClasses` is the mockups'
    list (substitution, elimination, carbonyl, pericyclic, rearrangement, radical); `learnerPrompt`/`hintTiers` are
@@ -688,38 +688,38 @@ RDKit (RDKit.js) on every valid SMILES case and every example state (`src/chemis
    learner text, misconception rules including never-firing warnings, the symmetry cap, coordinate seeding. The four
    examples lint clean (`make lint`); 26 shared edit cases break each rule.
 6. **Done 2026-11-25.** Catalogue build and daily calendar (§6): `python/catalogue_building/` (CLI, `make
-   catalogue` into `build/site/`), `schema/catalogue.schema.json`, and the browser reader `src/catalogue/`
+   catalogue` into `build/site/`), `schema/catalogue.schema.json`, and the browser reader `src/core/catalogue/`
    (Ajv check, daily ref for a local date, file path for a ref). 10 shared calendar cases and the shared reading
    cases pass.
 7. The learner UI, split in three (decided 2026-11-25; Svelte 5 + Vite, SPEC §5):
-   * **7a. Done 2026-11-25.** The step screen in practice mode: `src/moleculeDrawing/` (layout, labels, electron
-     dots, bonds, pick targets, curved-arrow geometry), `src/stepSession/` (taps to arrows, the session, feedback
-     text), `src/siteData/` (loading), `src/learnerSite/` (Svelte; `make site`, `make dev`). All four examples
+   * **7a. Done 2026-11-25.** The step screen in practice mode: `src/drawing/moleculeDrawing/` (layout, labels, electron
+     dots, bonds, pick targets, curved-arrow geometry), `src/learner/stepSession/` (taps to arrows, the session, feedback
+     text), `src/learner/siteData/` (loading), `src/learner/learnerSite/` (Svelte; `make site`, `make dev`). All four examples
      play end to end in the browser (checked in headless Chromium).
    * **7b. Done 2026-11-25.** Daily mode (`#/daily`: before / in progress / finished; 3 attempts, points, missed
      steps, share text, streak; resumes after a reload), the finished view in both modes, `localStorage` progress
-     and the remembered theme: `src/learnerProgress/`, `src/dailyPuzzle/`, `schema/progress.schema.json`.
+     and the remembered theme: `src/learner/learnerProgress/`, `src/learner/dailyPuzzle/`, `schema/progress.schema.json`.
      Checked in headless Chromium on a one-step and a three-step daily.
    * **7c. Done 2026-11-25.** Home, practice list (filters by type, difficulty, status, search; kept in the hash),
      progress page (streaks, first-try rate, 28-day history, mastery by type, recurring misconceptions, library,
      export / import / reset), and the finished view's "Watch out for", related reactions and mastery change:
-     `src/learnerStatistics/`, `src/learnerProgress/progressTransfer.ts`. Checked in headless Chromium.
+     `src/learner/learnerStatistics/`, `src/learner/learnerProgress/progressTransfer.ts`. Checked in headless Chromium.
 8. The editor and the backend, split in four (decided 2026-11-25, SPEC §5):
-   * **8.0 Done 2026-11-25.** One implementation in TypeScript: port the linter (`src/reactionLinting/`) and catalogue build
-     (`src/catalogueBuilding/`) to Node command-line tools, with RDKit.js for reading ordinary SMILES, coordinate
+   * **8.0 Done 2026-11-25.** One implementation in TypeScript: port the linter (`src/tooling/reactionLinting/`) and catalogue build
+     (`src/tooling/catalogueBuilding/`) to Node command-line tools, with RDKit.js for reading ordinary SMILES, coordinate
      seeding and the state atom checks; move the Python-only fixtures to Vitest; delete `python/`, `tests/`,
      `tools/*.py` and pytest. Starts with a trial of RDKit.js on those three jobs.
-     Built: `src/chemistryToolkit/` (RDKit.js 2026.9.2: atoms, 2D layout, a structure as written),
-     `src/reactionLinting/` and `src/catalogueBuilding/` (each with `runFromShell.ts`, run by `tsx`). Before the
+     Built: `src/tooling/chemistryToolkit/` (RDKit.js 2026.9.2: atoms, 2D layout, a structure as written),
+     `src/tooling/reactionLinting/` and `src/tooling/catalogueBuilding/` (each with `runFromShell.ts`, run by `tsx`). Before the
      Python was deleted, both linters gave the same rule ids, places and messages on every lint case (only the
      schema validator's and strict reader's own wording differs). Content hashes changed once, since canonical
      JSON now writes numbers as JavaScript does (nothing was published yet). The Python paths named in items 1–6
      above are now the `src/` folders of the same names in camelCase.
-   * **8a Done 2026-11-25.** Editor core (`make editor`; logic `src/reactionEditing/`, app `src/reactionEditor/`, file plugin
-     `src/editorFileServer/`). Part 1 done 2026-11-25: `stateGraphs/mappedSmilesWriting.ts` (round trip on every
+   * **8a Done 2026-11-25.** Editor core (`make editor`; logic `src/create/reactionEditing/`, app `src/create/reactionEditor/`, file plugin
+     `src/create/editorFileServer/`). Part 1 done 2026-11-25: `stateGraphs/mappedSmilesWriting.ts` (round trip on every
      fixture and example state), `chemistryToolkit` `readStructure` and the browser wasm location,
      `reactionEditing/startState.ts` (pasted SMILES → state) and `reactionDraft.ts` (new draft, add state/step).
-     Part 2 done 2026-11-25, all in `src/reactionEditing/`: `stepGeneration.ts` (drawn arrows → step; replaying the
+     Part 2 done 2026-11-25, all in `src/create/reactionEditing/`: `stepGeneration.ts` (drawn arrows → step; replaying the
      SN2, radical and Wittig examples gives their states, joins and route preferences; a new step is preferred only
      on the preferred route), `changeSteps.ts` + `atomPlacement.ts` (the aldol replays through its change step),
      `explicitHydrogens.ts` (show H; the examples still lint clean), `stateRegeneration.ts` (edit a state's mapped
@@ -727,7 +727,7 @@ RDKit (RDKit.js) on every valid SMILES case and every example state (`src/chemis
      `editHistory.ts`, `mechanismOutline.ts`, `atomDragging.ts`, `learnerPreview.ts`.
      Part 3 done 2026-11-25: `reactionEditing/arrowDrawing.ts` (taps → arrows on any state),
      `editorFileServer/reactionFileRequests.ts` (list/read/save in `content/reactions/`; the Vite plugin is in
-     `vite.editor.config.ts`), and the page in `src/reactionEditor/` (`editorSession.ts`, `editorView.ts`,
+     `vite.editor.config.ts`), and the page in `src/create/reactionEditor/` (`editorSession.ts`, `editorView.ts`,
      `draftCreation.ts`, Svelte components reusing the learner's `MoleculeCanvas` and `StepPlay`). Checked in
      headless Chromium: a new SN2 from SMILES, the step drawn by clicking, saved, an atom dragged, played as a
      learner and checked correct, with no console errors. `make catalogue` still builds from `fixtures/reactions/`
@@ -735,7 +735,7 @@ RDKit (RDKit.js) on every valid SMILES case and every example state (`src/chemis
      show H, change steps, branches and automatic joins, regenerate, undo/redo, mechanism panel, Play as learner,
      saving to `content/reactions/`.
    * **8b Done 2026-11-25.** Form fields, misconceptions and partial arrow sets by drawing, live lint panel. Part 1
-     (`src/reactionEditing/`): `fieldEdits.ts` (every form field; clearing optional text removes the key, required
+     (`src/create/reactionEditing/`): `fieldEdits.ts` (every form field; clearing optional text removes the key, required
      text stays empty for lint; making a step preferred makes the other preferred step from its state accepted;
      renaming states and steps everywhere; wedge style cycle plain → wedge → reversed → dash → reversed),
      `drawnAnswers.ts` (misconception from drawn arrows as the exact pattern, refused at once if a correct answer
@@ -754,14 +754,14 @@ RDKit (RDKit.js) on every valid SMILES case and every example state (`src/chemis
      **2** the Hono server (sign-in, sessions, the API, the export endpoint, serving the editor), **3** the editor
      saving and publishing through the API, the workflows and `render.yaml`, **4** setting up the accounts
      (Supabase, Render, the GitHub OAuth app, Cloudflare), which only the owner can do.
-     Part 1 done 2026-11-25, `src/reactionDatabase/`: `migrations/0001_arrowpush_tables.sql` (§8, with the
+     Part 1 done 2026-11-25, `src/server/reactionDatabase/`: `migrations/0001_arrowpush_tables.sql` (§8, with the
      one-unpublished-version index, the trigger keeping published rows immutable, row-level security) run by
      `migrationRunning.ts`; `reactionVersions.ts` (save a draft, "Edit" → version n+1, list, read),
      `publishing.ts` (server lint, licence, submitted → published, content hash as the static build's),
      `publishedExport.ts`, `contentImport.ts` (examples as published version 1, drafts, safe to rerun),
      (`userAccounts.ts`, replaced by Better Auth in part 2). Tests on PGlite (`testSupport/temporaryDatabase.ts`; PGlite is pinned to 0.5.x, the
      newest `kysely-pglite-dialect` supports).
-     Part 2 done 2026-11-25, `src/backendServer/`: `authentication.ts` (Better Auth, GitHub only, the allow-list
+     Part 2 done 2026-11-25, `src/server/backendServer/`: `authentication.ts` (Better Auth, GitHub only, the allow-list
      of numeric GitHub ids checked at every sign-in, 30-day sessions, tokens encrypted), `reactionRoutes.ts`
      (`/api/reactions…`: list, read, save a draft, next version, publish; `/api/published-versions`, public),
      `refusalAnswers.ts` (refusal code → 400/403/404/409/422), `deployDispatch.ts` (`repository_dispatch`
@@ -797,13 +797,13 @@ RDKit (RDKit.js) on every valid SMILES case and every example state (`src/chemis
        list (only one's own without `seeEveryReaction`); `/api/me` answers `siteActions`; the server's and the
        file server's reaction lists give each reaction's `creationProgress`. The Teaching list is built from the
        draft's fields with lint findings attached (a new draft fails the schema, so lint stops before its
-       learner-text rules); the mechanism summary is **needed** (the schema requires it). Planned as: in `src/reactionEditing/`, the stage a draft opens on and
+       learner-text rules); the mechanism summary is **needed** (the schema requires it). Planned as: in `src/create/reactionEditing/`, the stage a draft opens on and
        each stage's completeness; the Teaching to-do list from the draft and its lint findings (item, place,
        needed / recommended / optional, done); the suggested difficulty; the rows of the state thumbnail strip
        (preferred route, branches under the state they leave, "joins X"); the progress line on the Create home.
-       On the server (`src/backendServer/`), one module deciding what a site role may do (save, edit, publish,
+       On the server (`src/server/backendServer/`), one module deciding what a site role may do (save, edit, publish,
        submit, review), used by every route, and the signed-in user's role in the API.
-     - **Part 2, the pages. Done 2026-11-26.** Built in `src/reactionEditor/`: `EditorApp` (Your mechanisms,
+     - **Part 2, the pages. Done 2026-11-26.** Built in `src/create/reactionEditor/`: `EditorApp` (Your mechanisms,
        a new mechanism's Start stage, a draft, Play as learner; **autosave** about 1.5 s after the last edit
        to the draft, and at once on going back to Your mechanisms), `CreateHome`, `CreateHeader`,
        `StageStepper`, `CreateWorkspace` (top row, live lint), `StartStage`, `MechanismStage` (with
@@ -815,7 +815,7 @@ RDKit (RDKit.js) on every valid SMILES case and every example state (`src/chemis
        items still missing (`checkTasks.publishChecks`). `/api/me`'s site actions decide whether Publish
        shows. "Back to the site" links to `VITE_LEARNER_SITE_ADDRESS` when the build sets it. Checked in
        headless Chromium (new SN2 → step → question, hint, a wrong answer → Publish's checks → saved and
-       listed → reopened, light and dark; no console errors). Planned as (`src/reactionEditor/`): Create home, the stepper and the four stages, reusing the
+       listed → reopened, light and dark; no console errors). Planned as (`src/create/reactionEditor/`): Create home, the stepper and the four stages, reusing the
        learner site's header and styles and the existing components where they fit; component tests for the
        stage switching; a walkthrough in headless Chromium (new SN2 from SMILES → step → teaching → Publish).
      - **Part 3, the domain. Done 2026-11-26** (`arrowpushing.com`: DNS moved from Porkbun to Cloudflare, the
@@ -849,7 +849,7 @@ RDKit (RDKit.js) on every valid SMILES case and every example state (`src/chemis
        words), `editorView.patternArrowsOn`. Planned as (pure TypeScript): the change list between two versions of a reaction (states,
        steps, every learner text, misconceptions, metadata) with a word-level text diff; the review notes and
        where they point; the contributor's banner and queue labels.
-     - **Part 3, the pages. Done 2026-11-26.** Built in `src/reactionEditor/`: `contributorClient.ts` (the
+     - **Part 3, the pages. Done 2026-11-26.** Built in `src/create/reactionEditor/`: `contributorClient.ts` (the
        API), `SignInCard`, `CreateSubnav`, `CreateHome` (banner, open drafts, Suggest version n),
        `ReviewerNotes` and `SubmitForReview` on the Publish stage, `ReviewQueue`, `ReviewScreen` (`ChangeCard`,
        `ReviewDrawing`), `UsersPage`, wired in `EditorApp`. Checked in headless Chromium with two accounts
@@ -862,13 +862,13 @@ RDKit (RDKit.js) on every valid SMILES case and every example state (`src/chemis
        `https://create.arrowpushing.com/api/auth/callback/google`), its two settings on Render, and an end-to-end
        check: a second account submits, the owner requests changes, it is resubmitted and published.
 9. Learn: tracks and problem sets (scoped 2026-11-25, SPEC §5 "Learn", §6.1 here), before 8d. In three parts:
-   * **9a Done 2026-11-26.** The track file: `schema/track.schema.json` (`src/trackFiles/`), the example track
+   * **9a Done 2026-11-26.** The track file: `schema/track.schema.json` (`src/core/trackFiles/`), the example track
      and lint cases, the lint checks and `lint-tracks`, compiling into `catalogue.json` (`--tracks-folder`, the
      catalogue schema and reader), and the deploy workflow running on a push to `content/tracks/` (§6.1).
    * **9b Done 2026-11-26.** The Learn, track and problem set pages, Next up, the breadcrumb and Next in set, the
      Home Continue learning card and the Progress Tracks section, `lastProblemSetRef`. Logic in
-     `src/learnTracks/` (`trackProgress.ts`, `learnPlayContext.ts`, `continueLearning.ts`, `conceptCardText.ts`:
-     the Markdown subset read into blocks, never inserted as HTML); pages in `src/learnerSite/` (`LearnPage`,
+     `src/learner/learnTracks/` (`trackProgress.ts`, `learnPlayContext.ts`, `continueLearning.ts`, `conceptCardText.ts`:
+     the Markdown subset read into blocks, never inserted as HTML); pages in `src/learner/learnerSite/` (`LearnPage`,
      `TrackPage`, `ProblemSetPage`, `ConceptCard`, `LearnPlay`; `StepScreen` takes the Learn context). Routes
      `#/learn[/<track>[/<problem set>[/<reaction slug>]]]`; a reaction plays its latest version. The concept card
      is open while none of the problem set's items is done and folded after (no visit is stored). Until 9c a
@@ -896,12 +896,12 @@ RDKit (RDKit.js) on every valid SMILES case and every example state (`src/chemis
      "drafting", 90 days).
    * **10c Done 2026-11-26.** Draft sync: saving a draft may name the content hash (§1, canonical JSON) of the draft the client last
      saw, or `null` for "no unpublished version yet"; the save is refused (`draft-changed`) when the stored draft's
-     hash differs. Create's own saves leave it out and behave as now. A new module (`src/draftSync/`, logic beside a command line
-     `npx tsx src/draftSync/runFromShell.ts check|push-draft|pull-draft`; the server URL and the token from the
+     hash differs. Create's own saves leave it out and behave as now. A new module (`src/tooling/draftSync/`, logic beside a command line
+     `npx tsx src/tooling/draftSync/runFromShell.ts check|push-draft|pull-draft`; the server URL and the token from the
      environment) that lints before pushing, remembers the hash of each draft pushed or pulled, and writes a pulled draft back to
      `content/reactions/`. Built: `reactionDatabase/draftChangeCheck.ts` (`saveDraftIfUnchanged`, refusal
      `draft-changed` 409; `If-None-Match: *` / `If-Match: <hash>` on PUT …/draft, which now answers
-     `draftContentHash`), `src/draftSync/` (`draftSync.ts`, `commandLine.ts`, `runFromShell.ts`); end to end in
+     `draftContentHash`), `src/tooling/draftSync/` (`draftSync.ts`, `commandLine.ts`, `runFromShell.ts`); end to end in
      `backendServer/draftSyncThroughServer.test.ts`.
    * **10e Done 2026-11-26.** Alternative products (rule 3 revised, §3.5): `not-exactly-one-product-state` gone,
      `alternative-product-without-caption` (warning) added in `mechanismGraphRules.ts` (`LintedState.hasCaption`);
@@ -937,7 +937,7 @@ RDKit (RDKit.js) on every valid SMILES case and every example state (`src/chemis
        from the arrows): a save that changes atoms, bonds, charges or hydrogens there is refused.
      - **Create:** "⋯ More → Edit structure" opens Ketcher in a dialog on the selected state; Save or Cancel.
        The learner site is unchanged.
-     Built: `src/buildTools/` (`make ketcher`, also in Render's build command; `fflate` unzips), Vite's editor
+     Built: `src/tooling/buildTools/` (`make ketcher`, also in Render's build command; `fflate` unzips), Vite's editor
      `publicDir` `vendor/editor-public/`, `chemistryToolkit.readMolblock`, `reactionEditing/structureExchange.ts`
      (`stateToMolfile`, `molfileToStructure`, `applyEditedStructure`, `saveStructureFromEditor`; a saved layout keeps
      the state's old centre), `reactionEditor/StructureEditorDialog.svelte`. Checked in headless Chromium on the dev
@@ -972,7 +972,7 @@ RDKit (RDKit.js) on every valid SMILES case and every example state (`src/chemis
      (pixels at 20 px per median bond, species, explicit hydrogens folded into their atom), `schemeLabels.ts`
      (which atoms are labelled, placement, the box a bond stops at, charge included), `schemeBonds.ts` (lines,
      double-bond side, wedges); metal counter-ions are left out (the conditions name the salt).
-   * **11d Done 2026-11-26.** The pages (`src/learnerSite/`): `ReactionScheme` and `ReactionCard` components; Learn by level
+   * **11d Done 2026-11-26.** The pages (`src/learner/learnerSite/`): `ReactionScheme` and `ReactionCard` components; Learn by level
      (`learnTracks/trackLevels.ts`: levels in order, their tracks, the planned tracks of `docs/curriculum.md`);
      Practice and problem sets as card lists; the Home daily card with the scheme and result tiles; the finished
      view without share text or Copy (`dailyPuzzle.shareText` goes). Checked in headless Chromium.
