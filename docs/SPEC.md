@@ -272,7 +272,8 @@ reactions, track `electrophilic-aromatic-substitution`, problem sets in this ord
     `schema/track.schema.json`), in git; the reaction linter checks it and the catalogue build compiles it into
     `catalogue.json`. A set item whose reaction is not published gives a lint **warning** and is left out of the
     build; a problem set with no published item is hidden. A push changing `content/tracks/` also rebuilds the
-    site. Tracks move into Postgres with an editor screen only when contributors author problem sets.
+    site, and so does one changing the code or settings the build uses (2026-11-28: the About page reached Create,
+    which Render redeploys on every push, but not the learner site). Tracks move into Postgres with an editor screen only when contributors author problem sets.
   - **Pages:** header order Home · Daily · **Learn** · Practice · Progress. `#/learn` (revised 2026-11-26, item 11,
     `mockups/layout.html`): one **level card** per curriculum level (Foundations · First year, Core · Second year,
     Advanced · Third and fourth year, Graduate · Synthesis case studies) holding its tracks in curriculum order
