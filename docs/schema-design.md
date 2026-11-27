@@ -878,7 +878,7 @@ RDKit (RDKit.js) on every valid SMILES case and every example state (`src/toolin
      3 attempts per step, points), `problemSetRef` on runs, a checkpoint item done only by a checkpoint run with
      its ref (`slugsDoneInCheckpoint`), `learnTracks/checkpointAttempt.ts` (an attempt shuffles the items not
      yet done there, or all once every one is done; Fisher–Yates with the random source passed in), and
-     `learnerSite/CheckpointRun.svelte` on the checkpoint's page (names hidden, revealed in each finished view).
+     `learnerSite/workspaces/CheckpointRun.svelte` on the checkpoint's page (names hidden, revealed in each finished view).
      Next up links to a checkpoint go to its page; a checkpoint has no `#/learn/…/<reaction>` play route.
    Alongside: authoring the "Aromatic chemistry" reactions in the editor (SPEC §2).
 10. Drafting with an assistant (decided 2026-11-26, SPEC §2 "The first SEAr batch", §6 "Drafting with an assistant").

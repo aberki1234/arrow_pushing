@@ -1,18 +1,18 @@
 <script lang="ts">
   // Create (docs/SPEC.md §5, "Create"): Your mechanisms, then a new mechanism's Start stage or a
   // draft open in its stages (CreateWorkspace.svelte); "Play as learner" shows the learner's own
-  // step screen (learnerSite/StepPlay.svelte) on the draft. A draft is saved by itself about
-  // autosaveDelayMilliseconds after the last edit (on the server, or in content/reactions/).
+  // step screen (learnerSite/workspaces/StepPlay.svelte) on the draft. A draft is saved by itself
+  // about autosaveDelayMilliseconds after the last edit (on the server, or in content/reactions/).
   // On the server, Create's sub-navigation adds Review (reviewers) and Users (the owner), and the
   // Publish stage submits for review for anyone but the owner (docs/SPEC.md §6, "Contributors").
   import { onMount } from "svelte";
   import type { ChemistryToolkit } from "../../../tooling/chemistryToolkit/chemistryToolkit.js";
-  import StepPlay from "../../../learner/learnerSite/StepPlay.svelte";
+  import StepPlay from "../../../learner/learnerSite/workspaces/StepPlay.svelte";
   import type { ReactionDocument } from "../../reactionEditing/draft/reactionDraft.js";
   import { startPreview } from "../../reactionEditing/publishing/learnerPreview.js";
   import type { StepSession } from "../../../learner/stepSession/stepSession.js";
-  import SiteHeader from "../../../learner/learnerSite/SiteHeader.svelte";
-  import { navigationTabs } from "../../../learner/learnerSite/siteNavigation.js";
+  import SiteHeader from "../../../learner/learnerSite/app/SiteHeader.svelte";
+  import { navigationTabs } from "../../../learner/learnerSite/model/siteNavigation.js";
   import { publishAndDescribe } from "../io/batchPublishing.js";
   import CreateHome from "../pages/CreateHome.svelte";
   import CreateSubnav from "../components/CreateSubnav.svelte";

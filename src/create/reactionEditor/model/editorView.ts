@@ -15,7 +15,7 @@ import {
 import { drawState, type StateDrawing } from "../../../drawing/moleculeDrawing/stateDrawing.js";
 import { type ReactionDocument, statesOf } from "../../reactionEditing/draft/reactionDraft.js";
 import { readSessionReaction } from "../../../learner/stepSession/sessionReaction.js";
-import { drawingScaleOf } from "../../../learner/learnerSite/stepScreenView.js";
+import { drawingScaleOf } from "../../../learner/learnerSite/model/stepScreenView.js";
 
 /** A state drawn at the reaction's scale (pixels per RDKit unit, from the start state). */
 export function draftDrawing(

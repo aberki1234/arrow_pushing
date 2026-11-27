@@ -3,8 +3,8 @@
   // (point and snap, as for learners: new bonds are pointed at as dashed lines), atoms dragged or
   // given an H, bonds' wedges cycled. Every decision is in editorSession.ts; this passes the taps
   // on.
-  import MoleculeCanvas from "../../../learner/learnerSite/MoleculeCanvas.svelte";
-  import { tappedPlaceOf } from "../../../learner/learnerSite/stepScreenView.js";
+  import MoleculeCanvas from "../../../learner/learnerSite/components/MoleculeCanvas.svelte";
+  import { tappedPlaceOf } from "../../../learner/learnerSite/model/stepScreenView.js";
   import type { PickTarget } from "../../../drawing/moleculeDrawing/stateDrawing.js";
   import { cancelPick } from "../../reactionEditing/mechanism/arrowDrawing.js";
   import { destinationTargets } from "../../../learner/stepSession/destinationTargets.js";

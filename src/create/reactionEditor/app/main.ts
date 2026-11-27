@@ -12,8 +12,8 @@
 import { mount } from "svelte";
 import rdkitWasmUrl from "@rdkit/rdkit/RDKit_minimal.wasm?url";
 import { loadChemistryToolkit } from "../../../tooling/chemistryToolkit/chemistryToolkit.js";
-import "../../../learner/learnerSite/site.css";
-import { applySavedTheme } from "../../../learner/learnerSite/sharedTheme.js";
+import "../../../learner/learnerSite/app/site.css";
+import { applySavedTheme } from "../../../learner/learnerSite/io/sharedTheme.js";
 import "./editor.css";
 import EditorApp from "./EditorApp.svelte";
 import { contributorClient } from "../io/contributorClient.js";

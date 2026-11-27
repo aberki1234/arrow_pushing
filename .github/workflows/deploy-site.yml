@@ -79,7 +79,7 @@ jobs:
 
       - name: Build the site
         env:
-          # Create's address, for the Create tab in the top bar (src/learner/learnerSite/siteNavigation.ts).
+          # Create's address, for the Create tab in the top bar (src/learner/learnerSite/model/siteNavigation.ts).
           VITE_CREATE_ADDRESS: ${{ vars.BACKEND_URL }}
         run: |
           npx tsx src/tooling/catalogueBuilding/runFromShell.ts build content/published/*/*.json \

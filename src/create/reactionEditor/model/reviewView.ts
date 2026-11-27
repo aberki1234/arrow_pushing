@@ -17,8 +17,8 @@ import type {
   ReviewNotes,
   SignInProvider,
   SiteUser,
-} from "../model/contributorClientInterface.js";
-import type { ListedReactionFile } from "../model/reactionFileStoreInterface.js";
+} from "./contributorClientInterface.js";
+import type { ListedReactionFile } from "./reactionFileStoreInterface.js";
 
 /** As reactionDatabase/reactionVersions.ts. */
 export const MAXIMUM_OPEN_DRAFTS = 20;

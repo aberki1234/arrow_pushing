@@ -3,7 +3,7 @@
   // the submitted version; by default only what changed against the previous published version
   // (a new reaction shows everything); notes pinned to a change and an overall note; Publish or
   // Request changes.
-  import StepPlay from "../../../learner/learnerSite/StepPlay.svelte";
+  import StepPlay from "../../../learner/learnerSite/workspaces/StepPlay.svelte";
   import { startPreview } from "../../reactionEditing/publishing/learnerPreview.js";
   import { versionChanges } from "../../reactionEditing/review/versionChanges.js";
   import type { StepSession } from "../../../learner/stepSession/stepSession.js";

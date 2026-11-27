@@ -12,7 +12,7 @@ function fromProjectRoot(relativePath: string): string {
 }
 
 export default defineConfig({
-  root: fromProjectRoot("src/learner/learnerSite/"),
+  root: fromProjectRoot("src/learner/learnerSite/app/"),
   publicDir: fromProjectRoot("build/site/"),
   base: "./",
   build: { outDir: fromProjectRoot("build/app/"), emptyOutDir: true },

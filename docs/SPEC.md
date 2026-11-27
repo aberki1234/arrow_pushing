@@ -448,13 +448,13 @@ reactions, track `electrophilic-aromatic-substitution`, problem sets in this ord
     and link back to it.
   - **One top bar for both (changed 2026-11-26 by the owner, replacing "learners see no Create tab"):**
     Home · Daily · Learn · Practice · Progress · **Create** on the learner site and on Create alike
-    (`learnerSite/siteNavigation.ts`, `SiteHeader.svelte`), so they read as one site. The learner site's Create
+    (`learnerSite/model/siteNavigation.ts`, `SiteHeader.svelte`), so they read as one site. The learner site's Create
     tab links to `VITE_CREATE_ADDRESS` (the deploy workflow passes the `BACKEND_URL` variable); Create's other
     tabs link to `VITE_LEARNER_SITE_ADDRESS`. (Until 8e, anyone not on the allow-list who signed in saw
     "Creating is invite-only for now"; since 8e anyone signs in as a contributor.)
   - **The theme is shared by both sites (fixed 2026-11-26 at the owner's report):** the light/dark choice is
     kept in a cookie on the parent domain (`arrowpush_theme`, Domain=`arrowpushing.com`, a year) as well as in
-    the learner's progress, and each site reads the cookie first at start (`learnerSite/sharedTheme.ts`);
+    the learner's progress, and each site reads the cookie first at start (`learnerSite/io/sharedTheme.ts`);
     `localStorage` alone is per origin, so the two sites never saw each other's choice.
   - **Defaults chosen while building the pages (2026-11-26):** the draft **saves by itself** about 1.5 s
     after the last change to it, and at once on going back to Your mechanisms (no Save button; Download the

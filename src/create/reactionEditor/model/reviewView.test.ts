@@ -3,8 +3,8 @@
  * Your mechanisms and "Improve a published one" list (docs/SPEC.md §6, "Contributors").
  */
 import { describe, expect, it } from "vitest";
-import type { QueuedSubmission, SiteUser } from "../model/contributorClientInterface.js";
-import type { ListedReactionFile } from "../model/reactionFileStoreInterface.js";
+import type { QueuedSubmission, SiteUser } from "./contributorClientInterface.js";
+import type { ListedReactionFile } from "./reactionFileStoreInterface.js";
 import {
   changesRequestedBanner,
   createSections,

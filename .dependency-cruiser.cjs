@@ -40,6 +40,7 @@ const tiersLowestFirst = [
 // Folders with ordered subfolders (folders of 10 or more files). Such a folder keeps no files of
 // its own: every file sits in one of its subfolders.
 const folderToSubfoldersLowestFirst = {
+  "learner/learnerSite": ["model", "components", "io", "workspaces", "pages", "app"],
   "create/reactionEditor": ["model", "components", "io", "workspaces", "pages", "app"],
   "create/reactionEditing": ["draft", "mechanism", "outline", "teaching", "publishing", "review"],
 };
@@ -97,7 +98,7 @@ module.exports = {
         "The learner site stays small and static: RDKit.js, the linter, the catalogue build, " +
         "Create and the server must not be reachable from its entry point. The tier order " +
         "already forbids this; this rule says why.",
-      from: { path: "^src/learner/learnerSite/main\\.ts$" },
+      from: { path: "^src/learner/learnerSite/app/main\\.ts$" },
       to: { path: "^src/(tooling|create|server)/", reachable: true },
     },
     {

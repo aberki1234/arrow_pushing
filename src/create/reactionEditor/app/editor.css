@@ -1,4 +1,4 @@
-/* The editor's own layout, on top of the learner site's styles (learnerSite/site.css). */
+/* The editor's own layout, on top of the learner site's styles (learnerSite/app/site.css). */
 .canvas-card {
   overflow: auto;
 }
