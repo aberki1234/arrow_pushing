@@ -19,7 +19,7 @@ export type NavigationTabName =
   "home" | "daily" | "learn" | "practice" | "progress" | "create" | "about";
 
 /** The public repository: the source code of both sites. */
-export const SOURCE_CODE_ADDRESS = "https://github.com/aberki1234/mech_training";
+export const SOURCE_CODE_ADDRESS = "https://github.com/aberki1234/arrow_pushing";
 
 export interface NavigationTab {
   readonly tabName: NavigationTabName;
