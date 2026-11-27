@@ -107,6 +107,6 @@ request, so the maintainer can agree to it first.
 
 ## Licences
 
-Code contributions are licensed under the project's code licence ([`LICENSE`](LICENSE)). Reaction content is
+Code contributions are licensed under the project's code licence, AGPL-3.0-or-later ([`LICENSE`](LICENSE)). Reaction content is
 licensed CC BY-SA 4.0 (each reaction file has `"licence": "CC-BY-SA-4.0"`); Create asks you to agree to that when
 you submit a reaction, and names you as an author.

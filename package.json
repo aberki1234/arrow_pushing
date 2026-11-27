@@ -2,6 +2,7 @@
   "name": "mech-training",
   "private": true,
   "description": "Mechanism-drawing trainer: practise named-reaction mechanisms by drawing curved arrows",
+  "license": "AGPL-3.0-or-later",
   "type": "module",
   "engines": {
     "node": ">=22"

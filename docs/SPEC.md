@@ -480,6 +480,10 @@ reactions, track `electrophilic-aromatic-substitution`, problem sets in this ord
 - **Published versions are immutable**; an edit creates a new version, old versions stay reachable (learner progress points at a version).
 - Reviewer sees a play-through plus a diff against the previous version.
 - **Licence:** CC BY-SA 4.0, contributor's name shown on the reaction page, agreed at submission.
+- **Code licence (2026-11-27, ahead of open-sourcing):** AGPL-3.0-or-later (`LICENSE`), `"license"` in
+  `package.json`; reaction content stays CC BY-SA 4.0 (`content/LICENSE`, and each reaction file's `licence`).
+  The AGPL asks that users of the network service be offered the source: both apps are to link to the
+  repository (not built yet).
 - **Contributors (item 8e, decided 2026-11-26):**
   - **Anyone who signs in is a contributor** (site role `contributor`): they draft and submit; nothing goes live
     without a review. The GitHub allow-list stops deciding who may sign in (it keeps naming the owner).
