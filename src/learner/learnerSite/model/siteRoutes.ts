@@ -4,6 +4,7 @@
  *   #/daily                             today's daily puzzle
  *   #/practice[?type=…&difficulty=…&status=…&search=…]   the practice list and its filters
  *   #/progress                          the learner's progress
+ *   #/about                             the source code, the licences and the credits
  *   #/play/<slug>@<version>             play a reaction version in practice mode
  *   #/learn[/<track>[/<problem set>[/<reaction slug>]]]   the Learn tracks, a track, a problem
  *                                       set, and its latest version played from that problem set
@@ -13,6 +14,7 @@ export type SiteRoute =
   | { readonly routeName: "home" }
   | { readonly routeName: "daily" }
   | { readonly routeName: "progress" }
+  | { readonly routeName: "about" }
   | { readonly routeName: "practice"; readonly practiceQuery: string }
   | { readonly routeName: "play"; readonly reactionVersionRef: string }
   | {
@@ -27,6 +29,7 @@ export type SiteRoute =
 
 const DAILY_HASH = "#/daily";
 const PROGRESS_HASH = "#/progress";
+const ABOUT_HASH = "#/about";
 const PRACTICE_HASH = "#/practice";
 const PLAY_HASH_PATTERN = /^#\/play\/([a-z0-9]+(?:-[a-z0-9]+)*@[1-9][0-9]*)$/;
 const LEARN_HASH = "#/learn";
@@ -52,6 +55,9 @@ export function parseSiteRoute(locationHash: string): SiteRoute {
   if (locationHash === PROGRESS_HASH) {
     return { routeName: "progress" };
   }
+  if (locationHash === ABOUT_HASH) {
+    return { routeName: "about" };
+  }
   if (locationHash === PRACTICE_HASH || locationHash.startsWith(`${PRACTICE_HASH}?`)) {
     return { routeName: "practice", practiceQuery: locationHash.slice(PRACTICE_HASH.length + 1) };
   }
@@ -73,6 +79,8 @@ export function siteRouteHash(route: SiteRoute): string {
       return DAILY_HASH;
     case "progress":
       return PROGRESS_HASH;
+    case "about":
+      return ABOUT_HASH;
     case "practice":
       return route.practiceQuery === "" ? PRACTICE_HASH : `${PRACTICE_HASH}?${route.practiceQuery}`;
     case "learn":

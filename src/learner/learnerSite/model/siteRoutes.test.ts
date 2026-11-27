@@ -15,9 +15,10 @@ test("an empty, unknown or malformed hash is home", () => {
   }
 });
 
-test("daily, progress, and practice with or without its filter query", () => {
+test("daily, progress, about, and practice with or without its filter query", () => {
   expect(parseSiteRoute("#/daily")).toEqual({ routeName: "daily" });
   expect(parseSiteRoute("#/progress")).toEqual({ routeName: "progress" });
+  expect(parseSiteRoute("#/about")).toEqual({ routeName: "about" });
   expect(parseSiteRoute("#/practice")).toEqual({ routeName: "practice", practiceQuery: "" });
   expect(parseSiteRoute("#/practice?type=carbonyl&status=new")).toEqual({
     routeName: "practice",
@@ -30,6 +31,7 @@ test("routes print back to hashes", () => {
     { routeName: "home" },
     { routeName: "daily" },
     { routeName: "progress" },
+    { routeName: "about" },
     { routeName: "practice", practiceQuery: "" },
     { routeName: "practice", practiceQuery: "type=carbonyl" },
     { routeName: "play", reactionVersionRef: "sn2-hydroxide-bromomethane@1" },
@@ -38,6 +40,7 @@ test("routes print back to hashes", () => {
     "#/",
     "#/daily",
     "#/progress",
+    "#/about",
     "#/practice",
     "#/practice?type=carbonyl",
     "#/play/sn2-hydroxide-bromomethane@1",
