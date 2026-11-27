@@ -1,6 +1,15 @@
 # The database's upkeep (docs/SPEC.md §5, backend, "Database"):
 #   daily   a query, so that Supabase's free plan does not pause the project for inactivity
-#   weekly  a pg_dump of the schema arrowpush, kept as a workflow artifact for 90 days
+#   weekly  a pg_dump of the schema arrowpush, encrypted with age and kept as a workflow artifact
+#           for 90 days
+#
+# The dump holds users' names and emails and every draft, and a public repository's artifacts can
+# be downloaded by anyone signed in to GitHub, so only the encrypted file is uploaded. Repository
+# variable DUMP_AGE_RECIPIENT: the age public key (age1...) of the owner's key pair; the private
+# key never reaches GitHub. Without the variable the job fails rather than upload a plain dump.
+# Restoring: gh run download <run id> -n arrowpush-dump, then
+#   age --decrypt -i <private key file> arrowpush-YYYY-MM-DD.dump.age > arrowpush.dump
+#   pg_restore --dbname <database url> arrowpush.dump
 #
 # Secret: DATABASE_READONLY_URL, a connection string for the role arrowpush_readonly, through
 # the pooler and ending in ?sslmode=verify-full&sslrootcert=deploy/supabase-root-ca.crt (each job
@@ -35,13 +44,21 @@ jobs:
     if: github.event.schedule == '47 3 * * 0' || github.event_name == 'workflow_dispatch'
     runs-on: ubuntu-latest
     steps:
+      - name: Check that the dump can be encrypted
+        env:
+          DUMP_AGE_RECIPIENT: ${{ vars.DUMP_AGE_RECIPIENT }}
+        run: |
+          case "$DUMP_AGE_RECIPIENT" in
+            age1*) ;;
+            *) echo "::error::Set the repository variable DUMP_AGE_RECIPIENT to an age public key (age1...)"; exit 1 ;;
+          esac
       - uses: actions/checkout@v4
       # pg_dump must be at least the server's version (Supabase runs Postgres 17).
       - name: Install the PostgreSQL 17 client
         run: |
           sudo apt-get install -y postgresql-common
           sudo /usr/share/postgresql-common/pgdg/apt.postgresql.org.sh -y
-          sudo apt-get install -y postgresql-client-17
+          sudo apt-get install -y postgresql-client-17 age
       - name: Dump the schema arrowpush
         env:
           DATABASE_READONLY_URL: ${{ secrets.DATABASE_READONLY_URL }}
@@ -52,8 +69,17 @@ jobs:
           --exclude-table-data=arrowpush.accounts
           --exclude-table-data=arrowpush.verifications
           --file=arrowpush-$(date -u +%Y-%m-%d).dump
+      - name: Encrypt the dump
+        env:
+          DUMP_AGE_RECIPIENT: ${{ vars.DUMP_AGE_RECIPIENT }}
+        run: |
+          for dump in arrowpush-*.dump; do
+            age --encrypt --recipient "$DUMP_AGE_RECIPIENT" --output "$dump.age" "$dump"
+            rm "$dump"
+          done
       - uses: actions/upload-artifact@v4
         with:
           name: arrowpush-dump
-          path: arrowpush-*.dump
+          path: arrowpush-*.dump.age
+          if-no-files-found: error
           retention-days: 90
