@@ -8,8 +8,13 @@
  *                                                     "seeEveryReaction", else the user's own and
  *                                                     every published one), each with its
  *                                                     creationProgress instead of its document
- *   GET  /api/reactions/:slug                         the newest version (as one stored version)
- *   GET  /api/reactions/:slug/versions/:version       one stored version
+ *   GET  /api/reactions/:slug                         the newest version the user may read (as
+ *                                                     one stored version; versionReading.ts:
+ *                                                     someone else's unpublished version only
+ *                                                     for its author, the reaction's owner and
+ *                                                     "seeEveryReaction"), else 404
+ *   GET  /api/reactions/:slug/versions/:version       one stored version, if the user may read
+ *                                                     it (404 otherwise, as if it did not exist)
  *   PUT  /api/reactions/:slug/draft                   body: the reaction document; its
  *                                                     reactionSlug must be :slug (400). With
  *                                                     If-None-Match: * or If-Match: <hash>, refused
@@ -32,11 +37,13 @@ import { saveDraftIfUnchanged } from "../../reactionDatabase/reactions/draftChan
 import { publishDraft } from "../../reactionDatabase/reactions/publishing.js";
 import { ReactionDatabaseError } from "../../reactionDatabase/model/reactionDatabaseErrors.js";
 import {
-  findReaction,
   listReactionsFor,
-  readReactionVersion,
   startNextVersion,
 } from "../../reactionDatabase/reactions/reactionVersions.js";
+import {
+  readNewestReactionVersionFor,
+  readReactionVersionFor,
+} from "../../reactionDatabase/reactions/versionReading.js";
 import { creationProgress } from "../../../create/reactionEditing/publishing/creationProgress.js";
 import { type Authentication, requireSignIn } from "./authentication.js";
 import { startDeploy } from "./deployDispatch.js";
@@ -91,20 +98,17 @@ function addVersionRoutes(routes: Hono<ServerEnvironment>, database: ReactionDat
   });
 
   routes.get("/reactions/:slug", async (context) => {
-    const reactionSlug = context.req.param("slug");
-    const reaction = await findReaction(database, reactionSlug);
-    if (reaction === undefined) {
-      throw new ReactionDatabaseError("reaction-not-found", `no reaction "${reactionSlug}"`);
-    }
+    const { userId } = context.get("signedInUser");
     return context.json(
-      await readReactionVersion(database, reactionSlug, reaction.newestReactionVersion),
+      await readNewestReactionVersionFor(database, userId, context.req.param("slug")),
     );
   });
 
   routes.get("/reactions/:slug/versions/:version", async (context) => {
     const reactionVersion = versionNumberFrom(context.req.param("version"));
+    const { userId } = context.get("signedInUser");
     return context.json(
-      await readReactionVersion(database, context.req.param("slug"), reactionVersion),
+      await readReactionVersionFor(database, userId, context.req.param("slug"), reactionVersion),
     );
   });
 

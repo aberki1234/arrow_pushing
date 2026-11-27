@@ -190,3 +190,23 @@ describe("the Users page", () => {
     expect((await asContributor("GET", "/api/users")).status).toBe(403);
   });
 });
+
+describe("reading someone else's reaction", () => {
+  it("hides the owner's unpublished draft from a contributor", async () => {
+    const draft = exampleReaction("sn2-hydroxide-bromomethane.json");
+    expect((await asOwner("PUT", `/api/reactions/${SN2_SLUG}/draft`, draft)).status).toBe(200);
+    expect((await asOwner("GET", `/api/reactions/${SN2_SLUG}`)).status).toBe(200);
+    expect((await asContributor("GET", `/api/reactions/${SN2_SLUG}`)).status).toBe(404);
+    expect((await asContributor("GET", `/api/reactions/${SN2_SLUG}/versions/1`)).status).toBe(404);
+  });
+
+  it("shows a contributor the published version, not a newer draft", async () => {
+    const draft = exampleReaction("sn2-hydroxide-bromomethane.json");
+    await asOwner("PUT", `/api/reactions/${SN2_SLUG}/draft`, draft);
+    await asOwner("POST", `/api/reactions/${SN2_SLUG}/publish`, { licenceAgreed: true });
+    expect((await asOwner("POST", `/api/reactions/${SN2_SLUG}/next-version`)).status).toBe(200);
+    const newest = await asContributor("GET", `/api/reactions/${SN2_SLUG}`);
+    expect(newest.body).toMatchObject({ reactionVersion: 1, submissionStatus: "published" });
+    expect((await asContributor("GET", `/api/reactions/${SN2_SLUG}/versions/2`)).status).toBe(404);
+  });
+});
