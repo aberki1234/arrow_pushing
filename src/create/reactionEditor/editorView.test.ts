@@ -1,7 +1,7 @@
 /** Tests for editorView.ts: what the editor page shows, worked out from the draft. */
 import { describe, expect, it } from "vitest";
 import { parseCurvedArrow } from "../../core/arrowNotation/curvedArrowNotation.js";
-import { newReactionDraft } from "../reactionEditing/reactionDraft.js";
+import { newReactionDraft } from "../reactionEditing/draft/reactionDraft.js";
 import { exampleReaction } from "../../testSupport/reactionEdits.js";
 import { draftDrawing, drawnArrowsOn, mappedSmilesOf, patternArrowsOn } from "./editorView.js";
 

@@ -13,7 +13,7 @@ import {
   drawCurvedArrow,
 } from "../../drawing/moleculeDrawing/curvedArrowGeometry.js";
 import { drawState, type StateDrawing } from "../../drawing/moleculeDrawing/stateDrawing.js";
-import { type ReactionDocument, statesOf } from "../reactionEditing/reactionDraft.js";
+import { type ReactionDocument, statesOf } from "../reactionEditing/draft/reactionDraft.js";
 import { readSessionReaction } from "../../learner/stepSession/sessionReaction.js";
 import { drawingScaleOf } from "../../learner/learnerSite/stepScreenView.js";
 
@@ -63,8 +63,8 @@ export function mappedSmilesOf(document: ReactionDocument, stateId: string): str
 
 /**
  * The curves of a wrong answer's arrow pattern, for the review screen: each part written as an
- * exact arrow ("lp O1 -> σ O1-C2"; reactionEditing/drawnAnswers.ts stores drawn answers so) is
- * drawn; a loosened part ("lp O1 -> Br3", "@nucleophile") cannot be drawn and is left out.
+ * exact arrow ("lp O1 -> σ O1-C2"; reactionEditing/teaching/drawnAnswers.ts stores drawn answers
+ * so) is drawn; a loosened part ("lp O1 -> Br3", "@nucleophile") cannot be drawn and is left out.
  */
 export function patternArrowsOn(
   drawing: StateDrawing,

@@ -2,9 +2,13 @@
   // One Teaching item, open: the question the learner sees, the hint ladder, why a step happens,
   // a change step's caption, the summary, or the common wrong answers (drawn on the state, then
   // given a message). Lint findings at the item are shown with it.
-  import { setReactionField, setStateField, setStepField } from "../reactionEditing/fieldEdits.js";
-  import { statesOf, stepsOf } from "../reactionEditing/reactionDraft.js";
-  import type { TeachingItem } from "../reactionEditing/teachingChecklist.js";
+  import {
+    setReactionField,
+    setStateField,
+    setStepField,
+  } from "../reactionEditing/draft/fieldEdits.js";
+  import { statesOf, stepsOf } from "../reactionEditing/draft/reactionDraft.js";
+  import type { TeachingItem } from "../reactionEditing/teaching/teachingChecklist.js";
   import { teachingItemLabel } from "./createView.js";
   import { applyDocumentEdit, currentDraft, type EditorSession } from "./editorSession.js";
   import { draftDrawing } from "./editorView.js";

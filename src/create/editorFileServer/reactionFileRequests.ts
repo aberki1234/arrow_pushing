@@ -7,7 +7,8 @@
  * Requests (paths relative to /editor-api/reactions)
  *   GET  /              [{fileName, reactionSlug, title, creationProgress}] for every .json file,
  *                       by name (all but the name null when the file is not a readable JSON
- *                       object; creationProgress from reactionEditing/creationProgress.ts)
+ *                       object; creationProgress from
+ * reactionEditing/publishing/creationProgress.ts)
  *   GET  /<name>.json   the parsed file; 404 if it is not there
  *   PUT  /<name>.json   save the body (a JSON object) as 2-space JSON; creates the folder
  * A name is a slug ("sn2-test.json"), so no path can leave the folder (400 otherwise). Other
@@ -15,7 +16,7 @@
  */
 import { existsSync, mkdirSync, readdirSync, readFileSync, writeFileSync } from "node:fs";
 import { join } from "node:path";
-import { creationProgress } from "../reactionEditing/creationProgress.js";
+import { creationProgress } from "../reactionEditing/publishing/creationProgress.js";
 
 export interface FileRequest {
   readonly method: string;

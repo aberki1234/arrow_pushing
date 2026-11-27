@@ -59,7 +59,7 @@ Every other subfolder is named after its domain concept (`rules/`, `scheme/`, `m
 
 | Folder | Subfolders, lowest first | Status |
 | --- | --- | --- |
-| create/reactionEditing | draft → mechanism → outline → teaching → publishing → review | planned |
+| create/reactionEditing | draft → mechanism → outline → teaching → publishing → review | done |
 | create/reactionEditor | model → components → io → workspaces → pages → app | planned |
 | learner/learnerSite | model → components → io → workspaces → pages → app | planned |
 | tooling/reactionLinting | findings → rules → tracks → shell | planned |

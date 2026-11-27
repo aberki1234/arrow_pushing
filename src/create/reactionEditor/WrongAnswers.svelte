@@ -2,7 +2,7 @@
   // Teaching's "Common wrong answers": draw a mistake learners make on the state, then write what
   // to tell them and how wrong it is (drawnAnswers.ts saves it as the exact pattern). Incomplete
   // but right arrows can get a "right so far" message instead. The saved ones are listed below.
-  import type { ArrowDrawing } from "../reactionEditing/arrowDrawing.js";
+  import type { ArrowDrawing } from "../reactionEditing/mechanism/arrowDrawing.js";
   import ArrowList from "./ArrowList.svelte";
   import DrawingCanvas from "./DrawingCanvas.svelte";
   import {

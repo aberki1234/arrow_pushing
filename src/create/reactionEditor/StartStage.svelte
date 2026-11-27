@@ -3,8 +3,8 @@
   // starting materials as SMILES (drawn as they are typed) and optional conditions. Before the
   // draft exists this makes it; after, it edits the name and conditions.
   import type { ChemistryToolkit } from "../../tooling/chemistryToolkit/chemistryToolkit.js";
-  import { setReactionField } from "../reactionEditing/fieldEdits.js";
-  import type { ReactionDocument } from "../reactionEditing/reactionDraft.js";
+  import { setReactionField } from "../reactionEditing/draft/fieldEdits.js";
+  import type { ReactionDocument } from "../reactionEditing/draft/reactionDraft.js";
   import { type DraftStart, previewOfPastedSmiles } from "./draftCreation.js";
   import { draftDrawing } from "./editorView.js";
   import StateThumbnail from "./StateThumbnail.svelte";

@@ -49,7 +49,7 @@ export interface ReactionListing {
   readonly newestAuthorName: string;
   /** The newest version's title, or null if its document has none yet. */
   readonly title: string | null;
-  /** For the progress Create shows (reactionEditing/creationProgress.ts). */
+  /** For the progress Create shows (reactionEditing/publishing/creationProgress.ts). */
   readonly newestReactionDocument: Record<string, unknown>;
   readonly newestReactionVersion: number;
   readonly newestSubmissionStatus: SubmissionStatus;

@@ -1,7 +1,7 @@
 <script lang="ts">
   // Create's four stages as a stepper (docs/SPEC.md §5, "Create"): a suggested order, never
   // locked, except that nothing after Start opens before the draft exists.
-  import type { CreationStage } from "../reactionEditing/creationProgress.js";
+  import type { CreationStage } from "../reactionEditing/publishing/creationProgress.js";
   import { CREATION_STAGES } from "./createView.js";
 
   const {

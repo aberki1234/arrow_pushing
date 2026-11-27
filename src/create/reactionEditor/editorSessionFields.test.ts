@@ -3,9 +3,9 @@
  * undo history, wedges, and saving drawn arrows as answers.
  */
 import { describe, expect, it } from "vitest";
-import { setStateField } from "../reactionEditing/fieldEdits.js";
-import { statesOf, stepsOf } from "../reactionEditing/reactionDraft.js";
-import { setArrowType } from "../reactionEditing/arrowDrawing.js";
+import { setStateField } from "../reactionEditing/draft/fieldEdits.js";
+import { statesOf, stepsOf } from "../reactionEditing/draft/reactionDraft.js";
+import { setArrowType } from "../reactionEditing/mechanism/arrowDrawing.js";
 import { exampleReaction } from "../../testSupport/reactionEdits.js";
 import {
   applyDocumentEdit,

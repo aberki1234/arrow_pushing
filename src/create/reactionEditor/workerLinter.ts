@@ -5,7 +5,7 @@
  */
 import type { LintAnswer, LintRequest } from "./lintRequests.js";
 import type { LintFinding } from "../../tooling/reactionLinting/lintFindings.js";
-import type { ReactionDocument } from "../reactionEditing/reactionDraft.js";
+import type { ReactionDocument } from "../reactionEditing/draft/reactionDraft.js";
 
 /** The part of a Worker used here (a test passes a fake one). */
 export interface LintWorkerPort {

@@ -3,13 +3,16 @@
   // Fish-hook, Move atoms and ⋯ More; the row of state thumbnails; and beside them either the new
   // step being drawn ("Make the step") or the selected step's card.
   import type { ChemistryToolkit } from "../../tooling/chemistryToolkit/chemistryToolkit.js";
-  import { type ArrowDrawing, setArrowType } from "../reactionEditing/arrowDrawing.js";
-  import type { WedgeStyleChoice } from "../reactionEditing/fieldEdits.js";
-  import { statesOf } from "../reactionEditing/reactionDraft.js";
-  import { saveStructureFromEditor, stateToMolfile } from "../reactionEditing/structureExchange.js";
+  import { type ArrowDrawing, setArrowType } from "../reactionEditing/mechanism/arrowDrawing.js";
+  import type { WedgeStyleChoice } from "../reactionEditing/draft/fieldEdits.js";
+  import { statesOf } from "../reactionEditing/draft/reactionDraft.js";
+  import {
+    saveStructureFromEditor,
+    stateToMolfile,
+  } from "../reactionEditing/mechanism/structureExchange.js";
   import StructureEditorDialog from "./StructureEditorDialog.svelte";
-  import { stateDisplayNames } from "../reactionEditing/stateStrip.js";
-  import { statesLeftUnreachable } from "../reactionEditing/stepDeletion.js";
+  import { stateDisplayNames } from "../reactionEditing/outline/stateStrip.js";
+  import { statesLeftUnreachable } from "../reactionEditing/mechanism/stepDeletion.js";
   import ArrowList from "./ArrowList.svelte";
   import type { MorePanelKind } from "./createView.js";
   import DrawingCanvas from "./DrawingCanvas.svelte";

@@ -1,8 +1,8 @@
 <script lang="ts">
   // The reviewer's notes at the top of the Publish stage while changes are requested
   // (docs/SPEC.md §6, "Contributors"): the overall note, and each pinned note with "Go there →"
-  // to the place it is about (reactionEditing/versionChanges.placeOfChangeKey).
-  import { placeOfChangeKey, versionChanges } from "../reactionEditing/versionChanges.js";
+  // to the place it is about (reactionEditing/review/versionChanges.placeOfChangeKey).
+  import { placeOfChangeKey, versionChanges } from "../reactionEditing/review/versionChanges.js";
   import type { ReviewNotes } from "./contributorClient.js";
   import { currentDraft, type EditorSession, goToPlace } from "./editorSession.js";
 

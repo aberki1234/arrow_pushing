@@ -3,7 +3,7 @@
  * opens on, switching stages, selecting a teaching item, and going to a finding's place.
  */
 import { describe, expect, it } from "vitest";
-import { newReactionDraft } from "../reactionEditing/reactionDraft.js";
+import { newReactionDraft } from "../reactionEditing/draft/reactionDraft.js";
 import { exampleReaction } from "../../testSupport/reactionEdits.js";
 import {
   goToPlace,

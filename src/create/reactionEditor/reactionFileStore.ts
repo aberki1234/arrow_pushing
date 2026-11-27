@@ -4,7 +4,7 @@
  * backend's database (serverReactionStore.ts; the built editor). Both name a reaction by its
  * file name, "<slug>.json".
  */
-import type { CreationProgress } from "../reactionEditing/creationProgress.js";
+import type { CreationProgress } from "../reactionEditing/publishing/creationProgress.js";
 
 export const REACTION_FILES_PATH = "/editor-api/reactions";
 

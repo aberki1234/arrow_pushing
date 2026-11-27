@@ -1,8 +1,8 @@
 <script lang="ts">
   // The selected state's rarely needed settings on the Mechanism stage: its id (renamed
   // everywhere), the caption under its drawing, and notes on atoms (annotations).
-  import { renameState, setStateField } from "../reactionEditing/fieldEdits.js";
-  import { type ReactionDocument, statesOf } from "../reactionEditing/reactionDraft.js";
+  import { renameState, setStateField } from "../reactionEditing/draft/fieldEdits.js";
+  import { type ReactionDocument, statesOf } from "../reactionEditing/draft/reactionDraft.js";
   import { annotationsText, readAnnotations } from "./fieldText.js";
 
   type Edit = ReturnType<typeof setStateField>;

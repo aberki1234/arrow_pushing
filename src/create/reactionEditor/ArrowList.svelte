@@ -1,6 +1,10 @@
 <script lang="ts">
   // The arrows drawn so far, in words, with why a tap was refused, Undo and Clear.
-  import { type ArrowDrawing, clearArrows, undoArrow } from "../reactionEditing/arrowDrawing.js";
+  import {
+    type ArrowDrawing,
+    clearArrows,
+    undoArrow,
+  } from "../reactionEditing/mechanism/arrowDrawing.js";
   import { describeCurvedArrow } from "../../learner/stepSession/arrowDescriptions.js";
 
   const {

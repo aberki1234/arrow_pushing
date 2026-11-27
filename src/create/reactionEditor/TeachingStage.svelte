@@ -1,13 +1,14 @@
 <script lang="ts">
   // Create's Teaching stage (docs/SPEC.md §5, "Create", stage 3): the to-do list
-  // (reactionEditing/teachingChecklist.ts), grouped by step, and the one item open beside it.
+  // (reactionEditing/teaching/teachingChecklist.ts), grouped by step, and the one item open beside
+  // it.
   import type { LintFinding } from "../../tooling/reactionLinting/lintFindings.js";
   import {
     nextTeachingItemKey,
     teachingChecklist,
     teachingCounts,
     teachingItemKey,
-  } from "../reactionEditing/teachingChecklist.js";
+  } from "../reactionEditing/teaching/teachingChecklist.js";
   import { teachingGroupTitle, teachingItemBadge, teachingItemLabel } from "./createView.js";
   import { currentDraft, type EditorSession, selectTeachingItem } from "./editorSession.js";
   import TeachingItemPane from "./TeachingItemPane.svelte";

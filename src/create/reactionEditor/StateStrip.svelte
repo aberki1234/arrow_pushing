@@ -1,10 +1,10 @@
 <script lang="ts">
   // The row of state thumbnails under the Mechanism stage's drawing (docs/SPEC.md §5, "Create"):
   // the route, then each branch from the state it leaves to the state it joins
-  // (reactionEditing/stateStrip.ts). A state shows on the drawing; a step shows its fields.
-  import type { ReactionDocument } from "../reactionEditing/reactionDraft.js";
-  import { stateDisplayNames, stateStripRows } from "../reactionEditing/stateStrip.js";
-  import { stepsOf } from "../reactionEditing/reactionDraft.js";
+  // (reactionEditing/outline/stateStrip.ts). A state shows on the drawing; a step shows its fields.
+  import type { ReactionDocument } from "../reactionEditing/draft/reactionDraft.js";
+  import { stateDisplayNames, stateStripRows } from "../reactionEditing/outline/stateStrip.js";
+  import { stepsOf } from "../reactionEditing/draft/reactionDraft.js";
   import { draftDrawing } from "./editorView.js";
   import StateThumbnail from "./StateThumbnail.svelte";
 

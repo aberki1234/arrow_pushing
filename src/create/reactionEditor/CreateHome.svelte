@@ -3,7 +3,7 @@
   // mechanism, improving any published one (its next version), and the user's own reactions with
   // their status and progress; a banner while a reviewer has asked for changes. On the server,
   // before signing in, the sign-in card instead.
-  import { creationProgressLine } from "../reactionEditing/creationProgress.js";
+  import { creationProgressLine } from "../reactionEditing/publishing/creationProgress.js";
   import { publishableRows } from "./batchPublishing.js";
   import { slugOfFileName } from "./serverReactionStore.js";
   import type { SignInProvider } from "./contributorClient.js";

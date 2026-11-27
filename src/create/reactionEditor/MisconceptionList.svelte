@@ -7,8 +7,8 @@
     removeMisconception,
     removePartialProgressMessage,
     updateMisconception,
-  } from "../reactionEditing/drawnAnswers.js";
-  import { type ReactionDocument, statesOf } from "../reactionEditing/reactionDraft.js";
+  } from "../reactionEditing/teaching/drawnAnswers.js";
+  import { type ReactionDocument, statesOf } from "../reactionEditing/draft/reactionDraft.js";
 
   type Edit = ReturnType<typeof updateMisconception>;
   interface Misconception {

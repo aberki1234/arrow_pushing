@@ -1,6 +1,9 @@
 /** Tests for createView.ts: the words Create's stages show. */
 import { describe, expect, it } from "vitest";
-import { teachingChecklist, type TeachingItem } from "../reactionEditing/teachingChecklist.js";
+import {
+  teachingChecklist,
+  type TeachingItem,
+} from "../reactionEditing/teaching/teachingChecklist.js";
 import { exampleReaction } from "../../testSupport/reactionEdits.js";
 import { teachingGroupTitle, teachingItemBadge, teachingItemLabel } from "./createView.js";
 

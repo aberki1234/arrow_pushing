@@ -1,8 +1,8 @@
 /**
  * The editor page's state, and what each of the author's actions does to it. Every edit goes
- * through the undo history (reactionEditing/editHistory.ts); refused edits leave the draft as it
- * was and say why. The chemistry is in src/create/reactionEditing; this module only wires it
- * together.
+ * through the undo history (reactionEditing/mechanism/editHistory.ts); refused edits leave the
+ * draft as it was and say why. The chemistry is in src/create/reactionEditing; this module only
+ * wires it together.
  *
  * Modes
  *   look          select states and steps
@@ -12,48 +12,59 @@
  *   wedges        a tap on a bond gives it the chosen wedge style (wedgeStyle; display only):
  *                 narrow end on the more substituted atom, a second tap flips it
  * Stages (docs/SPEC.md §5, "Create"): a draft opens on the stage its progress points to
- * (reactionEditing/creationProgress.ts). Arrows are drawn on the mechanism stage, and on the
- * teaching stage while its "Common wrong answers" item is open; elsewhere the drawing only shows.
- * Field edits (reactionEditing/fieldEdits.ts, drawnAnswers.ts) all go through
+ * (reactionEditing/publishing/creationProgress.ts). Arrows are drawn on the mechanism stage, and on
+ * the teaching stage while its "Common wrong answers" item is open; elsewhere the drawing only
+ * shows. Field edits (reactionEditing/draft/fieldEdits.ts, drawnAnswers.ts) all go through
  * applyDocumentEdit(), so each can be undone.
  */
 import type { ChemistryToolkit } from "../../tooling/chemistryToolkit/chemistryToolkit.js";
 import type { TappedPlace } from "../../learner/stepSession/arrowPicking.js";
-import { type ArrowDrawing, startArrowDrawing, tapPlace } from "../reactionEditing/arrowDrawing.js";
-import { moveAtom } from "../reactionEditing/atomDragging.js";
-import { addChangeStep, type SpeciesChange } from "../reactionEditing/changeSteps.js";
+import {
+  type ArrowDrawing,
+  startArrowDrawing,
+  tapPlace,
+} from "../reactionEditing/mechanism/arrowDrawing.js";
+import { moveAtom } from "../reactionEditing/mechanism/atomDragging.js";
+import { addChangeStep, type SpeciesChange } from "../reactionEditing/mechanism/changeSteps.js";
 import {
   type EditHistory,
   recordEdit,
   redo,
   startHistory,
   undo,
-} from "../reactionEditing/editHistory.js";
-import { showHydrogen } from "../reactionEditing/explicitHydrogens.js";
+} from "../reactionEditing/mechanism/editHistory.js";
+import { showHydrogen } from "../reactionEditing/mechanism/explicitHydrogens.js";
 import {
   addMisconceptionFromArrows,
   addPartialArrowSet,
   addPartialProgressMessage,
   type MisconceptionFields,
-} from "../reactionEditing/drawnAnswers.js";
-import { applyWedgeStyle, type WedgeStyleChoice } from "../reactionEditing/fieldEdits.js";
-import { stageOfPlace } from "../reactionEditing/checkTasks.js";
+} from "../reactionEditing/teaching/drawnAnswers.js";
+import { applyWedgeStyle, type WedgeStyleChoice } from "../reactionEditing/draft/fieldEdits.js";
+import { stageOfPlace } from "../reactionEditing/publishing/checkTasks.js";
 import {
   type CreationStage,
   creationProgress,
   openingStage,
-} from "../reactionEditing/creationProgress.js";
-import type { LintPlace } from "../reactionEditing/lintPlaces.js";
-import { type ReactionDocument, statesOf, stepsOf } from "../reactionEditing/reactionDraft.js";
-import { editStateSmiles, regenerateStatesAfter } from "../reactionEditing/stateRegeneration.js";
-import { deleteStep } from "../reactionEditing/stepDeletion.js";
-import { stateDisplayNames, stateStripRows } from "../reactionEditing/stateStrip.js";
-import { addArrowStep } from "../reactionEditing/stepGeneration.js";
+} from "../reactionEditing/publishing/creationProgress.js";
+import type { LintPlace } from "../reactionEditing/draft/lintPlaces.js";
+import {
+  type ReactionDocument,
+  statesOf,
+  stepsOf,
+} from "../reactionEditing/draft/reactionDraft.js";
+import {
+  editStateSmiles,
+  regenerateStatesAfter,
+} from "../reactionEditing/mechanism/stateRegeneration.js";
+import { deleteStep } from "../reactionEditing/mechanism/stepDeletion.js";
+import { stateDisplayNames, stateStripRows } from "../reactionEditing/outline/stateStrip.js";
+import { addArrowStep } from "../reactionEditing/mechanism/stepGeneration.js";
 import {
   nextTeachingItemKey,
   teachingChecklist,
   teachingItemKey,
-} from "../reactionEditing/teachingChecklist.js";
+} from "../reactionEditing/teaching/teachingChecklist.js";
 
 export type EditorMode = "look" | "drawArrows" | "moveAtoms" | "showHydrogen" | "wedges";
 
@@ -251,7 +262,8 @@ function goToPlaceOnItsStage(session: EditorSession, place: LintPlace): EditorSe
   return staged;
 }
 
-/** A field edit (reactionEditing/fieldEdits.ts, drawnAnswers.ts): the new draft, or why not. */
+/** A field edit (reactionEditing/draft/fieldEdits.ts, drawnAnswers.ts): the new draft, or why not.
+ * */
 export type DocumentEdit =
   | { readonly outcome: "edited"; readonly document: ReactionDocument }
   | { readonly outcome: "refused"; readonly reason: string };
@@ -279,7 +291,8 @@ export function setWedgeStyle(session: EditorSession, wedgeStyle: WedgeStyleChoi
   return { ...session, wedgeStyle };
 }
 
-/** Change the arrows being drawn (picking, undo, arrow type: reactionEditing/arrowDrawing.ts). */
+/** Change the arrows being drawn (picking, undo, arrow type:
+ * reactionEditing/mechanism/arrowDrawing.ts). */
 export function updateArrowDrawing(
   session: EditorSession,
   change: (drawing: ArrowDrawing) => ArrowDrawing,
@@ -349,7 +362,7 @@ export function saveDrawnArrowsAs(session: EditorSession, answer: DrawnAnswer): 
   return applyDocumentEdit(session, edit, text);
 }
 
-/** The drawn arrows become a step (reactionEditing/stepGeneration.ts). */
+/** The drawn arrows become a step (reactionEditing/mechanism/stepGeneration.ts). */
 export function makeArrowStep(session: EditorSession): EditorSession {
   const arrows = session.arrowDrawing?.drawnArrows ?? [];
   const generation = addArrowStep(currentDraft(session), session.selectedStateId, arrows);
@@ -376,7 +389,7 @@ export function makeArrowStep(session: EditorSession): EditorSession {
   return { ...made, selectedStepKey: generation.stepKey };
 }
 
-/** Molecules arrive or leave at the selected state (reactionEditing/changeSteps.ts). */
+/** Molecules arrive or leave at the selected state (reactionEditing/mechanism/changeSteps.ts). */
 export function addChange(
   session: EditorSession,
   change: SpeciesChange,

@@ -1,14 +1,14 @@
 /**
  * Create's Start stage (docs/SPEC.md §5, "Create"): a new draft from the reaction's name (its slug
- * made from it, reactionEditing/reactionSlugs.ts), the starting materials pasted as SMILES
- * (reactionEditing/startState.ts), optional conditions and the signed-in author; and the live
+ * made from it, reactionEditing/draft/reactionSlugs.ts), the starting materials pasted as SMILES
+ * (reactionEditing/draft/startState.ts), optional conditions and the signed-in author; and the live
  * drawing of the SMILES typed so far.
  */
 import type { ChemistryToolkit } from "../../tooling/chemistryToolkit/chemistryToolkit.js";
-import { newReactionDraft, type ReactionDocument } from "../reactionEditing/reactionDraft.js";
-import { slugFromTitle } from "../reactionEditing/reactionSlugs.js";
+import { newReactionDraft, type ReactionDocument } from "../reactionEditing/draft/reactionDraft.js";
+import { slugFromTitle } from "../reactionEditing/draft/reactionSlugs.js";
 import { draftDrawing } from "./editorView.js";
-import { StructureEntryError, stateFromPastedSmiles } from "../reactionEditing/startState.js";
+import { StructureEntryError, stateFromPastedSmiles } from "../reactionEditing/draft/startState.js";
 import type { StateDrawing } from "../../drawing/moleculeDrawing/stateDrawing.js";
 
 export type DraftCreation =
@@ -16,7 +16,7 @@ export type DraftCreation =
   | { readonly outcome: "refused"; readonly reason: string };
 
 export interface DraftStart {
-  /** The reaction's name; its slug is made from it (reactionEditing/reactionSlugs.ts). */
+  /** The reaction's name; its slug is made from it (reactionEditing/draft/reactionSlugs.ts). */
   readonly title: string;
   readonly pastedSmiles: string;
   readonly conditionsLabel: string;

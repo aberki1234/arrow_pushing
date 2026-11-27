@@ -2,8 +2,8 @@
   // The panels ⋯ More opens on the Mechanism stage: add a molecule (a change step), shorten a
   // bystander group to its label (abbreviated groups), or edit the state as mapped SMILES (then,
   // if asked, regenerate the states after it).
-  import { setReactionField } from "../reactionEditing/fieldEdits.js";
-  import type { ReactionDocument } from "../reactionEditing/reactionDraft.js";
+  import { setReactionField } from "../reactionEditing/draft/fieldEdits.js";
+  import type { ReactionDocument } from "../reactionEditing/draft/reactionDraft.js";
   import { abbreviatedGroupsText, readAbbreviatedGroups } from "./fieldText.js";
 
   import type { MorePanelKind } from "./createView.js";

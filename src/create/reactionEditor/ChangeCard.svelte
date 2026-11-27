@@ -1,10 +1,10 @@
 <script lang="ts">
-  // One change on the review screen (reactionEditing/versionChanges.ts): its text with deletions
-  // and insertions; a changed structure as before / after drawings; a wrong answer drawn with its
-  // arrows. "✎ Note" pins the reviewer's note to it.
-  import type { ReactionDocument } from "../reactionEditing/reactionDraft.js";
-  import { statesOf } from "../reactionEditing/reactionDraft.js";
-  import type { VersionChange } from "../reactionEditing/versionChanges.js";
+  // One change on the review screen (reactionEditing/review/versionChanges.ts): its text with
+  // deletions and insertions; a changed structure as before / after drawings; a wrong answer drawn
+  // with its arrows. "✎ Note" pins the reviewer's note to it.
+  import type { ReactionDocument } from "../reactionEditing/draft/reactionDraft.js";
+  import { statesOf } from "../reactionEditing/draft/reactionDraft.js";
+  import type { VersionChange } from "../reactionEditing/review/versionChanges.js";
   import ReviewDrawing from "./ReviewDrawing.svelte";
 
   const {

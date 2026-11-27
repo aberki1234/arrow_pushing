@@ -37,7 +37,7 @@ import {
   readReactionVersion,
   startNextVersion,
 } from "../reactionDatabase/reactionVersions.js";
-import { creationProgress } from "../../create/reactionEditing/creationProgress.js";
+import { creationProgress } from "../../create/reactionEditing/publishing/creationProgress.js";
 import { type Authentication, requireSignIn } from "./authentication.js";
 import { startDeploy } from "./deployDispatch.js";
 import type { ServerDependencies, ServerEnvironment } from "./serverDependencies.js";

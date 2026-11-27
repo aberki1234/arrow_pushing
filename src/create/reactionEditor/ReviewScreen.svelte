@@ -4,8 +4,8 @@
   // (a new reaction shows everything); notes pinned to a change and an overall note; Publish or
   // Request changes.
   import StepPlay from "../../learner/learnerSite/StepPlay.svelte";
-  import { startPreview } from "../reactionEditing/learnerPreview.js";
-  import { versionChanges } from "../reactionEditing/versionChanges.js";
+  import { startPreview } from "../reactionEditing/publishing/learnerPreview.js";
+  import { versionChanges } from "../reactionEditing/review/versionChanges.js";
   import type { StepSession } from "../../learner/stepSession/stepSession.js";
   import ChangeCard from "./ChangeCard.svelte";
   import type { ContributorClient, ReviewDecision, ReviewMaterial } from "./contributorClient.js";

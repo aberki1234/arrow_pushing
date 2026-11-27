@@ -5,9 +5,9 @@
   // dropping answers to drafts since changed; Teaching and Publish show its findings.
   import { tick } from "svelte";
   import type { ChemistryToolkit } from "../../tooling/chemistryToolkit/chemistryToolkit.js";
-  import type { CreationStage } from "../reactionEditing/creationProgress.js";
-  import { canRedo, canUndo } from "../reactionEditing/editHistory.js";
-  import { previewReadiness } from "../reactionEditing/learnerPreview.js";
+  import type { CreationStage } from "../reactionEditing/publishing/creationProgress.js";
+  import { canRedo, canUndo } from "../reactionEditing/mechanism/editHistory.js";
+  import { previewReadiness } from "../reactionEditing/publishing/learnerPreview.js";
   import type { LintFinding } from "../../tooling/reactionLinting/lintFindings.js";
   import {
     applyDocumentEdit,

@@ -7,7 +7,7 @@
  * A reaction is named "<slug>.json" here too, as in content/reactions/ (reactionFileStore.ts).
  * Reading one reads its newest version.
  */
-import type { CreationProgress } from "../reactionEditing/creationProgress.js";
+import type { CreationProgress } from "../reactionEditing/publishing/creationProgress.js";
 import type { ListedReactionFile, ReactionFileStore } from "./reactionFileStore.js";
 
 export const SERVER_STORAGE_PLACE = "the server";

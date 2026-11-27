@@ -1,17 +1,17 @@
 /**
  * The words Create's stages show (docs/SPEC.md §5, "Create"), worked out from the draft: the
  * stage list, the Teaching groups' titles, each item's label and badge. States are named as the
- * strip names them (reactionEditing/stateStrip.ts).
+ * strip names them (reactionEditing/outline/stateStrip.ts).
  */
-import type { CreationStage } from "../reactionEditing/creationProgress.js";
-import { type ReactionDocument, stepsOf } from "../reactionEditing/reactionDraft.js";
-import { stateDisplayNames } from "../reactionEditing/stateStrip.js";
+import type { CreationStage } from "../reactionEditing/publishing/creationProgress.js";
+import { type ReactionDocument, stepsOf } from "../reactionEditing/draft/reactionDraft.js";
+import { stateDisplayNames } from "../reactionEditing/outline/stateStrip.js";
 import {
   FULL_HINT_LADDER_LENGTH,
   type TeachingGroup,
   type TeachingItem,
   type TeachingItemKind,
-} from "../reactionEditing/teachingChecklist.js";
+} from "../reactionEditing/teaching/teachingChecklist.js";
 
 /** The panels the Mechanism stage's ⋯ More menu opens. */
 export type MorePanelKind = "addMolecule" | "shortenGroup" | "editSmiles";

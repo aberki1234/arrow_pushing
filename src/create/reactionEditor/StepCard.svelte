@@ -2,10 +2,14 @@
   // The selected step on the Mechanism stage: why it happens (shown after a correct check),
   // another step from its result or another correct route from its start, and under Advanced
   // its key, route preference, other complete arrow sets and deletion.
-  import { removePartialArrowSet } from "../reactionEditing/drawnAnswers.js";
-  import { renameStep, setRoutePreference, setStepField } from "../reactionEditing/fieldEdits.js";
-  import { type ReactionDocument, stepsOf } from "../reactionEditing/reactionDraft.js";
-  import { stateDisplayNames } from "../reactionEditing/stateStrip.js";
+  import { removePartialArrowSet } from "../reactionEditing/teaching/drawnAnswers.js";
+  import {
+    renameStep,
+    setRoutePreference,
+    setStepField,
+  } from "../reactionEditing/draft/fieldEdits.js";
+  import { type ReactionDocument, stepsOf } from "../reactionEditing/draft/reactionDraft.js";
+  import { stateDisplayNames } from "../reactionEditing/outline/stateStrip.js";
 
   type Edit = ReturnType<typeof setStepField>;
 

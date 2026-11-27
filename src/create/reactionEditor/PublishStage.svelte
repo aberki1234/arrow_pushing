@@ -1,12 +1,13 @@
 <script lang="ts">
   // Create's Publish stage (docs/SPEC.md §5, "Create", stage 4): try it as a learner; the checks
-  // as tasks (reactionEditing/checkTasks.ts) with Fix →; the library details, the suggested
-  // difficulty, More details and Advanced; then the licence and Publish (on the server, for the
-  // owner: reactionDatabase/sitePermissions.ts) or Submit for review (SubmitForReview.svelte).
-  import { publishChecks } from "../reactionEditing/checkTasks.js";
-  import { suggestedDifficultyTier } from "../reactionEditing/difficultySuggestion.js";
-  import { REACTION_CLASSES, setReactionField } from "../reactionEditing/fieldEdits.js";
-  import { previewReadiness } from "../reactionEditing/learnerPreview.js";
+  // as tasks (reactionEditing/publishing/checkTasks.ts) with Fix →; the library details, the
+  // suggested difficulty, More details and Advanced; then the licence and Publish (on the server,
+  // for the owner: reactionDatabase/sitePermissions.ts) or Submit for review
+  // (SubmitForReview.svelte).
+  import { publishChecks } from "../reactionEditing/publishing/checkTasks.js";
+  import { suggestedDifficultyTier } from "../reactionEditing/publishing/difficultySuggestion.js";
+  import { REACTION_CLASSES, setReactionField } from "../reactionEditing/draft/fieldEdits.js";
+  import { previewReadiness } from "../reactionEditing/publishing/learnerPreview.js";
   import type { LintFinding } from "../../tooling/reactionLinting/lintFindings.js";
   import {
     applyDocumentEdit,

@@ -2,7 +2,7 @@
   // One state of a version drawn small for the review screen, with a wrong answer's arrows when
   // its pattern is exact (editorView.patternArrowsOn). A state that cannot be drawn says so.
   import MoleculeCanvas from "../../learner/learnerSite/MoleculeCanvas.svelte";
-  import type { ReactionDocument } from "../reactionEditing/reactionDraft.js";
+  import type { ReactionDocument } from "../reactionEditing/draft/reactionDraft.js";
   import { draftDrawing, patternArrowsOn } from "./editorView.js";
 
   const {

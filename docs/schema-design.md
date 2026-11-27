@@ -66,7 +66,7 @@ Each term below means exactly one thing in the docs, the JSON and the code.
 | **site role / site action** | A user's role (`owner`, `reviewer`, `contributor`, `blocked`) and what it allows (`createReactions`, `seeEveryReaction`, `submitForReview`, `publish` (directly, the owner only), `review`, `manageUsers`); decided only in `reactionDatabase/sitePermissions.ts`. |
 | **version author** | The user who wrote a reaction version (`reaction_versions.author_user_id`); only they save it. Not the reaction's owner, who made version 1. |
 | **review decision** | A reviewer's `publish` or `changes_requested` on a submitted version, stored in `reviews` with an overall comment and **pinned notes**. Not an attempt assessment. |
-| **compared entry / change key / version change** | What the review screen compares between two versions: one reaction field, a state's structure or one of its learner texts, a step's arrows or texts (`reactionEditing/versionChanges.ts`). Its **change key** names it in both versions (`state:reactants hintTiers:1`) and is what a pinned note points at; a **version change** is one added, removed or changed. |
+| **compared entry / change key / version change** | What the review screen compares between two versions: one reaction field, a state's structure or one of its learner texts, a step's arrows or texts (`reactionEditing/review/versionChanges.ts`). Its **change key** names it in both versions (`state:reactants hintTiers:1`) and is what a pinned note points at; a **version change** is one added, removed or changed. |
 
 Abbreviations: `lp` = lone pair; `rad` = radical (unpaired electron); SMILES = simplified molecular-input line-entry
 system; e⁻ = electron.
@@ -718,14 +718,14 @@ RDKit (RDKit.js) on every valid SMILES case and every example state (`src/toolin
    * **8a Done 2026-11-25.** Editor core (`make editor`; logic `src/create/reactionEditing/`, app `src/create/reactionEditor/`, file plugin
      `src/create/editorFileServer/`). Part 1 done 2026-11-25: `stateGraphs/mappedSmilesWriting.ts` (round trip on every
      fixture and example state), `chemistryToolkit` `readStructure` and the browser wasm location,
-     `reactionEditing/startState.ts` (pasted SMILES → state) and `reactionDraft.ts` (new draft, add state/step).
+     `reactionEditing/draft/startState.ts` (pasted SMILES → state) and `reactionDraft.ts` (new draft, add state/step).
      Part 2 done 2026-11-25, all in `src/create/reactionEditing/`: `stepGeneration.ts` (drawn arrows → step; replaying the
      SN2, radical and Wittig examples gives their states, joins and route preferences; a new step is preferred only
      on the preferred route), `changeSteps.ts` + `atomPlacement.ts` (the aldol replays through its change step),
      `explicitHydrogens.ts` (show H; the examples still lint clean), `stateRegeneration.ts` (edit a state's mapped
      SMILES, regenerate after it; edited SN2, Wittig and aldol still lint clean), `stepDeletion.ts`,
      `editHistory.ts`, `mechanismOutline.ts`, `atomDragging.ts`, `learnerPreview.ts`.
-     Part 3 done 2026-11-25: `reactionEditing/arrowDrawing.ts` (taps → arrows on any state),
+     Part 3 done 2026-11-25: `reactionEditing/mechanism/arrowDrawing.ts` (taps → arrows on any state),
      `editorFileServer/reactionFileRequests.ts` (list/read/save in `content/reactions/`; the Vite plugin is in
      `vite.editor.config.ts`), and the page in `src/create/reactionEditor/` (`editorSession.ts`, `editorView.ts`,
      `draftCreation.ts`, Svelte components reusing the learner's `MoleculeCanvas` and `StepPlay`). Checked in
@@ -789,7 +789,7 @@ RDKit (RDKit.js) on every valid SMILES case and every example state (`src/toolin
      whichever role first runs the migrations owns the tables.
    * **8d Done 2026-11-26.** Create: the editor reskinned as a staged flow for the owner (decided 2026-11-26, SPEC §5 "Create";
      design `mockups/create.html`). Proposed in three parts:
-     - **Part 1, decisions. Done 2026-11-26.** Built: `reactionEditing/reactionSlugs.ts` (the slug from the
+     - **Part 1, decisions. Done 2026-11-26.** Built: `reactionEditing/draft/reactionSlugs.ts` (the slug from the
        name), `stateStrip.ts` (strip rows; state names Start / Intermediate N / Product), `teachingChecklist.ts`,
        `difficultySuggestion.ts` (3 if another route is accepted or ≥ 5 preferred arrow steps; 1 for at most one
        arrow step of at most two arrows; else 2: the four examples' tiers), `creationProgress.ts` (opening stage,
@@ -843,7 +843,7 @@ RDKit (RDKit.js) on every valid SMILES case and every example state (`src/toolin
        5-open-drafts limit; Submit (server lint, licence), saving a submitted version returning it to draft;
        the review queue, a review (publish or request changes, never one's own), the Users page's roles; all
        through `sitePermissions.ts` (new actions `manageUsers`, `reviewOthers`), with routes and refusals.
-     - **Part 2, decisions. Done 2026-11-26.** Built: `reactionEditing/textDiff.ts` (word-level diff),
+     - **Part 2, decisions. Done 2026-11-26.** Built: `reactionEditing/review/textDiff.ts` (word-level diff),
        `versionChanges.ts` (the change list and `placeOfChangeKey`), `reactionEditor/reviewView.ts` (Your
        mechanisms and Improve lists, the banner, the queue's lines, the sub-navigation, the Users page's
        words), `editorView.patternArrowsOn`. Planned as (pure TypeScript): the change list between two versions of a reaction (states,
@@ -929,7 +929,7 @@ RDKit (RDKit.js) on every valid SMILES case and every example state (`src/toolin
      Planned, test-first:
      - **Files:** the pinned Ketcher standalone release, checksum-checked, fetched at build time into the editor's
        public folder (not in git), served by Create's server at `/ketcher/` (same origin, so Create can talk to it).
-     - **Exchange** (`reactionEditing/structureExchange.ts`): a state → V2000 molfile (map numbers in the atom-map
+     - **Exchange** (`reactionEditing/mechanism/structureExchange.ts`): a state → V2000 molfile (map numbers in the atom-map
        column, coordinates, wedges as bond stereo); a Ketcher molfile → mapped Kekulé SMILES (RDKit.js for hydrogen
        counts and charges, our writer), coordinates rescaled to our bond length, `bondToWedgeStyle`; new atoms get
        new map numbers.
@@ -938,7 +938,7 @@ RDKit (RDKit.js) on every valid SMILES case and every example state (`src/toolin
      - **Create:** "⋯ More → Edit structure" opens Ketcher in a dialog on the selected state; Save or Cancel.
        The learner site is unchanged.
      Built: `src/tooling/buildTools/` (`make ketcher`, also in Render's build command; `fflate` unzips), Vite's editor
-     `publicDir` `vendor/editor-public/`, `chemistryToolkit.readMolblock`, `reactionEditing/structureExchange.ts`
+     `publicDir` `vendor/editor-public/`, `chemistryToolkit.readMolblock`, `reactionEditing/mechanism/structureExchange.ts`
      (`stateToMolfile`, `molfileToStructure`, `applyEditedStructure`, `saveStructureFromEditor`; a saved layout keeps
      the state's old centre), `reactionEditor/StructureEditorDialog.svelte`. Checked in headless Chromium on the dev
      editor: Ketcher ready in about 2 s with the state and its map numbers, Save writes the state.

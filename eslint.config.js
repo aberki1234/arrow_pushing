@@ -21,7 +21,16 @@ const sizeAndComplexityRules = {
 // Prettier wraps code at 100 characters but cannot split a long string or comment; this rule
 // catches those. It must come after eslintConfigPrettier, which would otherwise switch it off.
 const lineLengthRule = {
-  "max-len": ["error", { code: 100, ignoreUrls: true, ignoreRegExpLiterals: true }],
+  // Prettier keeps an import of one name on one line however long its path; such lines are exempt.
+  "max-len": [
+    "error",
+    {
+      code: 100,
+      ignoreUrls: true,
+      ignoreRegExpLiterals: true,
+      ignorePattern: '^\\s*import (type )?\\{? ?[\\w$]+(,)? ?\\}? from "[^"]+";$',
+    },
+  ],
 };
 
 export default tseslint.config(

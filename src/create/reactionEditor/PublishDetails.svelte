@@ -2,9 +2,9 @@
   // Publish's folded sections: More details (authors, references, daily puzzle) and Advanced
   // (spectators, atom roles for wrong-answer patterns; where the per-state and per-step
   // settings are).
-  import { suggestedDailyPuzzleEligible } from "../reactionEditing/dailyPuzzleSuggestion.js";
-  import { setReactionField } from "../reactionEditing/fieldEdits.js";
-  import type { ReactionDocument } from "../reactionEditing/reactionDraft.js";
+  import { suggestedDailyPuzzleEligible } from "../reactionEditing/publishing/dailyPuzzleSuggestion.js";
+  import { setReactionField } from "../reactionEditing/draft/fieldEdits.js";
+  import type { ReactionDocument } from "../reactionEditing/draft/reactionDraft.js";
   import {
     authorsText,
     mapNumbersText,

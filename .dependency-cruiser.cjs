@@ -39,7 +39,9 @@ const tiersLowestFirst = [
 
 // Folders with ordered subfolders (folders of 10 or more files). Such a folder keeps no files of
 // its own: every file sits in one of its subfolders.
-const folderToSubfoldersLowestFirst = {};
+const folderToSubfoldersLowestFirst = {
+  "create/reactionEditing": ["draft", "mechanism", "outline", "teaching", "publishing", "review"],
+};
 
 const foldersLowestFirst = tiersLowestFirst.flatMap(([tier, folders]) =>
   folders.map((folder) => `${tier}/${folder}`),

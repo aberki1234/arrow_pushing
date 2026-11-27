@@ -3,7 +3,7 @@
  * the sign-in providers): Submit for review, the reviewer's notes, the review queue and a review,
  * and the owner's Users page. Same address as the editor, so the browser sends the session cookie.
  */
-import type { ReactionDocument } from "../reactionEditing/reactionDraft.js";
+import type { ReactionDocument } from "../reactionEditing/draft/reactionDraft.js";
 
 export type SignInProvider = "github" | "google";
 

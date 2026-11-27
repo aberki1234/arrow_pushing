@@ -8,8 +8,8 @@
   import { onMount } from "svelte";
   import type { ChemistryToolkit } from "../../tooling/chemistryToolkit/chemistryToolkit.js";
   import StepPlay from "../../learner/learnerSite/StepPlay.svelte";
-  import type { ReactionDocument } from "../reactionEditing/reactionDraft.js";
-  import { startPreview } from "../reactionEditing/learnerPreview.js";
+  import type { ReactionDocument } from "../reactionEditing/draft/reactionDraft.js";
+  import { startPreview } from "../reactionEditing/publishing/learnerPreview.js";
   import type { StepSession } from "../../learner/stepSession/stepSession.js";
   import SiteHeader from "../../learner/learnerSite/SiteHeader.svelte";
   import { navigationTabs } from "../../learner/learnerSite/siteNavigation.js";
