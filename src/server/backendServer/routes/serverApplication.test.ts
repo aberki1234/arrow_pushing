@@ -12,7 +12,7 @@ import {
   DATABASE_SETUP_TIMEOUT_MS,
   newMigratedDatabase,
 } from "../../../testSupport/temporaryDatabase.js";
-import { createServerApplication } from "./serverApplication.js";
+import { createServerApplication, MAXIMUM_REQUEST_BYTES } from "./serverApplication.js";
 
 let connection: DatabaseConnection;
 let application: ReturnType<typeof createServerApplication>;
@@ -48,6 +48,30 @@ describe("cross-site requests", () => {
       body: "licenceAgreed=true",
     });
     expect(response.status).toBe(403);
+  });
+});
+
+describe("request size", () => {
+  /** A JSON body of about `byteCount` bytes, sent without a session. */
+  async function putDraftOfSize(byteCount: number): Promise<Response> {
+    const padding = "x".repeat(byteCount - '{"padding":""}'.length);
+    return application.request(`${TEST_BASE_URL}/api/reactions/x/draft`, {
+      method: "PUT",
+      headers: { origin: TEST_BASE_URL, "content-type": "application/json" },
+      body: JSON.stringify({ padding }),
+    });
+  }
+
+  it("refuses an API body over the limit (413) before signing in is checked", async () => {
+    const response = await putDraftOfSize(MAXIMUM_REQUEST_BYTES + 1);
+    expect(response.status).toBe(413);
+    expect(await response.json()).toEqual({
+      error: `the request body is over ${String(MAXIMUM_REQUEST_BYTES)} bytes`,
+    });
+  });
+
+  it("lets a body at the limit through to the routes", async () => {
+    expect((await putDraftOfSize(MAXIMUM_REQUEST_BYTES)).status).toBe(401);
   });
 });
 

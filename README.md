@@ -34,8 +34,10 @@ TypeScript since item 8.0. The editor for contributed reactions (items 8a, 8b) a
 
 ## Getting started
 
-You need [conda](https://docs.conda.io) (Miniconda or Miniforge). The environment provides Node.js 24; everything
-else, RDKit.js included, comes from npm.
+You need Node.js 24, either your own or from [conda](https://docs.conda.io) (Miniconda or Miniforge) with the
+environment below; everything else, RDKit.js included, comes from npm. Contributors: start with
+[`CONTRIBUTING.md`](CONTRIBUTING.md), which covers setup without conda, the test-first rule and pull requests.
+Security problems go to [`SECURITY.md`](SECURITY.md); server settings are in [`.env.example`](.env.example).
 
 ```bash
 conda env create -f environment.yml
@@ -85,8 +87,9 @@ npx tsx src/tooling/catalogueBuilding/shell/runFromShell.ts build FILE... --out 
 | [`fixtures/`](fixtures/) | Example reactions and the shared test cases. |
 | [`mockups/`](mockups/) | The throwaway HTML sketches the site was designed from. Open `mockups/index.html`. |
 
-[`CLAUDE.md`](CLAUDE.md) holds the working conventions: the fixed meaning of each domain term, naming, case
-(camelCase JSON and TypeScript, snake_case SQL), and the strict test-first process.
+[`CONTRIBUTING.md`](CONTRIBUTING.md) holds the working conventions: the fixed meaning of each domain term, naming,
+case (camelCase JSON and TypeScript, snake_case SQL), and the test-first process. [`CLAUDE.md`](CLAUDE.md) is the
+same for coding assistants.
 
 ## Adding a reaction
 

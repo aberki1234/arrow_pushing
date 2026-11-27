@@ -531,6 +531,11 @@ reactions, track `electrophilic-aromatic-substitution`, problem sets in this ord
       the reaction's owner, and reviewers and the owner of the site (`seeEveryReaction`). Anyone else gets 404, as
       if it did not exist, and "the newest version" of a reaction is the newest one they may read (its newest
       published version). Published versions are public (`reactionDatabase/reactions/versionReading.ts`).
+    - **Request size** (2026-11-27, from the open-source audit): the server refuses an API request body over 1 MiB
+      (413) before any route reads it; the largest published reaction is 57 KB (`serverApplication.ts`).
+    - **CI** (2026-11-27): `.github/workflows/ci.yml` runs `make lint`, `make test` and `make site` on every pull
+      request (forks included, without secrets) and every push to `main`. Contributor docs: `CONTRIBUTING.md`,
+      `SECURITY.md` (private reports through GitHub), `.env.example`.
     - An author is added to the next version's `authors` once (not if they wrote a version of it before, or
       own it). Saving the same document again leaves a submitted version in review (only a changed draft is
       taken out); Create skips an autosave already done by Submit or Publish.
