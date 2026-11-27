@@ -8,7 +8,7 @@ import { fileURLToPath } from "node:url";
 import { svelte } from "@sveltejs/vite-plugin-svelte";
 import { defineConfig, type Plugin } from "vite";
 import { handleReactionFileRequest } from "./src/create/editorFileServer/reactionFileRequests.js";
-import { REACTION_FILES_PATH } from "./src/create/reactionEditor/reactionFileStore.js";
+import { REACTION_FILES_PATH } from "./src/create/reactionEditor/io/reactionFileStore.js";
 
 function fromProjectRoot(relativePath: string): string {
   return fileURLToPath(new URL(relativePath, import.meta.url));
@@ -49,7 +49,7 @@ function reactionFilesPlugin(): Plugin {
 }
 
 export default defineConfig({
-  root: fromProjectRoot("src/create/reactionEditor/"),
+  root: fromProjectRoot("src/create/reactionEditor/app/"),
   server: { port: EDITOR_PORT },
   build: { outDir: fromProjectRoot("build/editor/"), emptyOutDir: true },
   // Ketcher, the structure editor (item 10h): fetched by `make ketcher` into vendor/editor-public/

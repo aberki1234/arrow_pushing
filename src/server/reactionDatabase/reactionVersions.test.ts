@@ -4,7 +4,7 @@
  */
 import { sql } from "kysely";
 import { afterAll, beforeAll, beforeEach, describe, expect, it } from "vitest";
-import { MAXIMUM_OPEN_DRAFTS as CREATE_LIMIT } from "../../create/reactionEditor/reviewView.js";
+import { MAXIMUM_OPEN_DRAFTS as CREATE_LIMIT } from "../../create/reactionEditor/model/reviewView.js";
 import { exampleReaction } from "../../testSupport/reactionEdits.js";
 import {
   DATABASE_SETUP_TIMEOUT_MS,

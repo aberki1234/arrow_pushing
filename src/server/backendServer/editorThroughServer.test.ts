@@ -1,13 +1,14 @@
 /**
- * The built editor's store (reactionEditor/serverReactionStore.ts) against the real server, signed
- * in through the fake GitHub, with the real linter: the editor's requests are the ones the server
- * answers. The reference is reactionRoutes.ts's route table and the publishing rules (SPEC §5).
+ * The built editor's store (reactionEditor/io/serverReactionStore.ts) against the real server,
+ * signed in through the fake GitHub, with the real linter: the editor's requests are the ones the
+ * server answers. The reference is reactionRoutes.ts's route table and the publishing rules (SPEC
+ * §5).
  */
 import { afterAll, afterEach, beforeAll, beforeEach, describe, expect, it, vi } from "vitest";
 import { loadChemistryToolkit } from "../../tooling/chemistryToolkit/chemistryToolkit.js";
 import type { DatabaseConnection } from "../reactionDatabase/databaseTables.js";
-import { contributorClient } from "../../create/reactionEditor/contributorClient.js";
-import { serverReactionStore } from "../../create/reactionEditor/serverReactionStore.js";
+import { contributorClient } from "../../create/reactionEditor/io/contributorClient.js";
+import { serverReactionStore } from "../../create/reactionEditor/io/serverReactionStore.js";
 import { lintReaction } from "../../tooling/reactionLinting/reactionLint.js";
 import { exampleReaction } from "../../testSupport/reactionEdits.js";
 import {

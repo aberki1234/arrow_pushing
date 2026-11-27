@@ -330,7 +330,7 @@ reactions, track `electrophilic-aromatic-substitution`, problem sets in this ord
   The editor reuses the validator's arrow-application code.
   **Decided 2026-11-25 (item 8 grilling).** Item 8 is split: **8.0** the TypeScript port (above), **8a** editor
   core, **8b** form fields and live lint, **8c** backend.
-  - The editor is a **second Vite page** (`src/create/reactionEditor/index.html`, `make editor` on port 5174), never
+  - The editor is a **second Vite page** (`src/create/reactionEditor/app/index.html`, `make editor` on port 5174), never
     deployed to the learner host:
     its decisions in plain TypeScript in `src/create/reactionEditing/`, the thin Svelte app in `src/create/reactionEditor/`, the
     dev-server file plugin in `src/create/editorFileServer/` (agreed 2026-11-25 with the 8a plan). "Play as learner" runs the unsaved document in the real step screen (practice
@@ -522,7 +522,7 @@ reactions, track `electrophilic-aromatic-substitution`, problem sets in this ord
       versions: whoever may publish directly ticks their own unpublished versions (or Select all), then **Publish
       selected (n)** and a confirmation. Each goes through the usual publish (server lint, licence), one after
       another; a refusal does not stop the rest, and one message lists what was published and what was refused
-      (`reactionEditor/batchPublishing.ts`).
+      (`reactionEditor/io/batchPublishing.ts`).
     - Your mechanisms lists the reactions whose newest version the user wrote, and their own published ones;
       someone else's published reactions are only under "Improve a published one" ("Suggest version n").
     - An author is added to the next version's `authors` once (not if they wrote a version of it before, or

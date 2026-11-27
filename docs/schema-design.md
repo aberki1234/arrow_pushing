@@ -744,7 +744,7 @@ RDKit (RDKit.js) on every valid SMILES case and every example state (`src/toolin
      core). Each edit of an example that keeps it valid still lints clean.
      Part 2: the page's tabs (Reaction, State, Step, Lint), step selection, a Wedges mode, "Save the arrows as…" a
      misconception, partial progress message or another arrow set; list fields as lines of text
-     (`reactionEditor/fieldText.ts`); live lint in a Web Worker (`reactionEditor/lintWorker.ts`,
+     (`reactionEditor/model/fieldText.ts`); live lint in a Web Worker (`reactionEditor/io/lintWorker.ts`,
      `workerLinter.ts`) about 300 ms after the last edit, each finding showing its place and going there on a
      click. Checked in headless Chromium (lint from the worker, a finding fixed, a misconception saved, a wedge).
    * **8c** Backend for the owner (decided 2026-11-25, SPEC §5): Hono + Kysely on Render, Supabase Postgres (schema
@@ -771,7 +771,7 @@ RDKit (RDKit.js) on every valid SMILES case and every example state (`src/toolin
      (node-postgres, untested until the Docker Postgres run). Tests sign in through a fake GitHub
      (`testSupport/serverTesting.ts`).
      Part 3 done 2026-11-25: the built editor (`make editor-build` → `build/editor/`, served by the backend) keeps
-     reactions on the server (`reactionEditor/serverReactionStore.ts`, `GET /api/reactions/:slug` = the newest
+     reactions on the server (`reactionEditor/io/serverReactionStore.ts`, `GET /api/reactions/:slug` = the newest
      version): Sign in with GitHub, each reaction's status, "Edit as version n+1", and Publish (saves first, the
      licence tick, the outcome message) (`PublishControls.svelte`); `make editor` keeps content/reactions/.
      `catalogueBuilding/publishedBackup.ts` + `backupFromShell.ts` (export → `content/published/<slug>/<n>.json`,
@@ -844,7 +844,7 @@ RDKit (RDKit.js) on every valid SMILES case and every example state (`src/toolin
        the review queue, a review (publish or request changes, never one's own), the Users page's roles; all
        through `sitePermissions.ts` (new actions `manageUsers`, `reviewOthers`), with routes and refusals.
      - **Part 2, decisions. Done 2026-11-26.** Built: `reactionEditing/review/textDiff.ts` (word-level diff),
-       `versionChanges.ts` (the change list and `placeOfChangeKey`), `reactionEditor/reviewView.ts` (Your
+       `versionChanges.ts` (the change list and `placeOfChangeKey`), `reactionEditor/model/reviewView.ts` (Your
        mechanisms and Improve lists, the banner, the queue's lines, the sub-navigation, the Users page's
        words), `editorView.patternArrowsOn`. Planned as (pure TypeScript): the change list between two versions of a reaction (states,
        steps, every learner text, misconceptions, metadata) with a word-level text diff; the review notes and
@@ -940,7 +940,7 @@ RDKit (RDKit.js) on every valid SMILES case and every example state (`src/toolin
      Built: `src/tooling/buildTools/` (`make ketcher`, also in Render's build command; `fflate` unzips), Vite's editor
      `publicDir` `vendor/editor-public/`, `chemistryToolkit.readMolblock`, `reactionEditing/mechanism/structureExchange.ts`
      (`stateToMolfile`, `molfileToStructure`, `applyEditedStructure`, `saveStructureFromEditor`; a saved layout keeps
-     the state's old centre), `reactionEditor/StructureEditorDialog.svelte`. Checked in headless Chromium on the dev
+     the state's old centre), `reactionEditor/components/StructureEditorDialog.svelte`. Checked in headless Chromium on the dev
      editor: Ketcher ready in about 2 s with the state and its map numbers, Save writes the state.
    * **10i Done 2026-11-26.** A push can propose a new version (owner, 2026-11-26): `If-None-Match: *` on PUT …/draft
      also accepts a reaction whose versions are all published when the document's `previousReactionVersion` is the

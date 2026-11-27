@@ -28,7 +28,7 @@ const lineLengthRule = {
       code: 100,
       ignoreUrls: true,
       ignoreRegExpLiterals: true,
-      ignorePattern: '^\\s*import (type )?\\{? ?[\\w$]+(,)? ?\\}? from "[^"]+";$',
+      ignorePattern: '^\\s*import (type )?\\{? ?[\\w$]+( as [\\w$]+)?(,)? ?\\}? from "[^"]+";$',
     },
   ],
 };
