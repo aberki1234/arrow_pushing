@@ -8,18 +8,18 @@ import { afterAll, beforeAll, beforeEach, describe, expect, it } from "vitest";
 import {
   type ChemistryToolkit,
   loadChemistryToolkit,
-} from "../../tooling/chemistryToolkit/chemistryToolkit.js";
-import type { LintFinding } from "../../tooling/reactionLinting/findings/lintFindings.js";
-import { lintReaction } from "../../tooling/reactionLinting/rules/reactionLint.js";
-import { exampleReaction } from "../../testSupport/reactionEdits.js";
+} from "../../../tooling/chemistryToolkit/chemistryToolkit.js";
+import type { LintFinding } from "../../../tooling/reactionLinting/findings/lintFindings.js";
+import { lintReaction } from "../../../tooling/reactionLinting/rules/reactionLint.js";
+import { exampleReaction } from "../../../testSupport/reactionEdits.js";
 import {
   DATABASE_SETUP_TIMEOUT_MS,
   emptyAllTables,
   insertUser,
   newMigratedDatabase,
-} from "../../testSupport/temporaryDatabase.js";
-import type { DatabaseConnection, ReactionDatabase } from "./databaseTables.js";
-import { ReactionDatabaseError } from "./reactionDatabaseErrors.js";
+} from "../../../testSupport/temporaryDatabase.js";
+import type { DatabaseConnection, ReactionDatabase } from "../model/databaseTables.js";
+import { ReactionDatabaseError } from "../model/reactionDatabaseErrors.js";
 import { readReactionVersion, saveDraft, startNextVersion } from "./reactionVersions.js";
 import {
   reviewMaterial,

@@ -5,12 +5,12 @@ import {
   emptyAllTables,
   insertUser,
   newMigratedDatabase,
-} from "../../testSupport/temporaryDatabase.js";
-import type { DatabaseConnection, ReactionDatabase } from "./databaseTables.js";
-import { ReactionDatabaseError } from "./reactionDatabaseErrors.js";
-import { saveDraft } from "./reactionVersions.js";
+} from "../../../testSupport/temporaryDatabase.js";
+import type { DatabaseConnection, ReactionDatabase } from "../model/databaseTables.js";
+import { ReactionDatabaseError } from "../model/reactionDatabaseErrors.js";
+import { saveDraft } from "../reactions/reactionVersions.js";
 import { listSiteUsers, setSiteRole } from "./siteUsers.js";
-import { exampleReaction } from "../../testSupport/reactionEdits.js";
+import { exampleReaction } from "../../../testSupport/reactionEdits.js";
 
 let connection: DatabaseConnection;
 let database: ReactionDatabase;

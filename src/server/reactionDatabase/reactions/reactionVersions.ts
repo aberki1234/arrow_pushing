@@ -20,10 +20,10 @@
  *   - A blocked user saves and starts nothing.
  */
 import { sql } from "kysely";
-import type { ReactionDatabase, SubmissionStatus } from "./databaseTables.js";
-import { ReactionDatabaseError } from "./reactionDatabaseErrors.js";
-import { mayPerform } from "./sitePermissions.js";
-import { requireSiteAction, siteRoleOf } from "./siteUsers.js";
+import type { ReactionDatabase, SubmissionStatus } from "../model/databaseTables.js";
+import { ReactionDatabaseError } from "../model/reactionDatabaseErrors.js";
+import { mayPerform } from "../model/sitePermissions.js";
+import { requireSiteAction, siteRoleOf } from "../users/siteUsers.js";
 
 type ReactionDocument = Readonly<Record<string, unknown>>;
 

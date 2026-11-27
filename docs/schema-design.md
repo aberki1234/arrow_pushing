@@ -63,7 +63,7 @@ Each term below means exactly one thing in the docs, the JSON and the code.
 | **creation stage** | One of Create's four stages: `start`, `mechanism`, `teaching`, `publish` (SPEC §5 "Create"). |
 | **teaching item** | One entry of the Teaching to-do list (a state's learner prompt, hint tiers or misconceptions, a step's explanation or caption, the mechanism summary), with its need (needed / recommended / optional) and status (missing / started / done). Built from the draft's fields, not from lint. |
 | **check task** | A lint finding as Create's Publish stage shows it: plain words, the creation stage that fixes it, and its place. |
-| **site role / site action** | A user's role (`owner`, `reviewer`, `contributor`, `blocked`) and what it allows (`createReactions`, `seeEveryReaction`, `submitForReview`, `publish` (directly, the owner only), `review`, `manageUsers`); decided only in `reactionDatabase/sitePermissions.ts`. |
+| **site role / site action** | A user's role (`owner`, `reviewer`, `contributor`, `blocked`) and what it allows (`createReactions`, `seeEveryReaction`, `submitForReview`, `publish` (directly, the owner only), `review`, `manageUsers`); decided only in `reactionDatabase/model/sitePermissions.ts`. |
 | **version author** | The user who wrote a reaction version (`reaction_versions.author_user_id`); only they save it. Not the reaction's owner, who made version 1. |
 | **review decision** | A reviewer's `publish` or `changes_requested` on a submitted version, stored in `reviews` with an overall comment and **pinned notes**. Not an attempt assessment. |
 | **compared entry / change key / version change** | What the review screen compares between two versions: one reaction field, a state's structure or one of its learner texts, a step's arrows or texts (`reactionEditing/review/versionChanges.ts`). Its **change key** names it in both versions (`state:reactants hintTiers:1`) and is what a pinned note points at; a **version change** is one added, removed or changed. |
@@ -767,7 +767,7 @@ RDKit (RDKit.js) on every valid SMILES case and every example state (`src/toolin
      `refusalAnswers.ts` (refusal code → 400/403/404/409/422), `deployDispatch.ts` (`repository_dispatch`
      `reaction-published`; a failed start never undoes a publish), `serverApplication.ts` (csrf check, `/api/me`,
      the built editor's files), `serverSettings.ts` (environment variables), `commandLine.ts` + `runFromShell.ts`
-     (`serve | migrate | import`; `make server`), `ownerAccount.ts`; `reactionDatabase/postgresConnection.ts`
+     (`serve | migrate | import`; `make server`), `ownerAccount.ts`; `reactionDatabase/connection/postgresConnection.ts`
      (node-postgres, untested until the Docker Postgres run). Tests sign in through a fake GitHub
      (`testSupport/serverTesting.ts`).
      Part 3 done 2026-11-25: the built editor (`make editor-build` → `build/editor/`, served by the backend) keeps
@@ -793,7 +793,7 @@ RDKit (RDKit.js) on every valid SMILES case and every example state (`src/toolin
        name), `stateStrip.ts` (strip rows; state names Start / Intermediate N / Product), `teachingChecklist.ts`,
        `difficultySuggestion.ts` (3 if another route is accepted or ≥ 5 preferred arrow steps; 1 for at most one
        arrow step of at most two arrows; else 2: the four examples' tiers), `creationProgress.ts` (opening stage,
-       progress line), `checkTasks.ts`; `reactionDatabase/sitePermissions.ts`, used by Publish and the reaction
+       progress line), `checkTasks.ts`; `reactionDatabase/model/sitePermissions.ts`, used by Publish and the reaction
        list (only one's own without `seeEveryReaction`); `/api/me` answers `siteActions`; the server's and the
        file server's reaction lists give each reaction's `creationProgress`. The Teaching list is built from the
        draft's fields with lint findings attached (a new draft fails the schema, so lint stops before its
@@ -824,7 +824,7 @@ RDKit (RDKit.js) on every valid SMILES case and every example state (`src/toolin
        and Create on `create.<domain>` (Render), the GitHub sign-in app's callback and the server's public
        address moved there; checked end to end.
    * **8e** Contributors (decided 2026-11-26, SPEC §6; design `mockups/review.html`). Proposed in four parts:
-     - **Part 1, database and server. Done 2026-11-26.** Built: migration 0003; `reactionDatabase/siteUsers.ts`
+     - **Part 1, database and server. Done 2026-11-26.** Built: migration 0003; `reactionDatabase/users/siteUsers.ts`
        (`requireSiteAction`, the Users page's list and roles), `submissions.ts` (Submit, the queue, a review,
        the author's notes, what a reviewer compares), the new rules in `reactionVersions.ts` (version author,
        open-drafts limit (5; 20 since 2026-11-26), blocked, authors added on a next version, `listReactionsFor`, an unchanged save keeping
@@ -886,11 +886,11 @@ RDKit (RDKit.js) on every valid SMILES case and every example state (`src/toolin
    * **10a Done 2026-11-26.** `"aromatic substitution"` added to `reactionClasses` (schema, catalogue schema, the editor's and the
      learner site's class labels and filters, fixtures).
    * **10b Done 2026-11-26.** Personal access tokens: a migration (`arrowpush.access_tokens`: id, user id, a name, the token's
-     SHA-256, created, expires, last used, revoked); `reactionDatabase/accessTokens.ts` (mint: the plain token
+     SHA-256, created, expires, last used, revoked); `reactionDatabase/users/accessTokens.ts` (mint: the plain token
      returned once; find the user of a token; revoke); the backend taking `Authorization: Bearer` beside the cookie
      session for reading the user's reactions and saving drafts only (a site action that a token-authenticated
      request never gets for anything else); the server command `create-token --user <email> [--days n]` and
-     `revoke-token`. Built: migration 0004, `reactionDatabase/accessTokens.ts`,
+     `revoke-token`. Built: migration 0004, `reactionDatabase/users/accessTokens.ts`,
      `backendServer/accessTokenRequests.ts` (the routes open to a token: GET /api/me, GET /api/reactions[/…],
      PUT …/draft; elsewhere 403), `requireSignIn(authentication, database)`, the two commands (default name
      "drafting", 90 days).
@@ -899,7 +899,7 @@ RDKit (RDKit.js) on every valid SMILES case and every example state (`src/toolin
      hash differs. Create's own saves leave it out and behave as now. A new module (`src/tooling/draftSync/`, logic beside a command line
      `npx tsx src/tooling/draftSync/runFromShell.ts check|push-draft|pull-draft`; the server URL and the token from the
      environment) that lints before pushing, remembers the hash of each draft pushed or pulled, and writes a pulled draft back to
-     `content/reactions/`. Built: `reactionDatabase/draftChangeCheck.ts` (`saveDraftIfUnchanged`, refusal
+     `content/reactions/`. Built: `reactionDatabase/reactions/draftChangeCheck.ts` (`saveDraftIfUnchanged`, refusal
      `draft-changed` 409; `If-None-Match: *` / `If-Match: <hash>` on PUT …/draft, which now answers
      `draftContentHash`), `src/tooling/draftSync/` (`draftSync.ts`, `commandLine.ts`, `runFromShell.ts`); end to end in
      `backendServer/draftSyncThroughServer.test.ts`.
@@ -945,7 +945,7 @@ RDKit (RDKit.js) on every valid SMILES case and every example state (`src/toolin
    * **10i Done 2026-11-26.** A push can propose a new version (owner, 2026-11-26): `If-None-Match: *` on PUT …/draft
      also accepts a reaction whose versions are all published when the document's `previousReactionVersion` is the
      newest; the server starts version n+1 (`startNextVersionIn`, one transaction with the save) and saves the file
-     into it. Built: `reactionDatabase/draftChangeCheck.ts` (`buildsOnPublished`), `reactionVersions.startNextVersionIn`;
+     into it. Built: `reactionDatabase/reactions/draftChangeCheck.ts` (`buildsOnPublished`), `reactionVersions.startNextVersionIn`;
      tests in `draftChangeCheck.test.ts` and end to end in `backendServer/draftSyncThroughServer.test.ts`.
    * **10d** The SEAr pilot (nitronium formation, nitration of benzene, nitration of anisole with resonance steps)
      drafted and pushed; reviewed by the owner; then the rest of the batch and `content/tracks/electrophilic-aromatic-substitution.json` (renamed from `aromatic-chemistry`, 2026-11-26).

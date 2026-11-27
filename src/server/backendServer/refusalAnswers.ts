@@ -12,7 +12,7 @@ import type { LintFinding } from "../../tooling/reactionLinting/findings/lintFin
 import type {
   ReactionDatabaseError,
   RefusalCode,
-} from "../reactionDatabase/reactionDatabaseErrors.js";
+} from "../reactionDatabase/model/reactionDatabaseErrors.js";
 
 export type RefusalHttpStatus = 400 | 403 | 404 | 409 | 422;
 

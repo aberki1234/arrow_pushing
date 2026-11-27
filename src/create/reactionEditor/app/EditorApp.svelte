@@ -248,7 +248,8 @@
     try {
       await fileStore.save(current.fileName, savedDraft);
       lastSavedDraft = savedDraft;
-      // Saving a submitted version takes it out of review (reactionDatabase/reactionVersions.ts).
+      // Saving a submitted version takes it out of review
+      // (reactionDatabase/reactions/reactionVersions.ts).
       if (draftStatus === "submitted") {
         draftStatus = "draft";
       }

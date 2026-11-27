@@ -6,26 +6,26 @@
 import { writeFileSync } from "node:fs";
 import { join } from "node:path";
 import { afterAll, beforeAll, beforeEach, describe, expect, it } from "vitest";
-import { contentHashOf } from "../../tooling/catalogueBuilding/staticFileNaming.js";
+import { contentHashOf } from "../../../tooling/catalogueBuilding/staticFileNaming.js";
 import {
   type ChemistryToolkit,
   loadChemistryToolkit,
-} from "../../tooling/chemistryToolkit/chemistryToolkit.js";
-import type { LintFinding } from "../../tooling/reactionLinting/findings/lintFindings.js";
-import { lintReaction } from "../../tooling/reactionLinting/rules/reactionLint.js";
-import { newTemporaryFolder } from "../../testSupport/reactionCopies.js";
-import { exampleReaction } from "../../testSupport/reactionEdits.js";
+} from "../../../tooling/chemistryToolkit/chemistryToolkit.js";
+import type { LintFinding } from "../../../tooling/reactionLinting/findings/lintFindings.js";
+import { lintReaction } from "../../../tooling/reactionLinting/rules/reactionLint.js";
+import { newTemporaryFolder } from "../../../testSupport/reactionCopies.js";
+import { exampleReaction } from "../../../testSupport/reactionEdits.js";
 import {
   DATABASE_SETUP_TIMEOUT_MS,
   emptyAllTables,
   insertUser,
   newMigratedDatabase,
-} from "../../testSupport/temporaryDatabase.js";
+} from "../../../testSupport/temporaryDatabase.js";
 import { importReactionFiles, type ReactionFileImport } from "./contentImport.js";
-import type { DatabaseConnection, ReactionDatabase } from "./databaseTables.js";
+import type { DatabaseConnection, ReactionDatabase } from "../model/databaseTables.js";
 import { publishedVersionsForExport } from "./publishedExport.js";
-import { ReactionDatabaseError } from "./reactionDatabaseErrors.js";
-import { listReactions } from "./reactionVersions.js";
+import { ReactionDatabaseError } from "../model/reactionDatabaseErrors.js";
+import { listReactions } from "../reactions/reactionVersions.js";
 
 let connection: DatabaseConnection;
 let database: ReactionDatabase;

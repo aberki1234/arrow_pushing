@@ -4,17 +4,17 @@
  */
 import { sql } from "kysely";
 import { afterAll, beforeAll, beforeEach, describe, expect, it } from "vitest";
-import { contentHashOf } from "../../tooling/catalogueBuilding/staticFileNaming.js";
-import { exampleReaction } from "../../testSupport/reactionEdits.js";
+import { contentHashOf } from "../../../tooling/catalogueBuilding/staticFileNaming.js";
+import { exampleReaction } from "../../../testSupport/reactionEdits.js";
 import {
   DATABASE_SETUP_TIMEOUT_MS,
   emptyAllTables,
   insertUser,
   newMigratedDatabase,
-} from "../../testSupport/temporaryDatabase.js";
-import type { DatabaseConnection, ReactionDatabase } from "./databaseTables.js";
+} from "../../../testSupport/temporaryDatabase.js";
+import type { DatabaseConnection, ReactionDatabase } from "../model/databaseTables.js";
 import { saveDraftIfUnchanged } from "./draftChangeCheck.js";
-import { ReactionDatabaseError } from "./reactionDatabaseErrors.js";
+import { ReactionDatabaseError } from "../model/reactionDatabaseErrors.js";
 import { readReactionVersion, saveDraft } from "./reactionVersions.js";
 
 const SN2_SLUG = "sn2-hydroxide-bromomethane";

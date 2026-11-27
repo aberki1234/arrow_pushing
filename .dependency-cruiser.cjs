@@ -40,6 +40,7 @@ const tiersLowestFirst = [
 // Folders with ordered subfolders (folders of 10 or more files). Such a folder keeps no files of
 // its own: every file sits in one of its subfolders.
 const folderToSubfoldersLowestFirst = {
+  "server/reactionDatabase": ["model", "connection", "users", "reactions", "transfer"],
   "drawing/moleculeDrawing": ["shared", "state", "scheme"],
   "tooling/reactionLinting": ["findings", "rules", "tracks", "shell"],
   "learner/learnerSite": ["model", "components", "io", "workspaces", "pages", "app"],
@@ -67,9 +68,14 @@ const tierRules = orderRules(
   tiersLowestFirst.map(([tier]) => tier),
 );
 const folderRules = orderRules("folder", "", foldersLowestFirst);
+// Inside a folder, a test may import later subfolders to set up its scenario (e.g. a user test that
+// first saves a draft); shipped code may not.
 const subfolderRules = Object.entries(folderToSubfoldersLowestFirst).flatMap(
   ([folder, subfolders]) => [
-    ...orderRules("subfolder", `${folder}/`, subfolders),
+    ...orderRules("subfolder", `${folder}/`, subfolders).map((rule) => ({
+      ...rule,
+      from: { ...rule.from, pathNot: "\\.test\\.ts$" },
+    })),
     {
       name: `unknown-subfolder-${folder}`,
       severity: "error",

@@ -30,7 +30,8 @@ export type PublishOutcome =
       readonly lintFindingCount: number;
     };
 
-/** Who is signed in, and what their site role allows (reactionDatabase/sitePermissions.ts). */
+/** Who is signed in, and what their site role allows (reactionDatabase/model/sitePermissions.ts).
+ * */
 export interface SignedInUser {
   readonly userId: string;
   readonly displayName: string;
@@ -54,7 +55,8 @@ export function slugOfFileName(fileName: string): string {
   return fileName.replace(/\.json$/, "");
 }
 
-/** A listing as the server answers it (reactionDatabase/reactionVersions.ReactionListing). */
+/** A listing as the server answers it
+ * (reactionDatabase/reactions/reactionVersions.ReactionListing). */
 interface ServerListing {
   readonly reactionSlug: string;
   readonly title: string | null;

@@ -15,23 +15,27 @@
  *     submitting again clears them.
  */
 import { sql, type Updateable } from "kysely";
-import type { LintFinding } from "../../tooling/reactionLinting/findings/lintFindings.js";
-import type { PinnedNote, ReactionDatabase, ReactionVersionsTable } from "./databaseTables.js";
+import type { LintFinding } from "../../../tooling/reactionLinting/findings/lintFindings.js";
+import type {
+  PinnedNote,
+  ReactionDatabase,
+  ReactionVersionsTable,
+} from "../model/databaseTables.js";
 import {
   licenceAgreementDate,
   lintAndRecord,
   publishNewestVersion,
   type PublishedVersionSummary,
 } from "./publishing.js";
-import { ReactionDatabaseError } from "./reactionDatabaseErrors.js";
+import { ReactionDatabaseError } from "../model/reactionDatabaseErrors.js";
 import {
   findReaction,
   type ReactionWithNewestVersion,
   readReactionVersion,
   type StoredVersion,
 } from "./reactionVersions.js";
-import { mayPerform } from "./sitePermissions.js";
-import { requireSiteAction, siteRoleOf } from "./siteUsers.js";
+import { mayPerform } from "../model/sitePermissions.js";
+import { requireSiteAction, siteRoleOf } from "../users/siteUsers.js";
 
 type LintDocument = (reactionDocument: Readonly<Record<string, unknown>>) => LintFinding[];
 

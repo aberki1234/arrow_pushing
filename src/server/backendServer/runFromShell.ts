@@ -4,11 +4,11 @@
  */
 import { serve } from "@hono/node-server";
 import { loadChemistryToolkit } from "../../tooling/chemistryToolkit/chemistryToolkit.js";
-import { mintAccessToken, revokeAccessToken } from "../reactionDatabase/accessTokens.js";
-import { importReactionFiles } from "../reactionDatabase/contentImport.js";
-import type { DatabaseConnection } from "../reactionDatabase/databaseTables.js";
-import { applyMigrations } from "../reactionDatabase/migrationRunning.js";
-import { newPostgresConnection } from "../reactionDatabase/postgresConnection.js";
+import { mintAccessToken, revokeAccessToken } from "../reactionDatabase/users/accessTokens.js";
+import { importReactionFiles } from "../reactionDatabase/transfer/contentImport.js";
+import type { DatabaseConnection } from "../reactionDatabase/model/databaseTables.js";
+import { applyMigrations } from "../reactionDatabase/connection/migrationRunning.js";
+import { newPostgresConnection } from "../reactionDatabase/connection/postgresConnection.js";
 import { lintReaction } from "../../tooling/reactionLinting/rules/reactionLint.js";
 import { type BackendCommand, parseBackendCommand } from "./commandLine.js";
 import { userIdForGithubAccount } from "./ownerAccount.js";

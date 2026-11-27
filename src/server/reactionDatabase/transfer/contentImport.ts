@@ -7,11 +7,11 @@
  * without leaving a draft behind.
  */
 import { readFileSync } from "node:fs";
-import type { LintFinding } from "../../tooling/reactionLinting/findings/lintFindings.js";
-import type { ReactionDatabase } from "./databaseTables.js";
-import { publishDraft } from "./publishing.js";
-import { ReactionDatabaseError } from "./reactionDatabaseErrors.js";
-import { findReaction, saveDraft } from "./reactionVersions.js";
+import type { LintFinding } from "../../../tooling/reactionLinting/findings/lintFindings.js";
+import type { ReactionDatabase } from "../model/databaseTables.js";
+import { publishDraft } from "../reactions/publishing.js";
+import { ReactionDatabaseError } from "../model/reactionDatabaseErrors.js";
+import { findReaction, saveDraft } from "../reactions/reactionVersions.js";
 
 export interface ReactionFileImport {
   /** Files to publish as version 1 (they must lint without errors). */

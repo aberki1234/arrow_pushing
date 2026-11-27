@@ -26,17 +26,17 @@
  *                                                     are public on the learner site anyway)
  */
 import { type Context, Hono } from "hono";
-import type { ReactionDatabase } from "../reactionDatabase/databaseTables.js";
-import { publishedVersionsForExport } from "../reactionDatabase/publishedExport.js";
-import { saveDraftIfUnchanged } from "../reactionDatabase/draftChangeCheck.js";
-import { publishDraft } from "../reactionDatabase/publishing.js";
-import { ReactionDatabaseError } from "../reactionDatabase/reactionDatabaseErrors.js";
+import type { ReactionDatabase } from "../reactionDatabase/model/databaseTables.js";
+import { publishedVersionsForExport } from "../reactionDatabase/transfer/publishedExport.js";
+import { saveDraftIfUnchanged } from "../reactionDatabase/reactions/draftChangeCheck.js";
+import { publishDraft } from "../reactionDatabase/reactions/publishing.js";
+import { ReactionDatabaseError } from "../reactionDatabase/model/reactionDatabaseErrors.js";
 import {
   findReaction,
   listReactionsFor,
   readReactionVersion,
   startNextVersion,
-} from "../reactionDatabase/reactionVersions.js";
+} from "../reactionDatabase/reactions/reactionVersions.js";
 import { creationProgress } from "../../create/reactionEditing/publishing/creationProgress.js";
 import { type Authentication, requireSignIn } from "./authentication.js";
 import { startDeploy } from "./deployDispatch.js";

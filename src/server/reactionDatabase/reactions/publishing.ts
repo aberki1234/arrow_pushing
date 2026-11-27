@@ -17,12 +17,12 @@
  * A refusal after step 2 is returned from the transaction, not thrown in it, so that the saved
  * lint report is committed; publishDraft() throws it afterwards.
  */
-import { contentHashOf } from "../../tooling/catalogueBuilding/staticFileNaming.js";
-import type { LintFinding } from "../../tooling/reactionLinting/findings/lintFindings.js";
-import type { ReactionDatabase } from "./databaseTables.js";
-import { ReactionDatabaseError } from "./reactionDatabaseErrors.js";
+import { contentHashOf } from "../../../tooling/catalogueBuilding/staticFileNaming.js";
+import type { LintFinding } from "../../../tooling/reactionLinting/findings/lintFindings.js";
+import type { ReactionDatabase } from "../model/databaseTables.js";
+import { ReactionDatabaseError } from "../model/reactionDatabaseErrors.js";
 import { findReaction, type ReactionWithNewestVersion } from "./reactionVersions.js";
-import { mayPerform } from "./sitePermissions.js";
+import { mayPerform } from "../model/sitePermissions.js";
 
 export interface PublishRequest {
   readonly reactionSlug: string;

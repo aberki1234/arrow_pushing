@@ -24,8 +24,8 @@
  */
 import { betterAuth } from "better-auth";
 import type { MiddlewareHandler } from "hono";
-import { userOfAccessToken } from "../reactionDatabase/accessTokens.js";
-import type { ReactionDatabase, SiteRole } from "../reactionDatabase/databaseTables.js";
+import { userOfAccessToken } from "../reactionDatabase/users/accessTokens.js";
+import type { ReactionDatabase, SiteRole } from "../reactionDatabase/model/databaseTables.js";
 import {
   ACCESS_TOKEN_REFUSAL,
   accessTokenMayRequest,

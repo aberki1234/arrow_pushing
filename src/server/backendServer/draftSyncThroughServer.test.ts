@@ -8,9 +8,9 @@ import { tmpdir } from "node:os";
 import { join } from "node:path";
 import { sql } from "kysely";
 import { afterAll, beforeAll, beforeEach, describe, expect, it } from "vitest";
-import { mintAccessToken } from "../reactionDatabase/accessTokens.js";
-import type { DatabaseConnection } from "../reactionDatabase/databaseTables.js";
-import { saveDraft } from "../reactionDatabase/reactionVersions.js";
+import { mintAccessToken } from "../reactionDatabase/users/accessTokens.js";
+import type { DatabaseConnection } from "../reactionDatabase/model/databaseTables.js";
+import { saveDraft } from "../reactionDatabase/reactions/reactionVersions.js";
 import type { LintFinding } from "../../tooling/reactionLinting/findings/lintFindings.js";
 import { exampleReaction } from "../../testSupport/reactionEdits.js";
 import {

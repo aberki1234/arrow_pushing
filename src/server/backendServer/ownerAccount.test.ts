@@ -3,7 +3,7 @@
  * the fake GitHub): the user found must be the one that sign-in made.
  */
 import { afterAll, afterEach, beforeAll, beforeEach, describe, expect, it, vi } from "vitest";
-import type { DatabaseConnection } from "../reactionDatabase/databaseTables.js";
+import type { DatabaseConnection } from "../reactionDatabase/model/databaseTables.js";
 import {
   OWNER_GITHUB_USER_ID,
   OWNER_PROFILE,

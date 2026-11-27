@@ -6,7 +6,7 @@
  */
 import { afterAll, afterEach, beforeAll, beforeEach, describe, expect, it, vi } from "vitest";
 import { loadChemistryToolkit } from "../../tooling/chemistryToolkit/chemistryToolkit.js";
-import type { DatabaseConnection } from "../reactionDatabase/databaseTables.js";
+import type { DatabaseConnection } from "../reactionDatabase/model/databaseTables.js";
 import { contributorClient } from "../../create/reactionEditor/io/contributorClient.js";
 import { serverReactionStore } from "../../create/reactionEditor/io/serverReactionStore.js";
 import { lintReaction } from "../../tooling/reactionLinting/rules/reactionLint.js";

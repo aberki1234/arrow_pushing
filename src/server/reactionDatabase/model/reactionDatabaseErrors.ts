@@ -2,7 +2,7 @@
  * Refusals of the reaction database: a request that the rules of docs/SPEC.md §5 (backend) do not
  * allow. The server turns each refusal code into an HTTP answer.
  */
-import type { LintFinding } from "../../tooling/reactionLinting/findings/lintFindings.js";
+import type { LintFinding } from "../../../tooling/reactionLinting/findings/lintFindings.js";
 
 export type RefusalCode =
   | "document-has-no-slug"

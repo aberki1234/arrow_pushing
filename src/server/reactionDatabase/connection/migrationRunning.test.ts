@@ -10,8 +10,8 @@ import {
   emptyAllTables,
   insertUser,
   newPgliteConnection,
-} from "../../testSupport/temporaryDatabase.js";
-import type { DatabaseConnection } from "./databaseTables.js";
+} from "../../../testSupport/temporaryDatabase.js";
+import type { DatabaseConnection } from "../model/databaseTables.js";
 import { applyMigrations } from "./migrationRunning.js";
 
 let connection: DatabaseConnection;

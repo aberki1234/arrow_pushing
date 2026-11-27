@@ -5,7 +5,7 @@
 import { mkdirSync, writeFileSync } from "node:fs";
 import { join } from "node:path";
 import { afterAll, beforeAll, describe, expect, it } from "vitest";
-import type { DatabaseConnection } from "../reactionDatabase/databaseTables.js";
+import type { DatabaseConnection } from "../reactionDatabase/model/databaseTables.js";
 import { newTemporaryFolder } from "../../testSupport/reactionCopies.js";
 import { TEST_BASE_URL, testServerSettings } from "../../testSupport/serverTesting.js";
 import {

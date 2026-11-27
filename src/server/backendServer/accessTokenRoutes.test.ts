@@ -4,8 +4,8 @@
  * an assistant").
  */
 import { afterAll, beforeAll, beforeEach, expect, it } from "vitest";
-import { mintAccessToken, revokeAccessToken } from "../reactionDatabase/accessTokens.js";
-import type { DatabaseConnection } from "../reactionDatabase/databaseTables.js";
+import { mintAccessToken, revokeAccessToken } from "../reactionDatabase/users/accessTokens.js";
+import type { DatabaseConnection } from "../reactionDatabase/model/databaseTables.js";
 import { exampleReaction } from "../../testSupport/reactionEdits.js";
 import {
   OWNER_PROFILE,

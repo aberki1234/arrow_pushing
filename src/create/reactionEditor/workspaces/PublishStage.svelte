@@ -2,7 +2,7 @@
   // Create's Publish stage (docs/SPEC.md §5, "Create", stage 4): try it as a learner; the checks
   // as tasks (reactionEditing/publishing/checkTasks.ts) with Fix →; the library details, the
   // suggested difficulty, More details and Advanced; then the licence and Publish (on the server,
-  // for the owner: reactionDatabase/sitePermissions.ts) or Submit for review
+  // for the owner: reactionDatabase/model/sitePermissions.ts) or Submit for review
   // (SubmitForReview.svelte).
   import { publishChecks } from "../../reactionEditing/publishing/checkTasks.js";
   import { suggestedDifficultyTier } from "../../reactionEditing/publishing/difficultySuggestion.js";

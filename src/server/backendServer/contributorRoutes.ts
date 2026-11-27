@@ -21,16 +21,16 @@
  * A body that is not of this shape is answered 400.
  */
 import { Hono } from "hono";
-import type { PinnedNote, SiteRole } from "../reactionDatabase/databaseTables.js";
-import { ReactionDatabaseError } from "../reactionDatabase/reactionDatabaseErrors.js";
-import { listSiteUsers, setSiteRole } from "../reactionDatabase/siteUsers.js";
+import type { PinnedNote, SiteRole } from "../reactionDatabase/model/databaseTables.js";
+import { ReactionDatabaseError } from "../reactionDatabase/model/reactionDatabaseErrors.js";
+import { listSiteUsers, setSiteRole } from "../reactionDatabase/users/siteUsers.js";
 import {
   reviewMaterial,
   reviewNotesFor,
   reviewQueue,
   reviewSubmission,
   submitForReview,
-} from "../reactionDatabase/submissions.js";
+} from "../reactionDatabase/reactions/submissions.js";
 import { type Authentication, requireSignIn } from "./authentication.js";
 import { startDeploy } from "./deployDispatch.js";
 import { jsonObjectBody } from "./reactionRoutes.js";

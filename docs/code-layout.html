@@ -43,7 +43,7 @@
   <li>A folder with 10 or more source files gets subfolders. Such a folder keeps no files of its own: every file, including its main file, sits in a subfolder.</li>
   <li>Subfolders are split by <b>role</b> first (pure, then glue, then components) and by domain concept second.</li>
   <li>Folder names carry no numbers; the order lives in <code>.dependency-cruiser.cjs</code>.</li>
-  <li>Tests sit beside the code they test. <code>src/testSupport/</code> sits outside the tiers; only tests may import it.</li>
+  <li>Tests sit beside the code they test. Inside a folder a test may import later subfolders to set up its scenario (shipped code may not); tests still keep the tier and folder order. <code>src/testSupport/</code> sits outside the tiers; only tests may import it.</li>
 </ul>
 
 <h2 id="tiers">Tiers</h2>
@@ -91,7 +91,7 @@
 <tr><td>learner/learnerSite</td><td>model → components → io → workspaces → pages → app</td><td><span class="tag done">done</span></td></tr>
 <tr><td>tooling/reactionLinting</td><td>findings → rules → tracks → shell</td><td><span class="tag done">done</span></td></tr>
 <tr><td>drawing/moleculeDrawing</td><td>shared → state → scheme</td><td><span class="tag done">done</span></td></tr>
-<tr><td>server/reactionDatabase</td><td>model → connection → users → reactions → transfer</td><td><span class="tag planned">planned</span></td></tr>
+<tr><td>server/reactionDatabase</td><td>model → connection → users → reactions → transfer</td><td><span class="tag done">done</span></td></tr>
 <tr><td>server/backendServer</td><td>requests → settings → routes → shell</td><td><span class="tag planned">planned</span></td></tr>
 <tr><td>tooling/catalogueBuilding</td><td>naming → assembly → output → shell</td><td><span class="tag planned">planned</span></td></tr>
 </tbody></table>

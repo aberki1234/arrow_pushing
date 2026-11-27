@@ -9,7 +9,7 @@
 import { readdirSync, readFileSync } from "node:fs";
 import { dirname, join } from "node:path";
 import { fileURLToPath } from "node:url";
-import type { DatabaseConnection } from "./databaseTables.js";
+import type { DatabaseConnection } from "../model/databaseTables.js";
 
 const migrationsFolder = join(dirname(fileURLToPath(import.meta.url)), "migrations");
 

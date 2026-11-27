@@ -7,7 +7,7 @@
 import { getSchema } from "better-auth/db";
 import type { Kysely } from "kysely";
 import { afterAll, afterEach, beforeAll, beforeEach, describe, expect, it, vi } from "vitest";
-import type { DatabaseConnection } from "../reactionDatabase/databaseTables.js";
+import type { DatabaseConnection } from "../reactionDatabase/model/databaseTables.js";
 import {
   cookieHeaderFrom,
   FAKE_GITHUB_ACCESS_TOKEN,

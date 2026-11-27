@@ -5,7 +5,7 @@ import { describe, expect, it } from "vitest";
 import {
   ReactionDatabaseError,
   type RefusalCode,
-} from "../reactionDatabase/reactionDatabaseErrors.js";
+} from "../reactionDatabase/model/reactionDatabaseErrors.js";
 import { refusalBody, refusalHttpStatus } from "./refusalAnswers.js";
 
 const CODE_TO_STATUS: Record<RefusalCode, number> = {

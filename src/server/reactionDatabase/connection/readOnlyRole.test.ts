@@ -13,8 +13,8 @@ import {
   insertUser,
   newMigratedDatabase,
   newPgliteConnection,
-} from "../../testSupport/temporaryDatabase.js";
-import type { ArrowpushTables, DatabaseConnection } from "./databaseTables.js";
+} from "../../../testSupport/temporaryDatabase.js";
+import type { ArrowpushTables, DatabaseConnection } from "../model/databaseTables.js";
 import { applyMigrations } from "./migrationRunning.js";
 
 const READ_ONLY_ROLE = "arrowpush_readonly";

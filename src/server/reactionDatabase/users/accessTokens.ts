@@ -11,8 +11,8 @@
  *   - Each use records last_used_at.
  */
 import { createHash, randomBytes } from "node:crypto";
-import type { ReactionDatabase, SiteRole } from "./databaseTables.js";
-import { ReactionDatabaseError } from "./reactionDatabaseErrors.js";
+import type { ReactionDatabase, SiteRole } from "../model/databaseTables.js";
+import { ReactionDatabaseError } from "../model/reactionDatabaseErrors.js";
 
 const TOKEN_PREFIX = "ap_";
 const TOKEN_RANDOM_BYTES = 32;

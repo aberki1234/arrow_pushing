@@ -4,16 +4,16 @@
  */
 import { sql } from "kysely";
 import { afterAll, beforeAll, beforeEach, describe, expect, it } from "vitest";
-import { MAXIMUM_OPEN_DRAFTS as CREATE_LIMIT } from "../../create/reactionEditor/model/reviewView.js";
-import { exampleReaction } from "../../testSupport/reactionEdits.js";
+import { MAXIMUM_OPEN_DRAFTS as CREATE_LIMIT } from "../../../create/reactionEditor/model/reviewView.js";
+import { exampleReaction } from "../../../testSupport/reactionEdits.js";
 import {
   DATABASE_SETUP_TIMEOUT_MS,
   emptyAllTables,
   insertUser,
   newMigratedDatabase,
-} from "../../testSupport/temporaryDatabase.js";
-import type { DatabaseConnection, ReactionDatabase } from "./databaseTables.js";
-import { ReactionDatabaseError } from "./reactionDatabaseErrors.js";
+} from "../../../testSupport/temporaryDatabase.js";
+import type { DatabaseConnection, ReactionDatabase } from "../model/databaseTables.js";
+import { ReactionDatabaseError } from "../model/reactionDatabaseErrors.js";
 import {
   listReactions,
   MAXIMUM_OPEN_DRAFTS,

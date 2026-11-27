@@ -2,7 +2,7 @@
  * Every published version, for the deploy workflow: it writes them to content/published/ as the
  * repository's backup and builds the learner site from them (docs/SPEC.md §5, backend).
  */
-import type { ReactionDatabase } from "./databaseTables.js";
+import type { ReactionDatabase } from "../model/databaseTables.js";
 
 export interface ExportedVersion {
   readonly reactionSlug: string;

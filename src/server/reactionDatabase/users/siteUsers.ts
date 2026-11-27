@@ -8,9 +8,9 @@
  *     and the owner's own role does not change (the owner is named by ALLOWED_GITHUB_USER_IDS).
  */
 import { sql } from "kysely";
-import type { ReactionDatabase, SiteRole } from "./databaseTables.js";
-import { ReactionDatabaseError } from "./reactionDatabaseErrors.js";
-import { mayPerform, type SiteAction } from "./sitePermissions.js";
+import type { ReactionDatabase, SiteRole } from "../model/databaseTables.js";
+import { ReactionDatabaseError } from "../model/reactionDatabaseErrors.js";
+import { mayPerform, type SiteAction } from "../model/sitePermissions.js";
 
 export interface SiteUser {
   readonly userId: string;

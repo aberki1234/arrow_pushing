@@ -8,7 +8,7 @@ import {
   type ArrowpushTables,
   CAMEL_CASE_PLUGIN,
   type DatabaseConnection,
-} from "./databaseTables.js";
+} from "../model/databaseTables.js";
 
 /** A connection pool for `databaseUrl` (a postgres:// connection string). */
 export function newPostgresConnection(databaseUrl: string): DatabaseConnection {

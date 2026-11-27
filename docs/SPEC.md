@@ -506,7 +506,7 @@ reactions, track `electrophilic-aromatic-substitution`, problem sets in this ord
     - **Notifications in the site only** for now (the Review count, the contributor's banner); email later.
     - **At most 20 open drafts per user** (draft, submitted or changes requested; raised from 5 on 2026-11-26 so an
       assistant's batch fits at once). **The owner has no limit** (2026-11-27, the owner's request: site action
-      `keepUnlimitedDrafts`, `src/server/reactionDatabase/sitePermissions.ts`); Create shows them only the count.
+      `keepUnlimitedDrafts`, `src/server/reactionDatabase/model/sitePermissions.ts`); Create shows them only the count.
     - **Submitted drafts stay editable**; saving one takes it out of review (back to draft).
     - **Review notes** clear when the contributor submits again.
     - **A reviewer cannot review their own submission**; the owner may still publish their own directly.

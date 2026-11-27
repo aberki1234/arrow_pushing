@@ -6,10 +6,10 @@
  *   - Your mechanisms: the reactions whose newest version the user wrote, and their own published
  *     ones. Someone else's published reaction is offered under "Improve a published one" only.
  *   - Open drafts (draft, in review, changes requested) count against the limit of 20
- *     (reactionDatabase/reactionVersions.ts MAXIMUM_OPEN_DRAFTS); the owner has no limit
+ *     (reactionDatabase/reactions/reactionVersions.ts MAXIMUM_OPEN_DRAFTS); the owner has no limit
  *     ("keepUnlimitedDrafts"), so their line gives only the count.
  *   - Create's sub-navigation: Your mechanisms always; Review with "review"; Users with
- *     "manageUsers" (reactionDatabase/sitePermissions.ts).
+ *     "manageUsers" (reactionDatabase/model/sitePermissions.ts).
  */
 import type {
   QueueKind,
@@ -20,7 +20,7 @@ import type {
 } from "./contributorClientInterface.js";
 import type { ListedReactionFile } from "./reactionFileStoreInterface.js";
 
-/** As reactionDatabase/reactionVersions.ts. */
+/** As reactionDatabase/reactions/reactionVersions.ts. */
 export const MAXIMUM_OPEN_DRAFTS = 20;
 
 export type CreateSection = "mine" | "review" | "users";

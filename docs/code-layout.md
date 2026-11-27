@@ -13,7 +13,8 @@ the same subfolder, or in a folder without subfolders, may import each other fre
   file, including the folder's main file, sits in one of its subfolders.
 - Subfolders are split by **role** first (pure, then glue, then components) and by domain concept second.
 - Folder names carry no numbers; the order lives in `.dependency-cruiser.cjs`.
-- Tests sit beside the code they test. `src/testSupport/` sits outside the tiers and only tests may import it.
+- Tests sit beside the code they test. Inside a folder a test may import later subfolders to set up its
+  scenario (shipped code may not); tests still keep the tier and folder order. `src/testSupport/` sits outside the tiers and only tests may import it.
 
 ## Tiers
 
@@ -64,7 +65,7 @@ Every other subfolder is named after its domain concept (`rules/`, `scheme/`, `m
 | learner/learnerSite | model → components → io → workspaces → pages → app | done |
 | tooling/reactionLinting | findings → rules → tracks → shell | done |
 | drawing/moleculeDrawing | shared → state → scheme | done |
-| server/reactionDatabase | model → connection → users → reactions → transfer | planned |
+| server/reactionDatabase | model → connection → users → reactions → transfer | done |
 | server/backendServer | requests → settings → routes → shell | planned |
 | tooling/catalogueBuilding | naming → assembly → output → shell | planned |
 

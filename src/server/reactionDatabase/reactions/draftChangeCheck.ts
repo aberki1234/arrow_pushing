@@ -17,9 +17,9 @@
  *   - Expected `undefined`: no check (Create's own saves).
  *   Otherwise draft-changed, and nothing is saved. Check and save share one transaction.
  */
-import { contentHashOf } from "../../tooling/catalogueBuilding/staticFileNaming.js";
-import type { ReactionDatabase } from "./databaseTables.js";
-import { ReactionDatabaseError } from "./reactionDatabaseErrors.js";
+import { contentHashOf } from "../../../tooling/catalogueBuilding/staticFileNaming.js";
+import type { ReactionDatabase } from "../model/databaseTables.js";
+import { ReactionDatabaseError } from "../model/reactionDatabaseErrors.js";
 import {
   findReaction,
   readReactionVersion,

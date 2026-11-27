@@ -5,15 +5,15 @@ import {
   emptyAllTables,
   insertUser,
   newMigratedDatabase,
-} from "../../testSupport/temporaryDatabase.js";
+} from "../../../testSupport/temporaryDatabase.js";
 import {
   accessTokenSha256,
   mintAccessToken,
   revokeAccessToken,
   userOfAccessToken,
 } from "./accessTokens.js";
-import type { DatabaseConnection, ReactionDatabase } from "./databaseTables.js";
-import { ReactionDatabaseError } from "./reactionDatabaseErrors.js";
+import type { DatabaseConnection, ReactionDatabase } from "../model/databaseTables.js";
+import { ReactionDatabaseError } from "../model/reactionDatabaseErrors.js";
 
 const DAY_MS = 24 * 60 * 60 * 1000;
 const MINTED_AT = new Date("2026-11-26T12:00:00Z");
