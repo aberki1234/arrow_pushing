@@ -1015,7 +1015,13 @@ RDKit (RDKit.js) on every valid SMILES case and every example state (`src/toolin
       after a SMILES edit, a regeneration, a new or changed state and a dragged atom; drawn arrows join a state with
       marks; Ketcher's wedges and layout become marks (cis/trans only where RDKit finds the bond stereogenic), and a
       later state may change its stereo but not its bonds. New example reaction `sn2-2-bromobutane-inversion`.
-    * **12d** Stereo-aware skeleton symmetry (diastereotopic atoms distinct): E2 anti-periplanar assessed.
+    * **12d Done 2026-11-28.** Stereo-aware skeleton symmetry (`skeletonSymmetry.ts`): a symmetry must keep every
+      mark, so diastereotopic atoms (the two drawn H of a marked CH2) are distinct. Drawn H bonded to a marked
+      centre are not folded in the folded comparison (`stereoDistinguishedHydrogens`). Mirror symmetries (a
+      reordering that inverts every centre: the state is achiral) compare the mirror image of the result, so the
+      mirror-image answer from a meso start is correct. New example `e2-anti-periplanar-cyclohexane`
+      (trans-1-bromo-2-methylcyclohexane: only H13 on C6 is anti-periplanar; H14 and the Zaitsev H15 are authored
+      misconceptions, and H14 is wrong even without its misconception).
     * **12e** First content: SN2, E2 and bromination drafts with marks.
 
 ## 12. Corrections to the mockup content

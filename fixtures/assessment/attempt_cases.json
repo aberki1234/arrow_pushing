@@ -95,6 +95,10 @@
      "expectedAssessment": {"assessmentKind": "misconception", "misconceptionId": "ylide-attacks-oxygen", "severity": "wrong"}},
     {"caseName": "Wittig: only the C-C attack (part of both routes, carbon would have five bonds)", "reactionFile": "wittig-methylenation-cyclohexanone.json", "stateId": "reactants",
      "learnerArrows": ["lp C2 -> σ C2-C3"],
-     "expectedAssessment": {"assessmentKind": "partialProgress", "arrowsStillMissing": 1, "hasAuthoredMessage": false, "brokenRuleId": "octet-exceeded"}}
+     "expectedAssessment": {"assessmentKind": "partialProgress", "arrowsStillMissing": 1, "hasAuthoredMessage": false, "brokenRuleId": "octet-exceeded"}},
+    {"caseName": "E2 (item 12d): the anti-periplanar hydrogen", "reactionFile": "e2-anti-periplanar-cyclohexane.json", "stateId": "reactants", "learnerArrows": ["lp O9 -> σ O9-H13", "σ C6-H13 -> π C1-C6", "σ C1-Br8 -> lp Br8"], "expectedAssessment": {"assessmentKind": "correct", "stepKey": "elimination", "routePreference": "preferred", "isDifferentDrawing": false}},
+    {"caseName": "E2 (item 12d): the other hydrogen on C6, on the same face as Br, is not equivalent", "reactionFile": "e2-anti-periplanar-cyclohexane.json", "stateId": "reactants", "learnerArrows": ["lp O9 -> σ O9-H14", "σ C6-H14 -> π C1-C6", "σ C1-Br8 -> lp Br8"], "expectedAssessment": {"assessmentKind": "misconception", "misconceptionId": "hydrogen-cis-to-bromine"}},
+    {"caseName": "E2 (item 12d): the Zaitsev hydrogen on C2", "reactionFile": "e2-anti-periplanar-cyclohexane.json", "stateId": "reactants", "learnerArrows": ["lp O9 -> σ O9-H15", "σ C2-H15 -> π C1-C2", "σ C1-Br8 -> lp Br8"], "expectedAssessment": {"assessmentKind": "misconception", "misconceptionId": "zaitsev-hydrogen"}},
+    {"caseName": "SN2 with inversion: the canonical arrows give the inverted product", "reactionFile": "sn2-2-bromobutane-inversion.json", "stateId": "reactants", "learnerArrows": ["lp O1 -> σ O1-C2", "σ C2-Br3 -> lp Br3"], "expectedAssessment": {"assessmentKind": "correct", "stepKey": "substitution", "routePreference": "preferred", "isDifferentDrawing": false}}
   ]
 }

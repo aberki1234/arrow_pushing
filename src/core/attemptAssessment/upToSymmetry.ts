@@ -14,9 +14,10 @@ import type { StateGraph } from "../stateGraphs/stateGraph.js";
 import { type StateComparison, relabelledComparison } from "./resonanceEquivalence.js";
 import {
   type MapNumberRelabelling,
+  mirrorImageOf,
   relabelCurvedArrow,
-  withHydrogensFolded,
 } from "./skeletonSymmetry.js";
+import { withHydrogensFolded } from "./hydrogenFolding.js";
 
 // Comparisons from best to worst: a better one wins when several symmetries give a match.
 const COMPARISONS_BEST_FIRST: readonly StateComparison[] = [
@@ -26,10 +27,15 @@ const COMPARISONS_BEST_FIRST: readonly StateComparison[] = [
   "different",
 ];
 
-/** A state's symmetries, and its symmetries with drawn hydrogens folded into counts. */
+/**
+ * A state's symmetries; its symmetries with drawn hydrogens folded into counts (except
+ * `keptHydrogens`, those a stereo mark tells apart); and its mirror symmetries (item 12d).
+ */
 export interface StateSymmetries {
   readonly symmetries: readonly MapNumberRelabelling[];
   readonly foldedSymmetries: readonly MapNumberRelabelling[];
+  readonly mirrorSymmetries: readonly MapNumberRelabelling[];
+  readonly keptHydrogens: ReadonlySet<number>;
 }
 
 /** The learner's arrows relabelled by one or more symmetries, with how often each occurs. */
@@ -52,12 +58,18 @@ function* comparisonsOverSymmetries(
   for (const symmetry of stateSymmetries.symmetries) {
     yield compare(symmetry);
   }
+  const { keptHydrogens } = stateSymmetries;
   const compareFolded = relabelledComparison(
-    withHydrogensFolded(result),
-    withHydrogensFolded(target),
+    withHydrogensFolded(result, keptHydrogens),
+    withHydrogensFolded(target, keptHydrogens),
   );
   for (const symmetry of stateSymmetries.foldedSymmetries) {
     yield compareFolded(symmetry);
+  }
+  // From an achiral start, the mirror-image answer gives the mirror-image result (item 12d).
+  const compareMirrored = relabelledComparison(mirrorImageOf(result), target);
+  for (const symmetry of stateSymmetries.mirrorSymmetries) {
+    yield compareMirrored(symmetry);
   }
 }
 

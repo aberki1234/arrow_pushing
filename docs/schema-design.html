@@ -536,7 +536,7 @@ verifications(id uuid pk, identifier, value, expires_at, …)   -- the OAuth sta
           <li><span class="tag ok">done</span> <b>12a</b> Stereo marks (<code>@</code>, <code>@@</code>, <code>/</code>, <code>\</code>) read and written in state SMILES, kept on map numbers and checked against RDKit. </li>
           <li><span class="tag ok">done</span> <b>12b</b> Applying arrows keeps untouched stereo; centres a step makes or changes come from the next state. The editor's regeneration keeps the configuration you gave such a centre.</li>
           <li><span class="tag ok">done</span> <b>12c</b> Answers are compared with stereo: a result whose untouched stereocentre has the wrong configuration is wrong. Three lint checks: wedges against the SMILES marks, a stereocentre changing without arrows, and an unmarked stereocentre beside marked ones. In Create the wedges follow the marks after every edit and drag, and wedges drawn in the structure editor become the marks (E/Z from the drawing too). A new example reaction: SN2 on (R)-2-bromobutane.</li>
-          <li><b>12d</b> Diastereotopic atoms told apart: the anti-periplanar H of an E2 is assessed.</li>
+          <li><span class="tag ok">done</span> <b>12d</b> Atoms that only stereo tells apart (the two hydrogens of a ring CH<sub>2</sub> beside a stereocentre) are no longer treated as interchangeable: in an E2, the hydrogen that is not anti-periplanar is wrong. From a meso start, the mirror-image answer still counts as correct. A new example reaction: E2 of trans-1-bromo-2-methylcyclohexane.</li>
           <li><b>12e</b> First content: SN2, E2 and bromination drafts with stereo.</li>
         </ul></li>
     </ol>

@@ -121,8 +121,9 @@ test("applying arrows leaves the input state unchanged", () => {
 });
 
 test("the example reactions have steps to check", () => {
-  // SN2 1, SN2 with inversion 1, aldol 4 (one a change step), radical bromination 2, Wittig 4.
-  expect(exampleSteps.length).toBe(12);
+  // SN2 1, SN2 with inversion 1, E2 1, aldol 4 (one a change step), radical bromination 2,
+  // Wittig 4.
+  expect(exampleSteps.length).toBe(13);
 });
 
 test.each(exampleSteps)("example step $testId reproduces its to-state", ({ document, step }) => {

@@ -1,5 +1,5 @@
 {
-  "description": "How many skeleton symmetries each state has: reorderings of its atoms that keep every atom's element and implicit hydrogen count and every sigma-bonded pair (bond orders, charges and lone pairs are ignored, so resonance-equivalent atoms count as equivalent). The identity counts as one. Counts are worked out by hand in the comments.",
+  "description": "How many skeleton symmetries each state has: reorderings of its atoms that keep every atom's element and implicit hydrogen count and every sigma-bonded pair (bond orders, charges and lone pairs are ignored, so resonance-equivalent atoms count as equivalent). The identity counts as one. Counts are worked out by hand in the comments. Stereo (item 12d): a symmetry must also keep every stereo mark (each mark turned to the new neighbour order); a reordering that inverts every stereocentre instead is a mirror symmetry, counted in expectedMirrorSymmetryCount where given.",
   "cases": [
     {"caseName": "water with implicit hydrogens: nothing to swap", "mappedSmiles": "[OH2:1]", "expectedSymmetryCount": 1},
     {"caseName": "water with both hydrogens drawn: swap them", "mappedSmiles": "[H:2][O:1][H:4]", "expectedSymmetryCount": 2},
@@ -9,6 +9,10 @@
     {"caseName": "Kekulé benzene: 6 rotations x 2 reflections", "mappedSmiles": "[CH:1]1=[CH:2][CH:3]=[CH:4][CH:5]=[CH:6]1", "expectedSymmetryCount": 12},
     {"caseName": "Br2 beside a lone bromine radical: swap the Br2 atoms", "mappedSmiles": "[Br:1].[H:2][CH3:3].[Br:4][Br:5]", "expectedSymmetryCount": 2},
     {"caseName": "aldol alkoxide with water: swap the water hydrogens", "mappedSmiles": "[H:2][O:1][H:4].[O:6]=[CH:5][CH2:3][CH:9]([CH3:8])[O-:10]", "expectedSymmetryCount": 2},
-    {"caseName": "Wittig reactants: 3! phenyl orders x 2^3 phenyl flips x 2 cyclohexanone flips", "mappedSmiles": "[CH2-:2][P+:1]([C:11]1=[CH:12][CH:13]=[CH:14][CH:15]=[CH:16]1)([C:21]1=[CH:22][CH:23]=[CH:24][CH:25]=[CH:26]1)[C:31]1=[CH:32][CH:33]=[CH:34][CH:35]=[CH:36]1.[O:4]=[C:3]2[CH2:5][CH2:6][CH2:7][CH2:8][CH2:9]2", "expectedSymmetryCount": 96}
+    {"caseName": "Wittig reactants: 3! phenyl orders x 2^3 phenyl flips x 2 cyclohexanone flips", "mappedSmiles": "[CH2-:2][P+:1]([C:11]1=[CH:12][CH:13]=[CH:14][CH:15]=[CH:16]1)([C:21]1=[CH:22][CH:23]=[CH:24][CH:25]=[CH:26]1)[C:31]1=[CH:32][CH:33]=[CH:34][CH:35]=[CH:36]1.[O:4]=[C:3]2[CH2:5][CH2:6][CH2:7][CH2:8][CH2:9]2", "expectedSymmetryCount": 96},
+    {"caseName": "stereo: the two drawn H on a marked carbon are not swapped", "mappedSmiles": "[CH3:1][C@@:2]([H:3])([H:4])[Br:5]", "expectedSymmetryCount": 1, "expectedMirrorSymmetryCount": 1},
+    {"caseName": "stereo: trans-1,2-dibromocyclohexane keeps its two-fold rotation", "mappedSmiles": "[C@H:1]1([C@H:2]([CH2:3][CH2:4][CH2:5][CH2:6]1)[Br:7])[Br:8]", "expectedSymmetryCount": 2, "expectedMirrorSymmetryCount": 0},
+    {"caseName": "stereo: in meso cis-1,2-dibromocyclohexane the swap is a mirror", "mappedSmiles": "[C@@H:1]1([C@H:2]([CH2:3][CH2:4][CH2:5][CH2:6]1)[Br:7])[Br:8]", "expectedSymmetryCount": 1, "expectedMirrorSymmetryCount": 1},
+    {"caseName": "stereo: an E double bond keeps the swap of its two methyl-free ends", "mappedSmiles": "[CH3:1]/[CH:2]=[CH:3]/[CH3:4]", "expectedSymmetryCount": 2, "expectedMirrorSymmetryCount": 0}
   ]
 }

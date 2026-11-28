@@ -176,9 +176,10 @@ function applyEdit(document: JsonObject, editCase: InvalidEditCase): JsonObject 
   return editedDocument;
 }
 
-test("the five example reactions are present", () => {
+test("the six example reactions are present", () => {
   expect(exampleReactionFiles).toEqual([
     "aldol-addition-base.json",
+    "e2-anti-periplanar-cyclohexane.json",
     "radical-bromination-methane.json",
     "sn2-2-bromobutane-inversion.json",
     "sn2-hydroxide-bromomethane.json",

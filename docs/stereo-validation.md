@@ -3,6 +3,11 @@
 > **Agreed 2026-11-26**: the owner chose every recommendation (SMILES marks; a product question for face choice;
 > one enantiomer + "racemic"; phases 1–2 now). Build item 12 in `schema-design.md` §10; SPEC §4 "Chemistry
 > conventions" revised. Human copy: `docs/stereo-validation.html`.
+>
+> **Built 2026-11-28**: phases 1 and 2 (items 12a–12d; progress and details in `schema-design.md` §10). The
+> mirror rule of phase 2 is: from a state that some reordering of its atoms turns into its mirror image (an
+> achiral state with marks, e.g. a meso diol), the result is also compared mirrored. The "racemic" caption is a
+> state field, `stereoMeaning: "racemic"` (decided 2026-11-28).
 
 ## 1. What "stereo validation" can mean in ArrowPush
 

@@ -12,15 +12,17 @@ import {
   relabelCurvedArrow,
   relabelStateGraph,
   skeletonSymmetries,
+  mirrorSymmetries,
   skeletonSymmetriesWithinCap,
-  withHydrogensFolded,
 } from "./skeletonSymmetry.js";
+import { withHydrogensFolded } from "./hydrogenFolding.js";
 
 const symmetryCases = fixtureCaseEntries("assessment/skeleton_symmetry_cases.json", "cases").map(
   (entry) => ({
     caseName: textField(entry, "caseName"),
     mappedSmiles: textField(entry, "mappedSmiles"),
     expectedSymmetryCount: entry.expectedSymmetryCount,
+    expectedMirrorSymmetryCount: entry.expectedMirrorSymmetryCount,
   }),
 );
 const resonanceCases = fixtureCaseEntries("assessment/resonance_cases.json", "cases").map(
@@ -34,11 +36,16 @@ const resonanceCases = fixtureCaseEntries("assessment/resonance_cases.json", "ca
 const benzene = "[CH:1]1=[CH:2][CH:3]=[CH:4][CH:5]=[CH:6]1";
 const benzeneIdentity = new Map([1, 2, 3, 4, 5, 6].map((mapNumber) => [mapNumber, mapNumber]));
 
-test.each(symmetryCases)("$caseName", ({ mappedSmiles, expectedSymmetryCount }) => {
-  expect(skeletonSymmetries(stateGraphFromMappedSmiles(mappedSmiles)).length).toBe(
-    expectedSymmetryCount,
-  );
-});
+test.each(symmetryCases)(
+  "$caseName",
+  ({ mappedSmiles, expectedSymmetryCount, expectedMirrorSymmetryCount }) => {
+    const graph = stateGraphFromMappedSmiles(mappedSmiles);
+    expect(skeletonSymmetries(graph).length).toBe(expectedSymmetryCount);
+    if (expectedMirrorSymmetryCount !== undefined) {
+      expect(mirrorSymmetries(graph).length).toBe(expectedMirrorSymmetryCount);
+    }
+  },
+);
 
 test("the identity comes first and every symmetry is a bijection", () => {
   const symmetries = skeletonSymmetries(stateGraphFromMappedSmiles(benzene));
@@ -202,4 +209,14 @@ test("a result is identical under a symmetry that turns its marks onto the targe
   expect(compare(swap)).toBe("identical");
   const identity = new Map([1, 2, 3, 4, 5, 6].map((mapNumber) => [mapNumber, mapNumber]));
   expect(compare(identity)).toBe("different");
+});
+
+test("hydrogens that a stereo mark tells apart are not folded", () => {
+  // The two drawn H on C2 are diastereotopic: folding either into a count would hide which one
+  // an arrow took (item 12d).
+  const graph = stateGraphFromMappedSmiles("[CH3:1][C@@:2]([H:3])([H:4])[Br:5].[H:6][OH:7]");
+  const folded = withHydrogensFolded(graph, new Set([3, 4]));
+  expect(folded.mapNumberToAtom.has(3)).toBe(true);
+  expect(folded.mapNumberToAtom.has(4)).toBe(true);
+  expect(folded.mapNumberToAtom.has(6)).toBe(false);
 });
