@@ -1,0 +1,409 @@
+{
+  "steps": [
+    {
+      "stepKey": "protonation",
+      "stepKind": "polar",
+      "toStateId": "oxonium-ion",
+      "fromStateId": "reactants",
+      "canonicalArrows": [
+        "lp O5 -> σ O5-H7",
+        "σ H7-Br8 -> lp Br8"
+      ],
+      "routePreference": "preferred",
+      "explanationAfterStep": "The OH group is now OH₂⁺: it can leave as a neutral water molecule, a good leaving group."
+    },
+    {
+      "stepKey": "loss-of-water",
+      "stepKind": "polar",
+      "toStateId": "secondary-cation",
+      "fromStateId": "oxonium-ion",
+      "canonicalArrows": [
+        "σ C2-O5 -> lp O5"
+      ],
+      "routePreference": "preferred",
+      "explanationAfterStep": "A secondary carbocation: not very stable. Its neighbour carries a C–H bond on a carbon with two methyl groups, which matters next."
+    },
+    {
+      "stepKey": "loss-of-water-with-hydride-shift",
+      "stepKind": "polar",
+      "toStateId": "tertiary-cation",
+      "fromStateId": "oxonium-ion",
+      "canonicalArrows": [
+        "σ C2-O5 -> lp O5",
+        "σ C3-H9 -> σ C2-H9"
+      ],
+      "routePreference": "accepted",
+      "explanationAfterStep": "Also correct: the hydride can shift as water leaves, so the poor secondary cation never fully forms. Both pictures appear in textbooks."
+    },
+    {
+      "stepKey": "hydride-shift",
+      "stepKind": "polar",
+      "toStateId": "tertiary-cation",
+      "fromStateId": "secondary-cation",
+      "canonicalArrows": [
+        "σ C3-H9 -> σ C2-H9"
+      ],
+      "routePreference": "preferred",
+      "explanationAfterStep": "The hydrogen moves with its bonding pair (as a hydride), so the positive charge ends up on the carbon it left. That carbon is tertiary: three alkyl groups stabilise it."
+    },
+    {
+      "stepKey": "bromide-adds",
+      "stepKind": "polar",
+      "toStateId": "products",
+      "fromStateId": "tertiary-cation",
+      "canonicalArrows": [
+        "lp Br8 -> σ Br8-C3"
+      ],
+      "routePreference": "preferred",
+      "explanationAfterStep": "2-Bromo-2-methylbutane: the bromine ends up on a different carbon from the one that carried the OH, the signature of a carbocation rearrangement."
+    }
+  ],
+  "title": "3-Methylbutan-2-ol and HBr",
+  "authors": [
+    {
+      "url": null,
+      "name": "Maksim"
+    }
+  ],
+  "licence": "CC-BY-SA-4.0",
+  "subtitle": "A hydride shift moves the bromine",
+  "references": [
+    "Clayden, Greeves and Warren, Organic Chemistry, 2nd edition (Oxford University Press), chapter 15",
+    "Clayden, Greeves and Warren, Organic Chemistry, 2nd edition (Oxford University Press), chapter 36"
+  ],
+  "reactionSlug": "3-methylbutan-2-ol-and-hbr",
+  "startStateId": "reactants",
+  "formatVersion": 1,
+  "difficultyTier": 3,
+  "stateIdToState": {
+    "products": {
+      "caption": "2-bromo-2-methylbutane + water",
+      "mappedSmiles": "[CH3:1][CH:2]([H:9])[C:3]([Br:8])([CH3:4])[CH3:6].[H:7][OH:5]",
+      "mapNumberToCoordinates": {
+        "1": [
+          0,
+          0
+        ],
+        "2": [
+          1.3,
+          0.75
+        ],
+        "3": [
+          2.6,
+          0
+        ],
+        "4": [
+          1.85,
+          -1.3
+        ],
+        "5": [
+          -0.8,
+          2.54
+        ],
+        "6": [
+          3.9,
+          -0.75
+        ],
+        "7": [
+          -2.1,
+          3.29
+        ],
+        "8": [
+          3.35,
+          1.3
+        ],
+        "9": [
+          1.3,
+          2.25
+        ]
+      }
+    },
+    "reactants": {
+      "caption": "3-methylbutan-2-ol + HBr",
+      "hintTiers": [
+        "Hydroxide is a poor leaving group. How can the OH group be made into a better one?",
+        "The oxygen of the alcohol takes the proton of HBr; the H–Br pair goes onto bromine. Two arrows.",
+        "Arrow 1: a lone pair on the alcohol oxygen forms a bond to the hydrogen of HBr. Arrow 2: the H–Br bond breaks, and its pair goes onto bromine."
+      ],
+      "mappedSmiles": "[CH3:1][C@@H:2]([C:3]([CH3:4])([CH3:6])[H:9])[OH:5].[H:7][Br:8]",
+      "learnerPrompt": "HBr is a strong acid. Show the first step.",
+      "stereoMeaning": "racemic",
+      "misconceptions": [
+        {
+          "severity": "wrong",
+          "arrowPattern": "σ C2-O5 -> *",
+          "feedbackMessage": "Hydroxide is a strong base and a very poor leaving group. Protonate the oxygen first, so that water leaves instead.",
+          "misconceptionId": "hydroxide-leaves",
+          "misconceptionTag": "poor-leaving-group"
+        },
+        {
+          "severity": "wrong",
+          "arrowPattern": "lp Br8 -> C2",
+          "feedbackMessage": "Bromide cannot push out hydroxide, a very poor leaving group. The acid must protonate the oxygen first.",
+          "misconceptionId": "bromide-displaces-hydroxide",
+          "misconceptionTag": "poor-leaving-group"
+        }
+      ],
+      "bondToWedgeStyle": {
+        "2-1": "dash"
+      },
+      "mapNumberToCoordinates": {
+        "1": [
+          0,
+          0
+        ],
+        "2": [
+          1.3,
+          0.75
+        ],
+        "3": [
+          2.6,
+          0
+        ],
+        "4": [
+          1.85,
+          -1.3
+        ],
+        "5": [
+          1.3,
+          2.25
+        ],
+        "6": [
+          3.9,
+          -0.75
+        ],
+        "7": [
+          1.02,
+          4.67
+        ],
+        "8": [
+          -0.28,
+          3.92
+        ],
+        "9": [
+          3.35,
+          1.3
+        ]
+      },
+      "partialProgressMessages": [
+        {
+          "learnerArrows": [
+            "lp O5 -> σ O5-H7"
+          ],
+          "feedbackMessage": "Right: the oxygen takes the proton. Hydrogen can only have one bond, so what happens to the H–Br bond?"
+        }
+      ]
+    },
+    "oxonium-ion": {
+      "caption": "protonated alcohol + bromide",
+      "hintTiers": [
+        "The C–O bond breaks, and water leaves with both electrons. What kind of carbon is left with the charge?",
+        "The C–O bond breaks heterolytically, its pair going onto oxygen. One arrow, leaving a secondary carbocation.",
+        "The C–O bond breaks, and its pair goes onto the oxygen, which leaves as water."
+      ],
+      "mappedSmiles": "[CH3:1][C@@H:2]([C:3]([CH3:4])([CH3:6])[H:9])[OH+:5][H:7].[Br-:8]",
+      "learnerPrompt": "Water leaves. Draw the step.",
+      "stereoMeaning": "racemic",
+      "misconceptions": [
+        {
+          "severity": "plausible",
+          "arrowPattern": "lp Br8 -> C2",
+          "feedbackMessage": "SN2 at this secondary carbon, next to a branch point, is slow. The product is rearranged, which shows that a carbocation forms.",
+          "misconceptionId": "sn2-by-bromide",
+          "misconceptionTag": "sn2-instead-of-sn1"
+        },
+        {
+          "severity": "wrong",
+          "arrowPattern": "σ C2-O5 -> lp C2",
+          "feedbackMessage": "The C–O pair goes to the oxygen, which leaves as neutral water.",
+          "misconceptionId": "bond-electrons-to-carbon",
+          "misconceptionTag": "electrons-toward-less-electronegative-atom"
+        }
+      ],
+      "bondToWedgeStyle": {
+        "2-1": "dash"
+      },
+      "mapNumberToCoordinates": {
+        "1": [
+          0,
+          0
+        ],
+        "2": [
+          1.3,
+          0.75
+        ],
+        "3": [
+          2.6,
+          0
+        ],
+        "4": [
+          1.85,
+          -1.3
+        ],
+        "5": [
+          1.3,
+          2.25
+        ],
+        "6": [
+          3.9,
+          -0.75
+        ],
+        "7": [
+          2.6,
+          3
+        ],
+        "8": [
+          4.5,
+          2.9
+        ],
+        "9": [
+          3.35,
+          1.3
+        ]
+      }
+    },
+    "tertiary-cation": {
+      "caption": "tertiary carbocation after the hydride shift",
+      "hintTiers": [
+        "Which species has lone pairs and a negative charge? Which carbon is now positive?",
+        "A bromide lone pair forms a bond to the tertiary positive carbon. One arrow.",
+        "A lone pair on bromide forms a new bond to the tertiary positive carbon."
+      ],
+      "mappedSmiles": "[CH3:1][CH:2]([H:9])[C+:3]([CH3:4])[CH3:6].[H:7][OH:5].[Br-:8]",
+      "learnerPrompt": "Bromide captures the cation. Draw the final step.",
+      "misconceptions": [
+        {
+          "severity": "wrong",
+          "arrowPattern": "lp Br8 -> C2",
+          "feedbackMessage": "After the shift, the carbon that lost water has four bonds and no charge. The positive charge is now on the tertiary carbon.",
+          "misconceptionId": "bromide-attacks-old-carbon",
+          "misconceptionTag": "attack-wrong-carbon"
+        },
+        {
+          "severity": "plausible",
+          "arrowPattern": "lp O5 -> C3",
+          "feedbackMessage": "Water could add, but in concentrated HBr the tertiary alcohol formed would simply lose water again. Bromide traps the cation for good.",
+          "misconceptionId": "water-adds",
+          "misconceptionTag": "reversible-capture"
+        }
+      ],
+      "mapNumberToCoordinates": {
+        "1": [
+          0,
+          0
+        ],
+        "2": [
+          1.3,
+          0.75
+        ],
+        "3": [
+          2.6,
+          0
+        ],
+        "4": [
+          2.6,
+          -1.5
+        ],
+        "5": [
+          -0.8,
+          2.54
+        ],
+        "6": [
+          3.9,
+          0.75
+        ],
+        "7": [
+          -2.1,
+          3.29
+        ],
+        "8": [
+          3.7,
+          2.6
+        ],
+        "9": [
+          1.3,
+          2.25
+        ]
+      }
+    },
+    "secondary-cation": {
+      "caption": "secondary carbocation + water + bromide",
+      "hintTiers": [
+        "A tertiary carbocation is more stable than a secondary one. Which neighbouring bond could move to put the charge on a tertiary carbon?",
+        "The C–H bond on the neighbouring carbon moves, with its hydrogen, onto the positive carbon: a 1,2-hydride shift. One arrow.",
+        "The C–H bond of the neighbouring carbon becomes a new C–H bond to the positive carbon (point at the dashed line)."
+      ],
+      "mappedSmiles": "[CH3:1][CH+:2][C:3]([H:9])([CH3:4])[CH3:6].[H:7][OH:5].[Br-:8]",
+      "learnerPrompt": "Before bromide arrives, the cation rearranges. Draw the shift.",
+      "misconceptions": [
+        {
+          "severity": "plausible",
+          "arrowPattern": "lp Br8 -> C2",
+          "feedbackMessage": "Bromide could trap this secondary cation, and a little 2-bromo-3-methylbutane does form. But the hydride shift to a tertiary cation is faster, so the main product is rearranged.",
+          "misconceptionId": "bromide-traps-secondary-cation",
+          "misconceptionTag": "cation-trapped-before-rearranging"
+        },
+        {
+          "severity": "wrong",
+          "arrowPattern": "σ C3-C4 -> C2",
+          "feedbackMessage": "A methyl shift would give another secondary cation: nothing gained. Move the hydrogen, which leaves a tertiary cation.",
+          "misconceptionId": "methyl-shift",
+          "misconceptionTag": "rearrangement-without-gain"
+        }
+      ],
+      "mapNumberToCoordinates": {
+        "1": [
+          0,
+          0
+        ],
+        "2": [
+          1.3,
+          0.75
+        ],
+        "3": [
+          2.6,
+          0
+        ],
+        "4": [
+          1.85,
+          -1.3
+        ],
+        "5": [
+          -0.14,
+          2.54
+        ],
+        "6": [
+          3.9,
+          -0.75
+        ],
+        "7": [
+          1.16,
+          3.29
+        ],
+        "8": [
+          4.6,
+          2.6
+        ],
+        "9": [
+          3.35,
+          1.3
+        ]
+      }
+    }
+  },
+  "conditionsLabel": "HBr (48% aq.) · heat",
+  "reactionClasses": [
+    "substitution",
+    "rearrangement"
+  ],
+  "reactionVersion": 2,
+  "mechanismSummary": "Protonation turns OH into a good leaving group. Water leaves to give a secondary carbocation, which rearranges by a 1,2-hydride shift to the more stable tertiary cation before bromide adds. A rearranged product is evidence for a carbocation, and so for SN1.",
+  "dailyPuzzleEligible": true,
+  "spectatorMapNumbers": [],
+  "atomRoleToMapNumbers": {
+    "migratingHydrogen": [
+      9
+    ]
+  },
+  "previousReactionVersion": 1
+}

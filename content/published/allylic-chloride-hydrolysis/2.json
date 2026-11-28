@@ -1,0 +1,432 @@
+{
+  "steps": [
+    {
+      "stepKey": "ionisation",
+      "stepKind": "polar",
+      "toStateId": "allylic-cation",
+      "fromStateId": "reactants",
+      "canonicalArrows": [
+        "σ C3-Cl5 -> lp Cl5"
+      ],
+      "routePreference": "preferred",
+      "explanationAfterStep": "The allylic cation is delocalised: the positive charge is shared between the carbon that lost chlorine and the end CH₂ carbon. Both can be attacked."
+    },
+    {
+      "stepKey": "water-attacks-secondary-carbon",
+      "stepKind": "polar",
+      "toStateId": "secondary-oxonium-ion",
+      "fromStateId": "allylic-cation",
+      "canonicalArrows": [
+        "lp O6 -> σ O6-C3"
+      ],
+      "routePreference": "preferred",
+      "explanationAfterStep": "Attack at the secondary carbon leads to but-3-en-2-ol. That carbon is the more substituted end and carries more of the positive charge."
+    },
+    {
+      "stepKey": "water-attacks-end-carbon",
+      "stepKind": "polar",
+      "toStateId": "primary-oxonium-ion",
+      "fromStateId": "allylic-cation",
+      "canonicalArrows": [
+        "lp O6 -> σ O6-C1",
+        "π C1-C2 -> π C2-C3"
+      ],
+      "routePreference": "accepted",
+      "explanationAfterStep": "Also correct: attack at the end CH₂ carbon, with the double bond moving over. This leads to but-2-en-1-ol, the other regioisomer, which also forms. An allylic cation gives a mixture."
+    },
+    {
+      "stepKey": "deprotonation",
+      "stepKind": "polar",
+      "toStateId": "products",
+      "fromStateId": "secondary-oxonium-ion",
+      "canonicalArrows": [
+        "lp O8 -> σ O8-H7",
+        "σ O6-H7 -> lp O6"
+      ],
+      "routePreference": "preferred",
+      "explanationAfterStep": "But-3-en-2-ol: water has replaced chlorine on the same carbon."
+    },
+    {
+      "stepKey": "deprotonation-of-end-product",
+      "stepKind": "polar",
+      "toStateId": "end-products",
+      "fromStateId": "primary-oxonium-ion",
+      "canonicalArrows": [
+        "lp O8 -> σ O8-H7",
+        "σ O6-H7 -> lp O6"
+      ],
+      "routePreference": "accepted",
+      "explanationAfterStep": "But-2-en-1-ol: the OH is on the end carbon and the double bond has moved one position along the chain."
+    }
+  ],
+  "title": "Hydrolysis of an allylic chloride",
+  "authors": [
+    {
+      "url": null,
+      "name": "Maksim"
+    }
+  ],
+  "licence": "CC-BY-SA-4.0",
+  "subtitle": "One cation, two ends, two alcohols",
+  "references": [
+    "Clayden, Greeves and Warren, Organic Chemistry, 2nd edition (Oxford University Press), chapter 15"
+  ],
+  "reactionSlug": "allylic-chloride-hydrolysis",
+  "startStateId": "reactants",
+  "formatVersion": 1,
+  "difficultyTier": 3,
+  "stateIdToState": {
+    "products": {
+      "caption": "but-3-en-2-ol (main product) + hydronium chloride",
+      "mappedSmiles": "[CH2:1]=[CH:2][C@@H:3]([CH3:4])[OH:6].[Cl-:5].[H:7][OH2+:8]",
+      "stereoMeaning": "racemic",
+      "bondToWedgeStyle": {
+        "3-4": "wedge"
+      },
+      "mapNumberToCoordinates": {
+        "1": [
+          0,
+          0
+        ],
+        "2": [
+          1.3,
+          0.75
+        ],
+        "3": [
+          2.6,
+          0
+        ],
+        "4": [
+          3.9,
+          0.75
+        ],
+        "5": [
+          6,
+          0
+        ],
+        "6": [
+          2.6,
+          -1.5
+        ],
+        "7": [
+          4.3,
+          -2.4
+        ],
+        "8": [
+          5.5,
+          -3.3
+        ]
+      }
+    },
+    "reactants": {
+      "caption": "3-chlorobut-1-ene + water",
+      "hintTiers": [
+        "Breaking the C–Cl bond would put the positive charge next to a C=C double bond. Why is that a good place for it?",
+        "The C–Cl bond breaks on its own, both electrons going to chlorine. One arrow.",
+        "The C–Cl bond breaks, and its pair goes onto chlorine, leaving an allylic cation."
+      ],
+      "mappedSmiles": "[CH2:1]=[CH:2][C@H:3]([CH3:4])[Cl:5].[OH:6][H:7].[OH2:8]",
+      "learnerPrompt": "Show the first step in water.",
+      "stereoMeaning": "racemic",
+      "misconceptions": [
+        {
+          "severity": "plausible",
+          "arrowPattern": "lp O* -> C3",
+          "feedbackMessage": "Water is a weak nucleophile. Here the C–Cl bond ionises first, because the cation it gives is allylic and stabilised by the C=C bond.",
+          "misconceptionId": "water-attacks-directly",
+          "misconceptionTag": "sn2-instead-of-sn1"
+        },
+        {
+          "severity": "wrong",
+          "arrowPattern": "σ C3-Cl5 -> lp C3",
+          "feedbackMessage": "The C–Cl pair goes to chlorine, the more electronegative atom.",
+          "misconceptionId": "bond-electrons-to-carbon",
+          "misconceptionTag": "electrons-toward-less-electronegative-atom"
+        }
+      ],
+      "bondToWedgeStyle": {
+        "3-4": "dash"
+      },
+      "mapNumberToCoordinates": {
+        "1": [
+          0,
+          0
+        ],
+        "2": [
+          1.3,
+          0.75
+        ],
+        "3": [
+          2.6,
+          0
+        ],
+        "4": [
+          3.9,
+          0.75
+        ],
+        "5": [
+          2.6,
+          -1.5
+        ],
+        "6": [
+          0.4,
+          -2.4
+        ],
+        "7": [
+          0.4,
+          -3.9
+        ],
+        "8": [
+          -1.9,
+          -3.4
+        ]
+      }
+    },
+    "end-products": {
+      "caption": "but-2-en-1-ol (the other regioisomer, also formed) + hydronium chloride",
+      "mappedSmiles": "[CH2:1](/[CH:2]=[CH:3]/[CH3:4])[OH:6].[Cl-:5].[H:7][OH2+:8]",
+      "mapNumberToCoordinates": {
+        "1": [
+          0,
+          0
+        ],
+        "2": [
+          1.3,
+          0.75
+        ],
+        "3": [
+          2.6,
+          0
+        ],
+        "4": [
+          3.9,
+          0.75
+        ],
+        "5": [
+          6,
+          0
+        ],
+        "6": [
+          0,
+          -1.5
+        ],
+        "7": [
+          -1.7,
+          -2.4
+        ],
+        "8": [
+          -2.9,
+          -3.3
+        ]
+      }
+    },
+    "allylic-cation": {
+      "caption": "the allylic cation (one resonance form drawn)",
+      "hintTiers": [
+        "Picture the other resonance form: the charge is shared by the inner, secondary carbon and the end CH₂ carbon. Which carries more of it?",
+        "Water attacks the secondary carbon, the one chlorine left, which carries more of the positive charge. One arrow.",
+        "The lone pair on water's oxygen forms a new bond to the positive secondary carbon."
+      ],
+      "mappedSmiles": "[CH2:1]=[CH:2][CH+:3][CH3:4].[Cl-:5].[H:7][OH:6].[OH2:8]",
+      "learnerPrompt": "Water can attack either end of the allylic cation. Draw the attack that gives the main product.",
+      "misconceptions": [
+        {
+          "severity": "plausible",
+          "arrowPattern": "lp Cl5 -> C3",
+          "feedbackMessage": "That re-forms the starting chloride. Water is in huge excess and traps the cation as the alcohol.",
+          "misconceptionId": "chloride-returns",
+          "misconceptionTag": "ion-pair-return"
+        },
+        {
+          "severity": "plausible",
+          "arrowPattern": "lp Cl5 -> C1",
+          "feedbackMessage": "Chloride can add at the end carbon too, giving 1-chlorobut-2-ene: this allylic rearrangement does happen. But water is in huge excess, and it traps the cation as the alcohol.",
+          "misconceptionId": "chloride-adds-at-the-end",
+          "misconceptionTag": "ion-pair-return"
+        }
+      ],
+      "mapNumberToCoordinates": {
+        "1": [
+          0,
+          0
+        ],
+        "2": [
+          1.3,
+          0.75
+        ],
+        "3": [
+          2.6,
+          0
+        ],
+        "4": [
+          3.9,
+          0.75
+        ],
+        "5": [
+          6,
+          0
+        ],
+        "6": [
+          1.3,
+          -1.9
+        ],
+        "7": [
+          1.3,
+          -3.4
+        ],
+        "8": [
+          -1.9,
+          -3.4
+        ]
+      },
+      "partialProgressMessages": [
+        {
+          "learnerArrows": [
+            "π C1-C2 -> π C2-C3"
+          ],
+          "feedbackMessage": "That moves the charge to the end carbon: the other resonance form. Attack there is possible too (it gives the other alcohol), but draw the water arrow in the same step."
+        }
+      ]
+    },
+    "primary-oxonium-ion": {
+      "caption": "protonated but-2-en-1-ol",
+      "hintTiers": [
+        "The O–H bond of a positively charged oxygen is acidic. Which molecule present can act as a base?",
+        "A second water takes the proton from the positive oxygen; the O–H pair stays on that oxygen. Two arrows.",
+        "Arrow 1: a lone pair of a second water forms a bond to the hydrogen on the positive oxygen. Arrow 2: that O–H bond breaks, and its pair goes back onto the oxygen."
+      ],
+      "mappedSmiles": "[CH2:1](/[CH:2]=[CH:3]/[CH3:4])[OH+:6][H:7].[Cl-:5].[OH2:8]",
+      "learnerPrompt": "Remove the proton to give the alcohol.",
+      "misconceptions": [
+        {
+          "severity": "plausible",
+          "arrowPattern": "lp Cl5 -> H7",
+          "feedbackMessage": "Chloride is a very weak base (HCl is a strong acid). Water, the solvent, takes the proton.",
+          "misconceptionId": "chloride-as-base-at-end-carbon",
+          "misconceptionTag": "weak-base"
+        }
+      ],
+      "mapNumberToCoordinates": {
+        "1": [
+          0,
+          0
+        ],
+        "2": [
+          1.3,
+          0.75
+        ],
+        "3": [
+          2.6,
+          0
+        ],
+        "4": [
+          3.9,
+          0.75
+        ],
+        "5": [
+          6,
+          0
+        ],
+        "6": [
+          0,
+          -1.5
+        ],
+        "7": [
+          -1.3,
+          -2.25
+        ],
+        "8": [
+          -2.9,
+          -3.3
+        ]
+      },
+      "partialProgressMessages": [
+        {
+          "learnerArrows": [
+            "lp O8 -> σ O8-H7"
+          ],
+          "feedbackMessage": "Right base, right proton. Hydrogen can only have one bond: where does the old O–H pair go?"
+        }
+      ]
+    },
+    "secondary-oxonium-ion": {
+      "caption": "protonated but-3-en-2-ol",
+      "hintTiers": [
+        "The O–H bond of a positively charged oxygen is acidic. Which molecule present can act as a base?",
+        "A second water takes the proton from the positive oxygen; the O–H pair stays on that oxygen. Two arrows.",
+        "Arrow 1: a lone pair of a second water forms a bond to the hydrogen on the positive oxygen. Arrow 2: that O–H bond breaks, and its pair goes back onto the oxygen."
+      ],
+      "mappedSmiles": "[CH2:1]=[CH:2][C@@H:3]([CH3:4])[OH+:6][H:7].[Cl-:5].[OH2:8]",
+      "learnerPrompt": "Remove the proton to give the alcohol.",
+      "stereoMeaning": "racemic",
+      "misconceptions": [
+        {
+          "severity": "plausible",
+          "arrowPattern": "lp Cl5 -> H7",
+          "feedbackMessage": "Chloride is a very weak base (HCl is a strong acid). Water, the solvent, takes the proton.",
+          "misconceptionId": "chloride-as-base",
+          "misconceptionTag": "weak-base"
+        }
+      ],
+      "bondToWedgeStyle": {
+        "3-4": "wedge"
+      },
+      "mapNumberToCoordinates": {
+        "1": [
+          0,
+          0
+        ],
+        "2": [
+          1.3,
+          0.75
+        ],
+        "3": [
+          2.6,
+          0
+        ],
+        "4": [
+          3.9,
+          0.75
+        ],
+        "5": [
+          6,
+          0
+        ],
+        "6": [
+          2.6,
+          -1.5
+        ],
+        "7": [
+          3.9,
+          -2.25
+        ],
+        "8": [
+          5.5,
+          -3.3
+        ]
+      },
+      "partialProgressMessages": [
+        {
+          "learnerArrows": [
+            "lp O8 -> σ O8-H7"
+          ],
+          "feedbackMessage": "Right base, right proton. Hydrogen can only have one bond: where does the old O–H pair go?"
+        }
+      ]
+    }
+  },
+  "conditionsLabel": "H₂O · 25 °C",
+  "reactionClasses": [
+    "substitution"
+  ],
+  "reactionVersion": 2,
+  "mechanismSummary": "SN1 through an allylic cation. The positive charge is shared by two carbons, so water attacks both: at the carbon chlorine left, giving but-3-en-2-ol, and at the far end, with the double bond moving along, giving but-2-en-1-ol. 1-Chlorobut-2-ene ionises to the same cation and gives the same two alcohols.",
+  "dailyPuzzleEligible": true,
+  "spectatorMapNumbers": [],
+  "atomRoleToMapNumbers": {
+    "leavingGroup": [
+      5
+    ]
+  },
+  "previousReactionVersion": 1
+}

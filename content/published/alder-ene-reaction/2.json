@@ -1,0 +1,201 @@
+{
+  "steps": [
+    {
+      "stepKey": "ene-reaction",
+      "stepKind": "polar",
+      "toStateId": "product",
+      "fromStateId": "reactants",
+      "canonicalArrows": [
+        "π C2-C3 -> σ C3-C4",
+        "π C4-C5 -> σ C5-H9",
+        "σ C1-H9 -> π C1-C2"
+      ],
+      "routePreference": "preferred",
+      "explanationAfterStep": "A group-transfer pericyclic reaction: like a Diels–Alder, but one of the three pairs is the allylic C–H σ bond instead of a second π bond. A new C–C σ bond forms, the H moves to the enophile, and the alkene moves along by one carbon. The transition state is a six-membered ring with both partners reacting on one face (suprafacial), and the enophile's C=O groups prefer to sit endo, as in the Diels–Alder. The app does not check stereochemistry yet, so the drawings carry no wedges."
+    }
+  ],
+  "title": "Alder ene reaction",
+  "authors": [
+    {
+      "url": null,
+      "name": "Maksim"
+    }
+  ],
+  "licence": "CC-BY-SA-4.0",
+  "subtitle": "Propene and maleic anhydride: an allylic H moves as a new C–C bond forms",
+  "references": [
+    "Clayden, Greeves and Warren, Organic Chemistry, 2nd edition (Oxford University Press), chapter 35",
+    "Fleming, Pericyclic Reactions, 2nd edition (Oxford Chemistry Primers, Oxford University Press)"
+  ],
+  "reactionSlug": "alder-ene-reaction",
+  "startStateId": "reactants",
+  "formatVersion": 1,
+  "difficultyTier": 2,
+  "stateIdToState": {
+    "product": {
+      "caption": "allylsuccinic anhydride (2-allylsuccinic anhydride)",
+      "mappedSmiles": "[CH2:1]=[CH:2][CH2:3][C@H:4]1[CH:5]([C:6](=[O:7])[O:8][C:10]1=[O:11])[H:9]",
+      "stereoMeaning": "racemic",
+      "bondToWedgeStyle": {
+        "4-3": "wedge"
+      },
+      "mapNumberToCoordinates": {
+        "1": [
+          2.7,
+          -0.75
+        ],
+        "2": [
+          2.7,
+          0.75
+        ],
+        "3": [
+          1.4,
+          1.5
+        ],
+        "4": [
+          0.1,
+          0.75
+        ],
+        "5": [
+          0.1,
+          -0.75
+        ],
+        "6": [
+          -1.32,
+          -1.21
+        ],
+        "7": [
+          -1.79,
+          -2.64
+        ],
+        "8": [
+          -2.2,
+          0
+        ],
+        "9": [
+          1.4,
+          -1.5
+        ],
+        "10": [
+          -1.32,
+          1.21
+        ],
+        "11": [
+          -1.79,
+          2.64
+        ]
+      }
+    },
+    "reactants": {
+      "caption": "propene (the ene) + maleic anhydride (the enophile)",
+      "hintTiers": [
+        "Count the electrons: the propene C=C (2), the anhydride C=C (2) and the allylic C–H σ bond (2). Six electrons can move round a ring of six atoms: which six?",
+        "The CH₂ end of propene bonds to one anhydride carbon; the other anhydride carbon takes the allylic H; the C–H pair becomes a new C=C. Three arrows round the ring.",
+        "Arrow 1: from the propene π bond to a new bond between its CH₂ end and an alkene carbon of maleic anhydride. Arrow 2: from the anhydride C=C π bond to a new bond between its other carbon and the allylic H of propene. Arrow 3: from the C–H bond of the methyl group to the bond between that carbon and its neighbour (a new C=C)."
+      ],
+      "mappedSmiles": "[CH2:1]([H:9])[CH:2]=[CH2:3].[CH:4]1=[CH:5][C:6](=[O:7])[O:8][C:10]1=[O:11]",
+      "learnerPrompt": "The alkene and maleic anhydride join, and an H moves from propene to the anhydride, all in one step. Draw the arrows.",
+      "misconceptions": [
+        {
+          "severity": "wrong",
+          "arrowPattern": "π C2-C3 -> σ C3-C4; π C4-C5 -> σ C2-C5",
+          "feedbackMessage": "That joins the two alkenes into a cyclobutane, a [2+2] cycloaddition. Two alkenes do not do this on heating. Use the allylic C–H bond as the third pair of electrons instead.",
+          "misconceptionId": "two-plus-two",
+          "misconceptionTag": "two-plus-two-cycloaddition"
+        },
+        {
+          "severity": "wrong",
+          "arrowPattern": "π C2-C3 -> σ C2-C4",
+          "feedbackMessage": "The new C–C bond forms at the end of the propene C=C away from the methyl group, so that the C–H pair can make the new C=C on the other side.",
+          "misconceptionId": "middle-carbon-bonds",
+          "misconceptionTag": "wrong-atom-bonds"
+        },
+        {
+          "severity": "wrong",
+          "arrowPattern": "lp O7 -> σ O7-H9",
+          "feedbackMessage": "Propene's C–H is not acidic and the carbonyl oxygen is not basic enough to take it. The H moves as part of the cyclic shift, to the anhydride carbon, not to oxygen.",
+          "misconceptionId": "proton-transfer",
+          "misconceptionTag": "wrong-mechanism"
+        }
+      ],
+      "mapNumberToCoordinates": {
+        "1": [
+          2.7,
+          -0.75
+        ],
+        "2": [
+          2.7,
+          0.75
+        ],
+        "3": [
+          1.4,
+          1.5
+        ],
+        "4": [
+          -1.2,
+          0.75
+        ],
+        "5": [
+          -1.2,
+          -0.75
+        ],
+        "6": [
+          -2.62,
+          -1.21
+        ],
+        "7": [
+          -3.09,
+          -2.64
+        ],
+        "8": [
+          -3.5,
+          0
+        ],
+        "9": [
+          1.4,
+          -1.5
+        ],
+        "10": [
+          -2.62,
+          1.21
+        ],
+        "11": [
+          -3.09,
+          2.64
+        ]
+      },
+      "partialProgressMessages": [
+        {
+          "learnerArrows": [
+            "π C2-C3 -> σ C3-C4"
+          ],
+          "feedbackMessage": "Right: the ene's C=C bonds to the enophile. The other anhydride carbon is now short of a bond, and the allylic C–H pair moves over to make the new C=C. Two more arrows."
+        }
+      ]
+    }
+  },
+  "conditionsLabel": "heat (about 200 °C, sealed tube)",
+  "reactionClasses": [
+    "pericyclic",
+    "addition"
+  ],
+  "reactionVersion": 2,
+  "mechanismSummary": "In the Alder ene reaction an alkene with an allylic hydrogen (the ene) adds to an electron-poor π bond (the enophile): a new C–C bond forms at one end of the ene's C=C, the double bond shifts along, and the allylic H moves to the enophile, all in one six-membered cyclic step. It is a pericyclic group transfer with six electrons, two of them from a σ bond. Breaking a C–H bond gives it a high barrier, so simple alkenes need about 200 °C; Lewis acids (the carbonyl-ene reaction) or strained, intramolecular partners make it much easier. The geometry (suprafacial, endo) is explained, not drawn. The app does not check stereochemistry yet, so the drawings carry no wedges.",
+  "dailyPuzzleEligible": true,
+  "spectatorMapNumbers": [],
+  "atomRoleToMapNumbers": {
+    "ene": [
+      1,
+      2,
+      3
+    ],
+    "enophile": [
+      4,
+      5
+    ],
+    "allylicHydrogen": [
+      9
+    ]
+  },
+  "previousReactionVersion": 1
+}
