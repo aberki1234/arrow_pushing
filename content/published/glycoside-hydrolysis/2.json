@@ -1,0 +1,530 @@
+{
+  "steps": [
+    {
+      "stepKey": "methoxy-protonation",
+      "stepKind": "polar",
+      "toStateId": "protonated-acetal",
+      "fromStateId": "reactants",
+      "canonicalArrows": [
+        "lp O7 -> σ O7-H10",
+        "σ O9-H10 -> lp O9"
+      ],
+      "routePreference": "preferred",
+      "explanationAfterStep": "Protonation turns methoxide, a very poor leaving group, into methanol, a good one."
+    },
+    {
+      "stepKey": "methanol-leaves",
+      "stepKind": "polar",
+      "toStateId": "oxocarbenium",
+      "fromStateId": "protonated-acetal",
+      "canonicalArrows": [
+        "lp O1 -> π O1-C2",
+        "σ C2-O7 -> lp O7"
+      ],
+      "routePreference": "preferred",
+      "explanationAfterStep": "The ring oxygen pushes methanol out, giving the oxocarbenium ion. A ring-oxygen lone pair anti-periplanar to the breaking C–O bond is ideally placed: the same n → σ* overlap that makes the axial OMe group more stable than you would expect (the anomeric effect) is what helps it leave."
+    },
+    {
+      "stepKey": "water-adds",
+      "stepKind": "polar",
+      "toStateId": "protonated-hemiacetal",
+      "fromStateId": "oxocarbenium",
+      "canonicalArrows": [
+        "lp O12 -> σ O12-C2",
+        "π O1-C2 -> lp O1"
+      ],
+      "routePreference": "preferred",
+      "explanationAfterStep": "Water adds to the planar oxocarbenium ion from either face, so both anomers of the hemiacetal form; the axial one is again favoured by the anomeric effect. The app does not check stereochemistry yet."
+    },
+    {
+      "stepKey": "deprotonation",
+      "stepKind": "polar",
+      "toStateId": "hemiacetal",
+      "fromStateId": "protonated-hemiacetal",
+      "canonicalArrows": [
+        "lp O9 -> σ O9-H13",
+        "σ O12-H13 -> lp O12"
+      ],
+      "routePreference": "preferred",
+      "explanationAfterStep": "H₃O⁺ is returned. The hemiacetal is in equilibrium with the open-chain hydroxy aldehyde, just as glucose is with its open form."
+    }
+  ],
+  "title": "Acid hydrolysis of a glycoside model",
+  "authors": [
+    {
+      "url": null,
+      "name": "Maksim"
+    }
+  ],
+  "licence": "CC-BY-SA-4.0",
+  "subtitle": "The anomeric effect: a ring oxygen lone pair pushes the leaving group out",
+  "references": [
+    "Clayden, Greeves and Warren, Organic Chemistry, 2nd edition (Oxford University Press), chapter 31 (Saturated heterocycles and stereoelectronics)",
+    "Clayden, Greeves and Warren, Organic Chemistry, 2nd edition (Oxford University Press), chapter 11 (Nucleophilic substitution at C=O with loss of carbonyl oxygen)"
+  ],
+  "reactionSlug": "glycoside-hydrolysis",
+  "startStateId": "reactants",
+  "formatVersion": 1,
+  "difficultyTier": 2,
+  "stateIdToState": {
+    "reactants": {
+      "caption": "2-methoxytetrahydropyran (an acetal; OMe mostly axial) + dilute HCl",
+      "hintTiers": [
+        "Acetals are stable to base but not to acid. Which oxygen should be protonated so that a neutral molecule can leave?",
+        "The methoxy oxygen takes a proton from H₃O⁺; that O–H bonding pair stays on water. Two arrows.",
+        "Methoxy oxygen lone pair → new O–H bond to a proton of H₃O⁺; that O–H bond → lone pair on water's oxygen."
+      ],
+      "mappedSmiles": "[O:1]1[C@@H:2]([CH2:3][CH2:4][CH2:5][CH2:6]1)[O:7][CH3:8].[OH+:9]([H:10])[H:14].[Cl-:11].[OH:12][H:13]",
+      "learnerPrompt": "Dilute acid hydrolyses the acetal. Start with the acid.",
+      "stereoMeaning": "racemic",
+      "misconceptions": [
+        {
+          "severity": "plausible",
+          "arrowPattern": "* -> σ O1-H10",
+          "feedbackMessage": "Protonating the ring oxygen also happens, and would open the ring. The main route protonates the methoxy oxygen, so that methanol leaves and the ring stays.",
+          "misconceptionId": "protonate-ring-oxygen",
+          "misconceptionTag": "ring-oxygen-protonated"
+        },
+        {
+          "severity": "plausible",
+          "arrowPattern": "lp O12 -> σ O12-C2",
+          "feedbackMessage": "Water is too weak a nucleophile to displace methoxide directly. Acid first, then the ring oxygen pushes methanol out.",
+          "misconceptionId": "water-sn2",
+          "misconceptionTag": "sn2-at-acetal"
+        }
+      ],
+      "bondToWedgeStyle": {
+        "2-7": "wedge"
+      },
+      "mapNumberToCoordinates": {
+        "1": [
+          1.5,
+          0
+        ],
+        "2": [
+          0.75,
+          1.3
+        ],
+        "3": [
+          -0.75,
+          1.3
+        ],
+        "4": [
+          -1.5,
+          0
+        ],
+        "5": [
+          -0.75,
+          -1.3
+        ],
+        "6": [
+          0.75,
+          -1.3
+        ],
+        "7": [
+          1.5,
+          2.6
+        ],
+        "8": [
+          3,
+          2.6
+        ],
+        "9": [
+          5.59,
+          -0.01
+        ],
+        "10": [
+          6.89,
+          0.74
+        ],
+        "11": [
+          0,
+          5.35
+        ],
+        "12": [
+          2.23,
+          4.77
+        ],
+        "13": [
+          3.53,
+          5.52
+        ],
+        "14": [
+          4.29,
+          0.74
+        ]
+      },
+      "partialProgressMessages": [
+        {
+          "learnerArrows": [
+            "lp O7 -> σ O7-H10"
+          ],
+          "feedbackMessage": "Right oxygen. Where does the O–H bonding pair of H₃O⁺ go?"
+        }
+      ]
+    },
+    "hemiacetal": {
+      "caption": "tetrahydropyran-2-ol (a hemiacetal, in equilibrium with 5-hydroxypentanal) + methanol + H₃O⁺, returned",
+      "mappedSmiles": "[O:1]1[C@@H:2]([CH2:3][CH2:4][CH2:5][CH2:6]1)[OH:12].[O:7]([CH3:8])[H:10].[OH+:9]([H:13])[H:14].[Cl-:11]",
+      "stereoMeaning": "racemic",
+      "bondToWedgeStyle": {
+        "2-12": "wedge"
+      },
+      "mapNumberToCoordinates": {
+        "1": [
+          1.5,
+          0
+        ],
+        "2": [
+          0.75,
+          1.3
+        ],
+        "3": [
+          -0.75,
+          1.3
+        ],
+        "4": [
+          -1.5,
+          0
+        ],
+        "5": [
+          -0.75,
+          -1.3
+        ],
+        "6": [
+          0.75,
+          -1.3
+        ],
+        "7": [
+          5.1,
+          0.71
+        ],
+        "8": [
+          3.8,
+          -0.04
+        ],
+        "9": [
+          -0.04,
+          4.27
+        ],
+        "10": [
+          6.4,
+          -0.04
+        ],
+        "11": [
+          0.07,
+          6.97
+        ],
+        "12": [
+          1.5,
+          2.6
+        ],
+        "13": [
+          1.26,
+          5.02
+        ],
+        "14": [
+          -1.34,
+          5.02
+        ]
+      }
+    },
+    "oxocarbenium": {
+      "caption": "oxocarbenium ion + methanol",
+      "hintTiers": [
+        "The positive charge is shared by the ring oxygen and the anomeric carbon. Where does water attack?",
+        "A water oxygen bonds to the anomeric carbon, and the C=O⁺ π pair returns to the ring oxygen. Two arrows.",
+        "Water oxygen lone pair → new O–C bond to the anomeric carbon; C=O⁺ π bond → lone pair on the ring oxygen."
+      ],
+      "mappedSmiles": "[O+:1]1=[CH:2][CH2:3][CH2:4][CH2:5][CH2:6]1.[H:10][O:7][CH3:8].[H:14][OH:9].[Cl-:11].[H:13][OH:12]",
+      "learnerPrompt": "Water attacks the oxocarbenium ion.",
+      "misconceptions": [
+        {
+          "severity": "wrong",
+          "arrowPattern": "lp O12 -> O1",
+          "feedbackMessage": "The ring oxygen keeps its octet, as in all oxocarbenium ions: the carbon is where a nucleophile bonds.",
+          "misconceptionId": "water-attacks-oxygen",
+          "misconceptionTag": "attack-electron-rich-atom"
+        },
+        {
+          "severity": "plausible",
+          "arrowPattern": "lp O7 -> σ O7-C2",
+          "feedbackMessage": "Methanol could add back, but it is a minor species in dilute aqueous acid: water, in huge excess, wins.",
+          "misconceptionId": "methanol-adds-back",
+          "misconceptionTag": "reverse-step"
+        }
+      ],
+      "mapNumberToCoordinates": {
+        "1": [
+          1.5,
+          0
+        ],
+        "2": [
+          0.75,
+          1.3
+        ],
+        "3": [
+          -0.75,
+          1.3
+        ],
+        "4": [
+          -1.5,
+          0
+        ],
+        "5": [
+          -0.75,
+          -1.3
+        ],
+        "6": [
+          0.75,
+          -1.3
+        ],
+        "7": [
+          1.96,
+          4.34
+        ],
+        "8": [
+          0.66,
+          3.59
+        ],
+        "9": [
+          3.79,
+          0.15
+        ],
+        "10": [
+          3.26,
+          3.59
+        ],
+        "11": [
+          5.68,
+          -1.3
+        ],
+        "12": [
+          -1.23,
+          5.04
+        ],
+        "13": [
+          0.07,
+          5.79
+        ],
+        "14": [
+          5.09,
+          0.9
+        ]
+      },
+      "partialProgressMessages": [
+        {
+          "learnerArrows": [
+            "lp O12 -> σ O12-C2"
+          ],
+          "feedbackMessage": "Right: water attacks the anomeric carbon. Move the C=O⁺ π pair."
+        }
+      ]
+    },
+    "protonated-acetal": {
+      "caption": "acetal protonated on the methoxy oxygen",
+      "hintTiers": [
+        "Which lone pair can push methanol out? It is best placed when it lies anti-periplanar to the breaking C–O bond.",
+        "A ring-oxygen lone pair forms a C=O⁺ π bond as the C–O bond to the protonated methoxy group breaks. Two arrows.",
+        "Ring oxygen lone pair → π bond to the anomeric carbon (the carbon between the two oxygens); C–O bond to the methoxy oxygen → lone pair on that oxygen."
+      ],
+      "mappedSmiles": "[O:1]1[C@@H:2]([CH2:3][CH2:4][CH2:5][CH2:6]1)[O+:7]([CH3:8])[H:10].[OH:9][H:14].[Cl-:11].[OH:12][H:13]",
+      "learnerPrompt": "Methanol leaves, helped by the ring oxygen.",
+      "stereoMeaning": "racemic",
+      "misconceptions": [
+        {
+          "severity": "plausible",
+          "arrowPattern": "lp O12 -> σ O12-C2",
+          "feedbackMessage": "An SN2 at an acetal carbon is slow: the ring oxygen makes an SN1 route much easier. Let methanol leave first.",
+          "misconceptionId": "water-sn2-protonated",
+          "misconceptionTag": "sn2-at-acetal"
+        },
+        {
+          "severity": "plausible",
+          "arrowPattern": "lp O9 -> H10",
+          "feedbackMessage": "That gives the proton back to water. Methanol is now a good leaving group: let it go.",
+          "misconceptionId": "proton-back",
+          "misconceptionTag": "reverse-step"
+        }
+      ],
+      "bondToWedgeStyle": {
+        "2-7": "wedge"
+      },
+      "mapNumberToCoordinates": {
+        "1": [
+          1.5,
+          0
+        ],
+        "2": [
+          0.75,
+          1.3
+        ],
+        "3": [
+          -0.75,
+          1.3
+        ],
+        "4": [
+          -1.5,
+          0
+        ],
+        "5": [
+          -0.75,
+          -1.3
+        ],
+        "6": [
+          0.75,
+          -1.3
+        ],
+        "7": [
+          1.5,
+          2.6
+        ],
+        "8": [
+          0.75,
+          3.9
+        ],
+        "9": [
+          4,
+          0
+        ],
+        "10": [
+          3,
+          2.6
+        ],
+        "11": [
+          7.37,
+          -0.24
+        ],
+        "12": [
+          0.02,
+          6.07
+        ],
+        "13": [
+          1.32,
+          6.82
+        ],
+        "14": [
+          5.3,
+          0.75
+        ]
+      },
+      "partialProgressMessages": [
+        {
+          "learnerArrows": [
+            "σ C2-O7 -> lp O7"
+          ],
+          "feedbackMessage": "Right: methanol leaves. Which lone pair fills the gap at the anomeric carbon?"
+        }
+      ]
+    },
+    "protonated-hemiacetal": {
+      "caption": "protonated hemiacetal",
+      "hintTiers": [
+        "The new OH₂⁺ group is very acidic. Which base is at hand?",
+        "Another water molecule takes a proton from the OH₂⁺ group. Two arrows.",
+        "Water lone pair → new O–H bond to a proton of the OH₂⁺ group; that O–H bond → lone pair on its oxygen."
+      ],
+      "mappedSmiles": "[O:1]1[C@@H:2]([CH2:3][CH2:4][CH2:5][CH2:6]1)[OH+:12][H:13].[O:7]([CH3:8])[H:10].[OH:9][H:14].[Cl-:11]",
+      "learnerPrompt": "Lose the extra proton.",
+      "stereoMeaning": "racemic",
+      "misconceptions": [
+        {
+          "severity": "plausible",
+          "arrowPattern": "σ C2-O12 -> lp O12",
+          "feedbackMessage": "Losing water again goes back to the oxocarbenium ion. Deprotonate instead.",
+          "misconceptionId": "water-leaves-again",
+          "misconceptionTag": "reverse-step"
+        }
+      ],
+      "bondToWedgeStyle": {
+        "2-12": "wedge"
+      },
+      "mapNumberToCoordinates": {
+        "1": [
+          1.5,
+          0
+        ],
+        "2": [
+          0.75,
+          1.3
+        ],
+        "3": [
+          -0.75,
+          1.3
+        ],
+        "4": [
+          -1.5,
+          0
+        ],
+        "5": [
+          -0.75,
+          -1.3
+        ],
+        "6": [
+          0.75,
+          -1.3
+        ],
+        "7": [
+          1.6,
+          5.64
+        ],
+        "8": [
+          0.3,
+          4.89
+        ],
+        "9": [
+          4,
+          0
+        ],
+        "10": [
+          2.9,
+          4.89
+        ],
+        "11": [
+          -1.85,
+          5.7
+        ],
+        "12": [
+          1.5,
+          2.6
+        ],
+        "13": [
+          3,
+          2.6
+        ],
+        "14": [
+          5.3,
+          0.75
+        ]
+      },
+      "partialProgressMessages": [
+        {
+          "learnerArrows": [
+            "lp O9 -> σ O9-H13"
+          ],
+          "feedbackMessage": "Right: water takes the proton. Where does the O–H bonding pair go?"
+        }
+      ]
+    }
+  },
+  "conditionsLabel": "HCl (dilute aq.) · H₂O · 50 °C",
+  "reactionClasses": [
+    "substitution",
+    "acid-base"
+  ],
+  "reactionVersion": 2,
+  "mechanismSummary": "2-Methoxytetrahydropyran is a model of a methyl glycoside: an acetal with one oxygen in the ring. Its OMe group prefers the axial position (the anomeric effect): a lone pair of the ring oxygen lies anti-periplanar to the C–OMe bond and feeds into its σ* orbital. In dilute acid the methoxy oxygen is protonated, and the ring oxygen pushes methanol out, giving an oxocarbenium ion; the same anti-periplanar lone pair makes this easy. Water adds to the cation and loses a proton, giving the hemiacetal (a lactol), which is in equilibrium with 5-hydroxypentanal. Glucosides and other glycosides are hydrolysed the same way. The app does not check stereochemistry yet, so the axial preference is not drawn.",
+  "dailyPuzzleEligible": true,
+  "spectatorMapNumbers": [
+    11
+  ],
+  "atomRoleToMapNumbers": {
+    "ringOxygen": [
+      1
+    ],
+    "anomericCarbon": [
+      2
+    ]
+  },
+  "previousReactionVersion": 1
+}

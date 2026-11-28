@@ -1,0 +1,493 @@
+{
+  "steps": [
+    {
+      "stepKey": "deprotonation",
+      "stepKind": "polar",
+      "toStateId": "alkoxide",
+      "fromStateId": "reactants",
+      "canonicalArrows": [
+        "lp O15 -> σ O15-H10",
+        "σ O1-H10 -> lp O1"
+      ],
+      "routePreference": "preferred",
+      "explanationAfterStep": "The primary alcohol and tert-butanol have similar acidity, so a catalytic amount of tert-butoxide keeps a little alkoxide present throughout."
+    },
+    {
+      "stepKey": "five-exo-trig-closure",
+      "stepKind": "polar",
+      "toStateId": "enolate",
+      "fromStateId": "alkoxide",
+      "canonicalArrows": [
+        "lp O1 -> σ O1-C5",
+        "π C5-C6 -> π C6-C7",
+        "π C7-O8 -> lp O8"
+      ],
+      "routePreference": "preferred",
+      "explanationAfterStep": "An intramolecular oxa-Michael addition: 5-exo-trig (a five-membered ring; the C=C π bond that breaks is outside the ring; the carbon attacked is trigonal). The chain lets the oxygen approach the alkene carbon from above the plane, at the Bürgi–Dunitz angle of about 107°, so Baldwin's rules allow it."
+    },
+    {
+      "stepKey": "c-protonation",
+      "stepKind": "polar",
+      "toStateId": "ketone",
+      "fromStateId": "enolate",
+      "canonicalArrows": [
+        "lp O8 -> π C7-O8",
+        "π C6-C7 -> σ C6-H10",
+        "σ O15-H10 -> lp O15"
+      ],
+      "routePreference": "preferred",
+      "explanationAfterStep": "Protonating the enolate on carbon gives the ketone and returns tert-butoxide, so the base is only needed in catalytic amount."
+    }
+  ],
+  "title": "Ring closure by oxa-Michael addition",
+  "authors": [
+    {
+      "url": null,
+      "name": "Maksim"
+    }
+  ],
+  "licence": "CC-BY-SA-4.0",
+  "subtitle": "An alkoxide adds to an enone in its own chain: 5-exo-trig, allowed by Baldwin",
+  "references": [
+    "Clayden, Greeves and Warren, Organic Chemistry, 2nd edition (Oxford University Press), chapter 31 (Saturated heterocycles and stereoelectronics)",
+    "Clayden, Greeves and Warren, Organic Chemistry, 2nd edition (Oxford University Press), chapter 22 (Conjugate addition and nucleophilic aromatic substitution)"
+  ],
+  "reactionSlug": "hydroxy-enone-5-exo-trig",
+  "startStateId": "reactants",
+  "formatVersion": 1,
+  "difficultyTier": 2,
+  "stateIdToState": {
+    "ketone": {
+      "caption": "1-(oxolan-2-yl)propan-2-one (a 2-substituted tetrahydrofuran) + tert-butoxide, returned",
+      "mappedSmiles": "[O:1]1[CH2:2][CH2:3][CH2:4][C@@H:5]1[CH:6]([C:7](=[O:8])[CH3:9])[H:10].[C:11]([CH3:12])([CH3:13])([CH3:14])[O-:15].[K+:16]",
+      "stereoMeaning": "racemic",
+      "bondToWedgeStyle": {
+        "5-6": "wedge"
+      },
+      "mapNumberToCoordinates": {
+        "1": [
+          1.28,
+          0
+        ],
+        "2": [
+          0.39,
+          1.21
+        ],
+        "3": [
+          -1.03,
+          0.75
+        ],
+        "4": [
+          -1.03,
+          -0.75
+        ],
+        "5": [
+          0.39,
+          -1.21
+        ],
+        "6": [
+          0.86,
+          -2.64
+        ],
+        "7": [
+          2.33,
+          -2.95
+        ],
+        "8": [
+          3.33,
+          -1.84
+        ],
+        "9": [
+          2.79,
+          -4.38
+        ],
+        "10": [
+          -0.15,
+          -3.75
+        ],
+        "11": [
+          5.81,
+          0.84
+        ],
+        "12": [
+          4.52,
+          0.09
+        ],
+        "13": [
+          7.11,
+          1.59
+        ],
+        "14": [
+          6.56,
+          -0.46
+        ],
+        "15": [
+          5.06,
+          2.14
+        ],
+        "16": [
+          -0.29,
+          3.4
+        ]
+      }
+    },
+    "enolate": {
+      "caption": "the enolate, now carrying a tetrahydrofuran ring + tert-butanol",
+      "hintTiers": [
+        "The enolate is a strong base. Which carbon gives the ketone back when it is protonated?",
+        "The C=C π pair takes the O–H proton of tert-butanol on the α-carbon, and the oxygen lone pair re-forms the C=O. Three arrows.",
+        "Enolate oxygen lone pair → C=O π bond; C=C π bond → new C–H bond from the α-carbon to the hydrogen of tert-butanol; that O–H bond → lone pair on its oxygen."
+      ],
+      "mappedSmiles": "[O:1]1[CH2:2][CH2:3][CH2:4][C@@H:5]1[CH:6]=[C:7]([O-:8])[CH3:9].[H:10][O:15][C:11]([CH3:12])([CH3:13])[CH3:14].[K+:16]",
+      "learnerPrompt": "The enolate takes a proton back from tert-butanol.",
+      "stereoMeaning": "racemic",
+      "misconceptions": [
+        {
+          "severity": "plausible",
+          "arrowPattern": "σ O1-C5 -> *",
+          "feedbackMessage": "Ring opening (retro-Michael) does happen, but it is the way back. Protonating the enolate gives the stable ketone.",
+          "misconceptionId": "ring-opens",
+          "misconceptionTag": "reverse-step"
+        },
+        {
+          "severity": "wrong",
+          "arrowPattern": "lp O8 -> σ O8-C*",
+          "feedbackMessage": "There is no electrophilic carbon here. The enolate acts as a base and takes the O–H proton of tert-butanol.",
+          "misconceptionId": "o-attacks-carbon",
+          "misconceptionTag": "attack-non-electrophile"
+        }
+      ],
+      "bondToWedgeStyle": {
+        "5-6": "wedge"
+      },
+      "mapNumberToCoordinates": {
+        "1": [
+          1.28,
+          0
+        ],
+        "2": [
+          0.39,
+          1.21
+        ],
+        "3": [
+          -1.03,
+          0.75
+        ],
+        "4": [
+          -1.03,
+          -0.75
+        ],
+        "5": [
+          0.39,
+          -1.21
+        ],
+        "6": [
+          0.86,
+          -2.64
+        ],
+        "7": [
+          2.33,
+          -2.95
+        ],
+        "8": [
+          3.33,
+          -1.84
+        ],
+        "9": [
+          2.79,
+          -4.38
+        ],
+        "10": [
+          4.56,
+          3
+        ],
+        "11": [
+          5.81,
+          0.84
+        ],
+        "12": [
+          4.52,
+          0.09
+        ],
+        "13": [
+          7.11,
+          1.59
+        ],
+        "14": [
+          6.56,
+          -0.46
+        ],
+        "15": [
+          5.06,
+          2.14
+        ],
+        "16": [
+          -0.29,
+          3.4
+        ]
+      },
+      "partialProgressMessages": [
+        {
+          "learnerArrows": [
+            "lp O8 -> π C7-O8",
+            "π C6-C7 -> σ C6-H10"
+          ],
+          "feedbackMessage": "Right so far: the α-carbon takes the proton. Where does the O–H bonding pair of tert-butanol go?"
+        },
+        {
+          "learnerArrows": [
+            "lp O8 -> σ O8-H10",
+            "σ O15-H10 -> lp O15"
+          ],
+          "feedbackMessage": "That gives the enol, which would tautomerise to the same ketone. Here, protonate the α-carbon directly."
+        }
+      ]
+    },
+    "alkoxide": {
+      "caption": "the alkoxide of the hydroxy enone + tert-butanol",
+      "hintTiers": [
+        "A conjugate (Michael) addition: which carbon of the enone is electrophilic? Then count the ring size.",
+        "The alkoxide attacks the β-carbon of the enone (the alkene carbon further from C=O); the C=C π pair moves to make C=C with the carbonyl carbon, and the C=O π pair moves onto oxygen. A five-membered ring forms. Three arrows.",
+        "Alkoxide lone pair → new O–C bond to the β-carbon; C=C π bond → a π bond between the α-carbon and the carbonyl carbon; C=O π bond → lone pair on the carbonyl oxygen."
+      ],
+      "mappedSmiles": "[O-:1][CH2:2][CH2:3][CH2:4]/[CH:5]=[CH:6]/[C:7](=[O:8])[CH3:9].[H:10][O:15][C:11]([CH3:12])([CH3:13])[CH3:14].[K+:16]",
+      "learnerPrompt": "The alkoxide meets the enone in its own chain. Close the ring.",
+      "misconceptions": [
+        {
+          "severity": "wrong",
+          "arrowPattern": "lp O1 -> σ O1-C6",
+          "feedbackMessage": "The α-carbon is not electrophilic: conjugation puts the positive end of the enone on the β-carbon. (Closing onto it would also be a 6-endo-trig ring.)",
+          "misconceptionId": "attack-alpha-carbon",
+          "misconceptionTag": "attack-non-electrophile"
+        },
+        {
+          "severity": "plausible",
+          "arrowPattern": "lp O1 -> σ O1-C7",
+          "feedbackMessage": "Adding to the carbonyl carbon would make a seven-membered ring (7-exo-trig). Baldwin allows it, but seven-membered rings close slowly and the hemiketal falls apart again. The five-membered ring wins.",
+          "misconceptionId": "attack-carbonyl-carbon",
+          "misconceptionTag": "seven-membered-ring"
+        },
+        {
+          "severity": "plausible",
+          "arrowPattern": "lp O1 -> H10",
+          "feedbackMessage": "That takes the proton back from tert-butanol. The alkoxide is ready: use it on the enone.",
+          "misconceptionId": "proton-back",
+          "misconceptionTag": "reverse-step"
+        }
+      ],
+      "mapNumberToCoordinates": {
+        "1": [
+          1.8,
+          0.7
+        ],
+        "2": [
+          0.39,
+          1.21
+        ],
+        "3": [
+          -1.03,
+          0.75
+        ],
+        "4": [
+          -1.03,
+          -0.75
+        ],
+        "5": [
+          0.39,
+          -1.21
+        ],
+        "6": [
+          0.86,
+          -2.64
+        ],
+        "7": [
+          2.33,
+          -2.93
+        ],
+        "8": [
+          3.32,
+          -1.82
+        ],
+        "9": [
+          2.8,
+          -4.36
+        ],
+        "10": [
+          4.56,
+          3
+        ],
+        "11": [
+          5.81,
+          0.84
+        ],
+        "12": [
+          4.52,
+          0.09
+        ],
+        "13": [
+          7.11,
+          1.59
+        ],
+        "14": [
+          6.56,
+          -0.46
+        ],
+        "15": [
+          5.06,
+          2.14
+        ],
+        "16": [
+          -0.29,
+          3.4
+        ]
+      },
+      "partialProgressMessages": [
+        {
+          "learnerArrows": [
+            "lp O1 -> σ O1-C5",
+            "π C5-C6 -> π C6-C7"
+          ],
+          "feedbackMessage": "Right so far: the ring has formed and the C=C has moved. The carbonyl carbon now has five bonds: move the C=O π pair."
+        },
+        {
+          "learnerArrows": [
+            "lp O1 -> σ O1-C5"
+          ],
+          "feedbackMessage": "Right atom. That carbon now has five bonds: move the C=C π pair, and then the C=O π pair."
+        }
+      ]
+    },
+    "reactants": {
+      "caption": "(E)-7-hydroxyhept-3-en-2-one + potassium tert-butoxide (catalytic)",
+      "hintTiers": [
+        "The OH must become an alkoxide before it can add. Which base is in the flask?",
+        "tert-Butoxide takes the O–H proton; the O–H bonding pair stays on the oxygen of the chain. Two arrows.",
+        "tert-Butoxide lone pair → new O–H bond to the alcohol's hydrogen; the alcohol's O–H bond → lone pair on its oxygen."
+      ],
+      "mappedSmiles": "[O:1]([CH2:2][CH2:3][CH2:4]/[CH:5]=[CH:6]/[C:7](=[O:8])[CH3:9])[H:10].[C:11]([CH3:12])([CH3:13])([CH3:14])[O-:15].[K+:16]",
+      "learnerPrompt": "A hydroxy enone and a catalytic base. First, make the nucleophile.",
+      "misconceptions": [
+        {
+          "severity": "plausible",
+          "arrowPattern": "lp O1 -> σ O1-C5",
+          "feedbackMessage": "The neutral alcohol adds only very slowly. The base is there to make the alkoxide: deprotonate first.",
+          "misconceptionId": "oh-adds-directly",
+          "misconceptionTag": "nucleophile-not-activated"
+        },
+        {
+          "severity": "plausible",
+          "arrowPattern": "lp O15 -> σ O15-C5",
+          "feedbackMessage": "tert-Butoxide is a hindered, poor nucleophile, and it is present only in catalytic amount. It is the base here.",
+          "misconceptionId": "butoxide-adds",
+          "misconceptionTag": "intermolecular-instead-of-intramolecular"
+        }
+      ],
+      "mapNumberToCoordinates": {
+        "1": [
+          1.8,
+          0.7
+        ],
+        "2": [
+          0.39,
+          1.21
+        ],
+        "3": [
+          -1.03,
+          0.75
+        ],
+        "4": [
+          -1.03,
+          -0.75
+        ],
+        "5": [
+          0.39,
+          -1.21
+        ],
+        "6": [
+          0.86,
+          -2.64
+        ],
+        "7": [
+          2.33,
+          -2.93
+        ],
+        "8": [
+          3.32,
+          -1.82
+        ],
+        "9": [
+          2.8,
+          -4.36
+        ],
+        "10": [
+          2.75,
+          1.05
+        ],
+        "11": [
+          5.81,
+          0.84
+        ],
+        "12": [
+          4.52,
+          0.09
+        ],
+        "13": [
+          7.11,
+          1.59
+        ],
+        "14": [
+          6.56,
+          -0.46
+        ],
+        "15": [
+          5.06,
+          2.14
+        ],
+        "16": [
+          -0.29,
+          3.4
+        ]
+      },
+      "partialProgressMessages": [
+        {
+          "learnerArrows": [
+            "lp O15 -> σ O15-H10"
+          ],
+          "feedbackMessage": "Right: tert-butoxide takes the O–H proton. Where does the O–H bonding pair go?"
+        }
+      ]
+    }
+  },
+  "conditionsLabel": "KOtBu (cat.) · THF · 0 °C",
+  "reactionClasses": [
+    "addition",
+    "acid-base"
+  ],
+  "reactionVersion": 2,
+  "mechanismSummary": "tert-Butoxide removes the O–H proton, and the alkoxide adds to the β-carbon of the enone in the same chain: a conjugate (oxa-Michael) addition that closes a five-membered ring. The enolate formed takes the proton back from tert-butanol on carbon, giving the ketone and regenerating the base. Baldwin calls this closure 5-exo-trig: favoured, because the nucleophile can reach the π* orbital of the alkene at the Bürgi–Dunitz angle (about 107°) from outside the forming ring. A 5-endo-trig closure, with the alkene inside the new ring, cannot reach that angle and is disfavoured.",
+  "abbreviatedGroups": [
+    {
+      "groupLabel": "tBu",
+      "mapNumbers": [
+        11,
+        12,
+        13,
+        14
+      ],
+      "attachmentMapNumber": 11
+    }
+  ],
+  "dailyPuzzleEligible": true,
+  "spectatorMapNumbers": [
+    16
+  ],
+  "atomRoleToMapNumbers": {
+    "betaCarbon": [
+      5
+    ],
+    "nucleophile": [
+      1
+    ]
+  },
+  "previousReactionVersion": 1
+}

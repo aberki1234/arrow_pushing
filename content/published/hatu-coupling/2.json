@@ -1,0 +1,2072 @@
+{
+  "steps": [
+    {
+      "stepKey": "deprotonation",
+      "stepKind": "polar",
+      "toStateId": "carboxylate",
+      "fromStateId": "reactants",
+      "canonicalArrows": [
+        "lp N70 -> σ N70-H7",
+        "σ O4-H7 -> lp O4"
+      ],
+      "routePreference": "preferred",
+      "explanationAfterStep": "Hünig's base makes the carboxylate. Two or more equivalents of base are used in practice."
+    },
+    {
+      "stepKey": "carboxylate-adds",
+      "stepKind": "polar",
+      "toStateId": "tetrahedral-1",
+      "fromStateId": "carboxylate",
+      "canonicalArrows": [
+        "lp O4 -> σ O4-C80",
+        "π C80-N81 -> lp N81"
+      ],
+      "routePreference": "preferred",
+      "explanationAfterStep": "The carboxylate adds to the amidinium carbon of HATU."
+    },
+    {
+      "stepKey": "oat-leaves",
+      "stepKind": "polar",
+      "toStateId": "isouronium-and-oat",
+      "fromStateId": "tetrahedral-1",
+      "canonicalArrows": [
+        "lp N81 -> π N81-C80",
+        "σ C80-N87 -> π N87-N88",
+        "π N88-N89 -> lp N89"
+      ],
+      "routePreference": "preferred",
+      "explanationAfterStep": "The triazole leaves as OAt⁻, with the negative charge ending on oxygen. The acid is now an O-acylisouronium ion, a very reactive acylating agent, like DCC's O-acylisourea."
+    },
+    {
+      "stepKey": "oat-adds",
+      "stepKind": "polar",
+      "toStateId": "tetrahedral-2",
+      "fromStateId": "isouronium-and-oat",
+      "canonicalArrows": [
+        "lp O90 -> σ O90-C2",
+        "π C2-O3 -> lp O3"
+      ],
+      "routePreference": "preferred",
+      "explanationAfterStep": "OAt⁻ adds to the acyl carbon, just as OBt⁻ does in the DCC–HOBt coupling."
+    },
+    {
+      "stepKey": "tmu-leaves",
+      "stepKind": "polar",
+      "toStateId": "active-ester",
+      "fromStateId": "tetrahedral-2",
+      "canonicalArrows": [
+        "lp O3 -> π O3-C2",
+        "σ C2-O4 -> π O4-C80",
+        "π C80-N81 -> lp N81"
+      ],
+      "routePreference": "preferred",
+      "explanationAfterStep": "Tetramethylurea leaves, neutral, and the OAt active ester remains."
+    },
+    {
+      "caption": "Glycine methyl ester is added. Tetramethylurea, a water-soluble by-product, is not drawn from here on.",
+      "stepKey": "amine-arrives",
+      "stepKind": "change",
+      "toStateId": "active-ester-and-amine",
+      "fromStateId": "active-ester",
+      "addedSpecies": "[NH:30]([H:31])[CH2:32][C:33](=[O:34])[O:35][CH3:36]",
+      "routePreference": "preferred",
+      "removedFragmentMapNumbers": [
+        80
+      ]
+    },
+    {
+      "stepKey": "amine-adds",
+      "stepKind": "polar",
+      "toStateId": "tetrahedral-3",
+      "fromStateId": "active-ester-and-amine",
+      "canonicalArrows": [
+        "lp N30 -> σ N30-C2",
+        "π C2-O3 -> lp O3"
+      ],
+      "routePreference": "preferred",
+      "explanationAfterStep": "The amine adds to the active ester. With OAt the pyridine nitrogen sits next to the ester oxygen and hydrogen-bonds to the incoming N–H, holding the amine in place: why HATU couples faster, and with less racemisation, than HBTU (the HOBt version)."
+    },
+    {
+      "stepKey": "oat-leaves-from-amide",
+      "stepKind": "polar",
+      "toStateId": "amide-and-oat",
+      "fromStateId": "tetrahedral-3",
+      "canonicalArrows": [
+        "lp O3 -> π O3-C2",
+        "σ C2-O90 -> lp O90"
+      ],
+      "routePreference": "preferred",
+      "explanationAfterStep": "C=O re-forms and OAt⁻ leaves."
+    },
+    {
+      "stepKey": "proton-transfer",
+      "stepKind": "polar",
+      "toStateId": "products",
+      "fromStateId": "amide-and-oat",
+      "canonicalArrows": [
+        "lp O90 -> σ O90-H31",
+        "σ N30-H31 -> lp N30"
+      ],
+      "routePreference": "preferred",
+      "explanationAfterStep": "OAt⁻ takes the proton: the dipeptide and HOAt."
+    }
+  ],
+  "title": "HATU peptide coupling",
+  "authors": [
+    {
+      "url": null,
+      "name": "Maksim"
+    }
+  ],
+  "licence": "CC-BY-SA-4.0",
+  "subtitle": "The carboxylate attacks HATU; the OAt ester then meets the amine",
+  "references": [
+    "Clayden, Greeves and Warren, Organic Chemistry, 2nd edition (Oxford University Press), chapter 23",
+    "Montalbetti and Falque, Amide bond formation and peptide coupling, Tetrahedron 2005, 61, 10827"
+  ],
+  "reactionSlug": "hatu-coupling",
+  "startStateId": "reactants",
+  "formatVersion": 1,
+  "difficultyTier": 3,
+  "stateIdToState": {
+    "products": {
+      "caption": "Boc-Ala-Gly-OMe + HOAt + diisopropylethylammonium ion (its PF₆⁻ counter-ion not drawn)",
+      "mappedSmiles": "[C@@H:1]([C:2](=[O:3])[NH:30][CH2:32][C:33](=[O:34])[O:35][CH3:36])([CH3:5])[NH:6][C:60](=[O:61])[O:62][C:63]([CH3:64])([CH3:65])[CH3:66].[H:7][N+:70]([CH:71]([CH3:72])[CH3:73])([CH:74]([CH3:75])[CH3:76])[CH2:77][CH3:78].[H:31][O:90][N:89]1[N:88]=[N:87][C:96]2=[C:91]1[N:92]=[CH:93][CH:94]=[CH:95]2",
+      "bondToWedgeStyle": {
+        "1-5": "wedge"
+      },
+      "mapNumberToCoordinates": {
+        "1": [
+          1.55,
+          6
+        ],
+        "2": [
+          2.56,
+          4.88
+        ],
+        "3": [
+          1.6,
+          3.73
+        ],
+        "5": [
+          2.02,
+          7.43
+        ],
+        "6": [
+          0.09,
+          5.69
+        ],
+        "7": [
+          12.05,
+          3.44
+        ],
+        "30": [
+          3.56,
+          3.77
+        ],
+        "31": [
+          -0.7,
+          2.75
+        ],
+        "32": [
+          5.03,
+          4.08
+        ],
+        "33": [
+          6.03,
+          2.97
+        ],
+        "34": [
+          7.5,
+          3.28
+        ],
+        "35": [
+          5.57,
+          1.54
+        ],
+        "36": [
+          6.57,
+          0.43
+        ],
+        "60": [
+          -0.92,
+          6.8
+        ],
+        "61": [
+          -2.39,
+          6.49
+        ],
+        "62": [
+          -0.45,
+          8.23
+        ],
+        "63": [
+          -1.46,
+          9.34
+        ],
+        "64": [
+          -0.34,
+          10.35
+        ],
+        "65": [
+          -2.57,
+          8.34
+        ],
+        "66": [
+          -2.46,
+          10.46
+        ],
+        "70": [
+          12.05,
+          1.94
+        ],
+        "71": [
+          12.05,
+          0.44
+        ],
+        "72": [
+          10.75,
+          -0.31
+        ],
+        "73": [
+          13.35,
+          -0.31
+        ],
+        "74": [
+          10.55,
+          1.94
+        ],
+        "75": [
+          9.8,
+          3.24
+        ],
+        "76": [
+          9.8,
+          0.64
+        ],
+        "77": [
+          13.55,
+          1.94
+        ],
+        "78": [
+          14.3,
+          3.24
+        ],
+        "87": [
+          1.97,
+          -1.69
+        ],
+        "88": [
+          2.12,
+          -0.2
+        ],
+        "89": [
+          0.75,
+          0.41
+        ],
+        "90": [
+          0.44,
+          1.88
+        ],
+        "91": [
+          -0.25,
+          -0.7
+        ],
+        "92": [
+          -1.75,
+          -0.7
+        ],
+        "93": [
+          -2.5,
+          -2
+        ],
+        "94": [
+          -1.75,
+          -3.3
+        ],
+        "95": [
+          -0.25,
+          -3.3
+        ],
+        "96": [
+          0.5,
+          -2
+        ]
+      }
+    },
+    "reactants": {
+      "caption": "Boc-alanine + Hünig's base (i-Pr₂NEt) + HATU, in DMF (HATU's PF₆⁻ counter-ion, a spectator, is not drawn)",
+      "hintTiers": [
+        "HATU reacts with a carboxylate, not with the neutral acid. What does Hünig's base do first?",
+        "The nitrogen of Hünig's base takes the acid O–H proton, and the O–H pair stays on oxygen. Two arrows.",
+        "Amine nitrogen lone pair → new N–H bond to the acid proton; O–H bond → a lone pair on the acid oxygen."
+      ],
+      "mappedSmiles": "[C@@H:1]([C:2](=[O:3])[O:4][H:7])([CH3:5])[NH:6][C:60](=[O:61])[O:62][C:63]([CH3:64])([CH3:65])[CH3:66].[N:70]([CH:71]([CH3:72])[CH3:73])([CH:74]([CH3:75])[CH3:76])[CH2:77][CH3:78].[C:80](=[N+:81]([CH3:82])[CH3:83])([N:84]([CH3:85])[CH3:86])[N:87]1[N:88]=[N+:89]([O-:90])[C:91]2[N:92]=[CH:93][CH:94]=[CH:95][C:96]1=2",
+      "learnerPrompt": "Start with the base. Draw the first step.",
+      "misconceptions": [
+        {
+          "severity": "plausible",
+          "arrowPattern": "lp O4 -> C80",
+          "feedbackMessage": "The neutral acid is a poor nucleophile. Deprotonate it first: the carboxylate attacks HATU much faster.",
+          "misconceptionId": "acid-attacks-hatu",
+          "misconceptionTag": "nucleophile-before-activation"
+        },
+        {
+          "severity": "plausible",
+          "arrowPattern": "lp N70 -> C80",
+          "feedbackMessage": "Hünig's base is too hindered to add to HATU. That is why it is the base of choice: it only takes protons.",
+          "misconceptionId": "base-attacks-hatu",
+          "misconceptionTag": "hindered-base"
+        }
+      ],
+      "bondToWedgeStyle": {
+        "1-5": "wedge"
+      },
+      "mapNumberToCoordinates": {
+        "1": [
+          7.2,
+          4.5
+        ],
+        "2": [
+          6.83,
+          3.05
+        ],
+        "3": [
+          5.38,
+          2.64
+        ],
+        "4": [
+          7.9,
+          2
+        ],
+        "5": [
+          8.64,
+          4.91
+        ],
+        "6": [
+          6.13,
+          5.55
+        ],
+        "7": [
+          7.53,
+          0.54
+        ],
+        "60": [
+          4.68,
+          5.14
+        ],
+        "61": [
+          3.61,
+          6.19
+        ],
+        "62": [
+          4.31,
+          3.69
+        ],
+        "63": [
+          2.87,
+          3.28
+        ],
+        "64": [
+          3.27,
+          1.83
+        ],
+        "65": [
+          2.46,
+          4.72
+        ],
+        "66": [
+          1.42,
+          2.87
+        ],
+        "70": [
+          11.5,
+          1.5
+        ],
+        "71": [
+          11.5,
+          0
+        ],
+        "72": [
+          10.2,
+          -0.75
+        ],
+        "73": [
+          12.8,
+          -0.75
+        ],
+        "74": [
+          12.8,
+          2.25
+        ],
+        "75": [
+          12.8,
+          3.75
+        ],
+        "76": [
+          14.1,
+          1.5
+        ],
+        "77": [
+          10.2,
+          2.25
+        ],
+        "78": [
+          10.2,
+          3.75
+        ],
+        "80": [
+          0.13,
+          2.79
+        ],
+        "81": [
+          1.24,
+          3.8
+        ],
+        "82": [
+          0.93,
+          5.26
+        ],
+        "83": [
+          2.67,
+          3.33
+        ],
+        "84": [
+          -1.3,
+          3.26
+        ],
+        "85": [
+          -1.61,
+          4.72
+        ],
+        "86": [
+          -2.41,
+          2.25
+        ],
+        "87": [
+          0.44,
+          1.33
+        ],
+        "88": [
+          1.81,
+          0.72
+        ],
+        "89": [
+          1.66,
+          -0.78
+        ],
+        "90": [
+          2.77,
+          -1.78
+        ],
+        "91": [
+          0.19,
+          -1.09
+        ],
+        "92": [
+          -0.56,
+          -2.39
+        ],
+        "93": [
+          -2.06,
+          -2.39
+        ],
+        "94": [
+          -2.81,
+          -1.09
+        ],
+        "95": [
+          -2.06,
+          0.21
+        ],
+        "96": [
+          -0.56,
+          0.21
+        ]
+      }
+    },
+    "carboxylate": {
+      "caption": "Boc-alaninate + diisopropylethylammonium + HATU",
+      "hintTiers": [
+        "HATU's electrophilic carbon is the one carrying three nitrogens: an amidinium ion. How does a nucleophile add to a C=N⁺ bond?",
+        "A carboxylate oxygen bonds to that central carbon, and the C=N⁺ π pair moves onto the dimethylamino nitrogen. Two arrows.",
+        "Carboxylate oxygen lone pair → new O–C bond to the central carbon of HATU; C=N⁺ π bond → a lone pair on that nitrogen."
+      ],
+      "mappedSmiles": "[C@@H:1]([C:2](=[O:3])[O-:4])([CH3:5])[NH:6][C:60](=[O:61])[O:62][C:63]([CH3:64])([CH3:65])[CH3:66].[H:7][N+:70]([CH:71]([CH3:72])[CH3:73])([CH:74]([CH3:75])[CH3:76])[CH2:77][CH3:78].[C:80](=[N+:81]([CH3:82])[CH3:83])([N:84]([CH3:85])[CH3:86])[N:87]1[N:88]=[N+:89]([O-:90])[C:91]2[N:92]=[CH:93][CH:94]=[CH:95][C:96]1=2",
+      "learnerPrompt": "The carboxylate attacks HATU.",
+      "misconceptions": [
+        {
+          "severity": "plausible",
+          "arrowPattern": "lp O4 -> H7",
+          "feedbackMessage": "That just reverses the proton transfer. Use the carboxylate as a nucleophile.",
+          "misconceptionId": "carboxylate-takes-proton-back",
+          "misconceptionTag": "reverse-step"
+        },
+        {
+          "severity": "wrong",
+          "arrowPattern": "lp O4 -> N89",
+          "feedbackMessage": "The positive ring nitrogen already has four bonds, and its charge is balanced by the oxygen on it. The electrophile is the central carbon with three nitrogens on it.",
+          "misconceptionId": "carboxylate-attacks-ring",
+          "misconceptionTag": "wrong-electrophile"
+        }
+      ],
+      "bondToWedgeStyle": {
+        "1-5": "wedge"
+      },
+      "mapNumberToCoordinates": {
+        "1": [
+          7.2,
+          4.5
+        ],
+        "2": [
+          6.83,
+          3.05
+        ],
+        "3": [
+          5.38,
+          2.64
+        ],
+        "4": [
+          7.9,
+          2
+        ],
+        "5": [
+          8.64,
+          4.91
+        ],
+        "6": [
+          6.13,
+          5.55
+        ],
+        "7": [
+          11.5,
+          3
+        ],
+        "60": [
+          4.68,
+          5.14
+        ],
+        "61": [
+          3.61,
+          6.19
+        ],
+        "62": [
+          4.31,
+          3.69
+        ],
+        "63": [
+          2.87,
+          3.28
+        ],
+        "64": [
+          3.27,
+          1.83
+        ],
+        "65": [
+          2.46,
+          4.72
+        ],
+        "66": [
+          1.42,
+          2.87
+        ],
+        "70": [
+          11.5,
+          1.5
+        ],
+        "71": [
+          11.5,
+          0
+        ],
+        "72": [
+          10.2,
+          -0.75
+        ],
+        "73": [
+          12.8,
+          -0.75
+        ],
+        "74": [
+          10,
+          1.5
+        ],
+        "75": [
+          9.25,
+          2.8
+        ],
+        "76": [
+          9.25,
+          0.2
+        ],
+        "77": [
+          13,
+          1.5
+        ],
+        "78": [
+          13.75,
+          2.8
+        ],
+        "80": [
+          0.21,
+          2.83
+        ],
+        "81": [
+          1.33,
+          3.83
+        ],
+        "82": [
+          1.02,
+          5.3
+        ],
+        "83": [
+          2.76,
+          3.37
+        ],
+        "84": [
+          -1.21,
+          3.29
+        ],
+        "85": [
+          -1.52,
+          4.76
+        ],
+        "86": [
+          -2.33,
+          2.29
+        ],
+        "87": [
+          0.53,
+          1.36
+        ],
+        "88": [
+          1.9,
+          0.75
+        ],
+        "89": [
+          1.74,
+          -0.74
+        ],
+        "90": [
+          2.85,
+          -1.74
+        ],
+        "91": [
+          0.27,
+          -1.05
+        ],
+        "92": [
+          -0.48,
+          -2.35
+        ],
+        "93": [
+          -1.98,
+          -2.35
+        ],
+        "94": [
+          -2.73,
+          -1.05
+        ],
+        "95": [
+          -1.98,
+          0.25
+        ],
+        "96": [
+          -0.48,
+          0.25
+        ]
+      },
+      "partialProgressMessages": [
+        {
+          "learnerArrows": [
+            "lp O4 -> σ O4-C80"
+          ],
+          "feedbackMessage": "Right atoms. That carbon would then have five bonds: move the C=N⁺ π pair onto nitrogen."
+        }
+      ]
+    },
+    "active-ester": {
+      "caption": "the OAt active ester + tetramethylurea",
+      "mappedSmiles": "[C@@H:1]([C:2](=[O:3])[O:90][N:89]1[N:88]=[N:87][C:96]2=[C:91]1[N:92]=[CH:93][CH:94]=[CH:95]2)([CH3:5])[NH:6][C:60](=[O:61])[O:62][C:63]([CH3:64])([CH3:65])[CH3:66].[O:4]=[C:80]([N:81]([CH3:82])[CH3:83])[N:84]([CH3:85])[CH3:86].[H:7][N+:70]([CH:71]([CH3:72])[CH3:73])([CH:74]([CH3:75])[CH3:76])[CH2:77][CH3:78]",
+      "bondToWedgeStyle": {
+        "1-5": "wedge"
+      },
+      "mapNumberToCoordinates": {
+        "1": [
+          2.24,
+          6.35
+        ],
+        "2": [
+          2.56,
+          4.88
+        ],
+        "3": [
+          3.98,
+          4.42
+        ],
+        "4": [
+          7.79,
+          -1.65
+        ],
+        "5": [
+          3.36,
+          7.36
+        ],
+        "6": [
+          0.82,
+          6.82
+        ],
+        "7": [
+          14.46,
+          4.04
+        ],
+        "60": [
+          0.51,
+          8.28
+        ],
+        "61": [
+          -0.92,
+          8.75
+        ],
+        "62": [
+          1.62,
+          9.29
+        ],
+        "63": [
+          1.31,
+          10.75
+        ],
+        "64": [
+          2.78,
+          11.07
+        ],
+        "65": [
+          -0.16,
+          10.44
+        ],
+        "66": [
+          1,
+          12.22
+        ],
+        "70": [
+          14.46,
+          2.54
+        ],
+        "71": [
+          14.46,
+          1.04
+        ],
+        "72": [
+          13.16,
+          0.29
+        ],
+        "73": [
+          15.76,
+          0.29
+        ],
+        "74": [
+          12.96,
+          2.54
+        ],
+        "75": [
+          12.21,
+          3.84
+        ],
+        "76": [
+          12.21,
+          1.24
+        ],
+        "77": [
+          15.96,
+          2.54
+        ],
+        "78": [
+          16.71,
+          3.84
+        ],
+        "80": [
+          7.79,
+          -0.15
+        ],
+        "81": [
+          6.5,
+          0.6
+        ],
+        "82": [
+          5.2,
+          -0.15
+        ],
+        "83": [
+          6.5,
+          2.1
+        ],
+        "84": [
+          9.09,
+          0.6
+        ],
+        "85": [
+          10.39,
+          -0.15
+        ],
+        "86": [
+          9.09,
+          2.1
+        ],
+        "87": [
+          2.97,
+          0.31
+        ],
+        "88": [
+          3.12,
+          1.8
+        ],
+        "89": [
+          1.75,
+          2.41
+        ],
+        "90": [
+          1.44,
+          3.88
+        ],
+        "91": [
+          0.75,
+          1.3
+        ],
+        "92": [
+          -0.75,
+          1.3
+        ],
+        "93": [
+          -1.5,
+          0
+        ],
+        "94": [
+          -0.75,
+          -1.3
+        ],
+        "95": [
+          0.75,
+          -1.3
+        ],
+        "96": [
+          1.5,
+          0
+        ]
+      }
+    },
+    "amide-and-oat": {
+      "caption": "protonated amide + OAt⁻",
+      "hintTiers": [
+        "The amide nitrogen carries an extra proton. Which base takes it?",
+        "The OAt⁻ oxygen takes the N–H proton, and the N–H pair stays on nitrogen. Two arrows: HOAt forms.",
+        "OAt⁻ oxygen lone pair → new O–H bond to the amide N–H proton; N–H bond → a lone pair on nitrogen."
+      ],
+      "mappedSmiles": "[C@@H:1]([C:2](=[O:3])[NH+:30]([H:31])[CH2:32][C:33](=[O:34])[O:35][CH3:36])([CH3:5])[NH:6][C:60](=[O:61])[O:62][C:63]([CH3:64])([CH3:65])[CH3:66].[H:7][N+:70]([CH:71]([CH3:72])[CH3:73])([CH:74]([CH3:75])[CH3:76])[CH2:77][CH3:78].[N:87]1=[N:88][N:89]([O-:90])[C:91]2[N:92]=[CH:93][CH:94]=[CH:95][C:96]1=2",
+      "learnerPrompt": "One proton transfer finishes the coupling.",
+      "misconceptions": [
+        {
+          "severity": "plausible",
+          "arrowPattern": "lp O90 -> C2",
+          "feedbackMessage": "Adding back to the amide undoes the last step. Take the proton instead.",
+          "misconceptionId": "oat-adds-again",
+          "misconceptionTag": "reverse-step"
+        }
+      ],
+      "bondToWedgeStyle": {
+        "1-5": "wedge"
+      },
+      "mapNumberToCoordinates": {
+        "1": [
+          1.55,
+          6
+        ],
+        "2": [
+          2.56,
+          4.88
+        ],
+        "3": [
+          1.6,
+          3.73
+        ],
+        "5": [
+          2.02,
+          7.43
+        ],
+        "6": [
+          0.09,
+          5.69
+        ],
+        "7": [
+          12.05,
+          3.44
+        ],
+        "30": [
+          3.56,
+          3.77
+        ],
+        "31": [
+          3.48,
+          2.68
+        ],
+        "32": [
+          5.03,
+          4.08
+        ],
+        "33": [
+          6.03,
+          2.97
+        ],
+        "34": [
+          7.5,
+          3.28
+        ],
+        "35": [
+          5.57,
+          1.54
+        ],
+        "36": [
+          6.57,
+          0.43
+        ],
+        "60": [
+          -0.92,
+          6.8
+        ],
+        "61": [
+          -2.39,
+          6.49
+        ],
+        "62": [
+          -0.45,
+          8.23
+        ],
+        "63": [
+          -1.46,
+          9.34
+        ],
+        "64": [
+          -0.34,
+          10.35
+        ],
+        "65": [
+          -2.57,
+          8.34
+        ],
+        "66": [
+          -2.46,
+          10.46
+        ],
+        "70": [
+          12.05,
+          1.94
+        ],
+        "71": [
+          12.05,
+          0.44
+        ],
+        "72": [
+          10.75,
+          -0.31
+        ],
+        "73": [
+          13.35,
+          -0.31
+        ],
+        "74": [
+          10.55,
+          1.94
+        ],
+        "75": [
+          9.8,
+          3.24
+        ],
+        "76": [
+          9.8,
+          0.64
+        ],
+        "77": [
+          13.55,
+          1.94
+        ],
+        "78": [
+          14.3,
+          3.24
+        ],
+        "87": [
+          1.97,
+          -1.69
+        ],
+        "88": [
+          2.12,
+          -0.2
+        ],
+        "89": [
+          0.75,
+          0.41
+        ],
+        "90": [
+          0.44,
+          1.88
+        ],
+        "91": [
+          -0.25,
+          -0.7
+        ],
+        "92": [
+          -1.75,
+          -0.7
+        ],
+        "93": [
+          -2.5,
+          -2
+        ],
+        "94": [
+          -1.75,
+          -3.3
+        ],
+        "95": [
+          -0.25,
+          -3.3
+        ],
+        "96": [
+          0.5,
+          -2
+        ]
+      }
+    },
+    "tetrahedral-1": {
+      "caption": "tetrahedral adduct at the central carbon",
+      "hintTiers": [
+        "The central carbon now has four bonds. A dimethylamino lone pair can push back in. Which group leaves: the carboxylate, a dimethylamino group, or the triazole?",
+        "A dimethylamino lone pair forms C=N⁺, and the bond to the triazole nitrogen breaks; that pair moves into the ring as an N=N bond, and the N=N⁺ π pair goes onto the nitrogen carrying oxygen. Three arrows: OAt⁻ leaves, its charge on oxygen.",
+        "Dimethylamino lone pair → C=N π bond; C–N bond to the triazole → an N=N π bond in the ring; ring N=N⁺ π bond → a lone pair on the nitrogen carrying oxygen."
+      ],
+      "mappedSmiles": "[C@@H:1]([C:2](=[O:3])[O:4][C:80]([N:81]([CH3:82])[CH3:83])([N:84]([CH3:85])[CH3:86])[N:87]1[N:88]=[N+:89]([O-:90])[C:91]2[N:92]=[CH:93][CH:94]=[CH:95][C:96]1=2)([CH3:5])[NH:6][C:60](=[O:61])[O:62][C:63]([CH3:64])([CH3:65])[CH3:66].[H:7][N+:70]([CH:71]([CH3:72])[CH3:73])([CH:74]([CH3:75])[CH3:76])[CH2:77][CH3:78]",
+      "learnerPrompt": "The adduct expels the triazole.",
+      "misconceptions": [
+        {
+          "severity": "plausible",
+          "arrowPattern": "σ C80-O4 -> lp O4",
+          "feedbackMessage": "Losing the carboxylate just goes back. The triazole is the better leaving group: its charge ends up on oxygen.",
+          "misconceptionId": "carboxylate-leaves-again",
+          "misconceptionTag": "reverse-step"
+        },
+        {
+          "severity": "wrong",
+          "arrowPattern": "σ C80-N84 -> lp N84",
+          "feedbackMessage": "Dimethylamide is a terrible leaving group. The triazole leaves, as an anion stabilised over the ring and the oxygen.",
+          "misconceptionId": "dimethylamide-leaves",
+          "misconceptionTag": "poor-leaving-group"
+        }
+      ],
+      "bondToWedgeStyle": {
+        "1-5": "wedge"
+      },
+      "mapNumberToCoordinates": {
+        "1": [
+          1.93,
+          7.82
+        ],
+        "2": [
+          2.24,
+          6.35
+        ],
+        "3": [
+          3.44,
+          6.12
+        ],
+        "4": [
+          1.13,
+          5.35
+        ],
+        "5": [
+          3.05,
+          8.82
+        ],
+        "6": [
+          0.51,
+          8.28
+        ],
+        "7": [
+          8.43,
+          3.14
+        ],
+        "60": [
+          0.19,
+          9.75
+        ],
+        "61": [
+          -1.23,
+          10.21
+        ],
+        "62": [
+          1.31,
+          10.75
+        ],
+        "63": [
+          1,
+          12.22
+        ],
+        "64": [
+          2.46,
+          12.53
+        ],
+        "65": [
+          -0.47,
+          11.91
+        ],
+        "66": [
+          0.69,
+          13.69
+        ],
+        "70": [
+          8.43,
+          1.64
+        ],
+        "71": [
+          8.43,
+          0.14
+        ],
+        "72": [
+          7.14,
+          -0.61
+        ],
+        "73": [
+          9.73,
+          -0.61
+        ],
+        "74": [
+          6.93,
+          1.64
+        ],
+        "75": [
+          6.18,
+          2.94
+        ],
+        "76": [
+          6.18,
+          0.34
+        ],
+        "77": [
+          9.93,
+          1.64
+        ],
+        "78": [
+          10.68,
+          2.94
+        ],
+        "80": [
+          1.44,
+          3.88
+        ],
+        "81": [
+          -0.03,
+          3.57
+        ],
+        "82": [
+          -1.03,
+          4.68
+        ],
+        "83": [
+          -1.3,
+          2.77
+        ],
+        "84": [
+          2.91,
+          4.19
+        ],
+        "85": [
+          3.84,
+          4.97
+        ],
+        "86": [
+          3.66,
+          2.9
+        ],
+        "87": [
+          1.75,
+          2.41
+        ],
+        "88": [
+          3.12,
+          1.8
+        ],
+        "89": [
+          2.97,
+          0.31
+        ],
+        "90": [
+          4.08,
+          -0.69
+        ],
+        "91": [
+          1.5,
+          0
+        ],
+        "92": [
+          0.75,
+          -1.3
+        ],
+        "93": [
+          -0.75,
+          -1.3
+        ],
+        "94": [
+          -1.5,
+          0
+        ],
+        "95": [
+          -0.75,
+          1.3
+        ],
+        "96": [
+          0.75,
+          1.3
+        ]
+      },
+      "partialProgressMessages": [
+        {
+          "learnerArrows": [
+            "lp N81 -> π N81-C80",
+            "σ C80-N87 -> lp N87"
+          ],
+          "feedbackMessage": "Right bond breaks. The ring then carries a negative nitrogen next to a positive one: let the N=N π bonds shift so the charge ends on the oxygen."
+        }
+      ]
+    },
+    "tetrahedral-2": {
+      "caption": "tetrahedral intermediate",
+      "hintTiers": [
+        "Re-form the C=O. Which group leaves best: OAt or the isouronium oxygen?",
+        "The O⁻ lone pair re-forms C=O, the bond to the isouronium oxygen breaks and its pair forms a C=O at the urea carbon, and the C=N⁺ π pair moves onto nitrogen. Three arrows: neutral tetramethylurea leaves.",
+        "O⁻ lone pair → C=O π bond; acyl C–O bond to the isouronium oxygen → a C=O π bond at the urea carbon; C=N⁺ π bond → a lone pair on nitrogen."
+      ],
+      "mappedSmiles": "[C@@H:1]([C:2]([O-:3])([O:4][C:80](=[N+:81]([CH3:82])[CH3:83])[N:84]([CH3:85])[CH3:86])[O:90][N:89]1[N:88]=[N:87][C:96]2=[C:91]1[N:92]=[CH:93][CH:94]=[CH:95]2)([CH3:5])[NH:6][C:60](=[O:61])[O:62][C:63]([CH3:64])([CH3:65])[CH3:66].[H:7][N+:70]([CH:71]([CH3:72])[CH3:73])([CH:74]([CH3:75])[CH3:76])[CH2:77][CH3:78]",
+      "learnerPrompt": "The tetrahedral intermediate collapses.",
+      "misconceptions": [
+        {
+          "severity": "plausible",
+          "arrowPattern": "σ C2-O90 -> lp O90",
+          "feedbackMessage": "Losing OAt⁻ undoes the last step. Tetramethylurea leaves neutral, with a strong C=O.",
+          "misconceptionId": "oat-leaves-again",
+          "misconceptionTag": "reverse-step"
+        }
+      ],
+      "bondToWedgeStyle": {
+        "1-5": "wedge"
+      },
+      "mapNumberToCoordinates": {
+        "1": [
+          1.55,
+          6
+        ],
+        "2": [
+          2.56,
+          4.88
+        ],
+        "3": [
+          3.56,
+          3.77
+        ],
+        "4": [
+          3.67,
+          5.89
+        ],
+        "5": [
+          2.02,
+          7.43
+        ],
+        "6": [
+          0.09,
+          5.69
+        ],
+        "7": [
+          11.36,
+          3.61
+        ],
+        "60": [
+          -0.92,
+          6.8
+        ],
+        "61": [
+          -2.39,
+          6.49
+        ],
+        "62": [
+          -0.45,
+          8.23
+        ],
+        "63": [
+          -1.46,
+          9.34
+        ],
+        "64": [
+          -0.34,
+          10.35
+        ],
+        "65": [
+          -2.57,
+          8.34
+        ],
+        "66": [
+          -2.46,
+          10.46
+        ],
+        "70": [
+          11.36,
+          2.11
+        ],
+        "71": [
+          11.36,
+          0.61
+        ],
+        "72": [
+          10.07,
+          -0.14
+        ],
+        "73": [
+          12.66,
+          -0.14
+        ],
+        "74": [
+          9.86,
+          2.11
+        ],
+        "75": [
+          9.11,
+          3.41
+        ],
+        "76": [
+          9.11,
+          0.81
+        ],
+        "77": [
+          12.86,
+          2.11
+        ],
+        "78": [
+          13.61,
+          3.41
+        ],
+        "80": [
+          5.1,
+          5.42
+        ],
+        "81": [
+          6.21,
+          6.43
+        ],
+        "82": [
+          7.64,
+          5.97
+        ],
+        "83": [
+          5.9,
+          7.9
+        ],
+        "84": [
+          5.41,
+          3.96
+        ],
+        "85": [
+          6.84,
+          3.49
+        ],
+        "86": [
+          4.3,
+          2.95
+        ],
+        "87": [
+          2.97,
+          0.31
+        ],
+        "88": [
+          3.12,
+          1.8
+        ],
+        "89": [
+          1.75,
+          2.41
+        ],
+        "90": [
+          1.44,
+          3.88
+        ],
+        "91": [
+          0.75,
+          1.3
+        ],
+        "92": [
+          -0.75,
+          1.3
+        ],
+        "93": [
+          -1.5,
+          0
+        ],
+        "94": [
+          -0.75,
+          -1.3
+        ],
+        "95": [
+          0.75,
+          -1.3
+        ],
+        "96": [
+          1.5,
+          0
+        ]
+      },
+      "partialProgressMessages": [
+        {
+          "learnerArrows": [
+            "lp O3 -> π O3-C2",
+            "σ C2-O4 -> lp O4"
+          ],
+          "feedbackMessage": "Right bond breaks. Push further: the leaving oxygen can form a C=O bond as it goes, and the C=N⁺ π pair moves onto nitrogen, so neutral tetramethylurea leaves."
+        }
+      ]
+    },
+    "tetrahedral-3": {
+      "caption": "tetrahedral intermediate",
+      "hintTiers": [
+        "Re-form the C=O. Which group leaves: the amine, or OAt⁻?",
+        "The O⁻ lone pair re-forms C=O, and the bond to the OAt oxygen breaks. Two arrows.",
+        "O⁻ lone pair → C=O π bond; C–O bond to the OAt oxygen → a lone pair on that oxygen."
+      ],
+      "mappedSmiles": "[C@@H:1]([C:2]([O-:3])([NH+:30]([H:31])[CH2:32][C:33](=[O:34])[O:35][CH3:36])[O:90][N:89]1[N:88]=[N:87][C:96]2=[C:91]1[N:92]=[CH:93][CH:94]=[CH:95]2)([CH3:5])[NH:6][C:60](=[O:61])[O:62][C:63]([CH3:64])([CH3:65])[CH3:66].[H:7][N+:70]([CH:71]([CH3:72])[CH3:73])([CH:74]([CH3:75])[CH3:76])[CH2:77][CH3:78]",
+      "learnerPrompt": "The tetrahedral intermediate collapses.",
+      "misconceptions": [
+        {
+          "severity": "plausible",
+          "arrowPattern": "σ C2-N30 -> lp N30",
+          "feedbackMessage": "Losing the amine undoes the addition. OAt⁻ is the far better leaving group.",
+          "misconceptionId": "amine-leaves",
+          "misconceptionTag": "reverse-step"
+        }
+      ],
+      "bondToWedgeStyle": {
+        "1-5": "wedge"
+      },
+      "mapNumberToCoordinates": {
+        "1": [
+          1.55,
+          6
+        ],
+        "2": [
+          2.56,
+          4.88
+        ],
+        "3": [
+          3.67,
+          5.89
+        ],
+        "5": [
+          2.02,
+          7.43
+        ],
+        "6": [
+          0.09,
+          5.69
+        ],
+        "7": [
+          12.05,
+          3.44
+        ],
+        "30": [
+          3.56,
+          3.77
+        ],
+        "31": [
+          3.48,
+          2.68
+        ],
+        "32": [
+          5.03,
+          4.08
+        ],
+        "33": [
+          6.03,
+          2.97
+        ],
+        "34": [
+          7.5,
+          3.28
+        ],
+        "35": [
+          5.57,
+          1.54
+        ],
+        "36": [
+          6.57,
+          0.43
+        ],
+        "60": [
+          -0.92,
+          6.8
+        ],
+        "61": [
+          -2.39,
+          6.49
+        ],
+        "62": [
+          -0.45,
+          8.23
+        ],
+        "63": [
+          -1.46,
+          9.34
+        ],
+        "64": [
+          -0.34,
+          10.35
+        ],
+        "65": [
+          -2.57,
+          8.34
+        ],
+        "66": [
+          -2.46,
+          10.46
+        ],
+        "70": [
+          12.05,
+          1.94
+        ],
+        "71": [
+          12.05,
+          0.44
+        ],
+        "72": [
+          10.75,
+          -0.31
+        ],
+        "73": [
+          13.35,
+          -0.31
+        ],
+        "74": [
+          10.55,
+          1.94
+        ],
+        "75": [
+          9.8,
+          3.24
+        ],
+        "76": [
+          9.8,
+          0.64
+        ],
+        "77": [
+          13.55,
+          1.94
+        ],
+        "78": [
+          14.3,
+          3.24
+        ],
+        "87": [
+          2.97,
+          0.31
+        ],
+        "88": [
+          3.12,
+          1.8
+        ],
+        "89": [
+          1.75,
+          2.41
+        ],
+        "90": [
+          1.44,
+          3.88
+        ],
+        "91": [
+          0.75,
+          1.3
+        ],
+        "92": [
+          -0.75,
+          1.3
+        ],
+        "93": [
+          -1.5,
+          0
+        ],
+        "94": [
+          -0.75,
+          -1.3
+        ],
+        "95": [
+          0.75,
+          -1.3
+        ],
+        "96": [
+          1.5,
+          0
+        ]
+      }
+    },
+    "isouronium-and-oat": {
+      "caption": "the O-acylisouronium ion + OAt⁻",
+      "hintTiers": [
+        "The acyl C=O is now joined to an excellent leaving group. Which atom of OAt⁻ attacks, and where?",
+        "The OAt⁻ oxygen bonds to the acyl carbon, and that C=O π pair moves onto oxygen. Two arrows.",
+        "OAt⁻ oxygen lone pair → new O–C bond to the acyl carbon; C=O π bond → a lone pair on the carbonyl oxygen."
+      ],
+      "mappedSmiles": "[C@@H:1]([C:2](=[O:3])[O:4][C:80](=[N+:81]([CH3:82])[CH3:83])[N:84]([CH3:85])[CH3:86])([CH3:5])[NH:6][C:60](=[O:61])[O:62][C:63]([CH3:64])([CH3:65])[CH3:66].[H:7][N+:70]([CH:71]([CH3:72])[CH3:73])([CH:74]([CH3:75])[CH3:76])[CH2:77][CH3:78].[N:87]1=[N:88][N:89]([O-:90])[C:91]2[N:92]=[CH:93][CH:94]=[CH:95][C:96]1=2",
+      "learnerPrompt": "OAt⁻ attacks the activated acid.",
+      "misconceptions": [
+        {
+          "severity": "plausible",
+          "arrowPattern": "lp O90 -> C80",
+          "feedbackMessage": "Adding at the isouronium carbon builds a HATU-like adduct again. The acyl carbon is the target: tetramethylurea is then lost.",
+          "misconceptionId": "oat-attacks-isouronium-carbon",
+          "misconceptionTag": "reverse-step"
+        },
+        {
+          "severity": "plausible",
+          "arrowPattern": "lp N87 -> σ N87-C2",
+          "feedbackMessage": "OAt⁻ is ambident, and N-acylation does happen as a side reaction, but the O-acyl active ester is the one that forms and reacts with the amine. Attack through oxygen.",
+          "misconceptionId": "oat-attacks-through-nitrogen",
+          "misconceptionTag": "ambident-nucleophile"
+        }
+      ],
+      "bondToWedgeStyle": {
+        "1-5": "wedge"
+      },
+      "mapNumberToCoordinates": {
+        "1": [
+          1.55,
+          6
+        ],
+        "2": [
+          2.56,
+          4.88
+        ],
+        "3": [
+          1.6,
+          3.73
+        ],
+        "4": [
+          3.67,
+          5.89
+        ],
+        "5": [
+          2.02,
+          7.43
+        ],
+        "6": [
+          0.09,
+          5.69
+        ],
+        "7": [
+          11.36,
+          3.61
+        ],
+        "60": [
+          -0.92,
+          6.8
+        ],
+        "61": [
+          -2.39,
+          6.49
+        ],
+        "62": [
+          -0.45,
+          8.23
+        ],
+        "63": [
+          -1.46,
+          9.34
+        ],
+        "64": [
+          -0.34,
+          10.35
+        ],
+        "65": [
+          -2.57,
+          8.34
+        ],
+        "66": [
+          -2.46,
+          10.46
+        ],
+        "70": [
+          11.36,
+          2.11
+        ],
+        "71": [
+          11.36,
+          0.61
+        ],
+        "72": [
+          10.07,
+          -0.14
+        ],
+        "73": [
+          12.66,
+          -0.14
+        ],
+        "74": [
+          9.86,
+          2.11
+        ],
+        "75": [
+          9.11,
+          3.41
+        ],
+        "76": [
+          9.11,
+          0.81
+        ],
+        "77": [
+          12.86,
+          2.11
+        ],
+        "78": [
+          13.61,
+          3.41
+        ],
+        "80": [
+          5.1,
+          5.42
+        ],
+        "81": [
+          6.21,
+          6.43
+        ],
+        "82": [
+          7.64,
+          5.97
+        ],
+        "83": [
+          5.9,
+          7.9
+        ],
+        "84": [
+          5.41,
+          3.96
+        ],
+        "85": [
+          6.84,
+          3.49
+        ],
+        "86": [
+          4.3,
+          2.95
+        ],
+        "87": [
+          1.97,
+          -1.69
+        ],
+        "88": [
+          2.12,
+          -0.2
+        ],
+        "89": [
+          0.75,
+          0.41
+        ],
+        "90": [
+          0.44,
+          1.88
+        ],
+        "91": [
+          -0.25,
+          -0.7
+        ],
+        "92": [
+          -1.75,
+          -0.7
+        ],
+        "93": [
+          -2.5,
+          -2
+        ],
+        "94": [
+          -1.75,
+          -3.3
+        ],
+        "95": [
+          -0.25,
+          -3.3
+        ],
+        "96": [
+          0.5,
+          -2
+        ]
+      },
+      "partialProgressMessages": [
+        {
+          "learnerArrows": [
+            "lp O90 -> σ O90-C2"
+          ],
+          "feedbackMessage": "Right nucleophile and right carbon. Now move the C=O π pair onto oxygen."
+        }
+      ]
+    },
+    "active-ester-and-amine": {
+      "caption": "the OAt active ester + glycine methyl ester",
+      "hintTiers": [
+        "Where does the amine attack the OAt ester? The pyridine nitrogen next to the ester oxygen helps by holding the incoming N–H.",
+        "The amine nitrogen bonds to the ester C=O carbon, and the C=O π pair moves onto oxygen. Two arrows.",
+        "Amine nitrogen lone pair → new N–C bond to the ester carbonyl carbon; C=O π bond → a lone pair on oxygen."
+      ],
+      "mappedSmiles": "[C@@H:1]([C:2](=[O:3])[O:90][N:89]1[N:88]=[N:87][C:96]2=[C:91]1[N:92]=[CH:93][CH:94]=[CH:95]2)([CH3:5])[NH:6][C:60](=[O:61])[O:62][C:63]([CH3:64])([CH3:65])[CH3:66].[H:7][N+:70]([CH:71]([CH3:72])[CH3:73])([CH:74]([CH3:75])[CH3:76])[CH2:77][CH3:78].[NH:30]([H:31])[CH2:32][C:33](=[O:34])[O:35][CH3:36]",
+      "learnerPrompt": "The amine attacks the active ester.",
+      "misconceptions": [
+        {
+          "severity": "plausible",
+          "arrowPattern": "lp N30 -> H7",
+          "feedbackMessage": "Swapping a proton between two amines of similar basicity changes nothing. The amine is the nucleophile: attack the ester.",
+          "misconceptionId": "amine-takes-ammonium-proton",
+          "misconceptionTag": "unproductive-protonation"
+        }
+      ],
+      "bondToWedgeStyle": {
+        "1-5": "wedge"
+      },
+      "mapNumberToCoordinates": {
+        "1": [
+          2.24,
+          6.35
+        ],
+        "2": [
+          2.56,
+          4.88
+        ],
+        "3": [
+          3.98,
+          4.42
+        ],
+        "5": [
+          3.36,
+          7.36
+        ],
+        "6": [
+          0.82,
+          6.82
+        ],
+        "7": [
+          8.09,
+          3.29
+        ],
+        "30": [
+          16.88,
+          -0.28
+        ],
+        "31": [
+          18.18,
+          0.47
+        ],
+        "32": [
+          15.58,
+          0.47
+        ],
+        "33": [
+          14.28,
+          -0.28
+        ],
+        "34": [
+          14.28,
+          -1.78
+        ],
+        "35": [
+          12.98,
+          0.47
+        ],
+        "36": [
+          11.68,
+          -0.28
+        ],
+        "60": [
+          0.51,
+          8.28
+        ],
+        "61": [
+          -0.92,
+          8.75
+        ],
+        "62": [
+          1.62,
+          9.29
+        ],
+        "63": [
+          1.31,
+          10.75
+        ],
+        "64": [
+          2.78,
+          11.07
+        ],
+        "65": [
+          -0.16,
+          10.44
+        ],
+        "66": [
+          1,
+          12.22
+        ],
+        "70": [
+          8.09,
+          1.79
+        ],
+        "71": [
+          8.09,
+          0.29
+        ],
+        "72": [
+          6.79,
+          -0.46
+        ],
+        "73": [
+          9.39,
+          -0.46
+        ],
+        "74": [
+          6.59,
+          1.79
+        ],
+        "75": [
+          5.84,
+          3.09
+        ],
+        "76": [
+          5.84,
+          0.5
+        ],
+        "77": [
+          9.59,
+          1.79
+        ],
+        "78": [
+          10.34,
+          3.09
+        ],
+        "87": [
+          2.97,
+          0.31
+        ],
+        "88": [
+          3.12,
+          1.8
+        ],
+        "89": [
+          1.75,
+          2.41
+        ],
+        "90": [
+          1.44,
+          3.88
+        ],
+        "91": [
+          0.75,
+          1.3
+        ],
+        "92": [
+          -0.75,
+          1.3
+        ],
+        "93": [
+          -1.5,
+          0
+        ],
+        "94": [
+          -0.75,
+          -1.3
+        ],
+        "95": [
+          0.75,
+          -1.3
+        ],
+        "96": [
+          1.5,
+          0
+        ]
+      },
+      "partialProgressMessages": [
+        {
+          "learnerArrows": [
+            "lp N30 -> σ N30-C2"
+          ],
+          "feedbackMessage": "Right: the amine attacks the ester carbon. Now move the C=O π pair onto oxygen."
+        }
+      ]
+    }
+  },
+  "conditionsLabel": "HATU · i-Pr₂NEt · DMF · 25 °C · then H-Gly-OMe",
+  "reactionClasses": [
+    "carbonyl",
+    "substitution"
+  ],
+  "reactionVersion": 2,
+  "mechanismSummary": "Hünig's base deprotonates Boc-alanine. The carboxylate adds to the amidinium carbon of HATU, and the triazole leaves as the OAt⁻ anion, giving a reactive O-acylisouronium ion. OAt⁻ adds to its acyl carbon and neutral tetramethylurea leaves: the OAt active ester. The amine adds to the ester, OAt⁻ leaves, and a proton transfer gives the dipeptide and HOAt. The pyridine nitrogen of OAt, next to the ester oxygen, holds the incoming amine by a hydrogen bond, so HATU couples fast with little racemisation. The amine is added after the acid has been activated: left with HATU, an amine can attack the amidinium carbon itself and be capped as a guanidine. The app does not check stereochemistry yet.",
+  "abbreviatedGroups": [
+    {
+      "groupLabel": "Boc",
+      "mapNumbers": [
+        60,
+        61,
+        62,
+        63,
+        64,
+        65,
+        66
+      ],
+      "attachmentMapNumber": 60
+    },
+    {
+      "groupLabel": "CO₂Me",
+      "mapNumbers": [
+        33,
+        34,
+        35,
+        36
+      ],
+      "attachmentMapNumber": 33
+    },
+    {
+      "groupLabel": "i-Pr",
+      "mapNumbers": [
+        71,
+        72,
+        73
+      ],
+      "attachmentMapNumber": 71
+    },
+    {
+      "groupLabel": "i-Pr",
+      "mapNumbers": [
+        74,
+        75,
+        76
+      ],
+      "attachmentMapNumber": 74
+    },
+    {
+      "groupLabel": "Et",
+      "mapNumbers": [
+        77,
+        78
+      ],
+      "attachmentMapNumber": 77
+    }
+  ],
+  "dailyPuzzleEligible": true,
+  "spectatorMapNumbers": [],
+  "atomRoleToMapNumbers": {
+    "oatOxygen": [
+      90
+    ],
+    "acylCarbon": [
+      2
+    ],
+    "amineNitrogen": [
+      30
+    ],
+    "amidiniumCarbon": [
+      80
+    ]
+  },
+  "previousReactionVersion": 1
+}

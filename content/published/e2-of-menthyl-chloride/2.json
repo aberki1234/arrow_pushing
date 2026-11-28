@@ -1,0 +1,261 @@
+{
+  "steps": [
+    {
+      "stepKey": "anti-periplanar-elimination",
+      "stepKind": "polar",
+      "toStateId": "menth-2-ene",
+      "fromStateId": "reactants",
+      "canonicalArrows": [
+        "lp O14 -> σ O14-H21",
+        "σ C11-H21 -> π C1-C11",
+        "σ C1-Cl2 -> lp Cl2"
+      ],
+      "routePreference": "preferred",
+      "explanationAfterStep": "Only the axial hydrogen of this CH₂ is anti-periplanar to the axial C–Cl bond, so only this alkene forms, even though it is the less substituted one. (The app counts either hydrogen of the CH₂ as right; in the flask it is the axial one.) The reaction is slow because chlorine is axial only in the chair where all three substituents are axial. The app does not check stereochemistry yet: the drawing shows only which atoms are bonded."
+    }
+  ],
+  "title": "E2 of menthyl chloride",
+  "authors": [
+    {
+      "url": null,
+      "name": "Maksim"
+    }
+  ],
+  "licence": "CC-BY-SA-4.0",
+  "subtitle": "Only an anti-periplanar hydrogen can leave: the less substituted alkene, and nothing else",
+  "references": [
+    "Clayden, Greeves and Warren, Organic Chemistry, 2nd edition (Oxford University Press), chapter 17 (Elimination reactions)",
+    "Clayden, Greeves and Warren, Organic Chemistry, 2nd edition (Oxford University Press), chapter 16 (Conformational analysis)"
+  ],
+  "reactionSlug": "e2-of-menthyl-chloride",
+  "startStateId": "reactants",
+  "formatVersion": 1,
+  "difficultyTier": 3,
+  "stateIdToState": {
+    "reactants": {
+      "caption": "sodium ethoxide + menthyl chloride (all three ring substituents equatorial in the stable chair)",
+      "hintTiers": [
+        "E2 needs the C–H and C–Cl bonds anti-periplanar: on a cyclohexane ring, both must be axial. In the chair where chlorine is axial, which neighbouring carbon still has an axial hydrogen?",
+        "To make chlorine axial the ring flips, and the isopropyl group goes axial too: the hydrogen on the isopropyl-bearing carbon is then equatorial. Use a hydrogen on the CH₂ next to the C–Cl carbon. Three arrows.",
+        "Ethoxide oxygen lone pair → the hydrogen on the ring CH₂ next to the C–Cl carbon; that C–H bond → a π bond to the C–Cl carbon; the C–Cl bond → a lone pair on chlorine."
+      ],
+      "mappedSmiles": "[C@H:1]1([Cl:2])[C@:3]([CH:4]([CH3:5])[CH3:6])([CH2:7][CH2:8][C@@H:9]([CH3:10])[C@@H:11]1[H:21])[H:20].[CH3:12][CH2:13][O-:14].[Na+:15]",
+      "learnerPrompt": "Menthyl chloride has β-hydrogens on two ring carbons. Draw the E2 that actually happens.",
+      "misconceptions": [
+        {
+          "severity": "plausible",
+          "arrowPattern": "lp O14 -> σ O14-H20",
+          "feedbackMessage": "That hydrogen would give the more substituted alkene (menth-3-ene), but it can never be anti-periplanar to the C–Cl bond: when chlorine is axial, the isopropyl group is axial too and this hydrogen is equatorial. Menthyl chloride gives no menth-3-ene at all. Use the other neighbouring carbon.",
+          "misconceptionId": "zaitsev-hydrogen",
+          "misconceptionTag": "syn-clinal-hydrogen"
+        },
+        {
+          "severity": "plausible",
+          "arrowPattern": "lp O14 -> σ O14-C1",
+          "feedbackMessage": "SN2 at this hindered secondary carbon is very slow, and ethoxide is a strong base: elimination wins.",
+          "misconceptionId": "sn2-instead",
+          "misconceptionTag": "substitution-instead-of-elimination"
+        },
+        {
+          "severity": "wrong",
+          "arrowPattern": "lp O14 -> Cl2",
+          "feedbackMessage": "The base takes a proton, not the electron-rich chlorine.",
+          "misconceptionId": "attack-on-chlorine",
+          "misconceptionTag": "attack-leaving-group"
+        }
+      ],
+      "bondToWedgeStyle": {
+        "1-2": "dash",
+        "3-20": "dash",
+        "9-10": "dash",
+        "11-21": "wedge"
+      },
+      "mapNumberToCoordinates": {
+        "1": [
+          -0.81,
+          0.54
+        ],
+        "2": [
+          -0.06,
+          1.84
+        ],
+        "3": [
+          -2.31,
+          0.54
+        ],
+        "4": [
+          -2.05,
+          2.02
+        ],
+        "5": [
+          -3.2,
+          2.98
+        ],
+        "6": [
+          -0.64,
+          2.53
+        ],
+        "7": [
+          -3.06,
+          -0.76
+        ],
+        "8": [
+          -2.31,
+          -2.06
+        ],
+        "9": [
+          -0.81,
+          -2.06
+        ],
+        "10": [
+          -0.06,
+          -3.36
+        ],
+        "11": [
+          -0.06,
+          -0.76
+        ],
+        "12": [
+          4,
+          0
+        ],
+        "13": [
+          5.3,
+          0.75
+        ],
+        "14": [
+          6.6,
+          0
+        ],
+        "15": [
+          0,
+          4.74
+        ],
+        "20": [
+          -3.72,
+          1.05
+        ],
+        "21": [
+          1.44,
+          -0.76
+        ]
+      },
+      "partialProgressMessages": [
+        {
+          "learnerArrows": [
+            "σ C1-Cl2 -> lp Cl2"
+          ],
+          "feedbackMessage": "Chloride leaves, but in E2 the base, the C–H bond and the C–Cl bond move in one step. Add the other two arrows."
+        }
+      ]
+    },
+    "menth-2-ene": {
+      "caption": "menth-2-ene (3-isopropyl-6-methylcyclohexene), the only alkene formed + ethanol + NaCl",
+      "mappedSmiles": "[CH:1]1[C@:3]([CH:4]([CH3:5])[CH3:6])([CH2:7][CH2:8][C@@H:9]([CH3:10])[CH:11]=1)[H:20].[Cl-:2].[CH3:12][CH2:13][O:14][H:21].[Na+:15]",
+      "bondToWedgeStyle": {
+        "3-20": "dash",
+        "9-10": "dash"
+      },
+      "mapNumberToCoordinates": {
+        "1": [
+          -0.88,
+          0.56
+        ],
+        "2": [
+          0,
+          7.04
+        ],
+        "3": [
+          -2.38,
+          0.56
+        ],
+        "4": [
+          -2.12,
+          2.04
+        ],
+        "5": [
+          -0.71,
+          2.55
+        ],
+        "6": [
+          -3.26,
+          3
+        ],
+        "7": [
+          -3.13,
+          -0.74
+        ],
+        "8": [
+          -2.38,
+          -2.03
+        ],
+        "9": [
+          -0.88,
+          -2.03
+        ],
+        "10": [
+          -0.13,
+          -3.33
+        ],
+        "11": [
+          -0.13,
+          -0.74
+        ],
+        "12": [
+          2.5,
+          0
+        ],
+        "13": [
+          3.8,
+          0.75
+        ],
+        "14": [
+          5.1,
+          0
+        ],
+        "15": [
+          0,
+          4.74
+        ],
+        "20": [
+          -3.79,
+          1.08
+        ],
+        "21": [
+          6.4,
+          0.75
+        ]
+      }
+    }
+  },
+  "conditionsLabel": "NaOEt · EtOH · reflux",
+  "reactionClasses": [
+    "elimination"
+  ],
+  "reactionVersion": 2,
+  "mechanismSummary": "In menthyl chloride the chlorine, the isopropyl group and the methyl group are all equatorial in the stable chair. E2 needs the C–H and C–Cl bonds anti-periplanar, which on a cyclohexane means both axial. The ring must flip to put chlorine axial, and then the isopropyl and methyl groups are axial too: an unfavourable chair, so the reaction is slow. In that chair the hydrogen on the isopropyl-bearing carbon is equatorial and cannot leave; only the axial hydrogen on the CH₂ on the other side is anti-periplanar. So menthyl chloride gives only menth-2-ene, the less substituted alkene, against Zaitsev's rule. Its diastereomer neomenthyl chloride, whose chlorine is already axial, has axial hydrogens on both sides, reacts about 200 times faster and gives mainly the more substituted menth-3-ene. The app does not check stereochemistry yet: the drawing shows only which atoms are bonded.",
+  "abbreviatedGroups": [
+    {
+      "groupLabel": "iPr",
+      "mapNumbers": [
+        4,
+        5,
+        6
+      ],
+      "attachmentMapNumber": 4
+    }
+  ],
+  "dailyPuzzleEligible": true,
+  "spectatorMapNumbers": [
+    15
+  ],
+  "atomRoleToMapNumbers": {
+    "base": [
+      14
+    ],
+    "leavingGroup": [
+      2
+    ]
+  },
+  "previousReactionVersion": 1
+}
