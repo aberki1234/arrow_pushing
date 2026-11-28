@@ -23,6 +23,7 @@ import {
   ArrowApplicationError,
   applyCurvedArrows,
   applySpeciesChange,
+  withStereoFromToState,
   SpeciesChangeError,
 } from "../../../core/stateGraphs/arrowApplication.js";
 import {
@@ -171,7 +172,12 @@ function regenerateStep(
 ): boolean {
   const fromStateId = String(step.fromStateId);
   const toStateId = String(step.toStateId);
-  const result = appliedStep(step, fromGraph);
+  const applied = appliedStep(step, fromGraph);
+  // A centre the step makes or changes keeps the configuration the author gave the to-state.
+  const result =
+    applied === undefined
+      ? undefined
+      : withStereoFromToState(applied, graphIn(regeneration, toStateId));
   const unchanged =
     result !== undefined && stateGraphsEqual(result, graphIn(regeneration, toStateId));
   if (

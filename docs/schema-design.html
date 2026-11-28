@@ -530,8 +530,8 @@ verifications(id uuid pk, identifier, value, expires_at, …)   -- the OAuth sta
         </ul></li>
       <li value="12"><b>Stereo validation</b> (decided 2026-11-26; design in <a href="stereo-validation.html">the stereo proposal</a>). Phases 1–2 now; choosing a face (a “Which product forms?” question) after a mockup.
         <ul>
-          <li><span class="tag ok">done</span> <b>12a</b> Stereo marks (<code>@</code>, <code>@@</code>, <code>/</code>, <code>\</code>) read and written in state SMILES, kept on map numbers and checked against RDKit. Until 12b, applying arrows drops stereo, so reactions should not use marks yet.</li>
-          <li><b>12b</b> Applying arrows keeps untouched stereo; centres a step makes or changes come from the next state.</li>
+          <li><span class="tag ok">done</span> <b>12a</b> Stereo marks (<code>@</code>, <code>@@</code>, <code>/</code>, <code>\</code>) read and written in state SMILES, kept on map numbers and checked against RDKit. </li>
+          <li><span class="tag ok">done</span> <b>12b</b> Applying arrows keeps untouched stereo; centres a step makes or changes come from the next state. The editor's regeneration keeps the configuration you gave such a centre. Until 12c, answers are not yet compared with stereo, so reactions should not use marks yet.</li>
           <li><b>12c</b> Stereo-aware comparison; lint checks for wedges against marks, a stereocentre changing without arrows, and an unmarked stereocentre; the editor fills wedges.</li>
           <li><b>12d</b> Diastereotopic atoms told apart: the anti-periplanar H of an E2 is assessed.</li>
           <li><b>12e</b> First content: SN2, E2 and bromination drafts with stereo.</li>

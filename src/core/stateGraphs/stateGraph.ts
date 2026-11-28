@@ -283,3 +283,28 @@ export function stateGraphsEqual(first: StateGraph, second: StateGraph): boolean
     sameEntries(first.bondToDoubleBondRelation, second.bondToDoubleBondRelation)
   );
 }
+
+/** Every entry of `part` is in `whole` with the same value; an absent map counts as empty. */
+function entriesIncluded<Key, Value>(
+  part: ReadonlyMap<Key, Value> | undefined,
+  whole: ReadonlyMap<Key, Value> | undefined,
+): boolean {
+  return [...(part ?? [])].every(([key, value]) => whole?.get(key) === value);
+}
+
+/**
+ * Whether a state made by applying arrows is the to-state: the same atoms, electrons and bonds,
+ * and every stereo mark it kept agrees with the to-state. Marks it lacks (centres the step made
+ * or changed) come from the to-state (docs/stereo-validation.md phase 1).
+ */
+export function appliedStateMatches(applied: StateGraph, toState: StateGraph): boolean {
+  return (
+    applied.mapNumberToAtom.size === toState.mapNumberToAtom.size &&
+    [...applied.mapNumberToAtom].every(([mapNumber, atom]) =>
+      sameAtom(atom, toState.mapNumberToAtom.get(mapNumber)),
+    ) &&
+    sameEntries(applied.bondToOrder, toState.bondToOrder) &&
+    entriesIncluded(applied.mapNumberToTetrahedralMark, toState.mapNumberToTetrahedralMark) &&
+    entriesIncluded(applied.bondToDoubleBondRelation, toState.bondToDoubleBondRelation)
+  );
+}

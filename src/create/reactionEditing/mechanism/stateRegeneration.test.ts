@@ -96,6 +96,31 @@ describe("regenerateStatesAfter", () => {
   });
 });
 
+describe("regenerateStatesAfter with stereo (item 12b)", () => {
+  it("keeps the configuration the author gave a centre the step makes", () => {
+    // SN2 on 2-bromobutane, products authored with inversion; then the reactants gain a methyl
+    // far from the centre. The regenerated products keep the authored mark at C2.
+    const sn2 = exampleReaction("sn2-hydroxide-bromomethane.json");
+    const chiralStart = edited(
+      editStateSmiles(sn2, "reactants", "[OH-:1].[CH3:5][C@@H:2]([Br:3])[CH2:6][CH3:7].[Na+:4]"),
+    );
+    const invertedProducts = "[OH:1][C@@H:2]([CH3:5])[CH2:6][CH3:7].[Br-:3].[Na+:4]";
+    const authored = edited(editStateSmiles(chiralStart, "products", invertedProducts));
+    const document = edited(
+      editStateSmiles(
+        authored,
+        "reactants",
+        "[OH-:1].[CH3:5][C@@H:2]([Br:3])[CH2:6][CH2:7][CH3:8].[Na+:4]",
+      ),
+    );
+    const regeneration = regenerateStatesAfter(document, "reactants");
+    expect(regeneration.brokenStepKeys).toEqual([]);
+    expect(stateOf(regeneration.document, "products").mappedSmiles).toBe(
+      "[OH:1][C@@H:2]([CH3:5])[CH2:6][CH2:7][CH3:8].[Br-:3].[Na+:4]",
+    );
+  });
+});
+
 describe("regenerateStatesAfter through change steps and broken steps", () => {
   it("regenerates through a change step", () => {
     const fileName = "aldol-addition-base.json";

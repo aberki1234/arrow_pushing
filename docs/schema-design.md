@@ -992,9 +992,15 @@ RDKit (RDKit.js) on every valid SMILES case and every example state (`src/toolin
       ascending map number); `bondToDoubleBondRelation` holds `cis`/`trans` between each end's lowest-numbered
       other neighbour. New error `invalid-stereo-mark`; direction marks on ring closures stay unsupported. The
       fixture JSON gains `tetrahedralMarks` and `doubleBondStereo` only when a state has stereo. Checked against
-      RDKit (`canonicalStereoSmiles`): reading and rewriting keeps every fixture's stereoisomer. Until 12b, arrow
-      application drops stereo, so content should not use marks yet.
-    * **12b** Arrow application keeps untouched stereo; centres the step makes or changes come from the to-state.
+      RDKit (`canonicalStereoSmiles`): reading and rewriting keeps every fixture's stereoisomer.
+    * **12b Done 2026-11-28.** Arrow application keeps untouched stereo (`arrowApplication.ts`): a centre keeps
+      its mark when no arrow touches it and its neighbours and hydrogen count are unchanged; a double bond keeps
+      cis/trans when neither end is touched and both keep their neighbours. Other marks are dropped, and
+      `withStereoFromToState()` fills them from the to-state (same neighbourhood only; kept marks are never
+      replaced). `appliedStateMatches()` (stateGraph.ts): same atoms, electrons and bonds, and every kept mark
+      agrees with the to-state; used by the linter for change steps. A change step keeps every remaining mark and
+      adds the arriving molecules'. The editor's regeneration keeps the authored configuration of centres a
+      step makes. Until 12c (stereo-aware comparison up to symmetry), content should not use marks yet.
     * **12c** Stereo-aware comparison; lint `wedges-disagree-with-smiles`, `stereocentre-changes-without-arrows`,
       `stereocentre-unspecified`; the editor fills wedges from the marks.
     * **12d** Stereo-aware skeleton symmetry (diastereotopic atoms distinct): E2 anti-periplanar assessed.

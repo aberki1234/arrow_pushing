@@ -18,9 +18,10 @@ import {
   applyCurvedArrows,
   applySpeciesChange,
   SpeciesChangeError,
+  withStereoFromToState,
 } from "./arrowApplication.js";
 import { stateGraphFromMappedSmiles } from "./mappedSmilesReading.js";
-import { type StateGraph, stateGraphToJson } from "./stateGraph.js";
+import { type StateGraph, appliedStateMatches, stateGraphToJson } from "./stateGraph.js";
 
 const casesFile = "state_graphs/arrow_application_cases.json";
 const validCases = fixtureCaseEntries(casesFile, "validCases").map((entry) => ({
@@ -126,7 +127,8 @@ test("the example reactions have steps to check", () => {
 
 test.each(exampleSteps)("example step $testId reproduces its to-state", ({ document, step }) => {
   const toState = stateOf(document, textField(step, "toStateId"));
-  expect(stateGraphToJson(applyExampleStep(document, step))).toEqual(stateGraphToJson(toState));
+  const completed = withStereoFromToState(applyExampleStep(document, step), toState);
+  expect(stateGraphToJson(completed)).toEqual(stateGraphToJson(toState));
 });
 
 test("a species change adds and removes whole molecules", () => {
@@ -148,4 +150,63 @@ test("a species change refuses an added map number in use, or removing an absent
   expect((added as SpeciesChangeError).errorCode).toBe("added-map-number-in-use");
   expect(removed).toBeInstanceOf(SpeciesChangeError);
   expect((removed as SpeciesChangeError).errorCode).toBe("removed-map-number-absent");
+});
+
+// ---- Stereo (item 12b, docs/stereo-validation.md phase 1) ----
+// The reference is the strict reader: a mark kept means the same canonical mark on map numbers.
+
+test("a species change keeps the remaining marks and adds the added molecule's marks", () => {
+  const before = stateGraphFromMappedSmiles("[CH3:1][C@@H:2]([OH:3])[CH2:4][CH3:5].[Na+:6]");
+  const added = stateGraphFromMappedSmiles("[CH3:7]/[CH:8]=[CH:9]/[CH3:10]");
+  const result = applySpeciesChange(before, added, [6]);
+  const expected = stateGraphFromMappedSmiles(
+    "[CH3:1][C@@H:2]([OH:3])[CH2:4][CH3:5].[CH3:7]/[CH:8]=[CH:9]/[CH3:10]",
+  );
+  expect(stateGraphToJson(result)).toEqual(stateGraphToJson(expected));
+});
+
+const sn2Start = "[OH-:1].[CH3:2][C@@H:3]([Br:4])[CH2:5][CH3:6]";
+const sn2Arrows = ["lp O1 -> σ O1-C3", "σ C3-Br4 -> lp Br4"];
+// Written around C3 as (C2, H, Br4, C5) the start is @@. Retention puts O1 where Br4 was:
+// (C2, H, O1, C5) @@, which written as (O1, H, C2, C5) is one swap away, so @. Inversion is @@.
+const sn2Inverted = "[OH:1][C@@H:3]([CH3:2])[CH2:5][CH3:6].[Br-:4]";
+const sn2Retained = "[OH:1][C@H:3]([CH3:2])[CH2:5][CH3:6].[Br-:4]";
+
+test("the to-state's mark fills a centre the step made or changed", () => {
+  const applied = applyArrowNotation(sn2Start, sn2Arrows);
+  const toState = stateGraphFromMappedSmiles(sn2Inverted);
+  expect(stateGraphToJson(withStereoFromToState(applied, toState))).toEqual(
+    stateGraphToJson(toState),
+  );
+});
+
+test("the to-state's marks never replace a mark the result kept", () => {
+  const applied = applyArrowNotation("[CH3:1][C@@H:2]([O:3][H:7])[CH2:4][CH3:5].[OH-:6]", [
+    "lp O6 -> σ O6-H7",
+    "σ O3-H7 -> lp O3",
+  ]);
+  const otherEnantiomer = stateGraphFromMappedSmiles(
+    "[CH3:1][C@H:2]([O-:3])[CH2:4][CH3:5].[OH:6][H:7]",
+  );
+  const completed = withStereoFromToState(applied, otherEnantiomer);
+  expect(completed.mapNumberToTetrahedralMark?.get(2)).toBe("@");
+  expect(appliedStateMatches(applied, otherEnantiomer)).toBe(false);
+});
+
+test("an applied state matches a to-state that agrees on every mark it kept", () => {
+  const applied = applyArrowNotation(sn2Start, sn2Arrows);
+  expect(appliedStateMatches(applied, stateGraphFromMappedSmiles(sn2Inverted))).toBe(true);
+  expect(appliedStateMatches(applied, stateGraphFromMappedSmiles(sn2Retained))).toBe(true);
+  expect(appliedStateMatches(applied, stateGraphFromMappedSmiles("[OH:1][CH3:3].[Br-:4]"))).toBe(
+    false,
+  );
+});
+
+test("a to-state's mark on an atom whose neighbours changed is not copied", () => {
+  const applied = stateGraphFromMappedSmiles("[CH3:1][CH:2]([OH:3])[CH2:4][CH3:5].[Cl-:6]");
+  const differentNeighbours = stateGraphFromMappedSmiles(
+    "[CH3:1][C@@H:2]([Cl:6])[CH2:4][CH3:5].[OH-:3]",
+  );
+  const completed = withStereoFromToState(applied, differentNeighbours);
+  expect(completed.mapNumberToTetrahedralMark?.size ?? 0).toBe(0);
 });
