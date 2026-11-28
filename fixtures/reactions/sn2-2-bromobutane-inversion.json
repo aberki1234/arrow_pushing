@@ -162,7 +162,21 @@
         "lp O1 -> σ O1-C2",
         "σ C2-Br3 -> lp Br3"
       ],
-      "explanationAfterStep": "Hydroxide attacks from the side opposite bromine, so the other three groups flip over like an umbrella in the wind: (R)-2-bromobutane gives (S)-butan-2-ol (Walden inversion)."
+      "explanationAfterStep": "Hydroxide attacks from the side opposite bromine, so the other three groups flip over like an umbrella in the wind: (R)-2-bromobutane gives (S)-butan-2-ol (Walden inversion).",
+      "stereoQuestion": {
+        "acceptEnantiomer": false,
+        "otherArrangements": [
+          {
+            "mappedSmiles": "[OH:1][C@H:2]([CH3:5])[CH2:6][CH3:7].[Br-:3].[Na+:4]",
+            "severity": "wrong",
+            "feedbackMessage": "That keeps the configuration (retention). The nucleophile comes in from the back, opposite bromine, so the centre inverts."
+          }
+        ],
+        "racemicMixture": {
+          "isRight": false,
+          "feedbackMessage": "A racemic mixture comes from a flat carbocation (SN1). SN2 is one concerted step from one face, so only the inverted product forms."
+        }
+      }
     }
   ],
   "mechanismSummary": "SN2: one concerted step with backside attack, so the stereocentre is inverted. The arrows are the same as for bromomethane; the drawing shows the inversion.",

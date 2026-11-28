@@ -1,12 +1,14 @@
 /** Tests for stepScreenView.ts on runs through the example reactions. */
-import { describe, expect, test } from "vitest";
+import { describe, expect, it, test } from "vitest";
 import { exampleSessionReaction } from "../../../testSupport/exampleSessions.js";
 import type { TappedPlace } from "../../stepSession/arrowPicking.js";
 import {
   type StepSession,
   checkArrows,
+  checkStereo,
   clearArrows,
   continueToNextState,
+  setQuestionCentreMark,
   showNextHint,
   startStepSession,
   tapPlace,
@@ -154,5 +156,35 @@ describe("a missed step (daily)", () => {
     expect(feedback.paragraphs.join(" ")).toMatch(/dashed/);
     expect(feedback.paragraphs.join(" ")).toMatch(/concerted/);
     expect(stepCounterText(missed)).toBe("Step 1 of 1");
+  });
+});
+
+// ---- Stereo question (docs/stereo-question.md) ----
+describe("during a stereo question", () => {
+  const started = startStepSession(exampleSessionReaction("sn2-2-bromobutane-inversion"));
+  const arrowsRight = checkArrows(
+    [
+      { placeKind: "lonePair", mapNumber: 1 },
+      { placeKind: "atom", mapNumber: 2 },
+      { placeKind: "bond", mapNumbers: [2, 3] },
+      { placeKind: "atom", mapNumber: 3 },
+    ].reduce((session, place) => tapPlace(session, place as TappedPlace), started),
+  );
+  it("asks for the stereochemistry, and the step is still the current one", () => {
+    expect(canvasInstruction(arrowsRight)).toContain("highlighted");
+    expect(feedbackPanelText(arrowsRight).heading).toBe("Arrows correct");
+    expect(stepCounterText(arrowsRight)).toBe("Step 1 of 1");
+    expect(stepTiles(arrowsRight).map((tile) => tile.stepTileKind)).toEqual(["current"]);
+  });
+  it("shows the last stereo answer's feedback", () => {
+    const productMark = arrowsRight.reaction.prepared.stateIdToGraph
+      .get("products")
+      ?.mapNumberToTetrahedralMark?.get(2);
+    const wrong = checkStereo(
+      setQuestionCentreMark(arrowsRight, 2, productMark === "@" ? "@@" : "@"),
+    );
+    expect(feedbackPanelText(wrong).heading).toBe("Not this arrangement");
+    const right = checkStereo(setQuestionCentreMark(wrong, 2, productMark ?? "@"));
+    expect(feedbackPanelText(right)).toMatchObject({ feedbackTone: "good", heading: "Correct" });
   });
 });

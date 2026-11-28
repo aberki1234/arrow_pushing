@@ -1,6 +1,10 @@
 /** Tests for feedbackText.ts. */
-import { expect, test } from "vitest";
-import { feedbackForAssessment } from "./feedbackText.js";
+import { describe, expect, it, test } from "vitest";
+import {
+  SINGLE_ENANTIOMER_MESSAGE,
+  feedbackForAssessment,
+  feedbackForStereoAssessment,
+} from "./feedbackText.js";
 
 test("correct shows the explanation; an accepted route and a resonance form say so", () => {
   const preferred = feedbackForAssessment(
@@ -107,4 +111,55 @@ test("wrong", () => {
   const wrong = feedbackForAssessment({ assessmentKind: "wrong" });
   expect(wrong.feedbackTone).toBe("wrong");
   expect(wrong.heading).toBe("Not this step");
+});
+
+// ---- Stereo answers (docs/stereo-question.md) ----
+
+describe("feedback for a stereo answer", () => {
+  const explanation = "Backside attack inverts the centre.";
+  it.each([
+    [{ kind: "right" } as const, "good", "Correct", [explanation]],
+    [
+      { kind: "right", feedbackMessage: "Either face." } as const,
+      "good",
+      "Correct",
+      ["Either face.", explanation],
+    ],
+    [
+      { kind: "authored", severity: "wrong", feedbackMessage: "Retention." } as const,
+      "wrong",
+      "Not this arrangement",
+      ["Retention."],
+    ],
+    [
+      { kind: "authored", severity: "plausible", feedbackMessage: "Minor." } as const,
+      "plausible",
+      "Plausible, but not the major product",
+      ["Minor."],
+    ],
+    [
+      { kind: "racemicMixtureWrong", feedbackMessage: "One face." } as const,
+      "wrong",
+      "Not a racemic mixture here",
+      ["One face."],
+    ],
+    [
+      { kind: "singleEnantiomerOfRacemate" } as const,
+      "plausible",
+      "Plausible, but not the whole answer",
+      [SINGLE_ENANTIOMER_MESSAGE],
+    ],
+    [
+      { kind: "otherArrangement", feedbackMessage: "Not this." } as const,
+      "wrong",
+      "Not this arrangement",
+      ["Not this."],
+    ],
+  ])("%j", (assessment, feedbackTone, heading, paragraphs) => {
+    expect(feedbackForStereoAssessment(assessment, explanation)).toEqual({
+      feedbackTone,
+      heading,
+      paragraphs,
+    });
+  });
 });

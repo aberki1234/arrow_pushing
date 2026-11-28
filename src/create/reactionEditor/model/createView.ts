@@ -34,6 +34,7 @@ const ITEM_KIND_TO_LABEL: Readonly<Record<TeachingItemKind, string>> = {
   explanationAfterStep: "Why it happens",
   caption: "What happens (caption)",
   mechanismSummary: "Summary at the end",
+  stereoQuestion: "Stereo question",
 };
 
 type JsonRecord = Readonly<Record<string, unknown>>;
@@ -73,7 +74,9 @@ export function teachingGroupTitle(document: ReactionDocument, group: TeachingGr
 
 export function teachingItemLabel(document: ReactionDocument, item: TeachingItem): string {
   const label = ITEM_KIND_TO_LABEL[item.itemKind];
-  if (item.itemKind !== "explanationAfterStep" || item.place.placeKind !== "step") {
+  const namesItsStep =
+    item.itemKind === "explanationAfterStep" || item.itemKind === "stereoQuestion";
+  if (!namesItsStep || item.place.placeKind !== "step") {
     return label;
   }
   const step = stepWithKey(document, item.place.stepKey);

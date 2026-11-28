@@ -13,6 +13,7 @@ const tiersLowestFirst = [
       "stateGraphs",
       "reactionFiles",
       "attemptAssessment",
+      "stereoQuestions",
       "trackFiles",
       "catalogue",
     ],

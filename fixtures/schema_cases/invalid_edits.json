@@ -49,6 +49,10 @@
      "pathToSet": ["abbreviatedGroups", 0, "groupLabel"], "newValue": "Phenyl1", "expectedViolationPath": "/abbreviatedGroups/0/groupLabel"},
     {"caseName": "abbreviated group without its map numbers", "baseReactionFile": "wittig-methylenation-cyclohexanone.json",
      "pathToDelete": ["abbreviatedGroups", 0, "mapNumbers"], "expectedViolationPath": "/abbreviatedGroups/0"},
-    {"caseName": "stereo meaning other than racemic", "baseReactionFile": "e2-anti-periplanar-cyclohexane.json", "pathToSet": ["stateIdToState", "products", "stereoMeaning"], "newValue": "meso", "expectedViolationPath": "/stateIdToState/products/stereoMeaning"}
+    {"caseName": "stereo meaning other than racemic", "baseReactionFile": "e2-anti-periplanar-cyclohexane.json", "pathToSet": ["stateIdToState", "products", "stereoMeaning"], "newValue": "meso", "expectedViolationPath": "/stateIdToState/products/stereoMeaning"},
+    {"caseName": "stereo question on a change step", "baseReactionFile": "aldol-addition-base.json", "pathToSet": ["steps", 1, "stereoQuestion"], "newValue": {"acceptEnantiomer": false, "otherArrangements": []}, "expectedViolationPath": "/steps/1"},
+    {"caseName": "stereo question without acceptEnantiomer", "baseReactionFile": "sn2-2-bromobutane-inversion.json", "pathToDelete": ["steps", 0, "stereoQuestion", "acceptEnantiomer"], "expectedViolationPath": "/steps/0/stereoQuestion"},
+    {"caseName": "arrangement severity that is not wrong or plausible", "baseReactionFile": "sn2-2-bromobutane-inversion.json", "pathToSet": ["steps", 0, "stereoQuestion", "otherArrangements", 0, "severity"], "newValue": "right", "expectedViolationPath": "/steps/0/stereoQuestion/otherArrangements/0/severity"},
+    {"caseName": "racemic mixture answer without its message", "baseReactionFile": "sn2-2-bromobutane-inversion.json", "pathToDelete": ["steps", 0, "stereoQuestion", "racemicMixture", "feedbackMessage"], "expectedViolationPath": "/steps/0/stereoQuestion/racemicMixture"}
   ]
 }

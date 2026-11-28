@@ -240,6 +240,7 @@ function stepEntries(step: JsonRecord, names: ReadonlyMap<string, string>): Comp
     stepEntry("partialArrowSets", "Partial arrow sets", "text"),
     stepEntry("caption", "What happens (caption)", "text"),
     stepEntry("explanationAfterStep", "Why it happens", "text"),
+    stepEntry("stereoQuestion", "Stereo question", "text"),
     entry({
       changeKey: `step:${stepKey} details`,
       heading: `${prefix} · Step details`,

@@ -156,6 +156,35 @@
         "feedbackMessage": { "$ref": "#/$defs/nonEmptyText" }
       }
     },
+    "stereoQuestion": {
+      "description": "After correct arrows the learner draws the product's stereochemistry (docs/stereo-question.md). The right answer is the to-state.",
+      "type": "object", "additionalProperties": false,
+      "required": ["acceptEnantiomer", "otherArrangements"],
+      "properties": {
+        "acceptEnantiomer": { "type": "boolean", "description": "The mirror image of the right arrangement (every question centre inverted) is right too, and each other arrangement also stands for its mirror image." },
+        "otherArrangements": {
+          "type": "array",
+          "items": {
+            "type": "object", "additionalProperties": false,
+            "required": ["mappedSmiles", "severity", "feedbackMessage"],
+            "properties": {
+              "mappedSmiles": { "$ref": "#/$defs/nonEmptyText", "description": "The whole to-state written with this arrangement's stereo marks." },
+              "severity": { "enum": ["wrong", "plausible"], "description": "plausible: it forms too, but is not the major product." },
+              "feedbackMessage": { "$ref": "#/$defs/nonEmptyText" }
+            }
+          }
+        },
+        "racemicMixture": {
+          "type": "object", "additionalProperties": false,
+          "required": ["isRight", "feedbackMessage"],
+          "properties": {
+            "isRight": { "type": "boolean", "description": "true: both enantiomers in equal amounts is the answer (SN1)." },
+            "feedbackMessage": { "$ref": "#/$defs/nonEmptyText" }
+          }
+        },
+        "otherArrangementMessage": { "$ref": "#/$defs/nonEmptyText", "description": "For an arrangement no entry lists; a default is used when absent." }
+      }
+    },
     "step": {
       "type": "object", "additionalProperties": false,
       "required": ["stepKey", "fromStateId", "toStateId", "stepKind", "routePreference"],
@@ -170,14 +199,15 @@
         "explanationAfterStep": { "$ref": "#/$defs/nonEmptyText" },
         "addedSpecies": { "$ref": "#/$defs/nonEmptyText", "description": "Mapped SMILES of molecules that arrive, with new map numbers." },
         "removedFragmentMapNumbers": { "$ref": "#/$defs/mapNumberList" },
-        "caption": { "type": "string" }
+        "caption": { "type": "string" },
+        "stereoQuestion": { "$ref": "#/$defs/stereoQuestion" }
       },
       "allOf": [
         {
           "description": "A change step has no arrows and adds or removes something; an arrow step has arrows and changes nothing else.",
           "if": { "required": ["stepKind"], "properties": { "stepKind": { "const": "change" } } },
           "then": {
-            "properties": { "canonicalArrows": false, "partialArrowSets": false },
+            "properties": { "canonicalArrows": false, "partialArrowSets": false, "stereoQuestion": false },
             "anyOf": [{ "required": ["addedSpecies"] }, { "required": ["removedFragmentMapNumbers"] }]
           },
           "else": {

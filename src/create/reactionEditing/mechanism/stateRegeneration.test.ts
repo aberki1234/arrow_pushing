@@ -121,6 +121,32 @@ describe("regenerateStatesAfter with stereo (item 12b)", () => {
   });
 });
 
+describe("regenerateStatesAfter with a stereo question (docs/stereo-question.md)", () => {
+  it("rewrites each arrangement as the new product with the same centres inverted", () => {
+    // The SN2 example's retention arrangement; the reactants gain a CH2 far from C2. Reference:
+    // the regenerated products (inversion kept) with C2 inverted, written by hand.
+    const inversion = exampleReaction("sn2-2-bromobutane-inversion.json");
+    const document = edited(
+      editStateSmiles(
+        inversion,
+        "reactants",
+        "[OH-:1].[CH3:5][C@@H:2]([Br:3])[CH2:6][CH2:7][CH3:8].[Na+:4]",
+      ),
+    );
+    const regenerated = regenerateStatesAfter(document, "reactants").document;
+    const steps = regenerated.steps as {
+      stereoQuestion?: { otherArrangements: { mappedSmiles: string }[] };
+    }[];
+    expect(steps[0]?.stereoQuestion?.otherArrangements[0]?.mappedSmiles).toBe(
+      "[OH:1][C@H:2]([CH3:5])[CH2:6][CH2:7][CH3:8].[Br-:3].[Na+:4]",
+    );
+    const questionErrors = lintReaction(regenerated, toolkit).filter(
+      (finding) => finding.lintLevel === "error" && finding.instancePath.includes("stereoQuestion"),
+    );
+    expect(questionErrors).toEqual([]);
+  });
+});
+
 describe("regenerateStatesAfter through change steps and broken steps", () => {
   it("regenerates through a change step", () => {
     const fileName = "aldol-addition-base.json";

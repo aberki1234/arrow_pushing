@@ -1,6 +1,6 @@
 # Stereo question: schema and lint (proposal, for review)
 
-> **Status: agreed 2026-11-28** (the owner's answers to §6 are folded in: a racemic mixture can be the right answer;
+> **Status: agreed and built 2026-11-28 (build item 12f)** (the owner's answers to §6 are folded in: a racemic mixture can be the right answer;
 > "plausible, but not the major product"; no hints in v1). Follows the agreed UX: design C, second round
 > (`mockups/stereo-choice/build2.html`) and the authoring screen (`mockups/stereo-choice/author.html`).
 > Phase 3 of `docs/stereo-validation.md`. Human copy: `docs/stereo-question.html`.
@@ -126,8 +126,10 @@ Non-empty messages and the enums are the JSON Schema's job (`nonEmptyText`), not
 
 ## 5. Modules (deep modules, one implementation each)
 
-New folder **`core/stereoQuestions/`** (after `attemptAssessment` in the core tier; add to `.dependency-cruiser.cjs`
-and `docs/code-layout.md`). Its whole interface is two functions:
+New folder **`core/stereoQuestions/`** (after `attemptAssessment` in the core tier; in `.dependency-cruiser.cjs`
+and `docs/code-layout.md`). Its centre is two functions (as built it also exports `stereoQuestionCentres`, whether a
+step can ask; `drawnArrangementOf`, the learner's marks on the to-state; `stereoQuestionProblems`, the lint rules;
+and, in `arrangementRegeneration.ts`, `arrangementsForNewProduct`):
 
 ```ts
 /** Everything about one step's question, worked out once: centres, the right arrangement, its mirror image,
@@ -144,9 +146,9 @@ assessStereoAnswer(question: PreparedStereoQuestion, answer: { drawn: StateGraph
 Behind it: finding question centres, mirror images, comparing arrangements, the default message. Callers:
 
 * **learner/stepSession**: a new phase after correct arrows when the step has a question; each answer that is not right
-  (wrong or plausible) adds 1 to the step's `attemptCount`, so `stepScoring` and step outcomes need no change. No hints
+  (wrong or plausible) adds 1 to the step's `wrongCheckCount`, so `stepScoring` and step outcomes need no change. No hints
   in v1: the step's hint ladder stays about the arrows.
-* **tooling/reactionLinting**: the nine rules above, built on `prepareStereoQuestion` (equal, mirror, centres).
+* **tooling/reactionLinting**: the eleven rules above, built on `prepareStereoQuestion` (equal, mirror, centres).
 * **create**: the authoring screen's live checks are the lint findings for that step (no second copy of the rules);
   "Try it as a learner" uses the learner's own control.
 

@@ -29,7 +29,16 @@ import {
   assessAttempt,
 } from "../../core/attemptAssessment/attemptAssessment.js";
 import { graphOf } from "../../core/attemptAssessment/preparedReaction.js";
-import type { StateGraph } from "../../core/stateGraphs/stateGraph.js";
+import type {
+  DoubleBondRelation,
+  StateGraph,
+  TetrahedralMark,
+} from "../../core/stateGraphs/stateGraph.js";
+import {
+  type StereoAnswerAssessment,
+  assessStereoAnswer,
+  drawnArrangementOf,
+} from "../../core/stereoQuestions/stereoQuestions.js";
 import {
   type ArrowType,
   type TappedPlace,
@@ -42,10 +51,13 @@ import { type SessionReaction, type SessionStep, stepsLeaving } from "./sessionR
 export const HINT_TIER_COUNT = 3;
 export const NO_ARROWS_MESSAGE = "Draw at least one arrow, then check.";
 export const DAILY_ATTEMPTS_PER_STEP = 3;
+export const STEREO_UNSET_MESSAGE =
+  "Set every highlighted centre (or tick the racemic mixture), then check.";
 
 /** practice: unlimited attempts, free hints. daily and checkpoint: the daily rules (item 9c). */
 export type SessionMode = "practice" | "daily" | "checkpoint";
-export type SessionPhase = "drawing" | "stepCorrect" | "stepMissed" | "changeEvent" | "complete";
+export type SessionPhase =
+  "drawing" | "stereoQuestion" | "stepCorrect" | "stepMissed" | "changeEvent" | "complete";
 export type StepOutcome = "firstTry" | "afterRetry" | "afterHint" | "missed";
 
 export interface StepResult {
@@ -75,10 +87,23 @@ export interface StepSession {
   readonly lastAssessment: AttemptAssessment | null;
   /** Feedback ids shown at the current state so far, in order, without repeats. */
   readonly feedbackIdsAtState: readonly string[];
-  /** The step just taken (stepCorrect), missed (stepMissed) or shown (changeEvent). */
+  /** The step taken (stereoQuestion, stepCorrect), missed (stepMissed) or shown (changeEvent). */
   readonly currentStep: SessionStep | null;
+  /** stereoQuestion: the learner's marks at question centres and relations at question bonds. */
+  readonly questionMarks: ReadonlyMap<number, TetrahedralMark>;
+  readonly questionRelations: ReadonlyMap<string, DoubleBondRelation>;
+  /** stereoQuestion: "both enantiomers, 50 : 50" is ticked. */
+  readonly racemicMixtureAnswer: boolean;
+  readonly lastStereoAssessment: StereoAnswerAssessment | null;
   readonly stepResults: readonly StepResult[];
 }
+
+const NO_STEREO_ANSWER = {
+  questionMarks: new Map<number, TetrahedralMark>(),
+  questionRelations: new Map<string, DoubleBondRelation>(),
+  racemicMixtureAnswer: false,
+  lastStereoAssessment: null,
+} as const;
 
 const THIRD_HINT_FALLBACK = "The arrows are shown faintly. Draw over them, then check.";
 
@@ -107,6 +132,7 @@ function enterState(session: StepSession, stateId: string): StepSession {
     lastAssessment: null,
     feedbackIdsAtState: [],
     currentStep: phase === "changeEvent" ? (firstLeaving ?? null) : null,
+    ...NO_STEREO_ANSWER,
   };
 }
 
@@ -132,6 +158,7 @@ export function startStepSession(
     feedbackIdsAtState: [],
     currentStep: null,
     stepResults: [],
+    ...NO_STEREO_ANSWER,
   };
   return enterState(blank, reaction.startStateId);
 }
@@ -307,6 +334,16 @@ export function checkArrows(session: StepSession): StepSession {
   }
   const takenStep =
     session.reaction.steps.find((step) => step.stepKey === assessment.stepKey) ?? null;
+  if (takenStep?.stereoQuestion != null) {
+    // The arrows are right; the step counts once its stereochemistry is drawn right too.
+    return {
+      ...checked,
+      ...NO_STEREO_ANSWER,
+      phase: "stereoQuestion",
+      lastAssessment: assessment,
+      currentStep: takenStep,
+    };
+  }
   return {
     ...checked,
     phase: "stepCorrect",
@@ -316,6 +353,100 @@ export function checkArrows(session: StepSession): StepSession {
       ...session.stepResults,
       stepResultOf(session, assessment.stepKey, outcomeOf(session)),
     ],
+  };
+}
+
+// ---- The stereo question (docs/stereo-question.md) ----
+
+/** The learner sets one question centre's configuration (a tap gives wedge or dash on screen). */
+export function setQuestionCentreMark(
+  session: StepSession,
+  centre: number,
+  mark: TetrahedralMark,
+): StepSession {
+  if (session.phase !== "stereoQuestion") {
+    return session;
+  }
+  const questionMarks = new Map(session.questionMarks).set(centre, mark);
+  return { ...session, questionMarks, pickMessage: null };
+}
+
+/** The learner sets one question double bond's geometry. */
+export function setQuestionDoubleBond(
+  session: StepSession,
+  bondKey: string,
+  relation: DoubleBondRelation,
+): StepSession {
+  if (session.phase !== "stereoQuestion") {
+    return session;
+  }
+  const questionRelations = new Map(session.questionRelations).set(bondKey, relation);
+  return { ...session, questionRelations, pickMessage: null };
+}
+
+/** The learner ticks or unticks "both enantiomers, 50 : 50". */
+export function setRacemicMixtureAnswer(session: StepSession, ticked: boolean): StepSession {
+  return session.phase === "stereoQuestion"
+    ? { ...session, racemicMixtureAnswer: ticked, pickMessage: null }
+    : session;
+}
+
+/**
+ * A stereo answer that is not right counts as a wrong check; in daily mode the last allowed one
+ * misses the step.
+ */
+function afterWrongStereo(session: StepSession, assessment: StereoAnswerAssessment): StepSession {
+  const counted: StepSession = {
+    ...session,
+    lastStereoAssessment: assessment,
+    wrongCheckCount: session.wrongCheckCount + 1,
+  };
+  const step = session.currentStep;
+  if (
+    !hasLimitedAttempts(session.mode) ||
+    counted.wrongCheckCount < DAILY_ATTEMPTS_PER_STEP ||
+    step === null
+  ) {
+    return counted;
+  }
+  const missed = { ...counted, wrongCheckCount: session.wrongCheckCount };
+  return {
+    ...counted,
+    phase: "stepMissed",
+    stepResults: [...session.stepResults, stepResultOf(missed, step.stepKey, "missed")],
+  };
+}
+
+/** "Check product": assess the drawn arrangement (or the racemic-mixture answer). */
+export function checkStereo(session: StepSession): StepSession {
+  const step = session.currentStep;
+  const question = step?.stereoQuestion;
+  if (session.phase !== "stereoQuestion" || step == null || question == null) {
+    return session;
+  }
+  let assessment: StereoAnswerAssessment;
+  if (session.racemicMixtureAnswer && question.racemicMixture !== null) {
+    assessment = assessStereoAnswer(question, { racemicMixture: true });
+  } else {
+    const toState = graphOf(session.reaction.prepared, step.toStateId);
+    const drawn = drawnArrangementOf(question, toState, {
+      marks: session.questionMarks,
+      relations: session.questionRelations,
+    });
+    if (drawn === null) {
+      return { ...session, pickMessage: STEREO_UNSET_MESSAGE };
+    }
+    assessment = assessStereoAnswer(question, { drawn });
+  }
+  if (assessment.kind !== "right") {
+    return afterWrongStereo({ ...session, pickMessage: null }, assessment);
+  }
+  return {
+    ...session,
+    pickMessage: null,
+    phase: "stepCorrect",
+    lastStereoAssessment: assessment,
+    stepResults: [...session.stepResults, stepResultOf(session, step.stepKey, outcomeOf(session))],
   };
 }
 

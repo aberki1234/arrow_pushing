@@ -6,6 +6,7 @@
 import { expect, test } from "vitest";
 import { stateGraphFromMappedSmiles } from "../../../core/stateGraphs/mappedSmilesReading.js";
 import {
+  coordinatesWithDoubleBond,
   drawnDoubleBondRelation,
   drawnTetrahedralMark,
   tetrahedralMarksFromDrawing,
@@ -106,4 +107,17 @@ test("in a three-membered ring the wedges go on the bonds to the bridging atom",
   const coordinates = { ...ringCoordinates, "7": [1.85, 0.9], "8": [4, 2] };
   const wedges = wedgesForMarks(bromonium, coordinates, {});
   expect(Object.keys(wedges).sort()).toEqual(["1-7", "2-7"]);
+});
+
+test("a double bond can be drawn in a line (undecided), or either way round", () => {
+  // Stereo question (docs/stereo-question.md): the learner chooses the geometry of a new C=C.
+  const butene = stateGraphFromMappedSmiles("[CH3:1]/[CH:2]=[CH:3]/[CH3:4]");
+  const trans = { "1": [-1.3, -0.75], "2": [0, 0], "3": [1.5, 0], "4": [2.8, 0.75] };
+  const asCis = coordinatesWithDoubleBond(butene, trans, "2-3", "cis");
+  expect(drawnDoubleBondRelation(butene, "2-3", asCis)).toBe("cis");
+  expect(coordinatesWithDoubleBond(butene, trans, "2-3", "trans")).toEqual(trans);
+  const undecided = coordinatesWithDoubleBond(butene, trans, "2-3", null);
+  expect(drawnDoubleBondRelation(butene, "2-3", undecided)).toBeUndefined();
+  const [x4 = 0, y4 = 0] = undecided["4"] ?? [];
+  expect(Math.hypot(x4 - 1.5, y4)).toBeCloseTo(Math.hypot(2.8 - 1.5, 0.75));
 });

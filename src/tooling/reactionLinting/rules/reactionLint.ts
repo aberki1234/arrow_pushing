@@ -15,7 +15,8 @@
  *      does not parse: steps reproduce their to-states and leaving steps reach different states
  *      (stepReproduction), misconception matching (misconceptionRules), the symmetry cap, then
  *      stereo (stereoRules: the drawing agrees with the marks, marks change only where arrows
- *      act, no stereocentre left unmarked beside marked ones).
+ *      act, no stereocentre left unmarked beside marked ones), then stereo questions
+ *      (stereoQuestionRules, over core/stereoQuestions).
  *
  * The rule ids and levels are listed in docs/schema-design.md §3.5. The same lint runs in the Node
  * command line (commandLine.ts) and, from item 8b, in the editor.
@@ -44,6 +45,7 @@ import {
 } from "./misconceptionRules.js";
 import { learnerTextFindings, symmetryCapFindings } from "./stateContentRules.js";
 import { equivalentLeavingStepFindings, stepReproductionFindings } from "./stepReproduction.js";
+import { stereoQuestionFindings } from "./stereoQuestionRules.js";
 import {
   stereoChangeFindings,
   stereoDrawingFindings,
@@ -131,5 +133,6 @@ export function lintReaction(
     ...stereoDrawingFindings(reaction, prepared),
     ...stereoChangeFindings(reaction, prepared, toolkit),
     ...unspecifiedStereocentreFindings(reaction, prepared, toolkit),
+    ...stereoQuestionFindings(reactionFile, prepared),
   ];
 }

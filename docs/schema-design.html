@@ -99,6 +99,11 @@
       <tr><td><b>site role / site action</b></td><td>A user's role (owner, reviewer, contributor, blocked) and what it allows (create reactions, see every reaction, submit for review, publish directly (you only), review, manage users), decided in one place on the server.</td></tr>
       <tr><td><b>version author</b></td><td>Who wrote a version of a reaction; only they save it. Not the reaction's owner, who made version 1.</td></tr>
       <tr><td><b>review decision</b></td><td>A reviewer's “publish” or “request changes” on a submitted version, with an overall note and notes pinned to changes.</td></tr>
+      <tr><td><b>stereo question</b></td><td>A step's optional request, after correct arrows, to draw the product's stereochemistry (see <a href="stereo-question.html">the stereo question</a>). A wrong answer counts as a wrong attempt.</td></tr>
+      <tr><td><b>question centre</b></td><td>An atom or double bond whose configuration the step sets: marked in the product and not carried over unchanged from the start. Worked out, never stored. The learner taps these.</td></tr>
+      <tr><td><b>arrangement</b></td><td>One configuration of all a step's question centres. The right one is the product's; others you write to explain, each “wrong” or “plausible, but not the major product”.</td></tr>
+      <tr><td><b>drawn arrangement</b></td><td>The arrangement the learner has drawn.</td></tr>
+      <tr><td><b>stereo answer assessment</b></td><td>The verdict on one drawn arrangement or on the racemic-mixture answer. Not an attempt assessment, which judges arrows.</td></tr>
       <tr><td><b>change key / version change</b></td><td>What the review screen compares between two versions: each reaction detail, each state's structure and texts (each hint, each wrong answer), each step's arrows and texts. A change key names one of them in both versions, and a pinned note points at it.</td></tr>
     </tbody></table></div>
     <p class="muted">Abbreviations: lp = lone pair; rad = radical (unpaired electron); SMILES = simplified molecular-input line-entry system; e⁻ = electron.</p>
@@ -215,9 +220,11 @@
   "routePreference": "preferred",        // preferred | accepted
   "canonicalArrows": ["lp O1 -> σ O1-C2", "σ C2-Br3 -> lp Br3"],
   "partialArrowSets": [],                // optional, see §5
-  "explanationAfterStep": "Backside attack and leaving-group departure happen in one concerted step …"
+  "explanationAfterStep": "Backside attack and leaving-group departure happen in one concerted step …",
+  "stereoQuestion": { "acceptEnantiomer": false, "otherArrangements": [ … ] }   // optional
 }</code></pre>
     <ul>
+      <li><b>Stereo question</b> (optional, arrow steps only): after correct arrows the learner draws the product's stereochemistry. Fields and examples: <a href="stereo-question.html">the stereo question</a>.</li>
       <li><b>A branch</b> is another step leaving the same state toward a <i>different</i> state. Different arrows reaching the <i>same</i> state need no listing: acceptance is by result (§4).</li>
       <li><b>Route preference:</b> <code>preferred</code> is the textbook route (hints and the reveal use it). <code>accepted</code> is also correct. A valid route the reaction does not accept is a <code>plausible</code> misconception and counts as a wrong attempt.</li>
     </ul>
@@ -268,6 +275,17 @@
       <tr><td><code>stereocentre-changes-without-arrows</code></td><td>error</td><td>a stereocentre or double bond that no arrow of the step touches changes its configuration between the two states</td></tr>
       <tr><td><code>wedges-without-stereo-marks</code></td><td>warning</td><td>a state has wedges but no stereo marks at all (drawn before stereo was stored); redraw its wedges in the structure editor</td></tr>
       <tr><td><code>stereocentre-unspecified</code></td><td>warning</td><td>a state marks one stereocentre but leaves another (found by RDKit) unmarked</td></tr>
+      <tr><td><code>stereo-question-without-question-centres</code></td><td>error</td><td>stereo question: the step sets no stereocentre or cis/trans double bond, so there is nothing to tap</td></tr>
+      <tr><td><code>arrangement-not-the-product</code></td><td>error</td><td>stereo question: an arrangement's SMILES cannot be read, or is not the to-state's atoms and bonds (ignoring stereo)</td></tr>
+      <tr><td><code>arrangement-changes-other-centres</code></td><td>error</td><td>stereo question: an arrangement differs from the to-state at an atom or bond that is not a question centre (the learner could never draw it)</td></tr>
+      <tr><td><code>arrangement-is-the-answer</code></td><td>error</td><td>stereo question: an arrangement equals the to-state, or (with <code>acceptEnantiomer</code>) its mirror image</td></tr>
+      <tr><td><code>arrangement-repeated</code></td><td>error</td><td>stereo question: two arrangements are equal, or (with <code>acceptEnantiomer</code>) mirror images of each other</td></tr>
+      <tr><td><code>arrangement-has-unset-centre</code></td><td>error</td><td>stereo question: an arrangement leaves a question centre unmarked</td></tr>
+      <tr><td><code>enantiomer-accepted-with-fixed-centres</code></td><td>error</td><td>stereo question: <code>acceptEnantiomer</code> is true but the product has a stereocentre the step does not set (inverting only the new centres gives a diastereomer)</td></tr>
+      <tr><td><code>enantiomer-rejected-for-racemic-product</code></td><td>error</td><td>stereo question: <code>acceptEnantiomer</code> is false, the to-state is racemic, and every stereocentre of the product is a question centre</td></tr>
+      <tr><td><code>enantiomer-accepted-for-single-enantiomer</code></td><td>warning</td><td>stereo question: <code>acceptEnantiomer</code> is true but the to-state is not marked racemic</td></tr>
+      <tr><td><code>racemic-mixture-right-for-single-enantiomer</code></td><td>error</td><td>stereo question: <code>racemicMixture.isRight</code> is true but the to-state is not marked racemic</td></tr>
+      <tr><td><code>racemic-mixture-right-with-fixed-centres</code></td><td>error</td><td>stereo question: <code>racemicMixture.isRight</code> is true but the product has a stereocentre the step does not set</td></tr>
     </table>
     <p>Arrow sets are checked by the validator itself, with the step being checked as the only one leaving its state, so the linter accepts exactly what the browser accepts.</p>
 
@@ -540,6 +558,7 @@ verifications(id uuid pk, identifier, value, expires_at, …)   -- the OAuth sta
           <li><span class="tag ok">done</span> <b>12c</b> Answers are compared with stereo: a result whose untouched stereocentre has the wrong configuration is wrong. Three lint checks: wedges against the SMILES marks, a stereocentre changing without arrows, and an unmarked stereocentre beside marked ones. In Create the wedges follow the marks after every edit and drag, and wedges drawn in the structure editor become the marks (E/Z from the drawing too). A new example reaction: SN2 on (R)-2-bromobutane. The site build reports, but no longer stops on, a lint error in an <i>older</i> published version of a reaction (old versions are history); the newest version must still be clean.</li>
           <li><span class="tag ok">done</span> <b>12d</b> Atoms that only stereo tells apart (the two hydrogens of a ring CH<sub>2</sub> beside a stereocentre) are no longer treated as interchangeable: in an E2, the hydrogen that is not anti-periplanar is wrong. From a meso start, the mirror-image answer still counts as correct. A new example reaction: E2 of trans-1-bromo-2-methylcyclohexane.</li>
           <li><b>12e</b> First content: SN2, E2 and bromination drafts with stereo.</li>
+          <li><span class="tag ok">done</span> <b>12f</b> The stereo question (<a href="stereo-question.html">design</a>): after correct arrows, the learner taps each new stereocentre to a wedge or a dash (a new C=C flips between its geometries), may tick “racemic mixture”, and checks the product; a wrong answer is a wrong attempt. Eleven lint checks. In Create, the Teaching item “Stereo question” on steps that set a stereocentre, with arrangements drawn by tapping like the learner; editing an earlier state keeps each arrangement's inverted centres; the question shows in version changes. The SN2 example asks one.</li>
         </ul></li>
     </ol>
 

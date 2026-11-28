@@ -27,6 +27,7 @@ const WARNING_RULE_IDS = new Set([
   "misconception-in-abbreviated-group",
   "stereocentre-unspecified",
   "wedges-without-stereo-marks",
+  "enantiomer-accepted-for-single-enantiomer",
 ]);
 
 let toolkit: ChemistryToolkit;
@@ -91,6 +92,17 @@ it("every rule except the symmetry cap is broken by at least one case", () => {
       "stereocentre-changes-without-arrows",
       "stereocentre-unspecified",
       "wedges-without-stereo-marks",
+      "stereo-question-without-question-centres",
+      "arrangement-not-the-product",
+      "arrangement-changes-other-centres",
+      "arrangement-has-unset-centre",
+      "arrangement-is-the-answer",
+      "arrangement-repeated",
+      "enantiomer-accepted-with-fixed-centres",
+      "enantiomer-rejected-for-racemic-product",
+      "enantiomer-accepted-for-single-enantiomer",
+      "racemic-mixture-right-for-single-enantiomer",
+      "racemic-mixture-right-with-fixed-centres",
     ].sort(),
   );
 });
@@ -139,6 +151,18 @@ describe("where findings point and what they say", () => {
   it("the message says a resonance form is not the drawing", () => {
     const findings = lintEdited("canonical arrows give a resonance form, not the drawing");
     expect(findings[0]?.message).toContain("resonance form");
+  });
+});
+
+describe("stereo question findings point at the question or the arrangement", () => {
+  it.each([
+    [
+      "stereo question: an arrangement listed twice",
+      ["/steps/0/stereoQuestion/otherArrangements/1"],
+    ],
+    ["stereo question: one enantiomer only for a racemic product", ["/steps/0/stereoQuestion"]],
+  ])("%s", (caseName, expectedInstancePaths) => {
+    expect(lintEdited(caseName).map((found) => found.instancePath)).toEqual(expectedInstancePaths);
   });
 });
 

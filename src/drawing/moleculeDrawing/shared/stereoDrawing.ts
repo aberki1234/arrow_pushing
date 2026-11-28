@@ -291,3 +291,122 @@ export function wedgesForMarks(
   }
   return result;
 }
+
+/** The atoms on `end`'s side of the bond to `other`, or undefined when the bond is in a ring. */
+function atomsOnSideOf(graph: StateGraph, end: number, other: number): Set<number> | undefined {
+  const reached = new Set([end]);
+  const toVisit = [end];
+  for (let current = toVisit.pop(); current !== undefined; current = toVisit.pop()) {
+    for (const { mapNumber } of bondedNeighbours(graph, current)) {
+      if (current === end && mapNumber === other) {
+        continue;
+      }
+      if (mapNumber === other) {
+        return undefined;
+      }
+      if (!reached.has(mapNumber)) {
+        reached.add(mapNumber);
+        toVisit.push(mapNumber);
+      }
+    }
+  }
+  return reached;
+}
+
+type Coordinates = Readonly<Record<string, readonly number[]>>;
+
+/** `coordinates` with every atom of `atoms` moved by `move`; others unchanged. */
+function movedAtoms(
+  coordinates: Coordinates,
+  atoms: ReadonlySet<number>,
+  move: (point: [number, number]) => [number, number],
+): Record<string, number[]> {
+  return Object.fromEntries(
+    Object.entries(coordinates).map(([key, point]) => {
+      const [across = 0, up = 0] = point;
+      return [key, atoms.has(Number(key)) ? move([across, up]) : [across, up]];
+    }),
+  );
+}
+
+/**
+ * Coordinates that draw the double bond `key` with `relation`, or with the second end's reference
+ * neighbour in line with the bond when `relation` is null (the geometry not yet chosen). The second
+ * end's side of the bond is reflected across the bond, or turned into line; a bond in a ring is
+ * left as it is.
+ */
+export function coordinatesWithDoubleBond(
+  graph: StateGraph,
+  coordinates: Coordinates,
+  key: string,
+  relation: DoubleBondRelation | null,
+): Record<string, number[]> {
+  const [first, second] = bondKeyMapNumbers(key);
+  const side = atomsOnSideOf(graph, second, first);
+  const reference = referenceNeighbour(graph, second, first);
+  const unchanged = Object.fromEntries(
+    Object.entries(coordinates).map(([atomKey, point]) => [atomKey, [...point]]),
+  );
+  if (side === undefined || reference === undefined) {
+    return unchanged;
+  }
+  const [ax, ay] = pointOf(coordinates, first);
+  const [bx, by] = pointOf(coordinates, second);
+  if (relation === null) {
+    // Turn the second end's side about `second` until its reference neighbour lies on the line.
+    const [rx, ry] = pointOf(coordinates, reference);
+    const turn = Math.atan2(by - ay, bx - ax) - Math.atan2(ry - by, rx - bx);
+    const [cos, sin] = [Math.cos(turn), Math.sin(turn)];
+    return movedAtoms(coordinates, side, ([across, up]) => [
+      bx + cos * (across - bx) - sin * (up - by),
+      by + sin * (across - bx) + cos * (up - by),
+    ]);
+  }
+  if (drawnDoubleBondRelation(graph, key, coordinates) === relation) {
+    return unchanged;
+  }
+  const [dx, dy] = [bx - ax, by - ay];
+  const lengthSquared = dx * dx + dy * dy || 1;
+  return movedAtoms(coordinates, side, ([across, up]) => {
+    const along = ((across - ax) * dx + (up - ay) * dy) / lengthSquared;
+    const [footAcross, footUp] = [ax + along * dx, ay + along * dy];
+    return [2 * footAcross - across, 2 * footUp - up];
+  });
+}
+
+/**
+ * The style ("wedge" or "dash") that shows `mark` at `centre` when only `wedgeBond`
+ * ("<centre>-<neighbour>") carries a wedge or dash. Used by the stereo question's tap control.
+ */
+export function wedgeStyleForMark(
+  graph: StateGraph,
+  coordinates: MapNumberToCoordinates,
+  wedgeBond: string,
+  mark: TetrahedralMark,
+): WedgeStyle {
+  const centre = bondKeyMapNumbers(wedgeBond)[0];
+  return drawnTetrahedralMark(graph, centre, coordinates, { [wedgeBond]: "wedge" }) === mark
+    ? "wedge"
+    : "dash";
+}
+
+/**
+ * The mark a tap on a stereo question centre gives: unset → `firstStyle`'s mark, then wedge and
+ * dash in turn. The learner screen picks `firstStyle` at random: the wedge bond is the product's
+ * own, so a fixed first style would always show the same configuration, often the answer.
+ * Undefined when the drawing cannot show the centre (a flat layout).
+ */
+export function markAfterTap(
+  graph: StateGraph,
+  coordinates: MapNumberToCoordinates,
+  wedgeBond: string,
+  current: TetrahedralMark | undefined,
+  firstStyle: WedgeStyle,
+): TetrahedralMark | undefined {
+  const centre = bondKeyMapNumbers(wedgeBond)[0];
+  const currentStyle =
+    current === undefined ? null : wedgeStyleForMark(graph, coordinates, wedgeBond, current);
+  const nextStyle: WedgeStyle =
+    currentStyle === null ? firstStyle : currentStyle === "wedge" ? "dash" : "wedge";
+  return drawnTetrahedralMark(graph, centre, coordinates, { [wedgeBond]: nextStyle });
+}
