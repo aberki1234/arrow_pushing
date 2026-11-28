@@ -1,0 +1,1203 @@
+{
+  "steps": [
+    {
+      "stepKey": "n-deprotonation",
+      "stepKind": "polar",
+      "toStateId": "monoanion",
+      "fromStateId": "reactants",
+      "canonicalArrows": [
+        "σ C31-Li30 -> σ C31-H4",
+        "σ N3-H4 -> lp N3"
+      ],
+      "routePreference": "preferred",
+      "explanationAfterStep": "The first equivalent of butyllithium removes the acidic N–H proton."
+    },
+    {
+      "stepKey": "c-deprotonation",
+      "stepKind": "polar",
+      "toStateId": "dianion",
+      "fromStateId": "monoanion",
+      "canonicalArrows": [
+        "σ C41-Li40 -> σ C41-H16",
+        "σ C15-H16 -> lp C15"
+      ],
+      "routePreference": "preferred",
+      "explanationAfterStep": "The second equivalent removes an α-proton, on the less substituted side and syn to the nitrogen anion (the drawing does not show that geometry, and the app does not check it). This step decides where the alkene goes."
+    },
+    {
+      "stepKey": "sulfinate-loss",
+      "stepKind": "polar",
+      "toStateId": "vinyldiazenide",
+      "fromStateId": "dianion",
+      "canonicalArrows": [
+        "lp C15 -> π C1-C15",
+        "π C1-N2 -> π N2-N3",
+        "σ N3-S5 -> lp S5",
+        "π S5-O6 -> lp O6"
+      ],
+      "routePreference": "preferred",
+      "explanationAfterStep": "An elimination: the C=C forms as toluenesulfinate leaves. (The sulfinate drawn with the charge on sulfur is also accepted.)"
+    },
+    {
+      "stepKey": "n2-loss",
+      "stepKind": "polar",
+      "toStateId": "vinyllithium",
+      "fromStateId": "vinyldiazenide",
+      "canonicalArrows": [
+        "σ C1-N2 -> lp C1",
+        "lp N3 -> π N2-N3"
+      ],
+      "routePreference": "preferred",
+      "explanationAfterStep": "N₂ leaves and carbon keeps the pair: a vinyllithium. It can be trapped with other electrophiles too (an aldehyde, DMF, CO₂)."
+    },
+    {
+      "caption": "Water is added.",
+      "stepKey": "water-added",
+      "stepKind": "change",
+      "toStateId": "vinyllithium-and-water",
+      "fromStateId": "vinyllithium",
+      "addedSpecies": "[H:51][O:50][H:52]",
+      "routePreference": "preferred"
+    },
+    {
+      "stepKey": "protonation",
+      "stepKind": "polar",
+      "toStateId": "products",
+      "fromStateId": "vinyllithium-and-water",
+      "canonicalArrows": [
+        "lp C1 -> σ C1-H51",
+        "σ O50-H51 -> lp O50"
+      ],
+      "routePreference": "preferred",
+      "explanationAfterStep": "Water protonates the vinyl anion: 3-methylcyclohexene, the less substituted alkene. The Bamford–Stevens reaction would favour the more substituted 1-methylcyclohexene."
+    }
+  ],
+  "title": "Shapiro reaction",
+  "authors": [
+    {
+      "url": null,
+      "name": "Maksim"
+    }
+  ],
+  "licence": "CC-BY-SA-4.0",
+  "subtitle": "Two butyllithium turn a tosylhydrazone into a vinyllithium; water gives 3-methylcyclohexene",
+  "references": [
+    "Clayden, Greeves and Warren, Organic Chemistry, 2nd edition (Oxford University Press), chapter 38"
+  ],
+  "reactionSlug": "shapiro-reaction",
+  "startStateId": "reactants",
+  "formatVersion": 1,
+  "difficultyTier": 3,
+  "stateIdToState": {
+    "dianion": {
+      "caption": "the dianion",
+      "hintTiers": [
+        "The carbanion can push its lone pair towards the C=N. Follow the electrons along to the N–S bond.",
+        "Three arrows (four to draw the sulfinate with O⁻): the carbanion lone pair makes C=C, the C=N π pair moves to form N=N, and the N–S bond breaks onto sulfur.",
+        "Carbanion lone pair → C=C π bond; C=N π bond → N=N π bond; N–S bond → a lone pair on sulfur; one S=O π bond → a lone pair on that oxygen."
+      ],
+      "mappedSmiles": "[C:1]1(=[N:2]/[N-:3][S:5](=[O:6])(=[O:7])[C:8]2=[CH:9][CH:10]=[C:11]([CH:12]=[CH:13]2)[CH3:14])/[CH-:15][CH2:17][CH2:18][CH2:19][C@@H:20]1[CH3:24].[H:4][CH2:31][CH2:32][CH2:33][CH3:34].[H:16][CH2:41][CH2:42][CH2:43][CH3:44].[Li+:30].[Li+:40]",
+      "learnerPrompt": "Toluenesulfinate leaves.",
+      "stereoMeaning": "racemic",
+      "misconceptions": [
+        {
+          "severity": "wrong",
+          "arrowPattern": "σ N3-S5 -> lp N3",
+          "feedbackMessage": "Toluenesulfinate is the leaving group: the N–S pair goes to sulfur.",
+          "misconceptionId": "n-pair-to-nitrogen",
+          "misconceptionTag": "wrong-direction-of-cleavage"
+        }
+      ],
+      "bondToWedgeStyle": {
+        "20-24": "wedge"
+      },
+      "mapNumberToCoordinates": {
+        "1": [
+          6.75,
+          1.3
+        ],
+        "2": [
+          5.25,
+          1.3
+        ],
+        "3": [
+          4.5,
+          0
+        ],
+        "4": [
+          4.75,
+          -2.1
+        ],
+        "5": [
+          3,
+          0
+        ],
+        "6": [
+          3,
+          -1.5
+        ],
+        "7": [
+          3,
+          1.5
+        ],
+        "8": [
+          1.5,
+          0
+        ],
+        "9": [
+          0.75,
+          1.3
+        ],
+        "10": [
+          -0.75,
+          1.3
+        ],
+        "11": [
+          -1.5,
+          0
+        ],
+        "12": [
+          -0.75,
+          -1.3
+        ],
+        "13": [
+          0.75,
+          -1.3
+        ],
+        "14": [
+          -3,
+          0
+        ],
+        "15": [
+          7.5,
+          0
+        ],
+        "16": [
+          7.25,
+          -2.1
+        ],
+        "17": [
+          9,
+          0
+        ],
+        "18": [
+          9.75,
+          1.3
+        ],
+        "19": [
+          9,
+          2.6
+        ],
+        "20": [
+          7.5,
+          2.6
+        ],
+        "24": [
+          6.75,
+          3.9
+        ],
+        "30": [
+          -0.2,
+          2.8
+        ],
+        "31": [
+          4,
+          -3.4
+        ],
+        "32": [
+          2.7,
+          -4.15
+        ],
+        "33": [
+          1.4,
+          -3.4
+        ],
+        "34": [
+          0.1,
+          -4.15
+        ],
+        "40": [
+          12,
+          0.5
+        ],
+        "41": [
+          8,
+          -3.4
+        ],
+        "42": [
+          9.3,
+          -4.15
+        ],
+        "43": [
+          10.6,
+          -3.4
+        ],
+        "44": [
+          11.9,
+          -4.15
+        ]
+      },
+      "partialProgressMessages": [
+        {
+          "learnerArrows": [
+            "lp C15 -> π C1-C15"
+          ],
+          "feedbackMessage": "Right: the C=C bond starts to form. Keep going: the C=N π pair moves along to make N=N, and the sulfinate leaves."
+        }
+      ]
+    },
+    "products": {
+      "caption": "3-methylcyclohexene + N₂ + lithium salts",
+      "mappedSmiles": "[C:1]1(=[CH:15][CH2:17][CH2:18][CH2:19][C@@H:20]1[CH3:24])[H:51].[N:2]#[N:3].[H:4][CH2:31][CH2:32][CH2:33][CH3:34].[S:5]([O-:6])(=[O:7])[C:8]1=[CH:9][CH:10]=[C:11]([CH:12]=[CH:13]1)[CH3:14].[H:16][CH2:41][CH2:42][CH2:43][CH3:44].[Li+:30].[Li+:40].[O-:50][H:52]",
+      "stereoMeaning": "racemic",
+      "bondToWedgeStyle": {
+        "20-24": "wedge"
+      },
+      "mapNumberToCoordinates": {
+        "1": [
+          6.75,
+          1.3
+        ],
+        "2": [
+          4.6,
+          4.3
+        ],
+        "3": [
+          3.3,
+          5.05
+        ],
+        "4": [
+          4.75,
+          -2.1
+        ],
+        "5": [
+          1.8,
+          -0.3
+        ],
+        "6": [
+          1.8,
+          -1.8
+        ],
+        "7": [
+          1.8,
+          1.2
+        ],
+        "8": [
+          0.3,
+          -0.3
+        ],
+        "9": [
+          -0.45,
+          1
+        ],
+        "10": [
+          -1.95,
+          1
+        ],
+        "11": [
+          -2.7,
+          -0.3
+        ],
+        "12": [
+          -1.95,
+          -1.6
+        ],
+        "13": [
+          -0.45,
+          -1.6
+        ],
+        "14": [
+          -4.2,
+          -0.3
+        ],
+        "15": [
+          7.5,
+          0
+        ],
+        "16": [
+          7.25,
+          -2.1
+        ],
+        "17": [
+          9,
+          0
+        ],
+        "18": [
+          9.75,
+          1.3
+        ],
+        "19": [
+          9,
+          2.6
+        ],
+        "20": [
+          7.5,
+          2.6
+        ],
+        "24": [
+          6.75,
+          3.9
+        ],
+        "30": [
+          -0.2,
+          2.8
+        ],
+        "31": [
+          4,
+          -3.4
+        ],
+        "32": [
+          2.7,
+          -4.15
+        ],
+        "33": [
+          1.4,
+          -3.4
+        ],
+        "34": [
+          0.1,
+          -4.15
+        ],
+        "40": [
+          12,
+          0.5
+        ],
+        "41": [
+          8,
+          -3.4
+        ],
+        "42": [
+          9.3,
+          -4.15
+        ],
+        "43": [
+          10.6,
+          -3.4
+        ],
+        "44": [
+          11.9,
+          -4.15
+        ],
+        "50": [
+          3.6,
+          2.3
+        ],
+        "51": [
+          5.25,
+          1.3
+        ],
+        "52": [
+          2.3,
+          3.05
+        ]
+      }
+    },
+    "monoanion": {
+      "caption": "the tosylhydrazone anion + butane",
+      "hintTiers": [
+        "The C=N makes the C–H bonds next to it acidic, like the α-C–H of a ketone. Which side is removed: the CH₂ or the CH carrying the methyl?",
+        "The second butyllithium takes the drawn H on the CH₂ next to C=N; the C–H pair stays on carbon. Two arrows.",
+        "C–Li bond of the second butyllithium → new C–H bond to the drawn α-H; that C–H bond → a lone pair on carbon."
+      ],
+      "mappedSmiles": "[C:1]1(=[N:2]/[N-:3][S:5](=[O:6])(=[O:7])[C:8]2=[CH:9][CH:10]=[C:11]([CH:12]=[CH:13]2)[CH3:14])/[CH:15]([H:16])[CH2:17][CH2:18][CH2:19][C@@H:20]1[CH3:24].[H:4][CH2:31][CH2:32][CH2:33][CH3:34].[Li+:30].[Li:40][CH2:41][CH2:42][CH2:43][CH3:44]",
+      "learnerPrompt": "The second butyllithium removes an α-proton.",
+      "stereoMeaning": "racemic",
+      "misconceptions": [
+        {
+          "severity": "plausible",
+          "arrowPattern": "σ C41-Li40 -> σ C41-C1",
+          "feedbackMessage": "With the nitrogen already deprotonated, the C=N is a poor electrophile: butyllithium acts as a base again.",
+          "misconceptionId": "second-buli-adds-to-cn",
+          "misconceptionTag": "addition-instead"
+        }
+      ],
+      "bondToWedgeStyle": {
+        "20-24": "wedge"
+      },
+      "mapNumberToCoordinates": {
+        "1": [
+          6.75,
+          1.3
+        ],
+        "2": [
+          5.25,
+          1.3
+        ],
+        "3": [
+          4.5,
+          0
+        ],
+        "4": [
+          4.75,
+          -2.1
+        ],
+        "5": [
+          3,
+          0
+        ],
+        "6": [
+          3,
+          -1.5
+        ],
+        "7": [
+          3,
+          1.5
+        ],
+        "8": [
+          1.5,
+          0
+        ],
+        "9": [
+          0.75,
+          1.3
+        ],
+        "10": [
+          -0.75,
+          1.3
+        ],
+        "11": [
+          -1.5,
+          0
+        ],
+        "12": [
+          -0.75,
+          -1.3
+        ],
+        "13": [
+          0.75,
+          -1.3
+        ],
+        "14": [
+          -3,
+          0
+        ],
+        "15": [
+          7.5,
+          0
+        ],
+        "16": [
+          6.75,
+          -1.3
+        ],
+        "17": [
+          9,
+          0
+        ],
+        "18": [
+          9.75,
+          1.3
+        ],
+        "19": [
+          9,
+          2.6
+        ],
+        "20": [
+          7.5,
+          2.6
+        ],
+        "24": [
+          6.75,
+          3.9
+        ],
+        "30": [
+          -0.2,
+          2.8
+        ],
+        "31": [
+          4,
+          -3.4
+        ],
+        "32": [
+          2.7,
+          -4.15
+        ],
+        "33": [
+          1.4,
+          -3.4
+        ],
+        "34": [
+          0.1,
+          -4.15
+        ],
+        "40": [
+          8,
+          -4.9
+        ],
+        "41": [
+          8,
+          -3.4
+        ],
+        "42": [
+          9.3,
+          -4.15
+        ],
+        "43": [
+          10.6,
+          -3.4
+        ],
+        "44": [
+          11.9,
+          -4.15
+        ]
+      },
+      "partialProgressMessages": [
+        {
+          "learnerArrows": [
+            "σ C41-Li40 -> σ C41-H16"
+          ],
+          "feedbackMessage": "Right: butyl takes the α-proton. Now that C–H pair stays on carbon."
+        }
+      ]
+    },
+    "reactants": {
+      "caption": "2-methylcyclohexanone tosylhydrazone + two butyllithium",
+      "hintTiers": [
+        "Which proton is most acidic: the N–H next to the sulfonyl group, or a C–H?",
+        "The C–Li bonding pair of one butyllithium takes the N–H proton; the N–H pair stays on nitrogen. Two arrows.",
+        "C–Li bond of butyllithium → new C–H bond to the N–H hydrogen; that N–H bond → a lone pair on nitrogen."
+      ],
+      "mappedSmiles": "[C:1]1(=[N:2]/[N:3]([H:4])[S:5](=[O:6])(=[O:7])[C:8]2=[CH:9][CH:10]=[C:11]([CH:12]=[CH:13]2)[CH3:14])/[CH:15]([H:16])[CH2:17][CH2:18][CH2:19][C@@H:20]1[CH3:24].[Li:30][CH2:31][CH2:32][CH2:33][CH3:34].[Li:40][CH2:41][CH2:42][CH2:43][CH3:44]",
+      "learnerPrompt": "The first butyllithium removes the most acidic proton.",
+      "stereoMeaning": "racemic",
+      "misconceptions": [
+        {
+          "severity": "plausible",
+          "arrowPattern": "σ C*-Li* -> σ C*-C1",
+          "feedbackMessage": "Organolithiums can add to C=N bonds, but removing the acidic N–H proton is much faster.",
+          "misconceptionId": "buli-adds-to-cn",
+          "misconceptionTag": "addition-instead"
+        },
+        {
+          "severity": "plausible",
+          "arrowPattern": "σ C*-Li* -> σ C*-H16",
+          "feedbackMessage": "The α-C–H is removed second. First the much more acidic N–H proton goes.",
+          "misconceptionId": "carbon-first",
+          "misconceptionTag": "less-acidic-proton"
+        }
+      ],
+      "bondToWedgeStyle": {
+        "20-24": "wedge"
+      },
+      "mapNumberToCoordinates": {
+        "1": [
+          6.75,
+          1.3
+        ],
+        "2": [
+          5.25,
+          1.3
+        ],
+        "3": [
+          4.5,
+          0
+        ],
+        "4": [
+          5.25,
+          -1.3
+        ],
+        "5": [
+          3,
+          0
+        ],
+        "6": [
+          3,
+          -1.5
+        ],
+        "7": [
+          3,
+          1.5
+        ],
+        "8": [
+          1.5,
+          0
+        ],
+        "9": [
+          0.75,
+          1.3
+        ],
+        "10": [
+          -0.75,
+          1.3
+        ],
+        "11": [
+          -1.5,
+          0
+        ],
+        "12": [
+          -0.75,
+          -1.3
+        ],
+        "13": [
+          0.75,
+          -1.3
+        ],
+        "14": [
+          -3,
+          0
+        ],
+        "15": [
+          7.5,
+          0
+        ],
+        "16": [
+          6.75,
+          -1.3
+        ],
+        "17": [
+          9,
+          0
+        ],
+        "18": [
+          9.75,
+          1.3
+        ],
+        "19": [
+          9,
+          2.6
+        ],
+        "20": [
+          7.5,
+          2.6
+        ],
+        "24": [
+          6.75,
+          3.9
+        ],
+        "30": [
+          4,
+          -4.9
+        ],
+        "31": [
+          4,
+          -3.4
+        ],
+        "32": [
+          2.7,
+          -4.15
+        ],
+        "33": [
+          1.4,
+          -3.4
+        ],
+        "34": [
+          0.1,
+          -4.15
+        ],
+        "40": [
+          8,
+          -4.9
+        ],
+        "41": [
+          8,
+          -3.4
+        ],
+        "42": [
+          9.3,
+          -4.15
+        ],
+        "43": [
+          10.6,
+          -3.4
+        ],
+        "44": [
+          11.9,
+          -4.15
+        ]
+      },
+      "partialProgressMessages": [
+        {
+          "learnerArrows": [
+            "σ C31-Li30 -> σ C31-H4"
+          ],
+          "feedbackMessage": "Right: butyl takes the proton. Now the N–H pair stays on nitrogen."
+        }
+      ]
+    },
+    "vinyllithium": {
+      "caption": "the vinyllithium (drawn as an ion pair) + N₂",
+      "mappedSmiles": "[C-:1]1=[CH:15][CH2:17][CH2:18][CH2:19][C@@H:20]1[CH3:24].[N:2]#[N:3].[H:4][CH2:31][CH2:32][CH2:33][CH3:34].[S:5]([O-:6])(=[O:7])[C:8]1=[CH:9][CH:10]=[C:11]([CH:12]=[CH:13]1)[CH3:14].[H:16][CH2:41][CH2:42][CH2:43][CH3:44].[Li+:30].[Li+:40]",
+      "stereoMeaning": "racemic",
+      "bondToWedgeStyle": {
+        "20-24": "wedge"
+      },
+      "mapNumberToCoordinates": {
+        "1": [
+          6.75,
+          1.3
+        ],
+        "2": [
+          4.6,
+          4.3
+        ],
+        "3": [
+          3.3,
+          5.05
+        ],
+        "4": [
+          4.75,
+          -2.1
+        ],
+        "5": [
+          1.8,
+          -0.3
+        ],
+        "6": [
+          1.8,
+          -1.8
+        ],
+        "7": [
+          1.8,
+          1.2
+        ],
+        "8": [
+          0.3,
+          -0.3
+        ],
+        "9": [
+          -0.45,
+          1
+        ],
+        "10": [
+          -1.95,
+          1
+        ],
+        "11": [
+          -2.7,
+          -0.3
+        ],
+        "12": [
+          -1.95,
+          -1.6
+        ],
+        "13": [
+          -0.45,
+          -1.6
+        ],
+        "14": [
+          -4.2,
+          -0.3
+        ],
+        "15": [
+          7.5,
+          0
+        ],
+        "16": [
+          7.25,
+          -2.1
+        ],
+        "17": [
+          9,
+          0
+        ],
+        "18": [
+          9.75,
+          1.3
+        ],
+        "19": [
+          9,
+          2.6
+        ],
+        "20": [
+          7.5,
+          2.6
+        ],
+        "24": [
+          6.75,
+          3.9
+        ],
+        "30": [
+          -0.2,
+          2.8
+        ],
+        "31": [
+          4,
+          -3.4
+        ],
+        "32": [
+          2.7,
+          -4.15
+        ],
+        "33": [
+          1.4,
+          -3.4
+        ],
+        "34": [
+          0.1,
+          -4.15
+        ],
+        "40": [
+          12,
+          0.5
+        ],
+        "41": [
+          8,
+          -3.4
+        ],
+        "42": [
+          9.3,
+          -4.15
+        ],
+        "43": [
+          10.6,
+          -3.4
+        ],
+        "44": [
+          11.9,
+          -4.15
+        ]
+      }
+    },
+    "vinyldiazenide": {
+      "caption": "a vinyldiazenide + lithium toluenesulfinate",
+      "hintTiers": [
+        "N₂ can leave, and the C–N bonding pair stays on carbon.",
+        "Two arrows: the C–N bond breaks onto carbon, and the end nitrogen's lone pair makes the N≡N bond.",
+        "C–N bond → a lone pair on carbon; lone pair of the end nitrogen → another N–N π bond."
+      ],
+      "mappedSmiles": "[C:1]1([N:2]=[N-:3])=[CH:15][CH2:17][CH2:18][CH2:19][C@@H:20]1[CH3:24].[H:4][CH2:31][CH2:32][CH2:33][CH3:34].[S:5]([O-:6])(=[O:7])[C:8]1=[CH:9][CH:10]=[C:11]([CH:12]=[CH:13]1)[CH3:14].[H:16][CH2:41][CH2:42][CH2:43][CH3:44].[Li+:30].[Li+:40]",
+      "learnerPrompt": "N₂ leaves, giving a vinyl anion.",
+      "stereoMeaning": "racemic",
+      "misconceptions": [
+        {
+          "severity": "wrong",
+          "arrowPattern": "σ C1-N2 -> lp N2",
+          "feedbackMessage": "Here the carbon keeps the pair: the C–N bond breaks to give a carbanion (a vinyllithium) and N₂.",
+          "misconceptionId": "pair-to-nitrogen",
+          "misconceptionTag": "wrong-direction-of-cleavage"
+        }
+      ],
+      "bondToWedgeStyle": {
+        "20-24": "wedge"
+      },
+      "mapNumberToCoordinates": {
+        "1": [
+          6.75,
+          1.3
+        ],
+        "2": [
+          5.25,
+          1.3
+        ],
+        "3": [
+          4.5,
+          0
+        ],
+        "4": [
+          4.75,
+          -2.1
+        ],
+        "5": [
+          1.8,
+          -0.3
+        ],
+        "6": [
+          1.8,
+          -1.8
+        ],
+        "7": [
+          1.8,
+          1.2
+        ],
+        "8": [
+          0.3,
+          -0.3
+        ],
+        "9": [
+          -0.45,
+          1
+        ],
+        "10": [
+          -1.95,
+          1
+        ],
+        "11": [
+          -2.7,
+          -0.3
+        ],
+        "12": [
+          -1.95,
+          -1.6
+        ],
+        "13": [
+          -0.45,
+          -1.6
+        ],
+        "14": [
+          -4.2,
+          -0.3
+        ],
+        "15": [
+          7.5,
+          0
+        ],
+        "16": [
+          7.25,
+          -2.1
+        ],
+        "17": [
+          9,
+          0
+        ],
+        "18": [
+          9.75,
+          1.3
+        ],
+        "19": [
+          9,
+          2.6
+        ],
+        "20": [
+          7.5,
+          2.6
+        ],
+        "24": [
+          6.75,
+          3.9
+        ],
+        "30": [
+          -0.2,
+          2.8
+        ],
+        "31": [
+          4,
+          -3.4
+        ],
+        "32": [
+          2.7,
+          -4.15
+        ],
+        "33": [
+          1.4,
+          -3.4
+        ],
+        "34": [
+          0.1,
+          -4.15
+        ],
+        "40": [
+          12,
+          0.5
+        ],
+        "41": [
+          8,
+          -3.4
+        ],
+        "42": [
+          9.3,
+          -4.15
+        ],
+        "43": [
+          10.6,
+          -3.4
+        ],
+        "44": [
+          11.9,
+          -4.15
+        ]
+      },
+      "partialProgressMessages": [
+        {
+          "learnerArrows": [
+            "σ C1-N2 -> lp C1"
+          ],
+          "feedbackMessage": "Right: carbon keeps the pair. The nitrogen left behind needs a third bond: the end nitrogen's lone pair forms N≡N."
+        }
+      ]
+    },
+    "vinyllithium-and-water": {
+      "caption": "the vinyllithium + water",
+      "hintTiers": [
+        "The vinyl anion is a very strong base. What does water give it?",
+        "The carbanion lone pair takes a drawn water H; the O–H pair stays on oxygen. Two arrows.",
+        "Carbanion lone pair → new bond to a water H; that O–H bond → a lone pair on oxygen."
+      ],
+      "mappedSmiles": "[C-:1]1=[CH:15][CH2:17][CH2:18][CH2:19][C@@H:20]1[CH3:24].[N:2]#[N:3].[H:4][CH2:31][CH2:32][CH2:33][CH3:34].[S:5]([O-:6])(=[O:7])[C:8]1=[CH:9][CH:10]=[C:11]([CH:12]=[CH:13]1)[CH3:14].[H:16][CH2:41][CH2:42][CH2:43][CH3:44].[Li+:30].[Li+:40].[O:50]([H:51])[H:52]",
+      "learnerPrompt": "Water protonates the vinyl anion.",
+      "stereoMeaning": "racemic",
+      "misconceptions": [
+        {
+          "severity": "wrong",
+          "arrowPattern": "lp O50 -> σ O50-C1",
+          "feedbackMessage": "The carbon is negatively charged: it is the base, and water gives it a proton.",
+          "misconceptionId": "water-attacks",
+          "misconceptionTag": "wrong-role"
+        }
+      ],
+      "bondToWedgeStyle": {
+        "20-24": "wedge"
+      },
+      "mapNumberToCoordinates": {
+        "1": [
+          6.75,
+          1.3
+        ],
+        "2": [
+          4.6,
+          4.3
+        ],
+        "3": [
+          3.3,
+          5.05
+        ],
+        "4": [
+          4.75,
+          -2.1
+        ],
+        "5": [
+          1.8,
+          -0.3
+        ],
+        "6": [
+          1.8,
+          -1.8
+        ],
+        "7": [
+          1.8,
+          1.2
+        ],
+        "8": [
+          0.3,
+          -0.3
+        ],
+        "9": [
+          -0.45,
+          1
+        ],
+        "10": [
+          -1.95,
+          1
+        ],
+        "11": [
+          -2.7,
+          -0.3
+        ],
+        "12": [
+          -1.95,
+          -1.6
+        ],
+        "13": [
+          -0.45,
+          -1.6
+        ],
+        "14": [
+          -4.2,
+          -0.3
+        ],
+        "15": [
+          7.5,
+          0
+        ],
+        "16": [
+          7.25,
+          -2.1
+        ],
+        "17": [
+          9,
+          0
+        ],
+        "18": [
+          9.75,
+          1.3
+        ],
+        "19": [
+          9,
+          2.6
+        ],
+        "20": [
+          7.5,
+          2.6
+        ],
+        "24": [
+          6.75,
+          3.9
+        ],
+        "30": [
+          -0.2,
+          2.8
+        ],
+        "31": [
+          4,
+          -3.4
+        ],
+        "32": [
+          2.7,
+          -4.15
+        ],
+        "33": [
+          1.4,
+          -3.4
+        ],
+        "34": [
+          0.1,
+          -4.15
+        ],
+        "40": [
+          12,
+          0.5
+        ],
+        "41": [
+          8,
+          -3.4
+        ],
+        "42": [
+          9.3,
+          -4.15
+        ],
+        "43": [
+          10.6,
+          -3.4
+        ],
+        "44": [
+          11.9,
+          -4.15
+        ],
+        "50": [
+          4,
+          1.3
+        ],
+        "51": [
+          5.3,
+          1.3
+        ],
+        "52": [
+          3.35,
+          2.45
+        ]
+      },
+      "partialProgressMessages": [
+        {
+          "learnerArrows": [
+            "lp C1 -> σ C1-H51"
+          ],
+          "feedbackMessage": "Right: the carbanion takes the proton. Now the O–H pair stays on oxygen."
+        }
+      ]
+    }
+  },
+  "conditionsLabel": "2 n-BuLi · TMEDA/hexane · −78 °C → rt; then H₂O",
+  "reactionClasses": [
+    "elimination",
+    "acid-base"
+  ],
+  "reactionVersion": 2,
+  "mechanismSummary": "Butyllithium removes the N–H proton, then a second equivalent removes an α-proton on the less substituted side of the C=N. The dianion expels toluenesulfinate, and the vinyldiazenide loses N₂ to give a vinyllithium, which water protonates. The alkene forms on the less substituted side (3-methylcyclohexene), the opposite of the Bamford–Stevens reaction, because it is set by which α-proton the base removes.",
+  "abbreviatedGroups": [
+    {
+      "groupLabel": "Tol",
+      "mapNumbers": [
+        8,
+        9,
+        10,
+        11,
+        12,
+        13,
+        14
+      ],
+      "attachmentMapNumber": 8
+    }
+  ],
+  "dailyPuzzleEligible": true,
+  "spectatorMapNumbers": [],
+  "atomRoleToMapNumbers": {},
+  "previousReactionVersion": 1
+}

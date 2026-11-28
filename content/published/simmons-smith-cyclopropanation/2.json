@@ -1,0 +1,172 @@
+{
+  "steps": [
+    {
+      "stepKey": "butterfly",
+      "stepKind": "polar",
+      "toStateId": "products",
+      "fromStateId": "reactants",
+      "canonicalArrows": [
+        "π C5-C6 -> σ C2-C5",
+        "σ C2-Zn3 -> σ C2-C6",
+        "σ C2-I1 -> σ I1-Zn3"
+      ],
+      "routePreference": "preferred",
+      "explanationAfterStep": "The 'butterfly' transition state: both C–C bonds form on the same face of the alkene as the iodide moves to zinc, so the reaction is stereospecific (a cis-alkene gives a cis-cyclopropane). Zinc also binds nearby oxygen atoms, so an allylic OH directs the CH₂ to its own face. The app does not check stereochemistry yet."
+    }
+  ],
+  "title": "Simmons–Smith cyclopropanation",
+  "authors": [
+    {
+      "url": null,
+      "name": "Maksim"
+    }
+  ],
+  "licence": "CC-BY-SA-4.0",
+  "subtitle": "A zinc carbenoid adds CH₂ to cyclohexene in one step",
+  "references": [
+    "Clayden, Greeves and Warren, Organic Chemistry, 2nd edition (Oxford University Press), chapter 38"
+  ],
+  "reactionSlug": "simmons-smith-cyclopropanation",
+  "startStateId": "reactants",
+  "formatVersion": 1,
+  "difficultyTier": 2,
+  "stateIdToState": {
+    "products": {
+      "caption": "bicyclo[4.1.0]heptane (norcarane) + zinc iodide",
+      "mappedSmiles": "[I:1][Zn:3][I:4].[CH2:2]1[C@@H:5]2[C@H:6]1[CH2:7][CH2:8][CH2:9][CH2:10]2",
+      "bondToWedgeStyle": {
+        "5-2": "wedge",
+        "6-2": "wedge"
+      },
+      "mapNumberToCoordinates": {
+        "1": [
+          -1.3,
+          2.6
+        ],
+        "2": [
+          1.99,
+          0.07
+        ],
+        "3": [
+          0.2,
+          2.6
+        ],
+        "4": [
+          1.7,
+          2.6
+        ],
+        "5": [
+          1.24,
+          -1.23
+        ],
+        "6": [
+          0.49,
+          0.07
+        ],
+        "7": [
+          -1.01,
+          0.07
+        ],
+        "8": [
+          -1.76,
+          -1.23
+        ],
+        "9": [
+          -1.01,
+          -2.53
+        ],
+        "10": [
+          0.49,
+          -2.53
+        ]
+      }
+    },
+    "reactants": {
+      "caption": "the Simmons–Smith reagent (iodomethylzinc iodide) + cyclohexene",
+      "hintTiers": [
+        "The CH₂ carries both a leaving group (iodide) and a C–Zn bond: it behaves like a carbene without ever being free (a carbenoid). Three arrows, all at once.",
+        "The alkene π pair bonds to the CH₂ carbon; the C–Zn bonding pair bonds the CH₂ to the other alkene carbon; the iodine moves from carbon to zinc.",
+        "C=C π bond → new bond from one alkene carbon to CH₂; C–Zn bond → new bond from CH₂ to the other alkene carbon; C–I bond → new I–Zn bond."
+      ],
+      "mappedSmiles": "[I:1][CH2:2][Zn:3][I:4].[CH:5]1=[CH:6][CH2:7][CH2:8][CH2:9][CH2:10]1",
+      "learnerPrompt": "The CH₂ is delivered to the alkene in one step.",
+      "misconceptions": [
+        {
+          "severity": "plausible",
+          "arrowPattern": "σ C2-I1 -> lp I1",
+          "feedbackMessage": "Losing iodide would need a free CH₂ carbene, which is far too reactive and would not be stereospecific or selective. Zinc holds on to the iodide as the CH₂ is passed to the alkene.",
+          "misconceptionId": "free-carbene",
+          "misconceptionTag": "free-carbene"
+        },
+        {
+          "severity": "wrong",
+          "arrowPattern": "π C5-C6 -> σ C*-Zn3",
+          "feedbackMessage": "The alkene bonds to the CH₂ carbon, not to zinc.",
+          "misconceptionId": "alkene-attacks-zinc",
+          "misconceptionTag": "wrong-electrophilic-atom"
+        }
+      ],
+      "mapNumberToCoordinates": {
+        "1": [
+          -1.3,
+          3.05
+        ],
+        "2": [
+          0,
+          2.3
+        ],
+        "3": [
+          1.3,
+          3.05
+        ],
+        "4": [
+          2.6,
+          3.8
+        ],
+        "5": [
+          1.24,
+          -1.23
+        ],
+        "6": [
+          0.49,
+          0.07
+        ],
+        "7": [
+          -1.01,
+          0.07
+        ],
+        "8": [
+          -1.76,
+          -1.23
+        ],
+        "9": [
+          -1.01,
+          -2.53
+        ],
+        "10": [
+          0.49,
+          -2.53
+        ]
+      },
+      "partialProgressMessages": [
+        {
+          "learnerArrows": [
+            "π C5-C6 -> σ C2-C5",
+            "σ C2-Zn3 -> σ C2-C6"
+          ],
+          "feedbackMessage": "Right: both C–C bonds form. The CH₂ carbon would now have five bonds: the C–I bond breaks as iodine moves to zinc."
+        }
+      ]
+    }
+  },
+  "conditionsLabel": "CH₂I₂ · Zn(Cu) · Et₂O · reflux",
+  "reactionClasses": [
+    "addition"
+  ],
+  "reactionVersion": 2,
+  "mechanismSummary": "Zinc (activated with copper) inserts into a C–I bond of diiodomethane to give ICH₂ZnI; this insertion is not drawn, because the app has no steps for metal insertion. The reagent is a carbenoid: it transfers CH₂ to the alkene in one concerted step, with iodide moving to zinc, so no free carbene forms and the alkene geometry is kept. Et₂Zn with CH₂I₂ (the Furukawa modification) gives a similar reagent.",
+  "dailyPuzzleEligible": true,
+  "spectatorMapNumbers": [],
+  "atomRoleToMapNumbers": {},
+  "previousReactionVersion": 1
+}

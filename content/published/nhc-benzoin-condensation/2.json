@@ -1,0 +1,1981 @@
+{
+  "steps": [
+    {
+      "stepKey": "ylide-formation",
+      "stepKind": "polar",
+      "toStateId": "ylide",
+      "fromStateId": "reactants",
+      "canonicalArrows": [
+        "lp N30 -> σ N30-H8",
+        "σ C2-H8 -> lp C2"
+      ],
+      "routePreference": "preferred",
+      "explanationAfterStep": "The ylide is also an N-heterocyclic carbene (NHC): in its other resonance form the ring carbon is neutral with a lone pair and an empty p orbital. Only a little forms with Et₃N, but it is enough."
+    },
+    {
+      "stepKey": "addition-to-aldehyde",
+      "stepKind": "polar",
+      "toStateId": "alkoxide",
+      "fromStateId": "ylide",
+      "canonicalArrows": [
+        "lp C2 -> σ C2-C40",
+        "π C40-O41 -> lp O41"
+      ],
+      "routePreference": "preferred",
+      "explanationAfterStep": "The carbene adds to benzaldehyde like cyanide in the classical benzoin reaction."
+    },
+    {
+      "stepKey": "alkoxide-protonation",
+      "stepKind": "polar",
+      "toStateId": "adduct",
+      "fromStateId": "alkoxide",
+      "canonicalArrows": [
+        "lp O41 -> σ O41-H8",
+        "σ N30-H8 -> lp N30"
+      ],
+      "routePreference": "preferred",
+      "explanationAfterStep": "A proton transfer: triethylammonium gives back the proton it took."
+    },
+    {
+      "stepKey": "breslow-intermediate-formation",
+      "stepKind": "polar",
+      "toStateId": "breslow-intermediate",
+      "fromStateId": "adduct",
+      "canonicalArrows": [
+        "lp N30 -> σ N30-H42",
+        "σ C40-H42 -> π C2-C40",
+        "π C2-N3 -> lp N3"
+      ],
+      "routePreference": "preferred",
+      "explanationAfterStep": "Breslow proposed this enaminol in 1958. The former aldehyde carbon is now nucleophilic: the catalyst has reversed its polarity (umpolung), turning an acyl cation equivalent into an acyl anion equivalent."
+    },
+    {
+      "stepKey": "addition-to-second-aldehyde",
+      "stepKind": "polar",
+      "toStateId": "second-alkoxide",
+      "fromStateId": "breslow-intermediate",
+      "canonicalArrows": [
+        "lp N3 -> π C2-N3",
+        "π C2-C40 -> σ C40-C50",
+        "π C50-O51 -> lp O51"
+      ],
+      "routePreference": "preferred",
+      "explanationAfterStep": "The new C–C bond joins two aldehyde carbons, something no ordinary enolate could do: benzaldehyde has no α-hydrogen. With a chiral triazolium carbene this step makes benzoin in high ee. Stereochemistry is not checked by the app yet."
+    },
+    {
+      "stepKey": "second-alkoxide-protonation",
+      "stepKind": "polar",
+      "toStateId": "diol-adduct",
+      "fromStateId": "second-alkoxide",
+      "canonicalArrows": [
+        "lp O51 -> σ O51-H42",
+        "σ N30-H42 -> lp N30"
+      ],
+      "routePreference": "preferred",
+      "explanationAfterStep": "The new OH becomes benzoin's hydroxyl group."
+    },
+    {
+      "stepKey": "catalyst-release",
+      "stepKind": "polar",
+      "toStateId": "benzoin-and-ylide",
+      "fromStateId": "diol-adduct",
+      "canonicalArrows": [
+        "lp N30 -> σ N30-H8",
+        "σ O41-H8 -> π C40-O41",
+        "σ C2-C40 -> lp C2"
+      ],
+      "routePreference": "preferred",
+      "explanationAfterStep": "The ketone forms and the ylide leaves: the reverse of an addition to a ketone, with the ylide as leaving group, just as cyanide leaves a cyanohydrin."
+    },
+    {
+      "stepKey": "ylide-protonation",
+      "stepKind": "polar",
+      "toStateId": "products",
+      "fromStateId": "benzoin-and-ylide",
+      "canonicalArrows": [
+        "lp C2 -> σ C2-H8",
+        "σ N30-H8 -> lp N30"
+      ],
+      "routePreference": "preferred",
+      "explanationAfterStep": "The catalyst rests as the thiazolium salt until the next turn. Every step is reversible, so benzoin can also go back to benzaldehyde."
+    }
+  ],
+  "title": "Benzoin condensation with a thiazolium catalyst",
+  "authors": [
+    {
+      "url": null,
+      "name": "Maksim"
+    }
+  ],
+  "licence": "CC-BY-SA-4.0",
+  "subtitle": "A carbene turns an aldehyde carbon into a nucleophile",
+  "references": [
+    "Breslow, Journal of the American Chemical Society 1958, 80, 3719",
+    "Stetter, Rämsch and Kuhlmann, Synthesis 1976, 733 (thiazolium salts and Et₃N for acyloins)",
+    "Enders, Niemeier and Henseler, Chemical Reviews 2007, 107, 5606 (N-heterocyclic carbenes in organocatalysis)",
+    "Clayden, Greeves and Warren, Organic Chemistry, 2nd edition (Oxford University Press), chapter 42 (thiamine diphosphate)"
+  ],
+  "reactionSlug": "nhc-benzoin-condensation",
+  "startStateId": "reactants",
+  "formatVersion": 1,
+  "difficultyTier": 3,
+  "stateIdToState": {
+    "ylide": {
+      "caption": "the thiazolium ylide (an N-heterocyclic carbene) + Et₃NH⁺",
+      "hintTiers": [
+        "The ring carbon's lone pair attacks the carbonyl carbon, just as cyanide does in the classical benzoin reaction.",
+        "The ring-carbon lone pair makes a bond to the aldehyde carbon, and the C=O π pair goes onto oxygen. Two arrows.",
+        "Ring-carbon lone pair → new bond to the carbonyl carbon of the aldehyde; C=O π bond → a lone pair on oxygen."
+      ],
+      "mappedSmiles": "[C-:2]1=[N+:3]([CH2:20][C:21]6=[CH:22][CH:23]=[CH:24][CH:25]=[CH:26]6)[C:4]([CH3:7])=[C:5]([CH2:10][CH2:11][OH:12])[S:1]1.[H:8][N+:30]([CH2:31][CH3:32])([CH2:33][CH3:34])[CH2:35][CH3:36].[O:41]=[C:40]([H:42])[C:43]8=[CH:44][CH:45]=[CH:46][CH:47]=[CH:48]8.[O:51]=[CH:50][C:53]9=[CH:54][CH:55]=[CH:56][CH:57]=[CH:58]9.[Cl-:13]",
+      "learnerPrompt": "The ylide is a nucleophile. Add it to benzaldehyde.",
+      "misconceptions": [
+        {
+          "severity": "plausible",
+          "arrowPattern": "lp C2 -> σ C2-H8",
+          "feedbackMessage": "Taking the proton back reverses the last step. Use the ylide as a nucleophile.",
+          "misconceptionId": "ylide-reprotonated",
+          "misconceptionTag": "reverse-step"
+        },
+        {
+          "severity": "wrong",
+          "arrowPattern": "lp N3 -> C40",
+          "feedbackMessage": "The ring nitrogen is positive and has no lone pair to give. The nucleophile is the ring carbon between S and N.",
+          "misconceptionId": "nitrogen-attacks",
+          "misconceptionTag": "wrong-nucleophile"
+        }
+      ],
+      "mapNumberToCoordinates": {
+        "1": [
+          4.21,
+          -2.38
+        ],
+        "2": [
+          3,
+          -1.5
+        ],
+        "3": [
+          1.79,
+          -2.38
+        ],
+        "4": [
+          2.25,
+          -3.81
+        ],
+        "5": [
+          3.75,
+          -3.81
+        ],
+        "7": [
+          1.37,
+          -5.02
+        ],
+        "8": [
+          6.49,
+          -0.01
+        ],
+        "10": [
+          4.63,
+          -5.02
+        ],
+        "11": [
+          6.12,
+          -4.86
+        ],
+        "12": [
+          7.01,
+          -6.08
+        ],
+        "13": [
+          -1.6,
+          2.6
+        ],
+        "20": [
+          0.36,
+          -1.92
+        ],
+        "21": [
+          -0.75,
+          -2.92
+        ],
+        "22": [
+          -2.18,
+          -2.46
+        ],
+        "23": [
+          -3.3,
+          -3.46
+        ],
+        "24": [
+          -2.98,
+          -4.93
+        ],
+        "25": [
+          -1.56,
+          -5.39
+        ],
+        "26": [
+          -0.44,
+          -4.39
+        ],
+        "30": [
+          7.9,
+          0.5
+        ],
+        "31": [
+          7.9,
+          2
+        ],
+        "32": [
+          9.2,
+          2.75
+        ],
+        "33": [
+          7.9,
+          -1
+        ],
+        "34": [
+          9.2,
+          -1.75
+        ],
+        "35": [
+          9.4,
+          0.5
+        ],
+        "36": [
+          10.15,
+          1.8
+        ],
+        "40": [
+          3,
+          1.6
+        ],
+        "41": [
+          4.41,
+          1.09
+        ],
+        "42": [
+          3,
+          3.1
+        ],
+        "43": [
+          1.59,
+          1.09
+        ],
+        "44": [
+          1.33,
+          -0.39
+        ],
+        "45": [
+          -0.08,
+          -0.9
+        ],
+        "46": [
+          -1.23,
+          0.06
+        ],
+        "47": [
+          -0.97,
+          1.54
+        ],
+        "48": [
+          0.44,
+          2.05
+        ],
+        "50": [
+          3,
+          5.4
+        ],
+        "51": [
+          4.3,
+          6.15
+        ],
+        "53": [
+          1.7,
+          6.15
+        ],
+        "54": [
+          0.4,
+          5.4
+        ],
+        "55": [
+          -0.9,
+          6.15
+        ],
+        "56": [
+          -0.9,
+          7.65
+        ],
+        "57": [
+          0.4,
+          8.4
+        ],
+        "58": [
+          1.7,
+          7.65
+        ]
+      },
+      "partialProgressMessages": [
+        {
+          "learnerArrows": [
+            "lp C2 -> σ C2-C40"
+          ],
+          "feedbackMessage": "Right new bond. Where does the C=O π pair go?"
+        }
+      ]
+    },
+    "adduct": {
+      "caption": "the neutral adduct + triethylamine",
+      "hintTiers": [
+        "That C–H is now acidic: its carbon sits next to the thiazolium ring (C=N⁺) and a phenyl group. Losing it makes an enamine.",
+        "Triethylamine takes the drawn hydrogen on the former aldehyde carbon; that C–H pair forms a C=C to the ring carbon, and the C=N⁺ π pair goes onto the ring nitrogen. Three arrows.",
+        "Triethylamine lone pair → new bond to the former aldehyde hydrogen; that C–H bond → a π bond to the ring carbon; the ring C=N⁺ π bond → a lone pair on the ring nitrogen."
+      ],
+      "mappedSmiles": "[H:8][O:41][C:40]([H:42])([C:43]8=[CH:44][CH:45]=[CH:46][CH:47]=[CH:48]8)[C:2]1=[N+:3]([CH2:20][C:21]6=[CH:22][CH:23]=[CH:24][CH:25]=[CH:26]6)[C:4]([CH3:7])=[C:5]([CH2:10][CH2:11][OH:12])[S:1]1.[N:30]([CH2:31][CH3:32])([CH2:33][CH3:34])[CH2:35][CH3:36].[O:51]=[CH:50][C:53]9=[CH:54][CH:55]=[CH:56][CH:57]=[CH:58]9.[Cl-:13]",
+      "learnerPrompt": "Form the Breslow intermediate: remove the proton on the former aldehyde carbon.",
+      "misconceptions": [
+        {
+          "severity": "plausible",
+          "arrowPattern": "lp N30 -> σ N30-H8",
+          "feedbackMessage": "Removing the OH proton just gives back the alkoxide. The C–H on the same carbon is the one to remove.",
+          "misconceptionId": "deprotonate-oh",
+          "misconceptionTag": "wrong-proton"
+        },
+        {
+          "severity": "plausible",
+          "arrowPattern": "σ C2-C40 -> lp C2",
+          "feedbackMessage": "That reverses the addition. Make the Breslow intermediate.",
+          "misconceptionId": "ylide-leaves",
+          "misconceptionTag": "reverse-step"
+        }
+      ],
+      "mapNumberToCoordinates": {
+        "1": [
+          4.21,
+          -2.38
+        ],
+        "2": [
+          3,
+          -1.5
+        ],
+        "3": [
+          1.79,
+          -2.38
+        ],
+        "4": [
+          2.25,
+          -3.81
+        ],
+        "5": [
+          3.75,
+          -3.81
+        ],
+        "7": [
+          1.37,
+          -5.02
+        ],
+        "8": [
+          5.65,
+          -0.96
+        ],
+        "10": [
+          4.63,
+          -5.02
+        ],
+        "11": [
+          6.12,
+          -4.86
+        ],
+        "12": [
+          7.01,
+          -6.08
+        ],
+        "13": [
+          -1.6,
+          2.6
+        ],
+        "20": [
+          0.36,
+          -1.92
+        ],
+        "21": [
+          -0.75,
+          -2.92
+        ],
+        "22": [
+          -2.18,
+          -2.46
+        ],
+        "23": [
+          -3.3,
+          -3.46
+        ],
+        "24": [
+          -2.98,
+          -4.93
+        ],
+        "25": [
+          -1.56,
+          -5.39
+        ],
+        "26": [
+          -0.44,
+          -4.39
+        ],
+        "30": [
+          7.9,
+          0.5
+        ],
+        "31": [
+          7.9,
+          2
+        ],
+        "32": [
+          9.2,
+          2.75
+        ],
+        "33": [
+          7.9,
+          -1
+        ],
+        "34": [
+          9.2,
+          -1.75
+        ],
+        "35": [
+          9.4,
+          0.5
+        ],
+        "36": [
+          10.15,
+          1.8
+        ],
+        "40": [
+          3,
+          0
+        ],
+        "41": [
+          4.5,
+          0
+        ],
+        "42": [
+          3,
+          1.5
+        ],
+        "43": [
+          1.5,
+          0
+        ],
+        "44": [
+          0.75,
+          -1.3
+        ],
+        "45": [
+          -0.75,
+          -1.3
+        ],
+        "46": [
+          -1.5,
+          0
+        ],
+        "47": [
+          -0.75,
+          1.3
+        ],
+        "48": [
+          0.75,
+          1.3
+        ],
+        "50": [
+          3,
+          3.8
+        ],
+        "51": [
+          4.3,
+          4.55
+        ],
+        "53": [
+          1.7,
+          4.55
+        ],
+        "54": [
+          0.4,
+          3.8
+        ],
+        "55": [
+          -0.9,
+          4.55
+        ],
+        "56": [
+          -0.9,
+          6.05
+        ],
+        "57": [
+          0.4,
+          6.8
+        ],
+        "58": [
+          1.7,
+          6.05
+        ]
+      },
+      "partialProgressMessages": [
+        {
+          "learnerArrows": [
+            "lp N30 -> σ N30-H42",
+            "σ C40-H42 -> π C2-C40"
+          ],
+          "feedbackMessage": "Good: the proton goes and the C=C forms. Now move the C=N⁺ π pair onto the ring nitrogen."
+        }
+      ]
+    },
+    "alkoxide": {
+      "caption": "the tetrahedral adduct (an alkoxide on the thiazolium ring)",
+      "hintTiers": [
+        "An alkoxide is a strong base; Et₃NH⁺ is the acid in the flask.",
+        "The O⁻ lone pair takes the drawn hydrogen of Et₃NH⁺, and the N–H pair stays on nitrogen. Two arrows.",
+        "Alkoxide lone pair → new bond to the hydrogen of Et₃NH⁺; the N–H bond → a lone pair on nitrogen."
+      ],
+      "mappedSmiles": "[O-:41][C:40]([H:42])([C:43]8=[CH:44][CH:45]=[CH:46][CH:47]=[CH:48]8)[C:2]1=[N+:3]([CH2:20][C:21]6=[CH:22][CH:23]=[CH:24][CH:25]=[CH:26]6)[C:4]([CH3:7])=[C:5]([CH2:10][CH2:11][OH:12])[S:1]1.[H:8][N+:30]([CH2:31][CH3:32])([CH2:33][CH3:34])[CH2:35][CH3:36].[O:51]=[CH:50][C:53]9=[CH:54][CH:55]=[CH:56][CH:57]=[CH:58]9.[Cl-:13]",
+      "learnerPrompt": "Protonate the alkoxide.",
+      "misconceptions": [
+        {
+          "severity": "plausible",
+          "arrowPattern": "σ C2-C40 -> lp C2",
+          "feedbackMessage": "Losing the ylide again reverses the addition (it is reversible). Protonate the oxygen.",
+          "misconceptionId": "adduct-falls-apart",
+          "misconceptionTag": "reverse-step"
+        },
+        {
+          "severity": "plausible",
+          "arrowPattern": "lp O41 -> C50",
+          "feedbackMessage": "The alkoxide could add to the second aldehyde, but that hemiacetal leads nowhere. Protonate it.",
+          "misconceptionId": "alkoxide-attacks-aldehyde",
+          "misconceptionTag": "hemiacetal-dead-end"
+        }
+      ],
+      "mapNumberToCoordinates": {
+        "1": [
+          4.21,
+          -2.38
+        ],
+        "2": [
+          3,
+          -1.5
+        ],
+        "3": [
+          1.79,
+          -2.38
+        ],
+        "4": [
+          2.25,
+          -3.81
+        ],
+        "5": [
+          3.75,
+          -3.81
+        ],
+        "7": [
+          1.37,
+          -5.02
+        ],
+        "8": [
+          6.49,
+          -0.01
+        ],
+        "10": [
+          4.63,
+          -5.02
+        ],
+        "11": [
+          6.12,
+          -4.86
+        ],
+        "12": [
+          7.01,
+          -6.08
+        ],
+        "13": [
+          -1.6,
+          2.6
+        ],
+        "20": [
+          0.36,
+          -1.92
+        ],
+        "21": [
+          -0.75,
+          -2.92
+        ],
+        "22": [
+          -2.18,
+          -2.46
+        ],
+        "23": [
+          -3.3,
+          -3.46
+        ],
+        "24": [
+          -2.98,
+          -4.93
+        ],
+        "25": [
+          -1.56,
+          -5.39
+        ],
+        "26": [
+          -0.44,
+          -4.39
+        ],
+        "30": [
+          7.9,
+          0.5
+        ],
+        "31": [
+          7.9,
+          2
+        ],
+        "32": [
+          9.2,
+          2.75
+        ],
+        "33": [
+          7.9,
+          -1
+        ],
+        "34": [
+          9.2,
+          -1.75
+        ],
+        "35": [
+          9.4,
+          0.5
+        ],
+        "36": [
+          10.15,
+          1.8
+        ],
+        "40": [
+          3,
+          0
+        ],
+        "41": [
+          4.5,
+          0
+        ],
+        "42": [
+          3,
+          1.5
+        ],
+        "43": [
+          1.5,
+          0
+        ],
+        "44": [
+          0.75,
+          -1.3
+        ],
+        "45": [
+          -0.75,
+          -1.3
+        ],
+        "46": [
+          -1.5,
+          0
+        ],
+        "47": [
+          -0.75,
+          1.3
+        ],
+        "48": [
+          0.75,
+          1.3
+        ],
+        "50": [
+          3,
+          3.8
+        ],
+        "51": [
+          4.3,
+          4.55
+        ],
+        "53": [
+          1.7,
+          4.55
+        ],
+        "54": [
+          0.4,
+          3.8
+        ],
+        "55": [
+          -0.9,
+          4.55
+        ],
+        "56": [
+          -0.9,
+          6.05
+        ],
+        "57": [
+          0.4,
+          6.8
+        ],
+        "58": [
+          1.7,
+          6.05
+        ]
+      }
+    },
+    "products": {
+      "caption": "benzoin (2-hydroxy-1,2-diphenylethanone) + the thiazolium salt + triethylamine",
+      "mappedSmiles": "[S:1]1[C:2](=[N+:3]([C:4](=[C:5]1[CH2:10][CH2:11][OH:12])[CH3:7])[CH2:20][C:21]1=[CH:22][CH:23]=[CH:24][CH:25]=[CH:26]1)[H:8].[Cl-:13].[N:30]([CH2:31][CH3:32])([CH2:33][CH3:34])[CH2:35][CH3:36].[C:40](=[O:41])([C:43]1=[CH:44][CH:45]=[CH:46][CH:47]=[CH:48]1)[C@H:50]([O:51][H:42])[C:53]1=[CH:54][CH:55]=[CH:56][CH:57]=[CH:58]1",
+      "stereoMeaning": "racemic",
+      "bondToWedgeStyle": {
+        "50-40": "wedge"
+      },
+      "mapNumberToCoordinates": {
+        "1": [
+          4.21,
+          -2.38
+        ],
+        "2": [
+          3,
+          -1.5
+        ],
+        "3": [
+          1.79,
+          -2.38
+        ],
+        "4": [
+          2.25,
+          -3.81
+        ],
+        "5": [
+          3.75,
+          -3.81
+        ],
+        "7": [
+          1.37,
+          -5.02
+        ],
+        "8": [
+          3,
+          0
+        ],
+        "10": [
+          4.63,
+          -5.02
+        ],
+        "11": [
+          6.12,
+          -4.86
+        ],
+        "12": [
+          7.01,
+          -6.08
+        ],
+        "13": [
+          -1.6,
+          2.6
+        ],
+        "20": [
+          0.36,
+          -1.92
+        ],
+        "21": [
+          -0.75,
+          -2.92
+        ],
+        "22": [
+          -2.18,
+          -2.46
+        ],
+        "23": [
+          -3.3,
+          -3.46
+        ],
+        "24": [
+          -2.98,
+          -4.93
+        ],
+        "25": [
+          -1.56,
+          -5.39
+        ],
+        "26": [
+          -0.44,
+          -4.39
+        ],
+        "30": [
+          7.9,
+          0.5
+        ],
+        "31": [
+          7.9,
+          2
+        ],
+        "32": [
+          9.2,
+          2.75
+        ],
+        "33": [
+          7.9,
+          -1
+        ],
+        "34": [
+          9.2,
+          -1.75
+        ],
+        "35": [
+          9.4,
+          0.5
+        ],
+        "36": [
+          10.15,
+          1.8
+        ],
+        "40": [
+          3,
+          2
+        ],
+        "41": [
+          4.5,
+          2
+        ],
+        "42": [
+          5.8,
+          4.25
+        ],
+        "43": [
+          1.5,
+          2
+        ],
+        "44": [
+          0.75,
+          0.7
+        ],
+        "45": [
+          -0.75,
+          0.7
+        ],
+        "46": [
+          -1.5,
+          2
+        ],
+        "47": [
+          -0.75,
+          3.3
+        ],
+        "48": [
+          0.75,
+          3.3
+        ],
+        "50": [
+          3,
+          3.5
+        ],
+        "51": [
+          4.3,
+          4.25
+        ],
+        "53": [
+          1.7,
+          4.25
+        ],
+        "54": [
+          0.4,
+          3.5
+        ],
+        "55": [
+          -0.9,
+          4.25
+        ],
+        "56": [
+          -0.9,
+          5.75
+        ],
+        "57": [
+          0.4,
+          6.5
+        ],
+        "58": [
+          1.7,
+          5.75
+        ]
+      }
+    },
+    "reactants": {
+      "caption": "the thiazolium salt + triethylamine + two benzaldehydes",
+      "hintTiers": [
+        "The C–H between sulfur and the positive nitrogen is unusually acidic (pKa about 18 in water): the anion is stabilised by N⁺ and by sulfur.",
+        "Triethylamine takes the drawn hydrogen on the ring carbon between S and N, and the C–H pair stays on that carbon as a lone pair. Two arrows.",
+        "Triethylamine lone pair → new bond to the ring C–H hydrogen; that C–H bond → a lone pair on the ring carbon."
+      ],
+      "mappedSmiles": "[H:8][C:2]1=[N+:3]([CH2:20][C:21]6=[CH:22][CH:23]=[CH:24][CH:25]=[CH:26]6)[C:4]([CH3:7])=[C:5]([CH2:10][CH2:11][OH:12])[S:1]1.[N:30]([CH2:31][CH3:32])([CH2:33][CH3:34])[CH2:35][CH3:36].[O:41]=[C:40]([H:42])[C:43]8=[CH:44][CH:45]=[CH:46][CH:47]=[CH:48]8.[O:51]=[CH:50][C:53]9=[CH:54][CH:55]=[CH:56][CH:57]=[CH:58]9.[Cl-:13]",
+      "learnerPrompt": "Make the catalyst: which proton of the thiazolium ion can triethylamine remove?",
+      "misconceptions": [
+        {
+          "severity": "plausible",
+          "arrowPattern": "lp N30 -> C40",
+          "feedbackMessage": "A tertiary amine cannot form a stable adduct with an aldehyde. It is the base that makes the real catalyst.",
+          "misconceptionId": "amine-adds-to-aldehyde",
+          "misconceptionTag": "wrong-nucleophile"
+        },
+        {
+          "severity": "plausible",
+          "arrowPattern": "lp N30 -> C2",
+          "feedbackMessage": "The ring carbon between S and N⁺ is electrophilic, but triethylamine adding there leads nowhere. Triethylamine is the base: it removes that carbon's proton.",
+          "misconceptionId": "amine-adds-to-ring",
+          "misconceptionTag": "wrong-role"
+        }
+      ],
+      "mapNumberToCoordinates": {
+        "1": [
+          4.21,
+          -2.38
+        ],
+        "2": [
+          3,
+          -1.5
+        ],
+        "3": [
+          1.79,
+          -2.38
+        ],
+        "4": [
+          2.25,
+          -3.81
+        ],
+        "5": [
+          3.75,
+          -3.81
+        ],
+        "7": [
+          1.37,
+          -5.02
+        ],
+        "8": [
+          3,
+          0
+        ],
+        "10": [
+          4.63,
+          -5.02
+        ],
+        "11": [
+          6.12,
+          -4.86
+        ],
+        "12": [
+          7.01,
+          -6.08
+        ],
+        "13": [
+          -1.6,
+          2.6
+        ],
+        "20": [
+          0.36,
+          -1.92
+        ],
+        "21": [
+          -0.75,
+          -2.92
+        ],
+        "22": [
+          -2.18,
+          -2.46
+        ],
+        "23": [
+          -3.3,
+          -3.46
+        ],
+        "24": [
+          -2.98,
+          -4.93
+        ],
+        "25": [
+          -1.56,
+          -5.39
+        ],
+        "26": [
+          -0.44,
+          -4.39
+        ],
+        "30": [
+          7.9,
+          0.5
+        ],
+        "31": [
+          7.9,
+          2
+        ],
+        "32": [
+          9.2,
+          2.75
+        ],
+        "33": [
+          7.9,
+          -1
+        ],
+        "34": [
+          9.2,
+          -1.75
+        ],
+        "35": [
+          9.4,
+          0.5
+        ],
+        "36": [
+          10.15,
+          1.8
+        ],
+        "40": [
+          3,
+          1.6
+        ],
+        "41": [
+          4.41,
+          1.09
+        ],
+        "42": [
+          3,
+          3.1
+        ],
+        "43": [
+          1.59,
+          1.09
+        ],
+        "44": [
+          1.33,
+          -0.39
+        ],
+        "45": [
+          -0.08,
+          -0.9
+        ],
+        "46": [
+          -1.23,
+          0.06
+        ],
+        "47": [
+          -0.97,
+          1.54
+        ],
+        "48": [
+          0.44,
+          2.05
+        ],
+        "50": [
+          3,
+          5.4
+        ],
+        "51": [
+          4.3,
+          6.15
+        ],
+        "53": [
+          1.7,
+          6.15
+        ],
+        "54": [
+          0.4,
+          5.4
+        ],
+        "55": [
+          -0.9,
+          6.15
+        ],
+        "56": [
+          -0.9,
+          7.65
+        ],
+        "57": [
+          0.4,
+          8.4
+        ],
+        "58": [
+          1.7,
+          7.65
+        ]
+      },
+      "partialProgressMessages": [
+        {
+          "learnerArrows": [
+            "lp N30 -> σ N30-H8"
+          ],
+          "feedbackMessage": "Good: triethylamine takes that proton. Where does the C–H bonding pair go?"
+        }
+      ]
+    },
+    "diol-adduct": {
+      "caption": "the diol adduct + triethylamine",
+      "hintTiers": [
+        "Thiazolium ylide is a good leaving group (it was made by deprotonation). A C=O can form on the carbon that carries the ring.",
+        "Triethylamine takes the drawn hydrogen of the OH next to the ring, that O–H pair forms the C=O, and the bond to the ring carbon breaks onto it. Three arrows.",
+        "Triethylamine lone pair → new bond to the OH hydrogen; that O–H bond → a π bond from oxygen to its carbon; the C–C bond to the ring → a lone pair on the ring carbon."
+      ],
+      "mappedSmiles": "[S:1]1[C:2](=[N+:3]([C:4](=[C:5]1[CH2:10][CH2:11][OH:12])[CH3:7])[CH2:20][C:21]1=[CH:22][CH:23]=[CH:24][CH:25]=[CH:26]1)[C:40]([O:41][H:8])([C:43]1=[CH:44][CH:45]=[CH:46][CH:47]=[CH:48]1)[C@H:50]([O:51][H:42])[C:53]1=[CH:54][CH:55]=[CH:56][CH:57]=[CH:58]1.[Cl-:13].[N:30]([CH2:31][CH3:32])([CH2:33][CH3:34])[CH2:35][CH3:36]",
+      "learnerPrompt": "Release the catalyst: the hydroxyl next to the ring becomes C=O and the ylide leaves.",
+      "stereoMeaning": "racemic",
+      "misconceptions": [
+        {
+          "severity": "plausible",
+          "arrowPattern": "lp N30 -> σ N30-H42",
+          "feedbackMessage": "That OH is on the carbon that does not carry the ring, so it cannot push the catalyst out. Use the OH next to the ring.",
+          "misconceptionId": "other-oh-deprotonated",
+          "misconceptionTag": "wrong-hydroxyl"
+        },
+        {
+          "severity": "wrong",
+          "arrowPattern": "σ C40-O41 -> lp O41",
+          "feedbackMessage": "Hydroxide is a poor leaving group. The catalyst leaves instead, as the ylide.",
+          "misconceptionId": "hydroxide-leaves",
+          "misconceptionTag": "poor-leaving-group"
+        }
+      ],
+      "bondToWedgeStyle": {
+        "50-53": "wedge"
+      },
+      "mapNumberToCoordinates": {
+        "1": [
+          4.21,
+          -2.38
+        ],
+        "2": [
+          3,
+          -1.5
+        ],
+        "3": [
+          1.79,
+          -2.38
+        ],
+        "4": [
+          2.25,
+          -3.81
+        ],
+        "5": [
+          3.75,
+          -3.81
+        ],
+        "7": [
+          1.37,
+          -5.02
+        ],
+        "8": [
+          5.65,
+          -0.96
+        ],
+        "10": [
+          4.63,
+          -5.02
+        ],
+        "11": [
+          6.12,
+          -4.86
+        ],
+        "12": [
+          7.01,
+          -6.08
+        ],
+        "13": [
+          -1.6,
+          2.6
+        ],
+        "20": [
+          0.36,
+          -1.92
+        ],
+        "21": [
+          -0.75,
+          -2.92
+        ],
+        "22": [
+          -2.18,
+          -2.46
+        ],
+        "23": [
+          -3.3,
+          -3.46
+        ],
+        "24": [
+          -2.98,
+          -4.93
+        ],
+        "25": [
+          -1.56,
+          -5.39
+        ],
+        "26": [
+          -0.44,
+          -4.39
+        ],
+        "30": [
+          7.9,
+          0.5
+        ],
+        "31": [
+          7.9,
+          2
+        ],
+        "32": [
+          9.2,
+          2.75
+        ],
+        "33": [
+          7.9,
+          -1
+        ],
+        "34": [
+          9.2,
+          -1.75
+        ],
+        "35": [
+          9.4,
+          0.5
+        ],
+        "36": [
+          10.15,
+          1.8
+        ],
+        "40": [
+          3,
+          0
+        ],
+        "41": [
+          4.5,
+          0
+        ],
+        "42": [
+          5.8,
+          2.25
+        ],
+        "43": [
+          1.5,
+          0
+        ],
+        "44": [
+          0.75,
+          -1.3
+        ],
+        "45": [
+          -0.75,
+          -1.3
+        ],
+        "46": [
+          -1.5,
+          0
+        ],
+        "47": [
+          -0.75,
+          1.3
+        ],
+        "48": [
+          0.75,
+          1.3
+        ],
+        "50": [
+          3,
+          1.5
+        ],
+        "51": [
+          4.3,
+          2.25
+        ],
+        "53": [
+          1.7,
+          2.25
+        ],
+        "54": [
+          0.4,
+          1.5
+        ],
+        "55": [
+          -0.9,
+          2.25
+        ],
+        "56": [
+          -0.9,
+          3.75
+        ],
+        "57": [
+          0.4,
+          4.5
+        ],
+        "58": [
+          1.7,
+          3.75
+        ]
+      },
+      "partialProgressMessages": [
+        {
+          "learnerArrows": [
+            "σ C2-C40 -> lp C2"
+          ],
+          "feedbackMessage": "The ylide does leave, but the carbon it leaves needs electrons: form the C=O from the OH, and let triethylamine take its proton."
+        }
+      ]
+    },
+    "second-alkoxide": {
+      "caption": "the new alkoxide, still bound to the thiazolium ring",
+      "hintTiers": [
+        "The alkoxide is a strong base. Et₃NH⁺ is the acid.",
+        "The O⁻ lone pair takes the drawn hydrogen of Et₃NH⁺, and the N–H pair stays on nitrogen. Two arrows.",
+        "Alkoxide lone pair → new bond to the hydrogen of Et₃NH⁺; the N–H bond → a lone pair on nitrogen."
+      ],
+      "mappedSmiles": "[S:1]1[C:2](=[N+:3]([C:4](=[C:5]1[CH2:10][CH2:11][OH:12])[CH3:7])[CH2:20][C:21]1=[CH:22][CH:23]=[CH:24][CH:25]=[CH:26]1)[C:40]([O:41][H:8])([C:43]1=[CH:44][CH:45]=[CH:46][CH:47]=[CH:48]1)[C@H:50]([O-:51])[C:53]1=[CH:54][CH:55]=[CH:56][CH:57]=[CH:58]1.[Cl-:13].[N+:30]([CH2:31][CH3:32])([CH2:33][CH3:34])([CH2:35][CH3:36])[H:42]",
+      "learnerPrompt": "Protonate the new alkoxide.",
+      "stereoMeaning": "racemic",
+      "misconceptions": [
+        {
+          "severity": "plausible",
+          "arrowPattern": "σ C40-C50 -> *",
+          "feedbackMessage": "Breaking the new C–C bond reverses the last step. Protonate the oxygen.",
+          "misconceptionId": "retro-addition",
+          "misconceptionTag": "reverse-step"
+        }
+      ],
+      "bondToWedgeStyle": {
+        "50-53": "wedge"
+      },
+      "mapNumberToCoordinates": {
+        "1": [
+          4.21,
+          -2.38
+        ],
+        "2": [
+          3,
+          -1.5
+        ],
+        "3": [
+          1.79,
+          -2.38
+        ],
+        "4": [
+          2.25,
+          -3.81
+        ],
+        "5": [
+          3.75,
+          -3.81
+        ],
+        "7": [
+          1.37,
+          -5.02
+        ],
+        "8": [
+          5.65,
+          -0.96
+        ],
+        "10": [
+          4.63,
+          -5.02
+        ],
+        "11": [
+          6.12,
+          -4.86
+        ],
+        "12": [
+          7.01,
+          -6.08
+        ],
+        "13": [
+          -1.6,
+          2.6
+        ],
+        "20": [
+          0.36,
+          -1.92
+        ],
+        "21": [
+          -0.75,
+          -2.92
+        ],
+        "22": [
+          -2.18,
+          -2.46
+        ],
+        "23": [
+          -3.3,
+          -3.46
+        ],
+        "24": [
+          -2.98,
+          -4.93
+        ],
+        "25": [
+          -1.56,
+          -5.39
+        ],
+        "26": [
+          -0.44,
+          -4.39
+        ],
+        "30": [
+          7.9,
+          0.5
+        ],
+        "31": [
+          7.9,
+          2
+        ],
+        "32": [
+          9.2,
+          2.75
+        ],
+        "33": [
+          7.9,
+          -1
+        ],
+        "34": [
+          9.2,
+          -1.75
+        ],
+        "35": [
+          9.4,
+          0.5
+        ],
+        "36": [
+          10.15,
+          1.8
+        ],
+        "40": [
+          3,
+          0
+        ],
+        "41": [
+          4.5,
+          0
+        ],
+        "42": [
+          6.6,
+          1.25
+        ],
+        "43": [
+          1.5,
+          0
+        ],
+        "44": [
+          0.75,
+          -1.3
+        ],
+        "45": [
+          -0.75,
+          -1.3
+        ],
+        "46": [
+          -1.5,
+          0
+        ],
+        "47": [
+          -0.75,
+          1.3
+        ],
+        "48": [
+          0.75,
+          1.3
+        ],
+        "50": [
+          3,
+          1.5
+        ],
+        "51": [
+          4.3,
+          2.25
+        ],
+        "53": [
+          1.7,
+          2.25
+        ],
+        "54": [
+          0.4,
+          1.5
+        ],
+        "55": [
+          -0.9,
+          2.25
+        ],
+        "56": [
+          -0.9,
+          3.75
+        ],
+        "57": [
+          0.4,
+          4.5
+        ],
+        "58": [
+          1.7,
+          3.75
+        ]
+      }
+    },
+    "benzoin-and-ylide": {
+      "caption": "benzoin + the free ylide + Et₃NH⁺",
+      "hintTiers": [
+        "The ylide (a carbene in its other resonance form) is a strong base and a good leaving group. Et₃NH⁺ is the acid in the flask.",
+        "The lone pair on the ring carbon between sulfur and nitrogen takes the drawn hydrogen of Et₃NH⁺, and that N–H pair stays on nitrogen. Two arrows.",
+        "Ring-carbon lone pair → new bond to the hydrogen of Et₃NH⁺; the N–H bond → a lone pair on the triethylamine nitrogen."
+      ],
+      "mappedSmiles": "[S:1]1[C-:2]=[N+:3]([C:4](=[C:5]1[CH2:10][CH2:11][OH:12])[CH3:7])[CH2:20][C:21]1=[CH:22][CH:23]=[CH:24][CH:25]=[CH:26]1.[H:8][N+:30]([CH2:31][CH3:32])([CH2:33][CH3:34])[CH2:35][CH3:36].[Cl-:13].[C:40](=[O:41])([C:43]1=[CH:44][CH:45]=[CH:46][CH:47]=[CH:48]1)[C@H:50]([O:51][H:42])[C:53]1=[CH:54][CH:55]=[CH:56][CH:57]=[CH:58]1",
+      "learnerPrompt": "Return the catalyst to its resting state, the thiazolium salt.",
+      "stereoMeaning": "racemic",
+      "misconceptions": [
+        {
+          "severity": "plausible",
+          "arrowPattern": "lp C2 -> C40",
+          "feedbackMessage": "The ylide could add to benzoin's ketone, but the benzoin reaction is reversible and that leads back. Protonate the ylide.",
+          "misconceptionId": "ylide-adds-to-benzoin",
+          "misconceptionTag": "unproductive-addition"
+        }
+      ],
+      "bondToWedgeStyle": {
+        "50-40": "wedge"
+      },
+      "mapNumberToCoordinates": {
+        "1": [
+          4.21,
+          -2.38
+        ],
+        "2": [
+          3,
+          -1.5
+        ],
+        "3": [
+          1.79,
+          -2.38
+        ],
+        "4": [
+          2.25,
+          -3.81
+        ],
+        "5": [
+          3.75,
+          -3.81
+        ],
+        "7": [
+          1.37,
+          -5.02
+        ],
+        "8": [
+          6.49,
+          -0.01
+        ],
+        "10": [
+          4.63,
+          -5.02
+        ],
+        "11": [
+          6.12,
+          -4.86
+        ],
+        "12": [
+          7.01,
+          -6.08
+        ],
+        "13": [
+          -1.6,
+          2.6
+        ],
+        "20": [
+          0.36,
+          -1.92
+        ],
+        "21": [
+          -0.75,
+          -2.92
+        ],
+        "22": [
+          -2.18,
+          -2.46
+        ],
+        "23": [
+          -3.3,
+          -3.46
+        ],
+        "24": [
+          -2.98,
+          -4.93
+        ],
+        "25": [
+          -1.56,
+          -5.39
+        ],
+        "26": [
+          -0.44,
+          -4.39
+        ],
+        "30": [
+          7.9,
+          0.5
+        ],
+        "31": [
+          7.9,
+          2
+        ],
+        "32": [
+          9.2,
+          2.75
+        ],
+        "33": [
+          7.9,
+          -1
+        ],
+        "34": [
+          9.2,
+          -1.75
+        ],
+        "35": [
+          9.4,
+          0.5
+        ],
+        "36": [
+          10.15,
+          1.8
+        ],
+        "40": [
+          3,
+          2
+        ],
+        "41": [
+          4.5,
+          2
+        ],
+        "42": [
+          5.8,
+          4.25
+        ],
+        "43": [
+          1.5,
+          2
+        ],
+        "44": [
+          0.75,
+          0.7
+        ],
+        "45": [
+          -0.75,
+          0.7
+        ],
+        "46": [
+          -1.5,
+          2
+        ],
+        "47": [
+          -0.75,
+          3.3
+        ],
+        "48": [
+          0.75,
+          3.3
+        ],
+        "50": [
+          3,
+          3.5
+        ],
+        "51": [
+          4.3,
+          4.25
+        ],
+        "53": [
+          1.7,
+          4.25
+        ],
+        "54": [
+          0.4,
+          3.5
+        ],
+        "55": [
+          -0.9,
+          4.25
+        ],
+        "56": [
+          -0.9,
+          5.75
+        ],
+        "57": [
+          0.4,
+          6.5
+        ],
+        "58": [
+          1.7,
+          5.75
+        ]
+      }
+    },
+    "breslow-intermediate": {
+      "caption": "the Breslow intermediate (an enaminol) + Et₃NH⁺ + the second benzaldehyde",
+      "hintTiers": [
+        "The Breslow intermediate is an enamine and an enol at once. The ring nitrogen's lone pair pushes, and the former aldehyde carbon attacks.",
+        "The ring nitrogen lone pair forms C=N⁺ in the ring, the C=C pair makes the new bond to the second aldehyde carbon, and that C=O π pair goes onto oxygen. Three arrows.",
+        "Ring nitrogen lone pair → π bond to the ring carbon; the exocyclic C=C π bond → new bond to the aldehyde carbon; the aldehyde C=O π bond → a lone pair on its oxygen."
+      ],
+      "mappedSmiles": "[H:8][O:41][C:40]([C:43]8=[CH:44][CH:45]=[CH:46][CH:47]=[CH:48]8)=[C:2]1[N:3]([CH2:20][C:21]6=[CH:22][CH:23]=[CH:24][CH:25]=[CH:26]6)[C:4]([CH3:7])=[C:5]([CH2:10][CH2:11][OH:12])[S:1]1.[H:42][N+:30]([CH2:31][CH3:32])([CH2:33][CH3:34])[CH2:35][CH3:36].[O:51]=[CH:50][C:53]9=[CH:54][CH:55]=[CH:56][CH:57]=[CH:58]9.[Cl-:13]",
+      "learnerPrompt": "Umpolung: the former carbonyl carbon is now a nucleophile. Add it to the second benzaldehyde.",
+      "misconceptions": [
+        {
+          "severity": "wrong",
+          "arrowPattern": "* -> σ C2-C50",
+          "feedbackMessage": "The ring carbon ends up back in the thiazolium ion. The new C–C bond is made by the exocyclic carbon, the former aldehyde carbon.",
+          "misconceptionId": "ring-carbon-attacks",
+          "misconceptionTag": "enamine-wrong-end"
+        },
+        {
+          "severity": "plausible",
+          "arrowPattern": "lp O41 -> C50",
+          "feedbackMessage": "The OH oxygen would make a hemiacetal that leads nowhere. The carbon end of the enaminol is the nucleophile.",
+          "misconceptionId": "enol-oxygen-attacks",
+          "misconceptionTag": "wrong-nucleophile"
+        },
+        {
+          "severity": "plausible",
+          "arrowPattern": "π C2-C40 -> σ C40-H42",
+          "feedbackMessage": "Protonating the enaminol carbon just goes back. Use it as a nucleophile.",
+          "misconceptionId": "enaminol-reprotonated",
+          "misconceptionTag": "reverse-step"
+        }
+      ],
+      "mapNumberToCoordinates": {
+        "1": [
+          4.21,
+          -2.38
+        ],
+        "2": [
+          3,
+          -1.5
+        ],
+        "3": [
+          1.79,
+          -2.38
+        ],
+        "4": [
+          2.25,
+          -3.81
+        ],
+        "5": [
+          3.75,
+          -3.81
+        ],
+        "7": [
+          1.37,
+          -5.02
+        ],
+        "8": [
+          5.65,
+          -0.96
+        ],
+        "10": [
+          4.63,
+          -5.02
+        ],
+        "11": [
+          6.12,
+          -4.86
+        ],
+        "12": [
+          7.01,
+          -6.08
+        ],
+        "13": [
+          -1.6,
+          2.6
+        ],
+        "20": [
+          0.36,
+          -1.92
+        ],
+        "21": [
+          -0.75,
+          -2.92
+        ],
+        "22": [
+          -2.18,
+          -2.46
+        ],
+        "23": [
+          -3.3,
+          -3.46
+        ],
+        "24": [
+          -2.98,
+          -4.93
+        ],
+        "25": [
+          -1.56,
+          -5.39
+        ],
+        "26": [
+          -0.44,
+          -4.39
+        ],
+        "30": [
+          7.9,
+          0.5
+        ],
+        "31": [
+          7.9,
+          2
+        ],
+        "32": [
+          9.2,
+          2.75
+        ],
+        "33": [
+          7.9,
+          -1
+        ],
+        "34": [
+          9.2,
+          -1.75
+        ],
+        "35": [
+          9.4,
+          0.5
+        ],
+        "36": [
+          10.15,
+          1.8
+        ],
+        "40": [
+          3,
+          0
+        ],
+        "41": [
+          4.5,
+          0
+        ],
+        "42": [
+          6.6,
+          1.25
+        ],
+        "43": [
+          1.5,
+          0
+        ],
+        "44": [
+          0.75,
+          -1.3
+        ],
+        "45": [
+          -0.75,
+          -1.3
+        ],
+        "46": [
+          -1.5,
+          0
+        ],
+        "47": [
+          -0.75,
+          1.3
+        ],
+        "48": [
+          0.75,
+          1.3
+        ],
+        "50": [
+          3,
+          2.3
+        ],
+        "51": [
+          4.3,
+          3.05
+        ],
+        "53": [
+          1.7,
+          3.05
+        ],
+        "54": [
+          0.4,
+          2.3
+        ],
+        "55": [
+          -0.9,
+          3.05
+        ],
+        "56": [
+          -0.9,
+          4.55
+        ],
+        "57": [
+          0.4,
+          5.3
+        ],
+        "58": [
+          1.7,
+          4.55
+        ]
+      },
+      "partialProgressMessages": [
+        {
+          "learnerArrows": [
+            "π C2-C40 -> σ C40-C50",
+            "π C50-O51 -> lp O51"
+          ],
+          "feedbackMessage": "Right new bond, but the ring carbon is left short of electrons. Push with the ring nitrogen's lone pair to form C=N⁺."
+        }
+      ]
+    }
+  },
+  "conditionsLabel": "thiazolium salt (cat.) · Et₃N · EtOH · reflux",
+  "reactionClasses": [
+    "carbonyl",
+    "addition"
+  ],
+  "reactionVersion": 2,
+  "mechanismSummary": "Triethylamine removes the acidic C–H of the thiazolium salt (the catalyst used by Stetter, 3-benzyl-5-(2-hydroxyethyl)-4-methylthiazolium chloride, a model of thiamine). The ylide, an N-heterocyclic carbene, adds to benzaldehyde. After two proton transfers the adduct becomes the Breslow intermediate, an enaminol whose former carbonyl carbon is nucleophilic: umpolung. It attacks a second benzaldehyde, the new alkoxide is protonated, and the OH next to the ring gives up its proton as the C=O forms and the ylide leaves. The ylide is protonated again, and the cycle is closed. Breslow proposed this mechanism in 1958 for thiamine, nature's carbene catalyst; cyanide does the same job by the older Lapworth mechanism. Every step is reversible.",
+  "abbreviatedGroups": [
+    {
+      "groupLabel": "Bn",
+      "mapNumbers": [
+        20,
+        21,
+        22,
+        23,
+        24,
+        25,
+        26
+      ],
+      "attachmentMapNumber": 20
+    },
+    {
+      "groupLabel": "Ph",
+      "mapNumbers": [
+        43,
+        44,
+        45,
+        46,
+        47,
+        48
+      ],
+      "attachmentMapNumber": 43
+    },
+    {
+      "groupLabel": "Ph",
+      "mapNumbers": [
+        53,
+        54,
+        55,
+        56,
+        57,
+        58
+      ],
+      "attachmentMapNumber": 53
+    }
+  ],
+  "dailyPuzzleEligible": true,
+  "spectatorMapNumbers": [
+    13
+  ],
+  "atomRoleToMapNumbers": {
+    "base": [
+      30
+    ],
+    "nucleophile": [
+      2,
+      40
+    ],
+    "electrophile": [
+      40,
+      50
+    ]
+  },
+  "previousReactionVersion": 1
+}

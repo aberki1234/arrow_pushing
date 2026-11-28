@@ -1,0 +1,818 @@
+{
+  "steps": [
+    {
+      "stepKey": "kinetic-deprotonation",
+      "stepKind": "polar",
+      "toStateId": "kinetic-enolate",
+      "fromStateId": "reactants",
+      "canonicalArrows": [
+        "lp N10 -> σ N10-H20",
+        "σ C7-H20 -> π C1-C7",
+        "π C1-O2 -> lp O2"
+      ],
+      "routePreference": "preferred",
+      "explanationAfterStep": "The kinetic enolate. The CH₂ side has two hydrogens and no methyl group in the way, so the bulky base removes one of them faster. At −78 °C with no proton source the enolates cannot interconvert, so the faster-formed one is what you get."
+    },
+    {
+      "stepKey": "thermodynamic-deprotonation",
+      "stepKind": "polar",
+      "toStateId": "thermodynamic-enolate",
+      "fromStateId": "reactants",
+      "canonicalArrows": [
+        "lp N10 -> σ N10-H21",
+        "σ C3-H21 -> π C1-C3",
+        "π C1-O2 -> lp O2"
+      ],
+      "routePreference": "accepted",
+      "explanationAfterStep": "Also correct, but minor here: this is the thermodynamic enolate. Its C=C bond carries more alkyl groups, so it is more stable, and it wins when the enolates can equilibrate (a weaker base, a proton source, higher temperature). The hindered proton next to the methyl group makes it form more slowly with LDA."
+    },
+    {
+      "caption": "Iodomethane is added at −78 °C.",
+      "stepKey": "iodomethane-added",
+      "stepKind": "change",
+      "toStateId": "kinetic-enolate-and-iodomethane",
+      "fromStateId": "kinetic-enolate",
+      "addedSpecies": "[CH3:17][I:18]",
+      "routePreference": "preferred"
+    },
+    {
+      "caption": "Iodomethane is added at −78 °C.",
+      "stepKey": "iodomethane-added-to-thermodynamic",
+      "stepKind": "change",
+      "toStateId": "thermodynamic-enolate-and-iodomethane",
+      "fromStateId": "thermodynamic-enolate",
+      "addedSpecies": "[CH3:17][I:18]",
+      "routePreference": "accepted"
+    },
+    {
+      "stepKey": "kinetic-alkylation",
+      "stepKind": "polar",
+      "toStateId": "kinetic-product",
+      "fromStateId": "kinetic-enolate-and-iodomethane",
+      "canonicalArrows": [
+        "lp O2 -> π C1-O2",
+        "π C1-C7 -> σ C7-C17",
+        "σ C17-I18 -> lp I18"
+      ],
+      "routePreference": "preferred",
+      "explanationAfterStep": "The new methyl group goes where the C=C bond was: on the side away from the first methyl group, giving 2,6-dimethylcyclohexanone."
+    },
+    {
+      "stepKey": "thermodynamic-alkylation",
+      "stepKind": "polar",
+      "toStateId": "thermodynamic-product",
+      "fromStateId": "thermodynamic-enolate-and-iodomethane",
+      "canonicalArrows": [
+        "lp O2 -> π C1-O2",
+        "π C1-C3 -> σ C3-C17",
+        "σ C17-I18 -> lp I18"
+      ],
+      "routePreference": "accepted",
+      "explanationAfterStep": "This enolate puts the second methyl group on the carbon that already has one: 2,2-dimethylcyclohexanone. It is the minor product under these conditions."
+    }
+  ],
+  "title": "Kinetic enolate of 2-methylcyclohexanone",
+  "authors": [
+    {
+      "url": null,
+      "name": "Maksim"
+    }
+  ],
+  "licence": "CC-BY-SA-4.0",
+  "subtitle": "LDA at −78 °C removes the more accessible proton",
+  "references": [
+    "Clayden, Greeves and Warren, Organic Chemistry, 2nd edition (Oxford University Press), chapter 25"
+  ],
+  "reactionSlug": "kinetic-enolate-of-2-methylcyclohexanone",
+  "startStateId": "reactants",
+  "formatVersion": 1,
+  "difficultyTier": 3,
+  "stateIdToState": {
+    "reactants": {
+      "caption": "2-methylcyclohexanone + LDA",
+      "hintTiers": [
+        "At −78 °C deprotonation by LDA is fast and cannot be reversed, so the product is the one formed faster. Which α-hydrogen can a bulky base reach more easily?",
+        "Take a hydrogen from the CH₂ side, not the CH carrying the methyl group: there are more of them and they are less hindered. Three arrows.",
+        "Nitrogen lone pair → the hydrogen on the CH₂ α-carbon; that C–H bond → a π bond to the carbonyl carbon; the C=O π bond → a lone pair on oxygen."
+      ],
+      "mappedSmiles": "[C:1]1(=[O:2])[C@:3]([CH2:4][CH2:5][CH2:6][CH:7]1[H:20])([CH3:8])[H:21].[Li+:9].[N-:10]([CH:11]([CH3:12])[CH3:13])[CH:14]([CH3:15])[CH3:16]",
+      "learnerPrompt": "The ketone has α-hydrogens on two sides. Form the enolate that LDA gives at −78 °C.",
+      "stereoMeaning": "racemic",
+      "misconceptions": [
+        {
+          "severity": "wrong",
+          "arrowPattern": "lp N10 -> σ N10-C1",
+          "feedbackMessage": "LDA is too hindered to add to the carbonyl group. It acts only as a base.",
+          "misconceptionId": "lda-adds",
+          "misconceptionTag": "base-as-nucleophile"
+        },
+        {
+          "severity": "wrong",
+          "arrowPattern": "π C1-O2 -> lp C1",
+          "feedbackMessage": "The C=O π electrons move onto oxygen, not onto carbon.",
+          "misconceptionId": "pi-onto-carbon",
+          "misconceptionTag": "pi-to-own-atom"
+        }
+      ],
+      "bondToWedgeStyle": {
+        "3-21": "wedge"
+      },
+      "mapNumberToCoordinates": {
+        "1": [
+          1.5,
+          0
+        ],
+        "2": [
+          3,
+          0
+        ],
+        "3": [
+          0.75,
+          1.3
+        ],
+        "4": [
+          -0.75,
+          1.3
+        ],
+        "5": [
+          -1.5,
+          0
+        ],
+        "6": [
+          -0.75,
+          -1.3
+        ],
+        "7": [
+          0.75,
+          -1.3
+        ],
+        "8": [
+          2.16,
+          1.81
+        ],
+        "9": [
+          5.3,
+          -0.5
+        ],
+        "10": [
+          -2.2,
+          4.4
+        ],
+        "11": [
+          -2.46,
+          5.88
+        ],
+        "12": [
+          -3.87,
+          6.39
+        ],
+        "13": [
+          -1.31,
+          6.84
+        ],
+        "14": [
+          -3.35,
+          3.44
+        ],
+        "15": [
+          -3.09,
+          1.96
+        ],
+        "16": [
+          -4.76,
+          3.95
+        ],
+        "20": [
+          1.5,
+          -2.6
+        ],
+        "21": [
+          0.49,
+          2.78
+        ]
+      },
+      "partialProgressMessages": [
+        {
+          "learnerArrows": [
+            "lp N10 -> σ N10-H20",
+            "σ C7-H20 -> π C1-C7"
+          ],
+          "feedbackMessage": "Good: the less hindered proton is taken and a C=C forms. Now move the C=O π electrons onto oxygen."
+        }
+      ]
+    },
+    "kinetic-enolate": {
+      "caption": "the kinetic enolate (less substituted C=C) + diisopropylamine",
+      "mappedSmiles": "[C:1]1([O-:2])[C@:3]([CH2:4][CH2:5][CH2:6][CH:7]=1)([CH3:8])[H:21].[Li+:9].[N:10]([CH:11]([CH3:12])[CH3:13])([CH:14]([CH3:15])[CH3:16])[H:20]",
+      "stereoMeaning": "racemic",
+      "bondToWedgeStyle": {
+        "3-21": "wedge"
+      },
+      "mapNumberToCoordinates": {
+        "1": [
+          1.5,
+          0
+        ],
+        "2": [
+          3,
+          0
+        ],
+        "3": [
+          0.75,
+          1.3
+        ],
+        "4": [
+          -0.75,
+          1.3
+        ],
+        "5": [
+          -1.5,
+          0
+        ],
+        "6": [
+          -0.75,
+          -1.3
+        ],
+        "7": [
+          0.75,
+          -1.3
+        ],
+        "8": [
+          2.16,
+          1.81
+        ],
+        "9": [
+          5.3,
+          -0.5
+        ],
+        "10": [
+          6,
+          -3.4
+        ],
+        "11": [
+          6.75,
+          -2.1
+        ],
+        "12": [
+          6,
+          -0.8
+        ],
+        "13": [
+          8.25,
+          -2.1
+        ],
+        "14": [
+          6.75,
+          -4.7
+        ],
+        "15": [
+          8.25,
+          -4.7
+        ],
+        "16": [
+          6,
+          -6
+        ],
+        "20": [
+          4.5,
+          -3.4
+        ],
+        "21": [
+          0.49,
+          2.78
+        ]
+      }
+    },
+    "kinetic-product": {
+      "caption": "2,6-dimethylcyclohexanone + lithium iodide + diisopropylamine",
+      "mappedSmiles": "[C:1]1(=[O:2])[C@:3]([CH2:4][CH2:5][CH2:6][CH:7]1[CH3:17])([CH3:8])[H:21].[Li+:9].[N:10]([CH:11]([CH3:12])[CH3:13])([CH:14]([CH3:15])[CH3:16])[H:20].[I-:18]",
+      "stereoMeaning": "racemic",
+      "bondToWedgeStyle": {
+        "3-21": "wedge"
+      },
+      "mapNumberToCoordinates": {
+        "1": [
+          1.5,
+          0
+        ],
+        "2": [
+          3,
+          0
+        ],
+        "3": [
+          0.75,
+          1.3
+        ],
+        "4": [
+          -0.75,
+          1.3
+        ],
+        "5": [
+          -1.5,
+          0
+        ],
+        "6": [
+          -0.75,
+          -1.3
+        ],
+        "7": [
+          0.75,
+          -1.3
+        ],
+        "8": [
+          2.16,
+          1.81
+        ],
+        "9": [
+          5.3,
+          -0.5
+        ],
+        "10": [
+          6,
+          -3.4
+        ],
+        "11": [
+          6.75,
+          -2.1
+        ],
+        "12": [
+          6,
+          -0.8
+        ],
+        "13": [
+          8.25,
+          -2.1
+        ],
+        "14": [
+          6.75,
+          -4.7
+        ],
+        "15": [
+          8.25,
+          -4.7
+        ],
+        "16": [
+          6,
+          -6
+        ],
+        "17": [
+          1.5,
+          -2.6
+        ],
+        "18": [
+          2.8,
+          -4.85
+        ],
+        "20": [
+          4.5,
+          -3.4
+        ],
+        "21": [
+          0.49,
+          2.78
+        ]
+      }
+    },
+    "thermodynamic-enolate": {
+      "caption": "the thermodynamic enolate (more substituted C=C) + diisopropylamine",
+      "mappedSmiles": "[O-:2][C:1]1=[C:3]([CH3:8])[CH2:4][CH2:5][CH2:6][CH:7]1[H:20].[Li+:9].[H:21][N:10]([CH:11]([CH3:12])[CH3:13])[CH:14]([CH3:15])[CH3:16]",
+      "mapNumberToCoordinates": {
+        "1": [
+          1.5,
+          0
+        ],
+        "2": [
+          3,
+          0
+        ],
+        "3": [
+          0.75,
+          1.3
+        ],
+        "4": [
+          -0.75,
+          1.3
+        ],
+        "5": [
+          -1.5,
+          0
+        ],
+        "6": [
+          -0.75,
+          -1.3
+        ],
+        "7": [
+          0.75,
+          -1.3
+        ],
+        "8": [
+          1.01,
+          2.78
+        ],
+        "9": [
+          5.3,
+          -0.5
+        ],
+        "10": [
+          -2.2,
+          4.4
+        ],
+        "11": [
+          -2.46,
+          5.88
+        ],
+        "12": [
+          -3.87,
+          6.39
+        ],
+        "13": [
+          -1.31,
+          6.84
+        ],
+        "14": [
+          -3.35,
+          3.44
+        ],
+        "15": [
+          -3.09,
+          1.96
+        ],
+        "16": [
+          -4.76,
+          3.95
+        ],
+        "20": [
+          1.5,
+          -2.6
+        ],
+        "21": [
+          -0.75,
+          4.01
+        ]
+      }
+    },
+    "thermodynamic-product": {
+      "caption": "2,2-dimethylcyclohexanone, from the thermodynamic enolate (minor with LDA at −78 °C)",
+      "mappedSmiles": "[O:2]=[C:1]1[C:3]([CH3:17])([CH3:8])[CH2:4][CH2:5][CH2:6][CH:7]1[H:20].[Li+:9].[H:21][N:10]([CH:11]([CH3:12])[CH3:13])[CH:14]([CH3:15])[CH3:16].[I-:18]",
+      "mapNumberToCoordinates": {
+        "1": [
+          1.5,
+          0
+        ],
+        "2": [
+          3,
+          0
+        ],
+        "3": [
+          0.75,
+          1.3
+        ],
+        "4": [
+          -0.75,
+          1.3
+        ],
+        "5": [
+          -1.5,
+          0
+        ],
+        "6": [
+          -0.75,
+          -1.3
+        ],
+        "7": [
+          0.75,
+          -1.3
+        ],
+        "8": [
+          1.01,
+          2.78
+        ],
+        "9": [
+          5.3,
+          -0.5
+        ],
+        "10": [
+          -2.2,
+          4.4
+        ],
+        "11": [
+          -2.46,
+          5.88
+        ],
+        "12": [
+          -3.87,
+          6.39
+        ],
+        "13": [
+          -1.31,
+          6.84
+        ],
+        "14": [
+          -3.35,
+          3.44
+        ],
+        "15": [
+          -3.09,
+          1.96
+        ],
+        "16": [
+          -4.76,
+          3.95
+        ],
+        "17": [
+          2.2,
+          1.69
+        ],
+        "18": [
+          4.6,
+          2.4
+        ],
+        "20": [
+          1.5,
+          -2.6
+        ],
+        "21": [
+          -0.75,
+          4.01
+        ]
+      }
+    },
+    "kinetic-enolate-and-iodomethane": {
+      "caption": "the kinetic enolate + iodomethane",
+      "hintTiers": [
+        "The enolate reacts at carbon with iodomethane. Which carbon carries the C=C bond?",
+        "The oxygen lone pair re-forms C=O, the C=C π electrons attack the methyl carbon, and iodide leaves. Three arrows.",
+        "Enolate oxygen lone pair → a π bond to the ring carbon; the C=C π bond → a new bond from the CH α-carbon to the methyl carbon; the C–I bond → a lone pair on iodine."
+      ],
+      "mappedSmiles": "[C:1]1([O-:2])[C@:3]([CH2:4][CH2:5][CH2:6][CH:7]=1)([CH3:8])[H:21].[Li+:9].[N:10]([CH:11]([CH3:12])[CH3:13])([CH:14]([CH3:15])[CH3:16])[H:20].[CH3:17][I:18]",
+      "learnerPrompt": "Trap the enolate with iodomethane.",
+      "stereoMeaning": "racemic",
+      "misconceptions": [
+        {
+          "severity": "plausible",
+          "arrowPattern": "lp O2 -> σ O2-C17",
+          "feedbackMessage": "O-methylation would give an enol ether. A lithium enolate reacts with iodomethane through carbon.",
+          "misconceptionId": "o-alkylation",
+          "misconceptionTag": "ambident-wrong-end"
+        },
+        {
+          "severity": "wrong",
+          "arrowPattern": "* -> σ C3-C17",
+          "feedbackMessage": "That carbon is not part of the C=C bond of this enolate. The new bond forms at the enolate carbon, the CH on the other side of the C–O.",
+          "misconceptionId": "wrong-carbon",
+          "misconceptionTag": "wrong-nucleophile-site"
+        }
+      ],
+      "bondToWedgeStyle": {
+        "3-21": "wedge"
+      },
+      "mapNumberToCoordinates": {
+        "1": [
+          1.5,
+          0
+        ],
+        "2": [
+          3,
+          0
+        ],
+        "3": [
+          0.75,
+          1.3
+        ],
+        "4": [
+          -0.75,
+          1.3
+        ],
+        "5": [
+          -1.5,
+          0
+        ],
+        "6": [
+          -0.75,
+          -1.3
+        ],
+        "7": [
+          0.75,
+          -1.3
+        ],
+        "8": [
+          2.16,
+          1.81
+        ],
+        "9": [
+          5.3,
+          -0.5
+        ],
+        "10": [
+          6,
+          -3.4
+        ],
+        "11": [
+          6.75,
+          -2.1
+        ],
+        "12": [
+          6,
+          -0.8
+        ],
+        "13": [
+          8.25,
+          -2.1
+        ],
+        "14": [
+          6.75,
+          -4.7
+        ],
+        "15": [
+          8.25,
+          -4.7
+        ],
+        "16": [
+          6,
+          -6
+        ],
+        "17": [
+          1.85,
+          -3.21
+        ],
+        "18": [
+          2.6,
+          -4.5
+        ],
+        "20": [
+          4.5,
+          -3.4
+        ],
+        "21": [
+          0.49,
+          2.78
+        ]
+      },
+      "partialProgressMessages": [
+        {
+          "learnerArrows": [
+            "π C1-C7 -> σ C7-C17",
+            "σ C17-I18 -> lp I18"
+          ],
+          "feedbackMessage": "Right bonds, but the ring carbon is left as a cation next to O⁻. Push the oxygen lone pair in too."
+        }
+      ]
+    },
+    "thermodynamic-enolate-and-iodomethane": {
+      "caption": "the thermodynamic enolate + iodomethane",
+      "hintTiers": [
+        "The enolate reacts at carbon. Which carbon carries the C=C bond here?",
+        "The oxygen lone pair re-forms C=O, the C=C π electrons attack the methyl carbon, and iodide leaves. Three arrows.",
+        "Enolate oxygen lone pair → a π bond to the ring carbon; the C=C π bond → a new bond from the methyl-bearing α-carbon to the methyl carbon of iodomethane; the C–I bond → a lone pair on iodine."
+      ],
+      "mappedSmiles": "[O-:2][C:1]1=[C:3]([CH3:8])[CH2:4][CH2:5][CH2:6][CH:7]1[H:20].[Li+:9].[H:21][N:10]([CH:11]([CH3:12])[CH3:13])[CH:14]([CH3:15])[CH3:16].[CH3:17][I:18]",
+      "learnerPrompt": "Trap this enolate with iodomethane.",
+      "misconceptions": [
+        {
+          "severity": "plausible",
+          "arrowPattern": "lp O2 -> σ O2-C17",
+          "feedbackMessage": "O-methylation would give an enol ether. A lithium enolate reacts with iodomethane through carbon.",
+          "misconceptionId": "o-alkylation-thermo",
+          "misconceptionTag": "ambident-wrong-end"
+        }
+      ],
+      "mapNumberToCoordinates": {
+        "1": [
+          1.5,
+          0
+        ],
+        "2": [
+          3,
+          0
+        ],
+        "3": [
+          0.75,
+          1.3
+        ],
+        "4": [
+          -0.75,
+          1.3
+        ],
+        "5": [
+          -1.5,
+          0
+        ],
+        "6": [
+          -0.75,
+          -1.3
+        ],
+        "7": [
+          0.75,
+          -1.3
+        ],
+        "8": [
+          1.01,
+          2.78
+        ],
+        "9": [
+          5.3,
+          -0.5
+        ],
+        "10": [
+          -2.2,
+          4.4
+        ],
+        "11": [
+          -2.46,
+          5.88
+        ],
+        "12": [
+          -3.87,
+          6.39
+        ],
+        "13": [
+          -1.31,
+          6.84
+        ],
+        "14": [
+          -3.35,
+          3.44
+        ],
+        "15": [
+          -3.09,
+          1.96
+        ],
+        "16": [
+          -4.76,
+          3.95
+        ],
+        "17": [
+          2.97,
+          1.9
+        ],
+        "18": [
+          4.42,
+          2.28
+        ],
+        "20": [
+          1.5,
+          -2.6
+        ],
+        "21": [
+          -0.75,
+          4.01
+        ]
+      },
+      "partialProgressMessages": [
+        {
+          "learnerArrows": [
+            "π C1-C3 -> σ C3-C17",
+            "σ C17-I18 -> lp I18"
+          ],
+          "feedbackMessage": "Right bonds, but the ring carbon is left as a cation next to O⁻. Push the oxygen lone pair in too."
+        }
+      ]
+    }
+  },
+  "conditionsLabel": "1. LDA, THF, −78 °C · 2. MeI",
+  "reactionClasses": [
+    "substitution",
+    "carbonyl"
+  ],
+  "reactionVersion": 2,
+  "mechanismSummary": "2-Methylcyclohexanone can form two enolates. LDA at −78 °C removes a proton from the less hindered CH₂ side fastest, and under these conditions the enolates do not interconvert: this kinetic enolate is the main one, and iodomethane alkylates it to 2,6-dimethylcyclohexanone. The more substituted, thermodynamic enolate (giving 2,2-dimethylcyclohexanone) is drawn as the minor route; it dominates only when the enolates can equilibrate.",
+  "abbreviatedGroups": [
+    {
+      "groupLabel": "iPr",
+      "mapNumbers": [
+        11,
+        12,
+        13
+      ],
+      "attachmentMapNumber": 11
+    },
+    {
+      "groupLabel": "iPr",
+      "mapNumbers": [
+        14,
+        15,
+        16
+      ],
+      "attachmentMapNumber": 14
+    }
+  ],
+  "dailyPuzzleEligible": true,
+  "spectatorMapNumbers": [
+    9
+  ],
+  "atomRoleToMapNumbers": {
+    "base": [
+      10
+    ],
+    "electrophile": [
+      17
+    ],
+    "kineticProton": [
+      20
+    ],
+    "thermodynamicProton": [
+      21
+    ]
+  },
+  "previousReactionVersion": 1
+}

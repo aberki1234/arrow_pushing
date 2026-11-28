@@ -1,0 +1,193 @@
+{
+  "steps": [
+    {
+      "stepKey": "retro-cycloaddition",
+      "stepKind": "polar",
+      "toStateId": "monomers",
+      "fromStateId": "dimer",
+      "canonicalArrows": [
+        "π C2-C3 -> π C1-C2",
+        "σ C4-C6 -> π C3-C4",
+        "σ C1-C7 -> π C6-C7"
+      ],
+      "routePreference": "preferred",
+      "explanationAfterStep": "The forward Diels–Alder exactly reversed: two σ bonds and a π bond become three π bonds, round the same six-membered cyclic transition state. Breaking two σ bonds costs energy, so the reaction needs heat; it wins at high temperature because one molecule becomes two (entropy). Cyclopentadiene boils at 41 °C, far below the dimer, so it distils out of the hot flask and cannot recombine."
+    }
+  ],
+  "title": "Cracking dicyclopentadiene",
+  "authors": [
+    {
+      "url": null,
+      "name": "Maksim"
+    }
+  ],
+  "licence": "CC-BY-SA-4.0",
+  "subtitle": "A retro-Diels–Alder reaction gives back two cyclopentadienes",
+  "references": [
+    "Clayden, Greeves and Warren, Organic Chemistry, 2nd edition (Oxford University Press), chapter 34",
+    "Fleming, Pericyclic Reactions, 2nd edition (Oxford Chemistry Primers, Oxford University Press)"
+  ],
+  "reactionSlug": "retro-diels-alder",
+  "startStateId": "dimer",
+  "formatVersion": 1,
+  "difficultyTier": 2,
+  "stateIdToState": {
+    "dimer": {
+      "caption": "dicyclopentadiene (the endo dimer)",
+      "hintTiers": [
+        "This is a Diels–Alder reaction run backwards. Find the cyclohexene ring that the forward reaction made: which two σ bonds of that ring were the new ones?",
+        "The two σ bonds that break join the bridged ring to the cyclopentene ring. The C=C in the bridged ring moves outwards, and a new C=C appears where the two σ bonds were. Three arrows round the six-membered ring.",
+        "Arrow 1: from the C=C of the bridged ring to the bond between one of its carbons and the bridgehead next to it. Arrow 2: from the σ bond between the other bridgehead and the cyclopentene ring to the bond between that bridgehead and its alkene neighbour. Arrow 3: from the remaining breaking σ bond to the bond between the two cyclopentene ring carbons that were joined to the bridged ring."
+      ],
+      "mappedSmiles": "[C@H:1]12[CH:2]=[CH:3][C@H:4]([CH2:5]1)[C@@H:6]1[C@H:7]2[CH:8]=[CH:9][CH2:10]1",
+      "learnerPrompt": "On heating, the dimer falls apart into two cyclopentadiene molecules in one step. Draw every arrow of that step.",
+      "stereoMeaning": "racemic",
+      "misconceptions": [
+        {
+          "severity": "wrong",
+          "arrowPattern": "σ C4-C5 -> *",
+          "feedbackMessage": "The CH₂ bridge stays: it is part of the cyclopentadiene that comes off. The bonds that break are the two that join the two five-membered rings.",
+          "misconceptionId": "bridge-breaks",
+          "misconceptionTag": "wrong-bond-breaks"
+        },
+        {
+          "severity": "wrong",
+          "arrowPattern": "σ C1-C5 -> *",
+          "feedbackMessage": "The CH₂ bridge stays: it is part of the cyclopentadiene that comes off. The bonds that break are the two that join the two five-membered rings.",
+          "misconceptionId": "bridge-breaks-other",
+          "misconceptionTag": "wrong-bond-breaks"
+        },
+        {
+          "severity": "wrong",
+          "arrowPattern": "π C8-C9 -> *",
+          "feedbackMessage": "That C=C is in the cyclopentene ring, outside the six-membered ring that unzips. It is already where it needs to be in the second cyclopentadiene and takes no part.",
+          "misconceptionId": "far-alkene",
+          "misconceptionTag": "wrong-pi-bond"
+        }
+      ],
+      "bondToWedgeStyle": {
+        "1-2": "dash",
+        "4-3": "dash",
+        "7-8": "dash",
+        "6-10": "dash"
+      },
+      "mapNumberToCoordinates": {
+        "1": [
+          1.03,
+          -1.21
+        ],
+        "2": [
+          2.46,
+          -0.75
+        ],
+        "3": [
+          2.46,
+          0.75
+        ],
+        "4": [
+          1.03,
+          1.21
+        ],
+        "5": [
+          0.15,
+          0
+        ],
+        "6": [
+          -0.39,
+          0.75
+        ],
+        "7": [
+          -0.39,
+          -0.75
+        ],
+        "8": [
+          -1.82,
+          -1.21
+        ],
+        "9": [
+          -2.7,
+          0
+        ],
+        "10": [
+          -1.82,
+          1.21
+        ]
+      },
+      "partialProgressMessages": [
+        {
+          "learnerArrows": [
+            "σ C1-C7 -> π C6-C7"
+          ],
+          "feedbackMessage": "Right: one of the bonds that the forward Diels–Alder made breaks and becomes a C=C. In the same step the other one breaks too, and the C=C of the bridged ring shifts. Two more arrows."
+        }
+      ]
+    },
+    "monomers": {
+      "caption": "two molecules of cyclopenta-1,3-diene",
+      "mappedSmiles": "[CH:1]1=[CH:2][CH:3]=[CH:4][CH2:5]1.[CH:6]1=[CH:7][CH:8]=[CH:9][CH2:10]1",
+      "mapNumberToCoordinates": {
+        "1": [
+          1.03,
+          -1.21
+        ],
+        "2": [
+          2.46,
+          -0.75
+        ],
+        "3": [
+          2.46,
+          0.75
+        ],
+        "4": [
+          1.03,
+          1.21
+        ],
+        "5": [
+          0.15,
+          0
+        ],
+        "6": [
+          -1.69,
+          0.75
+        ],
+        "7": [
+          -1.69,
+          -0.75
+        ],
+        "8": [
+          -3.12,
+          -1.21
+        ],
+        "9": [
+          -4,
+          0
+        ],
+        "10": [
+          -3.12,
+          1.21
+        ]
+      }
+    }
+  },
+  "conditionsLabel": "heat (about 170 °C) · distil out cyclopentadiene (bp 41 °C)",
+  "reactionClasses": [
+    "pericyclic"
+  ],
+  "reactionVersion": 2,
+  "mechanismSummary": "Cyclopentadiene is so reactive a diene that it dimerises at room temperature: one molecule is the diene, the other's C=C the dienophile, and the endo adduct forms. So it is sold as the dimer and “cracked” before use: heating to about 170 °C runs the retro-Diels–Alder reaction, and the monomer is distilled off and used at once or kept cold. Retro-Diels–Alder reactions are favoured by heat because ΔS is positive (one molecule gives two) and by removing a volatile or very stable product (N₂, CO₂, an aromatic ring) in other examples. The endo geometry of the dimer is explained, not drawn. The app does not check stereochemistry yet, so the drawings carry no wedges.",
+  "dailyPuzzleEligible": true,
+  "spectatorMapNumbers": [],
+  "atomRoleToMapNumbers": {
+    "breakingBonds": [
+      1,
+      4,
+      6,
+      7
+    ],
+    "newAlkeneCarbons": [
+      2,
+      3
+    ]
+  },
+  "previousReactionVersion": 1
+}

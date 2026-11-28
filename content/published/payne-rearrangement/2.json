@@ -1,0 +1,315 @@
+{
+  "steps": [
+    {
+      "stepKey": "deprotonation",
+      "stepKind": "polar",
+      "toStateId": "alkoxide",
+      "fromStateId": "reactants",
+      "canonicalArrows": [
+        "lp O8 -> σ O8-H7",
+        "σ O6-H7 -> lp O6"
+      ],
+      "routePreference": "preferred",
+      "explanationAfterStep": "Hydroxide removes the OH proton. The alkoxide is now a strong internal nucleophile."
+    },
+    {
+      "stepKey": "epoxide-migration",
+      "stepKind": "polar",
+      "toStateId": "primary-alkoxide",
+      "fromStateId": "alkoxide",
+      "canonicalArrows": [
+        "lp O6 -> σ O6-C2",
+        "σ C2-O3 -> lp O3"
+      ],
+      "routePreference": "preferred",
+      "explanationAfterStep": "An intramolecular SN2 reaction: the alkoxide attacks the neighbouring epoxide carbon from behind, a new three-membered ring closes and the old one opens. The attacked carbon is inverted. The epoxide has moved one carbon along the chain. The app does not check stereochemistry yet."
+    },
+    {
+      "stepKey": "protonation",
+      "stepKind": "polar",
+      "toStateId": "products",
+      "fromStateId": "primary-alkoxide",
+      "canonicalArrows": [
+        "lp O3 -> σ O3-H7",
+        "σ O8-H7 -> lp O8"
+      ],
+      "routePreference": "preferred",
+      "explanationAfterStep": "Water protonates the new alkoxide and gives back hydroxide. Every step is reversible: the equilibrium favours the more substituted epoxide, here the 1,2-disubstituted one."
+    }
+  ],
+  "title": "Payne rearrangement",
+  "authors": [
+    {
+      "url": null,
+      "name": "Maksim"
+    }
+  ],
+  "licence": "CC-BY-SA-4.0",
+  "subtitle": "An alkoxide next to an epoxide: the epoxide moves along the chain",
+  "references": [
+    "Clayden, Greeves and Warren, Organic Chemistry, 2nd edition (Oxford University Press), chapter 15"
+  ],
+  "reactionSlug": "payne-rearrangement",
+  "startStateId": "reactants",
+  "formatVersion": 1,
+  "difficultyTier": 2,
+  "stateIdToState": {
+    "alkoxide": {
+      "caption": "the alkoxide + water",
+      "hintTiers": [
+        "The alkoxide oxygen and the near epoxide carbon are close together. If the alkoxide attacks that carbon, what kind of ring forms, and which bond breaks?",
+        "The alkoxide attacks the epoxide carbon next to it, and that carbon's C–O bond to the old epoxide oxygen breaks. Two arrows: a new epoxide forms and an old one opens.",
+        "Alkoxide lone pair → new bond to the neighbouring epoxide CH; that carbon's bond to the epoxide oxygen → a lone pair on that oxygen."
+      ],
+      "mappedSmiles": "[CH2:1]1[C@H:2]([O:3]1)[C@@H:4]([CH3:5])[O-:6].[H:7][OH:8].[Na+:9]",
+      "learnerPrompt": "The alkoxide is right next to the epoxide. Draw the ring-forming step.",
+      "stereoMeaning": "racemic",
+      "misconceptions": [
+        {
+          "severity": "plausible",
+          "arrowPattern": "lp O6 -> σ O6-C1",
+          "feedbackMessage": "Attack at the far CH₂ would make a four-membered oxetane. Three-membered rings close much faster: the alkoxide attacks the near carbon.",
+          "misconceptionId": "oxetane-forms",
+          "misconceptionTag": "wrong-ring-size"
+        },
+        {
+          "severity": "plausible",
+          "arrowPattern": "lp O6 -> σ O6-H7",
+          "feedbackMessage": "Taking the proton back from water just returns to the start. The alkoxide has a reaction of its own to do.",
+          "misconceptionId": "water-reprotonates",
+          "misconceptionTag": "reverse-step"
+        }
+      ],
+      "bondToWedgeStyle": {
+        "2-1": "dash",
+        "4-5": "dash"
+      },
+      "mapNumberToCoordinates": {
+        "1": [
+          0.87,
+          0
+        ],
+        "2": [
+          -0.43,
+          0.75
+        ],
+        "3": [
+          -0.43,
+          -0.75
+        ],
+        "4": [
+          -1.18,
+          2.05
+        ],
+        "5": [
+          -0.43,
+          3.35
+        ],
+        "6": [
+          -2.68,
+          2.05
+        ],
+        "7": [
+          -3.78,
+          3.96
+        ],
+        "8": [
+          -4.53,
+          5.26
+        ],
+        "9": [
+          -1.8,
+          -2.2
+        ]
+      }
+    },
+    "products": {
+      "caption": "2,3-epoxybutan-1-ol + sodium hydroxide",
+      "mappedSmiles": "[CH2:1]([C@@H:2]1[C@@H:4]([CH3:5])[O:6]1)[O:3][H:7].[OH-:8].[Na+:9]",
+      "stereoMeaning": "racemic",
+      "bondToWedgeStyle": {
+        "2-1": "wedge",
+        "4-5": "dash"
+      },
+      "mapNumberToCoordinates": {
+        "1": [
+          0.87,
+          0
+        ],
+        "2": [
+          -0.43,
+          0.75
+        ],
+        "3": [
+          1.62,
+          -1.3
+        ],
+        "4": [
+          -1.18,
+          2.05
+        ],
+        "5": [
+          -0.43,
+          3.35
+        ],
+        "6": [
+          -1.93,
+          0.75
+        ],
+        "7": [
+          3.12,
+          -1.3
+        ],
+        "8": [
+          5.02,
+          -1.3
+        ],
+        "9": [
+          -1.8,
+          -2.2
+        ]
+      }
+    },
+    "reactants": {
+      "caption": "3,4-epoxybutan-2-ol + sodium hydroxide, in water",
+      "hintTiers": [
+        "Hydroxide is a base as well as a nucleophile. What is the most acidic hydrogen in the molecule?",
+        "Hydroxide takes the proton of the OH group; the O–H pair stays on the oxygen, giving an alkoxide. Two arrows.",
+        "Hydroxide lone pair → new bond to the drawn H of the OH group; that O–H bond → a lone pair on the alcohol oxygen."
+      ],
+      "mappedSmiles": "[CH2:1]1[C@H:2]([O:3]1)[C@@H:4]([CH3:5])[O:6][H:7].[OH-:8].[Na+:9]",
+      "learnerPrompt": "Start with the fastest reaction of hydroxide here.",
+      "stereoMeaning": "racemic",
+      "misconceptions": [
+        {
+          "severity": "plausible",
+          "arrowPattern": "lp O8 -> σ O8-C*",
+          "feedbackMessage": "Hydroxide can open an epoxide, but only slowly. A proton transfer from oxygen to oxygen is much faster: deprotonate the OH group first.",
+          "misconceptionId": "hydroxide-opens-epoxide",
+          "misconceptionTag": "slow-step"
+        }
+      ],
+      "bondToWedgeStyle": {
+        "2-1": "dash",
+        "4-5": "dash"
+      },
+      "mapNumberToCoordinates": {
+        "1": [
+          0.87,
+          0
+        ],
+        "2": [
+          -0.43,
+          0.75
+        ],
+        "3": [
+          -0.43,
+          -0.75
+        ],
+        "4": [
+          -1.18,
+          2.05
+        ],
+        "5": [
+          -0.43,
+          3.35
+        ],
+        "6": [
+          -2.68,
+          2.05
+        ],
+        "7": [
+          -3.43,
+          3.35
+        ],
+        "8": [
+          -4.53,
+          5.26
+        ],
+        "9": [
+          -1.8,
+          -2.2
+        ]
+      }
+    },
+    "primary-alkoxide": {
+      "caption": "the new epoxide with a primary alkoxide + water",
+      "hintTiers": [
+        "The new alkoxide is on the CH₂. Which molecule can give it a proton?",
+        "The alkoxide takes the drawn proton of water, and the O–H pair stays on the water oxygen. Two arrows.",
+        "Alkoxide lone pair → new bond to the drawn H of water; that O–H bond → a lone pair on the water oxygen (hydroxide is regenerated)."
+      ],
+      "mappedSmiles": "[CH2:1]([C@@H:2]1[C@@H:4]([CH3:5])[O:6]1)[O-:3].[H:7][OH:8].[Na+:9]",
+      "learnerPrompt": "Protonate the new alkoxide.",
+      "stereoMeaning": "racemic",
+      "misconceptions": [
+        {
+          "severity": "plausible",
+          "arrowPattern": "lp O3 -> σ O3-C2",
+          "feedbackMessage": "That reverses the rearrangement. Both directions happen (it is an equilibrium), but the reaction ends when the alkoxide is protonated.",
+          "misconceptionId": "alkoxide-opens-back",
+          "misconceptionTag": "reverse-step"
+        }
+      ],
+      "bondToWedgeStyle": {
+        "2-1": "wedge",
+        "4-5": "dash"
+      },
+      "mapNumberToCoordinates": {
+        "1": [
+          0.87,
+          0
+        ],
+        "2": [
+          -0.43,
+          0.75
+        ],
+        "3": [
+          1.62,
+          -1.3
+        ],
+        "4": [
+          -1.18,
+          2.05
+        ],
+        "5": [
+          -0.43,
+          3.35
+        ],
+        "6": [
+          -1.93,
+          0.75
+        ],
+        "7": [
+          3.82,
+          -1.3
+        ],
+        "8": [
+          5.32,
+          -1.3
+        ],
+        "9": [
+          -1.8,
+          -2.2
+        ]
+      }
+    }
+  },
+  "conditionsLabel": "NaOH · H₂O · 25 °C",
+  "reactionClasses": [
+    "substitution",
+    "rearrangement"
+  ],
+  "reactionVersion": 2,
+  "mechanismSummary": "Hydroxide removes the OH proton of the epoxy alcohol. The alkoxide attacks the neighbouring epoxide carbon from behind (inversion there), closing a new epoxide and opening the old one: the epoxide moves one carbon along the chain. Protonation by water gives 2,3-epoxybutan-1-ol. All the steps are reversible, and the equilibrium lies on the side of the more substituted epoxide. In synthesis, a nucleophile that opens the terminal epoxide faster than the other can pull the equilibrium across (Sharpless). The app does not check stereochemistry yet.",
+  "dailyPuzzleEligible": true,
+  "spectatorMapNumbers": [
+    9
+  ],
+  "atomRoleToMapNumbers": {
+    "neighbouringGroup": [
+      6
+    ]
+  },
+  "previousReactionVersion": 1
+}

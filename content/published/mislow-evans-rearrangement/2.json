@@ -1,0 +1,565 @@
+{
+  "steps": [
+    {
+      "stepKey": "two-three-shift",
+      "stepKind": "polar",
+      "toStateId": "sulfenate",
+      "fromStateId": "sulfoxide",
+      "canonicalArrows": [
+        "lp O2 -> σ O2-C5",
+        "π C4-C5 -> π C3-C4",
+        "σ S1-C3 -> lp S1"
+      ],
+      "routePreference": "preferred",
+      "explanationAfterStep": "A [2,3]-sigmatropic shift through a five-membered envelope transition state. It is reversible and the equilibrium favours the sulfoxide, but the sulfenate is drained away by the next step. The allyl group is transposed: a primary allylic sulfoxide gives a secondary allylic alcohol. A sulfoxide is a stereocentre at sulfur, and an enantiomerically pure one passes its chirality to the new C–O stereocentre. The app does not check stereochemistry yet, so the drawings carry no wedges and no E/Z marks."
+    },
+    {
+      "stepKey": "thiophile-attack",
+      "stepKind": "polar",
+      "toStateId": "alkoxide",
+      "fromStateId": "sulfenate",
+      "canonicalArrows": [
+        "lp P20 -> σ P20-S1",
+        "σ O2-S1 -> lp O2"
+      ],
+      "routePreference": "preferred",
+      "explanationAfterStep": "Trimethyl phosphite is a thiophile: soft phosphorus(III) attacks soft sulfur and breaks the weak S–O bond. Removing the sulfenate pulls the whole sulfoxide ⇌ sulfenate equilibrium over."
+    },
+    {
+      "stepKey": "protonation",
+      "stepKind": "polar",
+      "toStateId": "alcohol",
+      "fromStateId": "alkoxide",
+      "canonicalArrows": [
+        "lp O2 -> σ O2-H29",
+        "σ O28-H29 -> lp O28"
+      ],
+      "routePreference": "preferred",
+      "explanationAfterStep": "A proton transfer from the solvent gives the allylic alcohol. The methoxide formed removes a methyl group from the thiophosphonium ion (an Arbuzov-type SN2), giving dimethyl ether and S-phenyl dimethyl phosphorothioate; that step is not drawn."
+    }
+  ],
+  "title": "Mislow–Evans rearrangement",
+  "authors": [
+    {
+      "url": null,
+      "name": "Maksim"
+    }
+  ],
+  "licence": "CC-BY-SA-4.0",
+  "subtitle": "An allylic sulfoxide becomes a sulfenate ester; a phosphite strips off sulfur to leave an allylic alcohol",
+  "references": [
+    "Clayden, Greeves and Warren, Organic Chemistry, 2nd edition (Oxford University Press), chapter 35",
+    "D. A. Evans and G. C. Andrews, Acc. Chem. Res., 1974, 7, 147"
+  ],
+  "reactionSlug": "mislow-evans-rearrangement",
+  "startStateId": "sulfoxide",
+  "formatVersion": 1,
+  "difficultyTier": 3,
+  "stateIdToState": {
+    "alcohol": {
+      "caption": "but-3-en-2-ol; methoxide goes on to demethylate the thiophosphonium ion",
+      "mappedSmiles": "[S:1]([C:10]1=[CH:11][CH:12]=[CH:13][CH:14]=[CH:15]1)[P+:20]([O:21][CH3:22])([O:23][CH3:24])[O:25][CH3:26].[O:2]([C@H:5]([CH:4]=[CH2:3])[CH3:6])[H:29].[CH3:27][O-:28]",
+      "stereoMeaning": "racemic",
+      "bondToWedgeStyle": {
+        "5-6": "wedge"
+      },
+      "mapNumberToCoordinates": {
+        "1": [
+          0.66,
+          -0.19
+        ],
+        "2": [
+          3.46,
+          0.93
+        ],
+        "3": [
+          3.21,
+          -1.48
+        ],
+        "4": [
+          4.68,
+          -1.17
+        ],
+        "5": [
+          4.83,
+          0.32
+        ],
+        "6": [
+          6.13,
+          1.08
+        ],
+        "10": [
+          -0.64,
+          0.56
+        ],
+        "11": [
+          -0.64,
+          2.06
+        ],
+        "12": [
+          -1.94,
+          2.81
+        ],
+        "13": [
+          -3.24,
+          2.07
+        ],
+        "14": [
+          -3.24,
+          0.57
+        ],
+        "15": [
+          -1.94,
+          -0.18
+        ],
+        "20": [
+          0.27,
+          -1.64
+        ],
+        "21": [
+          1.57,
+          -2.39
+        ],
+        "22": [
+          2.32,
+          -3.69
+        ],
+        "23": [
+          -1.03,
+          -2.39
+        ],
+        "24": [
+          -2.53,
+          -2.39
+        ],
+        "25": [
+          0.27,
+          -3.14
+        ],
+        "26": [
+          -0.48,
+          -4.44
+        ],
+        "27": [
+          3.97,
+          5.54
+        ],
+        "28": [
+          2.82,
+          4.57
+        ],
+        "29": [
+          3.2,
+          2.41
+        ]
+      }
+    },
+    "alkoxide": {
+      "caption": "the alkoxide and a thiophosphonium ion",
+      "hintTiers": [
+        "An alkoxide is a strong base and methanol is a weak acid of about the same strength. A proton transfer finishes the alcohol.",
+        "The alkoxide oxygen takes the O–H proton of methanol. Two arrows.",
+        "Arrow 1: from a lone pair on the alkoxide oxygen to the hydrogen of methanol. Arrow 2: from the methanol O–H bond onto its oxygen."
+      ],
+      "mappedSmiles": "[S:1]([C:10]1=[CH:11][CH:12]=[CH:13][CH:14]=[CH:15]1)[P+:20]([O:21][CH3:22])([O:23][CH3:24])[O:25][CH3:26].[O-:2][C@H:5]([CH:4]=[CH2:3])[CH3:6].[CH3:27][O:28][H:29]",
+      "learnerPrompt": "Methanol is the solvent. Finish the alcohol.",
+      "stereoMeaning": "racemic",
+      "misconceptions": [
+        {
+          "severity": "plausible",
+          "arrowPattern": "lp O2 -> σ O2-P20",
+          "feedbackMessage": "The alkoxide could attack the phosphonium ion, but methanol, the solvent, is all around it and protonates it first. The methoxide formed then removes a methyl group from phosphorus's oxygen (not drawn).",
+          "misconceptionId": "alkoxide-attacks-phosphorus",
+          "misconceptionTag": "wrong-atom-attacked"
+        }
+      ],
+      "bondToWedgeStyle": {
+        "5-6": "wedge"
+      },
+      "mapNumberToCoordinates": {
+        "1": [
+          0.66,
+          -0.19
+        ],
+        "2": [
+          3.46,
+          0.93
+        ],
+        "3": [
+          3.21,
+          -1.48
+        ],
+        "4": [
+          4.68,
+          -1.17
+        ],
+        "5": [
+          4.83,
+          0.32
+        ],
+        "6": [
+          6.13,
+          1.08
+        ],
+        "10": [
+          -0.64,
+          0.56
+        ],
+        "11": [
+          -0.64,
+          2.06
+        ],
+        "12": [
+          -1.94,
+          2.81
+        ],
+        "13": [
+          -3.24,
+          2.07
+        ],
+        "14": [
+          -3.24,
+          0.57
+        ],
+        "15": [
+          -1.94,
+          -0.18
+        ],
+        "20": [
+          0.27,
+          -1.64
+        ],
+        "21": [
+          1.57,
+          -2.39
+        ],
+        "22": [
+          2.32,
+          -3.69
+        ],
+        "23": [
+          -1.03,
+          -2.39
+        ],
+        "24": [
+          -2.53,
+          -2.39
+        ],
+        "25": [
+          0.27,
+          -3.14
+        ],
+        "26": [
+          -0.48,
+          -4.44
+        ],
+        "27": [
+          3.97,
+          5.54
+        ],
+        "28": [
+          2.82,
+          4.57
+        ],
+        "29": [
+          3.08,
+          3.1
+        ]
+      }
+    },
+    "sulfenate": {
+      "caption": "the sulfenate ester, an allylic O–S compound",
+      "hintTiers": [
+        "Phosphorus(III) is a soft nucleophile that loves sulfur (a thiophile). Which bond of the sulfenate is weak?",
+        "The phosphorus lone pair attacks sulfur and the S–O bond breaks onto oxygen, leaving an alkoxide. Two arrows.",
+        "Arrow 1: from the phosphorus lone pair to a new bond with sulfur. Arrow 2: from the S–O bond onto oxygen."
+      ],
+      "mappedSmiles": "[S:1]([O:2][C@H:5]([CH:4]=[CH2:3])[CH3:6])[C:10]1=[CH:11][CH:12]=[CH:13][CH:14]=[CH:15]1.[P:20]([O:21][CH3:22])([O:23][CH3:24])[O:25][CH3:26].[CH3:27][O:28][H:29]",
+      "learnerPrompt": "The sulfenate and sulfoxide are in equilibrium, which lies on the sulfoxide side. Trimethyl phosphite traps the sulfenate. Draw how.",
+      "stereoMeaning": "racemic",
+      "misconceptions": [
+        {
+          "severity": "wrong",
+          "arrowPattern": "lp P20 -> σ P20-O2",
+          "feedbackMessage": "Phosphorus attacks the soft sulfur, not oxygen. Breaking the weak S–O bond then leaves the oxygen as an alkoxide.",
+          "misconceptionId": "phosphite-attacks-oxygen",
+          "misconceptionTag": "wrong-atom-attacked"
+        }
+      ],
+      "bondToWedgeStyle": {
+        "5-6": "wedge"
+      },
+      "mapNumberToCoordinates": {
+        "1": [
+          0.66,
+          -0.19
+        ],
+        "2": [
+          1.66,
+          0.93
+        ],
+        "3": [
+          1.41,
+          -1.48
+        ],
+        "4": [
+          2.88,
+          -1.17
+        ],
+        "5": [
+          3.03,
+          0.32
+        ],
+        "6": [
+          4.33,
+          1.08
+        ],
+        "10": [
+          -0.83,
+          -0.04
+        ],
+        "11": [
+          -1.45,
+          1.33
+        ],
+        "12": [
+          -2.94,
+          1.48
+        ],
+        "13": [
+          -3.82,
+          0.27
+        ],
+        "14": [
+          -3.2,
+          -1.1
+        ],
+        "15": [
+          -1.71,
+          -1.25
+        ],
+        "20": [
+          -0.2,
+          -2.6
+        ],
+        "21": [
+          1.1,
+          -3.35
+        ],
+        "22": [
+          1.85,
+          -4.65
+        ],
+        "23": [
+          -1.5,
+          -3.35
+        ],
+        "24": [
+          -3,
+          -3.35
+        ],
+        "25": [
+          -0.2,
+          -4.1
+        ],
+        "26": [
+          -0.95,
+          -5.4
+        ],
+        "27": [
+          3.97,
+          5.54
+        ],
+        "28": [
+          2.82,
+          4.57
+        ],
+        "29": [
+          3.08,
+          3.1
+        ]
+      },
+      "partialProgressMessages": [
+        {
+          "learnerArrows": [
+            "lp P20 -> σ P20-S1"
+          ],
+          "feedbackMessage": "Right: phosphorus bonds to sulfur. Sulfur cannot keep three bonds and its pairs: let the S–O bond go onto oxygen."
+        }
+      ]
+    },
+    "sulfoxide": {
+      "caption": "phenyl but-2-enyl sulfoxide with trimethyl phosphite in methanol",
+      "hintTiers": [
+        "This is a [2,3] shift: two atoms on one side of the bond that breaks (oxygen and sulfur) and three on the other (the allyl group). Five atoms in a ring.",
+        "The sulfoxide oxygen bonds to the alkene carbon carrying the methyl group, the alkene moves across, and the S–CH₂ bond breaks onto sulfur. Three arrows.",
+        "Arrow 1: from a lone pair on the sulfoxide oxygen to a new bond with the alkene carbon carrying the methyl group. Arrow 2: from the C=C π bond to the bond between the other alkene CH and the CH₂ on sulfur. Arrow 3: from the S–CH₂ bond onto sulfur."
+      ],
+      "mappedSmiles": "[S@@+:1]([O-:2])([CH2:3]/[CH:4]=[CH:5]/[CH3:6])[C:10]1=[CH:11][CH:12]=[CH:13][CH:14]=[CH:15]1.[P:20]([O:21][CH3:22])([O:23][CH3:24])[O:25][CH3:26].[CH3:27][O:28][H:29]",
+      "learnerPrompt": "On warming, the sulfoxide oxygen moves to the far end of the allyl group. Draw the single step.",
+      "stereoMeaning": "racemic",
+      "misconceptions": [
+        {
+          "severity": "plausible",
+          "arrowPattern": "lp P20 -> *",
+          "feedbackMessage": "Trimethyl phosphite is there to catch something, but not the sulfoxide. First the sulfoxide rearranges to the sulfenate ester, whose weak S–O single bond the phosphite can attack.",
+          "misconceptionId": "phosphite-attacks-sulfoxide",
+          "misconceptionTag": "wrong-order"
+        },
+        {
+          "severity": "wrong",
+          "arrowPattern": "lp O2 -> σ O2-C3",
+          "feedbackMessage": "That carbon is already bonded to sulfur, so the oxygen would only end up on the same carbon. It reaches the far end of the alkene, through a five-membered ring.",
+          "misconceptionId": "oxygen-to-near-carbon",
+          "misconceptionTag": "wrong-ring-size"
+        }
+      ],
+      "bondToWedgeStyle": {
+        "1-3": "dash"
+      },
+      "mapNumberToCoordinates": {
+        "1": [
+          0.66,
+          -0.19
+        ],
+        "2": [
+          1.66,
+          0.93
+        ],
+        "3": [
+          1.41,
+          -1.48
+        ],
+        "4": [
+          2.88,
+          -1.17
+        ],
+        "5": [
+          3.03,
+          0.32
+        ],
+        "6": [
+          4.33,
+          1.08
+        ],
+        "10": [
+          -0.83,
+          -0.04
+        ],
+        "11": [
+          -1.45,
+          1.33
+        ],
+        "12": [
+          -2.94,
+          1.48
+        ],
+        "13": [
+          -3.82,
+          0.27
+        ],
+        "14": [
+          -3.2,
+          -1.1
+        ],
+        "15": [
+          -1.71,
+          -1.25
+        ],
+        "20": [
+          -0.2,
+          -2.6
+        ],
+        "21": [
+          1.1,
+          -3.35
+        ],
+        "22": [
+          1.85,
+          -4.65
+        ],
+        "23": [
+          -1.5,
+          -3.35
+        ],
+        "24": [
+          -3,
+          -3.35
+        ],
+        "25": [
+          -0.2,
+          -4.1
+        ],
+        "26": [
+          -0.95,
+          -5.4
+        ],
+        "27": [
+          3.97,
+          5.54
+        ],
+        "28": [
+          2.82,
+          4.57
+        ],
+        "29": [
+          3.08,
+          3.1
+        ]
+      },
+      "partialProgressMessages": [
+        {
+          "learnerArrows": [
+            "lp O2 -> σ O2-C5",
+            "π C4-C5 -> π C3-C4"
+          ],
+          "feedbackMessage": "Two of three: the CH₂ on sulfur now has too many bonds. Break its bond to sulfur."
+        }
+      ]
+    }
+  },
+  "conditionsLabel": "P(OMe)₃, MeOH, 60 °C",
+  "reactionClasses": [
+    "pericyclic",
+    "rearrangement",
+    "substitution"
+  ],
+  "reactionVersion": 2,
+  "mechanismSummary": "The Mislow–Evans rearrangement turns an allylic sulfoxide into an allylic alcohol. The sulfoxide undergoes a reversible [2,3]-sigmatropic shift to a sulfenate ester (R–S–O–R′), moving the oxygen to the far end of the allyl group. A thiophile such as trimethyl phosphite cleaves the weak S–O bond, and the solvent methanol protonates the alkoxide. The allylic system is transposed, the new alkene is mainly E, and a chiral sulfoxide transfers its chirality to carbon. The app does not check stereochemistry yet, so the drawings carry no wedges and no E/Z marks.",
+  "abbreviatedGroups": [
+    {
+      "groupLabel": "Ph",
+      "mapNumbers": [
+        10,
+        11,
+        12,
+        13,
+        14,
+        15
+      ],
+      "attachmentMapNumber": 10
+    }
+  ],
+  "dailyPuzzleEligible": true,
+  "spectatorMapNumbers": [],
+  "atomRoleToMapNumbers": {
+    "sulfur": [
+      1
+    ],
+    "thiophile": [
+      20
+    ],
+    "allylGroup": [
+      3,
+      4,
+      5
+    ],
+    "methanolOxygen": [
+      28
+    ],
+    "sulfoxideOxygen": [
+      2
+    ]
+  },
+  "previousReactionVersion": 1
+}

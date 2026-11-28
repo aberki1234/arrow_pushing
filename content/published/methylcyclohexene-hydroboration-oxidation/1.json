@@ -1,0 +1,716 @@
+{
+  "steps": [
+    {
+      "stepKey": "hydroboration",
+      "stepKind": "polar",
+      "toStateId": "alkylborane",
+      "fromStateId": "reactants",
+      "stereoQuestion": {
+        "racemicMixture": {
+          "isRight": true,
+          "feedbackMessage": "Borane adds to either face of the flat alkene equally, so both enantiomers form."
+        },
+        "acceptEnantiomer": true,
+        "otherArrangements": [
+          {
+            "severity": "wrong",
+            "mappedSmiles": "[C@@:1]1([C@@H:2]([CH2:3][CH2:4][CH2:5][CH2:6]1)[BH2:8])([CH3:7])[H:9]",
+            "feedbackMessage": "H and B end up on opposite faces here (anti). They are delivered together by one B–H bond, so they add to the same face (syn)."
+          }
+        ]
+      },
+      "canonicalArrows": [
+        "π C1-C2 -> σ C2-B8",
+        "σ B8-H9 -> σ C1-H9"
+      ],
+      "routePreference": "preferred",
+      "explanationAfterStep": "H and B are delivered together from one face of the alkene: syn addition. Boron sits on the less hindered carbon."
+    },
+    {
+      "stepKey": "hydroperoxide-added",
+      "stepKind": "change",
+      "toStateId": "alkylborane-and-hydroperoxide",
+      "fromStateId": "alkylborane",
+      "addedSpecies": "[O-:10][OH:11].[Na+:12]",
+      "routePreference": "preferred"
+    },
+    {
+      "stepKey": "hydroperoxide-adds-to-boron",
+      "stepKind": "polar",
+      "toStateId": "boronate",
+      "fromStateId": "alkylborane-and-hydroperoxide",
+      "canonicalArrows": [
+        "lp O10 -> σ B8-O10"
+      ],
+      "routePreference": "preferred"
+    },
+    {
+      "stepKey": "alkyl-migration",
+      "stepKind": "polar",
+      "toStateId": "alkoxyborane",
+      "fromStateId": "boronate",
+      "stereoQuestion": {
+        "acceptEnantiomer": false,
+        "otherArrangements": [
+          {
+            "severity": "wrong",
+            "mappedSmiles": "[C@:1]1([C@H:2]([CH2:3][CH2:4][CH2:5][CH2:6]1)[O:10][BH2:8])([CH3:7])[H:9].[OH-:11].[Na+:12]",
+            "feedbackMessage": "The carbon moves from boron to oxygen with its bonding pair and keeps its configuration (retention), so OH ends up where boron was."
+          }
+        ]
+      },
+      "canonicalArrows": [
+        "σ C2-B8 -> σ C2-O10",
+        "σ O10-O11 -> lp O11"
+      ],
+      "routePreference": "preferred",
+      "explanationAfterStep": "The carbon moves to oxygen with its bonds held in place, so C2 keeps its configuration (retention): OH takes exactly boron's position."
+    },
+    {
+      "stepKey": "hydroxide-adds-to-boron",
+      "stepKind": "polar",
+      "toStateId": "borate",
+      "fromStateId": "alkoxyborane",
+      "canonicalArrows": [
+        "lp O11 -> σ B8-O11"
+      ],
+      "routePreference": "preferred"
+    },
+    {
+      "stepKey": "alkoxide-leaves",
+      "stepKind": "polar",
+      "toStateId": "alkoxide",
+      "fromStateId": "borate",
+      "canonicalArrows": [
+        "σ B8-O10 -> lp O10"
+      ],
+      "routePreference": "preferred"
+    },
+    {
+      "stepKey": "water-added",
+      "stepKind": "change",
+      "toStateId": "alkoxide-and-water",
+      "fromStateId": "alkoxide",
+      "addedSpecies": "[H:14][O:13][H:15]",
+      "routePreference": "preferred"
+    },
+    {
+      "stepKey": "protonation",
+      "stepKind": "polar",
+      "toStateId": "products",
+      "fromStateId": "alkoxide-and-water",
+      "canonicalArrows": [
+        "lp O10 -> σ O10-H14",
+        "σ O13-H14 -> lp O13"
+      ],
+      "routePreference": "preferred",
+      "explanationAfterStep": "OH and the new H are on the same face, so the methyl is trans to OH."
+    }
+  ],
+  "title": "Hydroboration–oxidation of 1-methylcyclohexene",
+  "authors": [
+    {
+      "url": null,
+      "name": "Maksim"
+    }
+  ],
+  "licence": "CC-BY-SA-4.0",
+  "subtitle": "H and B add to the same face; O then takes boron's place with retention",
+  "references": [
+    "Clayden, Greeves and Warren, Organic Chemistry, 2nd edition (Oxford University Press), chapter 19"
+  ],
+  "reactionSlug": "methylcyclohexene-hydroboration-oxidation",
+  "startStateId": "reactants",
+  "formatVersion": 1,
+  "difficultyTier": 3,
+  "stateIdToState": {
+    "borate": {
+      "caption": "a borate: boron has four groups again",
+      "hintTiers": [
+        "Which bond to boron breaks so that oxygen keeps the electrons?",
+        "The O10–B8 bond breaks, and the pair stays on O10.",
+        "Arrow: the O10–B8 bond → a lone pair on O10."
+      ],
+      "mappedSmiles": "[C@:1]1([C@@H:2]([CH2:3][CH2:4][CH2:5][CH2:6]1)[O:10][BH2-:8][OH:11])([CH3:7])[H:9].[Na+:12]",
+      "learnerPrompt": "Free the alkoxide from boron.",
+      "stereoMeaning": "racemic",
+      "bondToWedgeStyle": {
+        "1-9": "wedge",
+        "2-10": "wedge"
+      },
+      "mapNumberToCoordinates": {
+        "1": [
+          1.5,
+          0
+        ],
+        "2": [
+          0.75,
+          1.3
+        ],
+        "3": [
+          -0.75,
+          1.3
+        ],
+        "4": [
+          -1.5,
+          0
+        ],
+        "5": [
+          -0.75,
+          -1.3
+        ],
+        "6": [
+          0.75,
+          -1.3
+        ],
+        "7": [
+          2.8,
+          -0.75
+        ],
+        "8": [
+          3,
+          2.6
+        ],
+        "9": [
+          2.8,
+          0.75
+        ],
+        "10": [
+          1.5,
+          2.6
+        ],
+        "11": [
+          3.75,
+          3.9
+        ],
+        "12": [
+          5,
+          0.8
+        ]
+      }
+    },
+    "alkoxide": {
+      "caption": "the alkoxide + H₂B–OH",
+      "mappedSmiles": "[C@:1]1([C@@H:2]([CH2:3][CH2:4][CH2:5][CH2:6]1)[O-:10])([CH3:7])[H:9].[BH2:8][OH:11].[Na+:12]",
+      "stereoMeaning": "racemic",
+      "bondToWedgeStyle": {
+        "1-9": "wedge",
+        "2-10": "wedge"
+      },
+      "mapNumberToCoordinates": {
+        "1": [
+          1.5,
+          0
+        ],
+        "2": [
+          0.75,
+          1.3
+        ],
+        "3": [
+          -0.75,
+          1.3
+        ],
+        "4": [
+          -1.5,
+          0
+        ],
+        "5": [
+          -0.75,
+          -1.3
+        ],
+        "6": [
+          0.75,
+          -1.3
+        ],
+        "7": [
+          2.8,
+          -0.75
+        ],
+        "8": [
+          4.5,
+          2.6
+        ],
+        "9": [
+          2.8,
+          0.75
+        ],
+        "10": [
+          1.5,
+          2.6
+        ],
+        "11": [
+          5.25,
+          3.9
+        ],
+        "12": [
+          5,
+          0.8
+        ]
+      }
+    },
+    "boronate": {
+      "caption": "the boronate: four groups on boron, a weak O–O bond next to it",
+      "hintTiers": [
+        "The O–O bond is weak, and hydroxide is a fair leaving group. Which group on boron can move to oxygen?",
+        "The C2–B8 bond swings over to O10 as the O10–O11 bond breaks.",
+        "Arrow 1: the C2–B8 bond → a new C2–O10 bond. Arrow 2: the O10–O11 bond → a lone pair on O11."
+      ],
+      "mappedSmiles": "[C@:1]1([C@@H:2]([CH2:3][CH2:4][CH2:5][CH2:6]1)[BH2-:8][O:10][OH:11])([CH3:7])[H:9].[Na+:12]",
+      "learnerPrompt": "Now the carbon moves from boron to oxygen. Draw the two arrows.",
+      "stereoMeaning": "racemic",
+      "bondToWedgeStyle": {
+        "1-9": "wedge",
+        "2-8": "wedge"
+      },
+      "mapNumberToCoordinates": {
+        "1": [
+          1.5,
+          0
+        ],
+        "2": [
+          0.75,
+          1.3
+        ],
+        "3": [
+          -0.75,
+          1.3
+        ],
+        "4": [
+          -1.5,
+          0
+        ],
+        "5": [
+          -0.75,
+          -1.3
+        ],
+        "6": [
+          0.75,
+          -1.3
+        ],
+        "7": [
+          2.8,
+          -0.75
+        ],
+        "8": [
+          1.5,
+          2.6
+        ],
+        "9": [
+          2.8,
+          0.75
+        ],
+        "10": [
+          3,
+          2.6
+        ],
+        "11": [
+          3.75,
+          3.9
+        ],
+        "12": [
+          5,
+          0.8
+        ]
+      }
+    },
+    "products": {
+      "caption": "trans-2-methylcyclohexan-1-ol + hydroxide",
+      "mappedSmiles": "[C@:1]1([C@@H:2]([CH2:3][CH2:4][CH2:5][CH2:6]1)[O:10][H:14])([CH3:7])[H:9].[BH2:8][OH:11].[Na+:12].[O-:13][H:15]",
+      "stereoMeaning": "racemic",
+      "bondToWedgeStyle": {
+        "1-9": "wedge",
+        "2-10": "wedge"
+      },
+      "mapNumberToCoordinates": {
+        "1": [
+          1.5,
+          0
+        ],
+        "2": [
+          0.75,
+          1.3
+        ],
+        "3": [
+          -0.75,
+          1.3
+        ],
+        "4": [
+          -1.5,
+          0
+        ],
+        "5": [
+          -0.75,
+          -1.3
+        ],
+        "6": [
+          0.75,
+          -1.3
+        ],
+        "7": [
+          2.8,
+          -0.75
+        ],
+        "8": [
+          4.5,
+          2.6
+        ],
+        "9": [
+          2.8,
+          0.75
+        ],
+        "10": [
+          1.5,
+          2.6
+        ],
+        "11": [
+          5.25,
+          3.9
+        ],
+        "12": [
+          5,
+          0.8
+        ],
+        "13": [
+          -1.3,
+          5.4
+        ],
+        "14": [
+          0.75,
+          3.9
+        ],
+        "15": [
+          -2.8,
+          5.4
+        ]
+      }
+    },
+    "reactants": {
+      "caption": "1-methylcyclohexene + borane",
+      "hintTiers": [
+        "Boron has an empty p orbital: it is the electrophile. Which carbon of the C=C should it bond to?",
+        "Boron goes to the less substituted carbon (C2) while a hydrogen moves from boron to C1, at the same time. That is two arrows.",
+        "Arrow 1: the C1=C2 π bond → a new C2–B8 bond. Arrow 2: the B8–H9 bond → a new C1–H9 bond."
+      ],
+      "mappedSmiles": "[CH3:7][C:1]1=[CH:2][CH2:3][CH2:4][CH2:5][CH2:6]1.[H:9][BH2:8]",
+      "learnerPrompt": "Draw the arrows for the one-step addition of borane to the alkene.",
+      "misconceptions": [
+        {
+          "severity": "wrong",
+          "arrowPattern": "π C1-C2 -> σ C1-B8",
+          "feedbackMessage": "Boron bonds to the less substituted carbon: it is bulky, and the partial positive charge in the four-centre transition state sits best on the more substituted carbon (C1).",
+          "misconceptionId": "boron-on-the-substituted-carbon",
+          "misconceptionTag": "markovnikov-for-borane"
+        }
+      ],
+      "mapNumberToCoordinates": {
+        "1": [
+          1.5,
+          0
+        ],
+        "2": [
+          0.75,
+          1.3
+        ],
+        "3": [
+          -0.75,
+          1.3
+        ],
+        "4": [
+          -1.5,
+          0
+        ],
+        "5": [
+          -0.75,
+          -1.3
+        ],
+        "6": [
+          0.75,
+          -1.3
+        ],
+        "7": [
+          3,
+          0
+        ],
+        "8": [
+          1.7,
+          3.1
+        ],
+        "9": [
+          3,
+          2.35
+        ]
+      }
+    },
+    "alkylborane": {
+      "caption": "the alkylborane: H and B on the same face",
+      "mappedSmiles": "[C@:1]1([C@@H:2]([CH2:3][CH2:4][CH2:5][CH2:6]1)[BH2:8])([CH3:7])[H:9]",
+      "stereoMeaning": "racemic",
+      "bondToWedgeStyle": {
+        "1-9": "wedge",
+        "2-8": "wedge"
+      },
+      "mapNumberToCoordinates": {
+        "1": [
+          1.5,
+          0
+        ],
+        "2": [
+          0.75,
+          1.3
+        ],
+        "3": [
+          -0.75,
+          1.3
+        ],
+        "4": [
+          -1.5,
+          0
+        ],
+        "5": [
+          -0.75,
+          -1.3
+        ],
+        "6": [
+          0.75,
+          -1.3
+        ],
+        "7": [
+          2.8,
+          -0.75
+        ],
+        "8": [
+          1.5,
+          2.6
+        ],
+        "9": [
+          2.8,
+          0.75
+        ]
+      }
+    },
+    "alkoxyborane": {
+      "caption": "the alkoxyborane + hydroxide",
+      "hintTiers": [
+        "Boron has three groups again, so it has an empty p orbital again.",
+        "Hydroxide (O11) gives a lone pair to boron.",
+        "Arrow: lone pair on O11 → a new O11–B8 bond."
+      ],
+      "mappedSmiles": "[C@:1]1([C@@H:2]([CH2:3][CH2:4][CH2:5][CH2:6]1)[O:10][BH2:8])([CH3:7])[H:9].[OH-:11].[Na+:12]",
+      "learnerPrompt": "Hydroxide attacks again. Draw the arrow.",
+      "stereoMeaning": "racemic",
+      "bondToWedgeStyle": {
+        "1-9": "wedge",
+        "2-10": "wedge"
+      },
+      "mapNumberToCoordinates": {
+        "1": [
+          1.5,
+          0
+        ],
+        "2": [
+          0.75,
+          1.3
+        ],
+        "3": [
+          -0.75,
+          1.3
+        ],
+        "4": [
+          -1.5,
+          0
+        ],
+        "5": [
+          -0.75,
+          -1.3
+        ],
+        "6": [
+          0.75,
+          -1.3
+        ],
+        "7": [
+          2.8,
+          -0.75
+        ],
+        "8": [
+          3,
+          2.6
+        ],
+        "9": [
+          2.8,
+          0.75
+        ],
+        "10": [
+          1.5,
+          2.6
+        ],
+        "11": [
+          5,
+          3.9
+        ],
+        "12": [
+          5,
+          0.8
+        ]
+      }
+    },
+    "alkoxide-and-water": {
+      "caption": "the alkoxide + water",
+      "hintTiers": [
+        "The alkoxide is a strong base; water can give it a proton.",
+        "O10 takes H14 from water.",
+        "Arrow 1: lone pair on O10 → a new O10–H14 bond. Arrow 2: the O13–H14 bond → a lone pair on O13."
+      ],
+      "mappedSmiles": "[C@:1]1([C@@H:2]([CH2:3][CH2:4][CH2:5][CH2:6]1)[O-:10])([CH3:7])[H:9].[BH2:8][OH:11].[Na+:12].[O:13]([H:14])[H:15]",
+      "learnerPrompt": "Protonate the alkoxide.",
+      "stereoMeaning": "racemic",
+      "bondToWedgeStyle": {
+        "1-9": "wedge",
+        "2-10": "wedge"
+      },
+      "mapNumberToCoordinates": {
+        "1": [
+          1.5,
+          0
+        ],
+        "2": [
+          0.75,
+          1.3
+        ],
+        "3": [
+          -0.75,
+          1.3
+        ],
+        "4": [
+          -1.5,
+          0
+        ],
+        "5": [
+          -0.75,
+          -1.3
+        ],
+        "6": [
+          0.75,
+          -1.3
+        ],
+        "7": [
+          2.8,
+          -0.75
+        ],
+        "8": [
+          4.5,
+          2.6
+        ],
+        "9": [
+          2.8,
+          0.75
+        ],
+        "10": [
+          1.5,
+          2.6
+        ],
+        "11": [
+          5.25,
+          3.9
+        ],
+        "12": [
+          5,
+          0.8
+        ],
+        "13": [
+          -1,
+          5.2
+        ],
+        "14": [
+          0.04,
+          4.12
+        ],
+        "15": [
+          -2.5,
+          5.2
+        ]
+      }
+    },
+    "alkylborane-and-hydroperoxide": {
+      "caption": "the alkylborane + hydroperoxide anion (H₂O₂ and NaOH)",
+      "hintTiers": [
+        "Boron still has an empty p orbital. What is the best nucleophile here?",
+        "The negatively charged oxygen of HOO⁻ gives a lone pair to boron.",
+        "Arrow: lone pair on O10 → a new O10–B8 bond."
+      ],
+      "mappedSmiles": "[C@:1]1([C@@H:2]([CH2:3][CH2:4][CH2:5][CH2:6]1)[BH2:8])([CH3:7])[H:9].[O-:10][OH:11].[Na+:12]",
+      "learnerPrompt": "The hydroperoxide anion meets the alkylborane. Draw its first arrow.",
+      "stereoMeaning": "racemic",
+      "bondToWedgeStyle": {
+        "1-9": "wedge",
+        "2-8": "wedge"
+      },
+      "mapNumberToCoordinates": {
+        "1": [
+          1.5,
+          0
+        ],
+        "2": [
+          0.75,
+          1.3
+        ],
+        "3": [
+          -0.75,
+          1.3
+        ],
+        "4": [
+          -1.5,
+          0
+        ],
+        "5": [
+          -0.75,
+          -1.3
+        ],
+        "6": [
+          0.75,
+          -1.3
+        ],
+        "7": [
+          2.8,
+          -0.75
+        ],
+        "8": [
+          1.5,
+          2.6
+        ],
+        "9": [
+          2.8,
+          0.75
+        ],
+        "10": [
+          3.6,
+          3.2
+        ],
+        "11": [
+          4.35,
+          4.5
+        ],
+        "12": [
+          5,
+          0.8
+        ]
+      }
+    }
+  },
+  "conditionsLabel": "1. BH₃·THF · 0 °C; 2. H₂O₂, NaOH",
+  "reactionClasses": [
+    "addition"
+  ],
+  "reactionVersion": 1,
+  "mechanismSummary": "Borane adds H and B across the C=C in one four-centre step, so they end up on the same face (syn), with boron on the less substituted carbon. The hydroperoxide anion adds to boron, and the carbon moves from boron to oxygen keeping its configuration (retention). Hydrolysis frees the alkoxide. H and OH have therefore added syn, and the methyl ends up trans to OH: racemic trans-2-methylcyclohexan-1-ol. One B–H is drawn reacting; BH₃ really uses all three.",
+  "dailyPuzzleEligible": false,
+  "spectatorMapNumbers": [
+    12
+  ],
+  "atomRoleToMapNumbers": {
+    "alkene": [
+      1,
+      2
+    ]
+  },
+  "previousReactionVersion": null
+}

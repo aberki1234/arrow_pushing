@@ -1,0 +1,395 @@
+{
+  "steps": [
+    {
+      "stepKey": "addition",
+      "stepKind": "polar",
+      "toStateId": "alkoxide",
+      "fromStateId": "reactants",
+      "canonicalArrows": [
+        "σ C1-Mg2 -> σ C1-C4",
+        "π C4-O5 -> lp O5"
+      ],
+      "routePreference": "preferred",
+      "explanationAfterStep": "Magnesium is electropositive, so the methyl group carries the C–Mg bonding pair to the carbonyl carbon. A new C–C bond forms: this is what Grignard reagents are for."
+    },
+    {
+      "caption": "Dilute aqueous acid is added once the addition is over (work-up).",
+      "stepKey": "acid-work-up",
+      "stepKind": "change",
+      "toStateId": "alkoxide-and-acid",
+      "fromStateId": "alkoxide",
+      "addedSpecies": "[H:7][OH2+:6].[Cl-:8]",
+      "routePreference": "preferred"
+    },
+    {
+      "stepKey": "protonation",
+      "stepKind": "polar",
+      "toStateId": "products",
+      "fromStateId": "alkoxide-and-acid",
+      "canonicalArrows": [
+        "lp O5 -> σ O5-H7",
+        "σ O6-H7 -> lp O6"
+      ],
+      "routePreference": "preferred",
+      "explanationAfterStep": "The alkoxide becomes the alcohol. The acid is added only at the end: during the addition it would protonate the Grignard reagent and destroy it."
+    }
+  ],
+  "title": "Grignard addition",
+  "authors": [
+    {
+      "url": null,
+      "name": "Maksim"
+    }
+  ],
+  "licence": "CC-BY-SA-4.0",
+  "subtitle": "Methylmagnesium bromide adds to benzaldehyde; acid work-up gives the alcohol",
+  "references": [
+    "Clayden, Greeves and Warren, Organic Chemistry, 2nd edition (Oxford University Press), chapter 9"
+  ],
+  "reactionSlug": "methylmagnesium-bromide-and-benzaldehyde",
+  "startStateId": "reactants",
+  "formatVersion": 1,
+  "difficultyTier": 1,
+  "stateIdToState": {
+    "alkoxide": {
+      "caption": "magnesium alkoxide",
+      "mappedSmiles": "[CH3:1][C@@H:4]([O-:5])[C:11]1=[CH:12][CH:13]=[CH:14][CH:15]=[CH:16]1.[Mg+:2][Br:3]",
+      "stereoMeaning": "racemic",
+      "bondToWedgeStyle": {
+        "4-1": "dash"
+      },
+      "mapNumberToCoordinates": {
+        "1": [
+          3.75,
+          -1.3
+        ],
+        "2": [
+          5.6,
+          2
+        ],
+        "3": [
+          7.1,
+          2
+        ],
+        "4": [
+          3,
+          0
+        ],
+        "5": [
+          3.75,
+          1.3
+        ],
+        "11": [
+          1.5,
+          0
+        ],
+        "12": [
+          0.75,
+          1.3
+        ],
+        "13": [
+          -0.75,
+          1.3
+        ],
+        "14": [
+          -1.5,
+          0
+        ],
+        "15": [
+          -0.75,
+          -1.3
+        ],
+        "16": [
+          0.75,
+          -1.3
+        ]
+      }
+    },
+    "products": {
+      "caption": "1-phenylethanol + water",
+      "mappedSmiles": "[CH3:1][C@@H:4]([O:5][H:7])[C:11]1=[CH:12][CH:13]=[CH:14][CH:15]=[CH:16]1.[Mg+:2][Br:3].[OH2:6].[Cl-:8]",
+      "stereoMeaning": "racemic",
+      "bondToWedgeStyle": {
+        "4-1": "dash"
+      },
+      "mapNumberToCoordinates": {
+        "1": [
+          3.75,
+          -1.3
+        ],
+        "2": [
+          5.6,
+          2
+        ],
+        "3": [
+          7.1,
+          2
+        ],
+        "4": [
+          3,
+          0
+        ],
+        "5": [
+          3.75,
+          1.3
+        ],
+        "6": [
+          1.9,
+          4.5
+        ],
+        "7": [
+          3,
+          2.6
+        ],
+        "8": [
+          0,
+          3.6
+        ],
+        "11": [
+          1.5,
+          0
+        ],
+        "12": [
+          0.75,
+          1.3
+        ],
+        "13": [
+          -0.75,
+          1.3
+        ],
+        "14": [
+          -1.5,
+          0
+        ],
+        "15": [
+          -0.75,
+          -1.3
+        ],
+        "16": [
+          0.75,
+          -1.3
+        ]
+      }
+    },
+    "reactants": {
+      "caption": "methylmagnesium bromide + benzaldehyde",
+      "hintTiers": [
+        "The C–Mg bond is polarised towards carbon: the methyl group behaves like a carbanion. Which atom of the aldehyde is electron-poor?",
+        "The C–Mg bonding pair forms a new C–C bond to the carbonyl carbon, and the C=O π pair moves onto oxygen. Two arrows.",
+        "C–Mg bond → new C–C bond from the methyl carbon to the carbonyl carbon; C=O π bond → lone pair on oxygen."
+      ],
+      "mappedSmiles": "[CH3:1][Mg:2][Br:3].[O:5]=[CH:4][C:11]1=[CH:12][CH:13]=[CH:14][CH:15]=[CH:16]1",
+      "learnerPrompt": "The Grignard reagent adds to benzaldehyde.",
+      "misconceptions": [
+        {
+          "severity": "wrong",
+          "arrowPattern": "σ C1-Mg2 -> O5",
+          "feedbackMessage": "The carbonyl oxygen is electron-rich. The methyl group attacks the electron-poor carbonyl carbon.",
+          "misconceptionId": "methyl-attacks-oxygen",
+          "misconceptionTag": "attack-electron-rich-atom"
+        },
+        {
+          "severity": "wrong",
+          "arrowPattern": "lp Br3 -> C4",
+          "feedbackMessage": "The bromine is not the nucleophile. The reactive electrons are in the carbon–magnesium bond.",
+          "misconceptionId": "bromine-as-nucleophile",
+          "misconceptionTag": "wrong-nucleophile"
+        },
+        {
+          "severity": "wrong",
+          "arrowPattern": "σ C1-Mg2 -> lp Mg2",
+          "feedbackMessage": "Carbon is more electronegative than magnesium. The C–Mg bonding pair goes with carbon, never onto magnesium.",
+          "misconceptionId": "c-mg-pair-to-magnesium",
+          "misconceptionTag": "electrons-toward-less-electronegative-atom"
+        }
+      ],
+      "mapNumberToCoordinates": {
+        "1": [
+          4.15,
+          -1.99
+        ],
+        "2": [
+          5.65,
+          -1.99
+        ],
+        "3": [
+          6.4,
+          -0.69
+        ],
+        "4": [
+          3,
+          0
+        ],
+        "5": [
+          3.75,
+          1.3
+        ],
+        "11": [
+          1.5,
+          0
+        ],
+        "12": [
+          0.75,
+          1.3
+        ],
+        "13": [
+          -0.75,
+          1.3
+        ],
+        "14": [
+          -1.5,
+          0
+        ],
+        "15": [
+          -0.75,
+          -1.3
+        ],
+        "16": [
+          0.75,
+          -1.3
+        ]
+      },
+      "partialProgressMessages": [
+        {
+          "learnerArrows": [
+            "σ C1-Mg2 -> σ C1-C4"
+          ],
+          "feedbackMessage": "Right: the methyl carbon attacks the carbonyl carbon. That carbon now has five bonds: move the C=O π pair."
+        }
+      ]
+    },
+    "alkoxide-and-acid": {
+      "caption": "magnesium alkoxide + H₃O⁺ (work-up)",
+      "hintTiers": [
+        "The alkoxide oxygen is a strong base. Which species is the acid?",
+        "The oxygen lone pair takes a proton from H₃O⁺, and that O–H bonding pair stays on water's oxygen. Two arrows.",
+        "Alkoxide oxygen lone pair → new O–H bond to a proton of H₃O⁺; that O–H bond → lone pair on water's oxygen."
+      ],
+      "mappedSmiles": "[CH3:1][C@@H:4]([O-:5])[C:11]1=[CH:12][CH:13]=[CH:14][CH:15]=[CH:16]1.[Mg+:2][Br:3].[OH2+:6][H:7].[Cl-:8]",
+      "learnerPrompt": "Acid work-up: protonate the alkoxide.",
+      "stereoMeaning": "racemic",
+      "misconceptions": [
+        {
+          "severity": "plausible",
+          "arrowPattern": "lp O5 -> Mg2",
+          "feedbackMessage": "In the flask the alkoxide is bound to magnesium; that is why a work-up is needed. Now the acid frees the alcohol: protonate the oxygen.",
+          "misconceptionId": "alkoxide-binds-magnesium",
+          "misconceptionTag": "unproductive-lewis-complex"
+        },
+        {
+          "severity": "wrong",
+          "arrowPattern": "lp O6 -> C4",
+          "feedbackMessage": "That carbon now has four σ bonds and no leaving group: it is no longer an electrophile. H₃O⁺ is the acid here.",
+          "misconceptionId": "water-attacks-carbon",
+          "misconceptionTag": "attack-non-electrophile"
+        }
+      ],
+      "bondToWedgeStyle": {
+        "4-1": "dash"
+      },
+      "mapNumberToCoordinates": {
+        "1": [
+          3.75,
+          -1.3
+        ],
+        "2": [
+          5.6,
+          2
+        ],
+        "3": [
+          7.1,
+          2
+        ],
+        "4": [
+          3,
+          0
+        ],
+        "5": [
+          3.75,
+          1.3
+        ],
+        "6": [
+          1.9,
+          4.5
+        ],
+        "7": [
+          2.65,
+          3.21
+        ],
+        "8": [
+          0,
+          3.6
+        ],
+        "11": [
+          1.5,
+          0
+        ],
+        "12": [
+          0.75,
+          1.3
+        ],
+        "13": [
+          -0.75,
+          1.3
+        ],
+        "14": [
+          -1.5,
+          0
+        ],
+        "15": [
+          -0.75,
+          -1.3
+        ],
+        "16": [
+          0.75,
+          -1.3
+        ]
+      },
+      "partialProgressMessages": [
+        {
+          "learnerArrows": [
+            "lp O5 -> σ O5-H7"
+          ],
+          "feedbackMessage": "Good: the alkoxide takes a proton from H₃O⁺. Where does the O–H bonding pair go?"
+        }
+      ]
+    }
+  },
+  "conditionsLabel": "1. MeMgBr, Et₂O · 2. HCl(aq)",
+  "reactionClasses": [
+    "carbonyl",
+    "addition"
+  ],
+  "reactionVersion": 2,
+  "mechanismSummary": "The C–Mg bonding pair of the Grignard reagent forms a new C–C bond to the carbonyl carbon, and the C=O π electrons move onto oxygen, giving a magnesium alkoxide. Dilute acid, added afterwards, protonates it to 1-phenylethanol.",
+  "abbreviatedGroups": [
+    {
+      "groupLabel": "Ph",
+      "mapNumbers": [
+        11,
+        12,
+        13,
+        14,
+        15,
+        16
+      ],
+      "attachmentMapNumber": 11
+    }
+  ],
+  "dailyPuzzleEligible": true,
+  "spectatorMapNumbers": [
+    8
+  ],
+  "atomRoleToMapNumbers": {
+    "magnesium": [
+      2
+    ],
+    "carbonylCarbon": [
+      4
+    ],
+    "carbonylOxygen": [
+      5
+    ]
+  },
+  "previousReactionVersion": 1
+}

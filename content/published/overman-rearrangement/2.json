@@ -1,0 +1,510 @@
+{
+  "steps": [
+    {
+      "stepKey": "addition-to-nitrile",
+      "stepKind": "polar",
+      "toStateId": "imidate-anion",
+      "fromStateId": "alkoxide-and-nitrile",
+      "canonicalArrows": [
+        "lp O1 -> σ O1-C6",
+        "π C6-N8 -> lp N8"
+      ],
+      "routePreference": "preferred",
+      "explanationAfterStep": "Nucleophilic addition to a nitrile, made easy by the electron-withdrawing CCl₃ group. Plain acetonitrile would not react under these conditions."
+    },
+    {
+      "stepKey": "proton-transfer",
+      "stepKind": "polar",
+      "toStateId": "imidate-and-alkoxide",
+      "fromStateId": "imidate-anion",
+      "canonicalArrows": [
+        "lp N8 -> σ N8-H30",
+        "σ O21-H30 -> lp O21"
+      ],
+      "routePreference": "preferred",
+      "explanationAfterStep": "The imidate takes a proton from another alcohol molecule and a new alkoxide is made, so a catalytic amount of NaH is enough."
+    },
+    {
+      "caption": "The new alkoxide goes on to the next molecule of trichloroacetonitrile. The imidate is isolated and heated in xylene.",
+      "stepKey": "imidate-isolated",
+      "stepKind": "change",
+      "toStateId": "imidate",
+      "fromStateId": "imidate-and-alkoxide",
+      "routePreference": "preferred",
+      "removedFragmentMapNumbers": [
+        20,
+        21
+      ]
+    },
+    {
+      "stepKey": "three-three-shift",
+      "stepKind": "polar",
+      "toStateId": "amide",
+      "fromStateId": "imidate",
+      "canonicalArrows": [
+        "π C6-N8 -> σ N8-C4",
+        "σ O1-C2 -> π O1-C6",
+        "π C3-C4 -> π C2-C3"
+      ],
+      "routePreference": "preferred",
+      "explanationAfterStep": "A [3,3]-sigmatropic shift, an aza-Claisen rearrangement. A C=N and a C–O bond are traded for a C=O and a C–N bond: forming the amide makes it irreversible. The allylic system is transposed, so a primary allylic alcohol gives an amine on a secondary carbon. Through the chair transition state a chiral allylic alcohol transfers its configuration to the new C–N bond; Hg(II) or Pd(II) salts catalyse the same rearrangement at room temperature (not drawn). The app does not check stereochemistry yet, so the drawings carry no wedges and no E/Z marks."
+    }
+  ],
+  "title": "Overman rearrangement",
+  "authors": [
+    {
+      "url": null,
+      "name": "Maksim"
+    }
+  ],
+  "licence": "CC-BY-SA-4.0",
+  "subtitle": "An allylic alcohol becomes a trichloroacetimidate, then a [3,3] shift moves nitrogen to carbon",
+  "references": [
+    "Clayden, Greeves and Warren, Organic Chemistry, 2nd edition (Oxford University Press), chapter 35",
+    "L. E. Overman, J. Am. Chem. Soc., 1976, 98, 2901"
+  ],
+  "reactionSlug": "overman-rearrangement",
+  "startStateId": "alkoxide-and-nitrile",
+  "formatVersion": 1,
+  "difficultyTier": 3,
+  "stateIdToState": {
+    "amide": {
+      "caption": "2,2,2-trichloro-N-(but-3-en-2-yl)acetamide",
+      "mappedSmiles": "[O:1]=[C:6]([C:7]([Cl:9])([Cl:10])[Cl:11])[N:8]([C@H:4]([CH:3]=[CH2:2])[CH3:5])[H:30]",
+      "stereoMeaning": "racemic",
+      "bondToWedgeStyle": {
+        "4-5": "dash"
+      },
+      "mapNumberToCoordinates": {
+        "1": [
+          0.08,
+          -1.79
+        ],
+        "2": [
+          -1.38,
+          -2.17
+        ],
+        "3": [
+          -2.43,
+          -1.1
+        ],
+        "4": [
+          -2.03,
+          0.34
+        ],
+        "5": [
+          -3.09,
+          1.41
+        ],
+        "6": [
+          0.47,
+          -0.34
+        ],
+        "7": [
+          1.92,
+          0.04
+        ],
+        "8": [
+          -0.58,
+          0.72
+        ],
+        "9": [
+          3.37,
+          0.42
+        ],
+        "10": [
+          2.3,
+          -1.42
+        ],
+        "11": [
+          1.54,
+          1.49
+        ],
+        "30": [
+          -0.19,
+          2.17
+        ]
+      }
+    },
+    "imidate": {
+      "caption": "but-2-enyl 2,2,2-trichloroacetimidate, drawn curled so its ends meet",
+      "hintTiers": [
+        "Find the six-atom chain: N=C, then oxygen, then the allyl group. It is a Claisen rearrangement with nitrogen at one end.",
+        "The O–CH₂ bond breaks, nitrogen bonds to the alkene carbon carrying the methyl group, and the oxygen gets a C=O. Three arrows.",
+        "Arrow 1: from the C=N π bond to a new bond between nitrogen and the alkene carbon carrying the methyl group. Arrow 2: from the O–CH₂ bond to the bond between oxygen and the imidate carbon (it becomes C=O). Arrow 3: from the C=C π bond to the bond between its other CH and the CH₂ that lost oxygen."
+      ],
+      "mappedSmiles": "[O:1]([CH2:2]/[CH:3]=[CH:4]/[CH3:5])[C:6]([C:7]([Cl:9])([Cl:10])[Cl:11])=[N:8][H:30]",
+      "learnerPrompt": "The imidate is heated in xylene. Draw the single step.",
+      "misconceptions": [
+        {
+          "severity": "wrong",
+          "arrowPattern": "σ O1-C2 -> lp O1",
+          "feedbackMessage": "Breaking the O–CH₂ bond on its own would give an amide anion and an allyl cation. In the Overman rearrangement it breaks only as the new C–N bond forms, in one cyclic step.",
+          "misconceptionId": "ionisation",
+          "misconceptionTag": "stepwise-ionisation"
+        },
+        {
+          "severity": "wrong",
+          "arrowPattern": "π C6-N8 -> σ N8-C2",
+          "feedbackMessage": "Nitrogen bonds to the far end of the alkene, not to the CH₂ next to oxygen: six atoms round a ring, as in every [3,3] shift.",
+          "misconceptionId": "n-to-near-carbon",
+          "misconceptionTag": "wrong-ring-size"
+        }
+      ],
+      "mapNumberToCoordinates": {
+        "1": [
+          0.08,
+          -1.79
+        ],
+        "2": [
+          -1.38,
+          -2.17
+        ],
+        "3": [
+          -2.43,
+          -1.1
+        ],
+        "4": [
+          -2.03,
+          0.34
+        ],
+        "5": [
+          -3.09,
+          1.41
+        ],
+        "6": [
+          0.47,
+          -0.34
+        ],
+        "7": [
+          1.92,
+          0.04
+        ],
+        "8": [
+          -0.58,
+          0.72
+        ],
+        "9": [
+          3.37,
+          0.42
+        ],
+        "10": [
+          2.3,
+          -1.42
+        ],
+        "11": [
+          1.54,
+          1.49
+        ],
+        "30": [
+          -0.19,
+          2.17
+        ]
+      },
+      "partialProgressMessages": [
+        {
+          "learnerArrows": [
+            "σ O1-C2 -> π O1-C6"
+          ],
+          "feedbackMessage": "Right: the O–CH₂ bond becomes the C=O. In the same step nitrogen reaches the far alkene carbon and the C=C moves across. Two more arrows."
+        }
+      ]
+    },
+    "imidate-anion": {
+      "caption": "the imidate anion",
+      "hintTiers": [
+        "The negative nitrogen needs a proton. Which molecule present has an acidic O–H?",
+        "The nitrogen takes the O–H proton of a second molecule of the alcohol, making a new alkoxide. Two arrows.",
+        "Arrow 1: from a lone pair on nitrogen to the hydrogen on the alcohol oxygen. Arrow 2: from that O–H bond onto oxygen."
+      ],
+      "mappedSmiles": "[O:1]([CH2:2]/[CH:3]=[CH:4]/[CH3:5])[C:6]([C:7]([Cl:9])([Cl:10])[Cl:11])=[N-:8].[Na+:20].[O:21]([CH2:22]/[CH:23]=[CH:24]/[CH3:25])[H:30]",
+      "learnerPrompt": "The imidate nitrogen is basic. Draw the proton transfer that gives the neutral imidate.",
+      "mapNumberToCoordinates": {
+        "1": [
+          0.08,
+          -1.79
+        ],
+        "2": [
+          -1.38,
+          -2.17
+        ],
+        "3": [
+          -2.43,
+          -1.1
+        ],
+        "4": [
+          -2.03,
+          0.34
+        ],
+        "5": [
+          -3.09,
+          1.41
+        ],
+        "6": [
+          0.47,
+          -0.34
+        ],
+        "7": [
+          1.92,
+          0.04
+        ],
+        "8": [
+          -0.58,
+          0.72
+        ],
+        "9": [
+          3.37,
+          0.42
+        ],
+        "10": [
+          2.3,
+          -1.42
+        ],
+        "11": [
+          1.54,
+          1.49
+        ],
+        "20": [
+          5.4,
+          -2.6
+        ],
+        "21": [
+          0.72,
+          4.29
+        ],
+        "22": [
+          2.2,
+          4.55
+        ],
+        "23": [
+          3.5,
+          3.8
+        ],
+        "24": [
+          4.97,
+          4.06
+        ],
+        "25": [
+          6.27,
+          3.31
+        ],
+        "30": [
+          0.21,
+          2.88
+        ]
+      }
+    },
+    "alkoxide-and-nitrile": {
+      "caption": "but-2-en-1-ol, a little of it as its sodium alkoxide (from catalytic NaH), and trichloroacetonitrile",
+      "hintTiers": [
+        "Three chlorines make the nitrile carbon very electrophilic. Where does the alkoxide attack, and where does the C≡N pair go?",
+        "The alkoxide oxygen bonds to the nitrile carbon, and one π bond of C≡N moves onto nitrogen. Two arrows.",
+        "Arrow 1: from a lone pair on the alkoxide oxygen to a new bond with the nitrile carbon. Arrow 2: from one C≡N π bond onto nitrogen."
+      ],
+      "mappedSmiles": "[O-:1][CH2:2]/[CH:3]=[CH:4]/[CH3:5].[C:6]([C:7]([Cl:9])([Cl:10])[Cl:11])#[N:8].[Na+:20].[O:21]([CH2:22]/[CH:23]=[CH:24]/[CH3:25])[H:30]",
+      "learnerPrompt": "The alkoxide attacks trichloroacetonitrile. Draw that step.",
+      "misconceptions": [
+        {
+          "severity": "wrong",
+          "arrowPattern": "lp O1 -> σ O1-C7",
+          "feedbackMessage": "The CCl₃ carbon is crowded and is not attacked. The electrophile is the nitrile carbon, made electron-poor by the CCl₃ group next to it.",
+          "misconceptionId": "attack-at-ccl3",
+          "misconceptionTag": "wrong-electrophile"
+        }
+      ],
+      "mapNumberToCoordinates": {
+        "1": [
+          0.08,
+          -1.79
+        ],
+        "2": [
+          -1.38,
+          -2.17
+        ],
+        "3": [
+          -2.43,
+          -1.1
+        ],
+        "4": [
+          -2.03,
+          0.34
+        ],
+        "5": [
+          -3.09,
+          1.41
+        ],
+        "6": [
+          1.2,
+          0.9
+        ],
+        "7": [
+          2.5,
+          0.15
+        ],
+        "8": [
+          -0.1,
+          1.65
+        ],
+        "9": [
+          3.8,
+          -0.6
+        ],
+        "10": [
+          1.75,
+          -1.15
+        ],
+        "11": [
+          3.25,
+          1.45
+        ],
+        "20": [
+          5.4,
+          -2.6
+        ],
+        "21": [
+          0.72,
+          5.09
+        ],
+        "22": [
+          2.2,
+          5.35
+        ],
+        "23": [
+          3.5,
+          4.6
+        ],
+        "24": [
+          4.97,
+          4.86
+        ],
+        "25": [
+          6.27,
+          4.11
+        ],
+        "30": [
+          0.21,
+          3.68
+        ]
+      },
+      "partialProgressMessages": [
+        {
+          "learnerArrows": [
+            "lp O1 -> σ O1-C6"
+          ],
+          "feedbackMessage": "Right: the oxygen bonds to the nitrile carbon. That carbon now needs to lose a bond: move one C≡N π pair onto nitrogen."
+        }
+      ]
+    },
+    "imidate-and-alkoxide": {
+      "caption": "the trichloroacetimidate and a new alkoxide",
+      "mappedSmiles": "[O:1]([CH2:2]/[CH:3]=[CH:4]/[CH3:5])[C:6]([C:7]([Cl:9])([Cl:10])[Cl:11])=[N:8][H:30].[Na+:20].[O-:21][CH2:22]/[CH:23]=[CH:24]/[CH3:25]",
+      "mapNumberToCoordinates": {
+        "1": [
+          0.08,
+          -1.79
+        ],
+        "2": [
+          -1.38,
+          -2.17
+        ],
+        "3": [
+          -2.43,
+          -1.1
+        ],
+        "4": [
+          -2.03,
+          0.34
+        ],
+        "5": [
+          -3.09,
+          1.41
+        ],
+        "6": [
+          0.47,
+          -0.34
+        ],
+        "7": [
+          1.92,
+          0.04
+        ],
+        "8": [
+          -0.58,
+          0.72
+        ],
+        "9": [
+          3.37,
+          0.42
+        ],
+        "10": [
+          2.3,
+          -1.42
+        ],
+        "11": [
+          1.54,
+          1.49
+        ],
+        "20": [
+          5.4,
+          -2.6
+        ],
+        "21": [
+          0.72,
+          4.29
+        ],
+        "22": [
+          2.2,
+          4.55
+        ],
+        "23": [
+          3.5,
+          3.8
+        ],
+        "24": [
+          4.97,
+          4.06
+        ],
+        "25": [
+          6.27,
+          3.31
+        ],
+        "30": [
+          -0.19,
+          2.17
+        ]
+      }
+    }
+  },
+  "conditionsLabel": "1. NaH (cat.), Cl₃CCN, Et₂O, 0 °C · 2. xylene, 140 °C",
+  "reactionClasses": [
+    "pericyclic",
+    "rearrangement",
+    "addition"
+  ],
+  "reactionVersion": 2,
+  "mechanismSummary": "The Overman rearrangement converts an allylic alcohol into an allylic amine with the double bond moved along. The alcohol adds to trichloroacetonitrile under catalytic base to give an allylic trichloroacetimidate. On heating, this undergoes a [3,3]-sigmatropic (aza-Claisen) shift through a chair-like transition state to the allylic trichloroacetamide, driven by forming the amide C=O. Hydrolysis of the amide (aqueous base) releases the amine. The app does not check stereochemistry yet, so the drawings carry no wedges and no E/Z marks.",
+  "dailyPuzzleEligible": true,
+  "spectatorMapNumbers": [
+    20
+  ],
+  "atomRoleToMapNumbers": {
+    "nitrogen": [
+      8
+    ],
+    "allylGroup": [
+      2,
+      3,
+      4
+    ],
+    "nitrileCarbon": [
+      6
+    ],
+    "secondAlcohol": [
+      21,
+      30
+    ],
+    "alkoxideOxygen": [
+      1
+    ]
+  },
+  "previousReactionVersion": 1
+}

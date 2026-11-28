@@ -1,0 +1,821 @@
+{
+  "steps": [
+    {
+      "stepKey": "alpha-deprotonation",
+      "stepKind": "polar",
+      "toStateId": "quinonoid",
+      "fromStateId": "reactants",
+      "canonicalArrows": [
+        "lp N22 -> σ N22-H13",
+        "σ C12-H13 -> π N11-C12",
+        "π C10-N11 -> π C6-C10",
+        "π C6-C7 -> π C7-C9",
+        "π N1-C9 -> lp N1"
+      ],
+      "routePreference": "preferred",
+      "explanationAfterStep": "The pair flows from the α-carbon through the imine into the ring and ends on the ring nitrogen: the protonated pyridine is the electron sink, like the C=O of an enolate. The enzyme holds the α-C–H bond perpendicular to the ring plane so that it overlaps with the π system (Dunathan's proposal)."
+    },
+    {
+      "stepKey": "reprotonation-at-ring-carbon",
+      "stepKind": "polar",
+      "toStateId": "ketimine",
+      "fromStateId": "quinonoid",
+      "canonicalArrows": [
+        "lp N1 -> π N1-C9",
+        "π C7-C9 -> π C6-C7",
+        "π C6-C10 -> σ C10-H13",
+        "σ N22-H13 -> lp N22"
+      ],
+      "routePreference": "preferred",
+      "explanationAfterStep": "The same lysine puts the proton on the other end of the conjugated system. The net result is that the C=N has moved: an aldimine (C=N on the PLP side) has become a ketimine (C=N on the amino acid side). This is the heart of transamination. The proton is delivered to one face only; the app does not check stereochemistry yet."
+    },
+    {
+      "stepKey": "water-adds",
+      "stepKind": "polar",
+      "toStateId": "carbinolamine",
+      "fromStateId": "ketimine",
+      "canonicalArrows": [
+        "lp N22 -> σ N22-H31",
+        "σ O32-H31 -> σ O32-C12",
+        "π N11-C12 -> lp N11"
+      ],
+      "routePreference": "preferred",
+      "explanationAfterStep": "Hydrolysis starts, exactly as for any iminium ion."
+    },
+    {
+      "stepKey": "nitrogen-protonation",
+      "stepKind": "polar",
+      "toStateId": "carbinolammonium",
+      "fromStateId": "carbinolamine",
+      "canonicalArrows": [
+        "lp N11 -> σ N11-H31",
+        "σ N22-H31 -> lp N22"
+      ],
+      "routePreference": "preferred",
+      "explanationAfterStep": "The nitrogen is protonated so that it can leave as a neutral amine."
+    },
+    {
+      "stepKey": "pyruvate-release",
+      "stepKind": "polar",
+      "toStateId": "products",
+      "fromStateId": "carbinolammonium",
+      "canonicalArrows": [
+        "lp N22 -> σ N22-H33",
+        "σ O32-H33 -> π C12-O32",
+        "σ C12-N11 -> lp N11"
+      ],
+      "routePreference": "preferred",
+      "explanationAfterStep": "Pyruvate is released; the nitrogen of alanine stays behind on the cofactor as pyridoxamine (PMP). In the second half of the cycle the same steps run backwards with 2-oxoglutarate, which leaves as glutamate and gives back PLP."
+    }
+  ],
+  "title": "PLP: transamination",
+  "authors": [
+    {
+      "url": null,
+      "name": "Maksim"
+    }
+  ],
+  "licence": "CC-BY-SA-4.0",
+  "subtitle": "Pyridoxal phosphate moves an amino group from alanine to the cofactor",
+  "references": [
+    "Clayden, Greeves and Warren, Organic Chemistry, 2nd edition (Oxford University Press), chapter 42",
+    "Berg, Tymoczko, Gatto and Stryer, Biochemistry (W. H. Freeman), chapter 23: amino acid degradation (pyridoxal phosphate, transamination)"
+  ],
+  "reactionSlug": "plp-transamination",
+  "startStateId": "reactants",
+  "formatVersion": 1,
+  "difficultyTier": 3,
+  "stateIdToState": {
+    "ketimine": {
+      "caption": "the ketimine: the C=N has moved to the former amino acid carbon",
+      "hintTiers": [
+        "Hydrolysis of an iminium ion is imine formation run backwards. Water is the nucleophile; lysine is the base.",
+        "The lysine nitrogen takes the drawn hydrogen of water, that O–H pair becomes the new bond from oxygen to the C=N⁺ carbon, and the C=N⁺ π pair goes onto nitrogen. Three arrows.",
+        "Lysine lone pair → new bond to the drawn hydrogen of water; that O–H bond → new bond from the water oxygen to the C=N⁺ carbon; C=N⁺ π bond → a lone pair on the imine nitrogen."
+      ],
+      "mappedSmiles": "[NH+:1]1=[CH:9][C:7]([CH3:8])=[C:6]([CH:10]([H:13])[NH+:11]=[C:12]([CH3:14])[C:15](=[O:16])[O-:17])[C:4]([OH:5])=[C:2]1[CH3:3].[CH3:21][NH2:22].[H:31][O:32][H:33]",
+      "learnerPrompt": "Hydrolyse the ketimine: water attacks the C=N⁺ carbon.",
+      "misconceptions": [
+        {
+          "severity": "plausible",
+          "arrowPattern": "lp N22 -> σ N22-H13",
+          "feedbackMessage": "Taking that proton off again goes back to the quinonoid intermediate. Hydrolyse the ketimine.",
+          "misconceptionId": "deprotonate-ch2-back",
+          "misconceptionTag": "reverse-step"
+        },
+        {
+          "severity": "wrong",
+          "arrowPattern": "lp O32 -> C10",
+          "feedbackMessage": "That carbon is now a CH₂, with no C=N. Water attacks the C=N⁺ carbon, the former α-carbon.",
+          "misconceptionId": "water-attacks-ring-side",
+          "misconceptionTag": "wrong-electrophile"
+        }
+      ],
+      "mapNumberToCoordinates": {
+        "1": [
+          1.5,
+          0
+        ],
+        "2": [
+          0.75,
+          -1.3
+        ],
+        "3": [
+          1.5,
+          -2.6
+        ],
+        "4": [
+          -0.75,
+          -1.3
+        ],
+        "5": [
+          -1.5,
+          -2.6
+        ],
+        "6": [
+          -1.5,
+          0
+        ],
+        "7": [
+          -0.75,
+          1.3
+        ],
+        "8": [
+          -1.5,
+          2.6
+        ],
+        "9": [
+          0.75,
+          1.3
+        ],
+        "10": [
+          -3,
+          0
+        ],
+        "11": [
+          -3.75,
+          -1.3
+        ],
+        "12": [
+          -5.25,
+          -1.3
+        ],
+        "13": [
+          -3.75,
+          1.3
+        ],
+        "14": [
+          -5.25,
+          0.2
+        ],
+        "15": [
+          -6,
+          -2.6
+        ],
+        "16": [
+          -7.48,
+          -2.86
+        ],
+        "17": [
+          -5.25,
+          -3.9
+        ],
+        "21": [
+          -1.5,
+          -5
+        ],
+        "22": [
+          -3,
+          -5
+        ],
+        "31": [
+          -9.05,
+          -1.3
+        ],
+        "32": [
+          -7.55,
+          -1.3
+        ],
+        "33": [
+          -7.55,
+          0.2
+        ]
+      },
+      "partialProgressMessages": [
+        {
+          "learnerArrows": [
+            "lp O32 -> σ O32-C12",
+            "π C12-N11 -> lp N11"
+          ],
+          "feedbackMessage": "Right attack, but the water oxygen would be left positive. Let lysine take its proton at the same time."
+        }
+      ]
+    },
+    "products": {
+      "caption": "pyridoxamine (PMP model) + pyruvate + protonated lysine",
+      "mappedSmiles": "[NH+:1]1=[CH:9][C:7]([CH3:8])=[C:6]([CH:10]([H:13])[NH:11][H:31])[C:4]([OH:5])=[C:2]1[CH3:3].[CH3:14][C:12](=[O:32])[C:15](=[O:16])[O-:17].[CH3:21][NH2+:22][H:33]",
+      "mapNumberToCoordinates": {
+        "1": [
+          1.5,
+          0
+        ],
+        "2": [
+          0.75,
+          -1.3
+        ],
+        "3": [
+          1.5,
+          -2.6
+        ],
+        "4": [
+          -0.75,
+          -1.3
+        ],
+        "5": [
+          -1.5,
+          -2.6
+        ],
+        "6": [
+          -1.5,
+          0
+        ],
+        "7": [
+          -0.75,
+          1.3
+        ],
+        "8": [
+          -1.5,
+          2.6
+        ],
+        "9": [
+          0.75,
+          1.3
+        ],
+        "10": [
+          -3,
+          0
+        ],
+        "11": [
+          -3.75,
+          -1.3
+        ],
+        "12": [
+          -6.65,
+          -0.7
+        ],
+        "13": [
+          -3.75,
+          1.3
+        ],
+        "14": [
+          -6.65,
+          0.8
+        ],
+        "15": [
+          -7.4,
+          -2
+        ],
+        "16": [
+          -8.88,
+          -2.26
+        ],
+        "17": [
+          -6.65,
+          -3.3
+        ],
+        "21": [
+          -1.5,
+          -5
+        ],
+        "22": [
+          -3,
+          -5
+        ],
+        "31": [
+          -3.62,
+          -2.79
+        ],
+        "32": [
+          -8.15,
+          -0.7
+        ],
+        "33": [
+          -4.5,
+          -5
+        ]
+      }
+    },
+    "quinonoid": {
+      "caption": "the quinonoid intermediate + protonated lysine",
+      "hintTiers": [
+        "The quinonoid intermediate is nucleophilic at both ends of the conjugated system. Protonation at the α-carbon would just give back the aldimine. Push from the ring nitrogen instead.",
+        "The ring nitrogen lone pair re-forms C=N⁺ in the ring, a ring C=C moves along, the exocyclic C=C π pair takes the drawn hydrogen of the lysine ammonium ion, and that N–H pair stays on the lysine nitrogen. Four arrows.",
+        "Ring nitrogen lone pair → π bond to the next ring carbon; that ring C=C π bond → π bond to the ring carbon bearing the side chain; the exocyclic C=C π bond → new bond from the outer carbon to the drawn hydrogen of the lysine ammonium ion; that N–H bond → a lone pair on the lysine nitrogen."
+      ],
+      "mappedSmiles": "[NH:1]1[CH:9]=[C:7]([CH3:8])[C:6](=[CH:10][NH+:11]=[C:12]([CH3:14])[C:15](=[O:16])[O-:17])[C:4]([OH:5])=[C:2]1[CH3:3].[CH3:21][NH2+:22][H:13].[H:31][O:32][H:33]",
+      "learnerPrompt": "Lysine puts the proton back, this time on the carbon next to the ring.",
+      "misconceptions": [
+        {
+          "severity": "plausible",
+          "arrowPattern": "* -> σ C12-H13",
+          "feedbackMessage": "Putting the proton back on the α-carbon reverses the last step (that is what amino acid racemases do). Put it on the carbon next to the ring.",
+          "misconceptionId": "reprotonate-alpha",
+          "misconceptionTag": "reverse-step"
+        },
+        {
+          "severity": "wrong",
+          "arrowPattern": "lp O32 -> C12",
+          "feedbackMessage": "The quinonoid intermediate is electron-rich: water has nothing to attack yet.",
+          "misconceptionId": "water-attacks-quinonoid",
+          "misconceptionTag": "wrong-electrophile"
+        }
+      ],
+      "mapNumberToCoordinates": {
+        "1": [
+          1.5,
+          0
+        ],
+        "2": [
+          0.75,
+          -1.3
+        ],
+        "3": [
+          1.5,
+          -2.6
+        ],
+        "4": [
+          -0.75,
+          -1.3
+        ],
+        "5": [
+          -1.5,
+          -2.6
+        ],
+        "6": [
+          -1.5,
+          0
+        ],
+        "7": [
+          -0.75,
+          1.3
+        ],
+        "8": [
+          -1.5,
+          2.6
+        ],
+        "9": [
+          0.75,
+          1.3
+        ],
+        "10": [
+          -3,
+          0
+        ],
+        "11": [
+          -3.75,
+          1.3
+        ],
+        "12": [
+          -5.25,
+          1.3
+        ],
+        "13": [
+          -3.79,
+          3.19
+        ],
+        "14": [
+          -6,
+          2.6
+        ],
+        "15": [
+          -6,
+          0
+        ],
+        "16": [
+          -7.5,
+          0
+        ],
+        "17": [
+          -5.25,
+          -1.3
+        ],
+        "21": [
+          -5.6,
+          5.35
+        ],
+        "22": [
+          -4.3,
+          4.6
+        ],
+        "31": [
+          0.7,
+          5.95
+        ],
+        "32": [
+          -0.6,
+          5.2
+        ],
+        "33": [
+          -1.9,
+          5.95
+        ]
+      },
+      "partialProgressMessages": [
+        {
+          "learnerArrows": [
+            "π C6-C10 -> σ C10-H13",
+            "σ N22-H13 -> lp N22"
+          ],
+          "feedbackMessage": "Right proton, right carbon, but the ring would be left with a cation. Push the ring nitrogen lone pair back into the ring."
+        }
+      ]
+    },
+    "reactants": {
+      "caption": "the external aldimine: alanine bound to PLP (a model: the CH₂OPO₃²⁻ side chain drawn as CH₃) + lysine (methylamine) + water",
+      "hintTiers": [
+        "PLP is an electron sink. The protonated imine and the pyridinium ring together can take the C–H pair all the way to the ring nitrogen.",
+        "The lysine nitrogen takes the drawn α-hydrogen; that C–H pair forms C=N with the imine nitrogen; the imine C=N⁺ π pair moves to the bond to the ring; a ring C=C moves along; and the C=N⁺ π pair of the ring goes onto the ring nitrogen. Five arrows.",
+        "Lysine lone pair → new bond to the α-hydrogen; that C–H bond → π bond from the α-carbon to the imine nitrogen; the imine C=N π bond → π bond from the imine carbon to the ring carbon; that ring carbon's C=C π bond → π bond to the next ring carbon along; the ring C=N⁺ π bond → a lone pair on the ring nitrogen."
+      ],
+      "mappedSmiles": "[NH+:1]1[C:2]([CH3:3])=[C:4]([OH:5])[C:6](=[C:7]([CH3:8])[CH:9]=1)/[CH:10]=[NH+:11]/[C@@:12]([H:13])([CH3:14])[C:15](=[O:16])[O-:17].[CH3:21][NH2:22].[H:31][O:32][H:33]",
+      "learnerPrompt": "Lysine removes the α-hydrogen of the amino acid. Where do the electrons go?",
+      "misconceptions": [
+        {
+          "severity": "plausible",
+          "arrowPattern": "σ C12-C15 -> *",
+          "feedbackMessage": "Loss of CO₂ is what PLP decarboxylases do (making GABA or dopamine, for example). An aminotransferase holds the α-C–H bond in line with the π system instead, so the proton is the group that leaves.",
+          "misconceptionId": "decarboxylation",
+          "misconceptionTag": "other-plp-reaction"
+        },
+        {
+          "severity": "plausible",
+          "arrowPattern": "lp O32 -> C10",
+          "feedbackMessage": "Water adding to the aldimine would just hydrolyse it back to PLP and alanine. First remove the α-hydrogen.",
+          "misconceptionId": "water-attacks-aldimine",
+          "misconceptionTag": "transaldimination"
+        },
+        {
+          "severity": "plausible",
+          "arrowPattern": "lp N22 -> σ N22-C10",
+          "feedbackMessage": "Lysine adding to the aldimine carbon is how the amino acid was bound (transaldimination), run backwards. Here lysine is the base.",
+          "misconceptionId": "lysine-attacks-aldimine",
+          "misconceptionTag": "transaldimination"
+        }
+      ],
+      "bondToWedgeStyle": {
+        "12-13": "dash"
+      },
+      "mapNumberToCoordinates": {
+        "1": [
+          1.5,
+          0
+        ],
+        "2": [
+          0.75,
+          -1.3
+        ],
+        "3": [
+          1.5,
+          -2.6
+        ],
+        "4": [
+          -0.75,
+          -1.3
+        ],
+        "5": [
+          -1.5,
+          -2.6
+        ],
+        "6": [
+          -1.5,
+          0
+        ],
+        "7": [
+          -0.75,
+          1.3
+        ],
+        "8": [
+          -1.5,
+          2.6
+        ],
+        "9": [
+          0.75,
+          1.3
+        ],
+        "10": [
+          -3,
+          0
+        ],
+        "11": [
+          -3.75,
+          1.3
+        ],
+        "12": [
+          -5.25,
+          1.3
+        ],
+        "13": [
+          -5.25,
+          2.8
+        ],
+        "14": [
+          -5.25,
+          -0.2
+        ],
+        "15": [
+          -6.75,
+          1.3
+        ],
+        "16": [
+          -7.5,
+          0
+        ],
+        "17": [
+          -7.5,
+          2.6
+        ],
+        "21": [
+          -5.6,
+          5.35
+        ],
+        "22": [
+          -4.3,
+          4.6
+        ],
+        "31": [
+          0.7,
+          5.95
+        ],
+        "32": [
+          -0.6,
+          5.2
+        ],
+        "33": [
+          -1.9,
+          5.95
+        ]
+      },
+      "partialProgressMessages": [
+        {
+          "learnerArrows": [
+            "lp N22 -> σ N22-H13",
+            "σ C12-H13 -> π N11-C12",
+            "π C10-N11 -> lp C10"
+          ],
+          "feedbackMessage": "Right so far, but stopping at the imine carbon leaves a carbanion. PLP can do better: push the pair on into the ring, all the way to the ring nitrogen."
+        }
+      ]
+    },
+    "carbinolamine": {
+      "caption": "the carbinolamine + protonated lysine",
+      "hintTiers": [
+        "The amine must leave as a neutral molecule. Which acid is there?",
+        "The nitrogen lone pair takes the drawn hydrogen of the lysine ammonium ion, and that N–H pair stays on the lysine nitrogen. Two arrows.",
+        "Carbinolamine nitrogen lone pair → new bond to the drawn hydrogen of the lysine ammonium ion; that N–H bond → a lone pair on the lysine nitrogen."
+      ],
+      "mappedSmiles": "[NH+:1]1=[CH:9][C:7]([CH3:8])=[C:6]([CH:10]([H:13])[NH:11][C:12]([CH3:14])([O:32][H:33])[C:15](=[O:16])[O-:17])[C:4]([OH:5])=[C:2]1[CH3:3].[CH3:21][NH2+:22][H:31]",
+      "learnerPrompt": "Make the nitrogen into a leaving group.",
+      "misconceptions": [
+        {
+          "severity": "plausible",
+          "arrowPattern": "σ C12-O32 -> *",
+          "feedbackMessage": "Losing the OH again goes back to the ketimine. Protonate the nitrogen.",
+          "misconceptionId": "oh-leaves-again",
+          "misconceptionTag": "reverse-step"
+        },
+        {
+          "severity": "wrong",
+          "arrowPattern": "σ C12-N11 -> lp N11",
+          "feedbackMessage": "An amide anion (R–NH⁻) is a terrible leaving group. Protonate the nitrogen first.",
+          "misconceptionId": "amide-anion-leaves",
+          "misconceptionTag": "poor-leaving-group"
+        }
+      ],
+      "mapNumberToCoordinates": {
+        "1": [
+          1.5,
+          0
+        ],
+        "2": [
+          0.75,
+          -1.3
+        ],
+        "3": [
+          1.5,
+          -2.6
+        ],
+        "4": [
+          -0.75,
+          -1.3
+        ],
+        "5": [
+          -1.5,
+          -2.6
+        ],
+        "6": [
+          -1.5,
+          0
+        ],
+        "7": [
+          -0.75,
+          1.3
+        ],
+        "8": [
+          -1.5,
+          2.6
+        ],
+        "9": [
+          0.75,
+          1.3
+        ],
+        "10": [
+          -3,
+          0
+        ],
+        "11": [
+          -3.75,
+          -1.3
+        ],
+        "12": [
+          -5.25,
+          -1.3
+        ],
+        "13": [
+          -3.75,
+          1.3
+        ],
+        "14": [
+          -5.25,
+          0.2
+        ],
+        "15": [
+          -6,
+          -2.6
+        ],
+        "16": [
+          -7.48,
+          -2.86
+        ],
+        "17": [
+          -5.25,
+          -3.9
+        ],
+        "21": [
+          -1.5,
+          -5
+        ],
+        "22": [
+          -3,
+          -5
+        ],
+        "31": [
+          -3.26,
+          -3.52
+        ],
+        "32": [
+          -6.75,
+          -1.3
+        ],
+        "33": [
+          -7.5,
+          0
+        ]
+      }
+    },
+    "carbinolammonium": {
+      "caption": "the protonated carbinolamine + lysine",
+      "hintTiers": [
+        "Lysine takes the O–H proton, and that pair forms the C=O as the neutral amine leaves.",
+        "The lysine nitrogen takes the drawn O–H hydrogen, that O–H pair forms the C=O π bond, and the C–N bond breaks onto nitrogen. Three arrows.",
+        "Lysine lone pair → new bond to the drawn O–H hydrogen; that O–H bond → C=O π bond; the C–N bond → a lone pair on the nitrogen of the pyridoxamine side."
+      ],
+      "mappedSmiles": "[NH+:1]1=[CH:9][C:7]([CH3:8])=[C:6]([CH:10]([H:13])[NH+:11]([H:31])[C:12]([CH3:14])([O:32][H:33])[C:15](=[O:16])[O-:17])[C:4]([OH:5])=[C:2]1[CH3:3].[CH3:21][NH2:22]",
+      "learnerPrompt": "Release pyruvate.",
+      "misconceptions": [
+        {
+          "severity": "plausible",
+          "arrowPattern": "lp N22 -> σ N22-H31",
+          "feedbackMessage": "Taking the N–H proton back undoes the last step. Use the OH.",
+          "misconceptionId": "take-nh-back",
+          "misconceptionTag": "reverse-step"
+        },
+        {
+          "severity": "wrong",
+          "arrowPattern": "σ C12-O32 -> lp O32",
+          "feedbackMessage": "Hydroxide is a poor leaving group, and the protonated amine is ready to go.",
+          "misconceptionId": "oh-leaves",
+          "misconceptionTag": "wrong-leaving-group"
+        }
+      ],
+      "mapNumberToCoordinates": {
+        "1": [
+          1.5,
+          0
+        ],
+        "2": [
+          0.75,
+          -1.3
+        ],
+        "3": [
+          1.5,
+          -2.6
+        ],
+        "4": [
+          -0.75,
+          -1.3
+        ],
+        "5": [
+          -1.5,
+          -2.6
+        ],
+        "6": [
+          -1.5,
+          0
+        ],
+        "7": [
+          -0.75,
+          1.3
+        ],
+        "8": [
+          -1.5,
+          2.6
+        ],
+        "9": [
+          0.75,
+          1.3
+        ],
+        "10": [
+          -3,
+          0
+        ],
+        "11": [
+          -3.75,
+          -1.3
+        ],
+        "12": [
+          -5.25,
+          -1.3
+        ],
+        "13": [
+          -3.75,
+          1.3
+        ],
+        "14": [
+          -5.25,
+          0.2
+        ],
+        "15": [
+          -6,
+          -2.6
+        ],
+        "16": [
+          -7.48,
+          -2.86
+        ],
+        "17": [
+          -5.25,
+          -3.9
+        ],
+        "21": [
+          -1.5,
+          -5
+        ],
+        "22": [
+          -3,
+          -5
+        ],
+        "31": [
+          -3.62,
+          -2.79
+        ],
+        "32": [
+          -6.75,
+          -1.3
+        ],
+        "33": [
+          -7.5,
+          0
+        ]
+      },
+      "partialProgressMessages": [
+        {
+          "learnerArrows": [
+            "σ C12-N11 -> lp N11"
+          ],
+          "feedbackMessage": "Right bond to break, but the carbon would be left as a cation. Use the OH oxygen's electrons to form C=O, with lysine taking its proton."
+        }
+      ]
+    }
+  },
+  "conditionsLabel": "alanine aminotransferase · PLP · pH 7 · 37 °C",
+  "reactionClasses": [
+    "carbonyl",
+    "acid-base"
+  ],
+  "reactionVersion": 2,
+  "mechanismSummary": "Aminotransferases use pyridoxal phosphate (PLP). The amino acid (alanine) is bound to PLP as a protonated imine, the external aldimine. A lysine removes the α-hydrogen, and the pair flows through the imine into the pyridinium ring, which acts as an electron sink: the quinonoid intermediate. The lysine puts the proton back on the carbon next to the ring, so the C=N has moved to the amino acid side (a ketimine). Hydrolysis releases pyruvate and leaves pyridoxamine (PMP), which passes the amino group on to 2-oxoglutarate in the second half of the cycle. Models: methylamine for lysine; in PLP the ring's CH₂OPO₃²⁻ side chain takes no part and is drawn as CH₃, and the ring OH (an O⁻ hydrogen-bonded to the imine N–H in the enzyme) is drawn neutral.",
+  "dailyPuzzleEligible": true,
+  "spectatorMapNumbers": [],
+  "atomRoleToMapNumbers": {},
+  "previousReactionVersion": 1
+}
