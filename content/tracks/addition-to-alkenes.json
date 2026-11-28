@@ -65,6 +65,10 @@
           "whyThisOne": "One step, two arrows, and the opposite regiochemistry to HBr."
         },
         {
+          "reactionSlug": "methylcyclohexene-hydroboration-oxidation",
+          "whyThisOne": "Syn addition, then O replaces B with retention: trans product."
+        },
+        {
           "reactionSlug": "alkylborane-oxidation",
           "whyThisOne": "A group moves from boron to oxygen."
         }
