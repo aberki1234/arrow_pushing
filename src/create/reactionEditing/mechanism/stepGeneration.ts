@@ -46,7 +46,7 @@ import {
 } from "../../../core/stateGraphs/arrowApplication.js";
 import { stateGraphFromMappedSmiles } from "../../../core/stateGraphs/mappedSmilesReading.js";
 import { mappedSmilesFromStateGraph } from "../../../core/stateGraphs/mappedSmilesWriting.js";
-import { type StateGraph, stateGraphsEqual } from "../../../core/stateGraphs/stateGraph.js";
+import { type StateGraph, appliedStateMatches } from "../../../core/stateGraphs/stateGraph.js";
 import {
   addState,
   addStep,
@@ -56,6 +56,7 @@ import {
   draftMechanism,
 } from "../draft/reactionDraft.js";
 import { isRecord } from "../../../core/jsonValues/jsonValues.js";
+import { withWedgesForMarks } from "./stereoWedges.js";
 
 export type StepGeneration =
   | {
@@ -103,7 +104,8 @@ function matchingStates(
     if (graph === undefined || !sameAtoms(graph, result)) {
       continue;
     }
-    if (relabelledResults.some((relabelled) => stateGraphsEqual(relabelled, graph))) {
+    // The result lacks marks at centres the arrows made: those are the existing state's.
+    if (relabelledResults.some((relabelled) => appliedStateMatches(relabelled, graph))) {
       return { identicalStateId: stateId, resonanceFormOfStateId: null };
     }
     const isResonanceForm = relabelledResults.some(
@@ -227,10 +229,14 @@ function withToState(
   if (identicalStateId !== null) {
     return { document, stateId: identicalStateId };
   }
-  return addState(document, {
-    mappedSmiles: mappedSmilesFromStateGraph(result),
-    mapNumberToCoordinates: structuredClone(fromState.mapNumberToCoordinates),
-  });
+  const newState = withWedgesForMarks(
+    {
+      mappedSmiles: mappedSmilesFromStateGraph(result),
+      mapNumberToCoordinates: structuredClone(fromState.mapNumberToCoordinates),
+    },
+    result,
+  );
+  return addState(document, newState);
 }
 
 /** "preferred" on the preferred route when no preferred step leaves the state yet. */

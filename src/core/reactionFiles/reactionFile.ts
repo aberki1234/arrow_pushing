@@ -55,6 +55,8 @@ export interface ReactionState {
   readonly bondToWedgeStyle?: Readonly<Record<string, "wedge" | "dash">>;
   readonly annotations?: readonly StateAnnotation[];
   readonly caption?: string;
+  /** "racemic": one enantiomer is drawn for a racemic mixture (shown under the drawing). */
+  readonly stereoMeaning?: "racemic";
   readonly learnerPrompt?: string;
   /** Position 0 conceptual, 1 narrowing, 2 reveal. */
   readonly hintTiers?: readonly string[];
@@ -71,11 +73,36 @@ interface StepFields {
   readonly caption?: string;
 }
 
+/** One authored arrangement of a stereo question: the whole to-state with other marks. */
+export interface OtherArrangement {
+  readonly mappedSmiles: string;
+  /** plausible: it forms too, but is not the major product. */
+  readonly severity: "wrong" | "plausible";
+  readonly feedbackMessage: string;
+}
+
+/**
+ * After correct arrows the learner draws the product's stereochemistry (docs/stereo-question.md).
+ * The right arrangement is the to-state's.
+ */
+export interface StereoQuestion {
+  /**
+   * The mirror image of the right arrangement counts too; each other arrangement also stands for
+   * its own mirror image.
+   */
+  readonly acceptEnantiomer: boolean;
+  readonly otherArrangements: readonly OtherArrangement[];
+  /** Present: "both enantiomers, 50 : 50" may be answered; isRight for SN1-like steps. */
+  readonly racemicMixture?: { readonly isRight: boolean; readonly feedbackMessage: string };
+  readonly otherArrangementMessage?: string;
+}
+
 /** A step drawn with curved arrows: pair arrows (->) if polar, fish-hooks (~>) if radical. */
 export interface ArrowStep extends StepFields {
   readonly stepKind: "polar" | "radical";
   readonly canonicalArrows: readonly string[];
   readonly partialArrowSets?: readonly (readonly string[])[];
+  readonly stereoQuestion?: StereoQuestion;
 }
 
 /** A step with no arrows: molecules arrive (addedSpecies) or fragments leave. */

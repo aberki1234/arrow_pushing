@@ -1,0 +1,43 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>A: popup — stereo-choice prototype</title>
+<link rel="stylesheet" href="../style.css"><link rel="stylesheet" href="choice.css"></head>
+<body><div class="wrap"><div id="head"></div>
+<div class="stage mt">
+  <section class="card"><div class="small muted" id="stepLbl"></div><div id="canvas"></div><div class="small muted center" id="canvasCap"></div></section>
+  <aside class="grid" style="gap:12px" id="side"></aside>
+</div>
+<dialog class="pick" id="dlg"><div class="inner">
+  <div class="small muted">Stereochemistry</div><h2 class="q" style="margin:4px 0 12px"></h2>
+  <div class="options"></div><div class="dfb mt"></div>
+  <div class="row mt" style="justify-content:flex-end"><button class="btn sm" onclick="this.closest('dialog').close()">Back to the arrows</button><button class="btn primary" id="confirm" disabled>Confirm</button></div>
+</div></dialog>
+<div class="proto-note"><b>Prototype A.</b> After correct arrows, a modal asks “Which product forms?”. A wrong pick shows why, greys that card and lets the learner try again; the right pick explains and moves on. Focus is trapped in the dialog (keyboard: Tab, Enter, Escape).</div></div><script src="scenes.js"></script><script src="choice.js"></script>
+<script>
+const { scene, header, optionCard, feedbackHtml } = Choice; header("A: popup after Check");
+document.getElementById("stepLbl").textContent = scene.step;
+document.getElementById("canvas").innerHTML = scene.start;
+document.getElementById("canvasCap").textContent = scene.reaction;
+document.getElementById("side").innerHTML = `<div class="card"><b>Your arrows</b><div class="arrowline mt">${scene.arrows}</div>
+  <button class="btn primary mt" id="check">Check</button></div><div class="fb" id="fb"><h3>Ready</h3><p>Press Check (the arrows are already drawn in this prototype).</p></div>`;
+const dlg = document.getElementById("dlg");
+document.getElementById("check").onclick = () => {
+  document.getElementById("fb").outerHTML = `<div class="fb good" id="fb"><h3>Arrows correct</h3><p>Now decide the stereochemistry.</p></div>`;
+  dlg.querySelector(".q").textContent = scene.question;
+  dlg.querySelector(".options").innerHTML = scene.options.map(optionCard).join("");
+  dlg.querySelector(".dfb").innerHTML = ""; dlg.querySelector("#confirm").disabled = true; dlg.showModal();
+};
+let picked = null;
+dlg.addEventListener("click", (e) => {
+  const card = e.target.closest(".option"); if (!card || card.classList.contains("was-wrong")) return;
+  picked = Number(card.dataset.i);
+  dlg.querySelectorAll(".option").forEach((c) => c.setAttribute("aria-pressed", String(c === card)));
+  dlg.querySelector("#confirm").disabled = false;
+});
+dlg.querySelector("#confirm").onclick = () => {
+  const option = scene.options[picked]; dlg.querySelector(".dfb").innerHTML = feedbackHtml(option);
+  const card = dlg.querySelector(`.option[data-i="${picked}"]`);
+  if (option.verdict === "correct") { card.classList.add("was-right"); dlg.querySelector("#confirm").textContent = "Next step →"; dlg.querySelector("#confirm").onclick = () => dlg.close(); }
+  else { card.classList.add("was-wrong"); card.setAttribute("aria-pressed", "false"); dlg.querySelector("#confirm").disabled = true; }
+};
+</script></body></html>

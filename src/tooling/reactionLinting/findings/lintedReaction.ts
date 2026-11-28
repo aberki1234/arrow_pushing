@@ -17,6 +17,9 @@ export interface LintedMisconception {
 
 export interface LintedState {
   readonly mappedSmiles: string;
+  readonly mapNumberToCoordinates: Readonly<Record<string, readonly number[]>>;
+  /** Keyed "<narrow end>-<wide end>"; empty when the state has no wedges. */
+  readonly bondToWedgeStyle: Readonly<Record<string, "wedge" | "dash">>;
   readonly hasLearnerPrompt: boolean;
   /** A caption with some text in it. */
   readonly hasCaption: boolean;
@@ -52,6 +55,8 @@ export interface LintedReaction {
 function lintedState(state: ReactionState): LintedState {
   return {
     mappedSmiles: state.mappedSmiles,
+    mapNumberToCoordinates: state.mapNumberToCoordinates,
+    bondToWedgeStyle: state.bondToWedgeStyle ?? {},
     hasLearnerPrompt: state.learnerPrompt !== undefined,
     hasCaption: (state.caption ?? "").trim() !== "",
     hintTierCount: (state.hintTiers ?? []).length,

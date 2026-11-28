@@ -96,6 +96,57 @@ describe("regenerateStatesAfter", () => {
   });
 });
 
+describe("regenerateStatesAfter with stereo (item 12b)", () => {
+  it("keeps the configuration the author gave a centre the step makes", () => {
+    // SN2 on 2-bromobutane, products authored with inversion; then the reactants gain a methyl
+    // far from the centre. The regenerated products keep the authored mark at C2.
+    const sn2 = exampleReaction("sn2-hydroxide-bromomethane.json");
+    const chiralStart = edited(
+      editStateSmiles(sn2, "reactants", "[OH-:1].[CH3:5][C@@H:2]([Br:3])[CH2:6][CH3:7].[Na+:4]"),
+    );
+    const invertedProducts = "[OH:1][C@@H:2]([CH3:5])[CH2:6][CH3:7].[Br-:3].[Na+:4]";
+    const authored = edited(editStateSmiles(chiralStart, "products", invertedProducts));
+    const document = edited(
+      editStateSmiles(
+        authored,
+        "reactants",
+        "[OH-:1].[CH3:5][C@@H:2]([Br:3])[CH2:6][CH2:7][CH3:8].[Na+:4]",
+      ),
+    );
+    const regeneration = regenerateStatesAfter(document, "reactants");
+    expect(regeneration.brokenStepKeys).toEqual([]);
+    expect(stateOf(regeneration.document, "products").mappedSmiles).toBe(
+      "[OH:1][C@@H:2]([CH3:5])[CH2:6][CH2:7][CH3:8].[Br-:3].[Na+:4]",
+    );
+  });
+});
+
+describe("regenerateStatesAfter with a stereo question (docs/stereo-question.md)", () => {
+  it("rewrites each arrangement as the new product with the same centres inverted", () => {
+    // The SN2 example's retention arrangement; the reactants gain a CH2 far from C2. Reference:
+    // the regenerated products (inversion kept) with C2 inverted, written by hand.
+    const inversion = exampleReaction("sn2-2-bromobutane-inversion.json");
+    const document = edited(
+      editStateSmiles(
+        inversion,
+        "reactants",
+        "[OH-:1].[CH3:5][C@@H:2]([Br:3])[CH2:6][CH2:7][CH3:8].[Na+:4]",
+      ),
+    );
+    const regenerated = regenerateStatesAfter(document, "reactants").document;
+    const steps = regenerated.steps as {
+      stereoQuestion?: { otherArrangements: { mappedSmiles: string }[] };
+    }[];
+    expect(steps[0]?.stereoQuestion?.otherArrangements[0]?.mappedSmiles).toBe(
+      "[OH:1][C@H:2]([CH3:5])[CH2:6][CH2:7][CH3:8].[Br-:3].[Na+:4]",
+    );
+    const questionErrors = lintReaction(regenerated, toolkit).filter(
+      (finding) => finding.lintLevel === "error" && finding.instancePath.includes("stereoQuestion"),
+    );
+    expect(questionErrors).toEqual([]);
+  });
+});
+
 describe("regenerateStatesAfter through change steps and broken steps", () => {
   it("regenerates through a change step", () => {
     const fileName = "aldol-addition-base.json";

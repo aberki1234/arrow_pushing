@@ -6,7 +6,11 @@
  *                      and content hash (staticFileNaming).
  * Steps
  *   1. readPublishedVersion() reads one file, lints it (reactionLinting) and refuses it on any lint
- *      error; lint warnings are returned for the command line to print.
+ *      error; lint warnings are returned for the command line to print. A superseded version
+ *      (an older version of a reaction that has a newer one) is history: a rule added since it
+ *      was published (such as the item 12c wedge check) must not stop the build, so its lint
+ *      errors are returned with the warnings instead. A schema violation still refuses it.
+ *      supersededVersionPaths() says which files are superseded.
  *   2. checkVersionNumbering() refuses a slug/version given twice and a slug whose versions are
  *      not exactly 1..n.
  */
@@ -57,18 +61,23 @@ function findingLine(finding: LintFinding): string {
  */
 export function readPublishedVersion(
   reactionPath: string,
-  toolkit: Pick<ChemistryToolkit, "readAtoms">,
+  toolkit: Pick<ChemistryToolkit, "readAtoms" | "canonicalStereoSmiles">,
+  options: { readonly superseded?: boolean } = {},
 ): { publishedVersion: PublishedVersion; lintWarnings: LintFinding[] } {
   const reactionDocument = readReactionJson(reactionPath);
   const lintFindings = lintReaction(reactionDocument, toolkit);
-  const lintErrors = lintFindings.filter((finding) => finding.lintLevel === "error");
+  const lintErrors = lintFindings.filter(
+    (finding) =>
+      finding.lintLevel === "error" &&
+      (options.superseded !== true || finding.lintRuleId === "schema-violation"),
+  );
   if (lintErrors.length > 0) {
     throw new CatalogueBuildError(
       "reaction-file-has-lint-errors",
       `${reactionPath}: ${lintErrors.map(findingLine).join("; ")}`,
     );
   }
-  // The lint passed, so the schema holds.
+  // No schema violation was found, so the schema holds.
   const reading = readReactionFile(reactionDocument);
   if (!("reactionFile" in reading)) {
     throw new Error(`${reactionPath}: lint-clean but not a reaction file`);
@@ -121,4 +130,32 @@ export function checkVersionNumbering(publishedVersions: readonly PublishedVersi
       );
     }
   }
+}
+
+/**
+ * The paths whose file is not the newest version of its reaction among `reactionPaths`. A file
+ * that cannot be read counts as newest, so readPublishedVersion() reports it.
+ */
+export function supersededVersionPaths(reactionPaths: readonly string[]): Set<string> {
+  const pathToSlugAndVersion = new Map<string, readonly [string, number]>();
+  for (const reactionPath of reactionPaths) {
+    try {
+      const document = readReactionJson(reactionPath);
+      pathToSlugAndVersion.set(reactionPath, [
+        String(document.reactionSlug),
+        Number(document.reactionVersion),
+      ]);
+    } catch {
+      // Reported when the file is read for the build.
+    }
+  }
+  const slugToNewest = new Map<string, number>();
+  for (const [slug, version] of pathToSlugAndVersion.values()) {
+    slugToNewest.set(slug, Math.max(version, slugToNewest.get(slug) ?? version));
+  }
+  return new Set(
+    [...pathToSlugAndVersion]
+      .filter(([, [slug, version]]) => version < (slugToNewest.get(slug) ?? version))
+      .map(([reactionPath]) => reactionPath),
+  );
 }

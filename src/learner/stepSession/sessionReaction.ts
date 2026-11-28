@@ -17,6 +17,11 @@ import type {
   ReactionState,
   ReactionStep,
 } from "../../core/reactionFiles/reactionFile.js";
+import { graphOf } from "../../core/attemptAssessment/preparedReaction.js";
+import {
+  type PreparedStereoQuestion,
+  prepareStereoQuestion,
+} from "../../core/stereoQuestions/stereoQuestions.js";
 import type {
   AbbreviatedGroup,
   StateDisplayFields,
@@ -43,6 +48,8 @@ export interface SessionStep {
   readonly explanationAfterStep: string;
   /** A change step's event text, e.g. "A second acetaldehyde arrives". */
   readonly caption: string;
+  /** The step's stereo question, prepared; null when it asks none (docs/stereo-question.md). */
+  readonly stereoQuestion: PreparedStereoQuestion | null;
 }
 
 export interface SessionReaction {
@@ -75,8 +82,17 @@ function sessionStateOf(stateId: string, state: ReactionState): SessionState {
   };
 }
 
-function sessionStepOf(step: ReactionStep): SessionStep {
+function sessionStepOf(step: ReactionStep, prepared: PreparedReaction): SessionStep {
+  const stereoQuestion =
+    step.stepKind !== "change" && step.stereoQuestion !== undefined
+      ? prepareStereoQuestion(
+          step,
+          graphOf(prepared, step.fromStateId),
+          graphOf(prepared, step.toStateId),
+        )
+      : null;
   return {
+    stereoQuestion,
     stepKey: step.stepKey,
     fromStateId: step.fromStateId,
     toStateId: step.toStateId,
@@ -89,6 +105,7 @@ function sessionStepOf(step: ReactionStep): SessionStep {
 }
 
 export function readSessionReaction(reactionFile: ReactionFile): SessionReaction {
+  const prepared = prepareReaction(reactionFile);
   return {
     reactionSlug: reactionFile.reactionSlug,
     reactionVersion: reactionFile.reactionVersion,
@@ -110,8 +127,8 @@ export function readSessionReaction(reactionFile: ReactionFile): SessionReaction
         sessionStateOf(stateId, state),
       ]),
     ),
-    steps: reactionFile.steps.map(sessionStepOf),
-    prepared: prepareReaction(reactionFile),
+    steps: reactionFile.steps.map((step) => sessionStepOf(step, prepared)),
+    prepared,
   };
 }
 

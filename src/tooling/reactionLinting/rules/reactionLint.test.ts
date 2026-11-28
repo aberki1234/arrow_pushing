@@ -1,7 +1,7 @@
 /**
  * Tests for reactionLint.ts and the rule modules it runs.
  *
- * The four example reactions in fixtures/reactions must lint clean. Each case in
+ * The example reactions in fixtures/reactions must lint clean. Each case in
  * fixtures/lint_cases/reaction_edits.json edits one of them to break a rule, and names the rule
  * ids expected, worked out by hand from the rule definitions in docs/schema-design.md §3.5.
  */
@@ -25,6 +25,9 @@ const WARNING_RULE_IDS = new Set([
   "misconception-never-fires",
   "too-many-skeleton-symmetries",
   "misconception-in-abbreviated-group",
+  "stereocentre-unspecified",
+  "wedges-without-stereo-marks",
+  "enantiomer-accepted-for-single-enantiomer",
 ]);
 
 let toolkit: ChemistryToolkit;
@@ -85,6 +88,21 @@ it("every rule except the symmetry cap is broken by at least one case", () => {
       "abbreviated-group-not-attached-once",
       "arrow-touches-abbreviated-group",
       "misconception-in-abbreviated-group",
+      "wedges-disagree-with-smiles",
+      "stereocentre-changes-without-arrows",
+      "stereocentre-unspecified",
+      "wedges-without-stereo-marks",
+      "stereo-question-without-question-centres",
+      "arrangement-not-the-product",
+      "arrangement-changes-other-centres",
+      "arrangement-has-unset-centre",
+      "arrangement-is-the-answer",
+      "arrangement-repeated",
+      "enantiomer-accepted-with-fixed-centres",
+      "enantiomer-rejected-for-racemic-product",
+      "enantiomer-accepted-for-single-enantiomer",
+      "racemic-mixture-right-for-single-enantiomer",
+      "racemic-mixture-right-with-fixed-centres",
     ].sort(),
   );
 });
@@ -133,6 +151,51 @@ describe("where findings point and what they say", () => {
   it("the message says a resonance form is not the drawing", () => {
     const findings = lintEdited("canonical arrows give a resonance form, not the drawing");
     expect(findings[0]?.message).toContain("resonance form");
+  });
+});
+
+describe("stereo question findings point at the question or the arrangement", () => {
+  it.each([
+    [
+      "stereo question: an arrangement listed twice",
+      ["/steps/0/stereoQuestion/otherArrangements/1"],
+    ],
+    ["stereo question: one enantiomer only for a racemic product", ["/steps/0/stereoQuestion"]],
+  ])("%s", (caseName, expectedInstancePaths) => {
+    expect(lintEdited(caseName).map((found) => found.instancePath)).toEqual(expectedInstancePaths);
+  });
+});
+
+describe("stereo findings (item 12c)", () => {
+  it.each([
+    [
+      "stereo: the wedges show the other configuration from the SMILES mark",
+      ["/stateIdToState/products/bondToWedgeStyle"],
+    ],
+    [
+      "stereo: a centre no arrow touches changes configuration",
+      ["/steps/0/canonicalArrows", "/steps/0"],
+    ],
+    [
+      "stereo: a stereocentre left unmarked in a state that marks another",
+      ["/stateIdToState/reactants/mappedSmiles", "/stateIdToState/products/mappedSmiles"],
+    ],
+  ])("%s points at the right place", (caseName, expectedInstancePaths) => {
+    expect(lintEdited(caseName).map((found) => found.instancePath)).toEqual(expectedInstancePaths);
+  });
+
+  it("the stereo messages name the atom", () => {
+    for (const caseName of [
+      "stereo: the wedges show the other configuration from the SMILES mark",
+      "stereo: a stereo mark with no wedge or dash",
+      "stereo: a wedge at an atom with no stereo mark",
+    ]) {
+      expect(lintEdited(caseName)[0]?.message).toMatch(/C[26]\b/);
+    }
+    const changeFinding = lintEdited(
+      "stereo: a centre no arrow touches changes configuration",
+    ).find((found) => found.lintRuleId === "stereocentre-changes-without-arrows");
+    expect(changeFinding?.message).toContain("C6");
   });
 });
 

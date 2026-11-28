@@ -15,12 +15,21 @@
  *   than E. The relation is "cis" when the two reference neighbours are on the same side.
  *   relationsFromDirections() reads relations from written directions; directionsForRelations()
  *   chooses directions for the writer, which marks only bonds it writes from parent to child.
+ *
+ * Renaming (item 12c)
+ *   renamedStereo() rewrites every mark when atoms get new map numbers (a skeleton symmetry) or
+ *   drawn hydrogens are folded into implicit counts: a stereocentre's mark is turned to the new
+ *   canonical order, and a double bond's relation flips at each end whose reference neighbour
+ *   changes. A mark that no longer means anything (a centre left with two hydrogens, an end left
+ *   with no other neighbour) is dropped.
  */
 import {
   bondKey,
   bondKeyMapNumbers,
+  bondedNeighbours,
   type DoubleBondRelation,
   type StateAtom,
+  type StateGraph,
   type TetrahedralMark,
 } from "./stateGraph.js";
 
@@ -263,4 +272,118 @@ export function directionsForRelations(
     directions.set(key, isSlash ? "/" : "\\");
   }
   return directions;
+}
+
+// ---- Renaming (item 12c) ----
+
+/** How renaming treats each atom; see renamedStereo(). */
+export interface StereoRenaming {
+  /** The new map number of a stereocentre or a double-bond end (these are never removed). */
+  readonly atom: (mapNumber: number) => number;
+  /**
+   * The new name of a neighbour: a map number, IMPLICIT_NEIGHBOUR when it becomes an implicit
+   * hydrogen, or undefined when it is gone.
+   */
+  readonly neighbour: (mapNumber: number) => number | undefined;
+}
+
+/** A stereocentre's neighbours in canonical order: IMPLICIT_NEIGHBOUR first when it has one. */
+export function stereocentreNeighbours(graph: StateGraph, centre: number): number[] {
+  const mapped = canonicalNeighbourOrder(
+    bondedNeighbours(graph, centre).map((neighbour) => neighbour.mapNumber),
+  );
+  const atom = graph.mapNumberToAtom.get(centre);
+  return atom !== undefined && hasImplicitNeighbour(atom, mapped.length)
+    ? [IMPLICIT_NEIGHBOUR, ...mapped]
+    : mapped;
+}
+
+/** The mark for the renamed neighbours, or undefined when two become one or one is gone. */
+function renamedMark(
+  mark: TetrahedralMark,
+  neighbours: readonly number[],
+  renameNeighbour: (mapNumber: number) => number | undefined,
+): TetrahedralMark | undefined {
+  const renamed = neighbours.map((neighbour) =>
+    neighbour === IMPLICIT_NEIGHBOUR ? IMPLICIT_NEIGHBOUR : renameNeighbour(neighbour),
+  );
+  const present = renamed.filter((neighbour): neighbour is number => neighbour !== undefined);
+  if (present.length !== renamed.length || new Set(present).size !== present.length) {
+    return undefined;
+  }
+  return markInOrder(
+    mark,
+    present,
+    [...present].sort((first, second) => first - second),
+  );
+}
+
+/**
+ * Whether the relation flips at one end, or undefined when that end keeps no other neighbour:
+ * it flips when the reference neighbour is gone or another renamed neighbour now comes first.
+ */
+function flipsAtEnd(
+  graph: StateGraph,
+  end: number,
+  partner: number,
+  renameNeighbour: (mapNumber: number) => number | undefined,
+): boolean | undefined {
+  const others = substituentsOf(neighbourTableOf(graph, end), end, partner);
+  const reference = Math.min(...others);
+  const renamedOthers = others
+    .map(renameNeighbour)
+    .filter(
+      (neighbour): neighbour is number =>
+        neighbour !== undefined && neighbour !== IMPLICIT_NEIGHBOUR,
+    );
+  if (renamedOthers.length === 0) {
+    return undefined;
+  }
+  return renameNeighbour(reference) !== Math.min(...renamedOthers);
+}
+
+function neighbourTableOf(graph: StateGraph, end: number): Map<number, number[]> {
+  return new Map([[end, bondedNeighbours(graph, end).map((neighbour) => neighbour.mapNumber)]]);
+}
+
+/** The relation after renaming, or undefined when it no longer means anything. */
+function renamedRelation(
+  graph: StateGraph,
+  key: string,
+  relation: DoubleBondRelation,
+  renameNeighbour: (mapNumber: number) => number | undefined,
+): DoubleBondRelation | undefined {
+  const [first, second] = bondKeyMapNumbers(key);
+  const firstFlips = flipsAtEnd(graph, first, second, renameNeighbour);
+  const secondFlips = flipsAtEnd(graph, second, first, renameNeighbour);
+  if (firstFlips === undefined || secondFlips === undefined) {
+    return undefined;
+  }
+  if (firstFlips === secondFlips) {
+    return relation;
+  }
+  return relation === "cis" ? "trans" : "cis";
+}
+
+/** The stereo of `graph` after `renaming` (see the module comment). */
+export function renamedStereo(
+  graph: StateGraph,
+  renaming: StereoRenaming,
+): Required<Pick<StateGraph, "mapNumberToTetrahedralMark" | "bondToDoubleBondRelation">> {
+  const mapNumberToTetrahedralMark = new Map<number, TetrahedralMark>();
+  for (const [centre, mark] of graph.mapNumberToTetrahedralMark ?? []) {
+    const renamed = renamedMark(mark, stereocentreNeighbours(graph, centre), renaming.neighbour);
+    if (renamed !== undefined) {
+      mapNumberToTetrahedralMark.set(renaming.atom(centre), renamed);
+    }
+  }
+  const bondToDoubleBondRelation = new Map<string, DoubleBondRelation>();
+  for (const [key, relation] of graph.bondToDoubleBondRelation ?? []) {
+    const renamed = renamedRelation(graph, key, relation, renaming.neighbour);
+    const [first, second] = bondKeyMapNumbers(key);
+    if (renamed !== undefined) {
+      bondToDoubleBondRelation.set(bondKey(renaming.atom(first), renaming.atom(second)), renamed);
+    }
+  }
+  return { mapNumberToTetrahedralMark, bondToDoubleBondRelation };
 }

@@ -20,6 +20,10 @@
  *      and number of bonds next to its placed neighbour's image, and keeping bonds to atoms
  *      already placed. The list is sorted so the identity comes first.
  *   2. relabelStateGraph() and relabelCurvedArrow() apply one symmetry.
+ *   Stereo (item 12d, docs/stereo-validation.md phase 2): a symmetry must also keep every stereo
+ *   mark, so diastereotopic atoms (the two drawn H of a marked CH2) are not swapped. A reordering
+ *   that inverts every stereocentre instead is a mirror symmetry (mirrorSymmetries()): the state
+ *   is achiral, and an answer at the mirror-image atom gives the mirror-image result.
  * Molecules here are small (the Wittig reactants have 96 symmetries). Above
  * MAXIMUM_SKELETON_SYMMETRIES, a safety cap rather than a chemistry number, skeletonSymmetries()
  * returns only the identity, so answers are then compared without symmetry (the linter warns).
@@ -38,6 +42,7 @@ import {
   type StateAtom,
   type StateGraph,
 } from "../stateGraphs/stateGraph.js";
+import { renamedStereo } from "../stateGraphs/stereoMarks.js";
 
 /** A safety cap, not a chemistry number: above it, answers are compared without symmetry. */
 export const MAXIMUM_SKELETON_SYMMETRIES = 10_000;
@@ -255,9 +260,10 @@ function symmetrySearchOf(graph: StateGraph, maximumSymmetries: number): Symmetr
  * Every skeleton symmetry of `graph`, the identity first; undefined when there are more than
  * `maximumSymmetries` (the linter warns about such states).
  */
-export function skeletonSymmetriesWithinCap(
+/** Every reordering that keeps the σ skeleton, stereo ignored; undefined above the cap. */
+function skeletonReorderings(
   graph: StateGraph,
-  maximumSymmetries: number = MAXIMUM_SKELETON_SYMMETRIES,
+  maximumSymmetries: number,
 ): MapNumberRelabelling[] | undefined {
   const search = symmetrySearchOf(graph, maximumSymmetries);
   if (!extend(search, new Map(), new Set())) {
@@ -266,6 +272,73 @@ export function skeletonSymmetriesWithinCap(
   return search.symmetriesFound.sort((first, second) =>
     compareSymmetries(search.mapNumbersAscending, first, second),
   );
+}
+
+function hasTetrahedralMarks(graph: StateGraph): boolean {
+  return (graph.mapNumberToTetrahedralMark?.size ?? 0) > 0;
+}
+
+/** Whether `relabelling` turns the state's stereo into itself, or with `inverted` its mirror. */
+function stereoAfterIs(
+  graph: StateGraph,
+  relabelling: MapNumberRelabelling,
+  inverted: boolean,
+): boolean {
+  const rename = (mapNumber: number): number => relabelled(mapNumber, relabelling);
+  const stereo = renamedStereo(graph, { atom: rename, neighbour: rename });
+  const marks = graph.mapNumberToTetrahedralMark ?? new Map<number, string>();
+  const relations = graph.bondToDoubleBondRelation ?? new Map<string, string>();
+  const expectedMark = (mark: string): string => (!inverted ? mark : mark === "@" ? "@@" : "@");
+  return (
+    stereo.mapNumberToTetrahedralMark.size === marks.size &&
+    [...stereo.mapNumberToTetrahedralMark].every(
+      ([centre, mark]) => marks.get(centre) === expectedMark(mark),
+    ) &&
+    stereo.bondToDoubleBondRelation.size === relations.size &&
+    [...stereo.bondToDoubleBondRelation].every(([key, relation]) => relations.get(key) === relation)
+  );
+}
+
+/**
+ * Every skeleton symmetry of `graph` that keeps its stereo, the identity first; undefined when
+ * the σ skeleton has more than `maximumSymmetries` (the linter warns about such states).
+ */
+export function skeletonSymmetriesWithinCap(
+  graph: StateGraph,
+  maximumSymmetries: number = MAXIMUM_SKELETON_SYMMETRIES,
+): MapNumberRelabelling[] | undefined {
+  return skeletonReorderings(graph, maximumSymmetries)?.filter((relabelling) =>
+    stereoAfterIs(graph, relabelling, false),
+  );
+}
+
+/**
+ * The reorderings of an achiral state that invert every stereocentre (see the module comment);
+ * empty for a state with no stereocentre marks, or above the cap.
+ */
+export function mirrorSymmetries(
+  graph: StateGraph,
+  maximumSymmetries: number = MAXIMUM_SKELETON_SYMMETRIES,
+): MapNumberRelabelling[] {
+  if (!hasTetrahedralMarks(graph)) {
+    return [];
+  }
+  return (skeletonReorderings(graph, maximumSymmetries) ?? []).filter((relabelling) =>
+    stereoAfterIs(graph, relabelling, true),
+  );
+}
+
+/** The mirror image of a state: every stereocentre inverted (cis and trans stay). */
+export function mirrorImageOf(graph: StateGraph): StateGraph {
+  return {
+    ...graph,
+    mapNumberToTetrahedralMark: new Map(
+      [...(graph.mapNumberToTetrahedralMark ?? [])].map(([centre, mark]) => [
+        centre,
+        mark === "@" ? "@@" : "@",
+      ]),
+    ),
+  };
 }
 
 /** Every skeleton symmetry of `graph`, the identity first; only the identity above the cap. */
@@ -283,7 +356,10 @@ function relabelled(mapNumber: number, relabelling: MapNumberRelabelling): numbe
   return relabelling.get(mapNumber) ?? mapNumber;
 }
 
-/** The same state with every atom renumbered; electrons and bond orders move with the atoms. */
+/**
+ * The same state with every atom renumbered; electrons, bond orders and stereo marks move with
+ * the atoms (each mark turned to the new canonical neighbour order).
+ */
 export function relabelStateGraph(
   graph: StateGraph,
   relabelling: MapNumberRelabelling,
@@ -301,7 +377,12 @@ export function relabelStateGraph(
       order,
     );
   }
-  return { mapNumberToAtom, bondToOrder };
+  const rename = (mapNumber: number): number => relabelled(mapNumber, relabelling);
+  return {
+    mapNumberToAtom,
+    bondToOrder,
+    ...renamedStereo(graph, { atom: rename, neighbour: rename }),
+  };
 }
 
 /**
@@ -356,48 +437,6 @@ function relabelLocus(locus: ElectronLocus, relabelling: MapNumberRelabelling): 
   const atomsInOrder: readonly [AtomLabel, AtomLabel] =
     firstAtom.mapNumber < secondAtom.mapNumber ? [firstAtom, secondAtom] : [secondAtom, firstAtom];
   return { locusKind: locus.locusKind, atoms: atomsInOrder };
-}
-
-/**
- * The same state with each drawn hydrogen folded into its neighbour's hydrogen count: an H with
- * one single bond to a non-hydrogen atom and no electrons of its own. Hydrogens are drawn only
- * where a step needs them (docs/schema-design.md §2), so one drawn H can make mirror-image atoms
- * look different; compared folded, attack at either is the same compound (item 10g follow-up,
- * 2026-11-26). A bare H⁺, H₂ or a hydride keeps its atom.
- */
-export function withHydrogensFolded(graph: StateGraph): StateGraph {
-  const foldInto = new Map<number, number>();
-  for (const [key, order] of graph.bondToOrder) {
-    const [first, second] = bondKeyMapNumbers(key);
-    const firstAtom = graph.mapNumberToAtom.get(first);
-    const secondAtom = graph.mapNumberToAtom.get(second);
-    if (order !== 1 || firstAtom === undefined || secondAtom === undefined) {
-      continue;
-    }
-    for (const [hydrogen, other] of [
-      [firstAtom, secondAtom],
-      [secondAtom, firstAtom],
-    ] as const) {
-      const isFoldable =
-        hydrogen.element === "H" && other.element !== "H" && hydrogen.nonbondingElectronCount === 0;
-      if (isFoldable) {
-        foldInto.set(hydrogen.mapNumber, other.mapNumber);
-      }
-    }
-  }
-  const mapNumberToAtom = new Map<number, StateAtom>();
-  for (const [mapNumber, atom] of graph.mapNumberToAtom) {
-    if (!foldInto.has(mapNumber)) {
-      const folded = [...foldInto.values()].filter((target) => target === mapNumber).length;
-      mapNumberToAtom.set(mapNumber, { ...atom, hydrogenCount: atom.hydrogenCount + folded });
-    }
-  }
-  const bondToOrder = new Map(
-    [...graph.bondToOrder].filter(([key]) =>
-      bondKeyMapNumbers(key).every((mapNumber) => !foldInto.has(mapNumber)),
-    ),
-  );
-  return { mapNumberToAtom, bondToOrder };
 }
 
 /** The same arrow with its atoms renumbered (bond atoms re-sorted by map number). */

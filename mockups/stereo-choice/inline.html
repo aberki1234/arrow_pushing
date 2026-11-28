@@ -1,0 +1,27 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>B: inline — stereo-choice prototype</title>
+<link rel="stylesheet" href="../style.css"><link rel="stylesheet" href="choice.css"></head>
+<body><div class="wrap"><div id="head"></div>
+<div class="stage mt">
+  <section class="card"><div class="small muted" id="stepLbl"></div><div id="canvas"></div><div class="small muted center" id="canvasCap"></div></section>
+  <aside class="grid" style="gap:12px" id="side"></aside>
+</div>
+<div class="proto-note"><b>Prototype B.</b> No popup: once the arrows are right, the product slot on the canvas shows “?” and the candidates sit in the side panel, one tap each. The reactant and the arrows stay visible while choosing, so the learner can compare faces. On a phone the candidates stack under the canvas.</div></div><script src="scenes.js"></script><script src="choice.js"></script>
+<script>
+const { scene, header, optionCard, feedbackHtml } = Choice; header("B: inline, no popup");
+document.getElementById("stepLbl").textContent = scene.step + " · arrows correct";
+document.getElementById("canvas").innerHTML = `<div class="grid" style="grid-template-columns:1fr auto 1fr;align-items:center;gap:8px">
+  <div>${scene.start}</div><div style="font-size:1.6rem">→</div><div class="qmark" id="slot">?</div></div>`;
+document.getElementById("canvasCap").textContent = "The product slot stays empty until the stereochemistry is chosen";
+document.getElementById("side").innerHTML = `<div class="fb good"><h3>Arrows correct</h3><p>${scene.question}</p></div>
+  <div class="options" id="opts" style="grid-template-columns:1fr">${scene.options.map(optionCard).join("")}</div><div id="fb2"></div>`;
+document.getElementById("opts").addEventListener("click", (e) => {
+  const card = e.target.closest(".option"); if (!card || card.classList.contains("was-wrong") || card.classList.contains("was-right")) return;
+  const option = scene.options[Number(card.dataset.i)];
+  document.getElementById("fb2").innerHTML = feedbackHtml(option);
+  if (option.verdict === "correct") { card.classList.add("was-right"); document.getElementById("slot").outerHTML = `<div>${option.svg ?? option.label}</div>`;
+    document.getElementById("fb2").insertAdjacentHTML("beforeend", `<button class="btn primary mt">Next step →</button>`); }
+  else card.classList.add("was-wrong");
+});
+</script></body></html>

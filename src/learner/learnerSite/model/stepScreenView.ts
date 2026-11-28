@@ -15,7 +15,11 @@ import {
   type DestinationTarget,
   destinationTargets,
 } from "../../stepSession/destinationTargets.js";
-import { type FeedbackText, feedbackForAssessment } from "../../stepSession/feedbackText.js";
+import {
+  type FeedbackText,
+  feedbackForAssessment,
+  feedbackForStereoAssessment,
+} from "../../stepSession/feedbackText.js";
 import {
   type SessionReaction,
   type SessionState,
@@ -101,7 +105,8 @@ export function stepTiles(session: StepSession): StepTile[] {
   const ahead = stepsAhead(session);
   const aheadTiles = Array.from({ length: ahead }, (unusedEntry, offset): StepTile => {
     const stepNumber = doneTiles.length + offset + 1;
-    const isCurrent = offset === 0 && session.phase === "drawing";
+    const isCurrent =
+      offset === 0 && (session.phase === "drawing" || session.phase === "stereoQuestion");
     return {
       stepTileKind: isCurrent ? "current" : "ahead",
       tileText: String(stepNumber),
@@ -116,7 +121,11 @@ export function stepCounterText(session: StepSession): string {
   const taken = session.stepResults.length;
   const total = taken + stepsAhead(session);
   const current =
-    session.phase === "drawing" || session.phase === "changeEvent" ? taken + 1 : taken;
+    session.phase === "drawing" ||
+    session.phase === "changeEvent" ||
+    session.phase === "stereoQuestion"
+      ? taken + 1
+      : taken;
   return `Step ${String(Math.min(current, total))} of ${String(total)}`;
 }
 
@@ -131,6 +140,8 @@ export function canvasInstruction(session: StepSession): string {
       return "Nothing to draw here. Press Continue.";
     case "complete":
       return "Mechanism complete.";
+    case "stereoQuestion":
+      return "Tap each highlighted centre to switch between a wedge and a dash, then check.";
     case "drawing":
       return session.pendingSource === null
         ? "Choose a source of electrons: a lone pair, a bond or an unpaired electron."
@@ -172,6 +183,21 @@ function phaseFeedback(session: StepSession): FeedbackText | null {
   }
 }
 
+/** The feedback panel during a stereo question, and after it is answered right. */
+function stereoFeedback(session: StepSession): FeedbackText {
+  if (session.lastStereoAssessment === null) {
+    return {
+      feedbackTone: "good",
+      heading: "Arrows correct",
+      paragraphs: ["Now draw the product's stereochemistry: tap each highlighted centre."],
+    };
+  }
+  return feedbackForStereoAssessment(
+    session.lastStereoAssessment,
+    session.currentStep?.explanationAfterStep ?? "",
+  );
+}
+
 /** The feedback panel: a refused tap, a change event, the end, or the last check. */
 export function feedbackPanelText(session: StepSession): FeedbackText {
   if (session.pickMessage !== null) {
@@ -180,6 +206,9 @@ export function feedbackPanelText(session: StepSession): FeedbackText {
   const forPhase = phaseFeedback(session);
   if (forPhase !== null) {
     return forPhase;
+  }
+  if (session.phase === "stereoQuestion" || session.lastStereoAssessment !== null) {
+    return stereoFeedback(session);
   }
   if (session.lastAssessment !== null) {
     const explanation =

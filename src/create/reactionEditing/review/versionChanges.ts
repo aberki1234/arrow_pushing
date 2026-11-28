@@ -208,6 +208,7 @@ function stateEntries(stateId: string, state: JsonRecord, prefix: string): Compa
   return [
     structureEntry(stateId, state, prefix),
     stateTextEntry(stateId, state, ["caption", "Caption"], prefix),
+    stateTextEntry(stateId, state, ["stereoMeaning", "Stereo (racemic)"], prefix),
     stateTextEntry(stateId, state, ["annotations", "Labels"], prefix),
     stateTextEntry(stateId, state, ["learnerPrompt", "Question the learner sees"], prefix),
     ...listEntries(stateId, state.hintTiers, { field: "hintTiers", label: "Hint", prefix }, textOf),
@@ -239,6 +240,7 @@ function stepEntries(step: JsonRecord, names: ReadonlyMap<string, string>): Comp
     stepEntry("partialArrowSets", "Partial arrow sets", "text"),
     stepEntry("caption", "What happens (caption)", "text"),
     stepEntry("explanationAfterStep", "Why it happens", "text"),
+    stepEntry("stereoQuestion", "Stereo question", "text"),
     entry({
       changeKey: `step:${stepKey} details`,
       heading: `${prefix} · Step details`,

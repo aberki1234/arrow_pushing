@@ -71,6 +71,16 @@ describe("the change list", () => {
 });
 
 describe("structures, steps and the reaction's fields", () => {
+  it("lists an added stereo question as a change to its step (docs/stereo-question.md)", () => {
+    const steps = sn2().steps as JsonRecord[];
+    const question = { acceptEnantiomer: false, otherArrangements: [] };
+    const withQuestion = { ...sn2(), steps: [{ ...steps[0], stereoQuestion: question }] };
+    const changes = versionChanges(sn2(), withQuestion);
+    expect(changes.map((change) => [change.changeKey, change.heading, change.changeKind])).toEqual([
+      ["step:substitution stereoQuestion", "Start → Product · Stereo question", "added"],
+    ]);
+  });
+
   it("gives a changed structure, and a step's changed arrows and explanation", () => {
     const document = withStartState({ mappedSmiles: "[OH-:1].[CH3:2][Br:3].[K+:4]" });
     const steps = document.steps as JsonRecord[];

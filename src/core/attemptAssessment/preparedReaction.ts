@@ -15,9 +15,10 @@ import type { StateGraph } from "../stateGraphs/stateGraph.js";
 import { type ArrowPattern, parseArrowPattern } from "./arrowPatterns.js";
 import {
   type MapNumberRelabelling,
+  mirrorSymmetries,
   skeletonSymmetries,
-  withHydrogensFolded,
 } from "./skeletonSymmetry.js";
+import { stereoDistinguishedHydrogens, withHydrogensFolded } from "./hydrogenFolding.js";
 
 /** An arrow step leaving a state, with its known arrow sets parsed (canonical arrows first). */
 export interface PreparedStep {
@@ -50,6 +51,8 @@ export interface PreparedReaction {
   readonly stateIdToSymmetries: Map<string, MapNumberRelabelling[]>;
   /** The symmetries of each state with its drawn hydrogens folded (withHydrogensFolded). */
   readonly stateIdToFoldedSymmetries: Map<string, MapNumberRelabelling[]>;
+  /** Item 12d: each state's mirror symmetries (achiral states with stereocentre marks). */
+  readonly stateIdToMirrorSymmetries: Map<string, MapNumberRelabelling[]>;
 }
 
 function appendTo<Item>(table: Map<string, Item[]>, key: string, item: Item): void {
@@ -116,6 +119,7 @@ export function prepareReaction(mechanism: ReactionMechanism): PreparedReaction 
     stateIdToPartialProgressMessages,
     stateIdToSymmetries: new Map(),
     stateIdToFoldedSymmetries: new Map(),
+    stateIdToMirrorSymmetries: new Map(),
   };
 }
 
@@ -148,7 +152,24 @@ export function foldedSymmetriesOf(
   if (known !== undefined) {
     return known;
   }
-  const symmetries = skeletonSymmetries(withHydrogensFolded(graphOf(prepared, stateId)));
+  const graph = graphOf(prepared, stateId);
+  const symmetries = skeletonSymmetries(
+    withHydrogensFolded(graph, stereoDistinguishedHydrogens(graph)),
+  );
   prepared.stateIdToFoldedSymmetries.set(stateId, symmetries);
+  return symmetries;
+}
+
+/** A state's mirror symmetries (skeletonSymmetry.ts), worked out the first time they are needed. */
+export function mirrorSymmetriesOf(
+  prepared: PreparedReaction,
+  stateId: string,
+): MapNumberRelabelling[] {
+  const known = prepared.stateIdToMirrorSymmetries.get(stateId);
+  if (known !== undefined) {
+    return known;
+  }
+  const symmetries = mirrorSymmetries(graphOf(prepared, stateId));
+  prepared.stateIdToMirrorSymmetries.set(stateId, symmetries);
   return symmetries;
 }

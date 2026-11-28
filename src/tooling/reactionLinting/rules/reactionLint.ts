@@ -13,7 +13,10 @@
  *      groups (abbreviatedGroupRules).
  *   5. Chemistry, on the reaction prepared for assessment without any misconception whose pattern
  *      does not parse: steps reproduce their to-states and leaving steps reach different states
- *      (stepReproduction), misconception matching (misconceptionRules), the symmetry cap.
+ *      (stepReproduction), misconception matching (misconceptionRules), the symmetry cap, then
+ *      stereo (stereoRules: the drawing agrees with the marks, marks change only where arrows
+ *      act, no stereocentre left unmarked beside marked ones), then stereo questions
+ *      (stereoQuestionRules, over core/stereoQuestions).
  *
  * The rule ids and levels are listed in docs/schema-design.md §3.5. The same lint runs in the Node
  * command line (commandLine.ts) and, from item 8b, in the editor.
@@ -42,6 +45,12 @@ import {
 } from "./misconceptionRules.js";
 import { learnerTextFindings, symmetryCapFindings } from "./stateContentRules.js";
 import { equivalentLeavingStepFindings, stepReproductionFindings } from "./stepReproduction.js";
+import { stereoQuestionFindings } from "./stereoQuestionRules.js";
+import {
+  stereoChangeFindings,
+  stereoDrawingFindings,
+  unspecifiedStereocentreFindings,
+} from "./stereoRules.js";
 
 type DocumentRecord = Readonly<Record<string, unknown>>;
 
@@ -88,7 +97,7 @@ function stateReadingFindings(
 /** Every lint finding for the document, in the order of the steps above; empty if clean. */
 export function lintReaction(
   reactionDocument: DocumentRecord,
-  toolkit: Pick<ChemistryToolkit, "readAtoms">,
+  toolkit: Pick<ChemistryToolkit, "readAtoms" | "canonicalStereoSmiles">,
   maximumSymmetries: number = MAXIMUM_SKELETON_SYMMETRIES,
 ): LintFinding[] {
   const shapeFindings = schemaFindings(reactionDocument);
@@ -121,5 +130,9 @@ export function lintReaction(
     ...equivalentLeavingStepFindings(reaction, prepared),
     ...misconceptionMatchingFindings(reaction, prepared),
     ...symmetryCapFindings(reaction, prepared, maximumSymmetries),
+    ...stereoDrawingFindings(reaction, prepared),
+    ...stereoChangeFindings(reaction, prepared, toolkit),
+    ...unspecifiedStereocentreFindings(reaction, prepared, toolkit),
+    ...stereoQuestionFindings(reactionFile, prepared),
   ];
 }

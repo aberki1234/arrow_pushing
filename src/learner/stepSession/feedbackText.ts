@@ -3,6 +3,7 @@
  * heading and paragraphs, in the order of docs/schema-design.md section 5.1.
  */
 import type { AttemptAssessment } from "../../core/attemptAssessment/attemptAssessment.js";
+import type { StereoAnswerAssessment } from "../../core/stereoQuestions/stereoQuestions.js";
 
 export type FeedbackTone = "neutral" | "good" | "partial" | "plausible" | "wrong";
 
@@ -116,6 +117,63 @@ export function feedbackForAssessment(
         paragraphs: [
           "These arrows don't lead to the next intermediate. Change them, or take a hint.",
         ],
+      };
+  }
+}
+
+/** What a drawn single enantiomer is told when the racemic mixture is the answer. */
+export const SINGLE_ENANTIOMER_MESSAGE =
+  "This enantiomer forms, but so does its mirror image, in equal amounts: the product is a " +
+  "racemic mixture.";
+
+/**
+ * The feedback panel after "Check product" (docs/stereo-question.md). `explanationAfterStep` is
+ * the step's explanation, shown once the drawing is right.
+ */
+export function feedbackForStereoAssessment(
+  assessment: StereoAnswerAssessment,
+  explanationAfterStep: string,
+): FeedbackText {
+  const explanation = explanationAfterStep === "" ? [] : [explanationAfterStep];
+  switch (assessment.kind) {
+    case "right":
+      return {
+        feedbackTone: "good",
+        heading: "Correct",
+        paragraphs: [
+          ...(assessment.feedbackMessage === undefined ? [] : [assessment.feedbackMessage]),
+          ...explanation,
+        ],
+      };
+    case "authored":
+      return assessment.severity === "plausible"
+        ? {
+            feedbackTone: "plausible",
+            heading: "Plausible, but not the major product",
+            paragraphs: [assessment.feedbackMessage],
+          }
+        : {
+            feedbackTone: "wrong",
+            heading: "Not this arrangement",
+            paragraphs: [assessment.feedbackMessage],
+          };
+    case "racemicMixtureWrong":
+      return {
+        feedbackTone: "wrong",
+        heading: "Not a racemic mixture here",
+        paragraphs: [assessment.feedbackMessage],
+      };
+    case "singleEnantiomerOfRacemate":
+      return {
+        feedbackTone: "plausible",
+        heading: "Plausible, but not the whole answer",
+        paragraphs: [SINGLE_ENANTIOMER_MESSAGE],
+      };
+    case "otherArrangement":
+      return {
+        feedbackTone: "wrong",
+        heading: "Not this arrangement",
+        paragraphs: [assessment.feedbackMessage],
       };
   }
 }

@@ -185,9 +185,13 @@ reactions, track `electrophilic-aromatic-substitution`, problem sets in this ord
     `/`, `\`) in `mappedSmiles`; wedges stay the drawing and the linter checks they agree. Arrow application keeps
     untouched stereocentres; a centre the step makes or changes takes the authored to-state's configuration.
     Diastereotopic atoms stop being equivalent, so the syn H of an E2 is a wrong answer. Racemic outcomes: one
-    enantiomer drawn, caption "racemic". Face choice (endo/exo, Felkin) will be a **product question after the
-    arrows** ("Which product forms?", authored stereoisomeric alternatives with messages), after a mockup. Phases
-    1–2 first.
+    enantiomer drawn, caption "racemic" (the state field `stereoMeaning: "racemic"`, decided 2026-11-28; built with
+    phases 1–2 on 2026-11-28). **Stereo question (decided and built 2026-11-28, `docs/stereo-question.md`):** after
+    correct arrows, a step an author has given a `stereoQuestion` asks the learner to draw the product's
+    stereochemistry (design C: tap each new centre to a wedge, then a dash; a new C=C flips between geometries;
+    optionally tick "racemic mixture", which can be the right answer, as in SN1). Authored arrangements are `wrong`
+    or `plausible` ("Plausible, but not the major product"); either enantiomer may be allowed. A wrong answer counts
+    as a wrong attempt. No hints for it in v1.
   - Reagents/conditions are labels over the reaction arrow (context, not drawable species).
   - Counterions (Na⁺, MgBr⁺) drawn faded, not validated as participants.
 
@@ -626,5 +630,5 @@ Publish stage, the review queue, the review screen (only what changed, notes) an
   the authoring order (Foundations first). The items below are settled there, track by track, when each is drafted.
 - Tracks after "Electrophilic aromatic substitution" (e.g. Zaitsev versus Hofmann, kinetic versus thermodynamic enolates) and their
   problem sets. (Problem sets themselves were scoped on 2026-11-25: §1, §2, §5 "Learn".)
-- Deferred features: whole-mechanism mode, stereo face choice (phase 3 of item 12), learner accounts/leaderboards/sync, visual editor polish (v2).
+- Deferred features: whole-mechanism mode, learner accounts/leaderboards/sync, visual editor polish (v2).
 - The phase-2 MCP server's detailed design (§6 "Drafting with an assistant").

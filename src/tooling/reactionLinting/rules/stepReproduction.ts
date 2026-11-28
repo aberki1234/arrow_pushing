@@ -38,7 +38,7 @@ import {
   MappedSmilesError,
   stateGraphFromMappedSmiles,
 } from "../../../core/stateGraphs/mappedSmilesReading.js";
-import { stateGraphsEqual } from "../../../core/stateGraphs/stateGraph.js";
+import { appliedStateMatches } from "../../../core/stateGraphs/stateGraph.js";
 import type { LintedReaction, LintedStep } from "../findings/lintedReaction.js";
 import { type LintFinding, lintError } from "../findings/lintFindings.js";
 
@@ -175,7 +175,7 @@ function changeStepProblem(prepared: PreparedReaction, step: LintedStep): string
     }
     throw error;
   }
-  return stateGraphsEqual(result, graphOf(prepared, step.toStateId))
+  return appliedStateMatches(result, graphOf(prepared, step.toStateId))
     ? undefined
     : `the result is not state "${step.toStateId}"`;
 }

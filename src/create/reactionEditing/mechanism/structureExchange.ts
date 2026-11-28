@@ -10,9 +10,18 @@
  * gives the mapped Kekulé SMILES; coordinates are rescaled so the median bond is 1.5 long; an atom
  * without a map number gets the next free one.
  * Saving (applyEditedStructure): the start state takes any structure; every later state only a
- * new layout and wedges, because its bonds come from the arrows.
+ * new layout, wedges and stereo, because its bonds come from the arrows.
+ *
+ * Stereo (item 12c)
+ *   The SMILES marks are read from the drawing: a stereocentre's mark from the wedges and dashes
+ *   starting at it (drawing/moleculeDrawing/shared/stereoDrawing.ts), a double bond's cis/trans
+ *   from the layout, kept only where RDKit says the double bond is stereogenic (the two
+ *   relations give different canonical SMILES; a CH2= end or a ring double bond gives the same).
  */
-import type { ChemistryToolkit } from "../../../tooling/chemistryToolkit/chemistryToolkit.js";
+import {
+  type ChemistryToolkit,
+  smilesKeepingMapNumbers,
+} from "../../../tooling/chemistryToolkit/chemistryToolkit.js";
 import { stateGraphFromMappedSmiles } from "../../../core/stateGraphs/mappedSmilesReading.js";
 import { mappedSmilesFromStateGraph } from "../../../core/stateGraphs/mappedSmilesWriting.js";
 import {
@@ -21,9 +30,15 @@ import {
   type StateGraph,
   bondKey,
   bondKeyMapNumbers,
+  type DoubleBondRelation,
   formalCharge,
   stateGraphsEqual,
+  stateGraphsEqualIgnoringStereo,
 } from "../../../core/stateGraphs/stateGraph.js";
+import {
+  drawnDoubleBondRelation,
+  tetrahedralMarksFromDrawing,
+} from "../../../drawing/moleculeDrawing/shared/stereoDrawing.js";
 import type { FieldEdit } from "../draft/fieldEdits.js";
 import { type ReactionDocument, statesOf } from "../draft/reactionDraft.js";
 
@@ -229,10 +244,62 @@ function graphOfWritten(
   return { mapNumberToAtom, bondToOrder };
 }
 
+type StereoToolkit = Pick<ChemistryToolkit, "readMolblock" | "canonicalStereoSmiles">;
+
+/**
+ * Whether RDKit tells the two relations of a double bond apart (see the module comment). A double
+ * bond our writer cannot mark (every neighbour of an end reached by a ring closure) is in a small
+ * ring, so it is not stereogenic either.
+ */
+function isStereogenic(
+  graph: StateGraph,
+  key: string,
+  toolkit: Pick<ChemistryToolkit, "canonicalStereoSmiles">,
+): boolean {
+  // Only the two ends keep their map numbers: RDKit would rank alike groups apart by them.
+  const ends = new Set(bondKeyMapNumbers(key));
+  const written = (relation: DoubleBondRelation): string | undefined =>
+    toolkit.canonicalStereoSmiles(
+      smilesKeepingMapNumbers(
+        mappedSmilesFromStateGraph({
+          ...graph,
+          bondToDoubleBondRelation: new Map([[key, relation]]),
+        }),
+        ends,
+      ),
+    );
+  try {
+    return written("cis") !== written("trans");
+  } catch {
+    return false;
+  }
+}
+
+/** The graph with the stereo its drawing shows (see the module comment). */
+function withDrawnStereo(
+  graph: StateGraph,
+  coordinates: Readonly<Record<string, readonly number[]>>,
+  wedges: Readonly<Record<string, "wedge" | "dash">>,
+  toolkit: Pick<ChemistryToolkit, "canonicalStereoSmiles">,
+): StateGraph {
+  const bondToDoubleBondRelation = new Map<string, DoubleBondRelation>();
+  for (const [key, order] of graph.bondToOrder) {
+    const relation = order === 2 ? drawnDoubleBondRelation(graph, key, coordinates) : undefined;
+    if (relation !== undefined && isStereogenic(graph, key, toolkit)) {
+      bondToDoubleBondRelation.set(key, relation);
+    }
+  }
+  return {
+    ...graph,
+    mapNumberToTetrahedralMark: tetrahedralMarksFromDrawing(graph, coordinates, wedges),
+    bondToDoubleBondRelation,
+  };
+}
+
 /** Ketcher's molfile as a state's structure; `used` are map numbers already in the reaction. */
 export function molfileToStructure(
   molfile: string,
-  toolkit: Pick<ChemistryToolkit, "readMolblock">,
+  toolkit: StereoToolkit,
   used: readonly number[],
 ): EditedStructure {
   const { atoms, bonds } = parseMolfile(molfile);
@@ -248,9 +315,16 @@ export function molfileToStructure(
       return style === undefined ? [] : [[key, style]];
     }),
   );
+  const mapNumberToCoordinates = scaledCoordinates(atoms, bonds, mapNumbers);
+  const graph = withDrawnStereo(
+    graphOfWritten(written, mapNumbers),
+    mapNumberToCoordinates,
+    bondToWedgeStyle,
+    toolkit,
+  );
   return {
-    mappedSmiles: mappedSmilesFromStateGraph(graphOfWritten(written, mapNumbers)),
-    mapNumberToCoordinates: scaledCoordinates(atoms, bonds, mapNumbers),
+    mappedSmiles: mappedSmilesFromStateGraph(graph),
+    mapNumberToCoordinates,
     bondToWedgeStyle,
   };
 }
@@ -310,18 +384,16 @@ export function applyEditedStructure(
   }
   const current = state as Record<string, unknown>;
   const isStart = document.startStateId === stateId;
-  if (!isStart) {
-    const same = stateGraphsEqual(
-      stateGraphFromMappedSmiles(String(current.mappedSmiles)),
-      stateGraphFromMappedSmiles(structure.mappedSmiles),
-    );
-    if (!same) {
-      return { outcome: "refused", reason: BONDS_LOCKED };
-    }
+  const currentGraph = stateGraphFromMappedSmiles(String(current.mappedSmiles));
+  const editedGraph = stateGraphFromMappedSmiles(structure.mappedSmiles);
+  if (!isStart && !stateGraphsEqualIgnoringStereo(currentGraph, editedGraph)) {
+    return { outcome: "refused", reason: BONDS_LOCKED };
   }
+  // A later state may change only its stereo: its SMILES is replaced only when that changed.
+  const takesSmiles = isStart || !stateGraphsEqual(currentGraph, editedGraph);
   const updated: Record<string, unknown> = {
     ...current,
-    ...(isStart ? { mappedSmiles: structure.mappedSmiles } : {}),
+    ...(takesSmiles ? { mappedSmiles: structure.mappedSmiles } : {}),
     mapNumberToCoordinates: centredLike(structure.mapNumberToCoordinates, current),
   };
   if (Object.keys(structure.bondToWedgeStyle).length > 0) {
@@ -352,7 +424,7 @@ export function saveStructureFromEditor(
   document: ReactionDocument,
   stateId: string,
   molfile: string,
-  toolkit: Pick<ChemistryToolkit, "readMolblock">,
+  toolkit: StereoToolkit,
 ): FieldEdit {
   try {
     const structure = molfileToStructure(molfile, toolkit, usedMapNumbers(document));

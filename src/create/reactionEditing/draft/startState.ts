@@ -34,6 +34,8 @@ import {
 export interface DraftState {
   readonly mappedSmiles: string;
   readonly mapNumberToCoordinates: Record<string, [number, number]>;
+  /** Item 12c: wedges drawn from the SMILES marks; absent when the state has none. */
+  readonly bondToWedgeStyle?: Record<string, "wedge" | "dash">;
 }
 
 export type StructureEntryErrorCode =

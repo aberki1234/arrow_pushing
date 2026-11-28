@@ -33,7 +33,8 @@ Do not change agreed decisions without asking; update `docs/SPEC.md` and `docs/s
   imports only the parts before it (`.dependency-cruiser.cjs`). Tiers and folders, lowest first:
   - `core/`: `jsonValues/` (checks on plain JSON values: `isRecord`), `arrowNotation/`, `stateGraphs/` (strict
     mapped-SMILES parser, applying arrows), `reactionFiles/` (the typed reaction file and its two readers, Ajv, the
-    preferred route), `attemptAssessment/` (the validator's decision), `trackFiles/` (the track schema and types),
+    preferred route), `attemptAssessment/` (the validator's decision), `stereoQuestions/` (the stereo question:
+    question centres, assessing a drawn arrangement, its lint problems), `trackFiles/` (the track schema and types),
     `catalogue/` (reading `catalogue.json`, reaction version refs).
   - `drawing/`: `moleculeDrawing/` (state → SVG primitives and pick targets, curved-arrow geometry, the scheme).
   - `learner/`: `stepSession/` (taps → arrows, a run through a reaction, scoring, snapshots, feedback text),

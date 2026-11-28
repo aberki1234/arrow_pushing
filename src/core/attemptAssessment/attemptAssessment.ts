@@ -39,8 +39,10 @@ import {
   type PreparedReaction,
   type PreparedStep,
   foldedSymmetriesOf,
+  mirrorSymmetriesOf,
   symmetriesOf,
 } from "./preparedReaction.js";
+import { stereoDistinguishedHydrogens } from "./hydrogenFolding.js";
 import type { StateComparison } from "./resonanceEquivalence.js";
 import {
   type RelabelledArrowSet,
@@ -432,12 +434,14 @@ export function assessAttempt(
     cancellingArrows: cancellingArrowsOf(learnerArrows),
     symmetries: symmetriesOf(prepared, stateId),
     foldedSymmetries: foldedSymmetriesOf(prepared, stateId),
+    mirrorSymmetries: mirrorSymmetriesOf(prepared, stateId),
+    keptHydrogens: stereoDistinguishedHydrogens(graphOf(prepared, stateId)),
   };
   const attempt: Attempt = {
     ...facts,
     stepComparisons: onFirstUse(() => stepComparisons(facts)),
     relabelledArrowSets: onFirstUse(() =>
-      relabelledArrowSets(facts.learnerArrows, facts.symmetries),
+      relabelledArrowSets(facts.learnerArrows, [...facts.symmetries, ...facts.mirrorSymmetries]),
     ),
   };
   const meaningless: GenericRuleAssessment | undefined =

@@ -9,6 +9,8 @@ import { beforeAll, expect, test } from "vitest";
 import type { StepSession } from "../../stepSession/stepSession.js";
 import { startStepSession } from "../../stepSession/stepSession.js";
 import { exampleSessionReaction } from "../../../testSupport/exampleSessions.js";
+import { exampleReactionFile } from "../../../testSupport/exampleReactionFiles.js";
+import { readSessionReaction } from "../../stepSession/sessionReaction.js";
 import StepPlay from "./StepPlay.svelte";
 
 beforeAll(() => {
@@ -76,4 +78,88 @@ test("a refused tap is explained in the feedback panel", async () => {
   renderSn2();
   await pressEnterOn("C2");
   expect(screen.getByRole("status").textContent).toContain("Start from electrons");
+});
+
+test("a racemic state says so under its drawing", () => {
+  const session = startStepSession(exampleSessionReaction("e2-anti-periplanar-cyclohexane"));
+  render(StepPlay, {
+    props: { session, update: () => undefined, heading: "E2", subtitle: "" },
+  });
+  const caption = screen.getByText(/racemic/);
+  expect(caption.textContent.trim()).toBe("trans-1-bromo-2-methylcyclohexane + ethoxide · racemic");
+});
+
+test("a stereo question: after correct arrows, tap the centre and check the product", async () => {
+  let session: StepSession = startStepSession(
+    exampleSessionReaction("sn2-2-bromobutane-inversion"),
+  );
+  const rendered = render(StepPlay, {
+    props: {
+      session,
+      update: (next: StepSession) => {
+        session = next;
+        void rendered.rerender({ session });
+      },
+      heading: "SN2 with inversion",
+      subtitle: "",
+    },
+  });
+  await pressEnterOn("lone pair on O1");
+  await pressEnterOn("C2");
+  await pressEnterOn("bond C2–Br3");
+  await pressEnterOn("Br3");
+  await fireEvent.click(screen.getByRole("button", { name: "Check" }));
+  expect(screen.getByRole("status").textContent).toContain("Arrows correct");
+  const checkProduct = screen.getByRole("button", { name: "Check product" });
+  expect((checkProduct as HTMLButtonElement).disabled).toBe(true);
+  const centre = screen.getByRole("button", { name: /stereocentre C2: not set yet/ });
+  await fireEvent.keyDown(centre, { key: "Enter" });
+  await fireEvent.click(screen.getByRole("button", { name: "Check product" }));
+  const firstAnswer = screen.getByRole("status").textContent;
+  if (!firstAnswer.includes("Correct")) {
+    // The first tap drew the other configuration: one more tap gives the right one.
+    expect(firstAnswer).toContain("Not this arrangement");
+    await fireEvent.keyDown(screen.getByRole("button", { name: /stereocentre C2: set/ }), {
+      key: "Enter",
+    });
+    await fireEvent.click(screen.getByRole("button", { name: "Check product" }));
+  }
+  expect(screen.getByRole("status").textContent).toContain("Correct");
+  expect(screen.getByRole("button", { name: "Next step →" })).toBeTruthy();
+});
+
+test("after a right racemic answer, the product is drawn with its own wedges", async () => {
+  // The SN2 file turned into an SN1-like question (racemic answer right), only to test the screen.
+  const file = exampleReactionFile("sn2-2-bromobutane-inversion.json");
+  const [step] = file.steps;
+  if (step === undefined || step.stepKind === "change") {
+    throw new Error("the example has one arrow step");
+  }
+  const stereoQuestion = {
+    acceptEnantiomer: true,
+    otherArrangements: [],
+    racemicMixture: { isRight: true, feedbackMessage: "Either face." },
+  };
+  const racemicRight = { ...file, steps: [{ ...step, stereoQuestion }] };
+  let session: StepSession = startStepSession(readSessionReaction(racemicRight));
+  const rendered = render(StepPlay, {
+    props: {
+      session,
+      update: (next: StepSession) => {
+        session = next;
+        void rendered.rerender({ session });
+      },
+      heading: "Racemic",
+      subtitle: "",
+    },
+  });
+  await pressEnterOn("lone pair on O1");
+  await pressEnterOn("C2");
+  await pressEnterOn("bond C2–Br3");
+  await pressEnterOn("Br3");
+  await fireEvent.click(screen.getByRole("button", { name: "Check" }));
+  await fireEvent.click(screen.getByRole("checkbox", { name: /racemic mixture/ }));
+  await fireEvent.click(screen.getByRole("button", { name: "Check product" }));
+  expect(screen.getByRole("status").textContent).toContain("Correct");
+  expect(rendered.container.querySelectorAll(".wedge, .hash").length).toBeGreaterThan(0);
 });

@@ -175,3 +175,20 @@ it("moves on to the next item when every item is done", () => {
     "hintTiers state:reactants",
   );
 });
+
+it("offers a stereo question on a step that sets a stereocentre, and only there", () => {
+  // docs/stereo-question.md: optional; done once the step asks one.
+  const inversion = exampleReaction("sn2-2-bromobutane-inversion.json");
+  const lines = itemLines(teachingChecklist(inversion, []));
+  expect(lines).toContain("state reactants: stereoQuestion optional done 1");
+  const plain = itemLines(
+    teachingChecklist(exampleReaction("sn2-hydroxide-bromomethane.json"), []),
+  );
+  expect(plain.some((line) => line.includes("stereoQuestion"))).toBe(false);
+  const steps = (inversion.steps as JsonRecord[]).map((step) =>
+    Object.fromEntries(Object.entries(step).filter(([key]) => key !== "stereoQuestion")),
+  );
+  expect(itemLines(teachingChecklist({ ...inversion, steps }, []))).toContain(
+    "state reactants: stereoQuestion optional missing 0",
+  );
+});

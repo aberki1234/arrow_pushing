@@ -23,6 +23,7 @@ import {
   ArrowApplicationError,
   applyCurvedArrows,
   applySpeciesChange,
+  withStereoFromToState,
   SpeciesChangeError,
 } from "../../../core/stateGraphs/arrowApplication.js";
 import {
@@ -37,7 +38,13 @@ import {
 } from "../../../core/stateGraphs/stateGraph.js";
 import { type Coordinates, placedClearOf, positionInLargestGap } from "./atomPlacement.js";
 import { type ReactionDocument, statesOf, stepsOf } from "../draft/reactionDraft.js";
+import { withWedgesForMarks } from "./stereoWedges.js";
 import { isRecord } from "../../../core/jsonValues/jsonValues.js";
+import type { ArrowStep } from "../../../core/reactionFiles/reactionFile.js";
+import {
+  type StepStates,
+  arrangementsForNewProduct,
+} from "../../../core/stereoQuestions/arrangementRegeneration.js";
 
 export type StateEdit =
   | { readonly outcome: "edited"; readonly document: ReactionDocument }
@@ -118,11 +125,14 @@ export function editStateSmiles(
     }
     throw error;
   }
-  const editedState = {
-    ...state,
-    mappedSmiles,
-    mapNumberToCoordinates: coordinatesFor(graph, coordinatesOf(state)),
-  };
+  const editedState = withWedgesForMarks(
+    {
+      ...state,
+      mappedSmiles,
+      mapNumberToCoordinates: coordinatesFor(graph, coordinatesOf(state)),
+    },
+    graph,
+  );
   return {
     outcome: "edited",
     document: { ...document, stateIdToState: { ...statesOf(document), [stateId]: editedState } },
@@ -155,6 +165,10 @@ function appliedStep(step: JsonRecord, fromGraph: StateGraph): StateGraph | unde
 /** The states being regenerated: each state's current JSON, and what has happened so far. */
 interface Regeneration {
   readonly states: Record<string, JsonRecord>;
+  /** The states before regeneration, to find which question centres each arrangement inverts. */
+  readonly originalStates: Readonly<Record<string, JsonRecord>>;
+  /** Steps whose stereo question's arrangements were rewritten, by step key. */
+  readonly stepKeyToRewrittenStep: Map<string, JsonRecord>;
   readonly regeneratedStateIds: string[];
   readonly brokenStepKeys: string[];
 }
@@ -171,7 +185,12 @@ function regenerateStep(
 ): boolean {
   const fromStateId = String(step.fromStateId);
   const toStateId = String(step.toStateId);
-  const result = appliedStep(step, fromGraph);
+  const applied = appliedStep(step, fromGraph);
+  // A centre the step makes or changes keeps the configuration the author gave the to-state.
+  const result =
+    applied === undefined
+      ? undefined
+      : withStereoFromToState(applied, graphIn(regeneration, toStateId));
   const unchanged =
     result !== undefined && stateGraphsEqual(result, graphIn(regeneration, toStateId));
   if (
@@ -188,13 +207,44 @@ function regenerateStep(
     ...coordinatesOf(regeneration.states[fromStateId] ?? {}),
     ...coordinatesOf(regeneration.states[toStateId] ?? {}),
   };
-  regeneration.states[toStateId] = {
-    ...regeneration.states[toStateId],
-    mappedSmiles: mappedSmilesFromStateGraph(result),
-    mapNumberToCoordinates: coordinatesFor(result, known),
-  };
+  regeneration.states[toStateId] = withWedgesForMarks(
+    {
+      ...regeneration.states[toStateId],
+      mappedSmiles: mappedSmilesFromStateGraph(result),
+      mapNumberToCoordinates: coordinatesFor(result, known),
+    },
+    result,
+  );
   regeneration.regeneratedStateIds.push(toStateId);
+  rewriteArrangements(regeneration, step, { fromState: fromGraph, toState: result });
   return true;
+}
+
+/** The step's stereo question arrangements rewritten for its regenerated to-state. */
+function rewriteArrangements(
+  regeneration: Regeneration,
+  step: JsonRecord,
+  after: StepStates,
+): void {
+  if (!isRecord(step.stereoQuestion)) {
+    return;
+  }
+  const original = (stateId: unknown): StateGraph =>
+    stateGraphFromMappedSmiles(String(regeneration.originalStates[String(stateId)]?.mappedSmiles));
+  try {
+    const before = { fromState: original(step.fromStateId), toState: original(step.toStateId) };
+    const otherArrangements = arrangementsForNewProduct(
+      step as unknown as ArrowStep,
+      before,
+      after,
+    );
+    regeneration.stepKeyToRewrittenStep.set(String(step.stepKey), {
+      ...step,
+      stereoQuestion: { ...step.stereoQuestion, otherArrangements },
+    });
+  } catch {
+    // An unreadable original state: the arrangements stay, and the lint tells the author.
+  }
 }
 
 /** Regenerate the states after `stateId` (see the module comment). */
@@ -202,7 +252,15 @@ export function regenerateStatesAfter(
   document: ReactionDocument,
   stateId: string,
 ): StateRegeneration {
-  const regeneration: Regeneration = { states: {}, regeneratedStateIds: [], brokenStepKeys: [] };
+  const regeneration: Regeneration = {
+    states: {},
+    originalStates: Object.fromEntries(
+      Object.entries(statesOf(document)).map(([id, state]) => [id, isRecord(state) ? state : {}]),
+    ),
+    stepKeyToRewrittenStep: new Map(),
+    regeneratedStateIds: [],
+    brokenStepKeys: [],
+  };
   for (const [id, state] of Object.entries(statesOf(document))) {
     regeneration.states[id] = isRecord(state) ? state : {};
   }
@@ -221,9 +279,13 @@ export function regenerateStatesAfter(
       }
     }
   }
-  const { states, regeneratedStateIds, brokenStepKeys } = regeneration;
+  const { states, regeneratedStateIds, brokenStepKeys, stepKeyToRewrittenStep } = regeneration;
+  const steps = stepsOf(document).map(
+    (step) => stepKeyToRewrittenStep.get(String(step.stepKey)) ?? step,
+  );
   return {
-    document: regeneratedStateIds.length > 0 ? { ...document, stateIdToState: states } : document,
+    document:
+      regeneratedStateIds.length > 0 ? { ...document, stateIdToState: states, steps } : document,
     regeneratedStateIds,
     brokenStepKeys,
   };

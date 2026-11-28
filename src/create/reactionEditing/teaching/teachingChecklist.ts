@@ -4,7 +4,8 @@
  * Groups, in the order of the state strip (stateStrip.ts), then the reaction's own group:
  *   state        a state with arrow steps leaving it: the learner prompt (needed), hint tiers
  *                (needed; done at three), misconceptions (recommended), and the explanation after
- *                each arrow step leaving it (recommended).
+ *                each arrow step leaving it (recommended), and a stereo question on each arrow step
+ *                leaving it that sets a stereocentre (optional; docs/stereo-question.md).
  *   changeStep   a change step: its caption (recommended).
  *   reaction     the mechanism summary (needed: the schema requires it).
  * An item is built from the draft's own fields, not from the lint: a new draft fails the schema,
@@ -15,6 +16,7 @@ import type { LintFinding } from "../../../tooling/reactionLinting/findings/lint
 import { type LintPlace, placeOfFinding } from "../draft/lintPlaces.js";
 import { type ReactionDocument, statesOf, stepsOf } from "../draft/reactionDraft.js";
 import { stateStripRows } from "../outline/stateStrip.js";
+import { stepCanAskStereo } from "./stereoQuestionAuthoring.js";
 import { isRecord } from "../../../core/jsonValues/jsonValues.js";
 
 export type TeachingItemKind =
@@ -23,7 +25,8 @@ export type TeachingItemKind =
   | "misconceptions"
   | "explanationAfterStep"
   | "caption"
-  | "mechanismSummary";
+  | "mechanismSummary"
+  | "stereoQuestion";
 
 export type TeachingNeed = "needed" | "recommended" | "optional";
 
@@ -108,6 +111,23 @@ function teachingItem(
   };
 }
 
+/** A stereo question item for each of `steps` that sets a stereocentre (optional). */
+function stereoQuestionItems(
+  making: ItemMaking,
+  steps: readonly Readonly<Record<string, unknown>>[],
+): TeachingItem[] {
+  return steps
+    .filter((step) => stepCanAskStereo(making.document, String(step.stepKey)))
+    .map((step) =>
+      teachingItem(making, {
+        itemKind: "stereoQuestion",
+        need: "optional",
+        place: { placeKind: "step", stepKey: String(step.stepKey), field: "stereoQuestion" },
+        filled: isRecord(step.stereoQuestion) ? 1 : 0,
+      }),
+    );
+}
+
 function stateGroup(making: ItemMaking, stateId: string): TeachingGroup | undefined {
   const leavingArrowSteps = stepsOf(making.document).filter(
     (step) => step.fromStateId === stateId && step.stepKind !== "change",
@@ -149,6 +169,7 @@ function stateGroup(making: ItemMaking, stateId: string): TeachingGroup | undefi
         filled: filledTextCount(step.explanationAfterStep),
       }),
     ),
+    ...stereoQuestionItems(making, leavingArrowSteps),
   ];
   return { groupKind: "state", groupSubject: stateId, items };
 }

@@ -33,6 +33,12 @@
  *   9. octet-exceeded                      an atom touched by an arrow has more valence-shell
  *                                          electrons than its period allows (2, 8, or 12)
  *
+ * Stereo (item 12b, docs/stereo-validation.md phase 1)
+ *   A stereocentre keeps its mark when no arrow touches it and its neighbours are unchanged; a
+ *   double bond keeps cis or trans when no arrow touches either end, it is still double and both
+ *   ends keep their neighbours. Other marks are dropped: the step made or changed that centre, so
+ *   its configuration is the author's, taken from the to-state by withStereoFromToState().
+ *
  * Change steps
  *   applySpeciesChange() adds a change step's molecules (new map numbers only) and removes whole
  *   molecules. Error codes (SpeciesChangeError.errorCode): added-map-number-in-use,
@@ -48,8 +54,11 @@ import {
   bondKeyMapNumbers,
   lonePairCount,
   maximumValenceShellElectrons,
+  bondedNeighbours,
+  type DoubleBondRelation,
   type StateAtom,
   type StateGraph,
+  type TetrahedralMark,
   unpairedElectronCount,
   valenceShellElectronCount,
 } from "./stateGraph.js";
@@ -304,7 +313,7 @@ export function applyCurvedArrows(
   }
   const changes = electronChangesOf(curvedArrows);
   const bondToOrder = bondOrdersAfter(graph, changes.bondToElectronChange);
-  const appliedGraph: StateGraph = {
+  const appliedWithoutStereo: StateGraph = {
     mapNumberToAtom: atomsAfter(graph, changes.mapNumberToNonbondingChange),
     bondToOrder,
   };
@@ -313,8 +322,8 @@ export function applyCurvedArrows(
       [...curvedArrow.source.atoms, ...curvedArrow.destination.atoms].map((atom) => atom.mapNumber),
     ),
   );
-  checkOctets(appliedGraph, touchedMapNumbers);
-  return appliedGraph;
+  checkOctets(appliedWithoutStereo, touchedMapNumbers);
+  return withStereoKept(graph, appliedWithoutStereo, touchedMapNumbers);
 }
 
 /** The map numbers of the molecule (connected fragment) that contains `startMapNumber`. */
@@ -380,5 +389,110 @@ export function applySpeciesChange(
     mapNumberToAtom.set(mapNumber, atom);
   }
   addedSpecies?.bondToOrder.forEach((order, key) => bondToOrder.set(key, order));
-  return { mapNumberToAtom, bondToOrder };
+  return {
+    mapNumberToAtom,
+    bondToOrder,
+    ...stereoAfterChange(graph, addedSpecies, removedMapNumbers),
+  };
+}
+
+/** A change step moves whole molecules: atoms left keep their marks, arrivals bring theirs. */
+function stereoAfterChange(
+  graph: StateGraph,
+  addedSpecies: StateGraph | undefined,
+  removedMapNumbers: ReadonlySet<number>,
+): Pick<StateGraph, "mapNumberToTetrahedralMark" | "bondToDoubleBondRelation"> {
+  const isKept = (mapNumbers: readonly number[]): boolean =>
+    mapNumbers.every((mapNumber) => !removedMapNumbers.has(mapNumber));
+  return {
+    mapNumberToTetrahedralMark: new Map([
+      ...[...(graph.mapNumberToTetrahedralMark ?? [])].filter(([mapNumber]) => isKept([mapNumber])),
+      ...(addedSpecies?.mapNumberToTetrahedralMark ?? []),
+    ]),
+    bondToDoubleBondRelation: new Map([
+      ...[...(graph.bondToDoubleBondRelation ?? [])].filter(([key]) =>
+        isKept(bondKeyMapNumbers(key)),
+      ),
+      ...(addedSpecies?.bondToDoubleBondRelation ?? []),
+    ]),
+  };
+}
+
+// ---- Stereo ----
+
+/**
+ * What a stereo mark depends on, as text: the atom's hydrogen count and its neighbours' map
+ * numbers. A mark is kept or copied only between atoms with the same neighbourhood.
+ */
+function neighbourhoodOf(graph: StateGraph, mapNumber: number): string | undefined {
+  const atom = graph.mapNumberToAtom.get(mapNumber);
+  if (atom === undefined) {
+    return undefined;
+  }
+  const neighbours = bondedNeighbours(graph, mapNumber)
+    .map((neighbour) => neighbour.mapNumber)
+    .sort((first, second) => first - second);
+  return `${String(atom.hydrogenCount)}:${neighbours.join(",")}`;
+}
+
+function sameNeighbourhood(first: StateGraph, second: StateGraph, mapNumber: number): boolean {
+  const neighbourhood = neighbourhoodOf(first, mapNumber);
+  return neighbourhood !== undefined && neighbourhood === neighbourhoodOf(second, mapNumber);
+}
+
+/**
+ * The marks of `from` that still describe `to`: at atoms outside `excluded` whose neighbours and
+ * hydrogen count are the same in both (for a double bond: both ends, and still double).
+ */
+export function stereoCarriedOver(
+  from: StateGraph,
+  to: StateGraph,
+  excluded: ReadonlySet<number>,
+): {
+  mapNumberToTetrahedralMark: Map<number, TetrahedralMark>;
+  bondToDoubleBondRelation: Map<string, DoubleBondRelation>;
+} {
+  const carries = (mapNumber: number): boolean =>
+    !excluded.has(mapNumber) && sameNeighbourhood(from, to, mapNumber);
+  return {
+    mapNumberToTetrahedralMark: new Map(
+      [...(from.mapNumberToTetrahedralMark ?? [])].filter(([mapNumber]) => carries(mapNumber)),
+    ),
+    bondToDoubleBondRelation: new Map(
+      [...(from.bondToDoubleBondRelation ?? [])].filter(
+        ([key]) => to.bondToOrder.get(key) === 2 && bondKeyMapNumbers(key).every(carries),
+      ),
+    ),
+  };
+}
+
+/** `applied` with the stereo of `before` that no arrow touched (see the module comment). */
+function withStereoKept(
+  before: StateGraph,
+  applied: StateGraph,
+  touchedMapNumbers: ReadonlySet<number>,
+): StateGraph {
+  return { ...applied, ...stereoCarriedOver(before, applied, touchedMapNumbers) };
+}
+
+/**
+ * The applied state with the to-state's stereo added where the applied state has none: a
+ * stereocentre or double bond the step made or changed takes the authored configuration
+ * (docs/stereo-validation.md phase 1). A mark is copied only when the atom (or both ends of the
+ * double bond) has the same neighbours and hydrogen count in both states; marks the applied state
+ * kept are never replaced.
+ */
+export function withStereoFromToState(applied: StateGraph, toState: StateGraph): StateGraph {
+  const fromToState = stereoCarriedOver(toState, applied, new Set());
+  return {
+    ...applied,
+    mapNumberToTetrahedralMark: new Map([
+      ...fromToState.mapNumberToTetrahedralMark,
+      ...(applied.mapNumberToTetrahedralMark ?? []),
+    ]),
+    bondToDoubleBondRelation: new Map([
+      ...fromToState.bondToDoubleBondRelation,
+      ...(applied.bondToDoubleBondRelation ?? []),
+    ]),
+  };
 }

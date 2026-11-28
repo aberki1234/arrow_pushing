@@ -68,6 +68,11 @@ Each term below means exactly one thing in the docs, the JSON and the code.
 | **site role / site action** | A user's role (`owner`, `reviewer`, `contributor`, `blocked`) and what it allows (`createReactions`, `seeEveryReaction`, `submitForReview`, `publish` (directly, the owner only), `review`, `manageUsers`); decided only in `reactionDatabase/model/sitePermissions.ts`. |
 | **version author** | The user who wrote a reaction version (`reaction_versions.author_user_id`); only they save it. Not the reaction's owner, who made version 1. |
 | **review decision** | A reviewer's `publish` or `changes_requested` on a submitted version, stored in `reviews` with an overall comment and **pinned notes**. Not an attempt assessment. |
+| **stereo question** | A step's optional request to draw the product's stereochemistry after correct arrows (`step.stereoQuestion`, docs/stereo-question.md). A wrong answer counts as a wrong check. |
+| **question centre** | An atom (stereocentre) or double bond whose configuration a step sets: marked in the to-state and not carried over unchanged from the from-state. Derived, never stored. |
+| **arrangement** | One configuration of all a step's question centres. The right one is the to-state's; others are authored as `otherArrangements`, each `wrong` or `plausible`. Not "alternative" (an alternative product, §3.5). |
+| **drawn arrangement** | The arrangement the learner has drawn: the to-state with the learner's marks at the question centres. |
+| **stereo answer assessment** | The verdict on one drawn arrangement or on the racemic-mixture answer (`core/stereoQuestions`). Not an attempt assessment, which judges arrows. |
 | **compared entry / change key / version change** | What the review screen compares between two versions: one reaction field, a state's structure or one of its learner texts, a step's arrows or texts (`reactionEditing/review/versionChanges.ts`). Its **change key** names it in both versions (`state:reactants hintTiers:1`) and is what a pinned note points at; a **version change** is one added, removed or changed. |
 
 Abbreviations: `lp` = lone pair; `rad` = radical (unpaired electron); SMILES = simplified molecular-input line-entry
@@ -208,6 +213,7 @@ named `keyToValue`.
   "mapNumberToCoordinates": { "1": [-3.0, 0.0], "2": [0.0, 0.0], "3": [1.9, 0.0], "4": [-4.5, 0.8] },
   "mapNumberToLonePairAnglesDegrees": { "1": [90, 210, 330] },   // optional; otherwise placed automatically
   "bondToWedgeStyle": { "2-5": "wedge" },     // key "<map number>-<map number>", wide end at the second; the drawing (item 12: must agree with the SMILES marks)
+  "stereoMeaning": "racemic",                 // optional (item 12): one enantiomer drawn for a racemic mixture; "racemic" shown under the drawing
   "annotations": [{ "text": "nucleophile", "nearMapNumber": 1 }],
   "caption": "hydroxide + bromomethane",
 
@@ -239,10 +245,15 @@ named `keyToValue`.
   "routePreference": "preferred",        // preferred | accepted
   "canonicalArrows": ["lp O1 -> σ O1-C2", "σ C2-Br3 -> lp Br3"],   // order carries no meaning
   "partialArrowSets": [],                // optional, §5.3
-  "explanationAfterStep": "Backside attack and leaving-group departure happen in one concerted step …"
+  "explanationAfterStep": "Backside attack and leaving-group departure happen in one concerted step …",
+  "stereoQuestion": { "acceptEnantiomer": false, "otherArrangements": [ … ] }   // optional, docs/stereo-question.md
 }
 ```
 
+* **Stereo question** (optional, arrow steps only; docs/stereo-question.md): after correct arrows the learner draws
+  the product's stereochemistry at the question centres. `acceptEnantiomer`, `otherArrangements[]` (`mappedSmiles`
+  = the whole to-state with other marks, `severity` `wrong` | `plausible`, `feedbackMessage`), optional
+  `racemicMixture` (`isRight`, `feedbackMessage`) and `otherArrangementMessage`.
 * A concerted step is several arrows (Diels–Alder: 3).
 * **A branch** is another step leaving the same state toward a **different** state. Different arrow sets that reach
   the **same** state need no listing: acceptance is by result (§4).
@@ -307,6 +318,21 @@ lint when the rest could not run):
 | `abbreviated-group-not-attached-once` | error | in a state holding all its atoms, the group is not one connected piece joined to the rest by exactly one bond from `attachmentMapNumber` |
 | `arrow-touches-abbreviated-group` | error | canonical arrows or a partial arrow set use an atom of a group (the attachment bond included): the learner could not tap it |
 | `misconception-in-abbreviated-group` | warning | a misconception pattern names an atom of a group, so it can never fire |
+| `wedges-disagree-with-smiles` | error | item 12c: a marked stereocentre has no wedge or dash starting at it, or one showing the other configuration; a wedge starts at an unmarked atom; a cis/trans double bond is drawn the other way round (or in line) |
+| `stereocentre-changes-without-arrows` | error | item 12c: between a step's states, a centre or double bond no canonical arrow touches (same neighbours in both) gains, loses or changes its mark; a change step touches nothing |
+| `stereocentre-unspecified` | warning | item 12c: in a state that marks a stereocentre, RDKit finds another with no mark |
+| `wedges-without-stereo-marks` | warning | item 12c: a state has wedges but no stereocentre marks at all (drawn before item 12, when wedges were display only); a warning so files published then still build |
+| `stereo-question-without-question-centres` | error | stereo question (docs/stereo-question.md): the step sets no stereocentre or cis/trans double bond, so there is nothing to tap |
+| `arrangement-not-the-product` | error | stereo question (docs/stereo-question.md): an arrangement's SMILES cannot be read, or is not the to-state's atoms and bonds (ignoring stereo) |
+| `arrangement-changes-other-centres` | error | stereo question (docs/stereo-question.md): an arrangement differs from the to-state at an atom or bond that is not a question centre (the learner could never draw it) |
+| `arrangement-is-the-answer` | error | stereo question (docs/stereo-question.md): an arrangement equals the to-state, or (with `acceptEnantiomer`) its mirror image |
+| `arrangement-repeated` | error | stereo question (docs/stereo-question.md): two arrangements are equal, or (with `acceptEnantiomer`) mirror images of each other |
+| `arrangement-has-unset-centre` | error | stereo question (docs/stereo-question.md): an arrangement leaves a question centre unmarked |
+| `enantiomer-accepted-with-fixed-centres` | error | stereo question (docs/stereo-question.md): `acceptEnantiomer` is true but the product has a stereocentre the step does not set (inverting only the new centres gives a diastereomer) |
+| `enantiomer-rejected-for-racemic-product` | error | stereo question (docs/stereo-question.md): `acceptEnantiomer` is false, the to-state is racemic, and every stereocentre of the product is a question centre |
+| `enantiomer-accepted-for-single-enantiomer` | warning | stereo question (docs/stereo-question.md): `acceptEnantiomer` is true but the to-state is not marked racemic |
+| `racemic-mixture-right-for-single-enantiomer` | error | stereo question (docs/stereo-question.md): `racemicMixture.isRight` is true but the to-state is not marked racemic |
+| `racemic-mixture-right-with-fixed-centres` | error | stereo question (docs/stereo-question.md): `racemicMixture.isRight` is true but the product has a stereocentre the step does not set |
 
 **Abbreviated groups** (decided 2026-11-25): listed explicitly by the author (no automatic detection), `groupLabel`
 at most 6 characters. A group is drawn as its label wherever it is intact (all its atoms present, one bond from the
@@ -992,13 +1018,51 @@ RDKit (RDKit.js) on every valid SMILES case and every example state (`src/toolin
       ascending map number); `bondToDoubleBondRelation` holds `cis`/`trans` between each end's lowest-numbered
       other neighbour. New error `invalid-stereo-mark`; direction marks on ring closures stay unsupported. The
       fixture JSON gains `tetrahedralMarks` and `doubleBondStereo` only when a state has stereo. Checked against
-      RDKit (`canonicalStereoSmiles`): reading and rewriting keeps every fixture's stereoisomer. Until 12b, arrow
-      application drops stereo, so content should not use marks yet.
-    * **12b** Arrow application keeps untouched stereo; centres the step makes or changes come from the to-state.
-    * **12c** Stereo-aware comparison; lint `wedges-disagree-with-smiles`, `stereocentre-changes-without-arrows`,
-      `stereocentre-unspecified`; the editor fills wedges from the marks.
-    * **12d** Stereo-aware skeleton symmetry (diastereotopic atoms distinct): E2 anti-periplanar assessed.
+      RDKit (`canonicalStereoSmiles`): reading and rewriting keeps every fixture's stereoisomer.
+    * **12b Done 2026-11-28.** Arrow application keeps untouched stereo (`arrowApplication.ts`): a centre keeps
+      its mark when no arrow touches it and its neighbours and hydrogen count are unchanged; a double bond keeps
+      cis/trans when neither end is touched and both keep their neighbours. Other marks are dropped, and
+      `withStereoFromToState()` fills them from the to-state (same neighbourhood only; kept marks are never
+      replaced). `appliedStateMatches()` (stateGraph.ts): same atoms, electrons and bonds, and every kept mark
+      agrees with the to-state; used by the linter for change steps. A change step keeps every remaining mark and
+      adds the arriving molecules'. The editor's regeneration keeps the authored configuration of centres a
+      step makes.
+    * **12c Done 2026-11-28.** Stereo-aware comparison: `renamedStereo()` (stereoMarks.ts) turns marks through a
+      relabelling or hydrogen folding, so `relabelStateGraph` and `withHydrogensFolded` keep stereo; a result is
+      identical or a resonance form only when every mark it has agrees with the target (a missing one is the
+      target's). Drawing (`drawing/moleculeDrawing/shared/stereoDrawing.ts`): the mark a drawing shows (wedge at the
+      narrow end; sign of a volume, checked by hand and against RDKit's own wedges), cis/trans from coordinates,
+      `wedgesForMarks` (keeps agreeing wedges, prefers H, unmarked, acyclic, carbon neighbours). Lint rules
+      `wedges-disagree-with-smiles`, `stereocentre-changes-without-arrows` (errors), `stereocentre-unspecified`
+      (warning; RDKit keeps a trial mark only on a real stereocentre). Editor: wedges are redrawn from the marks
+      after a SMILES edit, a regeneration, a new or changed state and a dragged atom; drawn arrows join a state with
+      marks; Ketcher's wedges and layout become marks (cis/trans only where RDKit finds the bond stereogenic), and a
+      later state may change its stereo but not its bonds. New example reaction `sn2-2-bromobutane-inversion`.
+      Refined 2026-11-28 while adding stereo to the content: a wedge goes on a bond in the smallest ring when no
+      acyclic bond is free (the C–O of an epoxide, the C–Br of a bromonium ion); `stereocentre-changes-without-
+      arrows` allows a mark to appear on an atom that was not a stereocentre (a step can make one without touching
+      it, as when proline's enamine picks one of two alike carbonyls); RDKit is asked about a candidate centre with
+      drawn hydrogens folded and other map numbers removed, and atoms whose neighbours a skeleton symmetry swaps
+      (two methyls, a sulfinate's oxygens) are not stereocentres. The catalogue build reports, but does not stop on,
+      lint errors in a superseded published version: published versions are history, and only the newest is what
+      learners are given.
+    * **12d Done 2026-11-28.** Stereo-aware skeleton symmetry (`skeletonSymmetry.ts`): a symmetry must keep every
+      mark, so diastereotopic atoms (the two drawn H of a marked CH2) are distinct. Drawn H bonded to a marked
+      centre are not folded in the folded comparison (`stereoDistinguishedHydrogens`). Mirror symmetries (a
+      reordering that inverts every centre: the state is achiral) compare the mirror image of the result, so the
+      mirror-image answer from a meso start is correct. New example `e2-anti-periplanar-cyclohexane`
+      (trans-1-bromo-2-methylcyclohexane: only H13 on C6 is anti-periplanar; H14 and the Zaitsev H15 are authored
+      misconceptions, and H14 is wrong even without its misconception).
     * **12e** First content: SN2, E2 and bromination drafts with marks.
+    * **12f Done 2026-11-28.** The stereo question (design and decisions: `docs/stereo-question.md`; prototypes
+      `mockups/stereo-choice/build2.html`, `author.html`). Schema `step.stereoQuestion`; `core/stereoQuestions`
+      (question centres, prepare, assess, the drawn arrangement, the authoring problems, and rewriting arrangements
+      after a regeneration in `arrangementRegeneration.ts`); eleven lint rules (§3.5) as a thin adapter
+      (`stereoQuestionRules.ts`); a session phase `stereoQuestion` after correct arrows (a wrong answer adds to
+      `wrongCheckCount`; daily mode misses the step on the last try); the learner taps each question centre to a
+      wedge, then a dash (a new C=C is drawn in line until set), with a racemic-mixture tick box; Create's Teaching
+      item "Stereo question" (optional, on steps that set a stereocentre) with arrangements tapped like the learner
+      taps; the question is a compared entry in version changes. The SN2 example asks one.
 
 ## 12. Corrections to the mockup content
 

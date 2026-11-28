@@ -178,7 +178,18 @@ function annotationsValue(
   return { value: kept.length === 0 ? undefined : kept };
 }
 
-/** learnerPrompt and caption (text), hintTiers (texts), annotations ({text, nearMapNumber}). */
+/** "racemic" is the only stereo meaning; undefined or "" clears it. */
+function stereoMeaningValue(value: unknown): Checked {
+  if (value === undefined || value === "") {
+    return { value: undefined };
+  }
+  return value === "racemic" ? { value } : { reason: 'the only stereo meaning is "racemic"' };
+}
+
+/**
+ * learnerPrompt and caption (text), hintTiers (texts), annotations ({text, nearMapNumber}),
+ * stereoMeaning ("racemic", or undefined to clear it).
+ */
 export function setStateField(
   document: ReactionDocument,
   stateId: string,
@@ -197,6 +208,8 @@ export function setStateField(
     checked = { value: tiers.length === 0 ? undefined : tiers };
   } else if (key === "annotations") {
     checked = annotationsValue(state, value);
+  } else if (key === "stereoMeaning") {
+    checked = stereoMeaningValue(value);
   } else {
     checked = { reason: `"${key}" is not a state field the editor sets` };
   }

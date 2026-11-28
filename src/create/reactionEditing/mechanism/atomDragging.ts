@@ -5,6 +5,7 @@
  */
 import { type ReactionDocument, statesOf } from "../draft/reactionDraft.js";
 import { isRecord } from "../../../core/jsonValues/jsonValues.js";
+import { withWedgesForMarks } from "./stereoWedges.js";
 
 const rounded = (value: number): number => Math.round(value * 100) / 100 + 0;
 
@@ -28,9 +29,10 @@ export function moveAtom(
     rounded(atomX + screenDelta.deltaX / pixelsPerUnit),
     rounded(atomY - screenDelta.deltaY / pixelsPerUnit),
   ];
-  const movedState = {
+  // Moving an atom can turn the drawing into the other stereoisomer: redraw wedges that would.
+  const movedState = withWedgesForMarks({
     ...state,
     mapNumberToCoordinates: { ...coordinates, [String(mapNumber)]: moved },
-  };
+  });
   return { ...document, stateIdToState: { ...statesOf(document), [stateId]: movedState } };
 }
