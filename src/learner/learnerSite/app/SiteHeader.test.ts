@@ -5,6 +5,7 @@
  */
 import { render, screen } from "@testing-library/svelte";
 import { expect, test } from "vitest";
+import { brandMarkGeometry } from "../model/brandMark.js";
 import { aboutLink, navigationTabs } from "../model/siteNavigation.js";
 import SiteHeader from "./SiteHeader.svelte";
 
@@ -40,4 +41,16 @@ test("keeps About just before the theme switch on Create, after Sign out", () =>
   const source = screen.getByRole("link", { name: "Source code" });
   expect(source.previousElementSibling?.textContent).toBe("Sign out");
   expect(source.nextElementSibling?.textContent).toContain("Theme");
+});
+
+test("draws the brand mark as the curved arrow on an accent tile", () => {
+  render(SiteHeader, {
+    props: { tabs: learnerTabs, about: aboutLink(""), currentTab: null, brandHref: "#/" },
+  });
+  // The reference is brandMark.ts, which favicon.svg also follows (siteIcons.test.ts).
+  const geometry = brandMarkGeometry();
+  const mark = screen.getByRole("link", { name: "ArrowPush" }).querySelector("svg");
+  expect(mark?.querySelector("rect")?.getAttribute("fill")).toBe("var(--accent)");
+  expect(mark?.querySelector("path")?.getAttribute("d")).toBe(geometry.arrowShaftPath);
+  expect(mark?.querySelector("polygon")?.getAttribute("points")).toBe(geometry.arrowheadPoints);
 });
