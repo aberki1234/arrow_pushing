@@ -77,3 +77,11 @@ test("a refused tap is explained in the feedback panel", async () => {
   await pressEnterOn("C2");
   expect(screen.getByRole("status").textContent).toContain("Start from electrons");
 });
+
+test("a racemic state says so under its drawing", () => {
+  const session = startStepSession(exampleSessionReaction("e2-anti-periplanar-cyclohexane"));
+  render(StepPlay, {
+    props: { session, update: () => undefined, heading: "E2", subtitle: "" },
+  });
+  expect(screen.getByText("racemic")).toBeTruthy();
+});

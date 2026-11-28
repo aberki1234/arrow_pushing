@@ -185,7 +185,8 @@ reactions, track `electrophilic-aromatic-substitution`, problem sets in this ord
     `/`, `\`) in `mappedSmiles`; wedges stay the drawing and the linter checks they agree. Arrow application keeps
     untouched stereocentres; a centre the step makes or changes takes the authored to-state's configuration.
     Diastereotopic atoms stop being equivalent, so the syn H of an E2 is a wrong answer. Racemic outcomes: one
-    enantiomer drawn, caption "racemic". Face choice (endo/exo, Felkin) will be a **product question after the
+    enantiomer drawn, caption "racemic" (the state field `stereoMeaning: "racemic"`, decided 2026-11-28; built with
+    phases 1–2 on 2026-11-28). Face choice (endo/exo, Felkin) will be a **product question after the
     arrows** ("Which product forms?", authored stereoisomeric alternatives with messages), after a mockup. Phases
     1–2 first.
   - Reagents/conditions are labels over the reaction arrow (context, not drawable species).

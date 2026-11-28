@@ -99,6 +99,7 @@
         "6-14": "wedge"
       },
       "caption": "trans-1-bromo-2-methylcyclohexane + ethoxide",
+      "stereoMeaning": "racemic",
       "learnerPrompt": "Draw the arrows for the E2 elimination. Which hydrogen can the base remove?",
       "hintTiers": [
         "E2 needs the C–H bond anti-periplanar to the C–Br bond: in a cyclohexane chair both must be axial, so trans to each other on neighbouring carbons.",
@@ -190,7 +191,8 @@
         "2-7": "dash",
         "2-15": "wedge"
       },
-      "caption": "3-methylcyclohexene + ethanol + bromide"
+      "caption": "3-methylcyclohexene + ethanol + bromide",
+      "stereoMeaning": "racemic"
     }
   },
   "steps": [

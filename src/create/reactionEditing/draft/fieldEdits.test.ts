@@ -93,6 +93,14 @@ describe("state and step fields", () => {
     expect(stateRecord(kept, "reactants").annotations).toEqual(annotations.slice(0, 1));
   });
 
+  it("marks a state racemic, clears the mark, and refuses any other stereo meaning", () => {
+    const racemic = edited(setStateField(sn2, "products", "stereoMeaning", "racemic"));
+    expect(stateRecord(racemic, "products").stereoMeaning).toBe("racemic");
+    const cleared = edited(setStateField(racemic, "products", "stereoMeaning", undefined));
+    expect("stereoMeaning" in stateRecord(cleared, "products")).toBe(false);
+    expect(refusalOf(setStateField(sn2, "products", "stereoMeaning", "meso"))).toContain("racemic");
+  });
+
   it("sets a step's explanation", () => {
     const document = edited(
       setStepField(sn2, "substitution", "explanationAfterStep", "Backside attack."),

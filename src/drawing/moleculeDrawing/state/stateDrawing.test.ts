@@ -250,3 +250,9 @@ describe("abbreviated groups", () => {
     expect(plainLabel(drawnAtomOf(draw("products"), 3).labelText)).toBe("Br−");
   });
 });
+
+test("a racemic state carries the label drawn under it; others carry none", () => {
+  // docs/stereo-validation.md: one enantiomer is drawn and the state is captioned "racemic".
+  expect(drawExample("e2-anti-periplanar-cyclohexane", "reactants").stereoLabel).toBe("racemic");
+  expect(drawExample(SN2, "reactants").stereoLabel).toBe("");
+});

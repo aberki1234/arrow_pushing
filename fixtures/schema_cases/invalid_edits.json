@@ -48,6 +48,7 @@
     {"caseName": "abbreviated group label longer than six characters", "baseReactionFile": "wittig-methylenation-cyclohexanone.json",
      "pathToSet": ["abbreviatedGroups", 0, "groupLabel"], "newValue": "Phenyl1", "expectedViolationPath": "/abbreviatedGroups/0/groupLabel"},
     {"caseName": "abbreviated group without its map numbers", "baseReactionFile": "wittig-methylenation-cyclohexanone.json",
-     "pathToDelete": ["abbreviatedGroups", 0, "mapNumbers"], "expectedViolationPath": "/abbreviatedGroups/0"}
+     "pathToDelete": ["abbreviatedGroups", 0, "mapNumbers"], "expectedViolationPath": "/abbreviatedGroups/0"},
+    {"caseName": "stereo meaning other than racemic", "baseReactionFile": "e2-anti-periplanar-cyclohexane.json", "pathToSet": ["stateIdToState", "products", "stereoMeaning"], "newValue": "meso", "expectedViolationPath": "/stateIdToState/products/stereoMeaning"}
   ]
 }

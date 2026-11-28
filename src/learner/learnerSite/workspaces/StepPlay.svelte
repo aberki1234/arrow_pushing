@@ -132,8 +132,12 @@
           {destinations}
           onPick={pickTarget}
         />
-        {#if drawing.caption}
-          <p class="caption muted">{drawing.caption}</p>
+        {#if drawing.caption || drawing.stereoLabel}
+          <p class="caption muted">
+            {drawing.caption}{#if drawing.stereoLabel}{#if drawing.caption}
+                ·
+              {/if}<span class="stereo-label">{drawing.stereoLabel}</span>{/if}
+          </p>
         {/if}
       </div>
     {/key}

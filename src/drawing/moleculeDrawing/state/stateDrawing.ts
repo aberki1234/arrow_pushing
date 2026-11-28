@@ -56,6 +56,8 @@ export interface StateDisplayFields {
   readonly bondToWedgeStyle?: Readonly<Record<string, WedgeStyle>>;
   readonly annotations?: readonly { readonly text: string; readonly nearMapNumber: number }[];
   readonly caption?: string;
+  /** "racemic": one enantiomer drawn for a racemic mixture. */
+  readonly stereoMeaning?: "racemic";
 }
 
 export type { AbbreviatedGroup } from "../shared/abbreviatedGroups.js";
@@ -126,6 +128,8 @@ export interface StateDrawing {
   readonly electronDots: readonly DrawnElectronDot[];
   readonly annotations: readonly DrawnAnnotation[];
   readonly caption: string;
+  /** "racemic" for a racemic state (shown under the drawing), otherwise empty. */
+  readonly stereoLabel: string;
   /**
    * Atoms, then bonds, then electron dots: the order to draw them in, so the small electron
    * targets sit on top of the atom targets they overlap.
@@ -430,6 +434,7 @@ export function drawState(
   return {
     ...parts,
     caption: displayFields.caption ?? "",
+    stereoLabel: displayFields.stereoMeaning === "racemic" ? "racemic" : "",
     pickTargets: pickTargetsOf(graph, parts, plan),
     viewBox: viewBoxAround(boxedPoints, VIEW_BOX_PADDING),
     centroid: centroidOf(parts.atoms),

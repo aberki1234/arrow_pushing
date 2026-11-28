@@ -1,6 +1,6 @@
 <script lang="ts">
   // The selected state's rarely needed settings on the Mechanism stage: its id (renamed
-  // everywhere), the caption under its drawing, and notes on atoms (annotations).
+  // everywhere), the caption under its drawing, whether it is racemic, and notes on atoms.
   import { renameState, setStateField } from "../../reactionEditing/draft/fieldEdits.js";
   import { type ReactionDocument, statesOf } from "../../reactionEditing/draft/reactionDraft.js";
   import { annotationsText, readAnnotations } from "../model/fieldText.js";
@@ -42,6 +42,18 @@
       apply(setStateField(document, stateId, "caption", event.currentTarget.value));
     }}
   />
+  <label class="f racemic">
+    <input
+      type="checkbox"
+      data-field="stereoMeaning"
+      checked={state.stereoMeaning === "racemic"}
+      onchange={(event) => {
+        const racemic = event.currentTarget.checked ? "racemic" : undefined;
+        apply(setStateField(document, stateId, "stereoMeaning", racemic));
+      }}
+    />
+    Racemic: one enantiomer is drawn (shown as "racemic" under the drawing)
+  </label>
   <label class="f" for="annotations">Notes on atoms (text @ atom number, one per line)</label>
   <textarea
     id="annotations"

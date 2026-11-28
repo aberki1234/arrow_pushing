@@ -123,6 +123,10 @@
           }
         },
         "caption": { "type": "string" },
+        "stereoMeaning": {
+          "enum": ["racemic"],
+          "description": "racemic: one enantiomer is drawn for a racemic mixture; shown as 'racemic' under the drawing (item 12, docs/stereo-validation.md)."
+        },
         "learnerPrompt": { "$ref": "#/$defs/nonEmptyText" },
         "hintTiers": {
           "description": "Position 0 conceptual, 1 narrowing, 2 reveal (the reveal also shows the preferred step's arrows).",

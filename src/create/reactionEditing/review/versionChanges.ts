@@ -208,6 +208,7 @@ function stateEntries(stateId: string, state: JsonRecord, prefix: string): Compa
   return [
     structureEntry(stateId, state, prefix),
     stateTextEntry(stateId, state, ["caption", "Caption"], prefix),
+    stateTextEntry(stateId, state, ["stereoMeaning", "Stereo (racemic)"], prefix),
     stateTextEntry(stateId, state, ["annotations", "Labels"], prefix),
     stateTextEntry(stateId, state, ["learnerPrompt", "Question the learner sees"], prefix),
     ...listEntries(stateId, state.hintTiers, { field: "hintTiers", label: "Hint", prefix }, textOf),

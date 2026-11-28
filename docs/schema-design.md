@@ -208,6 +208,7 @@ named `keyToValue`.
   "mapNumberToCoordinates": { "1": [-3.0, 0.0], "2": [0.0, 0.0], "3": [1.9, 0.0], "4": [-4.5, 0.8] },
   "mapNumberToLonePairAnglesDegrees": { "1": [90, 210, 330] },   // optional; otherwise placed automatically
   "bondToWedgeStyle": { "2-5": "wedge" },     // key "<map number>-<map number>", wide end at the second; the drawing (item 12: must agree with the SMILES marks)
+  "stereoMeaning": "racemic",                 // optional (item 12): one enantiomer drawn for a racemic mixture; "racemic" shown under the drawing
   "annotations": [{ "text": "nucleophile", "nearMapNumber": 1 }],
   "caption": "hydroxide + bromomethane",
 

@@ -55,6 +55,8 @@ export interface ReactionState {
   readonly bondToWedgeStyle?: Readonly<Record<string, "wedge" | "dash">>;
   readonly annotations?: readonly StateAnnotation[];
   readonly caption?: string;
+  /** "racemic": one enantiomer is drawn for a racemic mixture (shown under the drawing). */
+  readonly stereoMeaning?: "racemic";
   readonly learnerPrompt?: string;
   /** Position 0 conceptual, 1 narrowing, 2 reveal. */
   readonly hintTiers?: readonly string[];
