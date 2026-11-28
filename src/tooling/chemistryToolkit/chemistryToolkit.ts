@@ -204,6 +204,20 @@ function toolkitOn(rdkit: RDKitModule): ChemistryToolkit {
   };
 }
 
+/**
+ * The SMILES with every map number removed except those in `keptMapNumbers`. RDKit ranks atoms
+ * by their map numbers too, so two methyls numbered 4 and 6 count as different; asking RDKit
+ * whether an atom is a stereocentre needs the other numbers gone (item 12c).
+ */
+export function smilesKeepingMapNumbers(
+  smiles: string,
+  keptMapNumbers: ReadonlySet<number>,
+): string {
+  return smiles.replace(/:(\d+)\]/g, (matched, digits: string) =>
+    keptMapNumbers.has(Number(digits)) ? matched : "]",
+  );
+}
+
 let loadedToolkit: Promise<ChemistryToolkit> | undefined;
 
 /**

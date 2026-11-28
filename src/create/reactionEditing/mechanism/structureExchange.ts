@@ -18,7 +18,10 @@
  *   from the layout, kept only where RDKit says the double bond is stereogenic (the two
  *   relations give different canonical SMILES; a CH2= end or a ring double bond gives the same).
  */
-import type { ChemistryToolkit } from "../../../tooling/chemistryToolkit/chemistryToolkit.js";
+import {
+  type ChemistryToolkit,
+  smilesKeepingMapNumbers,
+} from "../../../tooling/chemistryToolkit/chemistryToolkit.js";
 import { stateGraphFromMappedSmiles } from "../../../core/stateGraphs/mappedSmilesReading.js";
 import { mappedSmilesFromStateGraph } from "../../../core/stateGraphs/mappedSmilesWriting.js";
 import {
@@ -253,12 +256,17 @@ function isStereogenic(
   key: string,
   toolkit: Pick<ChemistryToolkit, "canonicalStereoSmiles">,
 ): boolean {
+  // Only the two ends keep their map numbers: RDKit would rank alike groups apart by them.
+  const ends = new Set(bondKeyMapNumbers(key));
   const written = (relation: DoubleBondRelation): string | undefined =>
     toolkit.canonicalStereoSmiles(
-      mappedSmilesFromStateGraph({
-        ...graph,
-        bondToDoubleBondRelation: new Map([[key, relation]]),
-      }),
+      smilesKeepingMapNumbers(
+        mappedSmilesFromStateGraph({
+          ...graph,
+          bondToDoubleBondRelation: new Map([[key, relation]]),
+        }),
+        ends,
+      ),
     );
   try {
     return written("cis") !== written("trans");

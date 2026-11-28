@@ -15,7 +15,8 @@
  *                                              finds another with no mark. Found by marking the
  *                                              atom and asking RDKit whether the mark survives
  *                                              (RDKit drops marks on atoms that are not
- *                                              stereocentres).
+ *                                              stereocentres), with the other map numbers
+ *                                              removed (RDKit would rank atoms by them).
  */
 import { parseCurvedArrow } from "../../../core/arrowNotation/curvedArrowNotation.js";
 import {
@@ -34,7 +35,10 @@ import {
   drawnDoubleBondRelation,
   drawnTetrahedralMark,
 } from "../../../drawing/moleculeDrawing/shared/stereoDrawing.js";
-import type { ChemistryToolkit } from "../../chemistryToolkit/chemistryToolkit.js";
+import {
+  type ChemistryToolkit,
+  smilesKeepingMapNumbers,
+} from "../../chemistryToolkit/chemistryToolkit.js";
 import type { LintedReaction, LintedState, LintedStep } from "../findings/lintedReaction.js";
 import { type LintFinding, lintError, lintWarning } from "../findings/lintFindings.js";
 
@@ -200,7 +204,8 @@ function isStereocentreForRdkit(
       [centre, "@"],
     ]),
   };
-  const canonical = toolkit.canonicalStereoSmiles(mappedSmilesFromStateGraph(marked)) ?? "";
+  const written = smilesKeepingMapNumbers(mappedSmilesFromStateGraph(marked), new Set([centre]));
+  const canonical = toolkit.canonicalStereoSmiles(written) ?? "";
   return new RegExp(`\\[[^\\]]*@[^\\]]*:${String(centre)}\\]`).test(canonical);
 }
 
