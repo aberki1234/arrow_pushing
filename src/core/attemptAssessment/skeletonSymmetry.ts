@@ -38,6 +38,7 @@ import {
   type StateAtom,
   type StateGraph,
 } from "../stateGraphs/stateGraph.js";
+import { IMPLICIT_NEIGHBOUR, renamedStereo } from "../stateGraphs/stereoMarks.js";
 
 /** A safety cap, not a chemistry number: above it, answers are compared without symmetry. */
 export const MAXIMUM_SKELETON_SYMMETRIES = 10_000;
@@ -283,7 +284,10 @@ function relabelled(mapNumber: number, relabelling: MapNumberRelabelling): numbe
   return relabelling.get(mapNumber) ?? mapNumber;
 }
 
-/** The same state with every atom renumbered; electrons and bond orders move with the atoms. */
+/**
+ * The same state with every atom renumbered; electrons, bond orders and stereo marks move with
+ * the atoms (each mark turned to the new canonical neighbour order).
+ */
 export function relabelStateGraph(
   graph: StateGraph,
   relabelling: MapNumberRelabelling,
@@ -301,7 +305,12 @@ export function relabelStateGraph(
       order,
     );
   }
-  return { mapNumberToAtom, bondToOrder };
+  const rename = (mapNumber: number): number => relabelled(mapNumber, relabelling);
+  return {
+    mapNumberToAtom,
+    bondToOrder,
+    ...renamedStereo(graph, { atom: rename, neighbour: rename }),
+  };
 }
 
 /**
@@ -397,7 +406,12 @@ export function withHydrogensFolded(graph: StateGraph): StateGraph {
       bondKeyMapNumbers(key).every((mapNumber) => !foldInto.has(mapNumber)),
     ),
   );
-  return { mapNumberToAtom, bondToOrder };
+  // A folded H becomes its neighbour's implicit H: a centre left with two loses its mark.
+  const stereo = renamedStereo(graph, {
+    atom: (mapNumber) => mapNumber,
+    neighbour: (mapNumber) => (foldInto.has(mapNumber) ? IMPLICIT_NEIGHBOUR : mapNumber),
+  });
+  return { mapNumberToAtom, bondToOrder, ...stereo };
 }
 
 /** The same arrow with its atoms renumbered (bond atoms re-sorted by map number). */

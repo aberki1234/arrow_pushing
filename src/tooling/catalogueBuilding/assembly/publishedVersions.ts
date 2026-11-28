@@ -57,7 +57,7 @@ function findingLine(finding: LintFinding): string {
  */
 export function readPublishedVersion(
   reactionPath: string,
-  toolkit: Pick<ChemistryToolkit, "readAtoms">,
+  toolkit: Pick<ChemistryToolkit, "readAtoms" | "canonicalStereoSmiles">,
 ): { publishedVersion: PublishedVersion; lintWarnings: LintFinding[] } {
   const reactionDocument = readReactionJson(reactionPath);
   const lintFindings = lintReaction(reactionDocument, toolkit);

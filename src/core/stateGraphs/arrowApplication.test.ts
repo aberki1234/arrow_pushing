@@ -1,7 +1,7 @@
 /**
  * Tests for arrowApplication.ts. The shared cases in
  * fixtures/state_graphs/arrow_application_cases.json are the reference. The strongest check is
- * that every step of the four example reactions, applied to its from-state, gives exactly its
+ * that every step of the example reactions, applied to its from-state, gives exactly its
  * to-state.
  */
 import { expect, test } from "vitest";
@@ -121,8 +121,8 @@ test("applying arrows leaves the input state unchanged", () => {
 });
 
 test("the example reactions have steps to check", () => {
-  // SN2 1, aldol 4 (one a change step), radical bromination 2, Wittig 4.
-  expect(exampleSteps.length).toBe(11);
+  // SN2 1, SN2 with inversion 1, aldol 4 (one a change step), radical bromination 2, Wittig 4.
+  expect(exampleSteps.length).toBe(12);
 });
 
 test.each(exampleSteps)("example step $testId reproduces its to-state", ({ document, step }) => {

@@ -32,6 +32,7 @@ import {
 } from "../draft/startState.js";
 import { routePreferenceFor } from "./stepGeneration.js";
 import { isRecord } from "../../../core/jsonValues/jsonValues.js";
+import { withWedgesForMarks } from "./stereoWedges.js";
 
 export type ChangeStepAddition =
   | {
@@ -94,7 +95,8 @@ function changedState(
         return [String(mapNumber), [atomX, atomY]];
       }),
     );
-    return { mappedSmiles: mappedSmilesFromStateGraph(result), mapNumberToCoordinates };
+    const toState = { mappedSmiles: mappedSmilesFromStateGraph(result), mapNumberToCoordinates };
+    return withWedgesForMarks(toState, result);
   } catch (error) {
     if (error instanceof SpeciesChangeError) {
       return { reason: `${error.errorCode}: ${error.message}` };

@@ -396,10 +396,7 @@ export function applySpeciesChange(
   };
 }
 
-/**
- * The stereo after a change step: whole molecules go or come, so every atom left keeps its
- * neighbours and its marks, and the arriving molecules bring theirs.
- */
+/** A change step moves whole molecules: atoms left keep their marks, arrivals bring theirs. */
 function stereoAfterChange(
   graph: StateGraph,
   addedSpecies: StateGraph | undefined,
@@ -443,8 +440,11 @@ function sameNeighbourhood(first: StateGraph, second: StateGraph, mapNumber: num
   return neighbourhood !== undefined && neighbourhood === neighbourhoodOf(second, mapNumber);
 }
 
-/** The marks of `from` that still describe `to`, leaving out atoms in `excluded`. */
-function stereoCarriedOver(
+/**
+ * The marks of `from` that still describe `to`: at atoms outside `excluded` whose neighbours and
+ * hydrogen count are the same in both (for a double bond: both ends, and still double).
+ */
+export function stereoCarriedOver(
   from: StateGraph,
   to: StateGraph,
   excluded: ReadonlySet<number>,

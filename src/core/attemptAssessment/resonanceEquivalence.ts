@@ -16,15 +16,21 @@
  *   resonanceForm       another resonance form, with no more charged atoms
  *   minorResonanceForm  a resonance form with more charged atoms than the target
  *   different           not a resonance form of the target
+ *
+ * Stereo (item 12c, docs/stereo-validation.md phase 1)
+ *   Every stereocentre mark the result has must be the target's (after relabelling), and so must
+ *   every cis/trans relation, where the target's bond has one (a resonance form moves π bonds).
+ *   A mark the result lacks belongs to a centre the step made or changed: the target decides it.
+ *   Otherwise the result is a different stereoisomer: "different".
  */
 import {
   bondOrderBetween,
   bondedNeighbours,
   formalCharge,
   type StateGraph,
-  stateGraphsEqual,
   unpairedElectronCount,
 } from "../stateGraphs/stateGraph.js";
+import { renamedStereo } from "../stateGraphs/stereoMarks.js";
 import { type MapNumberRelabelling, relabelledSkeletonMatches } from "./skeletonSymmetry.js";
 
 export type StateComparison = "identical" | "resonanceForm" | "minorResonanceForm" | "different";
@@ -60,60 +66,14 @@ function molecules(graph: StateGraph): Set<number>[] {
   return moleculesFound;
 }
 
-/** Same atoms with the same elements and hydrogen counts, and the same bonded pairs. */
-function sameSigmaSkeleton(result: StateGraph, target: StateGraph): boolean {
-  if (result.mapNumberToAtom.size !== target.mapNumberToAtom.size) {
-    return false;
-  }
-  for (const [mapNumber, targetAtom] of target.mapNumberToAtom) {
-    const resultAtom = result.mapNumberToAtom.get(mapNumber);
-    if (
-      resultAtom?.element !== targetAtom.element ||
-      resultAtom.hydrogenCount !== targetAtom.hydrogenCount
-    ) {
-      return false;
-    }
-  }
-  return (
-    result.bondToOrder.size === target.bondToOrder.size &&
-    [...target.bondToOrder.keys()].every((key) => result.bondToOrder.has(key))
-  );
-}
-
 function unpairedAt(graph: StateGraph, mapNumber: number): number {
   const atom = graph.mapNumberToAtom.get(mapNumber);
   return atom === undefined ? 0 : unpairedElectronCount(atom);
 }
 
-function sameChargeAndUnpairedElectronsPerMolecule(
-  result: StateGraph,
-  target: StateGraph,
-): boolean {
-  const countFunctions = [formalCharge, unpairedAt];
-  return molecules(target).every((molecule) =>
-    countFunctions.every((countOf) => {
-      const members = [...molecule];
-      const resultSum = members.reduce((sum, mapNumber) => sum + countOf(result, mapNumber), 0);
-      const targetSum = members.reduce((sum, mapNumber) => sum + countOf(target, mapNumber), 0);
-      return resultSum === targetSum;
-    }),
-  );
-}
-
 /** How `result` relates to `target`, with atoms compared by map number (no symmetry). */
 export function compareStates(result: StateGraph, target: StateGraph): StateComparison {
-  if (stateGraphsEqual(result, target)) {
-    return "identical";
-  }
-  if (
-    !sameSigmaSkeleton(result, target) ||
-    !sameChargeAndUnpairedElectronsPerMolecule(result, target)
-  ) {
-    return "different";
-  }
-  return chargedAtomCount(result) > chargedAtomCount(target)
-    ? "minorResonanceForm"
-    : "resonanceForm";
+  return relabelledComparison(result, target)(new Map());
 }
 
 /** Charge and unpaired electrons, the two counts a molecule keeps through resonance. */
@@ -130,6 +90,32 @@ function hasStereoMarks(graph: StateGraph): boolean {
   return (
     (graph.mapNumberToTetrahedralMark?.size ?? 0) > 0 ||
     (graph.bondToDoubleBondRelation?.size ?? 0) > 0
+  );
+}
+
+/**
+ * Whether the result's stereo, relabelled, agrees with the target's (see the module comment).
+ * With `allRelations`, every relation must be in the target (the same drawing); otherwise only
+ * those on bonds where the target has one (a resonance form).
+ */
+function stereoAgreesUnder(
+  result: StateGraph,
+  relabelling: MapNumberRelabelling,
+  target: StateGraph,
+  allRelations: boolean,
+): boolean {
+  const rename = (mapNumber: number): number => relabelling.get(mapNumber) ?? mapNumber;
+  const stereo = renamedStereo(result, { atom: rename, neighbour: rename });
+  const targetMarks = target.mapNumberToTetrahedralMark;
+  const targetRelations = target.bondToDoubleBondRelation;
+  return (
+    [...stereo.mapNumberToTetrahedralMark].every(
+      ([centre, mark]) => targetMarks?.get(centre) === mark,
+    ) &&
+    [...stereo.bondToDoubleBondRelation].every(([key, relation]) => {
+      const targetRelation = targetRelations?.get(key);
+      return targetRelation === undefined ? !allRelations : targetRelation === relation;
+    })
   );
 }
 
@@ -157,8 +143,8 @@ function sameElectronsUnder(
  * building each relabelled state (issue #1). What does not depend on the relabelling is worked
  * out once: the target's molecules and their counts, each result atom's counts, and both charged
  * atom counts (a relabelling only renumbers atoms). Each relabelling must renumber the result's
- * atoms one to one, as a skeleton symmetry of the state it came from does. A relabelled state
- * has no stereo marks, so it is identical only to a target without them.
+ * atoms one to one, as a skeleton symmetry of the state it came from does. Stereo is compared
+ * only once the rest matches (see the module comment).
  */
 export function relabelledComparison(
   result: StateGraph,
@@ -181,7 +167,9 @@ export function relabelledComparison(
   );
   const formOtherwise: StateComparison =
     chargedAtomCount(result) > chargedAtomCount(target) ? "minorResonanceForm" : "resonanceForm";
-  const canBeIdentical = !hasStereoMarks(target);
+  const resultHasStereo = hasStereoMarks(result);
+  const stereoAgrees = (relabelling: MapNumberRelabelling, allRelations: boolean): boolean =>
+    !resultHasStereo || stereoAgreesUnder(result, relabelling, target, allRelations);
   const sameCountsPerMolecule = (relabelling: MapNumberRelabelling): boolean => {
     const sums = targetCounts.map(() => ({ charge: 0, unpaired: 0 }));
     for (const [mapNumber, counts] of resultCounts) {
@@ -200,9 +188,11 @@ export function relabelledComparison(
     if (!relabelledSkeletonMatches(result, relabelling, target)) {
       return "different";
     }
-    if (canBeIdentical && sameElectronsUnder(result, relabelling, target)) {
-      return "identical";
+    if (sameElectronsUnder(result, relabelling, target)) {
+      return stereoAgrees(relabelling, true) ? "identical" : "different";
     }
-    return sameCountsPerMolecule(relabelling) ? formOtherwise : "different";
+    return sameCountsPerMolecule(relabelling) && stereoAgrees(relabelling, false)
+      ? formOtherwise
+      : "different";
   };
 }

@@ -24,8 +24,9 @@ beforeAll(async () => {
   toolkit = await loadChemistryToolkit();
 });
 
+// (1S,2S): the wedge and dash below draw the trans isomer (checked with RDKit's CIP labels).
 const TRANS_DIBROMIDE = {
-  mappedSmiles: "[CH:1]1([Br:8])[CH:2]([Br:7])[CH2:3][CH2:4][CH2:5][CH2:6]1",
+  mappedSmiles: "[C@H:1]1([C@H:2]([CH2:3][CH2:4][CH2:5][CH2:6]1)[Br:7])[Br:8]",
   mapNumberToCoordinates: {
     "1": [0, 1.5], "2": [1.3, 0.75], "3": [1.3, -0.75], "4": [0, -1.5], "5": [-1.3, -0.75],
     "6": [-1.3, 0.75], "7": [2.6, 1.5], "8": [0, 3],
@@ -116,6 +117,55 @@ describe("a molfile from Ketcher", () => {
     const structure = molfileToStructure(ketcherMolfile(true), toolkit, [1, 2, 3, 4, 5, 6, 7, 8]);
     expect(structure.mappedSmiles).toContain(":9]");
     expect(structure.mapNumberToCoordinates["9"]).toBeDefined();
+  });
+});
+
+describe("stereo from the structure editor (item 12c)", () => {
+  // RDKit reads stereo from a molfile's wedges and 2D layout itself: the independent reference.
+  it("the wedges become the SMILES marks RDKit reads from the same molfile", () => {
+    const molfile = ketcherMolfile();
+    const structure = molfileToStructure(molfile, toolkit, []);
+    expect(toolkit.canonicalStereoSmiles(structure.mappedSmiles)).toBe(
+      toolkit.canonicalStereoSmiles(molfile),
+    );
+    expect(structure.mappedSmiles).toContain("@");
+  });
+
+  it("a stereogenic double bond gets cis or trans from the layout; a CH2= end does not", () => {
+    const molfile = stateToMolfile({
+      mappedSmiles: "[CH3:1][CH:2]=[CH:3][CH3:4].[CH2:5]=[CH:6][CH3:7]",
+      mapNumberToCoordinates: {
+        "1": [-1.3, -0.75], "2": [0, 0], "3": [1.5, 0], "4": [2.8, 0.75],
+        "5": [0, -3], "6": [1.5, -3], "7": [2.8, -2.25],
+      },
+    }); // prettier-ignore
+    const structure = molfileToStructure(molfile, toolkit, []);
+    const graph = stateGraphFromMappedSmiles(structure.mappedSmiles);
+    expect([...(graph.bondToDoubleBondRelation ?? [])]).toEqual([["2-3", "trans"]]);
+    expect(toolkit.canonicalStereoSmiles(structure.mappedSmiles)).toBe(
+      toolkit.canonicalStereoSmiles(molfile),
+    );
+  });
+
+  it("a later state takes changed wedges as its new marks; its bonds stay locked", () => {
+    const sn2 = exampleReaction("sn2-2-bromobutane-inversion.json");
+    const products = statesOf(sn2).products as {
+      mappedSmiles: string;
+      mapNumberToCoordinates: Record<string, [number, number]>;
+    };
+    const retention = molfileToStructure(
+      stateToMolfile({ ...products, bondToWedgeStyle: { "2-5": "dash" } }),
+      toolkit,
+      [],
+    );
+    const edit = applyEditedStructure(sn2, "products", retention);
+    expect(edit.outcome).toBe("edited");
+    const saved = edit.outcome === "edited" ? statesOf(edit.document).products : undefined;
+    const savedGraph = stateGraphFromMappedSmiles((saved as { mappedSmiles: string }).mappedSmiles);
+    const productsGraph = stateGraphFromMappedSmiles(products.mappedSmiles);
+    expect(savedGraph.mapNumberToTetrahedralMark?.get(2)).not.toBe(
+      productsGraph.mapNumberToTetrahedralMark?.get(2),
+    );
   });
 });
 

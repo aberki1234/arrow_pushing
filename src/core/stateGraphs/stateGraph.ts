@@ -284,6 +284,14 @@ export function stateGraphsEqual(first: StateGraph, second: StateGraph): boolean
   );
 }
 
+/** True when both graphs have the same atoms, electron counts and bonds, whatever their stereo. */
+export function stateGraphsEqualIgnoringStereo(first: StateGraph, second: StateGraph): boolean {
+  return stateGraphsEqual(
+    { mapNumberToAtom: first.mapNumberToAtom, bondToOrder: first.bondToOrder },
+    { mapNumberToAtom: second.mapNumberToAtom, bondToOrder: second.bondToOrder },
+  );
+}
+
 /** Every entry of `part` is in `whole` with the same value; an absent map counts as empty. */
 function entriesIncluded<Key, Value>(
   part: ReadonlyMap<Key, Value> | undefined,

@@ -307,6 +307,9 @@ lint when the rest could not run):
 | `abbreviated-group-not-attached-once` | error | in a state holding all its atoms, the group is not one connected piece joined to the rest by exactly one bond from `attachmentMapNumber` |
 | `arrow-touches-abbreviated-group` | error | canonical arrows or a partial arrow set use an atom of a group (the attachment bond included): the learner could not tap it |
 | `misconception-in-abbreviated-group` | warning | a misconception pattern names an atom of a group, so it can never fire |
+| `wedges-disagree-with-smiles` | error | item 12c: a marked stereocentre has no wedge or dash starting at it, or one showing the other configuration; a wedge starts at an unmarked atom; a cis/trans double bond is drawn the other way round (or in line) |
+| `stereocentre-changes-without-arrows` | error | item 12c: between a step's states, a centre or double bond no canonical arrow touches (same neighbours in both) gains, loses or changes its mark; a change step touches nothing |
+| `stereocentre-unspecified` | warning | item 12c: in a state that marks a stereocentre, RDKit finds another with no mark |
 
 **Abbreviated groups** (decided 2026-11-25): listed explicitly by the author (no automatic detection), `groupLabel`
 at most 6 characters. A group is drawn as its label wherever it is intact (all its atoms present, one bond from the
@@ -1000,9 +1003,18 @@ RDKit (RDKit.js) on every valid SMILES case and every example state (`src/toolin
       replaced). `appliedStateMatches()` (stateGraph.ts): same atoms, electrons and bonds, and every kept mark
       agrees with the to-state; used by the linter for change steps. A change step keeps every remaining mark and
       adds the arriving molecules'. The editor's regeneration keeps the authored configuration of centres a
-      step makes. Until 12c (stereo-aware comparison up to symmetry), content should not use marks yet.
-    * **12c** Stereo-aware comparison; lint `wedges-disagree-with-smiles`, `stereocentre-changes-without-arrows`,
-      `stereocentre-unspecified`; the editor fills wedges from the marks.
+      step makes.
+    * **12c Done 2026-11-28.** Stereo-aware comparison: `renamedStereo()` (stereoMarks.ts) turns marks through a
+      relabelling or hydrogen folding, so `relabelStateGraph` and `withHydrogensFolded` keep stereo; a result is
+      identical or a resonance form only when every mark it has agrees with the target (a missing one is the
+      target's). Drawing (`drawing/moleculeDrawing/shared/stereoDrawing.ts`): the mark a drawing shows (wedge at the
+      narrow end; sign of a volume, checked by hand and against RDKit's own wedges), cis/trans from coordinates,
+      `wedgesForMarks` (keeps agreeing wedges, prefers H, unmarked, acyclic, carbon neighbours). Lint rules
+      `wedges-disagree-with-smiles`, `stereocentre-changes-without-arrows` (errors), `stereocentre-unspecified`
+      (warning; RDKit keeps a trial mark only on a real stereocentre). Editor: wedges are redrawn from the marks
+      after a SMILES edit, a regeneration, a new or changed state and a dragged atom; drawn arrows join a state with
+      marks; Ketcher's wedges and layout become marks (cis/trans only where RDKit finds the bond stereogenic), and a
+      later state may change its stereo but not its bonds. New example reaction `sn2-2-bromobutane-inversion`.
     * **12d** Stereo-aware skeleton symmetry (diastereotopic atoms distinct): E2 anti-periplanar assessed.
     * **12e** First content: SN2, E2 and bromination drafts with marks.
 

@@ -71,6 +71,12 @@ export interface ChemistryToolkit {
    * stereoisomer give the same text. Explicit hydrogens are kept.
    */
   canonicalStereoSmiles(smiles: string): string | undefined;
+  /**
+   * A V2000 molblock with a fresh RDKit 2D layout and RDKit's own wedges (bond stereo 1 = wedge,
+   * 6 = dash, narrow end at the bond's first atom): the reference for reading stereo from a
+   * drawing (item 12c). Explicit hydrogens are kept.
+   */
+  laidOutMolblock(smiles: string): string | undefined;
 }
 
 // Explicit hydrogens are drawn atoms, so RDKit must not fold them into their neighbours.
@@ -190,6 +196,11 @@ function toolkitOn(rdkit: RDKitModule): ChemistryToolkit {
       withMolecule(rdkit, molblock, writtenStructure, KEEP_EXPLICIT_HYDROGENS),
     canonicalStereoSmiles: (smiles) =>
       withMolecule(rdkit, smiles, (molecule) => molecule.get_smiles()),
+    laidOutMolblock: (smiles) =>
+      withMolecule(rdkit, smiles, (molecule) => {
+        molecule.set_new_coords();
+        return molecule.get_molblock();
+      }),
   };
 }
 

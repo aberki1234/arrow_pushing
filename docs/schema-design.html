@@ -263,6 +263,9 @@
       <tr><td><code>abbreviated-group-not-attached-once</code></td><td>error</td><td>in a state with all its atoms, the group is not one piece joined to the rest by one bond from its attachment atom</td></tr>
       <tr><td><code>arrow-touches-abbreviated-group</code></td><td>error</td><td>a step's arrows use an atom of a group, which the learner could not tap</td></tr>
       <tr><td><code>misconception-in-abbreviated-group</code></td><td>warning</td><td>a misconception names an atom of a group, so it can never fire</td></tr>
+      <tr><td><code>wedges-disagree-with-smiles</code></td><td>error</td><td>the drawing does not show the SMILES stereo: a marked stereocentre without a wedge or dash showing its configuration, a wedge at an unmarked atom, or a cis/trans double bond drawn the other way round</td></tr>
+      <tr><td><code>stereocentre-changes-without-arrows</code></td><td>error</td><td>a stereocentre or double bond that no arrow of the step touches changes its configuration between the two states</td></tr>
+      <tr><td><code>stereocentre-unspecified</code></td><td>warning</td><td>a state marks one stereocentre but leaves another (found by RDKit) unmarked</td></tr>
     </table>
     <p>Arrow sets are checked by the validator itself, with the step being checked as the only one leaving its state, so the linter accepts exactly what the browser accepts.</p>
 
@@ -531,8 +534,8 @@ verifications(id uuid pk, identifier, value, expires_at, …)   -- the OAuth sta
       <li value="12"><b>Stereo validation</b> (decided 2026-11-26; design in <a href="stereo-validation.html">the stereo proposal</a>). Phases 1–2 now; choosing a face (a “Which product forms?” question) after a mockup.
         <ul>
           <li><span class="tag ok">done</span> <b>12a</b> Stereo marks (<code>@</code>, <code>@@</code>, <code>/</code>, <code>\</code>) read and written in state SMILES, kept on map numbers and checked against RDKit. </li>
-          <li><span class="tag ok">done</span> <b>12b</b> Applying arrows keeps untouched stereo; centres a step makes or changes come from the next state. The editor's regeneration keeps the configuration you gave such a centre. Until 12c, answers are not yet compared with stereo, so reactions should not use marks yet.</li>
-          <li><b>12c</b> Stereo-aware comparison; lint checks for wedges against marks, a stereocentre changing without arrows, and an unmarked stereocentre; the editor fills wedges.</li>
+          <li><span class="tag ok">done</span> <b>12b</b> Applying arrows keeps untouched stereo; centres a step makes or changes come from the next state. The editor's regeneration keeps the configuration you gave such a centre.</li>
+          <li><span class="tag ok">done</span> <b>12c</b> Answers are compared with stereo: a result whose untouched stereocentre has the wrong configuration is wrong. Three lint checks: wedges against the SMILES marks, a stereocentre changing without arrows, and an unmarked stereocentre beside marked ones. In Create the wedges follow the marks after every edit and drag, and wedges drawn in the structure editor become the marks (E/Z from the drawing too). A new example reaction: SN2 on (R)-2-bromobutane.</li>
           <li><b>12d</b> Diastereotopic atoms told apart: the anti-periplanar H of an E2 is assessed.</li>
           <li><b>12e</b> First content: SN2, E2 and bromination drafts with stereo.</li>
         </ul></li>

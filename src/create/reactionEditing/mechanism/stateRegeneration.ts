@@ -38,6 +38,7 @@ import {
 } from "../../../core/stateGraphs/stateGraph.js";
 import { type Coordinates, placedClearOf, positionInLargestGap } from "./atomPlacement.js";
 import { type ReactionDocument, statesOf, stepsOf } from "../draft/reactionDraft.js";
+import { withWedgesForMarks } from "./stereoWedges.js";
 import { isRecord } from "../../../core/jsonValues/jsonValues.js";
 
 export type StateEdit =
@@ -119,11 +120,14 @@ export function editStateSmiles(
     }
     throw error;
   }
-  const editedState = {
-    ...state,
-    mappedSmiles,
-    mapNumberToCoordinates: coordinatesFor(graph, coordinatesOf(state)),
-  };
+  const editedState = withWedgesForMarks(
+    {
+      ...state,
+      mappedSmiles,
+      mapNumberToCoordinates: coordinatesFor(graph, coordinatesOf(state)),
+    },
+    graph,
+  );
   return {
     outcome: "edited",
     document: { ...document, stateIdToState: { ...statesOf(document), [stateId]: editedState } },
@@ -194,11 +198,14 @@ function regenerateStep(
     ...coordinatesOf(regeneration.states[fromStateId] ?? {}),
     ...coordinatesOf(regeneration.states[toStateId] ?? {}),
   };
-  regeneration.states[toStateId] = {
-    ...regeneration.states[toStateId],
-    mappedSmiles: mappedSmilesFromStateGraph(result),
-    mapNumberToCoordinates: coordinatesFor(result, known),
-  };
+  regeneration.states[toStateId] = withWedgesForMarks(
+    {
+      ...regeneration.states[toStateId],
+      mappedSmiles: mappedSmilesFromStateGraph(result),
+      mapNumberToCoordinates: coordinatesFor(result, known),
+    },
+    result,
+  );
   regeneration.regeneratedStateIds.push(toStateId);
   return true;
 }
