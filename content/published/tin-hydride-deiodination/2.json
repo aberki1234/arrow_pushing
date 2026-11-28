@@ -1,0 +1,768 @@
+{
+  "steps": [
+    {
+      "stepKey": "iodine-abstraction",
+      "stepKind": "radical",
+      "toStateId": "carbon-radical",
+      "fromStateId": "reactants",
+      "canonicalArrows": [
+        "rad Sn20 ~> σ Sn20-I15",
+        "σ C7-I15 ~> σ Sn20-I15",
+        "σ C7-I15 ~> rad C7"
+      ],
+      "routePreference": "preferred",
+      "explanationAfterStep": "The tin radical abstracts the iodine atom. A strong Sn–I bond forms and a weak C–I bond breaks, so the step is fast and downhill. The carbon radical is flat: the stereocentre that carried iodine is lost, which does not matter because that carbon becomes a CH₂."
+    },
+    {
+      "stepKey": "hydrogen-transfer",
+      "stepKind": "radical",
+      "toStateId": "products",
+      "fromStateId": "carbon-radical",
+      "canonicalArrows": [
+        "rad C7 ~> σ C7-H41",
+        "σ Sn40-H41 ~> σ C7-H41",
+        "σ Sn40-H41 ~> rad Sn40"
+      ],
+      "routePreference": "preferred",
+      "explanationAfterStep": "The carbon radical takes a hydrogen atom from Bu₃SnH. The new Bu₃Sn• abstracts iodine from the next iodolactone: a chain. Overall the C–I bond has become C–H."
+    }
+  ],
+  "title": "Tin hydride deiodination",
+  "authors": [
+    {
+      "url": null,
+      "name": "Maksim"
+    }
+  ],
+  "licence": "CC-BY-SA-4.0",
+  "subtitle": "A radical chain swaps the iodine of the iodolactone for hydrogen",
+  "references": [
+    "Clayden, Greeves and Warren, Organic Chemistry, 2nd edition (Oxford University Press), chapter 37 (radical reactions; tributyltin hydride)",
+    "E. J. Corey, N. M. Weinshenker, T. K. Schaaf and W. Huber, Stereo-controlled synthesis of dl-prostaglandins F2α and E2, J. Am. Chem. Soc., 1969, 91, 5675–5677"
+  ],
+  "reactionSlug": "tin-hydride-deiodination",
+  "startStateId": "reactants",
+  "formatVersion": 1,
+  "difficultyTier": 2,
+  "stateIdToState": {
+    "products": {
+      "caption": "the deiodinated lactone acetate + Bu₃SnI + Bu₃Sn•, which carries the chain on",
+      "mappedSmiles": "[O:1]1[C:2](=[O:3])[CH2:4][C@H:5]2[C@@H:6]1[CH:7]([C@@H:8]([O:9][C:17](=[O:18])[CH3:19])[C@@H:10]2[CH2:11][O:12][CH3:13])[H:41].[I:15][Sn:20]([CH2:21][CH2:22][CH2:23][CH3:24])([CH2:25][CH2:26][CH2:27][CH3:28])[CH2:29][CH2:30][CH2:31][CH3:32].[Sn:40]([CH2:42][CH2:43][CH2:44][CH3:45])([CH2:46][CH2:47][CH2:48][CH3:49])[CH2:50][CH2:51][CH2:52][CH3:53]",
+      "bondToWedgeStyle": {
+        "5-4": "dash",
+        "6-7": "dash",
+        "8-9": "dash",
+        "10-11": "wedge"
+      },
+      "mapNumberToCoordinates": {
+        "1": [
+          3.145,
+          1.097
+        ],
+        "2": [
+          3.592,
+          -0.335
+        ],
+        "3": [
+          5.013,
+          -0.814
+        ],
+        "4": [
+          2.369,
+          -1.203
+        ],
+        "5": [
+          1.165,
+          -0.307
+        ],
+        "6": [
+          1.645,
+          1.114
+        ],
+        "7": [
+          0.441,
+          2.009
+        ],
+        "8": [
+          -0.782,
+          1.141
+        ],
+        "9": [
+          -2.203,
+          1.621
+        ],
+        "10": [
+          -0.335,
+          -0.29
+        ],
+        "11": [
+          -1.23,
+          -1.494
+        ],
+        "12": [
+          -0.635,
+          -2.871
+        ],
+        "13": [
+          -1.531,
+          -4.075
+        ],
+        "15": [
+          9.45,
+          0.55
+        ],
+        "17": [
+          -3.329,
+          0.63
+        ],
+        "18": [
+          -3.034,
+          -0.841
+        ],
+        "19": [
+          -4.75,
+          1.109
+        ],
+        "20": [
+          8.76,
+          -0.78
+        ],
+        "21": [
+          10.09,
+          -1.47
+        ],
+        "22": [
+          11.35,
+          -0.66
+        ],
+        "23": [
+          12.68,
+          -1.35
+        ],
+        "24": [
+          13.95,
+          -0.55
+        ],
+        "25": [
+          7.43,
+          -0.09
+        ],
+        "26": [
+          7.36,
+          1.41
+        ],
+        "27": [
+          6.03,
+          2.1
+        ],
+        "28": [
+          5.96,
+          3.6
+        ],
+        "29": [
+          8.07,
+          -2.11
+        ],
+        "30": [
+          6.57,
+          -2.17
+        ],
+        "31": [
+          5.88,
+          -3.51
+        ],
+        "32": [
+          4.38,
+          -3.57
+        ],
+        "40": [
+          13.69,
+          -0.79
+        ],
+        "41": [
+          0.458,
+          3.509
+        ],
+        "42": [
+          15.11,
+          -1.25
+        ],
+        "43": [
+          16.23,
+          -0.25
+        ],
+        "44": [
+          17.66,
+          -0.72
+        ],
+        "45": [
+          18.77,
+          0.29
+        ],
+        "46": [
+          12.57,
+          -1.79
+        ],
+        "47": [
+          11.15,
+          -1.33
+        ],
+        "48": [
+          10.03,
+          -2.33
+        ],
+        "49": [
+          8.6,
+          -1.87
+        ],
+        "50": [
+          13.38,
+          0.68
+        ],
+        "51": [
+          11.95,
+          1.14
+        ],
+        "52": [
+          11.64,
+          2.61
+        ],
+        "53": [
+          10.21,
+          3.07
+        ]
+      }
+    },
+    "reactants": {
+      "caption": "the iodolactone acetate + Bu₃Sn• (made from Bu₃SnH by AIBN) + Bu₃SnH",
+      "hintTiers": [
+        "Tin radicals are 'iodophilic': the Sn–I bond is strong and the C–I bond is weak. A radical abstracts an atom in one step, three half-arrows.",
+        "The tin radical takes the iodine atom; the C–I bond breaks evenly, one electron to the new Sn–I bond and one left on carbon.",
+        "Tin's unpaired electron → new Sn–I bond; one electron of the C–I bond → the Sn–I bond; the other electron of the C–I bond → stays on carbon as a radical."
+      ],
+      "mappedSmiles": "[O:1]1[C:2](=[O:3])[CH2:4][C@H:5]2[C@@H:6]1[C@@H:7]([C@@H:8]([O:9][C:17](=[O:18])[CH3:19])[C@@H:10]2[CH2:11][O:12][CH3:13])[I:15].[Sn:20]([CH2:21][CH2:22][CH2:23][CH3:24])([CH2:25][CH2:26][CH2:27][CH3:28])[CH2:29][CH2:30][CH2:31][CH3:32].[Sn:40]([H:41])([CH2:42][CH2:43][CH2:44][CH3:45])([CH2:46][CH2:47][CH2:48][CH3:49])[CH2:50][CH2:51][CH2:52][CH3:53]",
+      "learnerPrompt": "The tin radical starts the chain. What does it take from the iodolactone?",
+      "misconceptions": [
+        {
+          "severity": "wrong",
+          "arrowPattern": "rad Sn20 ~> C7",
+          "feedbackMessage": "The tin radical does not bond to carbon. It abstracts the iodine atom, leaving a carbon radical.",
+          "misconceptionId": "tin-attacks-carbon",
+          "misconceptionTag": "wrong-atom-transferred"
+        },
+        {
+          "severity": "wrong",
+          "arrowPattern": "σ Sn40-H41 ~> rad Sn40",
+          "feedbackMessage": "The Sn–H bond does not fall apart on its own. The tin radical made by AIBN starts the chain by taking iodine.",
+          "misconceptionId": "tin-hydride-homolysis",
+          "misconceptionTag": "wrong-initiation"
+        },
+        {
+          "severity": "wrong",
+          "arrowPattern": "σ C7-I15 -> lp I15",
+          "feedbackMessage": "This is a radical chain, not ionisation: a secondary carbocation next to an ester oxygen would be poor. Use half-arrows: the tin radical takes the iodine atom.",
+          "misconceptionId": "heterolysis",
+          "misconceptionTag": "wrong-arrow-type"
+        }
+      ],
+      "bondToWedgeStyle": {
+        "5-4": "dash",
+        "6-1": "dash",
+        "8-9": "dash",
+        "7-15": "wedge",
+        "10-11": "wedge"
+      },
+      "mapNumberToCoordinates": {
+        "1": [
+          3.145,
+          1.097
+        ],
+        "2": [
+          3.592,
+          -0.335
+        ],
+        "3": [
+          5.013,
+          -0.814
+        ],
+        "4": [
+          2.369,
+          -1.203
+        ],
+        "5": [
+          1.165,
+          -0.307
+        ],
+        "6": [
+          1.645,
+          1.114
+        ],
+        "7": [
+          0.441,
+          2.009
+        ],
+        "8": [
+          -0.782,
+          1.141
+        ],
+        "9": [
+          -2.203,
+          1.621
+        ],
+        "10": [
+          -0.335,
+          -0.29
+        ],
+        "11": [
+          -1.23,
+          -1.494
+        ],
+        "12": [
+          -0.635,
+          -2.871
+        ],
+        "13": [
+          -1.531,
+          -4.075
+        ],
+        "15": [
+          0.458,
+          3.509
+        ],
+        "17": [
+          -3.329,
+          0.63
+        ],
+        "18": [
+          -3.034,
+          -0.841
+        ],
+        "19": [
+          -4.75,
+          1.109
+        ],
+        "20": [
+          8.38,
+          -0.94
+        ],
+        "21": [
+          9.8,
+          -1.4
+        ],
+        "22": [
+          10.92,
+          -0.4
+        ],
+        "23": [
+          12.34,
+          -0.86
+        ],
+        "24": [
+          13.46,
+          0.14
+        ],
+        "25": [
+          7.26,
+          -1.94
+        ],
+        "26": [
+          5.83,
+          -1.48
+        ],
+        "27": [
+          4.72,
+          -2.48
+        ],
+        "28": [
+          3.29,
+          -2.01
+        ],
+        "29": [
+          8.07,
+          0.53
+        ],
+        "30": [
+          6.64,
+          0.99
+        ],
+        "31": [
+          6.33,
+          2.46
+        ],
+        "32": [
+          4.9,
+          2.93
+        ],
+        "40": [
+          13.12,
+          -0.57
+        ],
+        "41": [
+          13.81,
+          0.76
+        ],
+        "42": [
+          14.45,
+          -1.26
+        ],
+        "43": [
+          15.72,
+          -0.45
+        ],
+        "44": [
+          17.05,
+          -1.14
+        ],
+        "45": [
+          18.31,
+          -0.34
+        ],
+        "46": [
+          11.79,
+          0.12
+        ],
+        "47": [
+          11.72,
+          1.62
+        ],
+        "48": [
+          10.39,
+          2.31
+        ],
+        "49": [
+          10.33,
+          3.81
+        ],
+        "50": [
+          12.43,
+          -1.9
+        ],
+        "51": [
+          10.93,
+          -1.97
+        ],
+        "52": [
+          10.24,
+          -3.3
+        ],
+        "53": [
+          8.74,
+          -3.36
+        ]
+      },
+      "partialProgressMessages": [
+        {
+          "learnerArrows": [
+            "rad Sn20 ~> σ Sn20-I15",
+            "σ C7-I15 ~> σ Sn20-I15"
+          ],
+          "feedbackMessage": "Right: the Sn–I bond forms. The C–I bond had two electrons: the second one stays on carbon."
+        }
+      ]
+    },
+    "carbon-radical": {
+      "caption": "the secondary carbon radical + Bu₃SnI + Bu₃SnH",
+      "hintTiers": [
+        "Bu₃SnH has a weak Sn–H bond: it is a good hydrogen-atom donor.",
+        "The carbon radical takes the hydrogen atom from Bu₃SnH, giving a new tin radical that carries on the chain.",
+        "Carbon's unpaired electron → new C–H bond; one electron of the Sn–H bond → the C–H bond; the other electron of the Sn–H bond → stays on tin as a radical."
+      ],
+      "mappedSmiles": "[O:1]1[C:2](=[O:3])[CH2:4][C@H:5]2[C@@H:6]1[CH:7][C@@H:8]([O:9][C:17](=[O:18])[CH3:19])[C@@H:10]2[CH2:11][O:12][CH3:13].[I:15][Sn:20]([CH2:21][CH2:22][CH2:23][CH3:24])([CH2:25][CH2:26][CH2:27][CH3:28])[CH2:29][CH2:30][CH2:31][CH3:32].[Sn:40]([H:41])([CH2:42][CH2:43][CH2:44][CH3:45])([CH2:46][CH2:47][CH2:48][CH3:49])[CH2:50][CH2:51][CH2:52][CH3:53]",
+      "learnerPrompt": "The carbon radical needs a hydrogen atom. Where does it get one?",
+      "misconceptions": [
+        {
+          "severity": "wrong",
+          "arrowPattern": "rad C7 ~> Sn40",
+          "feedbackMessage": "The carbon radical takes the hydrogen atom, not tin. The weak Sn–H bond breaks.",
+          "misconceptionId": "radical-to-tin",
+          "misconceptionTag": "wrong-atom-transferred"
+        },
+        {
+          "severity": "plausible",
+          "arrowPattern": "rad C7 ~> σ C7-I15",
+          "feedbackMessage": "Taking iodine back from Bu₃SnI is uphill: the Sn–I bond is the stronger one. Take a hydrogen atom from Bu₃SnH.",
+          "misconceptionId": "iodine-returns",
+          "misconceptionTag": "reverse-step"
+        }
+      ],
+      "bondToWedgeStyle": {
+        "5-4": "dash",
+        "6-7": "dash",
+        "8-9": "dash",
+        "10-11": "wedge"
+      },
+      "mapNumberToCoordinates": {
+        "1": [
+          3.145,
+          1.097
+        ],
+        "2": [
+          3.592,
+          -0.335
+        ],
+        "3": [
+          5.013,
+          -0.814
+        ],
+        "4": [
+          2.369,
+          -1.203
+        ],
+        "5": [
+          1.165,
+          -0.307
+        ],
+        "6": [
+          1.645,
+          1.114
+        ],
+        "7": [
+          0.441,
+          2.009
+        ],
+        "8": [
+          -0.782,
+          1.141
+        ],
+        "9": [
+          -2.203,
+          1.621
+        ],
+        "10": [
+          -0.335,
+          -0.29
+        ],
+        "11": [
+          -1.23,
+          -1.494
+        ],
+        "12": [
+          -0.635,
+          -2.871
+        ],
+        "13": [
+          -1.531,
+          -4.075
+        ],
+        "15": [
+          9.56,
+          -0.07
+        ],
+        "17": [
+          -3.329,
+          0.63
+        ],
+        "18": [
+          -3.034,
+          -0.841
+        ],
+        "19": [
+          -4.75,
+          1.109
+        ],
+        "20": [
+          8.87,
+          -1.4
+        ],
+        "21": [
+          10.2,
+          -2.09
+        ],
+        "22": [
+          11.47,
+          -1.29
+        ],
+        "23": [
+          12.8,
+          -1.98
+        ],
+        "24": [
+          14.06,
+          -1.17
+        ],
+        "25": [
+          7.54,
+          -0.71
+        ],
+        "26": [
+          7.47,
+          0.79
+        ],
+        "27": [
+          6.14,
+          1.48
+        ],
+        "28": [
+          6.08,
+          2.98
+        ],
+        "29": [
+          8.18,
+          -2.73
+        ],
+        "30": [
+          6.68,
+          -2.8
+        ],
+        "31": [
+          5.99,
+          -4.13
+        ],
+        "32": [
+          4.49,
+          -4.2
+        ],
+        "40": [
+          13.44,
+          -1.12
+        ],
+        "41": [
+          14.13,
+          0.21
+        ],
+        "42": [
+          14.77,
+          -1.81
+        ],
+        "43": [
+          16.03,
+          -1
+        ],
+        "44": [
+          17.37,
+          -1.7
+        ],
+        "45": [
+          18.63,
+          -0.89
+        ],
+        "46": [
+          12.11,
+          -0.43
+        ],
+        "47": [
+          12.04,
+          1.07
+        ],
+        "48": [
+          10.71,
+          1.76
+        ],
+        "49": [
+          10.64,
+          3.26
+        ],
+        "50": [
+          12.75,
+          -2.45
+        ],
+        "51": [
+          11.25,
+          -2.52
+        ],
+        "52": [
+          10.56,
+          -3.85
+        ],
+        "53": [
+          9.06,
+          -3.91
+        ]
+      },
+      "partialProgressMessages": [
+        {
+          "learnerArrows": [
+            "rad C7 ~> σ C7-H41"
+          ],
+          "feedbackMessage": "Right: the C–H bond forms. Now split the Sn–H bond evenly: two more half-arrows."
+        }
+      ]
+    }
+  },
+  "conditionsLabel": "Bu₃SnH · AIBN (cat.) · benzene · heat",
+  "reactionClasses": [
+    "radical"
+  ],
+  "reactionVersion": 2,
+  "mechanismSummary": "Before removing the iodine, Corey acetylated the free OH (acetic anhydride, pyridine); a later version used a 4-phenylbenzoate instead. Tributyltin hydride and a little AIBN then remove the iodine by a radical chain. AIBN loses N₂ on heating, and its radical takes H from Bu₃SnH to give Bu₃Sn• (initiation, not drawn here). The tin radical abstracts the iodine atom from the lactone, a strong Sn–I bond for a weak C–I bond, and the carbon radical takes a hydrogen atom from Bu₃SnH, regenerating Bu₃Sn•. The iodine was only ever a handle for closing the lactone on the right face; it now leaves a CH₂. The other stereocentres are untouched (explained, not yet checked by the app). Removing the methyl ether (BBr₃) and oxidising the CH₂OH to an aldehyde (Collins reagent, CrO₃·pyridine) come next and are not drawn.",
+  "abbreviatedGroups": [
+    {
+      "groupLabel": "Bu",
+      "mapNumbers": [
+        21,
+        22,
+        23,
+        24
+      ],
+      "attachmentMapNumber": 21
+    },
+    {
+      "groupLabel": "Bu",
+      "mapNumbers": [
+        25,
+        26,
+        27,
+        28
+      ],
+      "attachmentMapNumber": 25
+    },
+    {
+      "groupLabel": "Bu",
+      "mapNumbers": [
+        29,
+        30,
+        31,
+        32
+      ],
+      "attachmentMapNumber": 29
+    },
+    {
+      "groupLabel": "Bu",
+      "mapNumbers": [
+        42,
+        43,
+        44,
+        45
+      ],
+      "attachmentMapNumber": 42
+    },
+    {
+      "groupLabel": "Bu",
+      "mapNumbers": [
+        46,
+        47,
+        48,
+        49
+      ],
+      "attachmentMapNumber": 46
+    },
+    {
+      "groupLabel": "Bu",
+      "mapNumbers": [
+        50,
+        51,
+        52,
+        53
+      ],
+      "attachmentMapNumber": 50
+    },
+    {
+      "groupLabel": "Ac",
+      "mapNumbers": [
+        17,
+        18,
+        19
+      ],
+      "attachmentMapNumber": 17
+    }
+  ],
+  "dailyPuzzleEligible": true,
+  "spectatorMapNumbers": [],
+  "atomRoleToMapNumbers": {
+    "tin": [
+      20,
+      40
+    ]
+  },
+  "previousReactionVersion": 1
+}

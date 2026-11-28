@@ -1,0 +1,278 @@
+{
+  "steps": [
+    {
+      "stepKey": "substitution",
+      "stepKind": "polar",
+      "toStateId": "products",
+      "fromStateId": "reactants",
+      "canonicalArrows": [
+        "lp I16 -> σ I16-C3",
+        "σ C3-O5 -> lp O5"
+      ],
+      "routePreference": "preferred",
+      "explanationAfterStep": "The tosylate anion is very stable: its negative charge is spread over three oxygens, as in the conjugate base of a strong acid (TsOH). Backside attack inverts the stereocentre."
+    }
+  ],
+  "title": "Displacing a tosylate",
+  "authors": [
+    {
+      "url": null,
+      "name": "Maksim"
+    }
+  ],
+  "licence": "CC-BY-SA-4.0",
+  "subtitle": "Iodide replaces OTs with inversion",
+  "references": [
+    "Clayden, Greeves and Warren, Organic Chemistry, 2nd edition (Oxford University Press), chapter 15"
+  ],
+  "reactionSlug": "tosylate-displacement",
+  "startStateId": "reactants",
+  "formatVersion": 1,
+  "difficultyTier": 1,
+  "stateIdToState": {
+    "products": {
+      "caption": "2-iodobutane + sodium tosylate",
+      "mappedSmiles": "[CH3:1][CH2:2][C@H:3]([CH3:4])[I:16].[O-:5][S:6](=[O:7])(=[O:8])[C:9]1=[CH:10][CH:11]=[C:12]([CH:13]=[CH:14]1)[CH3:15].[Na+:17]",
+      "bondToWedgeStyle": {
+        "3-4": "wedge"
+      },
+      "mapNumberToCoordinates": {
+        "1": [
+          0,
+          -2.6
+        ],
+        "2": [
+          0.75,
+          -1.3
+        ],
+        "3": [
+          0,
+          0
+        ],
+        "4": [
+          0.75,
+          1.3
+        ],
+        "5": [
+          3,
+          0
+        ],
+        "6": [
+          4.5,
+          0
+        ],
+        "7": [
+          4.5,
+          -1.5
+        ],
+        "8": [
+          4.5,
+          1.5
+        ],
+        "9": [
+          6,
+          0
+        ],
+        "10": [
+          6.75,
+          1.3
+        ],
+        "11": [
+          8.25,
+          1.3
+        ],
+        "12": [
+          9,
+          0
+        ],
+        "13": [
+          8.25,
+          -1.3
+        ],
+        "14": [
+          6.75,
+          -1.3
+        ],
+        "15": [
+          10.5,
+          0
+        ],
+        "16": [
+          -1.5,
+          0
+        ],
+        "17": [
+          -4.6,
+          1.2
+        ]
+      }
+    },
+    "reactants": {
+      "caption": "butan-2-yl tosylate + sodium iodide",
+      "hintTiers": [
+        "Tosylate (TsO⁻) is an excellent leaving group. Which carbon is it attached to, and from which side must iodide approach?",
+        "Iodide attacks the carbon bonded to the oxygen, from the side opposite the C–O bond, as that bond breaks. Two arrows.",
+        "Arrow 1: a lone pair on iodide forms a bond to the carbon bearing the OTs group. Arrow 2: the C–O bond breaks, and its pair goes onto the oxygen."
+      ],
+      "mappedSmiles": "[CH3:1][CH2:2][C@@H:3]([CH3:4])[O:5][S:6](=[O:7])(=[O:8])[C:9]1=[CH:10][CH:11]=[C:12]([CH:13]=[CH:14]1)[CH3:15].[I-:16].[Na+:17]",
+      "learnerPrompt": "Iodide displaces the tosylate. Draw the arrows.",
+      "misconceptions": [
+        {
+          "severity": "wrong",
+          "arrowPattern": "lp I16 -> O5",
+          "feedbackMessage": "The oxygen is electron-rich. Iodide attacks the δ+ carbon bonded to it.",
+          "misconceptionId": "attack-on-oxygen",
+          "misconceptionTag": "attack-leaving-group"
+        },
+        {
+          "severity": "wrong",
+          "arrowPattern": "lp I16 -> C4",
+          "feedbackMessage": "Attack the carbon that carries the leaving group: the one bonded to the oxygen.",
+          "misconceptionId": "attack-on-methyl-carbon",
+          "misconceptionTag": "attack-wrong-carbon"
+        },
+        {
+          "severity": "wrong",
+          "arrowPattern": "lp I16 -> C2",
+          "feedbackMessage": "Attack the carbon that carries the leaving group: the one bonded to the oxygen.",
+          "misconceptionId": "attack-on-ch2-carbon",
+          "misconceptionTag": "attack-wrong-carbon"
+        },
+        {
+          "severity": "wrong",
+          "arrowPattern": "σ C3-O5 -> lp C3",
+          "feedbackMessage": "The C–O pair leaves with the oxygen, as the stable tosylate anion.",
+          "misconceptionId": "bond-electrons-to-carbon",
+          "misconceptionTag": "electrons-toward-less-electronegative-atom"
+        }
+      ],
+      "bondToWedgeStyle": {
+        "3-4": "wedge"
+      },
+      "mapNumberToCoordinates": {
+        "1": [
+          0,
+          -2.6
+        ],
+        "2": [
+          -0.75,
+          -1.3
+        ],
+        "3": [
+          0,
+          0
+        ],
+        "4": [
+          -0.75,
+          1.3
+        ],
+        "5": [
+          1.5,
+          0
+        ],
+        "6": [
+          3,
+          0
+        ],
+        "7": [
+          3,
+          -1.5
+        ],
+        "8": [
+          3,
+          1.5
+        ],
+        "9": [
+          4.5,
+          0
+        ],
+        "10": [
+          5.25,
+          1.3
+        ],
+        "11": [
+          6.75,
+          1.3
+        ],
+        "12": [
+          7.5,
+          0
+        ],
+        "13": [
+          6.75,
+          -1.3
+        ],
+        "14": [
+          5.25,
+          -1.3
+        ],
+        "15": [
+          9,
+          0
+        ],
+        "16": [
+          -3,
+          0
+        ],
+        "17": [
+          -4.6,
+          1.2
+        ]
+      },
+      "partialProgressMessages": [
+        {
+          "learnerArrows": [
+            "lp I16 -> σ I16-C3"
+          ],
+          "feedbackMessage": "Octet check: carbon would now have 10 electrons. What has to leave as the nucleophile arrives?"
+        },
+        {
+          "learnerArrows": [
+            "σ C3-O5 -> lp O5"
+          ],
+          "feedbackMessage": "Tosylate could leave, but with a good nucleophile in acetone the concerted SN2 is faster. Bring iodide in at the same time."
+        }
+      ]
+    }
+  },
+  "conditionsLabel": "NaI · acetone · reflux",
+  "reactionClasses": [
+    "substitution"
+  ],
+  "reactionVersion": 3,
+  "mechanismSummary": "SN2 on a tosylate: a secondary carbon, a good nucleophile and a polar aprotic solvent. Attack from the back inverts the stereocentre, so (R)-butan-2-ol → (R)-tosylate (configuration kept) → (S)-2-iodobutane (inverted).",
+  "abbreviatedGroups": [
+    {
+      "groupLabel": "Ts",
+      "mapNumbers": [
+        6,
+        7,
+        8,
+        9,
+        10,
+        11,
+        12,
+        13,
+        14,
+        15
+      ],
+      "attachmentMapNumber": 6
+    }
+  ],
+  "dailyPuzzleEligible": true,
+  "spectatorMapNumbers": [
+    17
+  ],
+  "atomRoleToMapNumbers": {
+    "nucleophile": [
+      16
+    ],
+    "electrophile": [
+      3
+    ],
+    "leavingGroup": [
+      5
+    ]
+  },
+  "previousReactionVersion": 2
+}

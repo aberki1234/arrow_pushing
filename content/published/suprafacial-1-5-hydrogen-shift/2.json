@@ -1,0 +1,156 @@
+{
+  "steps": [
+    {
+      "stepKey": "one-five-shift",
+      "stepKind": "polar",
+      "toStateId": "product",
+      "fromStateId": "diene",
+      "canonicalArrows": [
+        "π C1-C2 -> σ C1-H7",
+        "π C3-C4 -> π C2-C3",
+        "σ C5-H7 -> π C4-C5"
+      ],
+      "routePreference": "preferred",
+      "explanationAfterStep": "A [1,5]-sigmatropic hydrogen shift: the H moves from carbon 1 to carbon 5 of a pentadienyl unit through a six-membered cyclic transition state. Six electrons (two π pairs and the C–H pair) move round the ring. It is suprafacial: the H stays on one face of the π system the whole way, which a small H can easily do. The product's two C=C bonds are both internal, so it is more stable. Labelling shows the H leaves and arrives on the same face. The app does not check stereochemistry yet, so the drawings carry no wedges."
+    }
+  ],
+  "title": "Suprafacial [1,5]-hydrogen shift",
+  "authors": [
+    {
+      "url": null,
+      "name": "Maksim"
+    }
+  ],
+  "licence": "CC-BY-SA-4.0",
+  "subtitle": "(Z)-Hexa-1,3-diene becomes hexa-2,4-diene as an H moves along one face",
+  "references": [
+    "Clayden, Greeves and Warren, Organic Chemistry, 2nd edition (Oxford University Press), chapter 35",
+    "Fleming, Pericyclic Reactions, 2nd edition (Oxford Chemistry Primers, Oxford University Press)"
+  ],
+  "reactionSlug": "suprafacial-1-5-hydrogen-shift",
+  "startStateId": "diene",
+  "formatVersion": 1,
+  "difficultyTier": 2,
+  "stateIdToState": {
+    "diene": {
+      "caption": "(3Z)-hexa-1,3-diene, drawn curled so the H can reach the far end",
+      "hintTiers": [
+        "Number from the H: the H is atom 1 of one fragment; the carbon it leaves is atom 1 of the other, and the carbon it reaches is atom 5. Which carbon is that, and what happens to the two π bonds?",
+        "The H leaves the CH₂ next to the diene and bonds to the terminal CH₂ five carbons away; both C=C bonds move one place along. Three arrows.",
+        "Arrow 1: from the terminal C=C π bond to a new bond between the end CH₂ and the migrating H. Arrow 2: from the middle C=C π bond to the bond between the second and third carbons. Arrow 3: from the C–H bond that breaks to the bond between that carbon and its alkene neighbour."
+      ],
+      "mappedSmiles": "[CH2:1]=[CH:2]/[CH:3]=[CH:4]\\[CH:5]([CH3:6])[H:7]",
+      "learnerPrompt": "On heating, an H moves from one end of the five-carbon chain to the other. Draw the single step.",
+      "misconceptions": [
+        {
+          "severity": "wrong",
+          "arrowPattern": "* -> σ C3-H7",
+          "feedbackMessage": "That moves the H by three atoms, a [1,3] shift. A suprafacial [1,3]-H shift would need four electrons in a four-membered ring, which is not allowed thermally (and an antarafacial one is geometrically impossible). The H moves five atoms, to the end of the diene.",
+          "misconceptionId": "one-three-shift",
+          "misconceptionTag": "forbidden-shift"
+        },
+        {
+          "severity": "wrong",
+          "arrowPattern": "σ C5-C6 -> *",
+          "feedbackMessage": "The methyl group stays put; it is the H on that carbon that moves.",
+          "misconceptionId": "methyl-moves",
+          "misconceptionTag": "wrong-bond-breaks"
+        }
+      ],
+      "mapNumberToCoordinates": {
+        "1": [
+          1.18,
+          -1.3
+        ],
+        "2": [
+          1.93,
+          0
+        ],
+        "3": [
+          1.18,
+          1.3
+        ],
+        "4": [
+          -0.32,
+          1.3
+        ],
+        "5": [
+          -1.07,
+          0
+        ],
+        "6": [
+          -2.57,
+          0
+        ],
+        "7": [
+          -0.32,
+          -1.3
+        ]
+      },
+      "partialProgressMessages": [
+        {
+          "learnerArrows": [
+            "π C1-C2 -> σ C1-H7"
+          ],
+          "feedbackMessage": "Right: the end of the diene takes the H. In the same step the C–H pair becomes a new C=C at the other end and the middle π bond shifts along. Two more arrows."
+        }
+      ]
+    },
+    "product": {
+      "caption": "hexa-2,4-diene (the new terminal methyl comes from the old CH₂=)",
+      "mappedSmiles": "[CH2:1](/[CH:2]=[CH:3]\\[CH:4]=[CH:5]\\[CH3:6])[H:7]",
+      "mapNumberToCoordinates": {
+        "1": [
+          1.18,
+          -1.3
+        ],
+        "2": [
+          1.93,
+          0
+        ],
+        "3": [
+          1.18,
+          1.3
+        ],
+        "4": [
+          -0.32,
+          1.3
+        ],
+        "5": [
+          -1.07,
+          0
+        ],
+        "6": [
+          -2.57,
+          0
+        ],
+        "7": [
+          -0.32,
+          -1.3
+        ]
+      }
+    }
+  },
+  "conditionsLabel": "heat (about 200 °C, gas phase)",
+  "reactionClasses": [
+    "pericyclic",
+    "rearrangement"
+  ],
+  "reactionVersion": 2,
+  "mechanismSummary": "A sigmatropic hydrogen shift moves an H along a π system. On heating, a [1,5] shift is allowed suprafacially (six electrons, like a Diels–Alder), so the H stays on one face throughout. A thermal [1,3] shift would have to be antarafacial, which an H on a short chain cannot reach, so it is not seen; [1,7] shifts are antarafacial too, but a triene can coil into a helix and they do happen. Open-chain cis-1,3-dienes need about 200 °C. In 5-substituted cyclopenta-1,3-dienes the same [1,5] shift happens at room temperature (the H ends up on a neighbouring ring carbon), which is why such dienes must be kept cold and used quickly. The app does not check stereochemistry yet, so the drawings carry no wedges.",
+  "dailyPuzzleEligible": true,
+  "spectatorMapNumbers": [],
+  "atomRoleToMapNumbers": {
+    "pentadienyl": [
+      1,
+      2,
+      3,
+      4,
+      5
+    ],
+    "migratingHydrogen": [
+      7
+    ]
+  },
+  "previousReactionVersion": 1
+}
