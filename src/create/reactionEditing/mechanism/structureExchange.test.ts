@@ -147,21 +147,6 @@ describe("stereo from the structure editor (item 12c)", () => {
     );
   });
 
-  it("a double bond with two alike groups at one end gets no cis or trans", () => {
-    // 2-Methylbut-2-ene: C2 carries two methyls, so the bond is not stereogenic even though the
-    // methyls have different map numbers (RDKit would rank them apart by those numbers).
-    const molfile = stateToMolfile({
-      mappedSmiles: "[CH3:1][C:2]([CH3:3])=[CH:4][CH3:5]",
-      mapNumberToCoordinates: {
-        "1": [-1.3, 0.75], "2": [0, 0], "3": [-1.3, -0.75], "4": [1.5, 0], "5": [2.8, 0.75],
-      },
-    }); // prettier-ignore
-    const structure = molfileToStructure(molfile, toolkit, []);
-    expect(
-      stateGraphFromMappedSmiles(structure.mappedSmiles).bondToDoubleBondRelation?.size ?? 0,
-    ).toBe(0);
-  });
-
   it("a later state takes changed wedges as its new marks; its bonds stay locked", () => {
     const sn2 = exampleReaction("sn2-2-bromobutane-inversion.json");
     const products = statesOf(sn2).products as {
@@ -181,6 +166,23 @@ describe("stereo from the structure editor (item 12c)", () => {
     expect(savedGraph.mapNumberToTetrahedralMark?.get(2)).not.toBe(
       productsGraph.mapNumberToTetrahedralMark?.get(2),
     );
+  });
+});
+
+describe("double bonds that are not stereogenic (item 12c)", () => {
+  it("a double bond with two alike groups at one end gets no cis or trans", () => {
+    // 2-Methylbut-2-ene: C2 carries two methyls, so the bond is not stereogenic even though the
+    // methyls have different map numbers (RDKit would rank them apart by those numbers).
+    const molfile = stateToMolfile({
+      mappedSmiles: "[CH3:1][C:2]([CH3:3])=[CH:4][CH3:5]",
+      mapNumberToCoordinates: {
+        "1": [-1.3, 0.75], "2": [0, 0], "3": [-1.3, -0.75], "4": [1.5, 0], "5": [2.8, 0.75],
+      },
+    }); // prettier-ignore
+    const structure = molfileToStructure(molfile, toolkit, []);
+    expect(
+      stateGraphFromMappedSmiles(structure.mappedSmiles).bondToDoubleBondRelation?.size ?? 0,
+    ).toBe(0);
   });
 });
 
