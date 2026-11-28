@@ -1,0 +1,97 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>ArrowPush — stereo question: schema and lint</title>
+<style>
+  :root { --bg:#f7f5f0; --surface:#fff; --ink:#1d2433; --muted:#5d667a; --line:#e2ded3; --accent:#5b4bdb; --soft:#ece9ff; --warn:#fff0c7; --warnink:#7a4f00; }
+  @media (prefers-color-scheme: dark) { :root { --bg:#12141c; --surface:#1b1e2a; --ink:#eceef6; --muted:#a0a8bd; --line:#2e3345; --accent:#8c80ff; --soft:#2a2755; --warn:#3a2f10; --warnink:#f1b73e; } }
+  * { box-sizing: border-box; }
+  body { margin:0; background:var(--bg); color:var(--ink); font:16px/1.6 ui-rounded,"Segoe UI",system-ui,sans-serif; }
+  .layout { max-width:1060px; margin:0 auto; padding:24px 16px 80px; display:grid; grid-template-columns:210px minmax(0,1fr); gap:32px; }
+  @media (max-width:820px){ .layout{grid-template-columns:1fr} nav.toc{position:static!important} }
+  nav.toc { position:sticky; top:16px; align-self:start; font-size:.9rem; }
+  nav.toc a { display:block; padding:5px 10px; border-radius:8px; color:var(--muted); text-decoration:none; font-weight:600; }
+  nav.toc a:hover { background:var(--soft); color:var(--accent); }
+  h1 { font-size:2rem; margin:0 0 4px; } h2 { font-size:1.35rem; margin:40px 0 10px; padding-top:8px; border-top:1px solid var(--line); } h3 { font-size:1.02rem; margin:20px 0 6px; }
+  p, li { margin:0 0 .6em; } ul { padding-left:20px; margin:0 0 1em; } .muted { color:var(--muted); }
+  .note { background:var(--warn); color:var(--warnink); border-radius:12px; padding:10px 14px; font-size:.92rem; margin:14px 0; }
+  .card { background:var(--surface); border:1px solid var(--line); border-radius:14px; padding:14px 18px; margin:12px 0; }
+  code { background:var(--soft); border-radius:6px; padding:1px 6px; font-size:.9em; }
+  .tag { display:inline-block; font-size:.72rem; font-weight:800; padding:2px 9px; border-radius:99px; background:var(--soft); color:var(--accent); vertical-align:2px; letter-spacing:.03em; }
+  table { width:100%; border-collapse:collapse; font-size:.92rem; } th,td { text-align:left; padding:8px; border-bottom:1px solid var(--line); vertical-align:top; } th { color:var(--muted); font-size:.75rem; text-transform:uppercase; letter-spacing:.05em; }
+  pre { background:var(--surface); border:1px solid var(--line); border-radius:12px; padding:12px 14px; overflow:auto; font-size:.84rem; line-height:1.45; }
+  pre code { background:none; padding:0; border-radius:0; font-size:inherit; }
+  table { border-collapse:collapse; width:100%; margin:10px 0 16px; font-size:.92rem; background:var(--surface); }
+  th, td { border:1px solid var(--line); padding:6px 9px; text-align:left; vertical-align:top; } th { background:var(--soft); }
+  blockquote { margin:0 0 16px; background:var(--warn); color:var(--warnink); border-radius:12px; padding:10px 14px; }
+</style></head><body><div class="layout"><nav class="toc"><a href="#s1">1. What it adds</a><a href="#s2">2. Terms (to add to schema-design.md §0)</a><a href="#s3">3. Schema</a><a href="#s4">4. Lint rules (to add to schema-design.md §3.5)</a><a href="#s5">5. Modules (deep modules, one implementation each)</a><a href="#s6">6. Decisions (the owner, 2026-11-28)</a></nav><main><h1>Stereo question: schema and lint (proposal, for review)</h1>
+<blockquote><b>Status: agreed 2026-11-28</b> (the owner's answers to §6 are folded in: a racemic mixture can be the right answer; "plausible, but not the major product"; no hints in v1). Follows the agreed UX: design C, second round (<code>mockups/stereo-choice/build2.html</code>) and the authoring screen (<code>mockups/stereo-choice/author.html</code>). Phase 3 of <code>docs/stereo-validation.md</code>. Human copy: <code>docs/stereo-question.html</code>.</blockquote>
+<h2 id="s1">1. What it adds</h2>
+<p>After correct arrows, a step may ask the learner to <b>draw the product's stereochemistry</b>: the atoms whose configuration the step sets are shown as "?" and the learner taps each one to a wedge or a dash (a new C=C flips between its two geometries). "Check product" compares the drawing with the step's to-state. Only steps an author has given a stereo question ask; a wrong drawing counts as a wrong attempt.</p>
+<h2 id="s2">2. Terms (to add to <code>schema-design.md</code> §0)</h2>
+<table><tr><th>Term</th><th>Meaning</th></tr><tr><td><b>stereo question</b></td><td>A step's optional request to draw the product's stereochemistry after correct arrows (<code>step.stereoQuestion</code>).</td></tr><tr><td><b>question centre</b></td><td>An atom (stereocentre) or double bond whose configuration the step sets: marked in the to-state, and not carried over unchanged from the from-state. Derived, never stored. The learner taps these.</td></tr><tr><td><b>arrangement</b></td><td>One configuration of all the question centres of a step. The right arrangement is the to-state's; others are authored as <code>otherArrangements</code>. (Not "alternative": that word means an alternative product, §3.5 rule 3.)</td></tr><tr><td><b>drawn arrangement</b></td><td>The arrangement the learner has drawn, given to the assessment as the to-state with the learner's marks.</td></tr><tr><td><b>stereo answer assessment</b></td><td>The verdict on one drawn arrangement: right, an authored arrangement (with its severity and message), the racemic-mixture answer, or "any other arrangement". Not an attempt assessment (that judges arrows).</td></tr></table>
+<h2 id="s3">3. Schema</h2>
+<p>New optional property on an <b>arrow step</b> (not allowed on a change step):</p>
+<pre><code>{
+  &quot;stepKey&quot;: &quot;hydroboration&quot;,
+  &quot;fromStateId&quot;: &quot;reactants&quot;, &quot;toStateId&quot;: &quot;alkylborane&quot;,
+  &quot;stepKind&quot;: &quot;polar&quot;, &quot;routePreference&quot;: &quot;preferred&quot;,
+  &quot;canonicalArrows&quot;: [&quot;π C1-C2 -&gt; σ C2-B8&quot;, &quot;σ H9-B8 -&gt; σ C1-H9&quot;],
+  &quot;stereoQuestion&quot;: {
+    &quot;acceptEnantiomer&quot;: true,
+    &quot;otherArrangements&quot;: [
+      {
+        &quot;mappedSmiles&quot;: &quot;[C@:1]1([H:9])([CH3:7])[C@@H:2]([BH2:8])[CH2:3][CH2:4][CH2:5][CH2:6]1&quot;,
+        &quot;severity&quot;: &quot;wrong&quot;,
+        &quot;feedbackMessage&quot;: &quot;H and B are on opposite faces here (anti). They are delivered together by one B–H bond, so they arrive on the same face.&quot;
+      }
+    ],
+    &quot;otherArrangementMessage&quot;: &quot;Not this arrangement. Think about which face each new bond forms on.&quot;
+  }
+}</code></pre>
+<p>SN2 on (R)-2-bromobutane (a single enantiomer, so its mirror image is a wrong arrangement):</p>
+<pre><code>&quot;stereoQuestion&quot;: {
+  &quot;acceptEnantiomer&quot;: false,
+  &quot;otherArrangements&quot;: [
+    { &quot;mappedSmiles&quot;: &quot;[OH:1][C@H:2]([CH3:5])[CH2:6][CH3:7].[Br-:3].[Na+:4]&quot;, &quot;severity&quot;: &quot;wrong&quot;,
+      &quot;feedbackMessage&quot;: &quot;That keeps the configuration (retention). The nucleophile comes in from the back, so the centre inverts.&quot; }
+  ],
+  &quot;racemicMixture&quot;: { &quot;isRight&quot;: false,
+    &quot;feedbackMessage&quot;: &quot;A racemic mixture comes from a flat carbocation (SN1). SN2 is one step from one face.&quot; }
+}</code></pre>
+<p>SN1 (a flat carbocation, attacked from either face), where the racemic mixture is the answer:</p>
+<pre><code>&quot;stereoQuestion&quot;: {
+  &quot;acceptEnantiomer&quot;: true,
+  &quot;otherArrangements&quot;: [],
+  &quot;racemicMixture&quot;: { &quot;isRight&quot;: true,
+    &quot;feedbackMessage&quot;: &quot;Water attacks the flat cation equally from either face, so both enantiomers form in equal amounts.&quot; }
+}</code></pre>
+<table><tr><th>Field</th><th>Type</th><th>Meaning</th></tr><tr><td><code>acceptEnantiomer</code></td><td>boolean, required</td><td>Whether the mirror image of the right arrangement is right too, and each other arrangement also stands for its own mirror image. Mirror image = every question centre inverted (cis/trans double bonds unchanged). Only possible when every stereocentre of the product molecule is a question centre; otherwise inverting the question centres gives a diastereomer, so it must be false.</td></tr><tr><td><code>otherArrangements[]</code></td><td>array, may be empty</td><td>Authored arrangements to explain.</td></tr><tr><td><code>….mappedSmiles</code></td><td>text</td><td>The <b>whole to-state</b> written with this arrangement's marks: same atoms and bonds as the to-state, different marks at question centres only.</td></tr><tr><td><code>….severity</code></td><td><code>wrong</code> | <code>plausible</code></td><td>Same words and meaning as a misconception's severity. The learner sees <code>plausible</code> as <b>"Plausible, but not the major product"</b>. Either way the try counts as wrong and the learner goes on to the major product.</td></tr><tr><td><code>….feedbackMessage</code></td><td>text</td><td>What the learner is told.</td></tr><tr><td><code>racemicMixture</code></td><td>object, optional</td><td>Present = the learner may answer "both enantiomers form, 50 : 50" (a tick box beside the drawing).</td></tr><tr><td><code>racemicMixture.isRight</code></td><td>boolean</td><td><code>true</code>: the racemic mixture <b>is</b> the answer (SN1, addition to a flat C=O); ticking it answers the question, and drawing only one enantiomer (the product or its mirror image) is answered "Plausible, but not the whole answer: its mirror image forms just as much" and counts as a wrong try. <code>false</code>: a distractor (an SN2, a stereospecific addition).</td></tr><tr><td><code>racemicMixture.feedbackMessage</code></td><td>text</td><td>What the learner is told on choosing it (when right: added to the step's explanation).</td></tr><tr><td><code>otherArrangementMessage</code></td><td>text, optional</td><td>For an arrangement nobody listed; a fixed default is used when absent.</td></tr></table>
+<p>The right arrangement and its message are <b>not</b> repeated here: the right answer is the to-state, and the learner is told the step's <code>explanationAfterStep</code>. No <code>formatVersion</code> change: the property is optional and old readers never saw it.</p>
+<h3>Derived, not stored (one source of truth each)</h3>
+<ul><li><b>Question centres</b>: from the from- and to-state marks (<code>stereoCarriedOver</code>, item 12b). Storing them would let them drift from the drawing.</li><li><b>The right arrangement</b>: the to-state.</li><li><b>The mirror image</b>: every question centre's mark inverted.</li><li><b>Where the wedge goes</b> when the learner taps: the to-state's wedge bond at that centre (<code>wedgesForMarks</code>), so the "?" drawing and the answer drawing look alike.</li></ul>
+<h3>Options considered for storing an arrangement</h3>
+<table><tr><th>Option</th><th>Why not chosen</th></tr><tr><td><b>Whole to-state SMILES</b> (chosen)</td><td>Reuses the strict reader, writer, comparison and drawing as they are. If someone later changes the right answer, a stale arrangement that now equals it is caught by lint.</td></tr><tr><td>Flips relative to the answer (<code>"invert": [2]</code>)</td><td>Short, but its meaning silently reverses if the right answer is redrawn: "invert C2" of retention is inversion, and the message about retention would now sit on the right answer, with nothing to catch it.</td></tr><tr><td>A map of marks (<code>{"2": "@@"}</code>)</td><td>A mark means something only with the canonical neighbour order: unreadable by people, and invalid if the neighbours change.</td></tr><tr><td>CIP labels (<code>{"2": "S"}</code>)</td><td>Readable, but CIP needs RDKit, which the learner site does not load, and the label of an unchanged centre can change when a neighbour changes.</td></tr></table>
+<h2 id="s4">4. Lint rules (to add to <code>schema-design.md</code> §3.5)</h2>
+<p>Run after the existing stereo rules. Each points at <code>/steps/&lt;i&gt;/stereoQuestion…</code>.</p>
+<table><tr><th>Rule id</th><th>Level</th><th>Rule</th><th>Why</th></tr><tr><td><code>stereo-question-without-question-centres</code></td><td>error</td><td>The step sets no stereocentre or cis/trans double bond.</td><td>Nothing to tap.</td></tr><tr><td><code>arrangement-not-the-product</code></td><td>error</td><td>An arrangement's SMILES is not the to-state's atoms and bonds (ignoring stereo), or cannot be read.</td><td>The learner only re-marks the product; also catches an arrangement left behind after the mechanism changed.</td></tr><tr><td><code>arrangement-changes-other-centres</code></td><td>error</td><td>An arrangement differs from the to-state at an atom or bond that is not a question centre.</td><td>The learner cannot tap it, so the arrangement can never be drawn.</td></tr><tr><td><code>arrangement-is-the-answer</code></td><td>error</td><td>An arrangement equals the to-state, or (with <code>acceptEnantiomer</code>) its mirror image.</td><td>It would hide a right answer.</td></tr><tr><td><code>arrangement-repeated</code></td><td>error</td><td>Two arrangements are equal, or (with <code>acceptEnantiomer</code>) mirror images of each other.</td><td>Only the first could ever be reached.</td></tr><tr><td><code>arrangement-has-unset-centre</code></td><td>error</td><td>An arrangement leaves a question centre unmarked.</td><td>Every centre must be set before "Check product".</td></tr><tr><td><code>enantiomer-accepted-with-fixed-centres</code></td><td>error</td><td><code>acceptEnantiomer</code> is true but the product molecule also has stereocentres the step does not set (Felkin–Anh's C6; bromination step 2's C2, set by the bromonium ion).</td><td>Inverting only the question centres gives a diastereomer, not the enantiomer: in bromination it would accept cis.</td></tr><tr><td><code>enantiomer-rejected-for-racemic-product</code></td><td>error</td><td><code>acceptEnantiomer</code> is false, the to-state is marked racemic, and every stereocentre of the product molecule is a question centre.</td><td>A right drawing of the other enantiomer would be marked wrong. (With fixed centres the racemate is already drawn as one enantiomer, so false is right.)</td></tr><tr><td><code>enantiomer-accepted-for-single-enantiomer</code></td><td>warning</td><td><code>acceptEnantiomer</code> is true but the to-state is not marked racemic.</td><td>Usually the racemic label is missing; fine when only the relative configuration is asked.</td></tr><tr><td><code>racemic-mixture-right-for-single-enantiomer</code></td><td>error</td><td><code>racemicMixture.isRight</code> is true but the to-state is not marked racemic.</td><td>The drawing and the answer would say different things.</td></tr><tr><td><code>racemic-mixture-right-with-fixed-centres</code></td><td>error</td><td><code>racemicMixture.isRight</code> is true but the product molecule has stereocentres the step does not set.</td><td>"Both enantiomers" is then not what the learner can mean by the tick box (it would be two diastereomers).</td></tr></table>
+<p>Non-empty messages and the enums are the JSON Schema's job (<code>nonEmptyText</code>), not lint rules.</p>
+<h2 id="s5">5. Modules (deep modules, one implementation each)</h2>
+<p>New folder <b><code>core/stereoQuestions/</code></b> (after <code>attemptAssessment</code> in the core tier; add to <code>.dependency-cruiser.cjs</code> and <code>docs/code-layout.md</code>). Its whole interface is two functions:</p>
+<pre><code>/** Everything about one step&#x27;s question, worked out once: centres, the right arrangement, its mirror image,
+ *  the authored arrangements as state graphs. Throws only on unreadable SMILES (lint reports those first). */
+prepareStereoQuestion(step: ReactionStep, fromState: StateGraph, toState: StateGraph): PreparedStereoQuestion
+
+/** The verdict on one answer. `drawn` is the to-state with the learner&#x27;s marks at the question centres. */
+assessStereoAnswer(question: PreparedStereoQuestion, answer: { drawn: StateGraph } | { racemicMixture: true }): StereoAnswerAssessment
+// StereoAnswerAssessment = { kind: &quot;right&quot;; feedbackMessage? } | { kind: &quot;authored&quot;, severity, feedbackMessage }
+//                        | { kind: &quot;racemicMixtureWrong&quot;, feedbackMessage } | { kind: &quot;singleEnantiomerOfRacemate&quot; }
+//                        | { kind: &quot;otherArrangement&quot;, feedbackMessage }</code></pre>
+<p>Behind it: finding question centres, mirror images, comparing arrangements, the default message. Callers:</p>
+<ul><li><b>learner/stepSession</b>: a new phase after correct arrows when the step has a question; each answer that is not right (wrong or plausible) adds 1 to the step's <code>attemptCount</code>, so <code>stepScoring</code> and step outcomes need no change. No hints in v1: the step's hint ladder stays about the arrows.</li><li><b>tooling/reactionLinting</b>: the nine rules above, built on <code>prepareStereoQuestion</code> (equal, mirror, centres).</li><li><b>create</b>: the authoring screen's live checks are the lint findings for that step (no second copy of the rules); "Try it as a learner" uses the learner's own control.</li></ul>
+<p>Taps become marks with the existing <code>drawnTetrahedralMark</code> (drawing tier), so the learner control needs no new chemistry.</p>
+<p><b>Create regeneration</b> (<code>stateRegeneration.ts</code>): when the to-state is regenerated, each arrangement is rewritten as the new to-state with the same question centres inverted as before. If the question centres change, the arrangement is left as it was and <code>arrangement-not-the-product</code> / <code>arrangement-changes-other-centres</code> tell the author.</p>
+<p><b>Unchanged:</b> database (the step is stored inside the reaction JSON), catalogue, draft sync, progress format. <b>Changed:</b> schema, <code>reactionFile.ts</code> types, the session snapshot (it stores the phase and the drawn arrangement), version changes (the question is a compared entry), and Create's teaching items.</p>
+<h2 id="s6">6. Decisions (the owner, 2026-11-28)</h2>
+<ol><li>A racemic mixture can be the right answer (SN1): <code>racemicMixture.isRight</code>.</li><li><code>plausible</code> is shown as "Plausible, but not the major product"; it counts as a wrong try.</li><li>No hints for the stereo question in v1.</li></ol></main></div></body></html>

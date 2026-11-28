@@ -1,0 +1,74 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>C v2: build the product — stereo-choice prototype</title>
+<link rel="stylesheet" href="../style.css"><link rel="stylesheet" href="choice.css">
+<style>
+  svg.mol .target circle { fill: var(--accent); fill-opacity: .14; stroke: var(--accent); stroke-width: 2; stroke-dasharray: 4 3; cursor: pointer; }
+  svg.mol .target.set circle { fill-opacity: .04; stroke-dasharray: none; opacity: .7; }
+  svg.mol .target:focus { outline: none; } svg.mol .target:focus circle { stroke-width: 3.5; }
+  svg.mol .q { font: 800 15px system-ui; fill: var(--accent); }
+  .pips span { display: inline-block; width: 14px; height: 14px; border-radius: 50%; background: var(--bad); margin-right: 4px; vertical-align: middle; }
+  .legend { font-size: .82rem; color: var(--muted); }
+  .product { max-width: 360px; }
+</style></head>
+<body><div class="wrap"><div id="head"></div>
+<div class="stage mt">
+  <section class="card">
+    <div class="row spread small"><span class="muted" id="stepLbl"></span><span class="muted">Wrong tries <span class="pips" id="pips"></span></span></div>
+    <div class="grid" style="grid-template-columns:1fr auto 1fr;align-items:center;gap:8px">
+      <div id="start"></div><div style="font-size:1.6rem">→</div><div class="product" id="prod"></div>
+    </div>
+    <p class="legend center" id="legend"></p>
+  </section>
+  <aside class="grid" style="gap:12px">
+    <div class="fb good"><h3>Arrows correct</h3><p id="ask"></p></div>
+    <label class="row small" id="mixRow" hidden><input type="checkbox" id="mix"> Both enantiomers form, 50 : 50 (a racemic mixture)</label>
+    <button class="btn primary" id="checkProd" style="justify-self:start" disabled>Check product</button>
+    <div id="fb2"></div>
+  </aside>
+</div>
+<div class="proto-note"><b>Prototype C, second round.</b> New stereocentres (or a new C=C) in the product start as “?”. Tap one, or Tab to it and press Enter, to draw it: first a wedge, then a dash (a C=C flips between its two geometries). “Check product” unlocks once every “?” is set. A wrong or minor arrangement counts as a wrong try and says why; you then change it and check again. For a racemic product the mirror image counts too (hydroboration). Scenes: SN2 also offers “racemic mixture”; bromination step 2 has one new centre next to one already set; hydroboration sets two at once; Felkin–Anh has a minor diastereomer (“plausible”); E2 is an E/Z choice.</div>
+</div>
+<script src="scenes.js"></script><script src="build2-scenes.js"></script>
+<script>
+const scenes = window.BUILD_SCENES; const startOf = Object.fromEntries(window.STEREO_SCENES.map((s) => [s.id, s.start]));
+const scene = scenes.find((s) => s.id === new URLSearchParams(location.search).get("s")) ?? scenes[0];
+document.getElementById("head").innerHTML = `<div class="row spread mt"><div><span class="pill new">Prototype C v2: build the product</span>
+  <h1 style="margin:6px 0 0">${scene.title}</h1><div class="muted">${scene.reaction}</div></div><a class="btn sm" href="index.html">All prototypes</a></div>
+  <div class="row mt small">${scenes.map((s) => `<a class="btn sm${s.id === scene.id ? " primary" : ""}" href="?s=${s.id}">${s.title}</a>`).join(" ")}</div>`;
+document.getElementById("stepLbl").textContent = scene.step;
+document.getElementById("start").innerHTML = startOf[scene.id] || "";
+const n = scene.kind === "ez" ? 1 : scene.drawings.correctStyle.length;
+document.getElementById("ask").textContent = scene.kind === "ez"
+  ? "Now draw the product's geometry: tap the highlighted C=C to choose E or Z."
+  : `Now draw the stereochemistry: tap ${n === 1 ? "the highlighted centre" : "each highlighted centre"} to put ${n === 1 ? "its" : "a"} wedge or dash.`;
+document.getElementById("legend").textContent = scene.kind === "ez" ? "Tap the C=C: it flips between its two geometries." : "Tap: wedge (towards you) → dash (away) → wedge …";
+document.getElementById("mixRow").style.display = scene.mixtureOption ? "" : "none";
+// state per target: "?" | "wedge" | "dash" (tetrahedral) or "?" | "a" | "b" (E/Z)
+const state = Array(n).fill("?"); let wrongTries = 0, done = false;
+const ezFirst = Math.random() < 0.5 ? "a" : "b";
+const keyOf = () => scene.kind === "ez" ? state[0] : state.map((st, i) => st === "?" ? "?" : (st === scene.drawings.correctStyle[i] ? "a" : "b")).join("");
+function render() {
+  document.getElementById("prod").innerHTML = scene.drawings[keyOf()];
+  document.getElementById("checkProd").disabled = done || state.includes("?");
+  document.getElementById("pips").innerHTML = "<span></span>".repeat(wrongTries) || "none";
+}
+function tap(i) {
+  if (done) return;
+  if (scene.kind === "ez") state[i] = state[i] === "?" ? ezFirst : (state[i] === "a" ? "b" : "a");
+  else state[i] = state[i] === "wedge" ? "dash" : "wedge";
+  document.getElementById("fb2").innerHTML = ""; render();
+  document.querySelector(`.target[data-t="${i}"]`)?.focus();
+}
+document.getElementById("prod").addEventListener("click", (e) => { const t = e.target.closest(".target"); if (t) tap(Number(t.dataset.t)); });
+document.getElementById("prod").addEventListener("keydown", (e) => { const t = e.target.closest(".target"); if (t && (e.key === "Enter" || e.key === " ")) { e.preventDefault(); tap(Number(t.dataset.t)); } });
+const HEAD = { correct: ["good", "Correct"], plausible: ["plausible", "This forms too, but it is the minor product"], wrong: ["wrong", "Not this arrangement"] };
+document.getElementById("checkProd").onclick = () => {
+  const answer = document.getElementById("mix").checked && scene.mixtureOption ? scene.answers.mixture : scene.answers[keyOf()];
+  const [cls, head] = HEAD[answer.verdict];
+  if (answer.verdict !== "correct") wrongTries += 1; else done = true;
+  document.getElementById("fb2").innerHTML = `<div class="fb ${cls}"><h3>${head}</h3><p>${answer.why}</p>${answer.verdict === "correct" ? "" : `<p class="small muted mt">Counted as a wrong try. Change the drawing and check again.</p>`}</div>${done ? `<button class="btn primary mt">Next step →</button>` : ""}`;
+  render();
+};
+render();
+</script></body></html>

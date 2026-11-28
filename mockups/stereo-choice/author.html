@@ -1,0 +1,192 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Create: stereo question — authoring prototype</title>
+<link rel="stylesheet" href="../style.css"><link rel="stylesheet" href="choice.css">
+<style>
+  .teach { display: grid; grid-template-columns: 280px minmax(0, 1fr); gap: 16px; align-items: start; }
+  @media (max-width: 900px) { .teach { grid-template-columns: 1fr; } }
+  .todo { list-style: none; margin: 6px 0 14px; padding: 0; display: grid; gap: 4px; font-size: .9rem; }
+  .todo li { display: flex; gap: 8px; align-items: center; padding: 5px 8px; border-radius: 8px; }
+  .todo li.open { background: var(--accent-soft); font-weight: 700; }
+  .todo .mark { width: 16px; text-align: center; }
+  .grouphead { font-size: .75rem; text-transform: uppercase; letter-spacing: .05em; color: var(--muted); margin-top: 8px; }
+  .tag { font-size: .72rem; border-radius: 999px; padding: 1px 8px; background: var(--surface-2); color: var(--muted); }
+  .alt { border: 1px solid var(--line); border-radius: 14px; padding: 10px; display: grid; grid-template-columns: 200px minmax(0,1fr); gap: 12px; align-items: start; }
+  .alt.correct { border-color: var(--good); background: var(--good-soft); }
+  @media (max-width: 700px) { .alt { grid-template-columns: 1fr; } }
+  .alt textarea { width: 100%; min-height: 64px; font: inherit; }
+  .warn-line { color: var(--bad); font-size: .85rem; margin-top: 4px; }
+  .info-line { color: var(--muted); font-size: .85rem; }
+  svg.mol .target circle { fill: var(--accent); fill-opacity: .14; stroke: var(--accent); stroke-width: 2; stroke-dasharray: 4 3; cursor: pointer; }
+  svg.mol .target.set circle { fill-opacity: .04; stroke-dasharray: none; opacity: .7; }
+  svg.mol .q { font: 800 15px system-ui; fill: var(--accent); }
+  .switch { display: flex; gap: 8px; align-items: center; font-weight: 700; }
+  dialog.pick { border: 0; border-radius: 18px; padding: 0; width: min(900px, 96vw); }
+  dialog.pick .inner { padding: 18px; }
+</style></head>
+<body><div class="wrap">
+<div id="head"></div>
+<div class="row mt small"><span class="pill">Create</span><span class="muted">Start · Mechanism · <b>Teaching</b> · Publish</span></div>
+<div class="teach mt">
+  <section class="card flat" aria-label="To do">
+    <b>To do</b>
+    <div class="grouphead">Step 1 · from the start state</div>
+    <ul class="todo">
+      <li><span class="mark">✓</span>Question the learner sees</li>
+      <li><span class="mark">✓</span>Hints (3)</li>
+      <li><span class="mark">✓</span>What happens (explanation)</li>
+      <li class="open"><span class="mark" id="todoMark">○</span>Stereo question <span class="tag">optional</span></li>
+    </ul>
+    <div class="grouphead">Reaction</div>
+    <ul class="todo"><li><span class="mark">✓</span>Mechanism summary</li></ul>
+    <p class="small muted">“Stereo question” appears for every arrow step whose product has a stereocentre or a cis/trans double bond the step makes or changes.</p>
+  </section>
+  <section class="card" aria-label="Open item">
+    <h2 style="margin:0">Stereo question</h2>
+    <p class="muted small" style="margin-top:4px">After correct arrows the learner draws the product's stereochemistry by tapping the highlighted centres. The step's product (as drawn in Mechanism) is the right answer. Add the wrong or minor arrangements you want to explain; anything not listed gets the general message below.</p>
+    <label class="switch mt"><input type="checkbox" id="enabled"> Ask the learner to draw the stereochemistry at this step</label>
+    <div id="body"></div>
+  </section>
+</div>
+<div class="proto-note"><b>Authoring prototype.</b> Off by default: a step asks a stereo question only when the author turns it on. The right answer is the product as drawn on the Mechanism stage (change it there). “Either enantiomer counts as right” decides whether the mirror image of the answer (and of each alternative) counts the same; it starts from the state's racemic flag and warns when the two disagree. Each alternative is built with the same tap control the learner uses, then given a verdict (wrong, or minor product) and a message; live checks flag a duplicate, a copy of the right answer (or of its mirror image when the product is racemic), and a missing message. “Try it as a learner” runs the learner's control with what you wrote. Scenes as in the learner prototype; switch at the top.</div>
+</div>
+<dialog class="pick" id="preview"><div class="inner" id="previewInner"></div></dialog>
+<script src="scenes.js"></script><script src="build2-scenes.js"></script>
+<script>
+const scenes = window.BUILD_SCENES;
+function mirrorOfKey(key) { return [...key].map((c) => c === "a" ? "b" : c === "b" ? "a" : c).join(""); } const startOf = Object.fromEntries(window.STEREO_SCENES.map((s) => [s.id, s.start]));
+const scene = scenes.find((s) => s.id === new URLSearchParams(location.search).get("s")) ?? scenes[2];
+document.getElementById("head").innerHTML = `<div class="row spread mt"><div><span class="pill new">Prototype: authoring in Create</span>
+  <h1 style="margin:6px 0 0">${scene.title}</h1><div class="muted">${scene.reaction}</div></div><a class="btn sm" href="index.html">All prototypes</a></div>
+  <div class="row mt small">${scenes.map((s) => `<a class="btn sm${s.id === scene.id ? " primary" : ""}" href="?s=${s.id}">${s.title}</a>`).join(" ")}</div>`;
+const n = scene.kind === "ez" ? 1 : scene.drawings.correctStyle.length;
+const correctKey = "a".repeat(n), mirrorKey = "b".repeat(n);
+// The author's data, prefilled from the scene's answers (what a finished question would hold).
+const authored = {
+  enabled: true,
+  alternatives: Object.entries(scene.answers).filter(([k, a]) => k !== "mixture" && a.verdict !== "correct")
+    .filter(([k], i, all) => !all.slice(0, i).some(([earlier]) => scene.racemic && mirrorOfKey(earlier) === k))
+    .map(([key, a]) => ({ key, verdict: a.verdict, message: a.why })),
+  mixture: scene.answers.mixture ? { offered: true, verdict: "wrong", message: scene.answers.mixture.why } : { offered: false, verdict: "wrong", message: "" },
+  otherwise: "Not this arrangement. Think about which face each new bond forms on.",
+  // Whether the mirror image of the right answer (and of each alternative) counts the same. Starts from
+  // the state's racemic flag; the author may change it.
+  acceptEnantiomer: scene.racemic && !["bromination", "felkin"].includes(scene.id),
+};
+// Bromination step 2 (C2 set by the bromonium ion) and Felkin–Anh (C6 from the substrate) have stereocentres the
+// learner does not set: inverting only the tapped centre gives a diastereomer, so "either enantiomer" cannot apply.
+const fixedCentres = ["bromination", "felkin"].includes(scene.id);
+const racemic = scene.racemic;
+// For a racemic product an alternative also stands for its mirror image (every centre swapped).
+const mirrorOf = (key) => scene.kind === "ez" ? key : [...key].map((c) => c === "a" ? "b" : c === "b" ? "a" : c).join("");
+const sameArrangement = (k1, k2) => k1 === k2 || (authored.acceptEnantiomer && mirrorOf(k1) === k2);
+const correctWhy = scene.answers[correctKey]?.why ?? "";
+let editing = null; // index being edited, or "new"
+const draftState = { key: "" };
+function keyToStyles(key) { return [...key].map((c, i) => c === "?" ? "?" : scene.kind === "ez" ? c : (c === "a" ? scene.drawings.correctStyle[i] : (scene.drawings.correctStyle[i] === "wedge" ? "dash" : "wedge"))); }
+function stylesToKey(styles) { return styles.map((st, i) => st === "?" ? "?" : scene.kind === "ez" ? st : (st === scene.drawings.correctStyle[i] ? "a" : "b")).join(""); }
+function problemsOf(alt, index) {
+  const out = [];
+  if (alt.key.includes("?")) out.push("Set every highlighted centre.");
+  else if (alt.key === correctKey) out.push("This is the right answer itself.");
+  else if (authored.acceptEnantiomer && alt.key === mirrorKey) out.push("This is the mirror image of the right answer, which already counts as right (either enantiomer is allowed).");
+  const twin = authored.alternatives.findIndex((other, j) => j < index && sameArrangement(other.key, alt.key));
+  if (twin >= 0) out.push(authored.alternatives[twin].key === alt.key ? `The same arrangement as alternative ${twin + 1}.` : `The mirror image of alternative ${twin + 1}, which already covers it (either enantiomer is allowed).`);
+  if (!alt.message.trim()) out.push("Write what the learner should be told.");
+  return out;
+}
+function altCard(alt, index) {
+  const problems = problemsOf(alt, index);
+  const isEditing = editing === index;
+  return `<div class="alt" data-i="${index}">
+    <div>${scene.drawings[alt.key] ?? ""}${isEditing ? `<div class="info-line center">Tap the highlighted centres</div>` : ""}</div>
+    <div class="grid" style="gap:8px">
+      <div class="row"><b>Alternative ${index + 1}</b>
+        <select data-f="verdict"><option value="wrong"${alt.verdict === "wrong" ? " selected" : ""}>Wrong</option><option value="plausible"${alt.verdict === "plausible" ? " selected" : ""}>Minor product (forms too)</option></select>
+        <button class="btn sm" data-a="edit">${isEditing ? "Done drawing" : "Change drawing"}</button><button class="btn sm" data-a="remove">Remove</button></div>
+      <label class="small muted">What the learner is told</label>
+      <textarea data-f="message">${alt.message}</textarea>
+      ${problems.map((p) => `<div class="warn-line">⚠ ${p}</div>`).join("")}
+    </div></div>`;
+}
+function render() {
+  document.getElementById("enabled").checked = authored.enabled;
+  const body = document.getElementById("body");
+  if (!authored.enabled) { body.innerHTML = `<p class="muted mt">Off: learners go straight to the next step after correct arrows.</p>`; document.getElementById("todoMark").textContent = "–"; return; }
+  const enantiomerMismatch = n > 0 && scene.kind !== "ez" && !fixedCentres && authored.acceptEnantiomer !== racemic;
+  const allProblems = authored.alternatives.flatMap((a, i) => problemsOf(a, i)).length + (authored.mixture.offered && !authored.mixture.message.trim() ? 1 : 0) + (enantiomerMismatch ? 1 : 0);
+  document.getElementById("todoMark").textContent = allProblems ? "!" : "✓";
+  body.innerHTML = `
+    <h3 class="mt">Right answer</h3>
+    <div class="alt correct"><div>${scene.drawings[correctKey]}</div><div class="grid" style="gap:6px">
+      <b>The product as drawn on the Mechanism stage</b>
+      <label class="row small" style="font-weight:700"><input type="checkbox" id="acceptEnantiomer"${authored.acceptEnantiomer ? " checked" : ""}${scene.kind === "ez" || n === 0 || fixedCentres ? " disabled" : ""}> Either enantiomer counts as right</label>
+      ${fixedCentres ? `<div class="info-line">Not available here: the product has a stereocentre this step does not set, so inverting the tapped ${n === 1 ? "centre" : "centres"} gives a diastereomer, not the enantiomer.${racemic ? " (The product is still racemic: one enantiomer is drawn.)" : ""}</div>` : ""}
+      <div class="info-line">${authored.acceptEnantiomer
+        ? "The mirror image of this drawing is right too, and each alternative below also covers its own mirror image. Use this for a racemic product, or when only the relative configuration matters."
+        : "Only this enantiomer is right; its mirror image is an ordinary wrong arrangement (add it below to explain it). Use this when the product forms as one enantiomer (a chiral substrate, catalyst or reagent)."}</div>
+      ${authored.acceptEnantiomer && !racemic ? `<div class="warn-line">⚠ The product state is not marked racemic, but either enantiomer is accepted. If both enantiomers really form, mark the state racemic on the Mechanism stage.</div>` : ""}
+      ${!authored.acceptEnantiomer && racemic && !fixedCentres ? `<div class="warn-line">⚠ The product state is marked racemic, so both enantiomers form; accepting only one would mark a correct drawing wrong.</div>` : ""}
+      <label class="small muted">What the learner is told when right (the step's explanation)</label><div class="fb good"><p>${correctWhy}</p></div>
+      <div class="info-line">To change the right answer, redraw the product on the Mechanism stage.</div></div></div>
+    <h3 class="mt">Alternatives</h3>
+    <div class="grid" style="gap:10px" id="alts">${authored.alternatives.map(altCard).join("") || `<p class="muted small">None yet.</p>`}</div>
+    <button class="btn sm mt" id="add">+ Add an alternative</button>
+    ${scene.kind === "ez" ? "" : `<h3 class="mt">Racemic mixture</h3>
+    <label class="row small"><input type="checkbox" id="mixOffered"${authored.mixture.offered ? " checked" : ""}> Offer “both enantiomers form, 50 : 50” as an answer</label>
+    ${authored.mixture.offered ? `<div class="grid" style="gap:6px;max-width:640px"><select id="mixVerdict"><option value="wrong"${authored.mixture.verdict === "wrong" ? " selected" : ""}>Wrong</option><option value="correct"${authored.mixture.verdict === "correct" ? " selected" : ""}>Right</option></select>
+      <textarea id="mixMessage" placeholder="What the learner is told">${authored.mixture.message}</textarea>${authored.mixture.message.trim() ? "" : `<div class="warn-line">⚠ Write what the learner should be told.</div>`}</div>` : ""}`}
+    <h3 class="mt">Any other arrangement</h3>
+    <textarea id="otherwise" style="width:100%;max-width:640px;min-height:56px;font:inherit">${authored.otherwise}</textarea>
+    <div class="row mt"><button class="btn primary" id="try">▶ Try it as a learner</button><span class="small muted">Every wrong try counts as a wrong attempt.</span></div>`;
+}
+document.getElementById("enabled").onchange = (e) => { authored.enabled = e.target.checked; render(); };
+document.getElementById("body").addEventListener("click", (e) => {
+  const card = e.target.closest(".alt[data-i]");
+  const target = e.target.closest(".target");
+  if (card && target && editing === Number(card.dataset.i)) {
+    const alt = authored.alternatives[editing]; const styles = keyToStyles(alt.key); const i = Number(target.dataset.t);
+    styles[i] = scene.kind === "ez" ? (styles[i] === "a" ? "b" : "a") : (styles[i] === "wedge" ? "dash" : "wedge");
+    alt.key = stylesToKey(styles); render(); return;
+  }
+  const action = e.target.dataset.a;
+  if (action === "edit") { const i = Number(card.dataset.i); editing = editing === i ? null : i; render(); }
+  if (action === "remove") { authored.alternatives.splice(Number(card.dataset.i), 1); editing = null; render(); }
+  if (e.target.id === "add") { authored.alternatives.push({ key: "?".repeat(n), verdict: "wrong", message: "" }); editing = authored.alternatives.length - 1; render(); }
+  if (e.target.id === "try") openPreview();
+});
+document.getElementById("body").addEventListener("change", (e) => {
+  const card = e.target.closest(".alt[data-i]");
+  if (card && e.target.dataset.f) { authored.alternatives[Number(card.dataset.i)][e.target.dataset.f] = e.target.value; render(); }
+  if (e.target.id === "mixOffered") { authored.mixture.offered = e.target.checked; render(); }
+  if (e.target.id === "acceptEnantiomer") { authored.acceptEnantiomer = e.target.checked; render(); }
+  if (e.target.id === "mixVerdict") { authored.mixture.verdict = e.target.value; render(); }
+  if (e.target.id === "mixMessage") { authored.mixture.message = e.target.value; render(); }
+  if (e.target.id === "otherwise") authored.otherwise = e.target.value;
+});
+// Learner preview with the authored data (the C v2 control).
+function openPreview() {
+  const state = Array(n).fill("?"); let tries = 0, done = false; const first = Math.random() < .5 ? "a" : "b";
+  const inner = document.getElementById("previewInner");
+  const key = () => scene.kind === "ez" ? state[0] : stylesToKey(state);
+  const verdictOf = (mix) => {
+    if (mix) return { verdict: authored.mixture.verdict, why: authored.mixture.message };
+    const k = key(); if (k === correctKey || (authored.acceptEnantiomer && k === mirrorKey)) return { verdict: "correct", why: correctWhy };
+    const alt = authored.alternatives.find((a) => sameArrangement(a.key, k)); return alt ? { verdict: alt.verdict, why: alt.message } : { verdict: "wrong", why: authored.otherwise };
+  };
+  const HEAD = { correct: ["good", "Correct"], plausible: ["plausible", "This forms too, but it is the minor product"], wrong: ["wrong", "Not this arrangement"] };
+  const draw = (fb = "") => {
+    inner.innerHTML = `<div class="row spread"><b>Learner preview</b><span class="small muted">Wrong tries: ${tries}</span><button class="btn sm" onclick="document.getElementById('preview').close()">Close</button></div>
+      <div class="grid mt" style="grid-template-columns:1fr auto 1fr;align-items:center;gap:8px"><div>${startOf[scene.id] || ""}</div><div style="font-size:1.6rem">→</div><div id="pv">${scene.drawings[key()]}</div></div>
+      ${authored.mixture.offered && scene.kind !== "ez" ? `<label class="row small"><input type="checkbox" id="pmix"> Both enantiomers form, 50 : 50 (a racemic mixture)</label>` : ""}
+      <button class="btn primary mt" id="pcheck"${state.includes("?") || done ? " disabled" : ""}>Check product</button><div class="mt">${fb}</div>`;
+  };
+  inner.onclick = (e) => {
+    const t = e.target.closest(".target");
+    if (t && !done) { const i = Number(t.dataset.t); state[i] = scene.kind === "ez" ? (state[i] === "?" ? first : state[i] === "a" ? "b" : "a") : (state[i] === "wedge" ? "dash" : "wedge"); draw(); }
+    if (e.target.id === "pcheck") { const v = verdictOf(document.getElementById("pmix")?.checked); if (v.verdict === "correct") done = true; else tries += 1; const [cls, h] = HEAD[v.verdict]; draw(`<div class="fb ${cls}"><h3>${h}</h3><p>${v.why || "<i>(no message written)</i>"}</p></div>`); }
+  };
+  draw(); document.getElementById("preview").showModal();
+}
+render();
+</script></body></html>

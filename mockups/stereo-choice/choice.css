@@ -1,0 +1,29 @@
+/* Throwaway styles for the stereo-choice prototypes. */
+.stage { display: grid; grid-template-columns: minmax(0, 1.6fr) minmax(280px, 1fr); gap: 16px; align-items: start; }
+@media (max-width: 860px) { .stage { grid-template-columns: 1fr; } }
+svg.mol { width: 100%; max-height: 220px; }
+svg.mol .bond, svg.mol .hash { stroke: var(--mol); stroke-width: 2; stroke-linecap: round; }
+svg.mol .hash { stroke-width: 1.6; }
+svg.mol .wedge { fill: var(--mol); }
+svg.mol .at { font: 600 15px system-ui, sans-serif; fill: var(--mol); paint-order: stroke; stroke: var(--halo); stroke-width: 5px; }
+svg.mol .hl { fill: var(--accent-soft); stroke: var(--accent); stroke-dasharray: 3 3; }
+.fb { border-radius: 14px; padding: 12px 14px; border: 1px solid var(--line); background: var(--surface-2); }
+.fb h3 { margin: 0 0 4px; font-size: 1rem; } .fb p { margin: 0; font-size: .92rem; }
+.fb.good { background: var(--good-soft); border-color: var(--good); } .fb.good h3 { color: var(--good); }
+.fb.wrong { background: var(--bad-soft); border-color: var(--bad); } .fb.wrong h3 { color: var(--bad); }
+.fb.plausible { background: var(--warn-soft); border-color: #d89a00; } .fb.plausible h3 { color: var(--warn); }
+.options { display: grid; grid-template-columns: repeat(auto-fit, minmax(170px, 1fr)); gap: 12px; }
+.option { border: 2px solid var(--line); border-radius: 14px; background: var(--surface); padding: 8px; cursor: pointer; text-align: center; font: inherit; color: var(--ink); }
+.option:hover { border-color: var(--accent); }
+.option[aria-pressed="true"] { border-color: var(--accent); box-shadow: 0 0 0 3px var(--accent-soft); }
+.option.was-wrong { opacity: .55; border-style: dashed; }
+.option.was-right { border-color: var(--good); box-shadow: 0 0 0 3px var(--good-soft); }
+.option .lbl { font-weight: 700; font-size: .9rem; } .option .note { font-size: .78rem; color: var(--muted); }
+.mixture { display: grid; place-items: center; min-height: 120px; font-size: 1.6rem; color: var(--muted); }
+.arrowline { font-size: .85rem; background: var(--surface-2); border-radius: 10px; padding: 6px 10px; }
+.proto-note { border: 2px dashed var(--line); border-radius: 14px; padding: 10px 14px; margin-top: 18px; font-size: .9rem; }
+dialog.pick { border: 0; border-radius: 18px; padding: 0; width: min(760px, 94vw); box-shadow: 0 20px 60px rgba(0,0,0,.35); background: var(--surface); color: var(--ink); }
+dialog.pick::backdrop { background: rgba(20, 22, 30, .45); }
+dialog.pick .inner { padding: 18px; }
+.qmark { display: grid; place-items: center; min-height: 160px; border: 2px dashed var(--line); border-radius: 14px; font-size: 2.4rem; color: var(--muted); }
+.flipper { cursor: pointer; }
