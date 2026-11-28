@@ -19,6 +19,10 @@
           "whyThisOne": "The pattern: two arrows, one step."
         },
         {
+          "reactionSlug": "sn2-2-bromobutane-inversion",
+          "whyThisOne": "The same two arrows at a stereocentre: watch it invert."
+        },
+        {
           "reactionSlug": "cyanide-and-iodoethane",
           "whyThisOne": "A carbon nucleophile makes a C–C bond."
         },
