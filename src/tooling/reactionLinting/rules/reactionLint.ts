@@ -129,7 +129,7 @@ export function lintReaction(
     ...misconceptionMatchingFindings(reaction, prepared),
     ...symmetryCapFindings(reaction, prepared, maximumSymmetries),
     ...stereoDrawingFindings(reaction, prepared),
-    ...stereoChangeFindings(reaction, prepared),
+    ...stereoChangeFindings(reaction, prepared, toolkit),
     ...unspecifiedStereocentreFindings(reaction, prepared, toolkit),
   ];
 }

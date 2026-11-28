@@ -97,3 +97,13 @@ test("the relation of a double bond is read from the coordinates", () => {
   const straight = { ...trans, "4": [3, 0] };
   expect(drawnDoubleBondRelation(butene, "2-3", straight)).toBeUndefined();
 });
+
+test("in a three-membered ring the wedges go on the bonds to the bridging atom", () => {
+  // The bromonium ion of cyclohexene: Br7 bridges C1 and C2 on one face, as textbooks draw it.
+  const bromonium = stateGraphFromMappedSmiles(
+    "[C@@H:1]12[C@@H:2]([CH2:3][CH2:4][CH2:5][CH2:6]1)[Br+:7]2.[Br-:8]",
+  );
+  const coordinates = { ...ringCoordinates, "7": [1.85, 0.9], "8": [4, 2] };
+  const wedges = wedgesForMarks(bromonium, coordinates, {});
+  expect(Object.keys(wedges).sort()).toEqual(["1-7", "2-7"]);
+});

@@ -7,10 +7,19 @@
  *                                              it that shows the same configuration, no wedge
  *                                              starts at an unmarked atom, and each cis/trans
  *                                              double bond is drawn that way round.
+ *   wedges-without-stereo-marks (warning)      A state with wedges but no stereocentre marks at
+ *                                              all: drawn before item 12, when wedges were display
+ *                                              only (Create now turns drawn wedges into marks).
+ *                                              Kept a warning so published files from then still
+ *                                              build; the fix is to give the SMILES its marks.
  *   stereocentre-changes-without-arrows (error) Between a step's from- and to-state, a centre or
  *                                              double bond that no canonical arrow touches, with
  *                                              the same neighbours in both, keeps its mark (or
- *                                              lack of one). A change step touches nothing.
+ *                                              lack of one). A change step touches nothing. A mark
+ *                                              may appear on (or leave) an atom that is not a
+ *                                              stereocentre on the other side: a step can make a
+ *                                              centre without touching it, when two alike groups
+ *                                              next to it become different.
  *   stereocentre-unspecified (warning)         In a state that marks some stereocentre, RDKit
  *                                              finds another with no mark. Found by marking the
  *                                              atom and asking RDKit whether the mark survives
@@ -19,6 +28,8 @@
  *                                              removed (RDKit would rank atoms by them).
  */
 import { parseCurvedArrow } from "../../../core/arrowNotation/curvedArrowNotation.js";
+import { withHydrogensFolded } from "../../../core/attemptAssessment/hydrogenFolding.js";
+import { skeletonSymmetries } from "../../../core/attemptAssessment/skeletonSymmetry.js";
 import {
   graphOf,
   type PreparedReaction,
@@ -96,13 +107,24 @@ function doubleBondProblems(graph: StateGraph, state: LintedState): string[] {
   });
 }
 
-/** wedges-disagree-with-smiles, for every state. */
+/** wedges-disagree-with-smiles (and wedges-without-stereo-marks), for every state. */
 export function stereoDrawingFindings(
   reaction: LintedReaction,
   prepared: PreparedReaction,
 ): LintFinding[] {
   return [...reaction.stateIdToState].flatMap(([stateId, state]) => {
     const graph = graphOf(prepared, stateId);
+    const hasWedges = Object.keys(state.bondToWedgeStyle).length > 0;
+    if (hasWedges && (graph.mapNumberToTetrahedralMark?.size ?? 0) === 0) {
+      return [
+        lintWarning(
+          "wedges-without-stereo-marks",
+          ["stateIdToState", stateId, "bondToWedgeStyle"],
+          "the state has wedges but its SMILES has no stereo marks: give the SMILES the marks " +
+            "the wedges show (redraw the wedges in the structure editor)",
+        ),
+      ];
+    }
     return [
       ...wedgeProblems(graph, state).map((message) =>
         lintError(
@@ -143,12 +165,24 @@ function differingKeys<Key, Value>(
 }
 
 /** The atoms and double bonds whose stereo changes across the step without an arrow. */
-function changedWithoutArrows(from: StateGraph, to: StateGraph, touched: Set<number>): string[] {
+function changedWithoutArrows(
+  [from, to]: readonly [StateGraph, StateGraph],
+  touched: Set<number>,
+  toolkit: Pick<ChemistryToolkit, "canonicalStereoSmiles">,
+): string[] {
   const forward = stereoCarriedOver(from, to, touched);
   const backward = stereoCarriedOver(to, from, touched);
+  // A mark missing on one side counts only where that side's atom is a stereocentre.
+  const missingCounts = (graph: StateGraph, centre: number): boolean =>
+    graph.mapNumberToTetrahedralMark?.has(centre) === true ||
+    isStereocentreForRdkit(graph, centre, toolkit);
   const changedCentres = new Set([
-    ...differingKeys(forward.mapNumberToTetrahedralMark, to.mapNumberToTetrahedralMark),
-    ...differingKeys(backward.mapNumberToTetrahedralMark, from.mapNumberToTetrahedralMark),
+    ...differingKeys(forward.mapNumberToTetrahedralMark, to.mapNumberToTetrahedralMark).filter(
+      (centre) => missingCounts(to, centre),
+    ),
+    ...differingKeys(backward.mapNumberToTetrahedralMark, from.mapNumberToTetrahedralMark).filter(
+      (centre) => missingCounts(from, centre),
+    ),
   ]);
   const changedBonds = new Set([
     ...differingKeys(forward.bondToDoubleBondRelation, to.bondToDoubleBondRelation),
@@ -168,12 +202,13 @@ function changedWithoutArrows(from: StateGraph, to: StateGraph, touched: Set<num
 export function stereoChangeFindings(
   reaction: LintedReaction,
   prepared: PreparedReaction,
+  toolkit: Pick<ChemistryToolkit, "canonicalStereoSmiles">,
 ): LintFinding[] {
   return reaction.steps.flatMap((step, stepIndex) => {
     const changed = changedWithoutArrows(
-      graphOf(prepared, step.fromStateId),
-      graphOf(prepared, step.toStateId),
+      [graphOf(prepared, step.fromStateId), graphOf(prepared, step.toStateId)],
       touchedAtoms(step),
+      toolkit,
     );
     if (changed.length === 0) {
       return [];
@@ -191,18 +226,53 @@ export function stereoChangeFindings(
   });
 }
 
-/** Whether RDKit keeps a mark put on `centre` (it drops marks on atoms that are not centres). */
+/**
+ * Whether `centre` is a stereocentre, worked out on the state with its drawn hydrogens folded
+ * (a drawn H must not make two methyls different): not when some skeleton symmetry fixing it
+ * swaps two of its neighbours (alike groups, or two oxygens that differ only by resonance);
+ * otherwise when RDKit keeps a mark put on it (it drops marks on atoms that are not centres).
+ */
+// Worked out once per state graph: the lint asks about many atoms of the same state.
+const graphToFolding = new WeakMap<
+  StateGraph,
+  { folded: StateGraph; symmetries: readonly ReadonlyMap<number, number>[] }
+>();
+
+function foldingOf(graph: StateGraph): {
+  folded: StateGraph;
+  symmetries: readonly ReadonlyMap<number, number>[];
+} {
+  const known = graphToFolding.get(graph);
+  if (known !== undefined) {
+    return known;
+  }
+  const folded = withHydrogensFolded(graph);
+  const folding = { folded, symmetries: skeletonSymmetries(folded) };
+  graphToFolding.set(graph, folding);
+  return folding;
+}
+
 function isStereocentreForRdkit(
   graph: StateGraph,
   centre: number,
   toolkit: Pick<ChemistryToolkit, "canonicalStereoSmiles">,
 ): boolean {
+  const { folded, symmetries } = foldingOf(graph);
+  const neighbours = stereocentreNeighbours(folded, centre);
+  if (!folded.mapNumberToAtom.has(centre) || neighbours.length !== 4) {
+    return false;
+  }
+  const swapsNeighbours = symmetries.some(
+    (symmetry) =>
+      symmetry.get(centre) === centre &&
+      neighbours.some((neighbour) => (symmetry.get(neighbour) ?? neighbour) !== neighbour),
+  );
+  if (swapsNeighbours) {
+    return false;
+  }
   const marked: StateGraph = {
-    ...graph,
-    mapNumberToTetrahedralMark: new Map([
-      ...(graph.mapNumberToTetrahedralMark ?? []),
-      [centre, "@"],
-    ]),
+    ...folded,
+    mapNumberToTetrahedralMark: new Map([[centre, "@"]]),
   };
   const written = smilesKeepingMapNumbers(mappedSmilesFromStateGraph(marked), new Set([centre]));
   const canonical = toolkit.canonicalStereoSmiles(written) ?? "";

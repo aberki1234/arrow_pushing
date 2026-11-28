@@ -190,28 +190,35 @@ export function drawnDoubleBondRelation(
   return firstSide === secondSide ? "cis" : "trans";
 }
 
-/** Whether the bond lies in a ring: its ends stay connected without it. */
-function isRingBond(graph: StateGraph, first: number, second: number): boolean {
-  const reached = new Set([first]);
-  const toVisit = [first];
-  for (let current = toVisit.pop(); current !== undefined; current = toVisit.pop()) {
+/**
+ * The size of the smallest ring the bond lies in (the shortest other path between its ends, plus
+ * one), or 0 when it is in no ring.
+ */
+function smallestRingSize(graph: StateGraph, first: number, second: number): number {
+  const distance = new Map([[first, 0]]);
+  const queue = [first];
+  for (let position = 0; position < queue.length; position++) {
+    const current = queue[position] ?? first;
     for (const { mapNumber } of bondedNeighbours(graph, current)) {
       const isTheBond = current === first && mapNumber === second;
-      if (!isTheBond && !reached.has(mapNumber)) {
-        if (mapNumber === second) {
-          return true;
-        }
-        reached.add(mapNumber);
-        toVisit.push(mapNumber);
+      if (isTheBond || distance.has(mapNumber)) {
+        continue;
       }
+      const reached = (distance.get(current) ?? 0) + 1;
+      if (mapNumber === second) {
+        return reached + 1;
+      }
+      distance.set(mapNumber, reached);
+      queue.push(mapNumber);
     }
   }
-  return false;
+  return 0;
 }
 
 /**
  * The neighbours of `centre` whose bond may carry its wedge, best first: a drawn H, then an atom
- * with no mark of its own, a bond out of any ring, a carbon (so the bond to a leaving group or a
+ * with no mark of its own, a bond out of any ring, else one in the smallest ring (the C–O of an
+ * epoxide, the C–Br of a bromonium ion), a carbon (so the bond to a leaving group or a
  * nucleophile stays flat where it can), fewer neighbours, a lower map number. A bond that already
  * carries the other end's wedge is left out.
  */
@@ -220,7 +227,7 @@ function wedgeCandidates(graph: StateGraph, centre: number, wedges: BondToWedgeS
   const rank = (neighbour: number): number[] => [
     graph.mapNumberToAtom.get(neighbour)?.element === "H" ? 0 : 1,
     marks.has(neighbour) ? 1 : 0,
-    isRingBond(graph, centre, neighbour) ? 1 : 0,
+    smallestRingSize(graph, centre, neighbour),
     graph.mapNumberToAtom.get(neighbour)?.element === "C" ? 0 : 1,
     bondedNeighbours(graph, neighbour).length,
     neighbour,

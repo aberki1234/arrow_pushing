@@ -24,6 +24,7 @@ import {
   checkVersionNumbering,
   type PublishedVersion,
   readPublishedVersion,
+  supersededVersionPaths,
 } from "../assembly/publishedVersions.js";
 import { checkOutputFolderUsable, writeSite } from "../output/siteWriting.js";
 import { compileTracks, readTrackFolder } from "../assembly/trackCompiling.js";
@@ -118,14 +119,20 @@ function readPreviousCatalogue(cataloguePath: string): unknown {
   }
 }
 
-/** Every file read and linted; lint warnings are printed as the linter prints them. */
+/**
+ * Every file read and linted; lint warnings (and a superseded version's lint errors) are printed
+ * as the linter prints them.
+ */
 async function readPublishedVersions(
   reactionPaths: readonly string[],
   printLine: PrintLine,
 ): Promise<PublishedVersion[]> {
   const toolkit = await loadChemistryToolkit();
+  const superseded = supersededVersionPaths(reactionPaths);
   const publishedVersions = reactionPaths.map((reactionPath) => {
-    const { publishedVersion, lintWarnings } = readPublishedVersion(reactionPath, toolkit);
+    const { publishedVersion, lintWarnings } = readPublishedVersion(reactionPath, toolkit, {
+      superseded: superseded.has(reactionPath),
+    });
     for (const finding of lintWarnings) {
       printLine(
         `${reactionPath}: ${finding.lintLevel} ${finding.lintRuleId} at ` +

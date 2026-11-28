@@ -26,6 +26,7 @@ const WARNING_RULE_IDS = new Set([
   "too-many-skeleton-symmetries",
   "misconception-in-abbreviated-group",
   "stereocentre-unspecified",
+  "wedges-without-stereo-marks",
 ]);
 
 let toolkit: ChemistryToolkit;
@@ -89,6 +90,7 @@ it("every rule except the symmetry cap is broken by at least one case", () => {
       "wedges-disagree-with-smiles",
       "stereocentre-changes-without-arrows",
       "stereocentre-unspecified",
+      "wedges-without-stereo-marks",
     ].sort(),
   );
 });

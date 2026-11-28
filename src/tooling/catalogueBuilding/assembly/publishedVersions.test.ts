@@ -19,6 +19,7 @@ import {
   checkVersionNumbering,
   type PublishedVersion,
   readPublishedVersion,
+  supersededVersionPaths,
 } from "./publishedVersions.js";
 import { contentHashOf } from "../naming/staticFileNaming.js";
 
@@ -120,5 +121,38 @@ describe("checkVersionNumbering", () => {
     });
     expect(refusal.startsWith(`${expectedErrorCode}: `)).toBe(true);
     expect(refusal).toContain("sn2");
+  });
+});
+
+describe("readPublishedVersion for a superseded version", () => {
+  it("reports a lint error in a superseded version, but refuses it in the newest", () => {
+    // Published versions are history: a lint rule added later (here the item 12c wedge check)
+    // must not stop the build over an old version, only over the version learners now get.
+    const reactionPath = copyExampleReaction(folder, "sn2-2-bromobutane-inversion");
+    const document = readJsonFile(reactionPath) as {
+      stateIdToState: Record<string, Record<string, unknown>>;
+    };
+    const products = document.stateIdToState.products ?? {};
+    products.bondToWedgeStyle = { "2-5": "dash" };
+    writeFileSync(reactionPath, JSON.stringify(document), "utf-8");
+    const { lintWarnings } = readPublishedVersion(reactionPath, toolkit, { superseded: true });
+    expect(lintWarnings.map((finding) => finding.lintRuleId)).toEqual([
+      "wedges-disagree-with-smiles",
+    ]);
+    expect(errorCodeOf(() => readPublishedVersion(reactionPath, toolkit))).toMatch(
+      /^reaction-file-has-lint-errors: /,
+    );
+  });
+});
+
+describe("supersededVersionPaths", () => {
+  it("names every file but the newest version of each reaction", () => {
+    const first = copyExampleReaction(folder, SN2_SLUG);
+    const second = copyExampleReaction(folder, SN2_SLUG, {
+      reactionVersion: 2,
+      previousReactionVersion: 1,
+    });
+    const other = copyExampleReaction(folder, "aldol-addition-base");
+    expect([...supersededVersionPaths([second, first, other])]).toEqual([first]);
   });
 });

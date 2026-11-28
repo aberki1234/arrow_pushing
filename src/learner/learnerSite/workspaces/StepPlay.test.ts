@@ -83,5 +83,6 @@ test("a racemic state says so under its drawing", () => {
   render(StepPlay, {
     props: { session, update: () => undefined, heading: "E2", subtitle: "" },
   });
-  expect(screen.getByText("racemic")).toBeTruthy();
+  const caption = screen.getByText(/racemic/);
+  expect(caption.textContent.trim()).toBe("trans-1-bromo-2-methylcyclohexane + ethoxide · racemic");
 });

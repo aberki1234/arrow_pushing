@@ -134,9 +134,7 @@
         />
         {#if drawing.caption || drawing.stereoLabel}
           <p class="caption muted">
-            {drawing.caption}{#if drawing.stereoLabel}{#if drawing.caption}
-                ·
-              {/if}<span class="stereo-label">{drawing.stereoLabel}</span>{/if}
+            {[drawing.caption, drawing.stereoLabel].filter(Boolean).join(" · ")}
           </p>
         {/if}
       </div>

@@ -311,6 +311,7 @@ lint when the rest could not run):
 | `wedges-disagree-with-smiles` | error | item 12c: a marked stereocentre has no wedge or dash starting at it, or one showing the other configuration; a wedge starts at an unmarked atom; a cis/trans double bond is drawn the other way round (or in line) |
 | `stereocentre-changes-without-arrows` | error | item 12c: between a step's states, a centre or double bond no canonical arrow touches (same neighbours in both) gains, loses or changes its mark; a change step touches nothing |
 | `stereocentre-unspecified` | warning | item 12c: in a state that marks a stereocentre, RDKit finds another with no mark |
+| `wedges-without-stereo-marks` | warning | item 12c: a state has wedges but no stereocentre marks at all (drawn before item 12, when wedges were display only); a warning so files published then still build |
 
 **Abbreviated groups** (decided 2026-11-25): listed explicitly by the author (no automatic detection), `groupLabel`
 at most 6 characters. A group is drawn as its label wherever it is intact (all its atoms present, one bond from the
@@ -1016,6 +1017,14 @@ RDKit (RDKit.js) on every valid SMILES case and every example state (`src/toolin
       after a SMILES edit, a regeneration, a new or changed state and a dragged atom; drawn arrows join a state with
       marks; Ketcher's wedges and layout become marks (cis/trans only where RDKit finds the bond stereogenic), and a
       later state may change its stereo but not its bonds. New example reaction `sn2-2-bromobutane-inversion`.
+      Refined 2026-11-28 while adding stereo to the content: a wedge goes on a bond in the smallest ring when no
+      acyclic bond is free (the C–O of an epoxide, the C–Br of a bromonium ion); `stereocentre-changes-without-
+      arrows` allows a mark to appear on an atom that was not a stereocentre (a step can make one without touching
+      it, as when proline's enamine picks one of two alike carbonyls); RDKit is asked about a candidate centre with
+      drawn hydrogens folded and other map numbers removed, and atoms whose neighbours a skeleton symmetry swaps
+      (two methyls, a sulfinate's oxygens) are not stereocentres. The catalogue build reports, but does not stop on,
+      lint errors in a superseded published version: published versions are history, and only the newest is what
+      learners are given.
     * **12d Done 2026-11-28.** Stereo-aware skeleton symmetry (`skeletonSymmetry.ts`): a symmetry must keep every
       mark, so diastereotopic atoms (the two drawn H of a marked CH2) are distinct. Drawn H bonded to a marked
       centre are not folded in the folded comparison (`stereoDistinguishedHydrogens`). Mirror symmetries (a
