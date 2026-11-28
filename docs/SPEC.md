@@ -623,7 +623,10 @@ Publish stage, the review queue, the review screen (only what changed, notes) an
 
 - The **JSON schema**, **Postgres schema** and misconception pattern syntax: `docs/schema-design.md` (2026-11-24),
   "mostly fine" per the user; the decisions in §4 are settled, and details may still be refined.
-- Branding beyond the name (logo, colours). Name and domain decided 2026-11-26: ArrowPush, `arrowpushing.com`.
+- Branding beyond the name and the mark (colours beyond the site's current palette). Name and domain decided
+  2026-11-26: ArrowPush, `arrowpushing.com`. **Mark decided 2026-11-29:** one bold curved two-electron arrow with a
+  full head on a rounded violet tile (`#5b4bdb`, white arrow); the favicon, the apple-touch icon and the header mark
+  (in theme colours) all draw it from `src/learner/learnerSite/model/brandMark.ts`.
 - Which exact reactions beyond the list above; authoring order of the first content set.
 - **Curriculum roadmap (decided 2026-11-26):** `docs/curriculum.md` / `docs/curriculum.html` list the Learn tracks
   from first year to graduate synthesis case studies, with prerequisites, problem sets, the capabilities each needs and

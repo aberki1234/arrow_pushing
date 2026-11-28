@@ -82,7 +82,7 @@ What each subfolder holds:
   CreateHome, ReviewQueue, ReviewScreen, UsersPage; `app/` EditorApp and the entry.
 - **learnerSite** — `model/` view models and routes; `components/` the tiles, cards, scheme, MoleculeCanvas,
   ArrowControls, RunSummary; `io/` storage, loading, theme cookie; `workspaces/` StepPlay, StepScreen,
-  CheckpointRun; `pages/` the routed pages; `app/` App, SiteHeader and the entry.
+  CheckpointRun; `pages/` the routed pages; `app/` App, SiteHeader, the entry and `icons/` (favicon, apple-touch icon; Create keeps a copy in its own `app/icons/`).
 - **reactionLinting** — `findings/` the finding type and the linter's reading of a reaction; `rules/` the rule
   files and `reactionLint.ts`; `tracks/` track lint; `shell/` the command line.
 - **moleculeDrawing** — `shared/` geometry, layout, labels and abbreviated groups; `state/` a state's drawing and

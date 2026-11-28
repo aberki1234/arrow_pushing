@@ -6,6 +6,7 @@
   // signed in, for a Sign out button beside Theme. About (the source code, licences and credits)
   // sits just left of Theme.
   import { saveTheme } from "../io/sharedTheme.js";
+  import { brandMarkGeometry } from "../model/brandMark.js";
   import type { NavigationTab, NavigationTabName } from "../model/siteNavigation.js";
 
   const {
@@ -26,6 +27,8 @@
     /** Create, while someone is signed in: end the session. */
     onSignOut?: (() => void) | undefined;
   } = $props();
+
+  const mark = brandMarkGeometry();
 
   function toggleTheme(): void {
     const root = document.documentElement;
@@ -49,15 +52,26 @@
 <nav class="nav" aria-label="Site">
   <div class="nav-in">
     <a class="brand" href={brandHref}>
-      <svg viewBox="0 0 32 32" aria-hidden="true">
-        <circle cx="9" cy="22" r="4" fill="var(--accent)" />
-        <circle cx="24" cy="10" r="4" fill="none" stroke="var(--ink)" stroke-width="2.5" />
+      <!-- The brand mark (brandMark.ts), in theme colours; icons/favicon.svg draws the same. -->
+      <svg viewBox="0 0 {mark.viewBoxSide} {mark.viewBoxSide}" aria-hidden="true">
+        <rect
+          width={mark.viewBoxSide}
+          height={mark.viewBoxSide}
+          rx={mark.tileCornerRadius}
+          fill="var(--accent)"
+        />
         <path
-          d="M11 17 Q14 4 20 8"
+          d={mark.arrowShaftPath}
           fill="none"
-          stroke="var(--arrow)"
-          stroke-width="2.5"
+          stroke="var(--accent-ink)"
+          stroke-width={mark.arrowShaftWidth}
           stroke-linecap="round"
+        />
+        <polygon
+          points={mark.arrowheadPoints}
+          fill="var(--accent-ink)"
+          stroke="var(--accent-ink)"
+          stroke-linejoin="round"
         />
       </svg>
       ArrowPush
