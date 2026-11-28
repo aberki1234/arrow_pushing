@@ -1,0 +1,1930 @@
+{
+  "steps": [
+    {
+      "stepKey": "deprotonation",
+      "stepKind": "polar",
+      "toStateId": "lactol-anion",
+      "fromStateId": "reactants",
+      "canonicalArrows": [
+        "lp C80 -> σ C80-H19",
+        "σ O1-H19 -> lp O1"
+      ],
+      "routePreference": "preferred",
+      "explanationAfterStep": "Dimsyl takes the lactol O–H proton. A lactol alkoxide is a hemiacetal anion and opens easily."
+    },
+    {
+      "stepKey": "ring-opening",
+      "stepKind": "polar",
+      "toStateId": "hydroxy-aldehyde",
+      "fromStateId": "lactol-anion",
+      "canonicalArrows": [
+        "lp O1 -> π C2-O1",
+        "σ C2-O3 -> lp O3"
+      ],
+      "routePreference": "preferred",
+      "explanationAfterStep": "The ring opens to the aldehyde and an alkoxide on the cyclopentane. The ring-closed and ring-open forms are in equilibrium; the ylide draws it towards the aldehyde."
+    },
+    {
+      "stepKey": "cycloaddition",
+      "stepKind": "polar",
+      "toStateId": "oxaphosphetane",
+      "fromStateId": "hydroxy-aldehyde",
+      "canonicalArrows": [
+        "lp C30 -> σ C2-C30",
+        "π C2-O1 -> σ O1-P31"
+      ],
+      "routePreference": "preferred",
+      "explanationAfterStep": "Under salt-free conditions the ylide and the aldehyde form the oxaphosphetane directly. With an unstabilised ylide the ring forms fast and irreversibly, by the less hindered approach that puts the two chains cis: this is where the (Z) geometry of the final alkene is decided (not checked by the app yet)."
+    },
+    {
+      "stepKey": "betaine-formation",
+      "stepKind": "polar",
+      "toStateId": "betaine",
+      "fromStateId": "hydroxy-aldehyde",
+      "canonicalArrows": [
+        "lp C30 -> σ C2-C30",
+        "π C2-O1 -> lp O1"
+      ],
+      "routePreference": "accepted",
+      "explanationAfterStep": "Also correct: the addition drawn as a separate step, giving a betaine. The textbook now draws the oxaphosphetane forming in one step."
+    },
+    {
+      "stepKey": "betaine-ring-closure",
+      "stepKind": "polar",
+      "toStateId": "oxaphosphetane",
+      "fromStateId": "betaine",
+      "canonicalArrows": [
+        "lp O1 -> σ O1-P31"
+      ],
+      "routePreference": "accepted",
+      "explanationAfterStep": "The alkoxide bonds to phosphorus: the oxaphosphetane."
+    },
+    {
+      "stepKey": "cycloreversion",
+      "stepKind": "polar",
+      "toStateId": "products",
+      "fromStateId": "oxaphosphetane",
+      "canonicalArrows": [
+        "σ P31-C30 -> π C2-C30",
+        "σ C2-O1 -> π O1-P31"
+      ],
+      "routePreference": "preferred",
+      "explanationAfterStep": "The oxaphosphetane falls apart to the alkene and triphenylphosphine oxide. The ring's cis geometry becomes the (Z)-alkene: the cis double bond of the prostaglandin's upper chain."
+    }
+  ],
+  "title": "Adding the upper side chain",
+  "authors": [
+    {
+      "url": null,
+      "name": "Maksim"
+    }
+  ],
+  "licence": "CC-BY-SA-4.0",
+  "subtitle": "A Wittig reaction on the lactol builds the (Z)-alkene of the upper chain",
+  "references": [
+    "Clayden, Greeves and Warren, Organic Chemistry, 2nd edition (Oxford University Press), chapter 27 (the Wittig reaction)",
+    "E. J. Corey, N. M. Weinshenker, T. K. Schaaf and W. Huber, Stereo-controlled synthesis of dl-prostaglandins F2α and E2, J. Am. Chem. Soc., 1969, 91, 5675–5677",
+    "E. J. Corey, T. K. Schaaf, W. Huber, U. Koelliker and N. M. Weinshenker, Total synthesis of prostaglandins F2α and E2 as the naturally occurring forms, J. Am. Chem. Soc., 1970, 92, 397–398"
+  ],
+  "reactionSlug": "corey-wittig",
+  "startStateId": "reactants",
+  "formatVersion": 1,
+  "difficultyTier": 3,
+  "stateIdToState": {
+    "betaine": {
+      "caption": "the betaine (drawn for the two-step route)",
+      "hintTiers": [
+        "Oxygen bonds strongly to phosphorus, and the O⁻ is three atoms away from P⁺.",
+        "The O⁻ bonds to the phosphorus, giving the oxaphosphetane.",
+        "Oxygen lone pair → new O–P bond."
+      ],
+      "mappedSmiles": "[O-:1][CH:2]([CH2:20][C@H:18]1[C@@H:4]([O-:3])[CH2:5][C@@H:6]([O:7][CH:60]2[O:61][CH2:62][CH2:63][CH2:64][CH2:65]2)[C@@H:8]1/[CH:9]=[CH:10]/[C@@H:11]([O:12][CH:70]1[O:71][CH2:72][CH2:73][CH2:74][CH2:75]1)[CH2:13][CH2:14][CH2:15][CH2:16][CH3:17])[CH:30]([P+:31]([C:40]1=[CH:41][CH:42]=[CH:43][CH:44]=[CH:45]1)([C:46]1=[CH:47][CH:48]=[CH:49][CH:50]=[CH:51]1)[C:52]1=[CH:53][CH:54]=[CH:55][CH:56]=[CH:57]1)[CH2:32][CH2:33][CH2:34][C:35](=[O:36])[O-:37].[H:19][CH2:80][S:81](=[O:82])[CH3:83].[Na+:38].[Na+:84]",
+      "learnerPrompt": "Close the four-membered ring.",
+      "misconceptions": [
+        {
+          "severity": "plausible",
+          "arrowPattern": "σ C2-C30 -> lp C30",
+          "feedbackMessage": "That only undoes the addition. Close the ring onto phosphorus.",
+          "misconceptionId": "betaine-reverses",
+          "misconceptionTag": "reverse-step"
+        }
+      ],
+      "bondToWedgeStyle": {
+        "4-3": "dash",
+        "6-7": "dash",
+        "8-9": "wedge",
+        "11-10": "dash",
+        "18-20": "dash"
+      },
+      "mapNumberToCoordinates": {
+        "1": [
+          -1.17,
+          -1.57
+        ],
+        "2": [
+          0,
+          -2.51
+        ],
+        "3": [
+          3.91,
+          -2.6
+        ],
+        "4": [
+          3.6,
+          -1.13
+        ],
+        "5": [
+          4.2,
+          0.24
+        ],
+        "6": [
+          3.08,
+          1.24
+        ],
+        "7": [
+          3.23,
+          2.73
+        ],
+        "8": [
+          1.78,
+          0.49
+        ],
+        "9": [
+          0.41,
+          1.09
+        ],
+        "10": [
+          -0.8,
+          0.2
+        ],
+        "11": [
+          -2.17,
+          0.81
+        ],
+        "12": [
+          -2.34,
+          2.3
+        ],
+        "13": [
+          -3.38,
+          -0.08
+        ],
+        "14": [
+          -4.75,
+          0.52
+        ],
+        "15": [
+          -5.96,
+          -0.36
+        ],
+        "16": [
+          -7.34,
+          0.24
+        ],
+        "17": [
+          -8.55,
+          -0.65
+        ],
+        "18": [
+          2.1,
+          -0.98
+        ],
+        "19": [
+          1.3,
+          -6.25
+        ],
+        "20": [
+          1.5,
+          -2.35
+        ],
+        "30": [
+          -0.94,
+          -3.68
+        ],
+        "31": [
+          -2.44,
+          -3.68
+        ],
+        "32": [
+          -0.94,
+          -5.18
+        ],
+        "33": [
+          -2.24,
+          -5.93
+        ],
+        "34": [
+          -2.24,
+          -7.43
+        ],
+        "35": [
+          -3.54,
+          -8.18
+        ],
+        "36": [
+          -4.84,
+          -7.43
+        ],
+        "37": [
+          -3.54,
+          -9.68
+        ],
+        "38": [
+          -3.54,
+          -11.98
+        ],
+        "40": [
+          -3.19,
+          -2.38
+        ],
+        "41": [
+          -2.44,
+          -1.08
+        ],
+        "42": [
+          -3.19,
+          0.22
+        ],
+        "43": [
+          -4.69,
+          0.22
+        ],
+        "44": [
+          -5.44,
+          -1.08
+        ],
+        "45": [
+          -4.69,
+          -2.38
+        ],
+        "46": [
+          -3.94,
+          -3.68
+        ],
+        "47": [
+          -4.69,
+          -2.38
+        ],
+        "48": [
+          -6.19,
+          -2.38
+        ],
+        "49": [
+          -6.94,
+          -3.68
+        ],
+        "50": [
+          -6.19,
+          -4.97
+        ],
+        "51": [
+          -4.69,
+          -4.97
+        ],
+        "52": [
+          -3.19,
+          -4.97
+        ],
+        "53": [
+          -4.69,
+          -4.97
+        ],
+        "54": [
+          -5.44,
+          -6.27
+        ],
+        "55": [
+          -4.69,
+          -7.57
+        ],
+        "56": [
+          -3.19,
+          -7.57
+        ],
+        "57": [
+          -2.44,
+          -6.27
+        ],
+        "60": [
+          4.6,
+          3.35
+        ],
+        "61": [
+          5.81,
+          2.48
+        ],
+        "62": [
+          7.18,
+          3.09
+        ],
+        "63": [
+          7.33,
+          4.58
+        ],
+        "64": [
+          6.11,
+          5.46
+        ],
+        "65": [
+          4.75,
+          4.84
+        ],
+        "70": [
+          -3.71,
+          2.9
+        ],
+        "71": [
+          -3.87,
+          4.39
+        ],
+        "72": [
+          -5.25,
+          5
+        ],
+        "73": [
+          -6.46,
+          4.11
+        ],
+        "74": [
+          -6.29,
+          2.62
+        ],
+        "75": [
+          -4.92,
+          2.01
+        ],
+        "80": [
+          2.6,
+          -7
+        ],
+        "81": [
+          4.1,
+          -7
+        ],
+        "82": [
+          4.1,
+          -8.5
+        ],
+        "83": [
+          5.4,
+          -6.25
+        ],
+        "84": [
+          5.6,
+          -3.6
+        ]
+      }
+    },
+    "products": {
+      "caption": "the (Z)-alkene (PGF₂α bis-THP ether, as its alkoxide and carboxylate) + Ph₃P=O",
+      "mappedSmiles": "[O:1]=[P:31]([C:40]1=[CH:41][CH:42]=[CH:43][CH:44]=[CH:45]1)([C:46]1=[CH:47][CH:48]=[CH:49][CH:50]=[CH:51]1)[C:52]1=[CH:53][CH:54]=[CH:55][CH:56]=[CH:57]1.[CH:2](/[CH2:20][C@H:18]1[C@@H:4]([O-:3])[CH2:5][C@@H:6]([O:7][CH:60]2[O:61][CH2:62][CH2:63][CH2:64][CH2:65]2)[C@@H:8]1/[CH:9]=[CH:10]/[C@@H:11]([O:12][CH:70]1[O:71][CH2:72][CH2:73][CH2:74][CH2:75]1)[CH2:13][CH2:14][CH2:15][CH2:16][CH3:17])=[CH:30]/[CH2:32][CH2:33][CH2:34][C:35](=[O:36])[O-:37].[H:19][CH2:80][S:81](=[O:82])[CH3:83].[Na+:38].[Na+:84]",
+      "bondToWedgeStyle": {
+        "4-3": "dash",
+        "6-7": "dash",
+        "8-9": "wedge",
+        "11-10": "dash",
+        "18-20": "dash"
+      },
+      "mapNumberToCoordinates": {
+        "1": [
+          -4.6,
+          -1.5
+        ],
+        "2": [
+          0,
+          -2.51
+        ],
+        "3": [
+          3.91,
+          -2.6
+        ],
+        "4": [
+          3.6,
+          -1.13
+        ],
+        "5": [
+          4.2,
+          0.24
+        ],
+        "6": [
+          3.08,
+          1.24
+        ],
+        "7": [
+          3.23,
+          2.73
+        ],
+        "8": [
+          1.78,
+          0.49
+        ],
+        "9": [
+          0.41,
+          1.09
+        ],
+        "10": [
+          -0.8,
+          0.2
+        ],
+        "11": [
+          -2.17,
+          0.81
+        ],
+        "12": [
+          -2.34,
+          2.3
+        ],
+        "13": [
+          -3.38,
+          -0.08
+        ],
+        "14": [
+          -4.75,
+          0.52
+        ],
+        "15": [
+          -5.96,
+          -0.36
+        ],
+        "16": [
+          -7.34,
+          0.24
+        ],
+        "17": [
+          -8.55,
+          -0.65
+        ],
+        "18": [
+          2.1,
+          -0.98
+        ],
+        "19": [
+          1.3,
+          -6.25
+        ],
+        "20": [
+          1.5,
+          -2.35
+        ],
+        "30": [
+          -0.94,
+          -3.68
+        ],
+        "31": [
+          -4.6,
+          -3
+        ],
+        "32": [
+          -0.94,
+          -5.18
+        ],
+        "33": [
+          -2.24,
+          -5.93
+        ],
+        "34": [
+          -2.24,
+          -7.43
+        ],
+        "35": [
+          -3.54,
+          -8.18
+        ],
+        "36": [
+          -4.84,
+          -7.43
+        ],
+        "37": [
+          -3.54,
+          -9.68
+        ],
+        "38": [
+          -3.54,
+          -11.98
+        ],
+        "40": [
+          -6.1,
+          -3
+        ],
+        "41": [
+          -6.85,
+          -1.7
+        ],
+        "42": [
+          -8.35,
+          -1.7
+        ],
+        "43": [
+          -9.1,
+          -3
+        ],
+        "44": [
+          -8.35,
+          -4.3
+        ],
+        "45": [
+          -6.85,
+          -4.3
+        ],
+        "46": [
+          -4.6,
+          -4.5
+        ],
+        "47": [
+          -5.9,
+          -5.25
+        ],
+        "48": [
+          -5.9,
+          -6.75
+        ],
+        "49": [
+          -4.6,
+          -7.5
+        ],
+        "50": [
+          -3.3,
+          -6.75
+        ],
+        "51": [
+          -3.3,
+          -5.25
+        ],
+        "52": [
+          -3.1,
+          -3
+        ],
+        "53": [
+          -2.35,
+          -4.3
+        ],
+        "54": [
+          -0.85,
+          -4.3
+        ],
+        "55": [
+          -0.1,
+          -3
+        ],
+        "56": [
+          -0.85,
+          -1.7
+        ],
+        "57": [
+          -2.35,
+          -1.7
+        ],
+        "60": [
+          4.6,
+          3.35
+        ],
+        "61": [
+          5.81,
+          2.48
+        ],
+        "62": [
+          7.18,
+          3.09
+        ],
+        "63": [
+          7.33,
+          4.58
+        ],
+        "64": [
+          6.11,
+          5.46
+        ],
+        "65": [
+          4.75,
+          4.84
+        ],
+        "70": [
+          -3.71,
+          2.9
+        ],
+        "71": [
+          -3.87,
+          4.39
+        ],
+        "72": [
+          -5.25,
+          5
+        ],
+        "73": [
+          -6.46,
+          4.11
+        ],
+        "74": [
+          -6.29,
+          2.62
+        ],
+        "75": [
+          -4.92,
+          2.01
+        ],
+        "80": [
+          2.6,
+          -7
+        ],
+        "81": [
+          4.1,
+          -7
+        ],
+        "82": [
+          4.1,
+          -8.5
+        ],
+        "83": [
+          5.4,
+          -6.25
+        ],
+        "84": [
+          5.6,
+          -3.6
+        ]
+      }
+    },
+    "reactants": {
+      "caption": "the lactol (both OH groups as THP ethers) + the ylide of (4-carboxybutyl)triphenylphosphonium (as its carboxylate) + sodium dimsyl in DMSO",
+      "hintTiers": [
+        "The ylide reacts with aldehydes, but a lactol is a cyclic hemiacetal. The open hydroxy-aldehyde forms when the lactol O–H is deprotonated and the ring opens.",
+        "The dimsyl anion (CH₃S(O)CH₂⁻), a strong base, takes the proton of the lactol OH.",
+        "Dimsyl carbon lone pair → new bond to the lactol O–H hydrogen; that O–H bond → lone pair on oxygen."
+      ],
+      "mappedSmiles": "[O:1]([CH:2]1[O:3][C@H:4]2[CH2:5][C@@H:6]([O:7][CH:60]3[O:61][CH2:62][CH2:63][CH2:64][CH2:65]3)[C@H:8](/[CH:9]=[CH:10]/[C@@H:11]([O:12][CH:70]3[O:71][CH2:72][CH2:73][CH2:74][CH2:75]3)[CH2:13][CH2:14][CH2:15][CH2:16][CH3:17])[C@H:18]2[CH2:20]1)[H:19].[CH-:30]([P+:31]([C:40]1=[CH:41][CH:42]=[CH:43][CH:44]=[CH:45]1)([C:46]1=[CH:47][CH:48]=[CH:49][CH:50]=[CH:51]1)[C:52]1=[CH:53][CH:54]=[CH:55][CH:56]=[CH:57]1)[CH2:32][CH2:33][CH2:34][C:35](=[O:36])[O-:37].[Na+:38].[CH2-:80][S:81](=[O:82])[CH3:83].[Na+:84]",
+      "learnerPrompt": "A lactol is a masked aldehyde. Start by removing a proton.",
+      "misconceptions": [
+        {
+          "severity": "wrong",
+          "arrowPattern": "lp C30 -> σ C30-C2",
+          "feedbackMessage": "The lactol carbon is not a carbonyl carbon: it has no π bond to accept electrons. Open the ring first: deprotonate the OH.",
+          "misconceptionId": "ylide-on-lactol",
+          "misconceptionTag": "masked-aldehyde"
+        },
+        {
+          "severity": "plausible",
+          "arrowPattern": "lp C30 -> σ C30-H19",
+          "feedbackMessage": "In the flask an extra equivalent of ylide can indeed take this proton, which is why Corey used an excess. Here the dimsyl base does the job, and the ylide is kept for the alkene.",
+          "misconceptionId": "ylide-as-base",
+          "misconceptionTag": "spend-the-ylide"
+        },
+        {
+          "severity": "wrong",
+          "arrowPattern": "lp O37 -> *",
+          "feedbackMessage": "The carboxylate is only there because the ylide's chain ends in CO₂H; it takes no part. Start with the lactol OH.",
+          "misconceptionId": "carboxylate-as-nucleophile",
+          "misconceptionTag": "wrong-nucleophile"
+        }
+      ],
+      "bondToWedgeStyle": {
+        "4-5": "dash",
+        "6-7": "dash",
+        "8-9": "wedge",
+        "11-10": "dash",
+        "18-20": "dash"
+      },
+      "mapNumberToCoordinates": {
+        "1": [
+          2.47,
+          -4.84
+        ],
+        "2": [
+          2.62,
+          -3.35
+        ],
+        "3": [
+          3.91,
+          -2.6
+        ],
+        "4": [
+          3.6,
+          -1.13
+        ],
+        "5": [
+          4.2,
+          0.24
+        ],
+        "6": [
+          3.08,
+          1.24
+        ],
+        "7": [
+          3.23,
+          2.73
+        ],
+        "8": [
+          1.78,
+          0.49
+        ],
+        "9": [
+          0.41,
+          1.09
+        ],
+        "10": [
+          -0.8,
+          0.2
+        ],
+        "11": [
+          -2.17,
+          0.81
+        ],
+        "12": [
+          -2.34,
+          2.3
+        ],
+        "13": [
+          -3.38,
+          -0.08
+        ],
+        "14": [
+          -4.75,
+          0.52
+        ],
+        "15": [
+          -5.96,
+          -0.36
+        ],
+        "16": [
+          -7.34,
+          0.24
+        ],
+        "17": [
+          -8.55,
+          -0.65
+        ],
+        "18": [
+          2.1,
+          -0.98
+        ],
+        "19": [
+          1.1,
+          -5.46
+        ],
+        "20": [
+          1.5,
+          -2.35
+        ],
+        "30": [
+          -1.5,
+          -4.4
+        ],
+        "31": [
+          -2.95,
+          -4.01
+        ],
+        "32": [
+          -1.5,
+          -5.9
+        ],
+        "33": [
+          -2.8,
+          -6.65
+        ],
+        "34": [
+          -2.8,
+          -8.15
+        ],
+        "35": [
+          -4.1,
+          -8.9
+        ],
+        "36": [
+          -5.4,
+          -8.15
+        ],
+        "37": [
+          -4.1,
+          -10.4
+        ],
+        "38": [
+          -4.1,
+          -12.7
+        ],
+        "40": [
+          -3.21,
+          -2.53
+        ],
+        "41": [
+          -2.06,
+          -1.57
+        ],
+        "42": [
+          -2.32,
+          -0.09
+        ],
+        "43": [
+          -3.73,
+          0.42
+        ],
+        "44": [
+          -4.88,
+          -0.54
+        ],
+        "45": [
+          -4.62,
+          -2.02
+        ],
+        "46": [
+          -4.45,
+          -4.01
+        ],
+        "47": [
+          -5.2,
+          -2.71
+        ],
+        "48": [
+          -6.7,
+          -2.71
+        ],
+        "49": [
+          -7.45,
+          -4.01
+        ],
+        "50": [
+          -6.7,
+          -5.31
+        ],
+        "51": [
+          -5.2,
+          -5.31
+        ],
+        "52": [
+          -3.21,
+          -5.49
+        ],
+        "53": [
+          -4.62,
+          -6
+        ],
+        "54": [
+          -4.88,
+          -7.48
+        ],
+        "55": [
+          -3.73,
+          -8.44
+        ],
+        "56": [
+          -2.32,
+          -7.93
+        ],
+        "57": [
+          -2.06,
+          -6.45
+        ],
+        "60": [
+          4.6,
+          3.35
+        ],
+        "61": [
+          5.81,
+          2.48
+        ],
+        "62": [
+          7.18,
+          3.09
+        ],
+        "63": [
+          7.33,
+          4.58
+        ],
+        "64": [
+          6.11,
+          5.46
+        ],
+        "65": [
+          4.75,
+          4.84
+        ],
+        "70": [
+          -3.71,
+          2.9
+        ],
+        "71": [
+          -3.87,
+          4.39
+        ],
+        "72": [
+          -5.25,
+          5
+        ],
+        "73": [
+          -6.46,
+          4.11
+        ],
+        "74": [
+          -6.29,
+          2.62
+        ],
+        "75": [
+          -4.92,
+          2.01
+        ],
+        "80": [
+          2.6,
+          -7
+        ],
+        "81": [
+          4.1,
+          -7
+        ],
+        "82": [
+          4.1,
+          -8.5
+        ],
+        "83": [
+          5.4,
+          -6.25
+        ],
+        "84": [
+          5.6,
+          -3.6
+        ]
+      }
+    },
+    "lactol-anion": {
+      "caption": "the lactol alkoxide + DMSO",
+      "hintTiers": [
+        "An alkoxide on a carbon that also carries a ring oxygen is a tetrahedral intermediate: it can kick out the other oxygen.",
+        "The O⁻ lone pair forms a C=O π bond and the ring C–O bond breaks onto the ring oxygen, giving an aldehyde and an alkoxide on the cyclopentane.",
+        "Alkoxide lone pair → C=O π bond; ring C–O bond of that carbon → lone pair on the ring oxygen."
+      ],
+      "mappedSmiles": "[O-:1][CH:2]1[O:3][C@H:4]2[CH2:5][C@@H:6]([O:7][CH:60]3[O:61][CH2:62][CH2:63][CH2:64][CH2:65]3)[C@H:8](/[CH:9]=[CH:10]/[C@@H:11]([O:12][CH:70]3[O:71][CH2:72][CH2:73][CH2:74][CH2:75]3)[CH2:13][CH2:14][CH2:15][CH2:16][CH3:17])[C@H:18]2[CH2:20]1.[H:19][CH2:80][S:81](=[O:82])[CH3:83].[CH-:30]([P+:31]([C:40]1=[CH:41][CH:42]=[CH:43][CH:44]=[CH:45]1)([C:46]1=[CH:47][CH:48]=[CH:49][CH:50]=[CH:51]1)[C:52]1=[CH:53][CH:54]=[CH:55][CH:56]=[CH:57]1)[CH2:32][CH2:33][CH2:34][C:35](=[O:36])[O-:37].[Na+:38].[Na+:84]",
+      "learnerPrompt": "Open the ring to reveal the aldehyde.",
+      "misconceptions": [
+        {
+          "severity": "wrong",
+          "arrowPattern": "lp C30 -> σ C30-C2",
+          "feedbackMessage": "The lactol carbon still has no C=O. Open the ring first; then the ylide has an aldehyde to attack.",
+          "misconceptionId": "ylide-too-early",
+          "misconceptionTag": "masked-aldehyde"
+        },
+        {
+          "severity": "wrong",
+          "arrowPattern": "σ C2-C20 -> lp C20",
+          "feedbackMessage": "A CH₂ cannot leave as a carbanion. The ring oxygen leaves, as an alkoxide.",
+          "misconceptionId": "carbanion-leaves",
+          "misconceptionTag": "bad-leaving-group"
+        }
+      ],
+      "bondToWedgeStyle": {
+        "4-5": "dash",
+        "6-7": "dash",
+        "8-9": "wedge",
+        "11-10": "dash",
+        "18-20": "dash"
+      },
+      "mapNumberToCoordinates": {
+        "1": [
+          2.47,
+          -4.84
+        ],
+        "2": [
+          2.62,
+          -3.35
+        ],
+        "3": [
+          3.91,
+          -2.6
+        ],
+        "4": [
+          3.6,
+          -1.13
+        ],
+        "5": [
+          4.2,
+          0.24
+        ],
+        "6": [
+          3.08,
+          1.24
+        ],
+        "7": [
+          3.23,
+          2.73
+        ],
+        "8": [
+          1.78,
+          0.49
+        ],
+        "9": [
+          0.41,
+          1.09
+        ],
+        "10": [
+          -0.8,
+          0.2
+        ],
+        "11": [
+          -2.17,
+          0.81
+        ],
+        "12": [
+          -2.34,
+          2.3
+        ],
+        "13": [
+          -3.38,
+          -0.08
+        ],
+        "14": [
+          -4.75,
+          0.52
+        ],
+        "15": [
+          -5.96,
+          -0.36
+        ],
+        "16": [
+          -7.34,
+          0.24
+        ],
+        "17": [
+          -8.55,
+          -0.65
+        ],
+        "18": [
+          2.1,
+          -0.98
+        ],
+        "19": [
+          1.3,
+          -6.25
+        ],
+        "20": [
+          1.5,
+          -2.35
+        ],
+        "30": [
+          -1.5,
+          -4.4
+        ],
+        "31": [
+          -2.95,
+          -4.01
+        ],
+        "32": [
+          -1.5,
+          -5.9
+        ],
+        "33": [
+          -2.8,
+          -6.65
+        ],
+        "34": [
+          -2.8,
+          -8.15
+        ],
+        "35": [
+          -4.1,
+          -8.9
+        ],
+        "36": [
+          -5.4,
+          -8.15
+        ],
+        "37": [
+          -4.1,
+          -10.4
+        ],
+        "38": [
+          -4.1,
+          -12.7
+        ],
+        "40": [
+          -3.21,
+          -2.53
+        ],
+        "41": [
+          -2.06,
+          -1.57
+        ],
+        "42": [
+          -2.32,
+          -0.09
+        ],
+        "43": [
+          -3.73,
+          0.42
+        ],
+        "44": [
+          -4.88,
+          -0.54
+        ],
+        "45": [
+          -4.62,
+          -2.02
+        ],
+        "46": [
+          -4.45,
+          -4.01
+        ],
+        "47": [
+          -5.2,
+          -2.71
+        ],
+        "48": [
+          -6.7,
+          -2.71
+        ],
+        "49": [
+          -7.45,
+          -4.01
+        ],
+        "50": [
+          -6.7,
+          -5.31
+        ],
+        "51": [
+          -5.2,
+          -5.31
+        ],
+        "52": [
+          -3.21,
+          -5.49
+        ],
+        "53": [
+          -4.62,
+          -6
+        ],
+        "54": [
+          -4.88,
+          -7.48
+        ],
+        "55": [
+          -3.73,
+          -8.44
+        ],
+        "56": [
+          -2.32,
+          -7.93
+        ],
+        "57": [
+          -2.06,
+          -6.45
+        ],
+        "60": [
+          4.6,
+          3.35
+        ],
+        "61": [
+          5.81,
+          2.48
+        ],
+        "62": [
+          7.18,
+          3.09
+        ],
+        "63": [
+          7.33,
+          4.58
+        ],
+        "64": [
+          6.11,
+          5.46
+        ],
+        "65": [
+          4.75,
+          4.84
+        ],
+        "70": [
+          -3.71,
+          2.9
+        ],
+        "71": [
+          -3.87,
+          4.39
+        ],
+        "72": [
+          -5.25,
+          5
+        ],
+        "73": [
+          -6.46,
+          4.11
+        ],
+        "74": [
+          -6.29,
+          2.62
+        ],
+        "75": [
+          -4.92,
+          2.01
+        ],
+        "80": [
+          2.6,
+          -7
+        ],
+        "81": [
+          4.1,
+          -7
+        ],
+        "82": [
+          4.1,
+          -8.5
+        ],
+        "83": [
+          5.4,
+          -6.25
+        ],
+        "84": [
+          5.6,
+          -3.6
+        ]
+      },
+      "partialProgressMessages": [
+        {
+          "learnerArrows": [
+            "lp O1 -> π C2-O1"
+          ],
+          "feedbackMessage": "Right: the C=O forms. That carbon now has five bonds: break the ring C–O bond."
+        }
+      ]
+    },
+    "oxaphosphetane": {
+      "caption": "the oxaphosphetane",
+      "hintTiers": [
+        "Like the HWE reaction: the ring breaks the other way, driven by the very strong P=O bond.",
+        "The P–C bond becomes the C=C π bond, and the C–O bond becomes the P=O π bond.",
+        "P–C bond → π bond between the two ring carbons; ring C–O bond → π bond between oxygen and phosphorus."
+      ],
+      "mappedSmiles": "[O:1]1[CH:2]([CH2:20][C@H:18]2[C@@H:4]([O-:3])[CH2:5][C@@H:6]([O:7][CH:60]3[O:61][CH2:62][CH2:63][CH2:64][CH2:65]3)[C@@H:8]2/[CH:9]=[CH:10]/[C@@H:11]([O:12][CH:70]2[O:71][CH2:72][CH2:73][CH2:74][CH2:75]2)[CH2:13][CH2:14][CH2:15][CH2:16][CH3:17])[CH:30]([P:31]1([C:40]1=[CH:41][CH:42]=[CH:43][CH:44]=[CH:45]1)([C:46]1=[CH:47][CH:48]=[CH:49][CH:50]=[CH:51]1)[C:52]1=[CH:53][CH:54]=[CH:55][CH:56]=[CH:57]1)[CH2:32][CH2:33][CH2:34][C:35](=[O:36])[O-:37].[H:19][CH2:80][S:81](=[O:82])[CH3:83].[Na+:38].[Na+:84]",
+      "learnerPrompt": "The ring falls apart to the alkene. Which two bonds break?",
+      "misconceptions": [
+        {
+          "severity": "plausible",
+          "arrowPattern": "σ O1-P31 -> lp O1",
+          "feedbackMessage": "That only reopens the ring. Break the P–C and C–O bonds to make the alkene and Ph₃P=O.",
+          "misconceptionId": "oxa-reopens",
+          "misconceptionTag": "reverse-step"
+        },
+        {
+          "severity": "wrong",
+          "arrowPattern": "σ C2-C30 -> *",
+          "feedbackMessage": "The new C–C bond stays: it becomes the C=C.",
+          "misconceptionId": "break-new-cc",
+          "misconceptionTag": "wrong-bond"
+        }
+      ],
+      "bondToWedgeStyle": {
+        "4-3": "dash",
+        "6-7": "dash",
+        "8-9": "wedge",
+        "11-10": "dash",
+        "18-20": "dash"
+      },
+      "mapNumberToCoordinates": {
+        "1": [
+          -1.17,
+          -1.57
+        ],
+        "2": [
+          0,
+          -2.51
+        ],
+        "3": [
+          3.91,
+          -2.6
+        ],
+        "4": [
+          3.6,
+          -1.13
+        ],
+        "5": [
+          4.2,
+          0.24
+        ],
+        "6": [
+          3.08,
+          1.24
+        ],
+        "7": [
+          3.23,
+          2.73
+        ],
+        "8": [
+          1.78,
+          0.49
+        ],
+        "9": [
+          0.41,
+          1.09
+        ],
+        "10": [
+          -0.8,
+          0.2
+        ],
+        "11": [
+          -2.17,
+          0.81
+        ],
+        "12": [
+          -2.34,
+          2.3
+        ],
+        "13": [
+          -3.38,
+          -0.08
+        ],
+        "14": [
+          -4.75,
+          0.52
+        ],
+        "15": [
+          -5.96,
+          -0.36
+        ],
+        "16": [
+          -7.34,
+          0.24
+        ],
+        "17": [
+          -8.55,
+          -0.65
+        ],
+        "18": [
+          2.1,
+          -0.98
+        ],
+        "19": [
+          1.3,
+          -6.25
+        ],
+        "20": [
+          1.5,
+          -2.35
+        ],
+        "30": [
+          -0.94,
+          -3.68
+        ],
+        "31": [
+          -2.11,
+          -2.73
+        ],
+        "32": [
+          -0.94,
+          -5.18
+        ],
+        "33": [
+          -2.24,
+          -5.93
+        ],
+        "34": [
+          -2.24,
+          -7.43
+        ],
+        "35": [
+          -3.54,
+          -8.18
+        ],
+        "36": [
+          -4.84,
+          -7.43
+        ],
+        "37": [
+          -3.54,
+          -9.68
+        ],
+        "38": [
+          -3.54,
+          -11.98
+        ],
+        "40": [
+          -3.09,
+          -1.6
+        ],
+        "41": [
+          -2.61,
+          -0.18
+        ],
+        "42": [
+          -3.59,
+          0.95
+        ],
+        "43": [
+          -5.06,
+          0.66
+        ],
+        "44": [
+          -5.55,
+          -0.75
+        ],
+        "45": [
+          -4.57,
+          -1.89
+        ],
+        "46": [
+          -3.6,
+          -2.89
+        ],
+        "47": [
+          -4.48,
+          -1.68
+        ],
+        "48": [
+          -5.97,
+          -1.83
+        ],
+        "49": [
+          -6.59,
+          -3.2
+        ],
+        "50": [
+          -5.7,
+          -4.42
+        ],
+        "51": [
+          -4.21,
+          -4.26
+        ],
+        "52": [
+          -2.84,
+          -4.04
+        ],
+        "53": [
+          -4.34,
+          -4.07
+        ],
+        "54": [
+          -5.06,
+          -5.38
+        ],
+        "55": [
+          -4.29,
+          -6.67
+        ],
+        "56": [
+          -2.79,
+          -6.64
+        ],
+        "57": [
+          -2.06,
+          -5.33
+        ],
+        "60": [
+          4.6,
+          3.35
+        ],
+        "61": [
+          5.81,
+          2.48
+        ],
+        "62": [
+          7.18,
+          3.09
+        ],
+        "63": [
+          7.33,
+          4.58
+        ],
+        "64": [
+          6.11,
+          5.46
+        ],
+        "65": [
+          4.75,
+          4.84
+        ],
+        "70": [
+          -3.71,
+          2.9
+        ],
+        "71": [
+          -3.87,
+          4.39
+        ],
+        "72": [
+          -5.25,
+          5
+        ],
+        "73": [
+          -6.46,
+          4.11
+        ],
+        "74": [
+          -6.29,
+          2.62
+        ],
+        "75": [
+          -4.92,
+          2.01
+        ],
+        "80": [
+          2.6,
+          -7
+        ],
+        "81": [
+          4.1,
+          -7
+        ],
+        "82": [
+          4.1,
+          -8.5
+        ],
+        "83": [
+          5.4,
+          -6.25
+        ],
+        "84": [
+          5.6,
+          -3.6
+        ]
+      },
+      "partialProgressMessages": [
+        {
+          "learnerArrows": [
+            "σ P31-C30 -> π C2-C30"
+          ],
+          "feedbackMessage": "Right: the C=C forms. The C–O bond must break as well, making P=O."
+        }
+      ]
+    },
+    "hydroxy-aldehyde": {
+      "caption": "the open aldehyde (its ring OH as the alkoxide)",
+      "hintTiers": [
+        "In a Wittig reaction the ylide carbon adds to the carbonyl carbon and the carbonyl oxygen bonds to phosphorus, giving an oxaphosphetane. Without lithium salts this is one step.",
+        "Two arrows: the ylide carbanion attacks the aldehyde carbon, and the C=O π bond goes to a new O–P bond.",
+        "Ylide carbon lone pair → new bond to the aldehyde carbon; aldehyde C=O π bond → new bond from oxygen to phosphorus."
+      ],
+      "mappedSmiles": "[O:1]=[CH:2][CH2:20][C@H:18]1[C@@H:4]([O-:3])[CH2:5][C@@H:6]([O:7][CH:60]2[O:61][CH2:62][CH2:63][CH2:64][CH2:65]2)[C@@H:8]1/[CH:9]=[CH:10]/[C@@H:11]([O:12][CH:70]1[O:71][CH2:72][CH2:73][CH2:74][CH2:75]1)[CH2:13][CH2:14][CH2:15][CH2:16][CH3:17].[H:19][CH2:80][S:81](=[O:82])[CH3:83].[CH-:30]([P+:31]([C:40]1=[CH:41][CH:42]=[CH:43][CH:44]=[CH:45]1)([C:46]1=[CH:47][CH:48]=[CH:49][CH:50]=[CH:51]1)[C:52]1=[CH:53][CH:54]=[CH:55][CH:56]=[CH:57]1)[CH2:32][CH2:33][CH2:34][C:35](=[O:36])[O-:37].[Na+:38].[Na+:84]",
+      "learnerPrompt": "Now the ylide meets the aldehyde. Draw the step that makes the four-membered ring.",
+      "misconceptions": [
+        {
+          "severity": "plausible",
+          "arrowPattern": "lp O3 -> σ O3-C2",
+          "feedbackMessage": "The alkoxide can close the lactol again; that is the equilibrium the ylide pulls on. Let the ylide attack the aldehyde.",
+          "misconceptionId": "ring-recloses",
+          "misconceptionTag": "reverse-step"
+        },
+        {
+          "severity": "wrong",
+          "arrowPattern": "lp C30 -> O1",
+          "feedbackMessage": "The ylide carbon is a nucleophile: it attacks the electrophilic aldehyde carbon, not the oxygen.",
+          "misconceptionId": "ylide-attacks-oxygen",
+          "misconceptionTag": "attack-electron-rich-atom"
+        }
+      ],
+      "bondToWedgeStyle": {
+        "4-3": "dash",
+        "6-7": "dash",
+        "8-9": "wedge",
+        "11-10": "dash",
+        "18-20": "dash"
+      },
+      "mapNumberToCoordinates": {
+        "1": [
+          -1.17,
+          -1.57
+        ],
+        "2": [
+          0,
+          -2.51
+        ],
+        "3": [
+          3.91,
+          -2.6
+        ],
+        "4": [
+          3.6,
+          -1.13
+        ],
+        "5": [
+          4.2,
+          0.24
+        ],
+        "6": [
+          3.08,
+          1.24
+        ],
+        "7": [
+          3.23,
+          2.73
+        ],
+        "8": [
+          1.78,
+          0.49
+        ],
+        "9": [
+          0.41,
+          1.09
+        ],
+        "10": [
+          -0.8,
+          0.2
+        ],
+        "11": [
+          -2.17,
+          0.81
+        ],
+        "12": [
+          -2.34,
+          2.3
+        ],
+        "13": [
+          -3.38,
+          -0.08
+        ],
+        "14": [
+          -4.75,
+          0.52
+        ],
+        "15": [
+          -5.96,
+          -0.36
+        ],
+        "16": [
+          -7.34,
+          0.24
+        ],
+        "17": [
+          -8.55,
+          -0.65
+        ],
+        "18": [
+          2.1,
+          -0.98
+        ],
+        "19": [
+          1.3,
+          -6.25
+        ],
+        "20": [
+          1.5,
+          -2.35
+        ],
+        "30": [
+          -1.5,
+          -4.4
+        ],
+        "31": [
+          -2.95,
+          -4.01
+        ],
+        "32": [
+          -1.5,
+          -5.9
+        ],
+        "33": [
+          -2.8,
+          -6.65
+        ],
+        "34": [
+          -2.8,
+          -8.15
+        ],
+        "35": [
+          -4.1,
+          -8.9
+        ],
+        "36": [
+          -5.4,
+          -8.15
+        ],
+        "37": [
+          -4.1,
+          -10.4
+        ],
+        "38": [
+          -4.1,
+          -12.7
+        ],
+        "40": [
+          -3.21,
+          -2.53
+        ],
+        "41": [
+          -2.06,
+          -1.57
+        ],
+        "42": [
+          -2.32,
+          -0.09
+        ],
+        "43": [
+          -3.73,
+          0.42
+        ],
+        "44": [
+          -4.88,
+          -0.54
+        ],
+        "45": [
+          -4.62,
+          -2.02
+        ],
+        "46": [
+          -4.45,
+          -4.01
+        ],
+        "47": [
+          -5.2,
+          -2.71
+        ],
+        "48": [
+          -6.7,
+          -2.71
+        ],
+        "49": [
+          -7.45,
+          -4.01
+        ],
+        "50": [
+          -6.7,
+          -5.31
+        ],
+        "51": [
+          -5.2,
+          -5.31
+        ],
+        "52": [
+          -3.21,
+          -5.49
+        ],
+        "53": [
+          -4.62,
+          -6
+        ],
+        "54": [
+          -4.88,
+          -7.48
+        ],
+        "55": [
+          -3.73,
+          -8.44
+        ],
+        "56": [
+          -2.32,
+          -7.93
+        ],
+        "57": [
+          -2.06,
+          -6.45
+        ],
+        "60": [
+          4.6,
+          3.35
+        ],
+        "61": [
+          5.81,
+          2.48
+        ],
+        "62": [
+          7.18,
+          3.09
+        ],
+        "63": [
+          7.33,
+          4.58
+        ],
+        "64": [
+          6.11,
+          5.46
+        ],
+        "65": [
+          4.75,
+          4.84
+        ],
+        "70": [
+          -3.71,
+          2.9
+        ],
+        "71": [
+          -3.87,
+          4.39
+        ],
+        "72": [
+          -5.25,
+          5
+        ],
+        "73": [
+          -6.46,
+          4.11
+        ],
+        "74": [
+          -6.29,
+          2.62
+        ],
+        "75": [
+          -4.92,
+          2.01
+        ],
+        "80": [
+          2.6,
+          -7
+        ],
+        "81": [
+          4.1,
+          -7
+        ],
+        "82": [
+          4.1,
+          -8.5
+        ],
+        "83": [
+          5.4,
+          -6.25
+        ],
+        "84": [
+          5.6,
+          -3.6
+        ]
+      },
+      "partialProgressMessages": [
+        {
+          "learnerArrows": [
+            "lp C30 -> σ C2-C30"
+          ],
+          "feedbackMessage": "Right: the new C–C bond. Where do the C=O π electrons go? To oxygen, or straight on to phosphorus."
+        }
+      ]
+    }
+  },
+  "conditionsLabel": "Ph₃P⁺(CH₂)₄CO₂H Br⁻ + 2 NaCH₂S(O)CH₃ · DMSO · room temperature",
+  "reactionClasses": [
+    "carbonyl",
+    "elimination"
+  ],
+  "reactionVersion": 2,
+  "mechanismSummary": "DIBAL reduced the lactone to the lactol (not drawn). The Wittig reagent comes from (4-carboxybutyl)triphenylphosphonium bromide and two equivalents of sodium dimsyl in DMSO: one removes the CO₂H proton and one the P–CH₂ proton. The lactol is a masked aldehyde: deprotonation and ring opening reveal the CHO, and the ylide adds to it through an oxaphosphetane, which falls apart to Ph₃P=O and the alkene. An unstabilised ylide under salt-free conditions gives the (Z)-alkene, the cis double bond of PGF₂α (explained, not yet checked by the app). Acid work-up protonates the alkoxide and the carboxylate, and aqueous acetic acid removes both THP groups to give prostaglandin F₂α. THP (tetrahydropyranyl) is drawn as a label: it takes no part.",
+  "abbreviatedGroups": [
+    {
+      "groupLabel": "Ph",
+      "mapNumbers": [
+        40,
+        41,
+        42,
+        43,
+        44,
+        45
+      ],
+      "attachmentMapNumber": 40
+    },
+    {
+      "groupLabel": "Ph",
+      "mapNumbers": [
+        46,
+        47,
+        48,
+        49,
+        50,
+        51
+      ],
+      "attachmentMapNumber": 46
+    },
+    {
+      "groupLabel": "Ph",
+      "mapNumbers": [
+        52,
+        53,
+        54,
+        55,
+        56,
+        57
+      ],
+      "attachmentMapNumber": 52
+    },
+    {
+      "groupLabel": "THP",
+      "mapNumbers": [
+        60,
+        61,
+        62,
+        63,
+        64,
+        65
+      ],
+      "attachmentMapNumber": 60
+    },
+    {
+      "groupLabel": "THP",
+      "mapNumbers": [
+        70,
+        71,
+        72,
+        73,
+        74,
+        75
+      ],
+      "attachmentMapNumber": 70
+    },
+    {
+      "groupLabel": "C₅H₁₁",
+      "mapNumbers": [
+        13,
+        14,
+        15,
+        16,
+        17
+      ],
+      "attachmentMapNumber": 13
+    }
+  ],
+  "dailyPuzzleEligible": true,
+  "spectatorMapNumbers": [
+    38,
+    84
+  ],
+  "atomRoleToMapNumbers": {},
+  "previousReactionVersion": 1
+}

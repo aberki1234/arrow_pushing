@@ -1,0 +1,379 @@
+{
+  "steps": [
+    {
+      "stepKey": "carbonyl-protonation",
+      "stepKind": "polar",
+      "toStateId": "protonated",
+      "fromStateId": "reactants",
+      "canonicalArrows": [
+        "lp O2 -> σ O2-H10",
+        "σ O9-H10 -> lp O9"
+      ],
+      "routePreference": "preferred",
+      "explanationAfterStep": "The positive oxygen pulls the π electrons towards itself, so the carbonyl carbon becomes much more electrophilic."
+    },
+    {
+      "stepKey": "ring-closure",
+      "stepKind": "polar",
+      "toStateId": "oxonium",
+      "fromStateId": "protonated",
+      "canonicalArrows": [
+        "lp O7 -> σ C1-O7",
+        "π C1-O2 -> lp O2"
+      ],
+      "routePreference": "preferred",
+      "explanationAfterStep": "Five- and six-membered rings form easily because the nucleophile is held close to the carbonyl carbon. The new ring oxygen carries the positive charge."
+    },
+    {
+      "stepKey": "deprotonation",
+      "stepKind": "polar",
+      "toStateId": "products",
+      "fromStateId": "oxonium",
+      "canonicalArrows": [
+        "lp O9 -> σ O9-H8",
+        "σ O7-H8 -> lp O7"
+      ],
+      "routePreference": "preferred",
+      "explanationAfterStep": "H₃O⁺ is regenerated: the acid is a catalyst. Glucose exists mainly as a six-membered cyclic hemiacetal for the same reason."
+    }
+  ],
+  "title": "Cyclic hemiacetal formation",
+  "authors": [
+    {
+      "url": null,
+      "name": "Maksim"
+    }
+  ],
+  "licence": "CC-BY-SA-4.0",
+  "subtitle": "5-Hydroxypentanal closes to a six-membered ring under acid catalysis",
+  "references": [
+    "Clayden, Greeves and Warren, Organic Chemistry, 2nd edition (Oxford University Press), chapter 6"
+  ],
+  "reactionSlug": "cyclic-hemiacetal-formation",
+  "startStateId": "reactants",
+  "formatVersion": 1,
+  "difficultyTier": 2,
+  "stateIdToState": {
+    "oxonium": {
+      "caption": "protonated cyclic hemiacetal + water",
+      "hintTiers": [
+        "The ring oxygen is positive and carries a proton. Which base is nearby?",
+        "Water's lone pair takes that proton, and the O–H bonding pair returns to the ring oxygen. Two arrows.",
+        "Water oxygen lone pair → new O–H bond to the proton on the ring oxygen; that O–H bond → lone pair on the ring oxygen."
+      ],
+      "mappedSmiles": "[C@@H:1]1([O:2][H:10])[CH2:3][CH2:4][CH2:5][CH2:6][O+:7]1[H:8].[OH2:9].[Cl-:11]",
+      "learnerPrompt": "Water takes the proton.",
+      "stereoMeaning": "racemic",
+      "misconceptions": [
+        {
+          "severity": "plausible",
+          "arrowPattern": "σ C1-O7 -> lp O7",
+          "feedbackMessage": "Opening the ring just reverses the last step. Remove the proton from the positive ring oxygen instead.",
+          "misconceptionId": "ring-opens-again",
+          "misconceptionTag": "reverse-step"
+        },
+        {
+          "severity": "wrong",
+          "arrowPattern": "lp O9 -> H10",
+          "feedbackMessage": "That OH group is neutral and not acidic. The proton to remove is on the positive ring oxygen.",
+          "misconceptionId": "deprotonate-neutral-hydroxyl",
+          "misconceptionTag": "wrong-proton"
+        }
+      ],
+      "bondToWedgeStyle": {
+        "1-2": "wedge"
+      },
+      "mapNumberToCoordinates": {
+        "1": [
+          1.5,
+          0
+        ],
+        "2": [
+          3,
+          0
+        ],
+        "3": [
+          0.75,
+          1.3
+        ],
+        "4": [
+          -0.75,
+          1.3
+        ],
+        "5": [
+          -1.5,
+          0
+        ],
+        "6": [
+          -0.75,
+          -1.3
+        ],
+        "7": [
+          0.75,
+          -1.3
+        ],
+        "8": [
+          1.5,
+          -2.6
+        ],
+        "9": [
+          3,
+          -3.6
+        ],
+        "10": [
+          3.75,
+          1.3
+        ],
+        "11": [
+          -3.6,
+          0
+        ]
+      },
+      "partialProgressMessages": [
+        {
+          "learnerArrows": [
+            "lp O9 -> σ O9-H8"
+          ],
+          "feedbackMessage": "Good: water takes the proton. Where does the O–H bonding pair go?"
+        }
+      ]
+    },
+    "products": {
+      "caption": "tetrahydropyran-2-ol (cyclic hemiacetal) + H₃O⁺",
+      "mappedSmiles": "[C@@H:1]1([O:2][H:10])[CH2:3][CH2:4][CH2:5][CH2:6][O:7]1.[H:8][OH2+:9].[Cl-:11]",
+      "stereoMeaning": "racemic",
+      "bondToWedgeStyle": {
+        "1-2": "wedge"
+      },
+      "mapNumberToCoordinates": {
+        "1": [
+          1.5,
+          0
+        ],
+        "2": [
+          3,
+          0
+        ],
+        "3": [
+          0.75,
+          1.3
+        ],
+        "4": [
+          -0.75,
+          1.3
+        ],
+        "5": [
+          -1.5,
+          0
+        ],
+        "6": [
+          -0.75,
+          -1.3
+        ],
+        "7": [
+          0.75,
+          -1.3
+        ],
+        "8": [
+          1.7,
+          -2.85
+        ],
+        "9": [
+          3,
+          -3.6
+        ],
+        "10": [
+          3.75,
+          1.3
+        ],
+        "11": [
+          -3.6,
+          0
+        ]
+      }
+    },
+    "reactants": {
+      "caption": "5-hydroxypentanal + H₃O⁺",
+      "hintTiers": [
+        "An alcohol is a weak nucleophile. How can the acid make the carbonyl carbon more electrophilic?",
+        "The carbonyl oxygen takes a proton from H₃O⁺, and that O–H bonding pair stays on water's oxygen. Two arrows.",
+        "Carbonyl oxygen lone pair → new O–H bond to a proton of H₃O⁺; that O–H bond → lone pair on water's oxygen."
+      ],
+      "mappedSmiles": "[O:2]=[CH:1][CH2:3][CH2:4][CH2:5][CH2:6][O:7][H:8].[H:10][OH2+:9].[Cl-:11]",
+      "learnerPrompt": "First activate the aldehyde with acid.",
+      "misconceptions": [
+        {
+          "severity": "plausible",
+          "arrowPattern": "lp O7 -> C1",
+          "feedbackMessage": "The hydroxyl group can add to the neutral aldehyde, but slowly. With acid present, protonate the carbonyl oxygen first: that makes the carbonyl carbon far more electrophilic.",
+          "misconceptionId": "hydroxyl-attacks-neutral-aldehyde",
+          "misconceptionTag": "attack-before-activation"
+        },
+        {
+          "severity": "plausible",
+          "arrowPattern": "lp O7 -> H10",
+          "feedbackMessage": "Protonating the hydroxyl group does not help it attack. Protonate the carbonyl oxygen, so that the carbonyl carbon becomes more electrophilic.",
+          "misconceptionId": "protonate-hydroxyl",
+          "misconceptionTag": "unproductive-protonation"
+        }
+      ],
+      "mapNumberToCoordinates": {
+        "1": [
+          1.5,
+          0
+        ],
+        "2": [
+          3,
+          0
+        ],
+        "3": [
+          0.75,
+          1.3
+        ],
+        "4": [
+          -0.75,
+          1.3
+        ],
+        "5": [
+          -1.5,
+          0
+        ],
+        "6": [
+          -0.75,
+          -1.3
+        ],
+        "7": [
+          0.4,
+          -2.26
+        ],
+        "8": [
+          0.14,
+          -3.74
+        ],
+        "9": [
+          5.4,
+          2
+        ],
+        "10": [
+          3.99,
+          1.49
+        ],
+        "11": [
+          -3.6,
+          0
+        ]
+      },
+      "partialProgressMessages": [
+        {
+          "learnerArrows": [
+            "lp O2 -> σ O2-H10"
+          ],
+          "feedbackMessage": "Good: the carbonyl oxygen takes the proton. Where does the O–H bonding pair of H₃O⁺ go?"
+        }
+      ]
+    },
+    "protonated": {
+      "caption": "protonated aldehyde + water",
+      "hintTiers": [
+        "The protonated carbonyl carbon is very electrophilic. Which nucleophile is in the same molecule?",
+        "The hydroxyl oxygen bonds to the carbonyl carbon, closing a six-membered ring. The C=O π pair moves onto the positive oxygen. Two arrows.",
+        "Hydroxyl oxygen lone pair → new O–C bond to the carbonyl carbon; C=O π bond → lone pair on the carbonyl oxygen."
+      ],
+      "mappedSmiles": "[H:10][O+:2]=[CH:1][CH2:3][CH2:4][CH2:5][CH2:6][O:7][H:8].[OH2:9].[Cl-:11]",
+      "learnerPrompt": "Close the ring.",
+      "misconceptions": [
+        {
+          "severity": "plausible",
+          "arrowPattern": "lp O9 -> C1",
+          "feedbackMessage": "Water could add, giving the hydrate. But the hydroxyl group in the same molecule is held close by: six-membered rings form fast.",
+          "misconceptionId": "water-adds-instead",
+          "misconceptionTag": "wrong-nucleophile"
+        },
+        {
+          "severity": "wrong",
+          "arrowPattern": "π C1-O2 -> C1",
+          "feedbackMessage": "The C=O π electrons move towards the positive oxygen, not onto carbon.",
+          "misconceptionId": "pi-to-carbonyl-carbon",
+          "misconceptionTag": "pi-to-own-atom"
+        }
+      ],
+      "mapNumberToCoordinates": {
+        "1": [
+          1.5,
+          0
+        ],
+        "2": [
+          3,
+          0
+        ],
+        "3": [
+          0.75,
+          1.3
+        ],
+        "4": [
+          -0.75,
+          1.3
+        ],
+        "5": [
+          -1.5,
+          0
+        ],
+        "6": [
+          -0.75,
+          -1.3
+        ],
+        "7": [
+          0.4,
+          -2.26
+        ],
+        "8": [
+          0.14,
+          -3.74
+        ],
+        "9": [
+          5.4,
+          2
+        ],
+        "10": [
+          3.75,
+          1.3
+        ],
+        "11": [
+          -3.6,
+          0
+        ]
+      },
+      "partialProgressMessages": [
+        {
+          "learnerArrows": [
+            "lp O7 -> σ C1-O7"
+          ],
+          "feedbackMessage": "Right: the hydroxyl oxygen attacks. The carbonyl carbon now has five bonds: move the C=O π pair."
+        }
+      ]
+    }
+  },
+  "conditionsLabel": "H₃O⁺ (cat.) · H₂O",
+  "reactionClasses": [
+    "carbonyl",
+    "addition"
+  ],
+  "reactionVersion": 2,
+  "mechanismSummary": "H₃O⁺ protonates the carbonyl oxygen, making the carbonyl carbon much more electrophilic. The hydroxyl group at the other end of the chain attacks it, closing a six-membered ring, and water removes the proton from the ring oxygen, regenerating H₃O⁺.",
+  "dailyPuzzleEligible": true,
+  "spectatorMapNumbers": [
+    11
+  ],
+  "atomRoleToMapNumbers": {
+    "carbonylCarbon": [
+      1
+    ],
+    "carbonylOxygen": [
+      2
+    ],
+    "hydroxylOxygen": [
+      7
+    ]
+  },
+  "previousReactionVersion": 1
+}

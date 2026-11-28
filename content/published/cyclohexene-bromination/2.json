@@ -1,0 +1,242 @@
+{
+  "steps": [
+    {
+      "stepKey": "bromonium-formation",
+      "stepKind": "polar",
+      "toStateId": "bromonium-ion",
+      "fromStateId": "reactants",
+      "canonicalArrows": [
+        "π C1-C2 -> σ C1-Br7",
+        "lp Br7 -> σ Br7-C2",
+        "σ Br7-Br8 -> lp Br8"
+      ],
+      "routePreference": "preferred",
+      "explanationAfterStep": "The bromonium ion: bromine bridges both carbons and carries the positive charge. No open carbocation forms, so nothing rearranges, and the bridge blocks one face of the ring."
+    },
+    {
+      "stepKey": "bromide-opens-ring",
+      "stepKind": "polar",
+      "toStateId": "product",
+      "fromStateId": "bromonium-ion",
+      "canonicalArrows": [
+        "lp Br8 -> σ Br8-C1",
+        "σ C1-Br7 -> lp Br7"
+      ],
+      "routePreference": "preferred",
+      "explanationAfterStep": "Bromide attacks from the face opposite the bridge, as in SN2. The bromines end up trans: anti addition. (Stereochemistry is shown here, not checked.)"
+    }
+  ],
+  "title": "Bromination of cyclohexene",
+  "authors": [
+    {
+      "url": null,
+      "name": "Maksim"
+    }
+  ],
+  "licence": "CC-BY-SA-4.0",
+  "subtitle": "A bromonium ion, opened from the back",
+  "references": [
+    "Clayden, Greeves and Warren, Organic Chemistry, 2nd edition (Oxford University Press), chapter 20"
+  ],
+  "reactionSlug": "cyclohexene-bromination",
+  "startStateId": "reactants",
+  "formatVersion": 1,
+  "difficultyTier": 2,
+  "stateIdToState": {
+    "product": {
+      "caption": "trans-1,2-dibromocyclohexane",
+      "mappedSmiles": "[C@@H:1]1([C@@H:2]([CH2:3][CH2:4][CH2:5][CH2:6]1)[Br:7])[Br:8]",
+      "stereoMeaning": "racemic",
+      "bondToWedgeStyle": {
+        "1-8": "dash",
+        "2-7": "wedge"
+      },
+      "mapNumberToCoordinates": {
+        "1": [
+          1.5,
+          0
+        ],
+        "2": [
+          0.75,
+          1.3
+        ],
+        "3": [
+          -0.75,
+          1.3
+        ],
+        "4": [
+          -1.5,
+          0
+        ],
+        "5": [
+          -0.75,
+          -1.3
+        ],
+        "6": [
+          0.75,
+          -1.3
+        ],
+        "7": [
+          1.5,
+          2.6
+        ],
+        "8": [
+          3,
+          0
+        ]
+      }
+    },
+    "reactants": {
+      "caption": "cyclohexene + bromine",
+      "hintTiers": [
+        "Br₂ has no charge, but the electron-rich π bond polarises it. Which part is the electrophile?",
+        "The π bond attacks the near bromine and the Br–Br bond breaks onto the far one. At the same time a lone pair on the near bromine bonds to the other alkene carbon. Three arrows.",
+        "Arrow 1: from the C=C π bond to the near bromine, forming one C–Br bond. Arrow 2: from a lone pair of that bromine to the other alkene carbon. Arrow 3: from the Br–Br bond onto the far bromine."
+      ],
+      "mappedSmiles": "[CH:1]1=[CH:2][CH2:3][CH2:4][CH2:5][CH2:6]1.[Br:7][Br:8]",
+      "learnerPrompt": "Bromine adds to cyclohexene. Draw the first step: it makes a three-membered ring.",
+      "misconceptions": [
+        {
+          "severity": "wrong",
+          "arrowPattern": "π C1-C2 -> σ C1-Br7;σ Br7-Br8 -> lp Br7",
+          "feedbackMessage": "The Br–Br electrons go to the far bromine, which leaves as bromide. The near bromine, the one the π bond attacks, keeps its lone pairs and uses one to bond to the second carbon.",
+          "misconceptionId": "bromide-leaves-from-attacked-bromine",
+          "misconceptionTag": "wrong-leaving-group"
+        }
+      ],
+      "mapNumberToCoordinates": {
+        "1": [
+          1.5,
+          0
+        ],
+        "2": [
+          0.75,
+          1.3
+        ],
+        "3": [
+          -0.75,
+          1.3
+        ],
+        "4": [
+          -1.5,
+          0
+        ],
+        "5": [
+          -0.75,
+          -1.3
+        ],
+        "6": [
+          0.75,
+          -1.3
+        ],
+        "7": [
+          2.9,
+          1.95
+        ],
+        "8": [
+          4.2,
+          2.7
+        ]
+      },
+      "partialProgressMessages": [
+        {
+          "learnerArrows": [
+            "π C1-C2 -> σ C1-Br7",
+            "σ Br7-Br8 -> lp Br8"
+          ],
+          "feedbackMessage": "That would give an open carbocation. With bromine, a lone pair of the attached bromine bonds to the cationic carbon at the same time: add that arrow."
+        },
+        {
+          "learnerArrows": [
+            "π C1-C2 -> σ C1-Br7"
+          ],
+          "feedbackMessage": "Right start. Bromine now has two bonds: break the Br–Br bond, and let the attached bromine close a ring to the other carbon."
+        }
+      ]
+    },
+    "bromonium-ion": {
+      "caption": "the bromonium ion + bromide",
+      "hintTiers": [
+        "This is like an SN2 reaction. What is the nucleophile, and what is the leaving group?",
+        "Bromide attacks one ring carbon from the face opposite the bromonium bromine, and that C–Br bond breaks onto the positive bromine. Two arrows.",
+        "Arrow 1: from a bromide lone pair to one carbon of the three-membered ring. Arrow 2: from that carbon's bond to the ring bromine onto the ring bromine."
+      ],
+      "mappedSmiles": "[C@@H:1]12[C@@H:2]([CH2:3][CH2:4][CH2:5][CH2:6]1)[Br+:7]2.[Br-:8]",
+      "learnerPrompt": "Bromide opens the bromonium ion. Draw it.",
+      "misconceptions": [
+        {
+          "severity": "wrong",
+          "arrowPattern": "lp Br8 -> σ Br7-Br8",
+          "feedbackMessage": "Attack at bromine would just give back Br₂ and the alkene. Bromide attacks a carbon of the ring.",
+          "misconceptionId": "bromide-attacks-bromine",
+          "misconceptionTag": "attack-wrong-atom"
+        }
+      ],
+      "bondToWedgeStyle": {
+        "1-7": "wedge",
+        "2-7": "wedge"
+      },
+      "mapNumberToCoordinates": {
+        "1": [
+          1.5,
+          0
+        ],
+        "2": [
+          0.75,
+          1.3
+        ],
+        "3": [
+          -0.75,
+          1.3
+        ],
+        "4": [
+          -1.5,
+          0
+        ],
+        "5": [
+          -0.75,
+          -1.3
+        ],
+        "6": [
+          0.75,
+          -1.3
+        ],
+        "7": [
+          2.25,
+          1.3
+        ],
+        "8": [
+          3.4,
+          -1.3
+        ]
+      },
+      "partialProgressMessages": [
+        {
+          "learnerArrows": [
+            "lp Br8 -> σ Br8-C1"
+          ],
+          "feedbackMessage": "Right target. That carbon now has five bonds: break its bond to the ring bromine."
+        }
+      ]
+    }
+  },
+  "conditionsLabel": "Br₂ · CH₂Cl₂ · 0 °C",
+  "reactionClasses": [
+    "addition"
+  ],
+  "reactionVersion": 2,
+  "mechanismSummary": "The alkene π bond attacks one bromine as the Br–Br bond breaks, and a lone pair of that bromine bonds to the other alkene carbon: a three-membered bromonium ion. Bromide opens it from the opposite face, like an SN2 reaction, so the two bromines end up on opposite faces: trans-1,2-dibromocyclohexane (anti addition).",
+  "dailyPuzzleEligible": true,
+  "spectatorMapNumbers": [],
+  "atomRoleToMapNumbers": {
+    "alkene": [
+      1,
+      2
+    ],
+    "bromine": [
+      7,
+      8
+    ]
+  },
+  "previousReactionVersion": 1
+}

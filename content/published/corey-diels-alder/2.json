@@ -1,0 +1,217 @@
+{
+  "steps": [
+    {
+      "stepKey": "cycloaddition",
+      "stepKind": "polar",
+      "toStateId": "adduct",
+      "fromStateId": "reactants",
+      "canonicalArrows": [
+        "π C2-C3 -> σ C3-C4",
+        "π C4-C5 -> π C5-C6",
+        "π C6-C7 -> σ C2-C7"
+      ],
+      "routePreference": "preferred",
+      "explanationAfterStep": "One concerted [4+2] cycloaddition: two new σ bonds and a new C=C between the diene's middle carbons. The cyclopentadiene ring becomes a bicyclo[2.2.1]heptene, and the CH₂OMe carbon becomes its one-carbon bridge. The dienophile approaches the face of the diene away from the CH₂OMe group, so that group ends up leaning over the new C=C, away from the new two-carbon bridge (not checked by the app yet)."
+    }
+  ],
+  "title": "Corey's Diels–Alder: a ketene equivalent",
+  "authors": [
+    {
+      "url": null,
+      "name": "Maksim"
+    }
+  ],
+  "licence": "CC-BY-SA-4.0",
+  "subtitle": "2-Chloroacrylonitrile adds to a substituted cyclopentadiene and builds the bicyclic skeleton",
+  "references": [
+    "Clayden, Greeves and Warren, Organic Chemistry, 2nd edition (Oxford University Press), chapter 34 (Diels–Alder reactions; ketene equivalents)",
+    "E. J. Corey, N. M. Weinshenker, T. K. Schaaf and W. Huber, Stereo-controlled synthesis of dl-prostaglandins F2α and E2, J. Am. Chem. Soc., 1969, 91, 5675–5677"
+  ],
+  "reactionSlug": "corey-diels-alder",
+  "startStateId": "reactants",
+  "formatVersion": 1,
+  "difficultyTier": 2,
+  "stateIdToState": {
+    "adduct": {
+      "caption": "the bicyclo[2.2.1]heptene: 2-chloro-7-(methoxymethyl)bicyclo[2.2.1]hept-5-ene-2-carbonitrile, as a mixture of epimers at the carbon carrying Cl and CN",
+      "mappedSmiles": "[C:2]1([CH2:3][C@H:4]2[CH:5]=[CH:6][C@@H:7]1[C@@H:8]2[CH2:9][O:10][CH3:11])([Cl:12])[C:13]#[N:14]",
+      "stereoMeaning": "racemic",
+      "bondToWedgeStyle": {
+        "4-3": "wedge",
+        "7-6": "dash",
+        "8-9": "dash"
+      },
+      "mapNumberToCoordinates": {
+        "2": [
+          -0.85,
+          -1.9
+        ],
+        "3": [
+          0.85,
+          -1.9
+        ],
+        "4": [
+          1.4,
+          0
+        ],
+        "5": [
+          0.6,
+          -0.9
+        ],
+        "6": [
+          -0.6,
+          -0.9
+        ],
+        "7": [
+          -1.4,
+          0
+        ],
+        "8": [
+          0,
+          0.9
+        ],
+        "9": [
+          0,
+          2.4
+        ],
+        "10": [
+          1.299,
+          3.15
+        ],
+        "11": [
+          1.299,
+          4.65
+        ],
+        "12": [
+          -2.513,
+          -2.253
+        ],
+        "13": [
+          -0.69,
+          -3.39
+        ],
+        "14": [
+          -0.54,
+          -4.88
+        ]
+      }
+    },
+    "reactants": {
+      "caption": "5-(methoxymethyl)cyclopenta-1,3-diene + 2-chloroacrylonitrile",
+      "hintTiers": [
+        "A Diels–Alder reaction is one concerted step: three curly arrows go round a six-membered ring of atoms, the four carbons of the diene and the two carbons of the dienophile's C=C.",
+        "Each end of the diene bonds to one carbon of the dienophile, and the diene's middle bond becomes the new C=C. The ring carbon carrying the CH₂OMe group takes no part: it ends up as the one-carbon bridge.",
+        "Dienophile C=C π bond → new bond from its CH₂ carbon to one end of the diene; the diene π bond at that end → a π bond across the diene's middle; the other diene π bond → new bond from its end carbon to the carbon carrying Cl and CN."
+      ],
+      "mappedSmiles": "[CH:4]1=[CH:5][CH:6]=[CH:7][CH:8]1[CH2:9][O:10][CH3:11].[CH2:3]=[C:2]([Cl:12])[C:13]#[N:14]",
+      "learnerPrompt": "Draw the Diels–Alder reaction that joins the diene to the C=C of 2-chloroacrylonitrile.",
+      "misconceptions": [
+        {
+          "severity": "wrong",
+          "arrowPattern": "* -> σ C8-*",
+          "feedbackMessage": "The ring carbon carrying the CH₂OMe group is sp³: it has no π electrons and cannot form a new bond here. The diene's ends are the two carbons of the C=C bonds next to it.",
+          "misconceptionId": "bridge-carbon-bonds",
+          "misconceptionTag": "wrong-atom-bonds"
+        },
+        {
+          "severity": "wrong",
+          "arrowPattern": "* -> σ C5-*",
+          "feedbackMessage": "New bonds form at the ends of the diene, not at its middle carbons. The middle bond of the diene becomes the new C=C.",
+          "misconceptionId": "middle-carbon-bonds",
+          "misconceptionTag": "wrong-atom-bonds"
+        },
+        {
+          "severity": "wrong",
+          "arrowPattern": "π C13-N14 -> *",
+          "feedbackMessage": "The C≡N group only pulls electron density out of the C=C; the C=C is the dienophile. It will be used later as a handle to unmask a ketone.",
+          "misconceptionId": "nitrile-as-dienophile",
+          "misconceptionTag": "wrong-dienophile"
+        }
+      ],
+      "mapNumberToCoordinates": {
+        "2": [
+          -0.85,
+          -3.2
+        ],
+        "3": [
+          0.85,
+          -3.2
+        ],
+        "4": [
+          1.4,
+          0
+        ],
+        "5": [
+          0.6,
+          -0.9
+        ],
+        "6": [
+          -0.6,
+          -0.9
+        ],
+        "7": [
+          -1.4,
+          0
+        ],
+        "8": [
+          0,
+          0.9
+        ],
+        "9": [
+          0,
+          2.4
+        ],
+        "10": [
+          1.299,
+          3.15
+        ],
+        "11": [
+          1.299,
+          4.65
+        ],
+        "12": [
+          -2.1,
+          -2.5
+        ],
+        "13": [
+          -1.5,
+          -4.55
+        ],
+        "14": [
+          -2.15,
+          -5.9
+        ]
+      },
+      "partialProgressMessages": [
+        {
+          "learnerArrows": [
+            "π C2-C3 -> σ C3-C4"
+          ],
+          "feedbackMessage": "Right: the dienophile's π bond makes the first new bond. Now push the diene's electrons round the ring: two more arrows."
+        }
+      ]
+    }
+  },
+  "conditionsLabel": "Cu(BF₄)₂ (cat.) · 0 °C",
+  "reactionClasses": [
+    "pericyclic",
+    "addition"
+  ],
+  "reactionVersion": 2,
+  "mechanismSummary": "Corey's prostaglandin synthesis starts by building a bicyclo[2.2.1]heptene. 5-(Methoxymethyl)cyclopentadiene (kept cold, or 1,5-hydrogen shifts move the substituent onto the diene) reacts with 2-chloroacrylonitrile in one concerted Diels–Alder step. Ketene itself does [2+2] cycloadditions, not Diels–Alder reactions, so the chloronitrile stands in for it: its carbon carrying Cl and CN will later become a ketone C=O, so it is a 'ketene equivalent'. Stereochemistry (explained, not yet checked by the app): the dienophile adds to the face of the diene away from the CH₂OMe group, which fixes the relative configuration of three of the five ring carbons of the final cyclopentane. The Cl and CN groups end up as a mixture of exo and endo epimers, which does not matter, because that carbon becomes the ketone. A copper(II) tetrafluoroborate catalyst speeds up the reaction as a Lewis acid on the nitrile; it is not drawn.",
+  "dailyPuzzleEligible": true,
+  "spectatorMapNumbers": [],
+  "atomRoleToMapNumbers": {
+    "diene": [
+      4,
+      5,
+      6,
+      7
+    ],
+    "dienophile": [
+      2,
+      3
+    ]
+  },
+  "previousReactionVersion": 1
+}
